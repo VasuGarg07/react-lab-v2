@@ -16,13 +16,15 @@ const Homeloan = () => {
         p: { md: 3, xs: 2 },
         backgroundColor: 'transparent'
       }}>
-      <Grid container spacing={2} alignItems="center">
-        <Grid xs={12} md={6} sx={{ p: { md: 3, xs: 2 } }}>
+      <Grid container spacing={3} alignItems="center">
+        <Grid md={2} />
+        <Grid xs={12} sm={6} md={4} sx={{ p: { md: 3, xs: 2 } }}>
           <SliderSelect data={data} setData={setData} />
         </Grid>
-        <Grid xs={12} md={6} sx={{ p: { md: 3, xs: 2 } }}>
+        <Grid xs={12} sm={6} md={4} sx={{ p: { md: 3, xs: 2 } }}>
           <Result data={data} />
         </Grid>
+        <Grid md={2} />
       </Grid>
     </Sheet>
   )

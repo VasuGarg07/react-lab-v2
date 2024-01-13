@@ -8,7 +8,7 @@ const Home = () => {
     <>
       <Sheet
         className="margin flex-centered-column text-center"
-        sx={{ borderRadius: 'md', p: 2 }} >
+        sx={{ borderRadius: 'md', p: 2, backgroundColor: 'transparent' }}>
 
         <Typography
           level="h1"
@@ -25,13 +25,13 @@ const Home = () => {
 
       <Sheet
         className="margin flex-centered-column text-center"
-        sx={{ borderRadius: 'md', p: 2, }}>
+        sx={{ borderRadius: 'md', p: 2, background: 'transparent' }}>
 
         <Grid container spacing={2} sx={{ flexGrow: 1, maxWidth: 1200 }} className="w-100">
           {Apps.map((app, index) => {
             return (
               <Grid key={index} xs={12} sm={6} md={4}>
-                <AppCard name={app.name} tag={app.tag} path={app.path} />
+                <AppCard {...app} />
               </Grid>
             )
           })}

@@ -13,7 +13,7 @@ const ErrorMessage = ({ message }: { message: string }) => {
       color="danger"
       variant="solid"
       sx={{ width: 1, p: 1, mb: 1, borderRadius: 'md', }}
-      className="text-center text-uppercase"
+      className="text-center text-capitalize"
     >
       {message}
     </Sheet>

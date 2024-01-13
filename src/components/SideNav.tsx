@@ -1,6 +1,7 @@
+import { DialogTitle, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemContent, ModalClose, Sheet } from '@mui/joy'
 import { useState } from 'react'
-import { MatIconOutlined } from './Utils'
-import { DialogTitle, Divider, Drawer, ModalClose, Sheet, IconButton } from '@mui/joy'
+import { Apps } from '../shared/apps'
+import { MatIcon, MatIconOutlined } from './Utils'
 
 const SideNav = () => {
   const [open, setOpen] = useState(false)
@@ -35,9 +36,24 @@ const SideNav = () => {
           }}
           className="flex-column pad-16 margin"
         >
-          <DialogTitle>Filters</DialogTitle>
+          <DialogTitle>React Lab</DialogTitle>
           <ModalClose />
-          <Divider sx={{ mt: 'auto' }} />
+          <Divider />
+
+          <List
+            color="neutral"
+            size='sm'
+          >
+            {Apps.map((app, index) => (
+              <ListItem key={index}>
+                <ListItemButton>
+                  <ListItemContent>{app.name}</ListItemContent>
+                  <MatIcon icon="keyboard_arrow_right" />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+
         </Sheet>
       </Drawer>
     </>

@@ -1,8 +1,8 @@
-import { AspectRatio, Card, CardContent, Chip, Typography } from "@mui/joy"
-import { AppInfo } from "../shared/apps"
-import { useNavigate } from "react-router-dom"
+import { AspectRatio, Card, Chip, Typography } from "@mui/joy";
+import { useNavigate } from "react-router-dom";
+import { AppInfo } from "../shared/apps";
 
-export const AppCard = ({ name, tag, path }: AppInfo) => {
+export const AppCard = ({ name, tag, path, image }: AppInfo) => {
   const navigate = useNavigate();
 
   return (
@@ -14,9 +14,9 @@ export const AppCard = ({ name, tag, path }: AppInfo) => {
       }}
       onClick={() => navigate(path)}
     >
-      <AspectRatio ratio={1} sx={{ width: 32 }}>
+      <AspectRatio ratio={5 / 3} sx={{ width: 1 }}>
         <img
-          src="/logo.png"
+          src={image}
           loading="lazy"
           alt=""
         />
@@ -27,7 +27,6 @@ export const AppCard = ({ name, tag, path }: AppInfo) => {
       </Typography>
 
       <Chip
-        // variant="outlined"
         color="success"
         size="sm"
         sx={{ pointerEvents: 'none' }}
