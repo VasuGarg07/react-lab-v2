@@ -1,7 +1,8 @@
-import { Sheet, Typography, IconButton, Divider, Link } from "@mui/joy"
+import { Sheet, Typography, IconButton, Divider } from "@mui/joy"
 import SideNav from "./SideNav"
 import ThemeToggle from "./ThemeToggle"
 import { Spacer, MatIcon } from "./Utils"
+import { navigate } from "../shared/Router"
 
 const Navbar = () => {
   return (
@@ -9,10 +10,9 @@ const Navbar = () => {
       <Sheet className="w-100 flex-centered pad-8-vr pad-16-hr">
         <SideNav />
         <Spacer />
-        <Link href="/" underline="none">
-          <Typography level="h4">React Lab
-          </Typography>
-        </Link>
+        <Typography level="h4" onClick={() => navigate('/')}>
+          React Lab
+        </Typography>
         <Spacer />
         <ThemeToggle />
         <IconButton children={<MatIcon icon='account_circle' />} />

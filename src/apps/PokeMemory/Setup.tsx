@@ -3,7 +3,7 @@ import { CardType, GameMode, GameState, loadCards } from './helpers';
 import { useGameContext } from './Context';
 import { Button, Card, Divider, IconButton, Input, Typography } from '@mui/joy';
 import Logo from '../../assets/game-logo.png';
-import ErrorMessage, { MatIcon } from '../../components/Utils';
+import { ErrorMessage, MatIcon } from '../../components/Utils';
 
 interface Props {
   name: string,
@@ -54,6 +54,9 @@ const Setup = () => {
         <Typography level='h4'>Memory Game</Typography>
       </div>
 
+      <Typography level='body-sm' textAlign="center" sx={{ fontSize: 12 }}>
+        Test your memory and concentration skills in this fun matching card game. Flip over pairs of cards to find matches and reveal the hidden images. Keep track of card positions and match them all to win!
+      </Typography>
       <Divider inset='none' />
 
       {error && <ErrorMessage message="Please Fill all the feilds" />}

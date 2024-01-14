@@ -7,7 +7,7 @@ export const Spacer = () => <span className="spacer" />;
 export const MatIcon = ({ icon }: { icon: string }) => <span className="material-icons">{icon}</span>;
 export const MatIconOutlined = ({ icon }: { icon: string }) => <span className="material-icons-outlined">{icon}</span>;
 
-const ErrorMessage = ({ message }: { message: string }) => {
+export const ErrorMessage = ({ message }: { message: string }) => {
   return (
     <Sheet
       color="danger"
@@ -19,5 +19,3 @@ const ErrorMessage = ({ message }: { message: string }) => {
     </Sheet>
   );
 };
-
-export default ErrorMessage;

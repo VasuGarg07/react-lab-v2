@@ -2,6 +2,7 @@ import Glass from '../assets/cover/glass.png';
 import Loan from '../assets/cover/loan.png';
 import Memory from '../assets/cover/memory.png';
 import Wallet from '../assets/cover/wallet.png';
+import Quiz from '../assets/cover/quiz.png';
 
 export interface AppInfo {
   name: string,
@@ -25,14 +26,20 @@ export const Apps: AppInfo[] = [
   },
   {
     name: 'Poke-Memory',
-    path: 'poke-memory',
+    path: '/poke-memory',
     tag: 'Card Match Game',
     image: Memory,
   },
   {
     name: 'WalletWise',
-    path: 'wallet-wise',
+    path: '/wallet-wise',
     tag: 'Expense Tracker',
     image: Wallet,
+  },
+  {
+    name: 'Quizzo',
+    path: '/quizzo',
+    tag: 'Trivia Game',
+    image: Quiz,
   }
 ]

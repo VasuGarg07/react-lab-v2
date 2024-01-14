@@ -9,7 +9,7 @@ export const AppCard = ({ name, tag, path, image }: AppInfo) => {
     <Card
       sx={{
         p: 2,
-        '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' },
+        '&:hover': { boxShadow: 'lg', borderColor: 'neutral.outlinedHoverBorder', cursor: 'pointer' },
         alignItems: 'center'
       }}
       onClick={() => navigate(path)}

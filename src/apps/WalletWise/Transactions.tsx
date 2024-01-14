@@ -57,7 +57,7 @@ const Transactions = () => {
           </tbody>
         </Table>
         : <>
-          <Box sx={{ mt: 1, mx: 'auto', borderRadius: 'md', width: 0.8 }}>
+          <Box sx={{ mt: 1, mx: 'auto', borderRadius: 'md', width: 0.8, height: 1, maxWidth: 640 }}>
             <img src={NoData} srcSet={NoData} className='w-100'
               style={{ objectFit: 'contain' }} />
             <Typography textAlign='center' level='title-md'>No Transactions Recorded Yet</Typography>

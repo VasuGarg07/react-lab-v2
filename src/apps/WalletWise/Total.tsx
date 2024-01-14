@@ -81,7 +81,7 @@ const Total = () => {
           )}
       </div>
 
-      {transactions && transactions.length > 0 && chartData &&
+      {transactions && transactions.length > 0 && chartData ?
         (showChart
           ? <Doughnut className='chart' data={chartData} />
           : <Table
@@ -107,7 +107,10 @@ const Total = () => {
               ))}
             </tbody>
           </Table>
-        )}
+        ) :
+        <Typography level='body-sm' textAlign='center' sx={{ mt: 2, }}>
+          Introducing WalletWise, your go-to companion for effortless expense tracking. Streamline your finances, set budgets, and gain financial clarity. Simplify your journey to financial well-being with a user-friendly interface that puts you in control. Get started today!
+        </Typography>}
     </Sheet>
   )
 }

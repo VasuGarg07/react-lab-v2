@@ -4,7 +4,7 @@ import { ExpenseType, Transaction, formatDate } from "./helper";
 
 import { v4 as uuidv4 } from 'uuid';
 import { Button, Divider, Input, Modal, ModalClose, Option, Select, Sheet, Typography } from "@mui/joy";
-import ErrorMessage, { MatIcon, MatIconOutlined } from "../../components/Utils";
+import { MatIcon, MatIconOutlined, ErrorMessage } from "../../components/Utils";
 
 interface Props {
   addTransaction: (transaction: Transaction) => void

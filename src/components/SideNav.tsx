@@ -2,12 +2,18 @@ import { DialogTitle, Divider, Drawer, IconButton, List, ListItem, ListItemButto
 import { useState } from 'react'
 import { Apps } from '../shared/apps'
 import { MatIcon, MatIconOutlined } from './Utils'
+import { navigate } from '../shared/Router'
 
 const SideNav = () => {
   const [open, setOpen] = useState(false)
 
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
+
+  const handleRouting = (path: string) => {
+    navigate(path)
+    closeDrawer();
+  }
 
   return (
     <>
@@ -44,9 +50,15 @@ const SideNav = () => {
             color="neutral"
             size='sm'
           >
+            <ListItem>
+              <ListItemButton component="a" href="/">
+                <ListItemContent>Dashboard</ListItemContent>
+                <MatIcon icon="home" />
+              </ListItemButton>
+            </ListItem>
             {Apps.map((app, index) => (
               <ListItem key={index}>
-                <ListItemButton>
+                <ListItemButton onClick={() => handleRouting(app.path)}>
                   <ListItemContent>{app.name}</ListItemContent>
                   <MatIcon icon="keyboard_arrow_right" />
                 </ListItemButton>

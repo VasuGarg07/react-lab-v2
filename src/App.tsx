@@ -13,7 +13,7 @@ function App() {
       {/* Navbar */}
       <Navbar />
       {/* Main Apps */}
-      <RouterProvider router={router}></RouterProvider>
+      <RouterProvider router={router} />
     </CssVarsProvider>
   );
 }

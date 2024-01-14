@@ -5,6 +5,7 @@ import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
 import Homeloan from "../apps/HomeloadWizard/Homeloan";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
 import WalletWise from "../apps/WalletWise/WalletWise";
+import Quizzo from "../apps/Quizzo/Quizzo";
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +29,13 @@ export const router = createBrowserRouter([
     element: <WalletWise />
   },
   {
+    path: 'quizzo',
+    element: <Quizzo />
+  },
+  {
     path: "*",
     element: <NotFound />,
   }
 ]);
+
+export const navigate = router.navigate; 
