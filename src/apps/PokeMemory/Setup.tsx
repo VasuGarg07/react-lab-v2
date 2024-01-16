@@ -42,16 +42,20 @@ const Setup = () => {
   };
 
   return (
-    <Card sx={{
-      width: 1,
-      maxWidth: 640,
-      p: { md: 3, xs: 2 },
-      alignItems: 'center'
-    }}>
+    <Card
+      variant='soft'
+      sx={{
+        width: 1,
+        maxWidth: 640,
+        p: { md: 3, xs: 2 },
+        alignItems: 'center',
+        boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px'
+      }
+      }>
       <div className='flex-centered'>
 
         <img style={{ width: 160 }} src={Logo} alt="" />
-        <Typography level='h4'>Memory Game</Typography>
+        <Typography level='h2' fontFamily={'Overlock'}>Memory Game</Typography>
       </div>
 
       <Typography level='body-sm' textAlign="center" sx={{ fontSize: 12 }}>
@@ -63,7 +67,7 @@ const Setup = () => {
 
       <Input
         placeholder="Enter Player Name"
-        variant="soft"
+        variant="outlined"
         color='neutral'
         endDecorator={<MatIcon icon="edit" />}
         onChange={(e) => setName(e.target.value)}

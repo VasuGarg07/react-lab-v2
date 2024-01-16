@@ -13,7 +13,10 @@ const Result = () => {
   const { name, turns, resetGame }: Props = useGameContext();
 
   return (
-    <Card>
+    <Card
+      sx={{
+        boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px'
+      }}>
       <Grid container spacing={2}>
         <Grid xs={12} sm={6}>
           <img src={GameWon} style={{ maxWidth: 300 }} alt="" />

@@ -29,7 +29,7 @@ const Board = () => {
 
   return (
     <Box className="flex-centered-column" sx={{ height: 1, p: 2 }}>
-      <Typography level="title-lg" textTransform="capitalize">Welcome! {name}</Typography>
+      <Typography level="title-lg" textTransform="capitalize" fontFamily={'Overlock'}>Welcome! {name}</Typography>
       <div className="flex-centered">
         <Chip color="primary">Score: {score}</Chip>
         <Chip color="warning">{questions[currQues].category}</Chip>

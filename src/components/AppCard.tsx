@@ -9,8 +9,13 @@ export const AppCard = ({ name, tag, path, image }: AppInfo) => {
     <Card
       sx={{
         p: 2,
-        '&:hover': { boxShadow: 'lg', borderColor: 'neutral.outlinedHoverBorder', cursor: 'pointer' },
-        alignItems: 'center'
+        alignItems: 'center',
+        '&:hover': {
+          boxShadow: 'lg',
+          cursor: 'pointer',
+          transform: 'translateY(-4px)',
+          transition: 'transform 0.2s linear'
+        }
       }}
       onClick={() => navigate(path)}
     >

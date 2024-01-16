@@ -7,7 +7,8 @@ import { navigate } from "../shared/Router"
 const Navbar = () => {
   return (
     <>
-      <Sheet className="w-100 flex-centered pad-8-vr pad-16-hr">
+      <Sheet className="w-100 flex-centered pad-8-vr pad-16-hr"
+        sx={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0 2px 2.6px' }}>
         <SideNav />
         <Spacer />
         <Typography level="h4" onClick={() => navigate('/')}>

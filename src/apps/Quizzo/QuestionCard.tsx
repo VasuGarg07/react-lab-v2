@@ -67,7 +67,7 @@ const QuestionCard = ({
       className="spacer flex-column"
       sx={{ mt: 1, p: 2, borderRadius: 'md' }}>
 
-      <Typography level="h4">Question {currQues + 1}</Typography>
+      <Typography level="h4" fontFamily={'Poiret One'} sx={{ letterSpacing: 1 }}>Question {currQues + 1}</Typography>
       <h4 style={{ margin: 0 }} dangerouslySetInnerHTML={{ __html: questions[currQues].question }} />
 
       {error && <ErrorMessage message={error} />}

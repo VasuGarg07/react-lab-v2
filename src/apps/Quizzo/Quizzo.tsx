@@ -22,8 +22,11 @@ const Quizzo = () => {
           minHeight: 'calc(100vh - 53px)',
         }}>
 
-        <Card sx={{ width: 1, maxWidth: 1000, borderRadius: 'md', p: 2, gap: 0 }}>
-          <Typography level="h2" textAlign="center" textTransform="uppercase">Quizzo</Typography>
+        <Card sx={{
+          width: 1, maxWidth: 1000, borderRadius: 'md', p: 2, gap: 0,
+          boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px'
+        }}>
+          <Typography level="h2" textAlign="center" textTransform="uppercase" fontFamily={'Kanit'}>Quizzo</Typography>
           <Divider inset="none">Test Your Wit, Ace the Trivia!</Divider>
 
           <Grid container spacing={0}>

@@ -11,10 +11,12 @@ const Home = () => {
         sx={{ borderRadius: 'md', p: 2, backgroundColor: 'transparent' }}>
 
         <Typography
+          fontFamily={'Kanit'}
+          letterSpacing={1.5}
           level="h1"
           children="REACT LAB" />
 
-        <Typography sx={{ mx: 2, maxWidth: 800 }}>
+        <Typography level="body-lg" sx={{ mx: 2, maxWidth: 800 }} fontFamily={'Overlock'}>
           Welcome to React Lab! 🚀 This is where my React experiments hang out.
           Dive into a mix of quirky, cool, and maybe even a bit wild projects that I've thrown together.
           Whether you're here for inspiration or just to see what happens when you combine React
