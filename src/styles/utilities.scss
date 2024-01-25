@@ -10,6 +10,11 @@
   align-items: center;
 }
 
+.flex-wrapped {
+  @extend .flex-centered-vr;
+  flex-wrap: wrap;
+}
+
 .flex-centered {
   @extend .flex-centered-vr;
   justify-content: center;

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import Home from "../apps/Home/Home";
 import NotFound from "../apps/Errors/NotFound";
 import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
@@ -6,10 +6,14 @@ import Homeloan from "../apps/HomeloadWizard/Homeloan";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
 import WalletWise from "../apps/WalletWise/WalletWise";
 import Quizzo from "../apps/Quizzo/Quizzo";
+import QuickByte from "../apps/QuickByte/QuickByte";
+import MealDetails from "../apps/QuickByte/Details";
+import { mealDetails } from "../apps/QuickByte/utils/api";
+import Wrapper from "../apps/QuickByte/Wrapper";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: '',
     element: <Home />,
   },
   {
@@ -31,6 +35,21 @@ export const router = createBrowserRouter([
   {
     path: 'quizzo',
     element: <Quizzo />
+  },
+  {
+    path: 'quick-byte',
+    element: <Outlet />,
+    children: [
+      {
+        path: '',
+        element: <QuickByte />
+      },
+      {
+        path: 'random',
+        element: <Wrapper children={<MealDetails />} />,
+        loader: mealDetails
+      },
+    ]
   },
   {
     path: "*",

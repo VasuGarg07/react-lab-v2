@@ -3,6 +3,7 @@ import Loan from '../assets/cover/loan.png';
 import Memory from '../assets/cover/memory.png';
 import Wallet from '../assets/cover/wallet.png';
 import Quiz from '../assets/cover/quiz.png';
+import Byte from '../assets/cover/byte.png';
 
 export interface AppInfo {
   name: string,
@@ -41,5 +42,11 @@ export const Apps: AppInfo[] = [
     path: '/quizzo',
     tag: 'Trivia Game',
     image: Quiz,
+  },
+  {
+    name: 'Quick Byte',
+    path: '/quick-byte',
+    tag: 'Pocket Cookbook',
+    image: Byte,
   }
 ]

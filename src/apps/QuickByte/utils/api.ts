@@ -1,0 +1,89 @@
+import axios from "axios";
+import { LoaderFunctionArgs } from "react-router-dom";
+import { Meal, MealDetails } from "./helpers";
+
+export const BASE_URL = 'https://www.themealdb.com/api/json/v1/1/';
+
+export const categoryList = async (): Promise<string[]> => {
+  const { data } = await axios.get(`${BASE_URL}list.php?c=list`);
+  return data.meals.map((item: { strCategory: string }) => item.strCategory)
+}
+
+export const areaList = async (): Promise<string[]> => {
+  const { data } = await axios.get(`${BASE_URL}list.php?a=list`);
+  return data.meals.map((item: { strArea: string }) => item.strArea)
+}
+
+export const searchMeals = async ({ params }: LoaderFunctionArgs) => {
+  const url = `${BASE_URL}search.php?s=${params.searchTerm}`;
+  const meals = await getMeals(url)
+  const title = `Found ${meals.length} results for "${params.searchTerm}"...`;
+  return { title, meals }
+}
+
+export const alphabetMeals = async (letter: string) => {
+  const url = `${BASE_URL}search.php?f=${letter}`;
+  const meals = await getMeals(url)
+  const title = `Found ${meals.length} dishes...`;
+  return { title, MediaElementAudioSourceNode }
+}
+
+export const categoryMeals = async ({ params }: LoaderFunctionArgs) => {
+  const url = `${BASE_URL}filter.php?c=${params.category}`;
+  const meals = await getMeals(url)
+  const title = `Found ${meals.length} dishes in "${params.category}"...`;
+  return { title, meals }
+}
+
+export const regionalMeals = async ({ params }: LoaderFunctionArgs) => {
+  const url = `${BASE_URL}filter.php?a=${params.area}`;
+  const meals = await getMeals(url)
+  const title = `Found ${meals.length} "${params.area}" dishes...`;
+  return { title, meals }
+}
+
+export const getMeals = async (url: string) => {
+  const { data } = await axios.get(url);
+  const meals: Meal[] = data.meals ? data.meals.map((meal: any) => {
+    return {
+      id: meal.idMeal,
+      name: meal.strMeal,
+      image: meal.strMealThumb,
+      category: meal.strCategory,
+      area: meal.strArea,
+    }
+  }) : []
+  return meals
+}
+
+export const mealDetails = async ({ params }: LoaderFunctionArgs) => {
+  const url = params.mealId ? `${BASE_URL}lookup.php?i=${params.mealId}` : `${BASE_URL}random.php`;
+
+  const { data } = await axios.get(url);
+
+
+  const meal: MealDetails = {
+    id: data.meals[0].idMeal,
+    name: data.meals[0].strMeal,
+    image: data.meals[0].strMealThumb,
+    category: data.meals[0].strCategory,
+    area: data.meals[0].strArea,
+    tags: data.meals[0].strTags.split(','),
+    source: data.meals[0].strSource,
+    youtube: data.meals[0].strYoutube,
+
+    instructions: data.meals[0].strInstructions.replace(/[0-9]\./g, '')
+      .replace(/STEP\s[0-9]/g, '')
+      .split('.'),
+
+    ingredients: [],
+  }
+
+  for (let i = 1; i <= 20; i++) {
+    if (data.meals[0][`strIngredient${i}`]) {
+      meal.ingredients.push(`${data.meals[0][`strMeasure${i}`]} ${data.meals[0][`strIngredient${i}`]}`);
+    }
+  }
+
+  return meal
+}
