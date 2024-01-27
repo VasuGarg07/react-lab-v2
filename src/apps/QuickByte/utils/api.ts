@@ -14,6 +14,18 @@ export const areaList = async (): Promise<string[]> => {
   return data.meals.map((item: { strArea: string }) => item.strArea)
 }
 
+const getMeals = async (url: string) => {
+  const { data } = await axios.get(url);
+  const meals: Meal[] = data.meals ? data.meals.map((meal: any) => {
+    return {
+      id: meal.idMeal,
+      name: meal.strMeal,
+      image: meal.strMealThumb,
+    }
+  }) : []
+  return meals
+}
+
 export const searchMeals = async ({ params }: LoaderFunctionArgs) => {
   const url = `${BASE_URL}search.php?s=${params.searchTerm}`;
   const meals = await getMeals(url)
@@ -21,40 +33,27 @@ export const searchMeals = async ({ params }: LoaderFunctionArgs) => {
   return { title, meals }
 }
 
-export const alphabetMeals = async (letter: string) => {
-  const url = `${BASE_URL}search.php?f=${letter}`;
+export const alphabetMeals = async ({ params }: LoaderFunctionArgs) => {
+  const url = `${BASE_URL}filter.php?f=${params.letter}`;
   const meals = await getMeals(url)
-  const title = `Found ${meals.length} dishes...`;
-  return { title, MediaElementAudioSourceNode }
+  const title = `Found ${meals.length} dishes for "${params.letter}"...`;
+  return { title, meals }
 }
 
 export const categoryMeals = async ({ params }: LoaderFunctionArgs) => {
-  const url = `${BASE_URL}filter.php?c=${params.category}`;
+  const url = `${BASE_URL}filter.php?c=${params.categoryId}`;
   const meals = await getMeals(url)
-  const title = `Found ${meals.length} dishes in "${params.category}"...`;
+  const title = `Found ${meals.length} dishes in "${params.categoryId}"...`;
   return { title, meals }
 }
 
 export const regionalMeals = async ({ params }: LoaderFunctionArgs) => {
-  const url = `${BASE_URL}filter.php?a=${params.area}`;
+  const url = `${BASE_URL}filter.php?a=${params.areaId}`;
   const meals = await getMeals(url)
-  const title = `Found ${meals.length} "${params.area}" dishes...`;
+  const title = `Found ${meals.length} "${params.areaId}" dishes...`;
   return { title, meals }
 }
 
-export const getMeals = async (url: string) => {
-  const { data } = await axios.get(url);
-  const meals: Meal[] = data.meals ? data.meals.map((meal: any) => {
-    return {
-      id: meal.idMeal,
-      name: meal.strMeal,
-      image: meal.strMealThumb,
-      category: meal.strCategory,
-      area: meal.strArea,
-    }
-  }) : []
-  return meals
-}
 
 export const mealDetails = async ({ params }: LoaderFunctionArgs) => {
   const url = params.mealId ? `${BASE_URL}lookup.php?i=${params.mealId}` : `${BASE_URL}random.php`;
@@ -68,7 +67,7 @@ export const mealDetails = async ({ params }: LoaderFunctionArgs) => {
     image: data.meals[0].strMealThumb,
     category: data.meals[0].strCategory,
     area: data.meals[0].strArea,
-    tags: data.meals[0].strTags.split(','),
+    tags: data.meals[0].strTags?.split(',') || [],
     source: data.meals[0].strSource,
     youtube: data.meals[0].strYoutube,
 

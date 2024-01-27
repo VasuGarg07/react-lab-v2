@@ -1,5 +1,5 @@
 import { IconButton, useColorScheme } from "@mui/joy";
-import { MatIconOutlined } from "./Utils";
+import { MatIcon } from "./Utils";
 
 function ThemeToggle() {
   const { mode, setMode } = useColorScheme();
@@ -10,7 +10,7 @@ function ThemeToggle() {
 
   return (
     <IconButton onClick={switchTheme}>
-      <MatIconOutlined icon='dark_mode' />
+      <MatIcon outlined={true} icon='dark_mode' />
     </IconButton>
   )
 }

@@ -1,7 +1,7 @@
 import { Button } from "@mui/joy";
 import { Transaction } from "./helper";
 import { saveAs } from 'file-saver';
-import { MatIconOutlined } from "../../components/Utils";
+import { MatIcon } from "../../components/Utils";
 
 const DownloadCsv = ({ txn }: { txn: Transaction[] }) => {
 
@@ -20,7 +20,7 @@ const DownloadCsv = ({ txn }: { txn: Transaction[] }) => {
 
   return (
     <Button variant="solid" color='success'
-      startDecorator={<MatIconOutlined icon='file_download' />}
+      startDecorator={<MatIcon icon='file_download' />}
       onClick={saveCSVToFile}>
       CSV
     </Button>

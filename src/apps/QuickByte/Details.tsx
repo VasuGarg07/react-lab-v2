@@ -1,7 +1,8 @@
 import { AspectRatio, Button, Chip, Divider, Link, List, ListItem, ListItemDecorator, Stack, Typography } from '@mui/joy';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { MatIcon, MatIconOutlined } from '../../components/Utils';
+import { MatIcon } from '../../components/Utils';
 import { MealDetails } from './utils/helpers';
+import DrawerMenu from './DrawerMenu';
 
 const Details = () => {
 
@@ -13,7 +14,7 @@ const Details = () => {
   }
 
   const handleCategoryNav = () => {
-    () => navigate(`/quick-byte/category/${meal.category?.toLocaleLowerCase()}`)
+    navigate(`/quick-byte/category/${meal.category?.toLocaleLowerCase()}`)
   }
 
   const handleExternalUrl = (url: string) => {
@@ -22,6 +23,12 @@ const Details = () => {
 
   return (
     <Stack spacing={2}>
+      <div className='flex-justified'>
+        <Typography level='h2' fontFamily={'Staatliches'} letterSpacing={2} textAlign={'center'}>
+          {meal.name}
+        </Typography>
+        <DrawerMenu iconOnly />
+      </div>
       <AspectRatio
         variant='plain'
         objectFit="cover"
@@ -33,10 +40,6 @@ const Details = () => {
         }}>
         <img src={meal.image} alt={meal.name} />
       </AspectRatio>
-
-      <Typography level='h1' fontFamily={'Staatliches'} letterSpacing={2} textAlign={'center'}>
-        {meal.name}
-      </Typography>
 
       <div className='flex-centered'>
         <Typography level='body-lg' textTransform={'uppercase'} fontFamily={'Roboto'}>
@@ -70,7 +73,7 @@ const Details = () => {
         {meal.tags.map(tag => <Chip key={tag} variant='soft' color='danger'>{tag}</Chip>)}
       </div>
 
-      <Divider sx={{ bgcolor: 'danger.500', height: '1.5px' }} />
+      <Divider sx={{ bgcolor: 'neutral.500', height: '1.5px' }} />
 
       <Typography level='h1' fontFamily={'Poiret One'} letterSpacing={1}>
         INGREDIENTS
@@ -78,7 +81,7 @@ const Details = () => {
 
       <div className='flex-wrapped'>
         {meal.ingredients.map(ingredient => (
-          <Chip color="danger" variant='solid' key={ingredient}
+          <Chip color="success" variant='solid' key={ingredient}
             sx={{
               fontFamily: 'Roboto',
               fontWeight: 300,
@@ -91,7 +94,7 @@ const Details = () => {
         ))}
       </div>
 
-      <Divider sx={{ bgcolor: 'danger.500', height: '1.5px' }} />
+      <Divider sx={{ bgcolor: 'neutral.500', height: '1.5px' }} />
 
       <Typography level='h1' fontFamily={'Poiret One'} letterSpacing={1}>
         INSTRUCTIONS
@@ -101,9 +104,9 @@ const Details = () => {
         {meal.instructions.map(step => (
           step && <ListItem key={step} >
             <ListItemDecorator sx={{
-              color: 'danger.solidBg'
+              color: 'warning.solidBg'
             }}>
-              <MatIconOutlined icon='bubble_chart' />
+              <MatIcon icon='bubble_chart' outlined size={20} />
             </ListItemDecorator>
             <Typography level='body-md'>{step}</Typography>
           </ListItem>

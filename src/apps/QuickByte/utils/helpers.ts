@@ -3,11 +3,11 @@ export interface Meal {
   id: string,
   name: string,
   image: string,
-  category: string,
-  area: string,
 }
 
 export interface MealDetails extends Meal {
+  category: string,
+  area: string,
   tags: string[],
   instructions: string[],
   ingredients: string[],
@@ -30,15 +30,9 @@ export const tabs = [
     name: 'Dictionary',
     path: 'alphabet',
     icon: 'abc',
-  },
-  {
-    name: 'Surprise Me!',
-    path: 'random',
-    icon: 'star_border'
-  },
+  }
 ]
 
-export const alphabets = (): string[] => {
-  const arr = new Array(26);
-  return arr.map((_, i) => String.fromCharCode(65 + i))
-}
+export const alphabets = Array.from({ length: 26 }, (_, index) =>
+  String.fromCharCode(65 + index)
+);

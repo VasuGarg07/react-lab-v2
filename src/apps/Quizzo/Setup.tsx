@@ -1,6 +1,6 @@
 import { Box, Button, Input, Option, Select, Typography } from '@mui/joy';
 import React, { useState } from 'react';
-import { ErrorMessage, MatIconOutlined } from '../../components/Utils';
+import { ErrorMessage, MatIcon } from '../../components/Utils';
 import { GameMode, GameState } from '../PokeMemory/helpers';
 import { useQuizContext } from './Context';
 import { Question, QuizCategories, fetchQuiz } from './helper';
@@ -58,7 +58,7 @@ const Setup = () => {
         onChange={(e) => setName(e.target.value)}
         sx={{ width: 1 }}
         disabled={loading}
-        startDecorator={<MatIconOutlined icon="person" />}
+        startDecorator={<MatIcon icon="person" outlined={true} />}
       />
       <Select
         required
@@ -90,7 +90,7 @@ const Setup = () => {
       <Button sx={{ mt: 1 }}
         loading={loading}
         onClick={handleSubmit}
-        startDecorator={<MatIconOutlined icon="gamepad" />}>
+        startDecorator={<MatIcon icon="gamepad" outlined={true} />}>
         Begin!
       </Button>
 

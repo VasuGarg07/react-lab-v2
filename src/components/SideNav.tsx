@@ -1,7 +1,7 @@
 import { DialogTitle, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemContent, ModalClose, Sheet } from '@mui/joy'
 import { useState } from 'react'
 import { Apps } from '../shared/apps'
-import { MatIcon, MatIconOutlined } from './Utils'
+import { MatIcon } from './Utils'
 import { navigate } from '../shared/Router'
 
 const SideNav = () => {
@@ -17,7 +17,7 @@ const SideNav = () => {
 
   return (
     <>
-      <IconButton children={<MatIconOutlined icon='menu' />} onClick={openDrawer} />
+      <IconButton children={<MatIcon outlined={true} icon='menu' />} onClick={openDrawer} />
 
       <Drawer
         size="md"

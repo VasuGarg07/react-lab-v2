@@ -4,9 +4,28 @@ import { Sheet } from "@mui/joy";
 
 export const Spacer = () => <span className="spacer" />;
 
-export const MatIcon = ({ icon }: { icon: string }) => <span className="material-icons" style={{ width: '24px' }}>{icon}</span>;
 
-export const MatIconOutlined = ({ icon }: { icon: string }) => <span className="material-icons-outlined" style={{ width: '24px' }}>{icon}</span>;
+interface IconProps {
+  icon: string,
+  outlined?: boolean,
+  size?: number
+}
+export const MatIcon = ({ icon, outlined, size }: IconProps) => {
+  return (
+    <span
+      className={outlined ? 'material-icons-outlined' : 'material-icons'}
+      style={
+        (size ? {
+          fontSize: size,
+          width: size,
+          height: size
+        } : {})
+      }
+    >
+      {icon}
+    </span>
+  )
+};
 
 export const ErrorMessage = ({ message }: { message: string }) => {
   return (

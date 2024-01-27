@@ -1,4 +1,4 @@
-import { Outlet, createBrowserRouter } from "react-router-dom";
+import { Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom";
 import Home from "../apps/Home/Home";
 import NotFound from "../apps/Errors/NotFound";
 import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
@@ -7,9 +7,10 @@ import PokeMemory from "../apps/PokeMemory/PokeMemory";
 import WalletWise from "../apps/WalletWise/WalletWise";
 import Quizzo from "../apps/Quizzo/Quizzo";
 import QuickByte from "../apps/QuickByte/QuickByte";
-import MealDetails from "../apps/QuickByte/Details";
-import { mealDetails } from "../apps/QuickByte/utils/api";
+import { alphabetMeals, categoryMeals, mealDetails, regionalMeals } from "../apps/QuickByte/utils/api";
 import Wrapper from "../apps/QuickByte/Wrapper";
+import Gallery from "../apps/QuickByte/Gallery";
+import Details from "../apps/QuickByte/Details";
 
 export const router = createBrowserRouter([
   {
@@ -38,15 +39,43 @@ export const router = createBrowserRouter([
   },
   {
     path: 'quick-byte',
-    element: <Outlet />,
+    element: <>
+      <Outlet />
+      <ScrollRestoration />
+    </>,
     children: [
       {
         path: '',
         element: <QuickByte />
       },
       {
+        path: 'category/:categoryId',
+        element: <Wrapper children={<Gallery />} />,
+        loader: categoryMeals
+      },
+      {
+        path: 'region/:areaId',
+        element: <Wrapper children={<Gallery />} />,
+        loader: regionalMeals
+      },
+      {
+        path: 'alphabet/:letter',
+        element: <Wrapper children={<Gallery />} />,
+        loader: alphabetMeals
+      },
+      {
+        path: 'area/:areaId',
+        element: <Wrapper children={<Gallery />} />,
+        loader: regionalMeals
+      },
+      {
         path: 'random',
-        element: <Wrapper children={<MealDetails />} />,
+        element: <Wrapper children={<Details />} />,
+        loader: mealDetails
+      },
+      {
+        path: 'meal/:mealId',
+        element: <Wrapper children={<Details />} />,
         loader: mealDetails
       },
     ]

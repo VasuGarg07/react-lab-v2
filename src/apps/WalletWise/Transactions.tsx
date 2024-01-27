@@ -2,8 +2,8 @@ import { Box, IconButton, Sheet, Table, Typography } from '@mui/joy';
 import { useWalletContext } from './Context';
 import { Transaction } from './helper';
 import DownloadCsv from './Download';
-import { MatIconOutlined } from '../../components/Utils';
 import NoData from '../../assets/no-data-1.png';
+import { MatIcon } from '../../components/Utils';
 
 interface Props {
   transactions: Transaction[],
@@ -49,7 +49,7 @@ const Transactions = () => {
                 <td className='text-ellipsis'>{txn.label}</td>
                 <td className='flex-centered'>
                   <IconButton size='sm' onClick={() => deleteTransaction(txn)}>
-                    <MatIconOutlined icon="delete" />
+                    <MatIcon icon="delete" outlined={true} />
                   </IconButton>
                 </td>
               </tr>

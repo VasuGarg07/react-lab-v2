@@ -4,7 +4,7 @@ import { ExpenseType, Transaction, formatDate } from "./helper";
 
 import { v4 as uuidv4 } from 'uuid';
 import { Button, Divider, Input, Modal, ModalClose, Option, Select, Sheet, Typography } from "@mui/joy";
-import { MatIcon, MatIconOutlined, ErrorMessage } from "../../components/Utils";
+import { MatIcon, ErrorMessage } from "../../components/Utils";
 
 interface Props {
   addTransaction: (transaction: Transaction) => void
@@ -88,7 +88,7 @@ const Form = () => {
           required
           placeholder="Enter Label"
           variant="soft" color='neutral'
-          startDecorator={<MatIconOutlined icon="local_offer" />}
+          startDecorator={<MatIcon icon="local_offer" outlined={true} />}
           onChange={(e) => setLabel(e.target.value)}
           sx={{ my: 2 }}
         />
