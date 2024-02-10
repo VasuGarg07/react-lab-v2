@@ -94,9 +94,7 @@ export const Accordions = ({ closeDrawer }: { closeDrawer: () => void }) => {
       try {
         setCategories(await categoryList());
         setAreas(await areaList());
-      } catch (error) {
-        console.log(error)
-      }
+      } catch (_) { }
     }
 
     fetchData();

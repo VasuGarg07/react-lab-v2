@@ -30,7 +30,7 @@ const Board = () => {
           <Typography level='title-sm'>Player: {name} </Typography>
           <Typography level="body-sm">Turns: {turns}</Typography>
         </div>
-        <Button onClick={resetGame} color='neutral' size='sm'>Restart</Button>
+        <Button onClick={resetGame} color='secondary' size='sm'>Restart</Button>
       </Card>
 
       <CardGrid />

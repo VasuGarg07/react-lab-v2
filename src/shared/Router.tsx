@@ -4,13 +4,14 @@ import NotFound from "../apps/Errors/NotFound";
 import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
 import Homeloan from "../apps/HomeloadWizard/Homeloan";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
-import WalletWise from "../apps/WalletWise/WalletWise";
+// import WalletWise from "../apps/WalletWise/WalletWise";
 import Quizzo from "../apps/Quizzo/Quizzo";
 import QuickByte from "../apps/QuickByte/QuickByte";
 import { alphabetMeals, categoryMeals, mealDetails, regionalMeals } from "../apps/QuickByte/utils/api";
 import Wrapper from "../apps/QuickByte/Wrapper";
 import Gallery from "../apps/QuickByte/Gallery";
 import Details from "../apps/QuickByte/Details";
+import SnapFind from "../apps/SnapFind/SnapFind";
 
 export const router = createBrowserRouter([
   {
@@ -29,9 +30,13 @@ export const router = createBrowserRouter([
     path: 'poke-memory',
     element: <PokeMemory />
   },
+  // {
+  //   path: 'wallet-wise',
+  //   element: <WalletWise />
+  // },
   {
-    path: 'wallet-wise',
-    element: <WalletWise />
+    path: 'snapfind',
+    element: <SnapFind />
   },
   {
     path: 'quizzo',

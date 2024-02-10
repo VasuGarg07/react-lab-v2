@@ -26,7 +26,7 @@ const QuickByte = () => {
           Welcome to QuickByte, where every moment in the kitchen is a delightful adventure. Discover an array of quick and easy recipes that transform everyday ingredients into extraordinary meals, making cooking a breeze and savoring the flavors a joy.
         </Typography>
 
-        <DrawerMenu />
+        <DrawerMenu iconOnly={false} />
       </Box>
     </>
   )

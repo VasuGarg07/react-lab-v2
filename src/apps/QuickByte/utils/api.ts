@@ -34,7 +34,7 @@ export const searchMeals = async ({ params }: LoaderFunctionArgs) => {
 }
 
 export const alphabetMeals = async ({ params }: LoaderFunctionArgs) => {
-  const url = `${BASE_URL}filter.php?f=${params.letter}`;
+  const url = `${BASE_URL}search.php?f=${params.letter}`;
   const meals = await getMeals(url)
   const title = `Found ${meals.length} dishes for "${params.letter}"...`;
   return { title, meals }

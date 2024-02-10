@@ -1,4 +1,4 @@
-import { AspectRatio, Card, CardContent, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/joy';
+import { AspectRatio, Card, CardContent, Grid, IconButton, Stack, Typography } from '@mui/joy';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { MatIcon } from '../../components/Utils';
 import { Meal } from './utils/helpers';
@@ -59,18 +59,18 @@ const MealCard = ({ meal }: { meal: Meal }) => {
             src={meal.image} srcSet={meal.image} alt={meal.name}
           />
         </AspectRatio>
-        <Tooltip color="primary" variant="solid" arrow
-          title={meal.name} placement="top" size="sm">
-          <Stack direction='row' alignItems='center' sx={{ mt: 1 }} spacing={1}>
-            <Typography level="title-lg" className="text-ellipsis spacer"
-              fontFamily={'Overlock'} letterSpacing={1} textTransform={'uppercase'}>
-              {meal.name}
-            </Typography>
-            <IconButton size='sm' color='primary' variant='soft' sx={{ borderRadius: 'xl' }}>
-              <MatIcon icon='keyboard_arrow_right' outlined size={20} />
-            </IconButton>
-          </Stack>
-        </Tooltip>
+        {/* <Tooltip color="primary" variant="solid" arrow
+          title={meal.name} placement="top" size="sm"> */}
+        <Stack direction='row' alignItems='center' sx={{ mt: 1 }} spacing={1}>
+          <Typography level="title-lg" className="text-ellipsis spacer"
+            fontFamily={'Overlock'} letterSpacing={1} textTransform={'uppercase'}>
+            {meal.name}
+          </Typography>
+          <IconButton size='sm' color='primary' variant='soft' sx={{ borderRadius: 'xl' }}>
+            <MatIcon icon='keyboard_arrow_right' outlined size={20} />
+          </IconButton>
+        </Stack>
+        {/* </Tooltip> */}
       </CardContent>
     </Card>
   )
