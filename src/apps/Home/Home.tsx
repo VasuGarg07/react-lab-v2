@@ -3,7 +3,6 @@ import Logo from '../../assets/homepage.svg';
 import { AppCard } from "../../components/AppCard";
 import { Apps } from "../../shared/apps";
 
-
 const Home = () => {
   return (
     <>
@@ -12,10 +11,13 @@ const Home = () => {
         sx={{ borderRadius: 'md', p: 2, backgroundColor: 'transparent' }}>
 
         <Stack spacing={0} alignItems='center'>
+          <img src={Logo} alt="" />
+
           <Typography
             fontFamily={'Kanit'}
             letterSpacing={1.5}
             level="h1"
+            fontSize={48}
             children="REACT LAB" />
 
           <Typography level="body-lg" sx={{ mx: 2, maxWidth: 800 }} fontFamily={'Overlock'}>
@@ -26,7 +28,6 @@ const Home = () => {
             So, let's dive in and see what kind of React magic we can brew up! 🎉✨
           </Typography>
 
-          <img src={Logo} alt="" />
         </Stack>
       </Sheet>
 
@@ -44,6 +45,8 @@ const Home = () => {
           })}
         </Grid>
       </Sheet>
+
+
     </>
   )
 }

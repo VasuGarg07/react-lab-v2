@@ -1,8 +1,11 @@
-import { Button, CircularProgress, Input, Stack, Typography } from "@mui/joy"
-import { useEffect, useState } from "react"
-import { ErrorMessage, MatIcon, Spacer } from "../../components/Utils";
-import { Image, unsplashImages } from "./helper";
+import { CircularProgress, Stack, Typography } from "@mui/joy";
+import { useEffect, useState } from "react";
+import ResponsivePagination from 'react-responsive-pagination';
+import 'react-responsive-pagination/themes/classic.css';
+import { ErrorMessage, Spacer } from "../../components/Utils";
 import ImageGallery from "./ImageGallery";
+import SearchBar from "./SearchBar";
+import { Image, unsplashImages } from "./helper";
 
 const SnapFind = () => {
 
@@ -13,9 +16,10 @@ const SnapFind = () => {
   const [images, setImages] = useState<Image[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [value, setValue] = useState<string | null>(null);
+
 
   // TODO: Add orientation selection option
-  // TODO: Download functionality
 
   const handleSubmit = async (reset: boolean = false) => {
     if (!query) {
@@ -25,10 +29,14 @@ const SnapFind = () => {
 
     try {
       setLoading(true);
-      const data = await unsplashImages(query, page)
+      setImages([]);
+      reset && setPage(1);
+      const data = await unsplashImages(query, page, value)
+
       setError('');
       setTotalPages(data.total_pages);
-      setImages(arr => reset ? data.results : [...arr, ...data.results]);
+      setImages(data.results);
+
     } catch (error) {
       setError('Unable to load Images. Try again in a while');
     } finally {
@@ -52,24 +60,13 @@ const SnapFind = () => {
           children="SNAP FIND"
         />
 
-        <Stack direction='row' spacing={1} sx={{ width: 1, maxWidth: 800, }}>
-          <Input
-            placeholder="Search Images from unsplash"
-            variant="outlined"
-            color='neutral'
-            endDecorator={<MatIcon icon="search" />}
-            onChange={(e) => setQuery(e.target.value)}
-            sx={{ flexGrow: 1 }}
-            disabled={loading}
-          />
-          <Button
-            color='warning' variant='solid'
-            onClick={() => { handleSubmit(true) }}
-            loading={loading}
-          >
-            Search
-          </Button>
-        </Stack>
+        <SearchBar
+          loading={loading}
+          value={value}
+          onSearchInput={setQuery}
+          onSubmit={handleSubmit}
+          onToggleChange={setValue}
+        />
 
         {error && <ErrorMessage message={error} />}
 
@@ -82,7 +79,7 @@ const SnapFind = () => {
           size="lg"
           value={64}
           sx={{
-            mt: 2,
+            my: 2,
             "--CircularProgress-size": "120px",
             "--CircularProgress-trackThickness": "12px",
             "--CircularProgress-progressThickness": "12px"
@@ -90,12 +87,19 @@ const SnapFind = () => {
 
         <Spacer />
 
-        {images?.length > 0 && page < totalPages &&
-          <Button
-            onClick={() => setPage(page + 1)}
-            loading={loading}>
-            Show More
-          </Button>}
+        {images?.length > 0 && totalPages > 1 &&
+          <ResponsivePagination
+            maxWidth={400}
+            current={page}
+            total={totalPages}
+            onPageChange={setPage}
+          />
+          // <Button
+          //   onClick={() => setPage(page + 1)}
+          //   loading={loading}>
+          //   Show More
+          // </Button>
+        }
       </Stack >
     </>
   )

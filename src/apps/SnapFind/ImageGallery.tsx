@@ -1,8 +1,13 @@
 import { Box } from '@mui/joy';
 import { Image } from './helper'
 import ImageCard from './ImageCard';
+import React from 'react';
 
-const ImageGallery = ({ images }: { images: Image[] }) => {
+interface GalleryProps {
+    images: Image[]
+}
+
+const ImageGallery: React.FC<GalleryProps> = ({ images }) => {
 
     const breakpoints = {
         xs: 1,

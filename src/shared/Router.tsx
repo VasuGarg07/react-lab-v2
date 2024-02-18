@@ -7,7 +7,7 @@ import PokeMemory from "../apps/PokeMemory/PokeMemory";
 // import WalletWise from "../apps/WalletWise/WalletWise";
 import Quizzo from "../apps/Quizzo/Quizzo";
 import QuickByte from "../apps/QuickByte/QuickByte";
-import { alphabetMeals, categoryMeals, mealDetails, regionalMeals } from "../apps/QuickByte/utils/api";
+import { alphabetMeals, categoryMeals, mealDetails, regionalMeals, searchMeals } from "../apps/QuickByte/utils/api";
 import Wrapper from "../apps/QuickByte/Wrapper";
 import Gallery from "../apps/QuickByte/Gallery";
 import Details from "../apps/QuickByte/Details";
@@ -52,6 +52,11 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <QuickByte />
+      },
+      {
+        path: 'search/:searchTerm',
+        element: <Wrapper children={<Gallery />} />,
+        loader: searchMeals
       },
       {
         path: 'category/:categoryId',
