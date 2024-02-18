@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionGroup, AccordionSummary, Button, DialogTitle, Divider, Drawer, Grid, IconButton, Input, ListItemContent, ModalClose, Sheet } from '@mui/joy';
+import { Accordion, AccordionDetails, AccordionGroup, AccordionSummary, Button, DialogTitle, Divider, Drawer, Grid, IconButton, Input, ListItemContent, ModalClose, Sheet, Stack } from '@mui/joy';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MatIcon } from '../../components/Utils';
@@ -10,11 +10,18 @@ const DrawerMenu = ({ iconOnly }: { iconOnly: boolean }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false)
 
+  const [term, setTerm] = useState('');
+
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
 
   const handleRandomRoute = () => {
-    navigate(`/quick-byte/random`)
+    navigate(`/quick-byte/random`);
+    closeDrawer();
+  }
+
+  const handleSearch = () => {
+    navigate(`/quick-byte/search/${term}`);
     closeDrawer();
   }
 
@@ -52,9 +59,13 @@ const DrawerMenu = ({ iconOnly }: { iconOnly: boolean }) => {
           <ModalClose />
           <Divider />
 
-          <Input size="sm" placeholder="Search..."
-            endDecorator={<MatIcon icon="search" size={20} />}
-            sx={{ bgcolor: 'background.level1', my: 1 }} />
+          <Stack direction='row' spacing={1}>
+            <Input size="sm" placeholder="Search..." value={term} onChange={e => setTerm(e.target.value)}
+              sx={{ bgcolor: 'background.level1', my: 1, flexGrow: 1 }} />
+            <IconButton variant='solid' onClick={handleSearch}>
+              <MatIcon icon='search'></MatIcon>
+            </IconButton>
+          </Stack>
 
           <Accordions closeDrawer={closeDrawer} />
 

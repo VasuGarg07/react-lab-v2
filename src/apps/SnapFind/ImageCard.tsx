@@ -1,20 +1,21 @@
+import { Avatar, Box, Chip, IconButton, Link, Stack } from '@mui/joy';
+import { FC, useState } from 'react';
 import { Blurhash } from 'react-blurhash';
+import { MatIcon } from '../../components/Utils';
 import { Image } from './helper';
-import { useState } from 'react';
-import { Avatar, Box, Chip, Stack } from '@mui/joy';
-import IGLogo from '../../assets/insta-icon.png';
 
+interface ImageCardProps {
+    image: Image
+}
 
-const ImageCard = ({ image }: { image: Image }) => {
+const ImageCard: FC<ImageCardProps> = ({ image }) => {
     const [isLoaded, setIsLoaded] = useState(false);
-
 
     const navigateToExternalUrl = (url: string) => {
         if (url) {
             window.open(`https://www.instagram.com/${url}`, '_blank');
         }
     };
-
 
     return (
         <>
@@ -38,32 +39,37 @@ const ImageCard = ({ image }: { image: Image }) => {
                     width: 1, height: 1,
                     position: 'absolute',
                     top: 0, left: 0,
-                    bgcolor: `${image.color}80`,
+                    bgcolor: `${image.color}a0`,
                     borderRadius: 16, p: 2,
                     display: 'none',
                 }}
             >
-                <Stack width={1} height={1}>
+                <Stack width={1} height={1} justifyContent='space-between'>
                     <Stack direction='row' justifyContent='space-between'>
                         <Avatar size="lg" src={image.user.profile_image.large} />
                         <Chip
                             variant="plain"
                             color="neutral"
-                            size="lg"
+                            size="sm"
                             sx={{
-                                height: '32px',
+                                height: '24px',
                                 "--Chip-radius": "8px",
                                 "--Chip-gap": "0px",
-                                "--Chip-paddingInline": "4px",
-                                "--Chip-decoratorChildHeight": "24px"
+                                "--Chip-paddingInline": "8px",
                             }}
-                            startDecorator={<Avatar src={image.user.instagram_username ? IGLogo : ''} />}
+                            // startDecorator={<Avatar src={image.user.instagram_username ? IGLogo : ''} />}
                             onClick={() => navigateToExternalUrl(image.user.instagram_username)}
                         >
-                            {image.user.instagram_username ? `@${image.user.instagram_username}` : image.user.name}
+                            {image.user.name}
                         </Chip>
                     </Stack>
 
+                    <Stack direction='row' justifyContent='flex-end' spacing={1} zIndex={2}>
+                        <IconButton variant='solid' size='sm' color='success'>
+                            <Link overlay href={image.links.download} target="_blank" />
+                            <MatIcon icon="open_in_new" size={20}></MatIcon>
+                        </IconButton>
+                    </Stack>
                 </Stack>
             </Box>
         </>

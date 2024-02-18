@@ -1,7 +1,6 @@
 import Glass from '../assets/cover/glass.webp';
 import Loan from '../assets/cover/loan.webp';
 import Memory from '../assets/cover/memory.webp';
-// import Wallet from '../assets/cover/wallet.webp';
 import Quiz from '../assets/cover/quiz.webp';
 import Byte from '../assets/cover/byte.webp';
 import Snap from '../assets/cover/image.webp';
@@ -32,12 +31,6 @@ export const Apps: AppInfo[] = [
     tag: 'Card Match Game',
     image: Memory,
   },
-  // {
-  //   name: 'WalletWise',
-  //   path: '/wallet-wise',
-  //   tag: 'Expense Tracker',
-  //   image: Wallet,
-  // },
   {
     name: 'SnapFind',
     path: '/snapfind',
