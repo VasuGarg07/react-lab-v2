@@ -19,8 +19,6 @@ const SnapFind = () => {
   const [value, setValue] = useState<string | null>(null);
 
 
-  // TODO: Add orientation selection option
-
   const handleSubmit = async (reset: boolean = false) => {
     if (!query) {
       setError('Please Input your query');
@@ -94,11 +92,6 @@ const SnapFind = () => {
             total={totalPages}
             onPageChange={setPage}
           />
-          // <Button
-          //   onClick={() => setPage(page + 1)}
-          //   loading={loading}>
-          //   Show More
-          // </Button>
         }
       </Stack >
     </>

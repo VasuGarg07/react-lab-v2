@@ -12,11 +12,16 @@ import Wrapper from "../apps/QuickByte/Wrapper";
 import Gallery from "../apps/QuickByte/Gallery";
 import Details from "../apps/QuickByte/Details";
 import SnapFind from "../apps/SnapFind/SnapFind";
+import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 
 export const router = createBrowserRouter([
   {
     path: '',
     element: <Home />,
+  },
+  {
+    path: 'leetcode-rivals',
+    element: <LeetcodeRivals />
   },
   {
     path: 'glassmorphism',
@@ -30,10 +35,6 @@ export const router = createBrowserRouter([
     path: 'poke-memory',
     element: <PokeMemory />
   },
-  // {
-  //   path: 'wallet-wise',
-  //   element: <WalletWise />
-  // },
   {
     path: 'snapfind',
     element: <SnapFind />
