@@ -4,17 +4,20 @@ import Navbar from "./components/Navbar";
 import { router } from "./shared/Router";
 import "./styles/styles.scss";
 import theme from "./styles/theme";
+import { AuthProvider } from "./shared/AuthContext";
 
 function App() {
 
   return (
-    <CssVarsProvider theme={theme}>
-      <CssBaseline />
-      {/* Navbar */}
-      <Navbar />
-      {/* Main Apps */}
-      <RouterProvider router={router} />
-    </CssVarsProvider>
+    <AuthProvider>
+      <CssVarsProvider theme={theme}>
+        <CssBaseline />
+        {/* Navbar */}
+        <Navbar />
+        {/* Main Apps */}
+        <RouterProvider router={router} />
+      </CssVarsProvider>
+    </AuthProvider>
   );
 }
 
