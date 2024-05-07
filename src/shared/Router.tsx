@@ -2,7 +2,7 @@ import { Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom
 import Home from "../apps/Home/Home";
 import NotFound from "../apps/Errors/NotFound";
 import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
-import Homeloan from "../apps/HomeloadWizard/Homeloan";
+import Homeloan from "../apps/HomeloanWizard/Homeloan";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
 // import WalletWise from "../apps/WalletWise/WalletWise";
 import Quizzo from "../apps/Quizzo/Quizzo";
@@ -13,11 +13,16 @@ import Gallery from "../apps/QuickByte/Gallery";
 import Details from "../apps/QuickByte/Details";
 import SnapFind from "../apps/SnapFind/SnapFind";
 import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
+import PostmanMd from "../apps/PostmanMd/PostmanMd";
 
 export const router = createBrowserRouter([
   {
     path: '',
     element: <Home />,
+  },
+  {
+    path: 'postman-markdown',
+    element: <PostmanMd />
   },
   {
     path: 'leetcode-rivals',

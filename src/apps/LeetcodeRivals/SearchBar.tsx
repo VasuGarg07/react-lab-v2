@@ -9,6 +9,7 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ loading, onSearchInput, onSubmit }) => {
+
     return (
         <Stack direction='row' justifyContent='center' flexWrap='wrap' gap={1} sx={{ width: 1, maxWidth: 800 }}>
             <Input
