@@ -1,8 +1,9 @@
-import { Sheet, Typography, IconButton, Divider } from "@mui/joy"
+import { Divider, Sheet, Typography } from "@mui/joy"
+import { navigate } from "../shared/Router"
 import SideNav from "./SideNav"
 import ThemeToggle from "./ThemeToggle"
-import { Spacer, MatIcon } from "./Utils"
-import { navigate } from "../shared/Router"
+import { Spacer } from "./Utils"
+import Signup from "./Signup"
 
 const Navbar = () => {
   return (
@@ -16,7 +17,7 @@ const Navbar = () => {
         </Typography>
         <Spacer />
         <ThemeToggle />
-        <IconButton children={<MatIcon icon='account_circle' />} />
+        <Signup />
       </Sheet>
       <Divider />
     </>
