@@ -1,8 +1,8 @@
 import { AspectRatio, Button, Chip, Divider, Link, List, ListItem, ListItemDecorator, Stack, Typography } from '@mui/joy';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { MatIcon } from '../../components/Utils';
 import { MealDetails } from './utils/helpers';
 import DrawerMenu from './DrawerMenu';
+import { Info, LoaderPinwheel, Play } from 'lucide-react';
 
 const Details = () => {
 
@@ -23,12 +23,12 @@ const Details = () => {
 
   return (
     <Stack spacing={2}>
-      <div className='flex-justified'>
+      <Stack direction='row' justifyContent='space-between'>
         <Typography level='h2' fontFamily={'Staatliches'} letterSpacing={2} textAlign={'center'}>
           {meal.name}
         </Typography>
         <DrawerMenu iconOnly />
-      </div>
+      </Stack>
       <AspectRatio
         variant='plain'
         objectFit="cover"
@@ -41,7 +41,7 @@ const Details = () => {
         <img src={meal.image} alt={meal.name} />
       </AspectRatio>
 
-      <div className='flex-centered'>
+      <Stack direction='row' spacing={1} justifyContent='center'>
         <Typography level='body-lg' textTransform={'uppercase'} fontFamily={'Roboto'}>
           Region: <Link color='danger' onClick={handleAreaNav}>
             {meal.area}
@@ -52,26 +52,26 @@ const Details = () => {
             {meal.category}
           </Link>
         </Typography>
-      </div>
+      </Stack>
 
-      <div className='flex-centered'>
+      <Stack direction='row' spacing={1} justifyContent='center'>
         {meal.source &&
           <Button
             variant='outlined' color='neutral'
-            startDecorator={<MatIcon icon="info_outlined" />}
+            startDecorator={<Info />}
             onClick={() => handleExternalUrl(meal.source!)}>
             MORE INFO</Button>}
         {meal.youtube &&
           <Button
             variant='solid' color='danger'
-            startDecorator={<MatIcon icon="smart_display" />}
+            startDecorator={<Play />}
             onClick={() => handleExternalUrl(meal.youtube!)}>
             YOUTUBE</Button>}
-      </div>
+      </Stack>
 
-      <div className='flex-centered'>
+      <Stack direction='row' spacing={1} justifyContent='center'>
         {meal.tags.map(tag => <Chip key={tag} variant='soft' color='danger'>{tag}</Chip>)}
-      </div>
+      </Stack>
 
       <Divider sx={{ bgcolor: 'neutral.500', height: '1.5px' }} />
 
@@ -79,7 +79,7 @@ const Details = () => {
         INGREDIENTS
       </Typography>
 
-      <div className='flex-wrapped'>
+      <Stack direction='row' flexWrap='wrap' sx={{ gap: 1 }}>
         {meal.ingredients.map(ingredient => (
           <Chip color="success" variant='solid' key={ingredient}
             sx={{
@@ -92,7 +92,7 @@ const Details = () => {
             {ingredient}
           </Chip>
         ))}
-      </div>
+      </Stack>
 
       <Divider sx={{ bgcolor: 'neutral.500', height: '1.5px' }} />
 
@@ -106,7 +106,7 @@ const Details = () => {
             <ListItemDecorator sx={{
               color: 'warning.solidBg'
             }}>
-              <MatIcon icon='bubble_chart' outlined size={20} />
+              <LoaderPinwheel />
             </ListItemDecorator>
             <Typography level='body-md'>{step}</Typography>
           </ListItem>

@@ -1,8 +1,8 @@
 import { Avatar, Box, Chip, IconButton, Link, Stack } from '@mui/joy';
 import { FC, useState } from 'react';
 import { Blurhash } from 'react-blurhash';
-import { MatIcon } from '../../components/Utils';
 import { Image } from './helper';
+import { ExternalLink } from 'lucide-react';
 
 interface ImageCardProps {
     image: Image
@@ -67,7 +67,7 @@ const ImageCard: FC<ImageCardProps> = ({ image }) => {
                     <Stack direction='row' justifyContent='flex-end' spacing={1} zIndex={2}>
                         <IconButton variant='solid' size='sm' color='success'>
                             <Link overlay href={image.links.download} target="_blank" />
-                            <MatIcon icon="open_in_new" size={20}></MatIcon>
+                            <ExternalLink size={20} />
                         </IconButton>
                     </Stack>
                 </Stack>

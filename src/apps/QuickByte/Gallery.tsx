@@ -1,8 +1,8 @@
 import { AspectRatio, Card, CardContent, Grid, IconButton, Stack, Typography } from '@mui/joy';
+import { BookOpenText } from 'lucide-react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { MatIcon } from '../../components/Utils';
-import { Meal } from './utils/helpers';
 import DrawerMenu from './DrawerMenu';
+import { Meal } from './utils/helpers';
 
 interface GalleryData {
   title: string;
@@ -14,12 +14,12 @@ const Gallery = () => {
 
   return (
     <>
-      <div className='flex-justified'>
+      <Stack direction='row' justifyContent='space-between'>
         <Typography level='h2' fontFamily={'Staatliches'} letterSpacing={2} textAlign={'center'} gutterBottom>
           {title}
         </Typography>
         <DrawerMenu iconOnly />
-      </div>
+      </Stack>
 
       <Grid container spacing={1} flexWrap='wrap'>
         {meals.map(meal => (
@@ -59,18 +59,23 @@ const MealCard = ({ meal }: { meal: Meal }) => {
             src={meal.image} srcSet={meal.image} alt={meal.name}
           />
         </AspectRatio>
-        {/* <Tooltip color="primary" variant="solid" arrow
-          title={meal.name} placement="top" size="sm"> */}
         <Stack direction='row' alignItems='center' sx={{ mt: 1 }} spacing={1}>
-          <Typography level="title-lg" className="text-ellipsis spacer"
-            fontFamily={'Overlock'} letterSpacing={1} textTransform={'uppercase'}>
+          <Typography level="title-lg"
+            sx={{
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              flexGrow: 1,
+              fontFamily: 'Overlock',
+              letterSpacing: 1,
+              textTransform: 'uppercase',
+              overflow: 'hidden'
+            }}>
             {meal.name}
           </Typography>
           <IconButton size='sm' color='primary' variant='soft' sx={{ borderRadius: 'xl' }}>
-            <MatIcon icon='keyboard_arrow_right' outlined size={20} />
+            <BookOpenText size={20} />
           </IconButton>
         </Stack>
-        {/* </Tooltip> */}
       </CardContent>
     </Card>
   )

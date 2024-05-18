@@ -1,6 +1,6 @@
 import { AspectRatio, Card, Chip, Typography } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
-import { AppInfo } from "../shared/apps";
+import { AppInfo } from "../../shared/apps";
 
 export const AppCard = ({ name, tag, path, image }: AppInfo) => {
   const navigate = useNavigate();

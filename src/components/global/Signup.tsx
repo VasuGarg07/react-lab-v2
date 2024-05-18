@@ -1,7 +1,7 @@
 import { Avatar, Dropdown, IconButton, Menu, MenuButton, MenuItem, Typography } from '@mui/joy'
 import React from 'react'
-import { MatIcon } from './Utils'
-import { useAuth } from '../shared/AuthContext';
+import { useAuth } from '../../shared/AuthContext';
+import { UserRound } from 'lucide-react';
 
 const Signup: React.FC = () => {
     const { user, signOut, signInWithGoogle } = useAuth();
@@ -25,10 +25,9 @@ const Signup: React.FC = () => {
                         size='sm'
                         variant='soft'
                         srcSet={user.photoURL!}
-                    >
-                        {user.displayName}
-                    </Avatar>
-                    : <MatIcon icon='account_circle' />}
+                        children={user.displayName}
+                    />
+                    : <UserRound />}
             </MenuButton>
             <Menu>
                 {

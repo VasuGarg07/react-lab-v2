@@ -1,15 +1,15 @@
-import { Divider, Sheet, Typography } from "@mui/joy"
-import { navigate } from "../shared/Router"
+import { Divider, Sheet, Stack, Typography } from "@mui/joy"
+import { navigate } from "../../shared/Router"
 import SideNav from "./SideNav"
 import ThemeToggle from "./ThemeToggle"
-import { Spacer } from "./Utils"
+import { Spacer } from "../shared/Spacer"
 import Signup from "./Signup"
 
 const Navbar = () => {
   return (
     <>
-      <Sheet className="w-100 flex-centered pad-8-vr pad-16-hr"
-        sx={{ boxShadow: 'rgba(0, 0, 0, 0.2) 0 2px 2.6px' }}>
+      <Stack component={Sheet} direction='row' alignItems='center' spacing={1}
+        sx={{ boxShadow: 'md', width: 1, py: 1, px: 2, }}>
         <SideNav />
         <Spacer />
         <Typography level="h4" onClick={() => navigate('/')}>
@@ -18,7 +18,7 @@ const Navbar = () => {
         <Spacer />
         <ThemeToggle />
         <Signup />
-      </Sheet>
+      </Stack>
       <Divider />
     </>
   )

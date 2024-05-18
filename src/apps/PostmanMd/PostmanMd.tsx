@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Box, Button, LinearProgress, Stack, Typography } from '@mui/joy';
 import InputFileUpload from './UploadBtn';
-import { ErrorMessage, MatIcon } from '../../components/Utils';
+import { ErrorMessage } from '../../components/shared/ErrorMessage';
 import axios from 'axios';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight'
+import { ArrowRightToLine } from 'lucide-react';
 
 const generateMarkdown = async (json: string): Promise<string> => {
     const url = 'https://postman-documentation.onrender.com/api/json_to_markdown';
@@ -75,7 +76,7 @@ const PostmanMd: React.FC = () => {
                                 color="primary"
                                 onClick={handleSubmitFile}
                                 disabled={loading}
-                                endDecorator={<MatIcon icon='start' />}>
+                                endDecorator={<ArrowRightToLine />}>
                                 Convert to Markdown
                             </Button>
                         </>

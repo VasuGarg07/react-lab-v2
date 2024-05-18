@@ -1,17 +1,17 @@
-import { Grid, Sheet, Stack, Typography } from "@mui/joy";
+import { AspectRatio, Grid, Sheet, Stack, Typography } from "@mui/joy";
 import Logo from '../../assets/homepage.svg';
-import { AppCard } from "../../components/AppCard";
+import { AppCard } from "../../components/global/AppCard";
 import { Apps } from "../../shared/apps";
 
 const Home = () => {
   return (
     <>
       <Sheet
-        className="margin flex-centered-column text-center"
-        sx={{ borderRadius: 'md', p: 2, backgroundColor: 'transparent' }}>
-
+        sx={{ borderRadius: 'md', p: 2, m: 2, textAlign: 'center', backgroundColor: 'transparent' }}>
         <Stack spacing={0} alignItems='center'>
-          <img src={Logo} alt="" />
+          <AspectRatio variant="plain" objectFit="contain" sx={{ width: 1, maxWidth: 800 }}>
+            <img src={Logo} alt="" />
+          </AspectRatio>
 
           <Typography
             fontFamily={'Kanit'}
@@ -32,10 +32,8 @@ const Home = () => {
       </Sheet>
 
       <Sheet
-        className="margin flex-centered-column text-center"
-        sx={{ borderRadius: 'md', p: 2, background: 'transparent' }}>
-
-        <Grid container spacing={2} sx={{ flexGrow: 1, maxWidth: 1200 }} className="w-100">
+        sx={{ borderRadius: 'md', p: 2, m: 2, background: 'transparent', display: 'flex', justifyContent: 'center' }}>
+        <Grid container spacing={2} sx={{ flexGrow: 1, maxWidth: 1200, width: 1 }}>
           {Apps.map((app, index) => {
             return (
               <Grid key={index} xs={12} sm={6} md={4}>
@@ -45,8 +43,6 @@ const Home = () => {
           })}
         </Grid>
       </Sheet>
-
-
     </>
   )
 }

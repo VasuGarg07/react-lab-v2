@@ -1,6 +1,6 @@
 import { CssBaseline, CssVarsProvider } from "@mui/joy";
 import { RouterProvider } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/global/Navbar";
 import { router } from "./shared/Router";
 import "./styles/styles.scss";
 import theme from "./styles/theme";

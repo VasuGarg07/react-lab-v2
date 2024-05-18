@@ -1,6 +1,7 @@
-import { Box, Button, Input, Option, Select, Typography } from '@mui/joy';
+import { Button, Input, Option, Select, Stack, Typography } from '@mui/joy';
+import { Dices, User } from 'lucide-react';
 import React, { useState } from 'react';
-import { ErrorMessage, MatIcon } from '../../components/Utils';
+import { ErrorMessage } from '../../components/shared/ErrorMessage';
 import { GameMode, GameState } from '../PokeMemory/helpers';
 import { useQuizContext } from './Context';
 import { Question, QuizCategories, fetchQuiz } from './helper';
@@ -46,9 +47,8 @@ const Setup = () => {
 
   return (
 
-    <Box className="flex-centered-column" sx={{ height: 1, p: 2 }}>
+    <Stack spacing={1} alignItems='center' justifyContent='center' sx={{ height: 1, p: 2 }}>
       <Typography level="title-lg" sx={{ mb: 1 }}>Quiz Settings</Typography>
-
       {error && <ErrorMessage message='Please Fill all the feilds' />}
 
       <Input
@@ -58,8 +58,9 @@ const Setup = () => {
         onChange={(e) => setName(e.target.value)}
         sx={{ width: 1 }}
         disabled={loading}
-        startDecorator={<MatIcon icon="person" outlined={true} />}
+        startDecorator={<User />}
       />
+
       <Select
         required
         placeholder="Choose Difficulty Level"
@@ -70,10 +71,11 @@ const Setup = () => {
       >
         {Object.values(GameMode).map((option) => (
           <Option key={option} value={option}>
-            <span className='text-capitalize'> {option} </span>
+            <Typography textTransform='capitalize'>{option}</Typography>
           </Option>
         ))}
       </Select>
+
       <Select
         required
         placeholder="Select the Category"
@@ -90,11 +92,11 @@ const Setup = () => {
       <Button sx={{ mt: 1 }}
         loading={loading}
         onClick={handleSubmit}
-        startDecorator={<MatIcon icon="gamepad" outlined={true} />}>
+        startDecorator={<Dices />}>
         Begin!
       </Button>
 
-    </Box>
+    </Stack>
   )
 }
 

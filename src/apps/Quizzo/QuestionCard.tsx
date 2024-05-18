@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import { Question } from './helper'
-import { GameState } from '../PokeMemory/helpers'
-import { Box, Button, Divider, Sheet, Typography } from '@mui/joy';
+import { Button, Divider, Sheet, Stack, Typography } from '@mui/joy';
+import { ChevronRight, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { ErrorMessage } from '../../components/shared/ErrorMessage';
+import { GameState } from '../PokeMemory/helpers';
 import { useQuizContext } from './Context';
-import { ErrorMessage, MatIcon } from '../../components/Utils';
+import { Question } from './helper';
 
 interface ContextProps {
   questions: Question[],
@@ -64,15 +65,26 @@ const QuestionCard = ({
   return (
     <Sheet
       variant="outlined"
-      className="spacer flex-column"
-      sx={{ mt: 1, p: 2, borderRadius: 'md' }}>
+      sx={{
+        mt: 1, p: 2, gap: 1,
+        borderRadius: 'md',
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
 
       <Typography level="h4" fontFamily={'Poiret One'} sx={{ letterSpacing: 1 }}>Question {currQues + 1}</Typography>
       <h4 style={{ margin: 0 }} dangerouslySetInnerHTML={{ __html: questions[currQues].question }} />
 
       {error && <ErrorMessage message={error} />}
 
-      <div className='flex-centered' style={{ flexWrap: 'wrap', marginTop: '4px' }}>
+      <Stack
+        direction='row'
+        width={1}
+        justifyContent='center'
+        alignContent='center'
+        flexWrap='wrap'
+        sx={{ mt: '4px', gap: 1 }}>
         {options.map((val) => (
           <button key={val}
             onClick={() => handleCheck(val)}
@@ -85,20 +97,19 @@ const QuestionCard = ({
           >
           </button>
         ))}
-      </div>
+      </Stack>
 
       <Divider />
 
-      <Box className="flex-justified" sx={{ flexWrap: 'wrap' }}>
+      <Stack direction='row' justifyContent='center' spacing={2}>
         <Button variant='soft' color='danger' sx={{ width: 0.48 }}
-          startDecorator={<MatIcon icon="close" />}
+          startDecorator={<X />}
           onClick={handleQuit}>Quit</Button>
 
         <Button variant='soft' color='primary' sx={{ width: 0.48 }}
-          endDecorator={<MatIcon icon="navigate_next" />}
+          endDecorator={<ChevronRight />}
           onClick={handleNext} >Next</Button>
-      </Box>
-
+      </Stack>
     </Sheet>
   )
 }

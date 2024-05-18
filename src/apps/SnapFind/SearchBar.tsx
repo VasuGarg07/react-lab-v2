@@ -1,5 +1,5 @@
 import { Stack, Input, Button, IconButton, ToggleButtonGroup } from '@mui/joy'
-import { MatIcon } from '../../components/Utils';
+import { RectangleHorizontal, RectangleVertical, Search, Square } from 'lucide-react';
 import React from 'react';
 
 interface SearchBarProps {
@@ -31,20 +31,20 @@ const SearchBar: React.FC<SearchBarProps> = ({ loading, value, onSearchInput, on
             >
                 <Button value=''>All</Button>
                 <IconButton value="landscape">
-                    <MatIcon icon="crop_landscape" outlined />
+                    <RectangleHorizontal />
                 </IconButton>
                 <IconButton value="portrait">
-                    <MatIcon icon="crop_portrait" outlined />
+                    <RectangleVertical />
                 </IconButton>
                 <IconButton value="squarish">
-                    <MatIcon icon="crop_square" outlined />
+                    <Square />
                 </IconButton>
             </ToggleButtonGroup>
 
             <Button
                 color='warning' variant='solid'
                 onClick={() => { onSubmit(true) }}
-                startDecorator={<MatIcon icon="search" />}
+                startDecorator={<Search />}
                 loading={loading}
             >
                 Search

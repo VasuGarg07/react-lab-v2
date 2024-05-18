@@ -1,7 +1,7 @@
 import { Accordion, AccordionDetails, AccordionGroup, AccordionSummary, Button, DialogTitle, Divider, Drawer, Grid, IconButton, Input, ListItemContent, ModalClose, Sheet, Stack } from '@mui/joy';
+import { BookA, Library, RectangleEllipsis, Salad, Search, Sparkle, TreePalm } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MatIcon } from '../../components/Utils';
 import { areaList, categoryList } from './utils/api';
 import { alphabets, tabs } from './utils/helpers';
 
@@ -29,10 +29,10 @@ const DrawerMenu = ({ iconOnly }: { iconOnly: boolean }) => {
     <>
       {iconOnly ?
         <IconButton onClick={openDrawer}>
-          <MatIcon outlined={true} icon='menu' />
+          <RectangleEllipsis />
         </IconButton>
         : <Button color="danger" sx={{ mb: 4 }} onClick={openDrawer}
-          startDecorator={<MatIcon outlined={true} icon='menu_book' />} >
+          startDecorator={<Library />} >
           Explore Recipes
         </Button>}
 
@@ -48,11 +48,15 @@ const DrawerMenu = ({ iconOnly }: { iconOnly: boolean }) => {
           },
         }}
       >
-        <Sheet className="flex-column pad-16 margin"
+        <Sheet
           sx={{
             borderRadius: 'md',
             height: '100%',
             overflow: 'auto',
+            p: 2, m: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 1
           }} >
 
           <DialogTitle>Quick Byte</DialogTitle>
@@ -63,7 +67,7 @@ const DrawerMenu = ({ iconOnly }: { iconOnly: boolean }) => {
             <Input size="sm" placeholder="Search..." value={term} onChange={e => setTerm(e.target.value)}
               sx={{ bgcolor: 'background.level1', my: 1, flexGrow: 1 }} />
             <IconButton variant='solid' onClick={handleSearch}>
-              <MatIcon icon='search'></MatIcon>
+              <Search size={20} />
             </IconButton>
           </Stack>
 
@@ -72,7 +76,7 @@ const DrawerMenu = ({ iconOnly }: { iconOnly: boolean }) => {
           <Button
             variant="solid" color='warning' size="sm"
             onClick={handleRandomRoute}
-            startDecorator={<MatIcon icon='star_border' size={20} />}>
+            startDecorator={<Sparkle size={20} />}>
             Surprise Me!
           </Button>
         </Sheet>
@@ -118,7 +122,7 @@ export const Accordions = ({ closeDrawer }: { closeDrawer: () => void }) => {
         expanded={index === 0}>
 
         <AccordionSummary>
-          <MatIcon icon='category' outlined size={20}></MatIcon>
+          <Salad size={16} />
           <ListItemContent>Categories</ListItemContent>
         </AccordionSummary>
 
@@ -141,7 +145,7 @@ export const Accordions = ({ closeDrawer }: { closeDrawer: () => void }) => {
         expanded={index === 1}>
 
         <AccordionSummary>
-          <MatIcon icon='public' outlined size={20}></MatIcon>
+          <TreePalm size={16} />
           <ListItemContent>Regional Dishes</ListItemContent>
         </AccordionSummary>
 
@@ -164,7 +168,7 @@ export const Accordions = ({ closeDrawer }: { closeDrawer: () => void }) => {
         expanded={index === 2}>
 
         <AccordionSummary>
-          <MatIcon icon='abc' outlined size={20}></MatIcon>
+          <BookA size={16} />
           <ListItemContent>Dictionary</ListItemContent>
         </AccordionSummary>
 

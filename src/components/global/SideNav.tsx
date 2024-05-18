@@ -1,8 +1,8 @@
 import { DialogTitle, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemContent, ModalClose, Sheet } from '@mui/joy'
 import { useState } from 'react'
-import { Apps } from '../shared/apps'
-import { MatIcon } from './Utils'
-import { navigate } from '../shared/Router'
+import { Apps } from '../../shared/apps'
+import { navigate } from '../../shared/Router'
+import { ChevronRight, Home, Menu } from 'lucide-react'
 
 const SideNav = () => {
   const [open, setOpen] = useState(false)
@@ -17,7 +17,7 @@ const SideNav = () => {
 
   return (
     <>
-      <IconButton children={<MatIcon outlined={true} icon='menu' />} onClick={openDrawer} />
+      <IconButton children={<Menu />} onClick={openDrawer} />
 
       <Drawer
         size="md"
@@ -53,14 +53,14 @@ const SideNav = () => {
             <ListItem>
               <ListItemButton component="a" href="/">
                 <ListItemContent>Dashboard</ListItemContent>
-                <MatIcon icon="home" />
+                <Home />
               </ListItemButton>
             </ListItem>
             {Apps.map((app, index) => (
               <ListItem key={index}>
                 <ListItemButton onClick={() => handleRouting(app.path)}>
                   <ListItemContent>{app.name}</ListItemContent>
-                  <MatIcon icon="keyboard_arrow_right" />
+                  <ChevronRight />
                 </ListItemButton>
               </ListItem>
             ))}
