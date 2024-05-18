@@ -5,6 +5,7 @@ import Quiz from '../assets/cover/quiz.webp';
 import Byte from '../assets/cover/byte.webp';
 import Snap from '../assets/cover/image.webp';
 import Leetcode from '../assets/cover/leetcode.webp';
+import Sudoku from '../assets/cover/sudoku.webp'
 
 export interface AppInfo {
   name: string,
@@ -14,11 +15,17 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  // {
+  //   name: 'Postman Markdown',
+  //   path: '/postman-markdown',
+  //   tag: 'Convert JSON to Markdown',
+  //   image: Leetcode
+  // },
   {
-    name: 'Postman Markdown',
-    path: '/postman-markdown',
-    tag: 'Convert JSON to Markdown',
-    image: Leetcode
+    name: 'Sudoku!!',
+    path: '/sudoku',
+    tag: 'Problem Solving',
+    image: Sudoku
   },
   {
     name: 'Leetcode Rivals',

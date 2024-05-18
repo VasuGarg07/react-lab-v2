@@ -1,19 +1,5 @@
 
-import { PaletteRange, extendTheme } from '@mui/joy/styles';
-
-declare module '@mui/joy/styles' {
-  interface ColorPalettePropOverrides {
-    // apply to all Joy UI components that support `color` prop
-    secondary: true;
-  }
-
-  interface Palette {
-    // this will make the node `secondary` configurable in `extendTheme`
-    // and add `secondary` to the theme's palette.
-    secondary: PaletteRange;
-  }
-
-}
+import { extendTheme } from '@mui/joy/styles';
 
 
 
@@ -81,19 +67,6 @@ const theme = extendTheme({
           800: "#92400e",
           900: "#78350f",
         },
-        secondary: {
-          50: "#faf5ff",
-          100: "#f3e8ff",
-          200: "#e9d5ff",
-          300: "#d8b4fe",
-          400: "#c084fc",
-          500: "#a855f7",
-          600: "#9333ea",
-          700: "#7e22ce",
-          800: "#6b21a8",
-          900: "#581c87",
-
-        },
       },
     },
     dark: {
@@ -157,18 +130,6 @@ const theme = extendTheme({
           700: "#b45309",
           800: "#92400e",
           900: "#78350f",
-        },
-        secondary: {
-          50: "#faf5ff",
-          100: "#f3e8ff",
-          200: "#e9d5ff",
-          300: "#d8b4fe",
-          400: "#c084fc",
-          500: "#a855f7",
-          600: "#9333ea",
-          700: "#7e22ce",
-          800: "#6b21a8",
-          900: "#581c87",
         },
       },
     },
