@@ -2,9 +2,8 @@ import { Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom
 import Home from "../apps/Home/Home";
 import NotFound from "../apps/Errors/NotFound";
 import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
-import Homeloan from "../apps/HomeloadWizard/Homeloan";
+import Homeloan from "../apps/HomeloanWizard/Homeloan";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
-// import WalletWise from "../apps/WalletWise/WalletWise";
 import Quizzo from "../apps/Quizzo/Quizzo";
 import QuickByte from "../apps/QuickByte/QuickByte";
 import { alphabetMeals, categoryMeals, mealDetails, regionalMeals, searchMeals } from "../apps/QuickByte/utils/api";
@@ -13,12 +12,22 @@ import Gallery from "../apps/QuickByte/Gallery";
 import Details from "../apps/QuickByte/Details";
 import SnapFind from "../apps/SnapFind/SnapFind";
 import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
+import PostmanMd from "../apps/PostmanMd/PostmanMd";
+import Sudoku from "../apps/Sudoku/Sudoku";
 
 export const router = createBrowserRouter([
   {
     path: '',
     element: <Home />,
   },
+  {
+    path: 'sudoku',
+    element: <Sudoku />
+  },
+  // {
+  //   path: 'postman-markdown',
+  //   element: <PostmanMd />
+  // },
   {
     path: 'leetcode-rivals',
     element: <LeetcodeRivals />

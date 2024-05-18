@@ -6,11 +6,15 @@ import { UserStats } from './utils/interface';
 import { fetchUserStats } from './utils/helper';
 import ProfileCard from './ProfileCard';
 
+interface UserData {
+    username: string, stats: UserStats
+}
+
 const LeetcodeRivals = () => {
     const [query, setQuery] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [users, setUsers] = useState<{ username: string, stats: UserStats }[]>([]);
+    const [users, setUsers] = useState<UserData[]>([]);
 
     const handleAddUser = async () => {
         if (!query) {
@@ -27,7 +31,6 @@ const LeetcodeRivals = () => {
                 setError("Rival has already been added");
             } else {
                 setError('');
-                setQuery('');
                 const data = await fetchUserStats(query);
                 const newUser = { username: query, stats: data };
                 setUsers([...users, newUser].sort((a, b) => a.stats.ranking - b.stats.ranking))

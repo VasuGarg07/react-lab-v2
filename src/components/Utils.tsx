@@ -1,6 +1,6 @@
 // Utility Components
 
-import { Sheet } from "@mui/joy";
+import { Sheet, Typography } from "@mui/joy";
 
 export const Spacer = () => <span className="spacer" />;
 
@@ -33,9 +33,8 @@ export const ErrorMessage = ({ message }: { message: string }) => {
       color="danger"
       variant="solid"
       sx={{ width: 1, p: 1, mb: 1, borderRadius: 'md', }}
-      className="text-center text-capitalize"
     >
-      {message}
+      <Typography level="body-lg" textAlign='center' textTransform='capitalize'>{message}</Typography>
     </Sheet>
   );
 };
