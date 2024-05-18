@@ -6,22 +6,14 @@ import Result from "./Result";
 import Board from "./Board";
 import Setup from "./Setup";
 import QuizFg from '../../assets/quiz-fg.png'
+import { BgCenteredBox } from "../../components/shared/BgCenteredBox";
 
 const Quizzo = () => {
 
 
   return (
     <QuizProvider>
-      <Box
-        className="flex-centered-column"
-        sx={{
-          backgroundImage: `url(${Background})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          p: { md: 4, xs: 2 },
-          minHeight: 'calc(100vh - 53px)',
-        }}>
-
+      <BgCenteredBox bg={Background}>
         <Card sx={{
           width: 1, maxWidth: 1000, borderRadius: 'md', p: 2, gap: 0,
           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px'
@@ -41,7 +33,7 @@ const Quizzo = () => {
             </Grid>
           </Grid>
         </Card>
-      </Box>
+      </BgCenteredBox>
     </QuizProvider>
   )
 }

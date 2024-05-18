@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { CardType, GameMode, GameState, loadCards } from './helpers';
 import { useGameContext } from './Context';
-import { Button, Card, Divider, IconButton, Input, Typography } from '@mui/joy';
+import { Button, Card, Divider, IconButton, Input, Stack, Typography } from '@mui/joy';
 import Logo from '../../assets/game-logo.png';
-import { ErrorMessage, MatIcon } from '../../components/Utils';
+import { ErrorMessage } from '../../components/shared/ErrorMessage';
+import { Gamepad2, UserRound } from 'lucide-react';
 
 interface Props {
   name: string,
@@ -52,11 +53,11 @@ const Setup = () => {
         boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px'
       }
       }>
-      <div className='flex-centered'>
+      <Stack direction='row' spacing={2} alignItems='center'>
 
         <img style={{ width: 160 }} src={Logo} alt="" />
         <Typography level='h2' fontFamily={'Overlock'}>Memory Game</Typography>
-      </div>
+      </Stack>
 
       <Typography level='body-sm' textAlign="center" sx={{ fontSize: 12 }}>
         Test your memory and concentration skills in this fun matching card game. Flip over pairs of cards to find matches and reveal the hidden images. Keep track of card positions and match them all to win!
@@ -69,11 +70,11 @@ const Setup = () => {
         placeholder="Enter Player Name"
         variant="outlined"
         color='neutral'
-        endDecorator={<MatIcon icon="edit" />}
+        startDecorator={<UserRound />}
         onChange={(e) => setName(e.target.value)}
       />
 
-      <div className='flex-centered'>
+      <Stack direction='row' spacing={1} alignItems='center'>
         <Button
           variant={difficulty == GameMode.Easy ? 'solid' : 'outlined'}
           color="success"
@@ -99,11 +100,9 @@ const Setup = () => {
 
         <IconButton color='primary' variant='soft'
           onClick={handleSubmit}>
-          <MatIcon icon="sports_esports" />
+          <Gamepad2 />
         </IconButton>
-      </div>
-
-
+      </Stack>
     </Card >
   )
 }

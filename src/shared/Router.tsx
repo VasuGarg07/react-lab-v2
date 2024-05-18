@@ -12,7 +12,6 @@ import Gallery from "../apps/QuickByte/Gallery";
 import Details from "../apps/QuickByte/Details";
 import SnapFind from "../apps/SnapFind/SnapFind";
 import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
-import PostmanMd from "../apps/PostmanMd/PostmanMd";
 import Sudoku from "../apps/Sudoku/Sudoku";
 
 export const router = createBrowserRouter([

@@ -2,10 +2,11 @@ import { CircularProgress, Stack, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
 import ResponsivePagination from 'react-responsive-pagination';
 import 'react-responsive-pagination/themes/classic.css';
-import { ErrorMessage, Spacer } from "../../components/Utils";
+import { ErrorMessage } from "../../components/shared/ErrorMessage";
 import ImageGallery from "./ImageGallery";
 import SearchBar from "./SearchBar";
 import { Image, unsplashImages } from "./helper";
+import { Spacer } from "../../components/shared/Spacer";
 
 const SnapFind = () => {
 

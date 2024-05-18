@@ -1,8 +1,8 @@
 import { Button, Card, Typography } from '@mui/joy';
 import { useGameContext } from './Context';
-import { Spacer } from '../../components/Utils';
 import Logo from '../../assets/game-logo.png';
 import CardGrid from './CardGrid';
+import { Spacer } from '../../components/shared/Spacer';
 
 interface Props {
   name: string,
@@ -30,7 +30,7 @@ const Board = () => {
           <Typography level='title-sm'>Player: {name} </Typography>
           <Typography level="body-sm">Turns: {turns}</Typography>
         </div>
-        <Button onClick={resetGame} color='secondary' size='sm'>Restart</Button>
+        <Button onClick={resetGame} color='neutral' size='sm'>Restart</Button>
       </Card>
 
       <CardGrid />

@@ -1,5 +1,5 @@
 import { IconButton, useColorScheme } from "@mui/joy";
-import { MatIcon } from "./Utils";
+import { Moon, Sun } from "lucide-react";
 
 function ThemeToggle() {
   const { mode, setMode } = useColorScheme();
@@ -10,7 +10,7 @@ function ThemeToggle() {
 
   return (
     <IconButton onClick={switchTheme}>
-      <MatIcon outlined={true} icon='dark_mode' />
+      {mode == 'light' ? <Moon /> : <Sun />}
     </IconButton>
   )
 }

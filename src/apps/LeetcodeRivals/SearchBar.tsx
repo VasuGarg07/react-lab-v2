@@ -1,6 +1,6 @@
 import { Button, Input, Stack } from '@mui/joy';
+import { Search } from 'lucide-react';
 import React from 'react';
-import { MatIcon } from '../../components/Utils';
 
 interface SearchBarProps {
     loading: boolean,
@@ -24,7 +24,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ loading, onSearchInput, onSubmit 
             <Button
                 color='success' variant='solid'
                 onClick={onSubmit}
-                startDecorator={<MatIcon icon="search" />}
+                startDecorator={<Search />}
                 loading={loading}
             >
                 Search

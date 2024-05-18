@@ -1,4 +1,4 @@
-import { Sheet, Slider, Typography } from "@mui/joy";
+import { Sheet, Slider, Stack, Typography } from "@mui/joy";
 
 interface Props {
   max: number,
@@ -29,10 +29,10 @@ const SliderComponent = ({ min, max, label, unit, onChange, amount, value, steps
   return (
     <Sheet variant="plain"
       sx={{ my: 3, backgroundColor: 'transparent' }}>
-      <div className="flex-justified">
+      <Stack direction='row' justifyContent='space-between'>
         <Typography level="body-lg">{label}</Typography>
         <Typography level="h4">{labelValue(unit, amount)}</Typography>
-      </div>
+      </Stack>
       <Slider
         size="sm"
         onChange={handleChange}
@@ -41,10 +41,10 @@ const SliderComponent = ({ min, max, label, unit, onChange, amount, value, steps
         sx={{ p: 1 }}
         color="warning"
       />
-      <div className="flex-justified">
+      <Stack direction='row' justifyContent='space-between'>
         <Typography level="body-sm"> {labelValue(unit, min)} </Typography>
         <Typography level="body-sm"> {labelValue(unit, max)}</Typography>
-      </div>
+      </Stack>
     </Sheet>
   );
 };
