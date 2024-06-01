@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import Background from '../../assets/sudoku.png';
-import { Box, Grid, Typography, Button, Input, Stack, Sheet, Divider } from '@mui/joy';
-import { fetchInitialBoard, solveBoard } from './helpers';
+import { Box, Grid, Typography, Button, Input, Stack, Sheet, Divider, CircularProgress } from '@mui/joy';
+import { fetchInitialBoard, isValid, solveBoard } from './helpers';
+import { BgCenteredBox } from '../../components/shared/BgCenteredBox';
+import { useAlert } from '../../shared/AlertProvider';
 
 const deepCopy = (arr: number[][]) => JSON.parse(JSON.stringify(arr));
 
@@ -10,7 +11,10 @@ const SudokuBoard = () => {
     const [initialBoard, setInitialBoard] = useState<number[][]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
+    const { showAlert } = useAlert();
+
     const fetchBoard = async () => {
+        setLoading(true);
         try {
             const initialBoard = await fetchInitialBoard();
             setBoard(deepCopy(initialBoard));
@@ -29,10 +33,19 @@ const SudokuBoard = () => {
 
 
     const handleChange = (row: number, col: number, value: string) => {
-        console.log(initialBoard, initialBoard[row][col], value)
-        const newBoard = [...board];
-        newBoard[row][col] = parseInt(value) || 0;
-        setBoard(newBoard);
+        const number = Number(value) || 0;
+
+        if (number >= 0 && number <= 9) {
+            if (number > 0 && !isValid(board, row, col, number)) {
+                showAlert('danger', 'Invalid Move')
+            } else {
+                const newBoard = [...board];
+                newBoard[row][col] = number;
+                setBoard(newBoard);
+            }
+        } else {
+            showAlert('danger', 'Value out of bounds')
+        }
     };
 
     const handleSolve = () => {
@@ -42,24 +55,23 @@ const SudokuBoard = () => {
     };
 
     if (loading) {
-        return <Typography>Loading...</Typography>;
+        return (<BgCenteredBox>
+            <CircularProgress
+                color="danger"
+                size="lg"
+                value={64}
+                sx={{
+                    my: 2,
+                    "--CircularProgress-size": "120px",
+                    "--CircularProgress-trackThickness": "12px",
+                    "--CircularProgress-progressThickness": "12px"
+                }} />
+        </BgCenteredBox>)
     }
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: 'calc(100vh - 53px)',
-                padding: 2,
-                backgroundImage: `url(${Background})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-            }}
-        >
-            <Stack component={Sheet} direction='row' spacing={1} alignItems='center' sx={{ my: 2, p: 1, borderRadius: 'md' }}>
+        <BgCenteredBox>
+            <Stack component={Sheet} variant='outlined' direction='row' spacing={1} alignItems='center' sx={{ my: 2, p: 1, borderRadius: 'md' }}>
                 <Typography level="h4" component="h1" gutterBottom>
                     Sudoku Solver
                 </Typography>
@@ -126,7 +138,7 @@ const SudokuBoard = () => {
                     </Stack>
                 ))}
             </Sheet>
-        </Box>
+        </BgCenteredBox>
     );
 };
 

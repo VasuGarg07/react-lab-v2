@@ -5,6 +5,8 @@ import { router } from "./shared/Router";
 import "./styles/styles.scss";
 import theme from "./styles/theme";
 import { AuthProvider } from "./shared/AuthContext";
+import Background from "./components/global/Background";
+import { AlertProvider } from "./shared/AlertProvider";
 
 function App() {
 
@@ -12,10 +14,14 @@ function App() {
     <AuthProvider>
       <CssVarsProvider theme={theme}>
         <CssBaseline />
-        {/* Navbar */}
-        <Navbar />
-        {/* Main Apps */}
-        <RouterProvider router={router} />
+        <Background>
+          <AlertProvider>
+            {/* Navbar */}
+            <Navbar />
+            {/* Main Apps */}
+            <RouterProvider router={router} />
+          </AlertProvider>
+        </Background>
       </CssVarsProvider>
     </AuthProvider>
   );

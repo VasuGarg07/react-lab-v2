@@ -24,7 +24,7 @@ const Details = () => {
   return (
     <Stack spacing={2}>
       <Stack direction='row' justifyContent='space-between'>
-        <Typography level='h2' fontFamily={'Staatliches'} letterSpacing={2} textAlign={'center'}>
+        <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1} textTransform="capitalize" textAlign={'center'}>
           {meal.name}
         </Typography>
         <DrawerMenu iconOnly />
@@ -75,8 +75,8 @@ const Details = () => {
 
       <Divider sx={{ bgcolor: 'neutral.500', height: '1.5px' }} />
 
-      <Typography level='h1' fontFamily={'Poiret One'} letterSpacing={1}>
-        INGREDIENTS
+      <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1}>
+        Ingredients
       </Typography>
 
       <Stack direction='row' flexWrap='wrap' sx={{ gap: 1 }}>
@@ -96,8 +96,8 @@ const Details = () => {
 
       <Divider sx={{ bgcolor: 'neutral.500', height: '1.5px' }} />
 
-      <Typography level='h1' fontFamily={'Poiret One'} letterSpacing={1}>
-        INSTRUCTIONS
+      <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1}>
+        Instructions
       </Typography>
 
       <List>
