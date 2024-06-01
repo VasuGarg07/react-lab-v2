@@ -3,15 +3,13 @@ import { GameState } from './helpers';
 import Setup from './Setup';
 import Board from './Board';
 import Result from './Result';
-import Background from '../../assets/game-bg.webp';
 import { BgCenteredBox } from '../../components/shared/BgCenteredBox';
 
 const PokeMemory = () => {
 
   return (
     <GameProvider>
-      <BgCenteredBox
-        bg={Background}>
+      <BgCenteredBox>
         <Screen />
       </BgCenteredBox>
     </GameProvider>

@@ -9,7 +9,7 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
 
   return (
     <Sheet sx={{
-      bgcolor: 'background.level1',
+      bgcolor: 'transparent',
       justifyContent: 'center',
       overflow: 'auto',
       minHeight: 'calc(100dvh - 53px)'

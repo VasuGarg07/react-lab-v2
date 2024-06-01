@@ -15,7 +15,7 @@ const Gallery = () => {
   return (
     <>
       <Stack direction='row' justifyContent='space-between'>
-        <Typography level='h2' fontFamily={'Staatliches'} letterSpacing={2} textAlign={'center'} gutterBottom>
+        <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1} textAlign={'center'} gutterBottom>
           {title}
         </Typography>
         <DrawerMenu iconOnly />

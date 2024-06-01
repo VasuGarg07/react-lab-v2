@@ -28,7 +28,7 @@ const SideNav = () => {
           content: {
             sx: {
               bgcolor: 'transparent',
-              p: { md: 3, sm: 0 },
+              p: { md: 3, sm: 2, xs: 1 },
               boxShadow: 'none',
             },
           },
@@ -38,6 +38,7 @@ const SideNav = () => {
           sx={{
             borderRadius: 'md',
             height: '100%',
+            p: { md: 3, sm: 2, xs: 1 },
             overflow: 'auto',
           }}
           className="flex-column pad-16 margin"
@@ -49,6 +50,7 @@ const SideNav = () => {
           <List
             color="neutral"
             size='sm'
+            sx={{ mt: 1 }}
           >
             <ListItem>
               <ListItemButton component="a" href="/">

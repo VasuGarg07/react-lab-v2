@@ -58,15 +58,15 @@ export const Apps: AppInfo[] = [
     image: Byte,
   },
   {
-    name: 'Glassmorphism',
-    path: '/glassmorphism',
-    tag: 'CSS Tool',
-    image: Glass,
-  },
-  {
     name: 'HomeLoan Wizard',
     path: '/homeloan-wizard',
     tag: 'Loan Calculator',
     image: Loan,
+  },
+  {
+    name: 'Glassmorphism',
+    path: '/glassmorphism',
+    tag: 'CSS Tool',
+    image: Glass,
   },
 ]

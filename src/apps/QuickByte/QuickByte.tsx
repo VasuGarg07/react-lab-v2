@@ -1,5 +1,4 @@
 import { Sheet, Stack, Typography } from '@mui/joy';
-import Background from '../../assets/cookbook.webp';
 import { BgCenteredBox } from '../../components/shared/BgCenteredBox';
 import DrawerMenu from './DrawerMenu';
 
@@ -7,7 +6,7 @@ const QuickByte = () => {
 
   return (
     <>
-      <BgCenteredBox bg={Background}>
+      <BgCenteredBox>
         <Stack component={Sheet} spacing={1} padding={3} borderRadius="md" boxShadow="lg" alignItems='center'>
           <Typography level='h1' fontFamily={'Kanit'} fontSize={32}>QUICK BYTE</Typography>
           <Typography level='h2' fontFamily={'Inter'} fontSize={20} fontWeight={400}>

@@ -1,5 +1,4 @@
 import { Box, Card, Divider, Grid, Typography } from "@mui/joy";
-import Background from '../../assets/quiz-bg.webp';
 import { GameState } from "../PokeMemory/helpers";
 import QuizProvider, { useQuizContext } from "./Context";
 import Result from "./Result";
@@ -13,7 +12,7 @@ const Quizzo = () => {
 
   return (
     <QuizProvider>
-      <BgCenteredBox bg={Background}>
+      <BgCenteredBox>
         <Card sx={{
           width: 1, maxWidth: 1000, borderRadius: 'md', p: 2, gap: 0,
           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px'
