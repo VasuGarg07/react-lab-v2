@@ -1,3 +1,5 @@
+export const deepCopy = (arr: number[][]) => JSON.parse(JSON.stringify(arr));
+
 export const fetchInitialBoard = async () => {
     const response = await fetch('https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value}}}');
     const data = await response.json();

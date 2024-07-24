@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid, Typography, Button, Input, Stack, Sheet, Divider, CircularProgress } from '@mui/joy';
-import { fetchInitialBoard, isValid, solveBoard } from './helpers';
+import { Box, Grid, Typography, Button, Input, Stack, Sheet, Divider, CircularProgress, useTheme } from '@mui/joy';
+import { deepCopy, fetchInitialBoard, isValid, solveBoard } from './helpers';
 import { BgCenteredBox } from '../../components/shared/BgCenteredBox';
 import { useAlert } from '../../shared/AlertProvider';
+import DarkBg from '../../assets/backgrounds/abstract-dark.webp';
+import LightBg from '../../assets/backgrounds/abstract.webp'
 
-const deepCopy = (arr: number[][]) => JSON.parse(JSON.stringify(arr));
 
 const SudokuBoard = () => {
     const [board, setBoard] = useState<number[][]>([]);
     const [initialBoard, setInitialBoard] = useState<number[][]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+
+    const theme = useTheme();
+    const isDark = theme.palette.mode === 'dark';
 
     const { showAlert } = useAlert();
 
@@ -55,22 +59,24 @@ const SudokuBoard = () => {
     };
 
     if (loading) {
-        return (<BgCenteredBox>
-            <CircularProgress
-                color="danger"
-                size="lg"
-                value={64}
-                sx={{
-                    my: 2,
-                    "--CircularProgress-size": "120px",
-                    "--CircularProgress-trackThickness": "12px",
-                    "--CircularProgress-progressThickness": "12px"
-                }} />
-        </BgCenteredBox>)
+        return (
+            <BgCenteredBox bg={isDark ? DarkBg : LightBg}>
+                <CircularProgress
+                    color="danger"
+                    size="lg"
+                    value={64}
+                    sx={{
+                        my: 2,
+                        "--CircularProgress-size": "120px",
+                        "--CircularProgress-trackThickness": "12px",
+                        "--CircularProgress-progressThickness": "12px"
+                    }} />
+            </BgCenteredBox>
+        )
     }
 
     return (
-        <BgCenteredBox>
+        <BgCenteredBox bg={isDark ? DarkBg : LightBg}>
             <Stack component={Sheet} variant='outlined' direction='row' spacing={1} alignItems='center' sx={{ my: 2, p: 1, borderRadius: 'md' }}>
                 <Typography level="h4" component="h1" gutterBottom>
                     Sudoku Solver

@@ -5,7 +5,8 @@ import Quiz from '../assets/cover/quiz.webp';
 import Byte from '../assets/cover/byte.webp';
 import Snap from '../assets/cover/image.webp';
 import Leetcode from '../assets/cover/leetcode.webp';
-import Sudoku from '../assets/cover/sudoku.webp'
+import Sudoku from '../assets/cover/sudoku.webp';
+import TicTacToe from '../assets/cover/tictactoe.webp';
 
 export interface AppInfo {
   name: string,
@@ -22,7 +23,13 @@ export const Apps: AppInfo[] = [
   //   image: Leetcode
   // },
   {
-    name: 'Sudoku!!',
+    name: 'Super Tic-Tac-Toe',
+    path: '/super-tic-tac-toe',
+    tag: 'Challenging Game',
+    image: TicTacToe
+  },
+  {
+    name: 'Sudoku',
     path: '/sudoku',
     tag: 'Problem Solving',
     image: Sudoku
