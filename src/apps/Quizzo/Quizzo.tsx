@@ -1,18 +1,21 @@
-import { Box, Card, Divider, Grid, Typography } from "@mui/joy";
+import { Box, Card, Divider, Grid, Typography, useTheme } from "@mui/joy";
 import { GameState } from "../PokeMemory/helpers";
 import QuizProvider, { useQuizContext } from "./Context";
 import Result from "./Result";
 import Board from "./Board";
 import Setup from "./Setup";
-import QuizFg from '../../assets/quiz-fg.png'
+import QuizFg from '../../assets/quiz-fg.png';
+import DarkBg from '../../assets/backgrounds/abstract-dark.webp';
+import LightBg from '../../assets/backgrounds/abstract.webp'
 import { BgCenteredBox } from "../../components/shared/BgCenteredBox";
 
 const Quizzo = () => {
-
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
 
   return (
     <QuizProvider>
-      <BgCenteredBox>
+      <BgCenteredBox bg={isDark ? DarkBg : LightBg}>
         <Card sx={{
           width: 1, maxWidth: 1000, borderRadius: 'md', p: 2, gap: 0,
           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px'

@@ -13,11 +13,16 @@ import Details from "../apps/QuickByte/Details";
 import SnapFind from "../apps/SnapFind/SnapFind";
 import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import Sudoku from "../apps/Sudoku/Sudoku";
+import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 
 export const router = createBrowserRouter([
   {
     path: '',
     element: <Home />,
+  },
+  {
+    path: 'super-tic-tac-toe',
+    element: <SuperTicTacToe />
   },
   {
     path: 'sudoku',

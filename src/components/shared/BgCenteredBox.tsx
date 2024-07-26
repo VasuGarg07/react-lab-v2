@@ -10,7 +10,7 @@ export const BgCenteredBox: React.FC<BgCenteredBoxProps> = ({ bg, children }) =>
         <Box
             sx={{
                 p: { md: 4, sm: 3, xs: 2 },
-                minHeight: 'calc(100dvh - 53px)',
+                minHeight: 'calc(100dvh - 52px)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',

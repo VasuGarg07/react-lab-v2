@@ -20,7 +20,7 @@ const SideNav = () => {
       <IconButton children={<Menu />} onClick={openDrawer} />
 
       <Drawer
-        size="md"
+        size="sm"
         variant="plain"
         open={open}
         onClose={closeDrawer}
@@ -28,7 +28,7 @@ const SideNav = () => {
           content: {
             sx: {
               bgcolor: 'transparent',
-              p: { md: 3, sm: 2, xs: 1 },
+              p: 2,
               boxShadow: 'none',
             },
           },
@@ -37,8 +37,8 @@ const SideNav = () => {
         <Sheet
           sx={{
             borderRadius: 'md',
-            height: '100%',
-            p: { md: 3, sm: 2, xs: 1 },
+            height: 'auto',
+            p: 2,
             overflow: 'auto',
           }}
           className="flex-column pad-16 margin"
