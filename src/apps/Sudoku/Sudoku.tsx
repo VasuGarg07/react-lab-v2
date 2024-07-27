@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box, Grid, Typography, Button, Input, Stack, Sheet, Divider, CircularProgress, useTheme } from '@mui/joy';
 import { deepCopy, fetchInitialBoard, isValid, solveBoard } from './helpers';
-import { BgCenteredBox } from '../../components/shared/BgCenteredBox';
+import { BgCenteredBox } from '../../components/BgCenteredBox';
 import { useAlert } from '../../shared/AlertProvider';
 import DarkBg from '../../assets/backgrounds/abstract-dark.webp';
 import LightBg from '../../assets/backgrounds/abstract.webp'
@@ -53,7 +53,7 @@ const SudokuBoard = () => {
     };
 
     const handleSolve = () => {
-        const solvedBoard = solveBoard(board);
+        const solvedBoard = solveBoard(initialBoard);
         setBoard(solvedBoard);
         setInitialBoard(solvedBoard)
     };

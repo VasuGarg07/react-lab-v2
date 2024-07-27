@@ -1,7 +1,7 @@
 import { Avatar, Card, CircularProgress, Grid, LinearProgress, Stack, Typography } from '@mui/joy';
 import React from 'react';
 import { UserStats } from './utils/interface';
-import { Spacer } from '../../components/shared/Spacer';
+import { Spacer } from '../../components/Spacer';
 
 interface ProfileCardProps {
     username: string

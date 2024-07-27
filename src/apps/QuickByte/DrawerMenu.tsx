@@ -1,11 +1,11 @@
 import { Accordion, AccordionDetails, AccordionGroup, AccordionSummary, Button, DialogTitle, Divider, Drawer, Grid, IconButton, Input, ListItemContent, ModalClose, Sheet, Stack } from '@mui/joy';
-import { BookA, Library, RectangleEllipsis, Salad, Search, Sparkle, TreePalm } from 'lucide-react';
+import { BookA, Library, Salad, Search, Sparkle, TreePalm } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { areaList, categoryList } from './utils/api';
-import { alphabets, tabs } from './utils/helpers';
+import { ALPHABETS, TABS } from './utils/helpers';
 
-const DrawerMenu = ({ iconOnly }: { iconOnly: boolean }) => {
+const DrawerMenu = () => {
 
   const navigate = useNavigate();
   const [open, setOpen] = useState(false)
@@ -16,33 +16,30 @@ const DrawerMenu = ({ iconOnly }: { iconOnly: boolean }) => {
   const closeDrawer = () => setOpen(false);
 
   const handleRandomRoute = () => {
-    navigate(`/quick-byte/random`);
+    navigate(`/recipe-haven/random`);
     closeDrawer();
   }
 
   const handleSearch = () => {
-    navigate(`/quick-byte/search/${term}`);
+    navigate(`/recipe-haven/search/${term}`);
     closeDrawer();
   }
 
   return (
     <>
-      {iconOnly ?
-        <IconButton onClick={openDrawer}>
-          <RectangleEllipsis />
-        </IconButton>
-        : <Button color="danger" sx={{ mb: 4 }} onClick={openDrawer}
-          startDecorator={<Library />} >
-          Explore Recipes
-        </Button>}
-
+      <Button color="primary" sx={{ mb: 4 }} onClick={openDrawer}
+        startDecorator={<Library />} >
+        Explore Recipes
+      </Button>
       <Drawer size="md" variant="plain"
         open={open} onClose={closeDrawer}
+        anchor='bottom'
         slotProps={{
           content: {
             sx: {
               bgcolor: 'transparent',
               p: { md: 3, sm: 0 },
+              height: 1,
               boxShadow: 'none',
             },
           },
@@ -51,9 +48,9 @@ const DrawerMenu = ({ iconOnly }: { iconOnly: boolean }) => {
         <Sheet
           sx={{
             borderRadius: 'md',
-            height: '100%',
+            height: 1, maxWidth: 400,
             overflow: 'auto',
-            p: 2, m: 1,
+            p: 2, m: 'auto',
             display: 'flex',
             flexDirection: 'column',
             gap: 1
@@ -99,12 +96,11 @@ export const Accordions = ({ closeDrawer }: { closeDrawer: () => void }) => {
   const navigate = useNavigate();
 
   const handleRoute = (key: string) => {
-    navigate(`/quick-byte/${tabs[index!].path}/${key}`)
+    navigate(`/recipe-haven/${TABS[index!].path}/${key}`)
     closeDrawer();
   }
 
   useEffect(() => {
-
     const fetchData = async () => {
       try {
         setCategories(await categoryList());
@@ -146,7 +142,7 @@ export const Accordions = ({ closeDrawer }: { closeDrawer: () => void }) => {
 
         <AccordionSummary>
           <TreePalm size={16} />
-          <ListItemContent>Regional Dishes</ListItemContent>
+          <ListItemContent>Regionals</ListItemContent>
         </AccordionSummary>
 
         <AccordionDetails>
@@ -174,7 +170,7 @@ export const Accordions = ({ closeDrawer }: { closeDrawer: () => void }) => {
 
         <AccordionDetails>
           <Grid container spacing={1} flexWrap='wrap' sx={{ mt: 1 }}>
-            {alphabets.map(char => (
+            {ALPHABETS.map(char => (
               <Grid key={char} xs={3}>
                 <Button variant='outlined' color='success' size='sm'
                   sx={{ width: 1 }}

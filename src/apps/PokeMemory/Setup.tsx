@@ -3,7 +3,7 @@ import { CardType, GameMode, GameState, loadCards } from './helpers';
 import { useGameContext } from './Context';
 import { Button, Card, Divider, IconButton, Input, Stack, Typography } from '@mui/joy';
 import Logo from '../../assets/game-logo.png';
-import { ErrorMessage } from '../../components/shared/ErrorMessage';
+import { ErrorMessage } from '../../components/ErrorMessage';
 import { Gamepad2, UserRound } from 'lucide-react';
 
 interface Props {

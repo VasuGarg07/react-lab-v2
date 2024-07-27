@@ -1,6 +1,6 @@
 import { Avatar, Dropdown, IconButton, Menu, MenuButton, MenuItem, Typography } from '@mui/joy'
 import React from 'react'
-import { useAuth } from '../../shared/AuthContext';
+import { useAuth } from '../shared/AuthContext';
 import { UserRound } from 'lucide-react';
 
 const Signup: React.FC = () => {

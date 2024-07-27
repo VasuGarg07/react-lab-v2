@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, LinearProgress, Stack, Typography } from '@mui/joy';
 import InputFileUpload from './UploadBtn';
-import { ErrorMessage } from '../../components/shared/ErrorMessage';
+import { ErrorMessage } from '../../components/ErrorMessage';
 import axios from 'axios';
 import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight'

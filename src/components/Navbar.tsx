@@ -1,11 +1,20 @@
 import { Stack, Typography } from "@mui/joy"
-import { navigate } from "../../shared/Router"
+import { navigate } from "../shared/Router"
 import SideNav from "./SideNav"
 import ThemeToggle from "./ThemeToggle"
-import { Spacer } from "../shared/Spacer"
+import { Spacer } from "./Spacer"
 import Signup from "./Signup"
+import { useLocation } from "react-router-dom"
+import CookNav from "../apps/QuickByte/Navigation/CookNav"
 
 const Navbar = () => {
+
+  const location = useLocation();
+
+  if (location.pathname.startsWith('/recipe-haven')) {
+    return (<CookNav />)
+  }
+
   return (
     <Stack direction='row' alignItems='center' spacing={1}
       sx={{
