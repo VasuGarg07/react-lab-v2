@@ -15,24 +15,21 @@ export interface MealDetails extends Meal {
   youtube?: string
 }
 
-export const tabs = [
+export const TABS = [
   {
     name: 'Categories',
     path: 'category',
-    icon: 'local_dining'
   },
   {
-    name: 'Regional Dishes',
+    name: 'Regionals',
     path: 'region',
-    icon: 'public',
   },
   {
     name: 'Dictionary',
     path: 'alphabet',
-    icon: 'abc',
   }
 ]
 
-export const alphabets = Array.from({ length: 26 }, (_, index) =>
+export const ALPHABETS = Array.from({ length: 26 }, (_, index) =>
   String.fromCharCode(65 + index)
 );

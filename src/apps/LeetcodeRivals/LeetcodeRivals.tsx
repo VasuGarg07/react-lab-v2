@@ -1,5 +1,5 @@
 import { Grid, Stack, Typography } from '@mui/joy'
-import { ErrorMessage } from '../../components/shared/ErrorMessage'
+import { ErrorMessage } from '../../components/ErrorMessage'
 import SearchBar from './SearchBar'
 import { useState } from 'react';
 import { UserStats } from './utils/interface';

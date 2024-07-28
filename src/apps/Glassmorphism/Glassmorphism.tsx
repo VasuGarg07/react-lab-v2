@@ -2,7 +2,7 @@ import Background from '../../assets/demo-bg.webp'
 import Preview from "./Preview"
 import Control from "./Control"
 import { useState } from "react"
-import { BgCenteredBox } from '../../components/shared/BgCenteredBox'
+import { BgCenteredBox } from '../../components/BgCenteredBox'
 
 const Glassmorphism = () => {
 

@@ -2,7 +2,7 @@ import { Button, Card, Typography } from '@mui/joy';
 import { useGameContext } from './Context';
 import Logo from '../../assets/game-logo.png';
 import CardGrid from './CardGrid';
-import { Spacer } from '../../components/shared/Spacer';
+import { Spacer } from '../../components/Spacer';
 
 interface Props {
   name: string,

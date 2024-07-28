@@ -7,7 +7,7 @@ import Setup from "./Setup";
 import QuizFg from '../../assets/quiz-fg.png';
 import DarkBg from '../../assets/backgrounds/abstract-dark.webp';
 import LightBg from '../../assets/backgrounds/abstract.webp'
-import { BgCenteredBox } from "../../components/shared/BgCenteredBox";
+import { BgCenteredBox } from "../../components/BgCenteredBox";
 
 const Quizzo = () => {
   const theme = useTheme();
@@ -20,7 +20,7 @@ const Quizzo = () => {
           width: 1, maxWidth: 1000, borderRadius: 'md', p: 2, gap: 0,
           boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px'
         }}>
-          <Typography level="h2" textAlign="center" textTransform="uppercase" fontFamily={'Kanit'}>Quizzo</Typography>
+          <Typography level="h2" textAlign="center" textTransform="uppercase" fontFamily={'Poppins'} letterSpacing={1}>Quizzo</Typography>
           <Divider inset="none">Test Your Wit, Ace the Trivia!</Divider>
 
           <Grid container spacing={0}>

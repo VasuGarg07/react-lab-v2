@@ -27,6 +27,12 @@ Staatliches html {
   animation: gradient-animation 4s ease infinite;
 }
 
+.gradient-food {
+  background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
+  // background-size: 180% 180%;
+  // animation: gradient-animation 4s ease infinite;
+}
+
 
 @keyframes gradient-animation {
   0% {

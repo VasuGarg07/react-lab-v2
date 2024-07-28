@@ -1,7 +1,7 @@
 import { DialogTitle, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemContent, ModalClose, Sheet } from '@mui/joy'
 import { useState } from 'react'
-import { Apps } from '../../shared/apps'
-import { navigate } from '../../shared/Router'
+import { Apps } from '../shared/apps'
+import { navigate } from '../shared/Router'
 import { ChevronRight, Home, Menu } from 'lucide-react'
 
 const SideNav = () => {

@@ -1,7 +1,7 @@
 import { Button, Input, Option, Select, Stack, Typography } from '@mui/joy';
 import { Dices, User } from 'lucide-react';
 import React, { useState } from 'react';
-import { ErrorMessage } from '../../components/shared/ErrorMessage';
+import { ErrorMessage } from '../../components/ErrorMessage';
 import { GameMode, GameState } from '../PokeMemory/helpers';
 import { useQuizContext } from './Context';
 import { Question, QuizCategories, fetchQuiz } from './helper';

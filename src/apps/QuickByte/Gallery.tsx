@@ -1,7 +1,6 @@
 import { AspectRatio, Card, CardContent, Grid, IconButton, Stack, Typography } from '@mui/joy';
 import { BookOpenText } from 'lucide-react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import DrawerMenu from './DrawerMenu';
 import { Meal } from './utils/helpers';
 
 interface GalleryData {
@@ -14,12 +13,9 @@ const Gallery = () => {
 
   return (
     <>
-      <Stack direction='row' justifyContent='space-between'>
-        <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1} textAlign={'center'} gutterBottom>
-          {title}
-        </Typography>
-        <DrawerMenu iconOnly />
-      </Stack>
+      <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1} gutterBottom>
+        {title}
+      </Typography>
 
       <Grid container spacing={1} flexWrap='wrap'>
         {meals.map(meal => (
@@ -40,7 +36,7 @@ const MealCard = ({ meal }: { meal: Meal }) => {
   const navigate = useNavigate();
 
   const handleMealNav = (id: string) => {
-    navigate(`/quick-byte/meal/${id}`)
+    navigate(`/recipe-haven/meal/${id}`)
   }
 
   return (

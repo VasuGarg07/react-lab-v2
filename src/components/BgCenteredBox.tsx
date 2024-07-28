@@ -20,6 +20,7 @@ export const BgCenteredBox: React.FC<BgCenteredBoxProps> = ({ bg, children }) =>
                     backgroundImage: `url(${bg})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed'
                 })
             }}>
             {children}

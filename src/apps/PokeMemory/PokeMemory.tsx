@@ -3,7 +3,7 @@ import { GameState } from './helpers';
 import Setup from './Setup';
 import Board from './Board';
 import Result from './Result';
-import { BgCenteredBox } from '../../components/shared/BgCenteredBox';
+import { BgCenteredBox } from '../../components/BgCenteredBox';
 import Light from '../../assets/backgrounds/bg-poke.png';
 import Dark from '../../assets/backgrounds/bg-poke-dark.webp';
 import { useTheme } from '@mui/joy';

@@ -1,7 +1,7 @@
 import { Button, Divider, Sheet, Stack, Typography } from '@mui/joy';
 import { ChevronRight, X } from 'lucide-react';
 import React, { useState } from 'react';
-import { ErrorMessage } from '../../components/shared/ErrorMessage';
+import { ErrorMessage } from '../../components/ErrorMessage';
 import { GameState } from '../PokeMemory/helpers';
 import { useQuizContext } from './Context';
 import { Question } from './helper';

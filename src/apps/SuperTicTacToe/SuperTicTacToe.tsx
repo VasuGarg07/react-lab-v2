@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Grid, Box, Typography, Button, Stack, List, ListItem, Card } from '@mui/joy';
 import MiniBoard from './MiniBoard';
 import { createEmptyBoard, checkWinner, createSuperBoard, SQ_SIZE, Instructions, REM, InsetBoxShadow, BoxShadow, makeRandomMove, Timeout } from './helpers';
-import { BgCenteredBox } from '../../components/shared/BgCenteredBox';
+import { BgCenteredBox } from '../../components/BgCenteredBox';
 import { Gamepad2 } from 'lucide-react';
-import { Spacer } from '../../components/shared/Spacer';
+import { Spacer } from '../../components/Spacer';
 import StartGamePopup from './StartGamePopup';
 
 const SuperTicTacToe: React.FC = () => {

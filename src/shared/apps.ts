@@ -59,8 +59,8 @@ export const Apps: AppInfo[] = [
     image: Memory,
   },
   {
-    name: 'Quick Byte',
-    path: '/quick-byte',
+    name: 'Recipe Haven',
+    path: '/recipe-haven',
     tag: 'Pocket Cookbook',
     image: Byte,
   },
