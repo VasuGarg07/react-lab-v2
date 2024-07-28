@@ -7,6 +7,7 @@ import Snap from '../assets/cover/image.webp';
 import Leetcode from '../assets/cover/leetcode.webp';
 import Sudoku from '../assets/cover/sudoku.webp';
 import TicTacToe from '../assets/cover/tictactoe.webp';
+import Visualizer from '../assets/cover/visualizer.webp';
 
 export interface AppInfo {
   name: string,
@@ -16,12 +17,12 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
-  // {
-  //   name: 'Postman Markdown',
-  //   path: '/postman-markdown',
-  //   tag: 'Convert JSON to Markdown',
-  //   image: Leetcode
-  // },
+  {
+    name: 'Sorting Visualizer',
+    path: '/sorting-visualizer',
+    tag: "Learning Tool",
+    image: Visualizer
+  },
   {
     name: 'Super Tic-Tac-Toe',
     path: '/super-tic-tac-toe',
