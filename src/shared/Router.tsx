@@ -15,6 +15,7 @@ import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import MainLayout from "../components/MainLayout";
+import SortingVisualizer from "../apps/Visualizer/Visualizer";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <Home />,
+      },
+      {
+        path: 'sorting-visualizer',
+        element: <SortingVisualizer />
       },
       {
         path: 'super-tic-tac-toe',
