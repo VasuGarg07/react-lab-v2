@@ -10,7 +10,7 @@ interface AuthContextType {
 }
 
 interface AuthProviderProps {
-    children: React.ReactNode
+    children: React.ReactNode;
 }
 
 const provider = new GoogleAuthProvider();
@@ -18,10 +18,20 @@ const provider = new GoogleAuthProvider();
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(() => {
+        const storedUser = localStorage.getItem('user');
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, setUser);
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                localStorage.setItem('user', JSON.stringify(user));
+            } else {
+                localStorage.removeItem('user');
+            }
+            setUser(user);
+        });
         return () => unsubscribe();
     }, []);
 
@@ -34,6 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             // The signed-in user info.
             console.log(result.user, token);
             setUser(result.user);
+            localStorage.setItem('user', JSON.stringify(result.user));
         } catch (error) {
             console.error(error);
         }
@@ -43,6 +54,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
             await auth.signOut();
             console.log("Logged out successfully!");
+            setUser(null);
+            localStorage.removeItem('user');
         } catch (error) {
             console.error("Error signing out: ", error);
         }
@@ -53,7 +66,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             {children}
         </AuthContext.Provider>
     );
-}
+};
 
 export const useAuth = () => {
     const context = useContext(AuthContext);

@@ -1,5 +1,6 @@
-import { Avatar, Dropdown, IconButton, Menu, MenuButton, MenuItem, Typography } from '@mui/joy'
-import React from 'react'
+// src/components/Signup.tsx
+import { Avatar, Dropdown, IconButton, Menu, MenuButton, MenuItem, Typography } from '@mui/joy';
+import React from 'react';
 import { useAuth } from '../shared/AuthContext';
 import { UserRound } from 'lucide-react';
 
@@ -15,37 +16,39 @@ const Signup: React.FC = () => {
                         color: 'neutral',
                         sx: {
                             padding: 0,
-                            borderRadius: '50%'
-                        }
-                    }
+                            borderRadius: '50%',
+                        },
+                    },
                 }}
             >
-                {user
-                    ? <Avatar
-                        size='sm'
-                        variant='soft'
-                        srcSet={user.photoURL!}
+                {user ? (
+                    <Avatar
+                        size="sm"
+                        variant="soft"
+                        src={user.photoURL!}
                         children={user.displayName}
                     />
-                    : <UserRound />}
+                ) : (
+                    <UserRound />
+                )}
             </MenuButton>
             <Menu>
-                {
-                    user
-                        ? <>
-                            <MenuItem>
-                                <Typography level='title-md'>{user.displayName}</Typography>
-                            </MenuItem>
-                            <MenuItem onClick={signOut}>Logout</MenuItem>
-                        </>
-                        : <>
-                            <MenuItem>Signin with Email</MenuItem>
-                            <MenuItem onClick={signInWithGoogle}>Google SignIn</MenuItem>
-                        </>
-                }
+                {user ? (
+                    <>
+                        <MenuItem>
+                            <Typography level="title-md">{user.displayName}</Typography>
+                        </MenuItem>
+                        <MenuItem onClick={signOut}>Logout</MenuItem>
+                    </>
+                ) : (
+                    <>
+                        <MenuItem>Signin with Email</MenuItem>
+                        <MenuItem onClick={signInWithGoogle}>Google SignIn</MenuItem>
+                    </>
+                )}
             </Menu>
-        </Dropdown >
-    )
-}
+        </Dropdown>
+    );
+};
 
-export default Signup
+export default Signup;
