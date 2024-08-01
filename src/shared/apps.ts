@@ -8,6 +8,7 @@ import Leetcode from '../assets/cover/leetcode.webp';
 import Sudoku from '../assets/cover/sudoku.webp';
 import TicTacToe from '../assets/cover/tictactoe.webp';
 import Visualizer from '../assets/cover/visualizer.webp';
+// import Budget from '../assets/cover/budget.webp';
 
 export interface AppInfo {
   name: string,
@@ -17,6 +18,12 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  // {
+  //   name: 'Budget Planner',
+  //   path: '/budget-planner',
+  //   tag: "Manage Daily Expense",
+  //   image: Budget
+  // },
   {
     name: 'Sorting Visualizer',
     path: '/sorting-visualizer',

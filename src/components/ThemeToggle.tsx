@@ -1,7 +1,12 @@
 import { IconButton, Tooltip, useColorScheme } from "@mui/joy";
 import { Moon, Sun } from "lucide-react";
+import React from "react";
 
-function ThemeToggle() {
+interface BtnProps {
+  size?: number
+}
+
+const ThemeToggle: React.FC<BtnProps> = ({ size }) => {
   const { mode, setMode } = useColorScheme();
 
   const switchTheme = () => {
@@ -11,7 +16,7 @@ function ThemeToggle() {
   return (
     <Tooltip variant="soft" title="Switch Theme">
       <IconButton onClick={switchTheme}>
-        {mode == 'light' ? <Moon /> : <Sun />}
+        {mode == 'light' ? <Moon size={size} /> : <Sun size={size} />}
       </IconButton>
     </Tooltip>
   )

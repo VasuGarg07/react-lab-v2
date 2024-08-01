@@ -25,6 +25,7 @@ const MiniBoard: React.FC<MiniBoardProps> = ({ board, onPlay, boardIndex }) => {
                                             : '#fff',
                                 color: cell === 'X' ? '#fff' : '#000',
                                 fontSize: '1.5rem',
+                                userSelect: 'none'
                             }}
                         >
                             {cell}

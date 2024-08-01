@@ -112,7 +112,8 @@ const SuperTicTacToe: React.FC = () => {
                                 width: (3 * SQ_SIZE) + (2 * REM),
                                 height: (3 * SQ_SIZE) + (2 * REM),
                                 fontSize: '8rem',
-                                borderRadius: 'lg'
+                                borderRadius: 'lg',
+                                userSelect: 'none'
                             }}
                         >
                             {cell}
@@ -142,7 +143,8 @@ const SuperTicTacToe: React.FC = () => {
                                 width: (3 * SQ_SIZE) + (2 * REM),
                                 height: (3 * SQ_SIZE) + (2 * REM),
                                 fontSize: '8rem',
-                                borderRadius: 'lg'
+                                borderRadius: 'lg',
+                                userSelect: 'none'
                             }}
                         >
                             {cell}
@@ -235,7 +237,7 @@ const SuperTicTacToe: React.FC = () => {
                         </Stack>
                         <Button
                             variant="solid"
-                            color="warning"
+                            color="success"
                             startDecorator={<Gamepad2 />}
                             onClick={handleRestartGame}>
                             Restart Game
