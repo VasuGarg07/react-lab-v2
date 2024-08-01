@@ -91,7 +91,7 @@ const SortingVisualizer: React.FC = () => {
                     {array.map((value, idx) => (
                         <Bar
                             key={idx}
-                            width={`calc((100% - 32px) / ${arraySize})`}
+                            width={`calc(100% / ${arraySize}) `}
                             height={value}
                             animationSpeed={animationSpeed}
                         />

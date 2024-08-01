@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Sheet, Grid, Dropdown, MenuButton, Menu, useTheme, IconButton } from '@mui/joy';
+import { Button, Sheet, Grid, Dropdown, MenuButton, Menu, useTheme, IconButton, Tooltip } from '@mui/joy';
 import { areaList, categoryList } from '../utils/api';
 import { ALPHABETS, TABS } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
@@ -62,12 +62,14 @@ const NavMenuButton: React.FC<MenuButtonProps> = ({ label, startDecorator, openM
                         {label}
                     </MenuButton>
                 ) : (
-                    <MenuButton
-                        slots={{ root: IconButton }}
-                        slotProps={{ root: { color: 'neutral' } }}
-                    >
-                        {startDecorator}
-                    </MenuButton>
+                    <Tooltip title={label} variant='soft'>
+                        <MenuButton
+                            slots={{ root: IconButton }}
+                            slotProps={{ root: { color: 'neutral' } }}
+                        >
+                            {startDecorator}
+                        </MenuButton>
+                    </Tooltip>
                 )
             }
 

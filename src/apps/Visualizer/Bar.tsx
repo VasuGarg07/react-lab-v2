@@ -15,7 +15,7 @@ const Bar: React.FC<BarProps> = ({ width, height, animationSpeed }) => {
             sx={{
                 width,
                 height,
-                mx: 1,
+                mx: '4px',
                 backgroundColor: 'primary.300',
                 transition: `height ${animationSpeed / 1000}s ease`
             }}

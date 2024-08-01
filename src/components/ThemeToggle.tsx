@@ -1,4 +1,4 @@
-import { IconButton, useColorScheme } from "@mui/joy";
+import { IconButton, Tooltip, useColorScheme } from "@mui/joy";
 import { Moon, Sun } from "lucide-react";
 
 function ThemeToggle() {
@@ -9,9 +9,11 @@ function ThemeToggle() {
   }
 
   return (
-    <IconButton onClick={switchTheme}>
-      {mode == 'light' ? <Moon /> : <Sun />}
-    </IconButton>
+    <Tooltip variant="soft" title="Switch Theme">
+      <IconButton onClick={switchTheme}>
+        {mode == 'light' ? <Moon /> : <Sun />}
+      </IconButton>
+    </Tooltip>
   )
 }
 export default ThemeToggle;
