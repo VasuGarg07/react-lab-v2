@@ -1,4 +1,4 @@
-import { Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom";
+import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom";
 import Home from "../apps/Home/Home";
 import NotFound from "../apps/Errors/NotFound";
 import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
@@ -16,6 +16,14 @@ import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import MainLayout from "../components/MainLayout";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
+import BudgetPlanner from "../apps/BudgetPlanner/BudgetPlanner";
+import Budgets from "../apps/BudgetPlanner/pages/Budgets";
+import Settings from "../apps/BudgetPlanner/pages/Settings";
+import Dashboard from "../apps/BudgetPlanner/pages/Dashboard";
+import ProtectedRoute from "../apps/BudgetPlanner/components/ProtectedRoute";
+import Login from "../apps/BudgetPlanner/pages/Login";
+import BudgetDetails from "../apps/BudgetPlanner/pages/BudgetDetails";
+import Investments from "../apps/BudgetPlanner/pages/Investments";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +33,26 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <Home />,
+      },
+      {
+        path: 'budget-planner',
+        element: <BudgetPlanner />,
+        children: [
+          {
+            path: '',
+            element: <ProtectedRoute />,
+            children: [
+              { path: '', element: <Navigate to="dashboard" /> },
+              { path: 'dashboard', element: <Dashboard /> },
+              { path: 'budgets', element: <Budgets /> },
+              { path: 'budget/:budgetId', element: <BudgetDetails /> },
+              { path: 'investments', element: <Investments /> },
+              { path: 'settings', element: <Settings /> },
+            ],
+          },
+          { path: 'login', element: <Login /> },
+        ],
+
       },
       {
         path: 'sorting-visualizer',

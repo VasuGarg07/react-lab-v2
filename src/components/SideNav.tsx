@@ -18,7 +18,6 @@ const SideNav = () => {
   return (
     <>
       <IconButton children={<Menu />} onClick={openDrawer} />
-
       <Drawer
         size="sm"
         variant="plain"

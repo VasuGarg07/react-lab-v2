@@ -1,4 +1,4 @@
-import { Divider, IconButton, Stack, Typography } from '@mui/joy'
+import { Divider, IconButton, Stack, Typography, useTheme } from '@mui/joy'
 import { navigate } from '../../../shared/Router'
 import { BookA, ChefHat, CircleArrowLeft, Salad, TreePalm } from 'lucide-react'
 import { Spacer } from '../../../components/Spacer'
@@ -13,8 +13,10 @@ const Menus = [
 ]
 
 const CookNav = () => {
-  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
 
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const handleOpenMenu = (label: string) => {
     setOpenMenu(label);
   };
@@ -29,6 +31,7 @@ const CookNav = () => {
         boxShadow: 'sm',
         width: 1,
         py: 1, px: 2,
+        backdropFilter: isDark ? 'brightness(0.6)' : 'contrast(0.9)'
       }}>
       <IconButton children={<CircleArrowLeft />} onClick={() => navigate('/')} />
       <Divider orientation="vertical" />
