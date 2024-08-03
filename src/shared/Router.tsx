@@ -1,21 +1,21 @@
 import { Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom";
-import Home from "../apps/Home/Home";
 import NotFound from "../apps/Errors/NotFound";
 import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
+import Home from "../apps/Home/Home";
 import Homeloan from "../apps/HomeloanWizard/Homeloan";
+import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
-import Quizzo from "../apps/Quizzo/Quizzo";
+import Details from "../apps/QuickByte/Details";
+import Gallery from "../apps/QuickByte/Gallery";
 import RecipeHaven from "../apps/QuickByte/RecipeHaven";
 import { alphabetMeals, categoryMeals, mealDetails, regionalMeals, searchMeals } from "../apps/QuickByte/utils/api";
 import Wrapper from "../apps/QuickByte/Wrapper";
-import Gallery from "../apps/QuickByte/Gallery";
-import Details from "../apps/QuickByte/Details";
+import Quizzo from "../apps/Quizzo/Quizzo";
 import SnapFind from "../apps/SnapFind/SnapFind";
-import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
-import MainLayout from "../components/MainLayout";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
+import MainLayout from "../components/MainLayout";
 
 export const router = createBrowserRouter([
   {

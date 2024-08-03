@@ -2,7 +2,7 @@
 import { Avatar, Dropdown, IconButton, Menu, MenuButton, MenuItem, Typography } from '@mui/joy';
 import React from 'react';
 import { useAuth } from '../shared/AuthContext';
-import { UserRound } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 
 const Signup: React.FC = () => {
     const { user, signOut, signInWithGoogle } = useAuth();
@@ -29,7 +29,7 @@ const Signup: React.FC = () => {
                         children={user.displayName}
                     />
                 ) : (
-                    <UserRound />
+                    <LogIn />
                 )}
             </MenuButton>
             <Menu>
