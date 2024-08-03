@@ -16,14 +16,6 @@ import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import MainLayout from "../components/MainLayout";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
-import BudgetPlanner from "../apps/BudgetPlanner/BudgetPlanner";
-import Incomes from "../apps/BudgetPlanner/pages/Budgets";
-import Settings from "../apps/BudgetPlanner/pages/Settings";
-import Dashboard from "../apps/BudgetPlanner/pages/Dashboard";
-import ProtectedRoute from "../apps/BudgetPlanner/components/ProtectedRoute";
-import Login from "../apps/BudgetPlanner/pages/Login";
-import Expenses from "../apps/BudgetPlanner/pages/Expenses";
-import Investments from "../apps/BudgetPlanner/pages/Investments";
 
 export const router = createBrowserRouter([
   {
@@ -33,26 +25,6 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <Home />,
-      },
-      {
-        path: 'budget-planner',
-        element: <BudgetPlanner />,
-        children: [
-          {
-            path: '',
-            element: <ProtectedRoute />,
-            children: [
-              { path: '', element: <Navigate to="dashboard" /> },
-              { path: 'dashboard', element: <Dashboard /> },
-              { path: 'incomes', element: <Incomes /> },
-              { path: 'expenses', element: <Expenses /> },
-              { path: 'investments', element: <Investments /> },
-              { path: 'settings', element: <Settings /> },
-            ],
-          },
-          { path: 'login', element: <Login /> },
-        ],
-
       },
       {
         path: 'sorting-visualizer',
