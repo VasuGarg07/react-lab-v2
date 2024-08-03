@@ -6,6 +6,7 @@ import { Spacer } from "./Spacer"
 import Signup from "./Signup"
 import { useLocation } from "react-router-dom"
 import CookNav from "../apps/QuickByte/Navigation/CookNav"
+import BudgetHeader from "../apps/BudgetPlanner/components/Header"
 
 const Navbar = () => {
   const theme = useTheme();
