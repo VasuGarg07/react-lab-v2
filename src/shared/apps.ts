@@ -1,13 +1,14 @@
-import Glass from '../assets/cover/glass.webp';
+// import Glass from '../assets/cover/glass.webp';
 import Loan from '../assets/cover/loan.webp';
 import Memory from '../assets/cover/memory.webp';
 import Quiz from '../assets/cover/quiz.webp';
 import Byte from '../assets/cover/byte.webp';
 import Snap from '../assets/cover/image.webp';
-import Leetcode from '../assets/cover/leetcode.webp';
+// import Leetcode from '../assets/cover/leetcode.webp';
 import Sudoku from '../assets/cover/sudoku.webp';
 import TicTacToe from '../assets/cover/tictactoe.webp';
 import Visualizer from '../assets/cover/visualizer.webp';
+import Invoice from '../assets/cover/invoice.webp';
 
 export interface AppInfo {
   name: string,
@@ -17,6 +18,12 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  {
+    name: 'Invoince Generator',
+    path: '/invoice',
+    tag: "e-Invoice",
+    image: Invoice
+  },
   {
     name: 'Sorting Visualizer',
     path: '/sorting-visualizer',
@@ -35,12 +42,12 @@ export const Apps: AppInfo[] = [
     tag: 'Problem Solving',
     image: Sudoku
   },
-  {
-    name: 'Leetcode Rivals',
-    path: '/leetcode-rivals',
-    tag: 'Competitive Programming',
-    image: Leetcode
-  },
+  // {
+  //   name: 'Leetcode Rivals',
+  //   path: '/leetcode-rivals',
+  //   tag: 'Competitive Programming',
+  //   image: Leetcode
+  // },
   {
     name: 'SnapFind',
     path: '/snapfind',
@@ -71,10 +78,10 @@ export const Apps: AppInfo[] = [
     tag: 'Loan Calculator',
     image: Loan,
   },
-  {
-    name: 'Glassmorphism',
-    path: '/glassmorphism',
-    tag: 'CSS Tool',
-    image: Glass,
-  },
+  // {
+  //   name: 'Glassmorphism',
+  //   path: '/glassmorphism',
+  //   tag: 'CSS Tool',
+  //   image: Glass,
+  // },
 ]

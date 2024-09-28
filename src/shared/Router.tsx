@@ -1,9 +1,9 @@
 import { Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom";
 import NotFound from "../apps/Errors/NotFound";
-import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
+// import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
 import Home from "../apps/Home/Home";
 import Homeloan from "../apps/HomeloanWizard/Homeloan";
-import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
+// import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
 import Details from "../apps/QuickByte/Details";
 import Gallery from "../apps/QuickByte/Gallery";
@@ -16,6 +16,7 @@ import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
+import InvoiceGenerator from "../apps/InvoiceGen/InvoiceGen";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <Home />,
+      },
+      {
+        path: 'invoice',
+        element: <InvoiceGenerator />
       },
       {
         path: 'sorting-visualizer',
@@ -38,14 +43,14 @@ export const router = createBrowserRouter([
         path: 'sudoku',
         element: <Sudoku />
       },
-      {
-        path: 'leetcode-rivals',
-        element: <LeetcodeRivals />
-      },
-      {
-        path: 'glassmorphism',
-        element: <Glassmorphism />,
-      },
+      // {
+      //   path: 'leetcode-rivals',
+      //   element: <LeetcodeRivals />
+      // },
+      // {
+      //   path: 'glassmorphism',
+      //   element: <Glassmorphism />,
+      // },
       {
         path: 'homeloan-wizard',
         element: <Homeloan />
