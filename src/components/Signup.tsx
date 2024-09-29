@@ -42,7 +42,7 @@ const Signup: React.FC = () => {
                     </>
                 ) : (
                     <>
-                        <MenuItem>Signin with Email</MenuItem>
+                        {/* <MenuItem>Signin with Email</MenuItem> */}
                         <MenuItem onClick={signInWithGoogle}>Google SignIn</MenuItem>
                     </>
                 )}
