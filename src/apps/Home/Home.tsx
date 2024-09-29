@@ -2,6 +2,7 @@ import { AspectRatio, Grid, Sheet, Stack, Typography } from "@mui/joy";
 import Logo from '../../assets/homepage.svg';
 import { AppCard } from "../../components/AppCard";
 import { Apps } from "../../shared/apps";
+import Footer from "./Footer";
 
 const Home = () => {
   return (
@@ -43,6 +44,8 @@ const Home = () => {
           })}
         </Grid>
       </Sheet>
+
+      <Footer />
     </>
   )
 }
