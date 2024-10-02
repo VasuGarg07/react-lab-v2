@@ -1,8 +1,8 @@
 import { Accordion, AccordionDetails, AccordionGroup, AccordionSummary, Button, DialogTitle, Divider, Drawer, Grid, IconButton, Input, ListItemContent, ModalClose, Sheet, Stack } from '@mui/joy';
-import { BookA, Library, Salad, Search, Sparkle, TreePalm } from 'lucide-react';
+import { BookA, HandPlatter, Salad, Search, Sparkle, TreePalm } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { areaList, categoryList } from './utils/api';
+import { areaList, categoryList, random as surpriseMeal } from './utils/api';
 import { ALPHABETS, TABS } from './utils/helpers';
 
 const DrawerMenu = () => {
@@ -16,8 +16,10 @@ const DrawerMenu = () => {
   const closeDrawer = () => setOpen(false);
 
   const handleRandomRoute = () => {
-    navigate(`/recipe-haven/random`);
-    closeDrawer();
+    surpriseMeal().then(id => {
+      navigate(`/recipe-haven/meal/${id}`);
+      closeDrawer();
+    })
   }
 
   const handleSearch = () => {
@@ -28,7 +30,7 @@ const DrawerMenu = () => {
   return (
     <>
       <Button color="primary" sx={{ mb: 4 }} onClick={openDrawer}
-        startDecorator={<Library />} >
+        startDecorator={<HandPlatter />} >
         Explore Recipes
       </Button>
       <Drawer size="md" variant="plain"

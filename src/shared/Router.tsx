@@ -17,15 +17,40 @@ import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
 import InvoiceGenerator from "../apps/InvoiceGen/InvoiceGen";
+import { ResumeProvider } from "../apps/ResumeGen/ResumeContext";
+import ResumeHome from "../apps/ResumeGen/pages/ResumeHome";
+import ResumeForm from "../apps/ResumeGen/pages/ResumeForm";
+import ResumePreview from "../apps/ResumeGen/pages/ResumePreview";
 
 export const router = createBrowserRouter([
   {
     path: '',
-    element: <MainLayout />,
+    element: <>
+      <MainLayout />
+      <ScrollRestoration />
+    </>,
     children: [
       {
         path: '',
         element: <Home />,
+      },
+      {
+        path: 'resume',
+        element: <ResumeProvider><Outlet /></ResumeProvider>,
+        children: [
+          {
+            path: '',
+            element: <ResumeHome />
+          },
+          {
+            path: 'form',
+            element: <ResumeForm />
+          },
+          {
+            path: 'preview',
+            element: <ResumePreview />
+          }
+        ]
       },
       {
         path: 'invoice',

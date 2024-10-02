@@ -2,9 +2,15 @@ import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 import { ResumeModel, ContactInfo, TechnicalSkill, WorkExperience, Education, Project, Achievement } from './helpers/interfaces';
 import { INITIAL_RESUME } from './helpers/constants';
 
+interface ResumeTemplate {
+    id: string;
+    name: string;
+}
+
 interface ResumeState {
     resume: ResumeModel;
     isDirty: boolean;
+    selectedTemplate: ResumeTemplate | null;
 }
 
 interface ResumeContextType {
@@ -31,7 +37,9 @@ type ResumeAction =
     | { type: 'UPDATE_ACHIEVEMENT'; payload: { index: number; achievement: Partial<Achievement> } }
     | { type: 'REMOVE_ACHIEVEMENT'; payload: number }
     | { type: 'RESET_RESUME' }
-    | { type: 'SET_RESUME'; payload: ResumeModel };
+    | { type: 'SET_RESUME'; payload: ResumeModel }
+    | { type: 'SELECT_TEMPLATE'; payload: ResumeTemplate }
+    | { type: 'CLEAR_TEMPLATE' };
 
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 
@@ -181,17 +189,33 @@ const resumeReducer = (state: ResumeState, action: ResumeAction): ResumeState =>
                 },
                 isDirty: true
             };
+        case 'SELECT_TEMPLATE':
+            return { ...state, selectedTemplate: action.payload, isDirty: true };
+        case 'CLEAR_TEMPLATE':
+            return { ...state, selectedTemplate: null, isDirty: true };
         case 'RESET_RESUME':
-            return { resume: INITIAL_RESUME, isDirty: false };
+            return { resume: INITIAL_RESUME, selectedTemplate: null, isDirty: false };
         case 'SET_RESUME':
-            return { resume: action.payload, isDirty: false };
+            return {
+                ...state,
+                resume: action.payload,
+                isDirty: false
+                // Note: We're not changing the selectedTemplate here
+                // If you want to clear the template when setting a new resume, you can add:
+                // selectedTemplate: null,
+            };
+
         default:
             return state;
     }
 };
 
 export const ResumeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [state, dispatch] = useReducer(resumeReducer, { resume: INITIAL_RESUME, isDirty: false });
+    const [state, dispatch] = useReducer(resumeReducer, {
+        resume: INITIAL_RESUME,
+        selectedTemplate: null,
+        isDirty: false
+    });
 
     return (
         <ResumeContext.Provider value={{ state, dispatch }}>

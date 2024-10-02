@@ -54,6 +54,12 @@ export const regionalMeals = async ({ params }: LoaderFunctionArgs) => {
   return { title, meals }
 }
 
+export const random = async () => {
+  const url = `${BASE_URL}random.php`;
+  const meals = await getMeals(url);
+  return meals[0].id;
+}
+
 
 export const mealDetails = async ({ params }: LoaderFunctionArgs) => {
   const url = params.mealId ? `${BASE_URL}lookup.php?i=${params.mealId}` : `${BASE_URL}random.php`;
