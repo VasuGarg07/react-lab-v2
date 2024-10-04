@@ -8,7 +8,8 @@ import Snap from '../assets/cover/image.webp';
 import Sudoku from '../assets/cover/sudoku.webp';
 import TicTacToe from '../assets/cover/tictactoe.webp';
 import Visualizer from '../assets/cover/visualizer.webp';
-import Invoice from '../assets/cover/invoice.webp';
+import Invoice from '../assets/cover/invoice.png';
+import Resume from '../assets/cover/resume.webp'
 
 export interface AppInfo {
   name: string,
@@ -18,6 +19,12 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  {
+    name: 'Resume Generator',
+    path: '/resume',
+    tag: "Online CV",
+    image: Resume
+  },
   {
     name: 'Invoince Generator',
     path: '/invoice',

@@ -1,19 +1,30 @@
 export const deepCopy = (arr: number[][]) => JSON.parse(JSON.stringify(arr));
 
 export const fetchInitialBoard = async () => {
-    const response = await fetch('https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value}}}');
-    const data = await response.json();
-    return data.newboard.grids[0].value; // Adjust according to the structure of your API response
+    try {
+        const response = await fetch('https://sudoku-api.vercel.app/api/dosuku?query={newboard(limit:1){grids{value}}}');
+        if (!response.ok) {
+            throw new Error('Failed to fetch board');
+        }
+        const data = await response.json();
+        return data?.newboard?.grids?.[0]?.value ?? []; // Safely access the response and provide a fallback
+    } catch (error) {
+        console.error('Error fetching the board:', error);
+        return []; // Return an empty array or handle appropriately in the calling function
+    }
 };
 
 export const isValid = (board: number[][], row: number, col: number, num: number) => {
-    for (let x = 0; x < 9; x++) {
-        if (board[row][x] === num || board[x][col] === num) {
-            return false;
-        }
-    }
     const startRow = Math.floor(row / 3) * 3;
     const startCol = Math.floor(col / 3) * 3;
+
+    for (let i = 0; i < 9; i++) {
+        if (board[row][i] === num || board[i][col] === num) {
+            return false; // Check row and column in a single loop
+        }
+    }
+
+    // Check the 3x3 box
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
             if (board[startRow + i][startCol + j] === num) {
@@ -21,6 +32,7 @@ export const isValid = (board: number[][], row: number, col: number, num: number
             }
         }
     }
+
     return true;
 };
 
@@ -38,13 +50,14 @@ export const solveBoard = (problemBoard: number[][]) => {
                             board[row][col] = 0;
                         }
                     }
-                    return false;
+                    return false; // No valid number found, return to backtrack
                 }
             }
         }
-        return true;
+        return true; // Solution found
     };
 
+    // Clone the problem board instead of using JSON.parse
     const newBoard = problemBoard.map(row => [...row]);
     solve(newBoard);
     return newBoard;
