@@ -26,8 +26,8 @@ export const Apps: AppInfo[] = [
     image: Resume
   },
   {
-    name: 'Invoince Generator',
-    path: '/invoice',
+    name: 'InvoEase',
+    path: '/invoease',
     tag: "e-Invoice",
     image: Invoice
   },

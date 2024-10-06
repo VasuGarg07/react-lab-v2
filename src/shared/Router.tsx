@@ -16,7 +16,7 @@ import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
-import InvoiceGenerator from "../apps/InvoiceGen/InvoiceGen";
+import InvoEase from "../apps/InvoEase/InvoEase";
 import { ResumeProvider } from "../apps/ResumeGen/ResumeContext";
 import ResumeHome from "../apps/ResumeGen/pages/ResumeHome";
 import ResumeForm from "../apps/ResumeGen/pages/ResumeForm";
@@ -53,8 +53,8 @@ export const router = createBrowserRouter([
         ]
       },
       {
-        path: 'invoice',
-        element: <InvoiceGenerator />
+        path: 'invoease',
+        element: <InvoEase />
       },
       {
         path: 'sorting-visualizer',
