@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Grid, Box, Typography, Button, Stack, List, ListItem, Card } from '@mui/joy';
-import MiniBoard from './MiniBoard';
-import { createEmptyBoard, checkWinner, createSuperBoard, SQ_SIZE, Instructions, REM, InsetBoxShadow, BoxShadow, makeRandomMove, Timeout } from './helpers';
+import { Box, Card, Grid, useTheme } from '@mui/joy';
+import React, { useEffect, useRef, useState } from 'react';
+import DarkBg from '../../assets/backgrounds/abstract-dark.webp';
+import LightBg from '../../assets/backgrounds/abstract.webp';
 import { BgCenteredBox } from '../../components/BgCenteredBox';
-import { Gamepad2 } from 'lucide-react';
-import { Spacer } from '../../components/Spacer';
+import MiniBoard from './MiniBoard';
+import Sidebar from './Sidebar';
 import StartGamePopup from './StartGamePopup';
+import { BOARD_COLOR, BoxShadow, checkWinner, COLOR_O, COLOR_X, createEmptyBoard, createSuperBoard, InsetBoxShadow, Instructions, makeRandomMove, REM, SQ_SIZE, Timeout } from './helpers';
 
 const SuperTicTacToe: React.FC = () => {
     const [boards, setBoards] = useState<string[][][][]>(createSuperBoard());
@@ -16,6 +17,7 @@ const SuperTicTacToe: React.FC = () => {
     const [gameStarted, setGameStarted] = useState<boolean>(false);
     const [timer, setTimer] = useState<number>(Timeout);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const isDark = useTheme().palette.mode === 'dark';
 
     useEffect(() => {
         if (!gameStarted) return;
@@ -100,6 +102,7 @@ const SuperTicTacToe: React.FC = () => {
                             boxShadow: BoxShadow,
                             padding: 2,
                             borderRadius: 16,
+                            backdropFilter: 'blur(16px)',
                         }}
                     >
                         <Card
@@ -108,12 +111,12 @@ const SuperTicTacToe: React.FC = () => {
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 backgroundColor: 'transparent',
-                                color: '#f44336',
+                                color: COLOR_X,
                                 width: (3 * SQ_SIZE) + (2 * REM),
                                 height: (3 * SQ_SIZE) + (2 * REM),
                                 fontSize: '8rem',
                                 borderRadius: 'lg',
-                                userSelect: 'none'
+                                userSelect: 'none',
                             }}
                         >
                             {cell}
@@ -131,6 +134,7 @@ const SuperTicTacToe: React.FC = () => {
                             boxShadow: BoxShadow,
                             padding: 2,
                             borderRadius: 16,
+                            backdropFilter: 'blur(16px)',
                         }}
                     >
                         <Card
@@ -139,12 +143,12 @@ const SuperTicTacToe: React.FC = () => {
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 backgroundColor: 'transparent',
-                                color: '#2196f3',
+                                color: COLOR_O,
                                 width: (3 * SQ_SIZE) + (2 * REM),
                                 height: (3 * SQ_SIZE) + (2 * REM),
                                 fontSize: '8rem',
                                 borderRadius: 'lg',
-                                userSelect: 'none'
+                                userSelect: 'none',
                             }}
                         >
                             {cell}
@@ -163,7 +167,7 @@ const SuperTicTacToe: React.FC = () => {
                         boxShadow: BoxShadow,
                         padding: 2,
                         borderRadius: 16,
-                        backgroundColor: isPlayable ? '#fcd34d' : 'transparent',
+                        backgroundColor: isPlayable ? BOARD_COLOR : 'transparent',
                     }}
                 >
                     <MiniBoard
@@ -178,7 +182,7 @@ const SuperTicTacToe: React.FC = () => {
 
 
     return (
-        <BgCenteredBox>
+        <BgCenteredBox bg={isDark ? DarkBg : LightBg}>
             <StartGamePopup open={!gameStarted} onStart={handleStartGame} />
             <Grid container spacing={4} width={1}>
                 <Grid>
@@ -201,57 +205,16 @@ const SuperTicTacToe: React.FC = () => {
                     </Grid>
                 </Grid>
                 <Grid flex={1} p={2}>
-                    <BgCenteredBox>
-                        <Typography level="title-lg" fontSize={32} textAlign="center" gutterBottom fontFamily={'Poppins'}
-                            textTransform='uppercase' letterSpacing={1}>
-                            Super Tic Tac Toe
-                        </Typography>
-                        <Stack direction='row' justifyContent='space-evenly' alignItems='stretch' width={1}>
-                            {gameWinner ? (
-                                <Typography level="h4" textAlign="center" gutterBottom color={gameWinner === 'X' ? 'danger' : 'primary'}>
-                                    Player {gameWinner} wins the game!
-                                </Typography>
-                            ) : (
-                                <>
-                                    <Typography p={1} borderRadius={8} level="title-lg" textAlign="center" fontWeight={400}>
-                                        Current Player :
-                                    </Typography>
-                                    <Typography
-                                        p={1} width={40}
-                                        borderRadius={24}
-                                        level="title-lg"
-                                        textAlign="center"
-                                        sx={{
-                                            color: `${currentPlayer == 'X' ? '#000' : '#fff'}`,
-                                            bgcolor: `${currentPlayer == 'X' ? '#f44336' : '#2196f3'}`,
-                                            boxShadow: '0 2px 4px rgb(0 0 0 / 0.4)'
-                                        }}>
-                                        {currentPlayer}
-                                    </Typography>
-                                    <Spacer />
-                                </>
-                            )}
-                            <Typography level="title-lg" p={1} textAlign="center" variant='soft'>
-                                Time left: {timer}s
-                            </Typography>
-                        </Stack>
-                        <Button
-                            variant="solid"
-                            color="success"
-                            startDecorator={<Gamepad2 />}
-                            onClick={handleRestartGame}>
-                            Restart Game
-                        </Button>
+                    <Sidebar
+                        gameWinner={gameWinner}
+                        currentPlayer={currentPlayer}
+                        timer={timer}
+                        handleRestartGame={handleRestartGame}
+                        Instructions={Instructions}
+                        COLOR_X={COLOR_X}
+                        COLOR_O={COLOR_O}
+                    />
 
-                        <Typography level='title-lg' width={1} gutterBottom fontFamily={'Noto Sans'}>How to Play:</Typography>
-                        <List component='ol' marker='decimal'>
-                            {Instructions.map((str, i) => (
-                                <ListItem key={i}>
-                                    <Typography level="body-md">{str}</Typography>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </BgCenteredBox>
                 </Grid>
             </Grid>
         </BgCenteredBox>

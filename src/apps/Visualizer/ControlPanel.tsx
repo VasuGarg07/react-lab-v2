@@ -49,9 +49,9 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
 
     return (
         <Stack direction='row' p={2} spacing={1}>
-            <Typography level='h3'>Sorting Visualizer</Typography>
+            <Typography level='h2' fontFamily={'Kanit'}>Sorting Visualizer</Typography>
             <Spacer />
-            <Button onClick={resetArray}>Generate New Array</Button>
+            <Button onClick={resetArray}>Generate</Button>
             <Select value={algorithm} onChange={handleAlgorithmChange}>
                 <Option value="Bubble Sort">Bubble Sort</Option>
                 <Option value="Selection Sort">Selection Sort</Option>
@@ -69,8 +69,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                     <Option key={i} value={e}>{e / 1000}s</Option>
                 ))}
             </Select>
-            <Button onClick={sortArray}>Sort Array</Button>
-            <Button onClick={stopSorting}>Stop Sorting</Button>
+            <Button onClick={sortArray}>Sort</Button>
+            <Button onClick={stopSorting}>Stop</Button>
         </Stack>
     );
 };

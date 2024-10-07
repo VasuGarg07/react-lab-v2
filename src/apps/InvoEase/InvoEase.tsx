@@ -95,7 +95,7 @@ const InvoEase: React.FC = () => {
         <InvoiceProvider>
             <Sheet
                 sx={{
-                    minHeight: '100vh',
+                    minHeight: 'calc(100vh - 52px)',
                     background: mode === 'light'
                         ? 'linear-gradient(45deg, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%)'
                         : 'linear-gradient(45deg, #2c3e50 0%, #1a2a3d 99%, #1a2a3d 100%)',

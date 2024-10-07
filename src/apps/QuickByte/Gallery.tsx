@@ -1,4 +1,4 @@
-import { AspectRatio, Card, CardContent, Grid, IconButton, Stack, Typography } from '@mui/joy';
+import { AspectRatio, Card, CardContent, CardOverflow, Grid, IconButton, Stack, Typography } from '@mui/joy';
 import { BookOpenText } from 'lucide-react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Meal } from './utils/helpers';
@@ -17,7 +17,7 @@ const Gallery = () => {
         {title}
       </Typography>
 
-      <Grid container spacing={1} flexWrap='wrap'>
+      <Grid container spacing={2} flexWrap='wrap'>
         {meals.map(meal => (
           <Grid key={meal.id} xs={6} sm={4}>
             <MealCard meal={meal} />
@@ -41,20 +41,23 @@ const MealCard = ({ meal }: { meal: Meal }) => {
 
   return (
     <Card sx={{
+      border: 'none',
       '&:hover': {
         boxShadow: 'lg',
         cursor: 'pointer',
         transform: 'translateY(-4px)',
-        transition: 'transform 0.2s linear'
+        transition: 'transform 0.2s linear',
       }
     }}
       onClick={() => handleMealNav(meal.id)}>
-      <CardContent>
-        <AspectRatio ratio={1} objectFit='cover'>
+      <CardOverflow>
+        <AspectRatio ratio={4 / 3} objectFit='cover'>
           <img
             src={meal.image} srcSet={meal.image} alt={meal.name}
           />
         </AspectRatio>
+      </CardOverflow>
+      <CardContent>
         <Stack direction='row' alignItems='center' sx={{ mt: 1 }} spacing={1}>
           <Typography level="title-lg"
             sx={{

@@ -107,19 +107,7 @@ const SnapFind: React.FC = () => {
         <Spacer />
 
         {images?.length > 0 && (
-          <Card
-            variant="outlined"
-            sx={{
-              width: '100%',
-              backgroundColor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(18, 18, 18, 0.8)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: '16px',
-              p: 3,
-              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-            }}
-          >
-            <ImageGallery images={images} />
-          </Card>
+          <ImageGallery images={images} />
         )}
 
         {loading && (

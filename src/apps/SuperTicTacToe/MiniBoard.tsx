@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Card } from '@mui/joy';
-import { MiniBoardProps, SQ_SIZE } from './helpers';
+import { COLOR_O, COLOR_X, MiniBoardProps, SQ_SIZE } from './helpers';
 
 const MiniBoard: React.FC<MiniBoardProps> = ({ board, onPlay, boardIndex }) => {
     return (
@@ -19,9 +19,9 @@ const MiniBoard: React.FC<MiniBoardProps> = ({ board, onPlay, boardIndex }) => {
                                 cursor: 'pointer',
                                 backgroundColor:
                                     cell === 'X'
-                                        ? '#f44336'
+                                        ? COLOR_X
                                         : cell === 'O'
-                                            ? '#2196f3'
+                                            ? COLOR_O
                                             : '#fff',
                                 color: cell === 'X' ? '#fff' : '#000',
                                 fontSize: '1.5rem',

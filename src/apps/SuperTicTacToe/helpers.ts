@@ -96,3 +96,7 @@ export const getPlayableBoards = (winners: (string | null)[][], nextBoard: strin
     }
     return boardsToPlay;
 };
+
+export const BOARD_COLOR = '#DBF4AD';
+export const COLOR_O = '#00A6FB';
+export const COLOR_X = '#F71735';

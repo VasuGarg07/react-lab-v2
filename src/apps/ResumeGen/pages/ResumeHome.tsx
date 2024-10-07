@@ -73,11 +73,6 @@ const LandingPage: React.FC = () => {
                 bottom: 0,
                 background: 'radial-gradient(circle, transparent 20%, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.05) 80%, transparent 80%, transparent)',
                 backgroundSize: '50px 50px',
-                animation: 'moveBackground 15s linear infinite',
-            },
-            '@keyframes moveBackground': {
-                '0%': { backgroundPosition: '0% 0%' },
-                '100%': { backgroundPosition: '100% 100%' },
             },
             pt: 6, // Added top padding to account for header
         }}>

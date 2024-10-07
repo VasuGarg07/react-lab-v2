@@ -37,7 +37,7 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
         <Box
           sx={{
             mx: 'auto',
-            maxWidth: 840,
+            maxWidth: 1000,
             p: 2
           }}>
           {children}

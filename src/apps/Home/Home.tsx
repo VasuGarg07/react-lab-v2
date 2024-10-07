@@ -1,54 +1,64 @@
-import { AspectRatio, Grid, Sheet, Stack, Typography } from "@mui/joy";
-import Logo from '../../assets/homepage.svg';
-import { AppCard } from "../../components/AppCard";
+import React from 'react';
+import { Box, Container, Grid, Typography, useTheme } from "@mui/joy";
 import { Apps } from "../../shared/apps";
+import { AppCard } from "./AppCard";
 import Footer from "./Footer";
+import Hero from './Hero';
 
 const Home = () => {
+  const theme = useTheme();
+  const visibleApps = React.useMemo(() => Apps.filter(app => app.visible), []);
+
   return (
     <>
-      <Sheet
-        sx={{ borderRadius: 'md', p: 2, m: 2, textAlign: 'center', backgroundColor: 'transparent' }}>
-        <Stack spacing={0} alignItems='center'>
-          <AspectRatio variant="plain" objectFit="contain" sx={{ width: 1, maxWidth: 800 }}>
-            <img src={Logo} alt="" />
-          </AspectRatio>
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          position: 'relative',
+          background: theme.palette.mode === 'light'
+            ? 'linear-gradient(to right, #DAE2F8, #ffffff);'
+            : 'linear-gradient(to right, #0f2027, #203a43, #2c5364);',
+          zIndex: 0,
+        }}
+      >
+        <Container
+          sx={{
+            py: 4,
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 2,
+          }}
+        >
+          <Hero />
 
           <Typography
-            fontFamily={'Kanit'}
-            letterSpacing={1.5}
-            level="h1"
-            fontSize={48}
-            children="REACT LAB" />
-
-          <Typography level="body-lg" sx={{ mx: 2, maxWidth: 800 }} fontFamily={'Overlock'}>
-            Welcome to React Lab! 🚀 This is where my React experiments hang out.
-            Dive into a mix of quirky, cool, and maybe even a bit wild projects that I've thrown together.
-            Whether you're here for inspiration or just to see what happens when you combine React
-            with a dash of creativity, you're in the right place.
-            So, let's dive in and see what kind of React magic we can brew up! 🎉✨
+            level="h2"
+            textAlign="center"
+            fontWeight="bold"
+            fontSize={{ xs: 16, md: 28 }}
+            sx={{ my: 3 }}
+          >
+            Explore My Projects
           </Typography>
 
-        </Stack>
-      </Sheet>
-
-      <Sheet
-        sx={{ borderRadius: 'md', p: 2, m: 2, background: 'transparent', display: 'flex', justifyContent: 'center' }}>
-        <Grid container spacing={2} sx={{ flexGrow: 1, maxWidth: 1200, width: 1 }}>
-          {Apps.map((app, index) => {
-            return (
-              <Grid key={index} xs={12} sm={6} md={4}>
+          <Grid container spacing={2}>
+            {visibleApps.map((app) => (
+              <Grid key={app.path} xs={12} sm={6} md={4}>
                 <AppCard {...app} />
               </Grid>
-            )
-          })}
-        </Grid>
-      </Sheet>
-
-      <Footer />
+            ))}
+          </Grid>
+        </Container>
+        <Footer />
+      </Box>
     </>
-  )
-}
+  );
+};
 
-export default Home
-
+export default Home;

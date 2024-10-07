@@ -31,7 +31,7 @@ const Details = () => {
         ratio={2}
         sx={{
           borderRadius: 'xl',
-          boxShadow: `0 4px 4px rgb(0 0 0 / 0.4)`,
+          boxShadow: 'lg',
           width: 1
         }}>
         <img src={meal.image} alt={meal.name} />
@@ -39,7 +39,7 @@ const Details = () => {
 
       <Card sx={{
         borderRadius: 'xl',
-        boxShadow: `0 4px 4px rgb(0 0 0 / 0.4)`
+        boxShadow: 'lg'
       }}>
         <Stack direction='row' spacing={1} justifyContent='center'>
           <Typography level='body-lg' textTransform={'uppercase'} fontFamily={'Roboto'}>

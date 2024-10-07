@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Divider, Sheet, Stack } from '@mui/joy';
+import { Box, Divider, Sheet, Stack, useColorScheme } from '@mui/joy';
 import ControlPanel from './ControlPanel';
 import Bar from './Bar';
 import {
@@ -15,6 +15,7 @@ import {
 } from './helpers';
 
 const SortingVisualizer: React.FC = () => {
+    const { mode } = useColorScheme();
     const [array, setArray] = useState<number[]>([]);
     const [max, setMax] = useState<number>(0);
     const [algorithm, setAlgorithm] = useState<string>('Bubble Sort');
@@ -66,7 +67,12 @@ const SortingVisualizer: React.FC = () => {
     };
 
     return (
-        <Box>
+        <Box sx={{
+            minHeight: 'calc(100vh - 52px)',
+            background: mode === 'light'
+                ? 'linear-gradient(45deg, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%)'
+                : 'linear-gradient(45deg, #2c3e50 0%, #1a2a3d 99%, #1a2a3d 100%)',
+        }}>
             <ControlPanel
                 algorithm={algorithm}
                 setAlgorithm={setAlgorithm}
