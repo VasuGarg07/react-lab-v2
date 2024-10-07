@@ -1,27 +1,39 @@
 import React, { useState } from 'react';
 import { CardType, GameMode, GameState, loadCards } from './helpers';
 import { useGameContext } from './Context';
-import { Button, Card, Divider, IconButton, Input, Stack, Typography } from '@mui/joy';
+import { Button, Card, Divider, Input, Stack, Typography, Box, Container, Tooltip } from '@mui/joy';
+import { keyframes } from '@emotion/react';
 import Logo from '../../assets/game-logo.png';
 import { ErrorMessage } from '../../components/ErrorMessage';
-import { Gamepad2, UserRound } from 'lucide-react';
+import { Gamepad2, UserRound, Zap, Puzzle, Skull } from 'lucide-react';
 
 interface Props {
-  name: string,
-  difficulty: GameMode | undefined
-  setName: React.Dispatch<React.SetStateAction<string>>,
-  setDifficulty: React.Dispatch<React.SetStateAction<GameMode | undefined>>,
-  setCards: React.Dispatch<React.SetStateAction<CardType[]>>
-  setGameState: React.Dispatch<React.SetStateAction<GameState>>
+  name: string;
+  difficulty: GameMode | undefined;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setDifficulty: React.Dispatch<React.SetStateAction<GameMode | undefined>>;
+  setCards: React.Dispatch<React.SetStateAction<CardType[]>>;
+  setGameState: React.Dispatch<React.SetStateAction<GameState>>;
 }
 
-const Setup = () => {
-  const { name, difficulty, setName, setDifficulty, setCards, setGameState }: Props = useGameContext()
+const pulseAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 
+const Setup: React.FC = () => {
+  const { name, difficulty, setName, setDifficulty, setCards, setGameState }: Props = useGameContext();
   const [error, setError] = useState(false);
 
   const handleSubmit = async () => {
-    if (!difficulty || !name) {
+    if (!difficulty || !name.trim()) {
       setError(true);
       return;
     }
@@ -39,72 +51,123 @@ const Setup = () => {
         setCards(loadCards(12));
         break;
     }
-    setGameState(GameState.Playing)
+    setGameState(GameState.Playing);
   };
 
   return (
-    <Card
-      variant='soft'
-      sx={{
-        width: 1,
-        maxWidth: 640,
-        p: { md: 3, xs: 2 },
-        alignItems: 'center',
-        boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px'
-      }
-      }>
-      <Stack direction='row' spacing={2} alignItems='center'>
-
-        <img style={{ width: 160 }} src={Logo} alt="" />
-        <Typography level='h2' fontFamily={'Overlock'}>Memory Game</Typography>
-      </Stack>
-
-      <Typography level='body-sm' textAlign="center" sx={{ fontSize: 12 }}>
-        Test your memory and concentration skills in this fun matching card game. Flip over pairs of cards to find matches and reveal the hidden images. Keep track of card positions and match them all to win!
-      </Typography>
-      <Divider inset='none' />
-
-      {error && <ErrorMessage message="Please Fill all the feilds" />}
-
-      <Input
-        placeholder="Enter Player Name"
+    <Container maxWidth="sm" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Card
         variant="outlined"
-        color='neutral'
-        startDecorator={<UserRound />}
-        onChange={(e) => setName(e.target.value)}
-      />
+        sx={{
+          width: '100%',
+          p: 4,
+          boxShadow: 'lg',
+          backgroundColor: 'background.surface',
+          transition: 'all 0.3s ease-in-out',
+          '&:hover': {
+            boxShadow: 'xl',
+            transform: 'translateY(-5px)',
+          },
+        }}
+      >
+        <Stack spacing={2} alignItems="center">
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <img
+              src={Logo}
+              alt="Memory Game Logo"
+              style={{
+                width: 100,
+                height: 100,
+                objectFit: 'contain',
+                animation: `${pulseAnimation} 2s infinite`,
+              }}
+            />
+            <Typography
+              level="h1"
+              fontFamily="Overlock"
+              fontWeight="bold"
+              sx={{
+                background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Memory Game
+            </Typography>
+          </Box>
 
-      <Stack direction='row' spacing={1} alignItems='center'>
-        <Button
-          variant={difficulty == GameMode.Easy ? 'solid' : 'outlined'}
-          color="success"
-          onClick={() => setDifficulty(GameMode.Easy)}>
-          Easy
-        </Button>
+          <Typography level="body-md" textAlign="center" sx={{ maxWidth: '80%', color: 'text.secondary' }}>
+            Challenge your mind with our engaging Memory Game! Match pairs, reveal hidden images, and test your concentration. Are you ready to become a memory master?
+          </Typography>
 
-        <Button
-          variant={difficulty == GameMode.Medium ? 'solid' : 'outlined'}
-          color="warning"
-          onClick={() => setDifficulty(GameMode.Medium)}>
-          MEDIUM
-        </Button>
+          <Divider sx={{ width: '100%' }} />
 
-        <Button
-          variant={difficulty == GameMode.Difficult ? 'solid' : 'outlined'}
-          color="danger"
-          onClick={() => setDifficulty(GameMode.Difficult)}>
-          HARD
-        </Button>
+          {error && <ErrorMessage message="Please enter your name and select a difficulty level" />}
 
-        <Divider orientation='vertical' />
+          <Input
+            placeholder="Enter Your Name"
+            variant="soft"
+            color="neutral"
+            startDecorator={<UserRound />}
+            onChange={(e) => setName(e.target.value)}
+            fullWidth
+            sx={{
+              '--Input-focusedThickness': '2px',
+              '--Input-focusedHighlight': 'rgba(13, 110, 253, 0.25)',
+              '&:focus-within': {
+                boxShadow: '0 0 0 var(--Input-focusedThickness) var(--Input-focusedHighlight)',
+              },
+            }}
+          />
 
-        <IconButton color='primary' variant='soft'
-          onClick={handleSubmit}>
-          <Gamepad2 />
-        </IconButton>
-      </Stack>
-    </Card >
-  )
-}
+          <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap" justifyContent="center">
+            {[
+              { mode: GameMode.Easy, color: 'success', icon: Zap, label: 'Easy' },
+              { mode: GameMode.Medium, color: 'warning', icon: Puzzle, label: 'Medium' },
+              { mode: GameMode.Difficult, color: 'danger', icon: Skull, label: 'Hard' },
+            ].map(({ mode, color, icon: Icon, label }) => (
+              <Tooltip key={mode} title={`${label} difficulty`} arrow>
+                <Button
+                  variant={difficulty === mode ? 'solid' : 'soft'}
+                  color={color as 'success' | 'warning' | 'danger'}
+                  onClick={() => setDifficulty(mode)}
+                  startDecorator={<Icon />}
+                  sx={{
+                    transition: 'all 0.2s ease-in-out',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                    },
+                  }}
+                >
+                  {label}
+                </Button>
+              </Tooltip>
+            ))}
+          </Stack>
 
-export default Setup
+          <Button
+            variant="solid"
+            color="primary"
+            startDecorator={<Gamepad2 />}
+            onClick={handleSubmit}
+            fullWidth
+            sx={{
+              mt: 2,
+              py: 1.5,
+              fontSize: '1.1rem',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              },
+            }}
+          >
+            Start Game
+          </Button>
+        </Stack>
+      </Card>
+    </Container>
+  );
+};
+
+export default Setup;

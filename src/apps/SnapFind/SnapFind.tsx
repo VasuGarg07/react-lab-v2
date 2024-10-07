@@ -1,5 +1,5 @@
-import { CircularProgress, Stack, Typography } from "@mui/joy";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { CircularProgress, Stack, Typography, useTheme, Card, Box } from "@mui/joy";
 import ResponsivePagination from 'react-responsive-pagination';
 import 'react-responsive-pagination/themes/classic.css';
 import { ErrorMessage } from "../../components/ErrorMessage";
@@ -8,21 +8,19 @@ import SearchBar from "./SearchBar";
 import { Image, unsplashImages } from "./helper";
 import { Spacer } from "../../components/Spacer";
 
-const SnapFind = () => {
-
+const SnapFind: React.FC = () => {
+  const theme = useTheme();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
   const [images, setImages] = useState<Image[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [value, setValue] = useState<string | null>(null);
 
-
   const handleSubmit = async (reset: boolean = false) => {
     if (!query) {
-      setError('Please Input your query');
+      setError('Please input your query');
       return;
     }
 
@@ -30,14 +28,13 @@ const SnapFind = () => {
       setLoading(true);
       setImages([]);
       reset && setPage(1);
-      const data = await unsplashImages(query, page, value)
+      const data = await unsplashImages(query, page, value);
 
       setError('');
       setTotalPages(data.total_pages);
       setImages(data.results);
-
     } catch (error) {
-      setError('Unable to load Images. Try again in a while');
+      setError('Unable to load images. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -45,58 +42,124 @@ const SnapFind = () => {
 
   useEffect(() => {
     if (query) handleSubmit();
-  }, [page])
+  }, [page]);
+
+  const patternColor = theme.palette.mode === 'light' ? '#000000' : '#ffffff';
+  const baseColor = theme.palette.mode === 'light' ? '#ffffff' : '#121212';
 
   return (
-    <>
-      <Stack spacing={2} alignItems='center' sx={{ p: 2, width: 1, maxWidth: 1200, m: 'auto', minHeight: 'calc(100dvh - 54px)' }}>
-        <Spacer />
-
-        <Typography
-          fontFamily={'Kanit'}
-          letterSpacing={1.5}
-          level="h1"
-          children="SNAP FIND"
-        />
-
-        <SearchBar
-          loading={loading}
-          value={value}
-          onSearchInput={setQuery}
-          onSubmit={handleSubmit}
-          onToggleChange={setValue}
-        />
-
-        {error && <ErrorMessage message={error} />}
-
-        <Spacer />
-
-        {images?.length > 0 && <ImageGallery images={images} />}
-
-        {loading && <CircularProgress
-          color="danger"
-          size="lg"
-          value={64}
+    <Box
+      sx={{
+        minHeight: 'calc(100dvh - 54px)',
+        background: `
+          ${baseColor} url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='${patternColor.replace('#', '%23')}' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+        `,
+        transition: 'background 0.3s ease-in-out',
+      }}
+    >
+      <Stack
+        spacing={3}
+        alignItems='center'
+        sx={{
+          p: 3,
+          width: '100%',
+          maxWidth: '1200px',
+          m: 'auto',
+        }}
+      >
+        <Card
+          variant="outlined"
           sx={{
-            my: 2,
-            "--CircularProgress-size": "120px",
-            "--CircularProgress-trackThickness": "12px",
-            "--CircularProgress-progressThickness": "12px"
-          }} />}
+            width: '100%',
+            backgroundColor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(18, 18, 18, 0.8)',
+            backdropFilter: 'blur(10px)',
+            borderRadius: '16px',
+            p: 3,
+            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <Typography
+            fontFamily={'Kanit'}
+            letterSpacing={1.5}
+            level="h1"
+            sx={{
+              fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
+              textAlign: 'center',
+              color: theme.palette.mode === 'light' ? 'primary.600' : 'primary.300',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
+              mb: 2,
+            }}
+          >
+            SNAP FIND
+          </Typography>
+
+          <SearchBar
+            loading={loading}
+            value={value}
+            onSearchInput={setQuery}
+            onSubmit={handleSubmit}
+            onToggleChange={setValue}
+          />
+
+          {error && <ErrorMessage message={error} />}
+        </Card>
 
         <Spacer />
 
-        {images?.length > 0 && totalPages > 1 &&
-          <ResponsivePagination
-            maxWidth={400}
-            current={page}
-            total={totalPages}
-            onPageChange={setPage}
-          />
-        }
-      </Stack >
-    </>
-  )
-}
+        {images?.length > 0 && (
+          <Card
+            variant="outlined"
+            sx={{
+              width: '100%',
+              backgroundColor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(18, 18, 18, 0.8)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: '16px',
+              p: 3,
+              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+            }}
+          >
+            <ImageGallery images={images} />
+          </Card>
+        )}
 
-export default SnapFind
+        {loading && (
+          <CircularProgress
+            color="primary"
+            size="lg"
+            sx={{
+              my: 2,
+              "--CircularProgress-size": "120px",
+              "--CircularProgress-trackThickness": "12px",
+              "--CircularProgress-progressThickness": "12px"
+            }}
+          />
+        )}
+
+        <Spacer />
+
+        {images?.length > 0 && totalPages > 1 && (
+          <Card
+            variant="outlined"
+            sx={{
+              width: '100%',
+              maxWidth: '400px',
+              backgroundColor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(18, 18, 18, 0.8)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: '16px',
+              p: 2,
+              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+            }}
+          >
+            <ResponsivePagination
+              current={page}
+              total={totalPages}
+              onPageChange={setPage}
+            />
+          </Card>
+        )}
+      </Stack>
+    </Box>
+  );
+};
+
+export default SnapFind;

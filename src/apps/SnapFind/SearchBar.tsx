@@ -12,7 +12,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ loading, value, onSearchInput, onSubmit, onToggleChange }) => {
     return (
-        <Stack direction='row' justifyContent='center' flexWrap='wrap' gap={1} sx={{ width: 1, maxWidth: 800 }}>
+        <Stack direction='row' justifyContent='center' flexWrap='wrap' gap={1} sx={{ width: 1, maxWidth: 800, m: 'auto' }}>
             <Input
                 placeholder="Search Images from unsplash"
                 variant="outlined"
