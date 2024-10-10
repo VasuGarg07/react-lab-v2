@@ -10,6 +10,7 @@ import TicTacToe from '../assets/cover/tictactoe.webp';
 import Visualizer from '../assets/cover/visualizer.webp';
 import Invoice from '../assets/cover/invoice.png';
 import Resume from '../assets/cover/resume.webp';
+import { BarChart2, Code, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, UtensilsCrossed } from 'lucide-react';
 
 export interface AppInfo {
   name: string;
@@ -19,6 +20,7 @@ export interface AppInfo {
   visible: boolean;
   description: string;
   techStack: string[];
+  icon: LucideIcon;
 }
 
 export const Apps: AppInfo[] = [
@@ -29,7 +31,8 @@ export const Apps: AppInfo[] = [
     image: Resume,
     visible: true,
     description: "Create stunning, ATS-friendly resumes tailored to your career goals",
-    techStack: ['PDF Generation', 'Form Handling']
+    techStack: ['PDF Generation', 'Form Handling'],
+    icon: FileText
   },
   {
     name: 'InvoEase',
@@ -38,7 +41,8 @@ export const Apps: AppInfo[] = [
     image: Invoice,
     visible: true,
     description: "Generate professional invoices with ease and manage your finances effortlessly",
-    techStack: ['State Management', 'PDF Export']
+    techStack: ['State Management', 'PDF Export'],
+    icon: ReceiptText
   },
   {
     name: 'Sorting Visualizer',
@@ -47,7 +51,8 @@ export const Apps: AppInfo[] = [
     image: Visualizer,
     visible: true,
     description: "Watch sorting algorithms come to life with interactive visualizations",
-    techStack: ['Algorithms', 'Animation']
+    techStack: ['Algorithms', 'Animation'],
+    icon: BarChart2
   },
   {
     name: 'Super Tic-Tac-Toe',
@@ -56,7 +61,8 @@ export const Apps: AppInfo[] = [
     image: TicTacToe,
     visible: true,
     description: "Experience the classic game with a twist - play on a 3x3 grid of Tic-Tac-Toe boards",
-    techStack: ['Game Logic', 'State Management']
+    techStack: ['Game Logic', 'State Management'],
+    icon: Grid
   },
   {
     name: 'Sudoku',
@@ -65,7 +71,8 @@ export const Apps: AppInfo[] = [
     image: Sudoku,
     visible: true,
     description: "Solve Sudoku puzzles of varying difficulty with a sleek, interactive interface",
-    techStack: ['Puzzle Generation', 'Validation Logic']
+    techStack: ['Puzzle Generation', 'Validation Logic'],
+    icon: LayoutGrid
   },
   {
     name: 'Leetcode Rivals',
@@ -74,7 +81,8 @@ export const Apps: AppInfo[] = [
     image: Leetcode,
     visible: false,
     description: "Track and compare your LeetCode progress with friends in a friendly competition",
-    techStack: ['API Integration', 'Data Visualization']
+    techStack: ['API Integration', 'Data Visualization'],
+    icon: Code
   },
   {
     name: 'SnapFind',
@@ -83,7 +91,8 @@ export const Apps: AppInfo[] = [
     image: Snap,
     visible: true,
     description: "Upload an image and find visually similar images across the web",
-    techStack: ['Image Processing', 'API Integration']
+    techStack: ['Image Processing', 'API Integration'],
+    icon: Search
   },
   {
     name: 'Quizzo',
@@ -92,7 +101,8 @@ export const Apps: AppInfo[] = [
     image: Quiz,
     visible: true,
     description: "Engage in fun, interactive quizzes across various topics and challenge your friends",
-    techStack: ['Quiz Engine', 'Multiplayer']
+    techStack: ['Quiz Engine', 'Multiplayer'],
+    icon: HelpCircle
   },
   {
     name: 'Poke-Memory',
@@ -101,7 +111,8 @@ export const Apps: AppInfo[] = [
     image: Memory,
     visible: true,
     description: "Test your memory with this Pokémon-themed card matching game",
-    techStack: ['Game Logic', 'Animation']
+    techStack: ['Game Logic', 'Animation'],
+    icon: MemoryStick
   },
   {
     name: 'Recipe Haven',
@@ -110,7 +121,8 @@ export const Apps: AppInfo[] = [
     image: Byte,
     visible: true,
     description: "Discover, save, and share your favorite recipes in this culinary companion app",
-    techStack: ['API Integration', 'State Management']
+    techStack: ['API Integration', 'State Management'],
+    icon: UtensilsCrossed
   },
   {
     name: 'HomeLoan Wizard',
@@ -119,7 +131,8 @@ export const Apps: AppInfo[] = [
     image: Loan,
     visible: true,
     description: "Calculate and visualize home loan scenarios to make informed financial decisions",
-    techStack: ['Financial Calculations', 'Data Visualization']
+    techStack: ['Financial Calculations', 'Data Visualization'],
+    icon: HandCoins
   },
   {
     name: 'Glassmorphism',
@@ -128,6 +141,7 @@ export const Apps: AppInfo[] = [
     image: Glass,
     visible: false,
     description: "Experiment with the trendy glassmorphism effect and generate CSS for your projects",
-    techStack: ['CSS Generation', 'Interactive UI']
+    techStack: ['CSS Generation', 'Interactive UI'],
+    icon: Glasses
   },
 ];

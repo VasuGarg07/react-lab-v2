@@ -18,7 +18,7 @@ import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
 import InvoEase from "../apps/InvoEase/InvoEase";
 import { ResumeProvider } from "../apps/ResumeGen/ResumeContext";
-import ResumeHome from "../apps/ResumeGen/pages/ResumeHome";
+import ResumeEdge from "../apps/ResumeGen/pages/ResumeEdge";
 import ResumeForm from "../apps/ResumeGen/pages/ResumeForm";
 import ResumePreview from "../apps/ResumeGen/pages/ResumePreview";
 
@@ -40,7 +40,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <ResumeHome />
+            element: <ResumeEdge />
           },
           {
             path: 'form',
