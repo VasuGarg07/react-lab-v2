@@ -12,8 +12,9 @@ export const INITIAL_RESUME: ResumeModel = {
     profile: "",
     technicalSkills: [],
     workExperience: [],
-    education: []
-    // Note: projects and achievements are not included in the initial state
+    education: [],
+    projects: [],
+    achievements: []
 };
 
 
@@ -28,31 +29,6 @@ export const SKILL_CATEGORIES = [
     "DevOps",
     "Mobile Development",
     "Other"
-];
-
-export const DEGREE_TYPES = [
-    "Associate's Degree",
-    "Bachelor's Degree",
-    "Master's Degree",
-    "Doctoral Degree",
-    "Professional Certification",
-    "Diploma",
-    "High School Diploma",
-    "Other"
-];
-
-export const MONTHS = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-];
-
-export const YEARS = Array.from({ length: 50 }, (_, i) => new Date().getFullYear() - i);
-
-export const SKILL_LEVELS = [
-    "Beginner",
-    "Intermediate",
-    "Advanced",
-    "Expert"
 ];
 
 export const MAX_WORK_EXPERIENCES = 10;
@@ -76,3 +52,21 @@ export const RESUME_TEMPLATES = [
 
 export const MAX_PROFILE_LENGTH = 500;
 export const MAX_RESPONSIBILITY_LENGTH = 200;
+
+export const DEFAULT_JOB_TITLES = [
+    "Software Engineer",
+    "Frontend Developer",
+    "Backend Developer",
+    "Full Stack Developer",
+    "Data Scientist",
+    "Product Manager",
+    "UX Designer",
+    "DevOps Engineer",
+    "Mobile App Developer",
+    "Machine Learning Engineer",
+    "Cloud Architect",
+    "Cybersecurity Analyst",
+    "Business Analyst",
+    "Project Manager",
+    "QA Engineer"
+];

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useResumeContext } from '../ResumeContext';
+import { useResumeContext } from '../context/ResumeContext';
 
 const ResumePreview: React.FC = () => {
     const { state } = useResumeContext();

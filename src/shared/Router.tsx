@@ -17,7 +17,7 @@ import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
 import InvoEase from "../apps/InvoEase/InvoEase";
-import { ResumeProvider } from "../apps/ResumeGen/ResumeContext";
+import { ResumeProvider } from "../apps/ResumeGen/context/ResumeContext";
 import ResumeEdge from "../apps/ResumeGen/pages/ResumeEdge";
 import ResumeForm from "../apps/ResumeGen/pages/ResumeForm";
 import ResumePreview from "../apps/ResumeGen/pages/ResumePreview";

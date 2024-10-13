@@ -62,7 +62,7 @@ const LandingPage: React.FC = () => {
             position: 'relative',
             overflow: 'hidden',
             background: theme.palette.mode === 'light'
-                ? 'linear-gradient(135deg, #FF7F51 0%, #CE4257 100%)'
+                ? 'linear-gradient(135deg, #757F9A 0%, #D7DDE8 100%)'
                 : 'linear-gradient(135deg, #141e30 0%, #243b55 100%)',
             '&::before': {
                 content: '""',
