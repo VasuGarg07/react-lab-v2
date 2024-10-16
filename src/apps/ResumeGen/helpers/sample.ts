@@ -23,7 +23,7 @@ export const sampleResume: ResumeModel = {
             location: "Punjab, India",
             startDate: "05/2024",
             endDate: "present",
-            responsibilities: [
+            highlights: [
                 "Developed an Artificial Intelligence assistant for developing trading strategies and portfolios using OpenAI, WebSockets, Angular, and Go.",
                 "Designed uAlgoScript - a YAML based configuration language tailored specially for defining complex options trading strategies.",
                 "Developed an extensive and feature rich portfolio editor for the AI assistant, enabling collaborative work between users and AI.",
@@ -37,7 +37,7 @@ export const sampleResume: ResumeModel = {
             location: "Punjab, India",
             startDate: "07/2022",
             endDate: "04/2024",
-            responsibilities: [
+            highlights: [
                 "Developed 25+ features and fixed 200+ bugs, including secure anonymous file sharing, client-side tokenized document searching, and microservices to improve COVE-DRIVE platform scalability and efficiency.",
                 "Integrated Google Analytics in CoveDrive, tracking user interactions and most popular features, in turn contributing to a 25% improvement in user retention over 6 months by optimizing user experience based on data insights.",
                 "Revamped the application UI and modular architecture, reducing template size by 45% and improving site loading performance by 16%.",
@@ -52,7 +52,7 @@ export const sampleResume: ResumeModel = {
             location: "Punjab, India",
             startDate: "01/2022",
             endDate: "06/2022",
-            responsibilities: [
+            highlights: [
                 "Developed an SEO-optimized website for uTrade's trading and market data REST APIs using Next.js and MkDocs.",
                 "Contributed to the development of features and bug fixes the Crypto Exchange web portal",
                 "Implemented the Cove Drop web extension that facilitates real-time data transfer between the Cove App and the web extension using React."

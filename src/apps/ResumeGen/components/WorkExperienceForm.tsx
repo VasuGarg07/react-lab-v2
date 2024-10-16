@@ -1,27 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useResumeContext } from '../context/ResumeContext';
-import { Box, Button, FormControl, FormLabel, Input, Stack, Textarea, IconButton } from '@mui/joy';
-import { Briefcase, Plus, Trash2 } from 'lucide-react';
-import { MAX_WORK_EXPERIENCES, MAX_RESPONSIBILITY_LENGTH } from '../helpers/constants';
+import { Box, FormControl, Input, Stack, IconButton, Card, CardContent, Typography, Button, Autocomplete, Divider, Tooltip } from '@mui/joy';
+import { Briefcase, Plus, Trash2, AlertCircle, Building, MapPin, Calendar, BriefcaseBusiness } from 'lucide-react';
+import { MAX_WORK_EXPERIENCES, MAX_HIGHLIGHT_LENGTH, MAX_WORK_HIGHLIGHTS, DEFAULT_JOB_TITLES } from '../helpers/constants';
+import { WorkExperience } from '../helpers/interfaces';
 
-const WorkExperienceForm: React.FC = () => {
+interface WorkExperienceFormProps {
+    color: string;
+}
+
+interface ValidationErrors {
+    [key: string]: string;
+}
+
+const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({ color }) => {
     const { state, dispatch } = useResumeContext();
     const { workExperience } = state.resume;
+    const [errors, setErrors] = useState<ValidationErrors>({});
 
-    const handleChange = (index: number, field: keyof typeof workExperience[0]) => (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    useEffect(() => {
+        if (workExperience.length === 0) {
+            handleAddExperience();
+        }
+    }, [workExperience]);
+
+    const validateField = (field: keyof WorkExperience, value: string): string => {
+        switch (field) {
+            case 'title':
+            case 'company':
+            case 'location':
+                return value.trim() === '' ? `${field.charAt(0).toUpperCase() + field.slice(1)} is required` : '';
+            case 'startDate':
+            case 'endDate':
+                return value === '' ? `${field === 'startDate' ? 'Start' : 'End'} date is required` : '';
+            default:
+                return '';
+        }
+    };
+
+    const handleChange = (index: number, field: keyof WorkExperience) => (
+        event: React.ChangeEvent<HTMLInputElement> | null,
+        newValue: string | null
     ) => {
+        const value = newValue || event?.target.value || '';
         dispatch({
             type: 'UPDATE_WORK_EXPERIENCE',
-            payload: { index, experience: { [field]: event.target.value } },
+            payload: { index, experience: { [field]: value } },
         });
+
+        const errorMessage = validateField(field, value);
+        setErrors(prev => ({ ...prev, [`${index}-${field}`]: errorMessage }));
     };
 
     const handleAddExperience = () => {
         if (workExperience.length < MAX_WORK_EXPERIENCES) {
             dispatch({
                 type: 'ADD_WORK_EXPERIENCE',
-                payload: { title: '', company: '', location: '', startDate: '', endDate: '', responsibilities: [''] },
+                payload: { title: '', company: '', location: '', startDate: '', endDate: '', highlights: [''] },
             });
         }
     };
@@ -31,138 +66,185 @@ const WorkExperienceForm: React.FC = () => {
             type: 'REMOVE_WORK_EXPERIENCE',
             payload: index,
         });
+        if (workExperience.length === 0) {
+            handleAddExperience();
+        }
     };
 
-    const handleAddResponsibility = (experienceIndex: number) => {
+    const handleAddHighlight = (experienceIndex: number) => {
         const updatedExperience = { ...workExperience[experienceIndex] };
-        updatedExperience.responsibilities.push('');
+        updatedExperience.highlights.push('');
         dispatch({
             type: 'UPDATE_WORK_EXPERIENCE',
             payload: { index: experienceIndex, experience: updatedExperience },
         });
     };
 
-    const handleRemoveResponsibility = (experienceIndex: number, responsibilityIndex: number) => {
+    const handleRemoveHighlight = (experienceIndex: number, highlightIndex: number) => {
         const updatedExperience = { ...workExperience[experienceIndex] };
-        updatedExperience.responsibilities.splice(responsibilityIndex, 1);
+        updatedExperience.highlights.splice(highlightIndex, 1);
         dispatch({
             type: 'UPDATE_WORK_EXPERIENCE',
             payload: { index: experienceIndex, experience: updatedExperience },
         });
     };
+
+    const renderInput = (index: number, field: keyof WorkExperience, value: string, icon: React.ReactNode, placeholder: string) => (
+        <FormControl sx={{ flex: 1 }}>
+            <Stack direction="row" spacing={1} alignItems="center">
+                <Tooltip title={field.charAt(0).toUpperCase() + field.slice(1)}>
+                    <IconButton
+                        size="sm"
+                        sx={{
+                            bgcolor: color,
+                            color: 'white',
+                            '&:hover': {
+                                bgcolor: color,
+                                color: 'white',
+                            },
+                        }}
+                    >
+                        {icon}
+                    </IconButton>
+                </Tooltip>
+                {field === 'title' ? (
+                    <Autocomplete
+                        value={value}
+                        onChange={(_, newValue) => handleChange(index, field)(null, newValue)}
+                        options={DEFAULT_JOB_TITLES}
+                        freeSolo
+                        placeholder={placeholder}
+                        sx={{ flexGrow: 1, '--Input-focusedHighlight': color }}
+                    />
+                ) : field === 'startDate' || field === 'endDate' ? (
+                    <Input
+                        type="month"
+                        value={value}
+                        onChange={(e) => handleChange(index, field)(e, null)}
+                        placeholder={placeholder}
+                        sx={{ flexGrow: 1, '--Input-focusedHighlight': color }}
+                        slotProps={{
+                            input: {
+                                min: "1900-01",
+                                max: "2099-12"
+                            }
+                        }}
+                        error={!!errors[`${index}-${field}`]}
+                    />
+                ) : (
+                    <Input
+                        value={value}
+                        onChange={(e) => handleChange(index, field)(e, null)}
+                        placeholder={placeholder}
+                        sx={{ flexGrow: 1, '--Input-focusedHighlight': color }}
+                        error={!!errors[`${index}-${field}`]}
+                    />
+                )}
+            </Stack>
+            {errors[`${index}-${field}`] && (
+                <Typography level="body-xs" color="danger" sx={{ mt: 0.5 }}>
+                    {errors[`${index}-${field}`]}
+                </Typography>
+            )}
+        </FormControl>
+    );
 
     return (
         <Box>
-            <Stack spacing={4}>
+            <Stack spacing={3}>
                 {workExperience.map((experience, index) => (
-                    <Box key={index} sx={{ p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 'md' }}>
-                        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-                            <FormLabel><Briefcase size={18} /> Work Experience {index + 1}</FormLabel>
-                            <IconButton
-                                onClick={() => handleRemoveExperience(index)}
-                                size="sm"
-                                variant="plain"
-                                color="danger"
-                            >
-                                <Trash2 size={18} />
-                            </IconButton>
-                        </Stack>
-                        <Stack spacing={2}>
-                            <FormControl>
-                                <FormLabel>Job Title</FormLabel>
-                                <Input
-                                    value={experience.title}
-                                    onChange={handleChange(index, 'title')}
-                                    placeholder="Software Engineer"
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>Company</FormLabel>
-                                <Input
-                                    value={experience.company}
-                                    onChange={handleChange(index, 'company')}
-                                    placeholder="Tech Company Inc."
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>Location</FormLabel>
-                                <Input
-                                    value={experience.location}
-                                    onChange={handleChange(index, 'location')}
-                                    placeholder="City, Country"
-                                />
-                            </FormControl>
-                            <Stack direction="row" spacing={2}>
-                                <FormControl>
-                                    <FormLabel>Start Date</FormLabel>
-                                    <Input
-                                        type="month"
-                                        value={experience.startDate}
-                                        onChange={handleChange(index, 'startDate')}
-                                    />
-                                </FormControl>
-                                <FormControl>
-                                    <FormLabel>End Date</FormLabel>
-                                    <Input
-                                        type="month"
-                                        value={experience.endDate}
-                                        onChange={handleChange(index, 'endDate')}
-                                    />
-                                </FormControl>
-                            </Stack>
-                            <FormControl>
-                                <FormLabel>Responsibilities</FormLabel>
-                                {experience.responsibilities.map((responsibility, respIndex) => (
-                                    <Stack key={respIndex} direction="row" spacing={1} mb={1}>
-                                        <Textarea
-                                            value={responsibility}
-                                            onChange={(e) => {
-                                                const updatedExperience = { ...experience };
-                                                updatedExperience.responsibilities[respIndex] = e.target.value;
-                                                dispatch({
-                                                    type: 'UPDATE_WORK_EXPERIENCE',
-                                                    payload: { index, experience: updatedExperience },
-                                                });
-                                            }}
-                                            placeholder={`Responsibility ${respIndex + 1}`}
-                                            minRows={2}
-                                            maxRows={4}
-                                            slotProps={{
-                                                textarea: {
-                                                    maxLength: MAX_RESPONSIBILITY_LENGTH,
-                                                },
-                                            }}
-                                        />
+                    <Card key={index} variant="outlined">
+                        <CardContent>
+                            <Stack spacing={2}>
+                                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                    <Typography level="title-lg" startDecorator={<Briefcase size={20} color={color} />}>
+                                        Work Experience {index + 1}
+                                    </Typography>
+                                    {workExperience.length > 1 && (
                                         <IconButton
-                                            onClick={() => handleRemoveResponsibility(index, respIndex)}
+                                            onClick={() => handleRemoveExperience(index)}
                                             size="sm"
-                                            variant="plain"
+                                            variant="soft"
                                             color="danger"
                                         >
-                                            <Trash2 size={18} />
+                                            <Trash2 size={20} />
                                         </IconButton>
-                                    </Stack>
-                                ))}
-                                <Button
-                                    onClick={() => handleAddResponsibility(index)}
-                                    startDecorator={<Plus size={18} />}
-                                    size="sm"
-                                >
-                                    Add Responsibility
-                                </Button>
-                            </FormControl>
-                        </Stack>
-                    </Box>
+                                    )}
+                                </Stack>
+                                <Divider />
+                                <Stack direction="row" spacing={2}>
+                                    {renderInput(index, 'title', experience.title, <BriefcaseBusiness size={20} />, 'Your job title')}
+                                    {renderInput(index, 'company', experience.company, <Building size={20} />, 'Your company')}
+                                    {renderInput(index, 'location', experience.location, <MapPin size={20} />, 'Your location')}
+                                </Stack>
+                                <Stack direction="row" spacing={2}>
+                                    {renderInput(index, 'startDate', experience.startDate, <Calendar size={20} />, 'Start Date')}
+                                    {renderInput(index, 'endDate', experience.endDate, <Calendar size={20} />, 'End Date')}
+                                </Stack>
+                                <Typography level="title-sm" sx={{ mt: 2 }}>Highlights</Typography>
+                                <Stack spacing={1}>
+                                    {experience.highlights.map((highlight, highlightIndex) => (
+                                        <Stack key={highlightIndex} direction="row" spacing={1}>
+                                            <Input
+                                                value={highlight}
+                                                onChange={(e) => {
+                                                    const updatedExperience = { ...experience };
+                                                    updatedExperience.highlights[highlightIndex] = e.target.value;
+                                                    dispatch({
+                                                        type: 'UPDATE_WORK_EXPERIENCE',
+                                                        payload: { index, experience: updatedExperience },
+                                                    });
+                                                }}
+                                                placeholder={`Highlight ${highlightIndex + 1}`}
+                                                sx={{ '--Input-focusedHighlight': color, flexGrow: 1 }}
+                                                slotProps={{
+                                                    input: {
+                                                        maxLength: MAX_HIGHLIGHT_LENGTH,
+                                                    },
+                                                }}
+                                            />
+                                            <IconButton
+                                                onClick={() => handleRemoveHighlight(index, highlightIndex)}
+                                                size="sm"
+                                                variant="soft"
+                                                color="danger"
+                                            >
+                                                <Trash2 size={20} />
+                                            </IconButton>
+                                        </Stack>
+                                    ))}
+                                </Stack>
+                                {experience.highlights.length < MAX_WORK_HIGHLIGHTS && (
+                                    <Button
+                                        onClick={() => handleAddHighlight(index)}
+                                        startDecorator={<Plus size={20} />}
+                                        color='primary' variant='soft'
+                                        sx={{ width: 'fit-content' }}
+                                    >
+                                        Add Highlight
+                                    </Button>
+                                )}
+                            </Stack>
+                        </CardContent>
+                    </Card>
                 ))}
             </Stack>
-            <Button
-                onClick={handleAddExperience}
-                startDecorator={<Plus size={18} />}
-                disabled={workExperience.length >= MAX_WORK_EXPERIENCES}
-                sx={{ mt: 2 }}
-            >
-                Add Work Experience
-            </Button>
+            <Stack direction='row' spacing={1} alignItems='center' sx={{ mt: 2 }}>
+                <Button
+                    onClick={handleAddExperience}
+                    startDecorator={<Plus size={20} />}
+                    disabled={workExperience.length >= MAX_WORK_EXPERIENCES}
+                    sx={{ bgcolor: color, color: 'white', '&:hover': { bgcolor: color, opacity: 0.8 } }}
+                >
+                    Add Work Experience
+                </Button>
+                {workExperience.length >= MAX_WORK_EXPERIENCES && (
+                    <Typography level="body-sm" color="danger" sx={{ mt: 1, display: 'flex', alignItems: 'center' }}>
+                        <AlertCircle size={16} style={{ marginRight: '4px' }} />
+                        Maximum number of work experiences reached
+                    </Typography>
+                )}
+            </Stack>
         </Box>
     );
 };

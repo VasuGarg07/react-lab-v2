@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { Autocomplete, Box, Button, FormControl, Input, Stack, Typography } from '@mui/joy';
+import { Briefcase, CheckCircle, Github, Linkedin, Mail, Phone, User, UserSquare2 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { useResumeContext } from '../context/ResumeContext';
-import { Box, FormControl, Input, Stack, Typography, Button, Autocomplete } from '@mui/joy';
-import { User, Mail, Phone, Briefcase, Linkedin, Github, CheckCircle } from 'lucide-react';
 import { DEFAULT_JOB_TITLES } from '../helpers/constants';
 
 interface ContactInfoFormProps {
@@ -91,11 +91,12 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
         <Button
             startDecorator={icon}
             sx={{
-                bgcolor: color,
-                color: 'white',
+                color,
                 minWidth: '120px',
-                '&:hover': { bgcolor: color },
+                border: '1px solid'
             }}
+            variant='soft'
+            color='neutral'
         >
             {label}
         </Button>
@@ -166,6 +167,17 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
             }}
         >
             <Stack spacing={2} sx={{ flexGrow: 1 }}>
+                <Button
+                    startDecorator={<UserSquare2 size={18} />}
+                    sx={{
+                        bgcolor: color,
+                        color: 'white',
+                        width: 'fit-content',
+                        '&:hover': { bgcolor: color },
+                    }}
+                >
+                    Contact Information
+                </Button>
                 {renderInput('name', contactInfo.name, <User size={18} />, 'Name')}
                 <FormControl error={!!errors.title}>
                     <Stack direction="row" spacing={1} alignItems="center">

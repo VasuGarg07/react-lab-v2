@@ -72,7 +72,16 @@ const ResumeForm: React.FC = () => {
             />
 
             {/* Content */}
-            <Box sx={{ position: 'relative', p: { xs: 1, sm: 2 }, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{
+                position: 'relative',
+                p: { xs: 1, sm: 2 },
+                flexGrow: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                maxWidth: 1000,
+                width: 1,
+                mx: 'auto',
+            }}>
                 <Button
                     size="sm"
                     onClick={() => navigate('/resume')}

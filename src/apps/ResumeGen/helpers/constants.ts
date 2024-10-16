@@ -32,6 +32,7 @@ export const SKILL_CATEGORIES = [
 ];
 
 export const MAX_WORK_EXPERIENCES = 10;
+export const MAX_WORK_HIGHLIGHTS = 10;
 export const MAX_EDUCATION_ENTRIES = 5;
 export const MAX_SKILLS = 20;
 
@@ -51,7 +52,7 @@ export const RESUME_TEMPLATES = [
 ];
 
 export const MAX_PROFILE_LENGTH = 800;
-export const MAX_RESPONSIBILITY_LENGTH = 200;
+export const MAX_HIGHLIGHT_LENGTH = 200;
 
 export const DEFAULT_JOB_TITLES = [
     "Software Engineer",

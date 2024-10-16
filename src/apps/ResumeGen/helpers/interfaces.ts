@@ -18,7 +18,7 @@ export interface WorkExperience {
     location: string;
     startDate: string;
     endDate: string;
-    responsibilities: string[];
+    highlights: string[];
 }
 
 export interface Education {
