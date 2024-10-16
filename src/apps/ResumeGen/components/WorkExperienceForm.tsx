@@ -101,7 +101,7 @@ const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({ color }) => {
                             '&:hover': {
                                 bgcolor: color,
                                 color: 'white',
-                            },
+                            }
                         }}
                     >
                         {icon}
@@ -172,12 +172,12 @@ const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({ color }) => {
                                     )}
                                 </Stack>
                                 <Divider />
-                                <Stack direction="row" spacing={2}>
+                                <Stack sx={{ flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
                                     {renderInput(index, 'title', experience.title, <BriefcaseBusiness size={20} />, 'Your job title')}
                                     {renderInput(index, 'company', experience.company, <Building size={20} />, 'Your company')}
                                     {renderInput(index, 'location', experience.location, <MapPin size={20} />, 'Your location')}
                                 </Stack>
-                                <Stack direction="row" spacing={2}>
+                                <Stack sx={{ flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
                                     {renderInput(index, 'startDate', experience.startDate, <Calendar size={20} />, 'Start Date')}
                                     {renderInput(index, 'endDate', experience.endDate, <Calendar size={20} />, 'End Date')}
                                 </Stack>

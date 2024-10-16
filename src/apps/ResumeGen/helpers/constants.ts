@@ -34,7 +34,7 @@ export const SKILL_CATEGORIES = [
 export const MAX_WORK_EXPERIENCES = 10;
 export const MAX_WORK_HIGHLIGHTS = 10;
 export const MAX_EDUCATION_ENTRIES = 5;
-export const MAX_SKILLS = 20;
+export const MAX_SKILLS = 30;
 
 export const SOCIAL_MEDIA_PLATFORMS = [
     { name: "LinkedIn", baseUrl: "https://www.linkedin.com/in/" },

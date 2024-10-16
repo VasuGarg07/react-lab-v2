@@ -96,7 +96,7 @@ const ClassicProfessionalResume: React.FC<TemplateProps> = ({ resumeData }) => {
                         </JobHeader>
                         <div>{job.company}, {job.location}</div>
                         <ul>
-                            {job.responsibilities.map((resp, i) => (
+                            {job.highlights.map((resp, i) => (
                                 <li key={i}>{resp}</li>
                             ))}
                         </ul>

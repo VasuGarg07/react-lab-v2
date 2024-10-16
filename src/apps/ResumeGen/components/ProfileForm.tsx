@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Chip, FormControl, LinearProgress, Stack, Textarea, Typography } from '@mui/joy';
+import { Box, Button, Card, CardContent, Chip, Divider, FormControl, LinearProgress, Stack, Textarea, Typography } from '@mui/joy';
 import { AlertCircle, CheckCircle, Eraser, FileText, Lightbulb } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useResumeContext } from '../context/ResumeContext';
@@ -69,19 +69,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ color }) => {
         >
             <Stack spacing={2} sx={{ flexGrow: 1 }}>
                 <FormControl error={!!errorMessage}>
-                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
-                        <Button
-                            startDecorator={<FileText size={18} />}
-                            sx={{
-                                bgcolor: color,
-                                color: 'white',
-                                minWidth: '180px',
-                                '&:hover': { bgcolor: color },
-                            }}
-                        >
-                            Professional Profile
-                        </Button>
-                    </Stack>
+                    <Typography level="title-lg" startDecorator={<FileText size={20} color={color} />} >
+                        Professional Profile
+                    </Typography>
+                    <Divider sx={{ my: 2 }} />
                     <Textarea
                         value={profile}
                         onChange={handleProfileChange}

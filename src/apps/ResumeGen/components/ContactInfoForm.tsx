@@ -1,5 +1,5 @@
-import { Autocomplete, Box, Button, FormControl, Input, Stack, Typography } from '@mui/joy';
-import { Briefcase, CheckCircle, Github, Linkedin, Mail, Phone, User, UserSquare2 } from 'lucide-react';
+import { Autocomplete, Box, Button, Card, CardContent, Divider, FormControl, IconButton, Input, Stack, Tooltip, Typography } from '@mui/joy';
+import { Briefcase, CheckCircle, Github, Linkedin, Mail, Phone, User } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useResumeContext } from '../context/ResumeContext';
 import { DEFAULT_JOB_TITLES } from '../helpers/constants';
@@ -8,16 +8,30 @@ interface ContactInfoFormProps {
     color: string;
 }
 
+interface ValidationErrors {
+    [key: string]: string;
+}
+
 const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
     const { state, dispatch } = useResumeContext();
     const { contactInfo } = state.resume;
-    const [errors, setErrors] = useState<Partial<Record<keyof typeof contactInfo, string>>>({});
+    const [errors, setErrors] = useState<ValidationErrors>({});
     const [isFormValid, setIsFormValid] = useState(false);
     const [optionalFields, setOptionalFields] = useState<Set<'linkedIn' | 'github'>>(new Set(['linkedIn', 'github']));
 
-    const validateField = (field: keyof typeof contactInfo, value: string) => {
+    useEffect(() => {
+        const isValid = Object.entries(contactInfo).every(([key, value]) => {
+            if (optionalFields.has(key as 'linkedIn' | 'github')) {
+                return true;
+            }
+            return value.trim() !== '' && !errors[key];
+        });
+        setIsFormValid(isValid);
+    }, [contactInfo, errors, optionalFields]);
+
+    const validateField = (field: keyof typeof contactInfo, value: string): string => {
         if (!optionalFields.has(field as 'linkedIn' | 'github') && !value.trim()) {
-            return 'Please fill out this field';
+            return `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
         }
         switch (field) {
             case 'email':
@@ -34,15 +48,10 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
         newValue: string | null
     ) => {
         if (optionalFields.has(field as 'linkedIn' | 'github')) {
-            return; // Prevent changes to optional fields
+            return;
         }
 
-        let value: string;
-        if (event) {
-            value = (event.target as HTMLInputElement).value;
-        } else {
-            value = newValue || '';
-        }
+        let value = newValue || (event?.target as HTMLInputElement)?.value || '';
 
         if (field === 'linkedIn' || field === 'github') {
             value = value.replace(/^(https?:\/\/)?(www\.)?(linkedin\.com\/in\/|github\.com\/)?/, '');
@@ -61,12 +70,10 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
             const newSet = new Set(prev);
             if (newSet.has(field)) {
                 newSet.delete(field);
-                // Field is now required, validate it
                 const error = validateField(field, contactInfo[field]);
                 setErrors(prev => ({ ...prev, [field]: error }));
             } else {
                 newSet.add(field);
-                // Field is now optional, clear its value and error
                 dispatch({
                     type: 'UPDATE_CONTACT_INFO',
                     payload: { [field]: '' },
@@ -77,40 +84,38 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
         });
     };
 
-    useEffect(() => {
-        const isValid = Object.entries(contactInfo).every(([key, value]) => {
-            if (optionalFields.has(key as 'linkedIn' | 'github')) {
-                return true; // Optional fields are always considered valid
-            }
-            return value.trim() !== '' && !errors[key as keyof typeof contactInfo];
-        });
-        setIsFormValid(isValid);
-    }, [contactInfo, errors, optionalFields]);
-
-    const renderLabelButton = (icon: React.ReactNode, label: string) => (
-        <Button
-            startDecorator={icon}
-            sx={{
-                color,
-                minWidth: '120px',
-                border: '1px solid'
-            }}
-            variant='soft'
-            color='neutral'
-        >
-            {label}
-        </Button>
-    );
-
     const renderInput = (field: keyof typeof contactInfo, value: string, icon: React.ReactNode, label: string) => {
         const isOptional = field === 'linkedIn' || field === 'github';
         const isMarkedOptional = optionalFields.has(field as 'linkedIn' | 'github');
 
         return (
-            <FormControl key={field} error={!!errors[field]}>
+            <FormControl sx={{ flex: 1 }}>
                 <Stack direction="row" spacing={1} alignItems="center">
-                    {renderLabelButton(icon, label)}
-                    <Box sx={{ position: 'relative', flexGrow: 1 }}>
+                    <Tooltip title={label}>
+                        <IconButton
+                            size="sm"
+                            sx={{
+                                bgcolor: color,
+                                color: 'white',
+                                '&:hover': {
+                                    bgcolor: color,
+                                    color: 'white',
+                                },
+                            }}
+                        >
+                            {icon}
+                        </IconButton>
+                    </Tooltip>
+                    {field === 'title' ? (
+                        <Autocomplete
+                            value={value}
+                            onChange={(_, newValue) => handleChange(field)(null, newValue)}
+                            options={DEFAULT_JOB_TITLES}
+                            freeSolo
+                            placeholder={`Your ${field}`}
+                            sx={{ flexGrow: 1, '--Input-focusedHighlight': color }}
+                        />
+                    ) : (
                         <Input
                             value={value}
                             onChange={(e) => handleChange(field)(e, null)}
@@ -121,32 +126,22 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
                             sx={{
                                 flexGrow: 1,
                                 '--Input-focusedHighlight': color,
-                                '--Input-focusedThickness': '2px',
-                                paddingRight: isOptional ? '100px' : '8px',  // Make room for the button
                             }}
                         />
-                        {isOptional && (
-                            <Button
-                                size="sm"
-                                variant="plain"
-                                color={isMarkedOptional ? "neutral" : "primary"}
-                                onClick={() => toggleOptional(field as 'linkedIn' | 'github')}
-                                sx={{
-                                    position: 'absolute',
-                                    right: '2px',
-                                    top: '50%',
-                                    transform: 'translateY(-50%)',
-                                    zIndex: 2,
-                                    borderRadius: '4px'
-                                }}
-                            >
-                                {isMarkedOptional ? "Add Handle" : "Skip"}
-                            </Button>
-                        )}
-                    </Box>
+                    )}
+                    {isOptional && (
+                        <Button
+                            size="sm"
+                            variant="plain"
+                            color={isMarkedOptional ? "neutral" : "primary"}
+                            onClick={() => toggleOptional(field as 'linkedIn' | 'github')}
+                        >
+                            {isMarkedOptional ? "Add" : "Skip"}
+                        </Button>
+                    )}
                 </Stack>
                 {errors[field] && !isMarkedOptional && (
-                    <Typography level="body-sm" color="danger" sx={{ mt: 0.5, ml: '130px' }}>
+                    <Typography level="body-xs" color="danger" sx={{ mt: 0.5 }}>
                         {errors[field]}
                     </Typography>
                 )}
@@ -155,57 +150,29 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
     };
 
     return (
-        <Box
-            sx={{
-                borderRadius: 'md',
-                p: 3,
-                bgcolor: 'background.surface',
-                position: 'relative',
-                minHeight: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-            }}
-        >
-            <Stack spacing={2} sx={{ flexGrow: 1 }}>
-                <Button
-                    startDecorator={<UserSquare2 size={18} />}
-                    sx={{
-                        bgcolor: color,
-                        color: 'white',
-                        width: 'fit-content',
-                        '&:hover': { bgcolor: color },
-                    }}
-                >
-                    Contact Information
-                </Button>
-                {renderInput('name', contactInfo.name, <User size={18} />, 'Name')}
-                <FormControl error={!!errors.title}>
-                    <Stack direction="row" spacing={1} alignItems="center">
-                        {renderLabelButton(<Briefcase size={18} />, 'Job Title')}
-                        <Autocomplete
-                            value={contactInfo.title}
-                            onChange={(_, newValue) => handleChange('title')(null, newValue)}
-                            options={DEFAULT_JOB_TITLES}
-                            freeSolo
-                            placeholder="Your job title"
-                            sx={{
-                                flexGrow: 1,
-                                '--Input-focusedHighlight': color,
-                                '--Input-focusedThickness': '2px',
-                            }}
-                        />
-                    </Stack>
-                    {errors.title && (
-                        <Typography level="body-sm" color="danger" sx={{ mt: 0.5, ml: '130px' }}>
-                            {errors.title}
+        <Box>
+            <Card variant="outlined">
+                <CardContent>
+                    <Stack spacing={2}>
+                        <Typography level="title-lg" startDecorator={<User size={20} color={color} />}>
+                            Contact Information
                         </Typography>
-                    )}
-                </FormControl>
-                {renderInput('email', contactInfo.email, <Mail size={18} />, 'Email')}
-                {renderInput('phone', contactInfo.phone, <Phone size={18} />, 'Phone')}
-                {renderInput('linkedIn', contactInfo.linkedIn, <Linkedin size={18} />, 'LinkedIn')}
-                {renderInput('github', contactInfo.github, <Github size={18} />, 'GitHub')}
-            </Stack>
+                        <Divider />
+                        <Stack sx={{ flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
+                            {renderInput('name', contactInfo.name, <User size={18} />, 'Name')}
+                            {renderInput('title', contactInfo.title, <Briefcase size={18} />, 'Job Title')}
+                        </Stack>
+                        <Stack sx={{ flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
+                            {renderInput('email', contactInfo.email, <Mail size={18} />, 'Email')}
+                            {renderInput('phone', contactInfo.phone, <Phone size={18} />, 'Phone')}
+                        </Stack>
+                        <Stack sx={{ flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
+                            {renderInput('linkedIn', contactInfo.linkedIn, <Linkedin size={18} />, 'LinkedIn')}
+                            {renderInput('github', contactInfo.github, <Github size={18} />, 'GitHub')}
+                        </Stack>
+                    </Stack>
+                </CardContent>
+            </Card>
             {isFormValid && (
                 <Box
                     sx={{
