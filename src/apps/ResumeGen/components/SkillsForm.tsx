@@ -8,6 +8,7 @@ import { OutlinedSkillChip } from './SkillChips';
 
 interface SkillsFormProps {
     color: string;
+    onValidation: (isValid: boolean) => void;
 }
 
 const SkillsForm: React.FC<SkillsFormProps> = ({ color }) => {

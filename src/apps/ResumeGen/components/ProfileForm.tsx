@@ -6,6 +6,7 @@ import { MAX_PROFILE_LENGTH, SAMPLE_PROFILES } from '../helpers/constants';
 
 interface ProfileFormProps {
     color: string;
+    onValidation: (isValid: boolean) => void;
 }
 
 const ProfileForm: React.FC<ProfileFormProps> = ({ color }) => {

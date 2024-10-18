@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
+import { ResumeModel } from './interfaces';
+import { isValidResumeModel } from './validateJson';
 
 export const generateUniqueId = (): string => {
     return uuidv4();
@@ -56,4 +58,31 @@ export const getInitials = (name: string): string => {
         .map(n => n[0])
         .join('')
         .toUpperCase();
+};
+
+export const importJSON = (file: File): Promise<ResumeModel> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            try {
+                const json = JSON.parse(event.target?.result as string);
+
+                // Validate the JSON against our ResumeModel interface
+                if (isValidResumeModel(json)) {
+                    resolve(json);
+                } else {
+                    reject(new Error('Invalid JSON structure. Please ensure it matches the required format.'));
+                }
+            } catch (error) {
+                reject(new Error('Error parsing JSON file.'));
+            }
+        };
+
+        reader.onerror = () => {
+            reject(new Error('Error reading file.'));
+        };
+
+        reader.readAsText(file);
+    });
 };

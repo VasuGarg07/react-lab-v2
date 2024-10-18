@@ -7,6 +7,7 @@ import { WorkExperience } from '../helpers/interfaces';
 
 interface WorkExperienceFormProps {
     color: string;
+    onValidation: (isValid: boolean) => void;
 }
 
 interface ValidationErrors {
@@ -206,7 +207,7 @@ const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({ color }) => {
                                             <IconButton
                                                 onClick={() => handleRemoveHighlight(index, highlightIndex)}
                                                 size="sm"
-                                                variant="soft"
+                                                variant="outlined"
                                                 color="danger"
                                             >
                                                 <Trash2 size={20} />

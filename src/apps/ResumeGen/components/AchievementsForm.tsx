@@ -7,6 +7,7 @@ import { Achievement } from '../helpers/interfaces';
 
 interface AchievementsFormProps {
     color: string;
+    onValidation: (isValid: boolean) => void;
 }
 
 interface ValidationErrors {

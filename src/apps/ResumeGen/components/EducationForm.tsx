@@ -7,6 +7,7 @@ import { Education } from '../helpers/interfaces';
 
 interface EducationFormProps {
     color: string;
+    onValidation: (isValid: boolean) => void;
 }
 
 interface ValidationErrors {
@@ -52,7 +53,6 @@ const EducationForm: React.FC<EducationFormProps> = ({ color }) => {
     };
 
     const handleAddEducation = () => {
-        console.trace('here');
         if (education.length < MAX_EDUCATION_ENTRIES) {
             dispatch({
                 type: 'ADD_EDUCATION',

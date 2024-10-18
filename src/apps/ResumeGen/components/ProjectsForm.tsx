@@ -8,6 +8,7 @@ import { MinimalistSkillChip } from './SkillChips';
 
 interface ProjectsFormProps {
     color: string;
+    onValidation: (isValid: boolean) => void;
 }
 
 interface ValidationErrors {
