@@ -38,7 +38,7 @@ export interface Project {
 export interface Achievement {
     title: string;
     description: string;
-    date?: string;
+    date: string;
 }
 
 export interface ResumeModel {

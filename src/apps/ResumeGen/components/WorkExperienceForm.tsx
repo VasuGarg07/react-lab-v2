@@ -22,7 +22,7 @@ const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({ color }) => {
         if (workExperience.length === 0) {
             handleAddExperience();
         }
-    }, [workExperience]);
+    }, []);
 
     const validateField = (field: keyof WorkExperience, value: string): string => {
         switch (field) {

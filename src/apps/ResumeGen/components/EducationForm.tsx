@@ -22,7 +22,7 @@ const EducationForm: React.FC<EducationFormProps> = ({ color }) => {
         if (education.length === 0) {
             handleAddEducation();
         }
-    }, [education]);
+    }, []);
 
     const validateField = (field: keyof Education, value: string): string => {
         switch (field) {
@@ -52,6 +52,7 @@ const EducationForm: React.FC<EducationFormProps> = ({ color }) => {
     };
 
     const handleAddEducation = () => {
+        console.trace('here');
         if (education.length < MAX_EDUCATION_ENTRIES) {
             dispatch({
                 type: 'ADD_EDUCATION',

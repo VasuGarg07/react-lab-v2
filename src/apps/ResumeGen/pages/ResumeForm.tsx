@@ -181,7 +181,7 @@ const ResumeForm: React.FC = () => {
                         bgcolor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.8)',
                         backdropFilter: 'blur(10px)',
                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                        flexGrow: 1,
+                        // flexGrow: 1,
                         overflow: 'auto',
                         transition: 'opacity 0.3s ease-in-out',
                     }}

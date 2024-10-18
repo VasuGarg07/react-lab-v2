@@ -88,7 +88,6 @@ const MinimalistSkillChip: React.FC<SkillChipProps> = ({ skill, color, onRemove 
             borderLeft: `4px solid ${color}`,
             borderRadius: 'sm',
             px: 1.5,
-            py: 0.5,
             boxShadow: 'sm',
             '&:hover': { boxShadow: 'md', bgcolor: 'background.level1' },
         }}

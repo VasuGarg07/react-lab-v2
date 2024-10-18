@@ -56,7 +56,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ color }) => {
     const wordCount = profile.trim().split(/\s+/).filter(Boolean).length;
 
     return (
-        <Box
+        <Card variant="outlined"
             sx={{
                 borderRadius: 'md',
                 p: 3,
@@ -150,7 +150,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ color }) => {
                     </CardContent>
                 </Card>
             </Stack>
-        </Box>
+        </Card>
     );
 };
 

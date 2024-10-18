@@ -31,11 +31,6 @@ export const SKILL_CATEGORIES = [
     "Other"
 ];
 
-export const MAX_WORK_EXPERIENCES = 10;
-export const MAX_WORK_HIGHLIGHTS = 10;
-export const MAX_EDUCATION_ENTRIES = 5;
-export const MAX_SKILLS = 30;
-
 export const SOCIAL_MEDIA_PLATFORMS = [
     { name: "LinkedIn", baseUrl: "https://www.linkedin.com/in/" },
     { name: "GitHub", baseUrl: "https://github.com/" },
@@ -51,8 +46,6 @@ export const RESUME_TEMPLATES = [
     { id: "creative", name: "Creative" }
 ];
 
-export const MAX_PROFILE_LENGTH = 800;
-export const MAX_HIGHLIGHT_LENGTH = 200;
 
 export const DEFAULT_JOB_TITLES = [
     "Software Engineer",
@@ -94,3 +87,13 @@ export const PROMPT_STARTERS = [
     "Innovative UX/UI designer passionate about creating intuitive user experiences...",
     "Results-driven financial analyst with strong analytical and forecasting skills..."
 ];
+
+export const MAX_PROFILE_LENGTH = 800;
+export const MAX_HIGHLIGHT_LENGTH = 200;
+export const MAX_WORK_EXPERIENCES = 10;
+export const MAX_WORK_HIGHLIGHTS = 10;
+export const MAX_EDUCATION_ENTRIES = 5;
+export const MAX_SKILLS = 30;
+export const MAX_PROJECTS = 10;
+export const MAX_PROJECT_DESCRIPTION_LENGTH = 200;
+export const MAX_TECHNOLOGIES = 10;
