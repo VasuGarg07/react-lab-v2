@@ -89,9 +89,9 @@ export const PROMPT_STARTERS = [
 ];
 
 export const MAX_PROFILE_LENGTH = 800;
-export const MAX_HIGHLIGHT_LENGTH = 200;
 export const MAX_WORK_EXPERIENCES = 10;
 export const MAX_WORK_HIGHLIGHTS = 10;
+export const MAX_HIGHLIGHT_LENGTH = 200;
 export const MAX_EDUCATION_ENTRIES = 5;
 export const MAX_SKILLS = 30;
 export const MAX_PROJECTS = 10;

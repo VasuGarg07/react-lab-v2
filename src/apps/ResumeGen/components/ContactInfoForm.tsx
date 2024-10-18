@@ -3,9 +3,11 @@ import { Briefcase, CheckCircle, Github, Linkedin, Mail, Phone, User } from 'luc
 import React, { useEffect, useState } from 'react';
 import { useResumeContext } from '../context/ResumeContext';
 import { DEFAULT_JOB_TITLES } from '../helpers/constants';
+import { ContactInfo } from '../helpers/interfaces';
 
 interface ContactInfoFormProps {
     color: string;
+    onValidation: (isValid: boolean) => void;
 }
 
 interface ValidationErrors {
@@ -29,7 +31,7 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
         setIsFormValid(isValid);
     }, [contactInfo, errors, optionalFields]);
 
-    const validateField = (field: keyof typeof contactInfo, value: string): string => {
+    const validateField = (field: keyof ContactInfo, value: string): string => {
         if (!optionalFields.has(field as 'linkedIn' | 'github') && !value.trim()) {
             return `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
         }
@@ -38,12 +40,16 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
                 return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? '' : 'Please enter a valid email address';
             case 'phone':
                 return /^\+?[0-9\s()-]{10,}$/.test(value) ? '' : 'Please enter a valid phone number';
+            case 'linkedIn':
+                return /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]{5,30}[a-zA-Z0-9]$/.test(value) ? '' : 'Please enter a valid LinkedIn profile URL';
+            case 'github':
+                return /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/.test(value) ? '' : 'Please enter a valid GitHub profile URL';
             default:
                 return '';
         }
     };
 
-    const handleChange = (field: keyof typeof contactInfo) => (
+    const handleChange = (field: keyof ContactInfo) => (
         event: React.ChangeEvent<HTMLInputElement> | React.SyntheticEvent<Element, Event> | null,
         newValue: string | null
     ) => {
@@ -53,8 +59,9 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
 
         let value = newValue || (event?.target as HTMLInputElement)?.value || '';
 
-        if (field === 'linkedIn' || field === 'github') {
-            value = value.replace(/^(https?:\/\/)?(www\.)?(linkedin\.com\/in\/|github\.com\/)?/, '');
+        // For LinkedIn and GitHub, ensure the URL starts with https:// if not already present
+        if ((field === 'linkedIn' || field === 'github') && value && !value.startsWith('https://')) {
+            value = 'https://' + value;
         }
 
         const error = validateField(field, value);
@@ -84,7 +91,7 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
         });
     };
 
-    const renderInput = (field: keyof typeof contactInfo, value: string, icon: React.ReactNode, label: string) => {
+    const renderInput = (field: keyof ContactInfo, value: string, icon: React.ReactNode, label: string) => {
         const isOptional = field === 'linkedIn' || field === 'github';
         const isMarkedOptional = optionalFields.has(field as 'linkedIn' | 'github');
 
@@ -120,7 +127,6 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
                             value={value}
                             onChange={(e) => handleChange(field)(e, null)}
                             placeholder={`Your ${field}`}
-                            startDecorator={isOptional ? (field === 'linkedIn' ? 'linkedin.com/in/' : 'github.com/') : null}
                             error={!isMarkedOptional && !!errors[field]}
                             disabled={isMarkedOptional}
                             sx={{
