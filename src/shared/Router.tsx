@@ -3,6 +3,7 @@ import NotFound from "../apps/Errors/NotFound";
 import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
 import Home from "../apps/Home/Home";
 import Homeloan from "../apps/HomeloanWizard/Homeloan";
+import InvoEase from "../apps/InvoEase/InvoEase";
 import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
 import Details from "../apps/QuickByte/Details";
@@ -11,16 +12,19 @@ import RecipeHaven from "../apps/QuickByte/RecipeHaven";
 import { alphabetMeals, categoryMeals, mealDetails, regionalMeals, searchMeals } from "../apps/QuickByte/utils/api";
 import Wrapper from "../apps/QuickByte/Wrapper";
 import Quizzo from "../apps/Quizzo/Quizzo";
+import { ResumeProvider } from "../apps/ResumeGen/context/ResumeContext";
+import ResumeEdge from "../apps/ResumeGen/pages/ResumeEdge";
+import ResumeForm from "../apps/ResumeGen/pages/ResumeForm";
+import ResumePreview from "../apps/ResumeGen/pages/ResumePreview";
+import SleekResume from "../apps/ResumeGen/templates/Sleek";
 import SnapFind from "../apps/SnapFind/SnapFind";
 import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
-import InvoEase from "../apps/InvoEase/InvoEase";
-import { ResumeProvider } from "../apps/ResumeGen/context/ResumeContext";
-import ResumeEdge from "../apps/ResumeGen/pages/ResumeEdge";
-import ResumeForm from "../apps/ResumeGen/pages/ResumeForm";
-import ResumePreview from "../apps/ResumeGen/pages/ResumePreview";
+import BluePrintResume from "../apps/ResumeGen/templates/BluePrint";
+import ClassicResume from "../apps/ResumeGen/templates/Classic";
+import MinimalistResume from "../apps/ResumeGen/templates/Minimalist";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +53,10 @@ export const router = createBrowserRouter([
           {
             path: 'preview',
             element: <ResumePreview />
+          },
+          {
+            path: 'test',
+            element: <MinimalistResume />
           }
         ]
       },

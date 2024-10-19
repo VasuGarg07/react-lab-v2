@@ -6,6 +6,7 @@ export const INITIAL_RESUME: ResumeModel = {
         title: "",
         phone: "",
         email: "",
+        location: "",
         linkedIn: "",
         github: ""
     },

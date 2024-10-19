@@ -1,11 +1,12 @@
- {
+{
   "contactInfo": {
     "name": "Vasu Garg",
     "title": "Senior Software Engineer",
     "phone": "+91-9878207089",
     "email": "vasugarg6656@gmail.com",
-    "linkedIn": "vasu-garg-07",
-    "github": "VasuGarg07"
+    "location": "Punjab, India",
+    "linkedIn": "https://www.linkedin.com/in/vasu-garg-07",
+    "github": "https://www.github.com/VasuGarg07"
   },
   "profile": "Experienced Full Stack Developer with a proven track record of two years. Proficient in designing and developing robust, scalable and seamlessly responsive solutions.",
   "technicalSkills": [

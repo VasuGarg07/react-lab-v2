@@ -1,5 +1,5 @@
 import { Autocomplete, Box, Button, Card, CardContent, Divider, FormControl, IconButton, Input, Stack, Tooltip, Typography } from '@mui/joy';
-import { Briefcase, CheckCircle, Github, Linkedin, Mail, Phone, User } from 'lucide-react';
+import { Briefcase, CheckCircle, Github, Linkedin, Mail, MapPinned, Phone, User } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useResumeContext } from '../context/ResumeContext';
 import { DEFAULT_JOB_TITLES } from '../helpers/constants';
@@ -171,6 +171,7 @@ const ContactInfoForm: React.FC<ContactInfoFormProps> = ({ color }) => {
                         <Stack sx={{ flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
                             {renderInput('email', contactInfo.email, <Mail size={18} />, 'Email')}
                             {renderInput('phone', contactInfo.phone, <Phone size={18} />, 'Phone')}
+                            {renderInput('location', contactInfo.location, <MapPinned size={18} />, 'Location')}
                         </Stack>
                         <Stack sx={{ flexDirection: 'row', gap: 2, flexWrap: 'wrap' }}>
                             {renderInput('linkedIn', contactInfo.linkedIn, <Linkedin size={18} />, 'LinkedIn')}

@@ -70,7 +70,7 @@ const ResumeForm: React.FC = () => {
 
 
     const handleSubmit = () => {
-        navigate('/template-selection');
+        navigate('/resume/test');
     };
 
 
