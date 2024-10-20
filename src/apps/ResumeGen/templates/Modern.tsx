@@ -11,11 +11,7 @@ const TEXT_SECONDARY = '#666666';  // Medium gray for secondary text
 const ACCENT_COLOR = '#2c78d4';  // Bright blue for accents and highlights
 
 const Page = styled('div')({
-    width: '210mm',
-    minHeight: '297mm',
-    margin: '16px auto',
     backgroundColor: MAIN_BG,
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     fontSize: '10pt',
     lineHeight: 1.6,

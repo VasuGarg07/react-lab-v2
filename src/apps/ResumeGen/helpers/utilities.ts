@@ -86,3 +86,26 @@ export const importJSON = (file: File): Promise<ResumeModel> => {
         reader.readAsText(file);
     });
 };
+
+
+export const downloadJSON = (resume: ResumeModel) => {
+    // Step 1: Convert the object to a JSON string
+    const jsonString = JSON.stringify(resume, null, 2); // 'null, 2' adds indentation for readability
+
+    // Step 2: Create a Blob from the JSON string
+    const blob = new Blob([jsonString], { type: 'application/json' });
+
+    // Step 3: Create a link element, set the download attribute, and trigger the download
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `resume_data.json`;
+
+    // Append the link to the body (required for Firefox)
+    document.body.appendChild(link);
+
+    // Trigger a click event to download the file
+    link.click();
+
+    // Clean up by removing the link
+    document.body.removeChild(link);
+}

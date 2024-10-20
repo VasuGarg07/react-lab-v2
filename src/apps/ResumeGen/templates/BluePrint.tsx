@@ -9,11 +9,7 @@ const TEXT_COLOR = '#333333';
 const BORDER_COLOR = '#C5D1D9';
 
 const Page = styled('div')({
-    width: '210mm',
-    minHeight: '297mm',
-    margin: '16px auto',
     backgroundColor: '#FFFFFF',
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     fontFamily: '"Arial", sans-serif',
     fontSize: '10pt',
     lineHeight: 1.6,

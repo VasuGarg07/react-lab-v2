@@ -1,6 +1,6 @@
 import { Box, Button, Divider, IconButton, Sheet, Stack, Typography, useTheme } from '@mui/joy';
 import { Award, Briefcase, ChevronLeft, ChevronRight, ChevronsLeft, Code, Feather, FileText, GraduationCap, Menu, SendHorizonal, Upload, User } from 'lucide-react';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spacer } from '../../../components/Spacer';
 import { useAlert } from '../../../shared/AlertProvider';
@@ -26,7 +26,7 @@ const sectionConfig = [
 
 const ResumeForm: React.FC = () => {
     const [activeSection, setActiveSection] = useState(0);
-    const [_, setSectionValidation] = useState<boolean[]>(new Array(sectionConfig.length).fill(false));
+    // const [_, setSectionValidation] = useState<boolean[]>(new Array(sectionConfig.length).fill(false));
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === 'dark';
     const navigate = useNavigate();
@@ -47,13 +47,13 @@ const ResumeForm: React.FC = () => {
         });
     };
 
-    const handleSectionValidation = useCallback((sectionIndex: number, isValid: boolean) => {
-        setSectionValidation(prev => {
-            const newValidation = [...prev];
-            newValidation[sectionIndex] = isValid;
-            return newValidation;
-        });
-    }, []);
+    // const handleSectionValidation = useCallback((sectionIndex: number, isValid: boolean) => {
+    //     setSectionValidation(prev => {
+    //         const newValidation = [...prev];
+    //         newValidation[sectionIndex] = isValid;
+    //         return newValidation;
+    //     });
+    // }, []);
 
     const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -77,6 +77,7 @@ const ResumeForm: React.FC = () => {
     const Sidebar = () => (
         <Sheet
             sx={{
+                zIndex: 2,
                 minWidth: 250,
                 p: 2, mt: '2px',
                 borderRight: '1px solid',

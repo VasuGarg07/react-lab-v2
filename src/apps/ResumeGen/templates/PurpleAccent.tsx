@@ -8,11 +8,7 @@ const TEXT_COLOR = '#333333';
 const BACKGROUND_COLOR = '#FFFFFF';
 
 const Page = styled('div')({
-    width: '210mm',
-    minHeight: '297mm',
-    margin: '16px auto',
     backgroundColor: BACKGROUND_COLOR,
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     fontFamily: '"Arial", sans-serif',
     fontSize: '10pt',
     lineHeight: 1.6,

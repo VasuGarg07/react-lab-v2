@@ -6,12 +6,12 @@ import { TemplateProps } from '../helpers/interfaces';
 const ACCENT_COLOR = "#1976d2";
 
 const Page = styled('div')(({ theme }) => ({
-    width: '210mm',
-    minHeight: '297mm',
+    // width: '210mm',
+    // minHeight: '297mm',
+    // margin: `${theme.spacing(2)} auto`,
+    // boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     padding: theme.spacing(4),
-    margin: `${theme.spacing(2)} auto`,
     backgroundColor: '#ffffff',
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     fontFamily: '"Arial", sans-serif',
     fontSize: '11pt',
     lineHeight: 1.5,
