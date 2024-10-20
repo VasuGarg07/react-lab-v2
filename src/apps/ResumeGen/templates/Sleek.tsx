@@ -4,12 +4,8 @@ import React from 'react';
 import { TemplateProps } from '../helpers/interfaces';
 
 const Page = styled('div')(({ theme }) => ({
-    width: '210mm',
-    minHeight: '297mm',
-    padding: theme.spacing(4),
     margin: `${theme.spacing(2)} auto`,
     backgroundColor: '#ffffff',
-    fontFamily: '"Arial", sans-serif',
     fontSize: '10pt',
     boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     lineHeight: 1.5,

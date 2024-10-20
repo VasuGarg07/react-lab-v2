@@ -7,12 +7,8 @@ const PRIMARY_COLOR = '#2F3E46';
 const SECONDARY_COLOR = '#4682B4';
 
 const Page = styled('div')(({ theme }) => ({
-    width: '210mm',
-    minHeight: '297mm',
     padding: theme.spacing(4),
-    margin: `${theme.spacing(2)} auto`,
     backgroundColor: '#ffffff',
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     fontFamily: '"Calibri", "Arial", sans-serif',
     fontSize: '11pt',
     lineHeight: 1.2,

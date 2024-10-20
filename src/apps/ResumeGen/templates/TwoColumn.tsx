@@ -4,13 +4,9 @@ import React from 'react';
 import { TemplateProps } from '../helpers/interfaces';
 
 const Page = styled('div')({
-    width: '210mm',
-    minHeight: '297mm',
     padding: '20px',
-    margin: '20px auto',
     backgroundColor: '#ffffff',
     fontFamily: '"Arial", sans-serif',
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
     fontSize: '10pt',
     lineHeight: 1.2,
 });
