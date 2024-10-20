@@ -1,7 +1,7 @@
-import React from 'react';
 import { Box, styled, Typography } from '@mui/joy';
-import { Briefcase, Mail, MapPin, Phone, Linkedin, Github, GraduationCap, FolderGit2, Award } from 'lucide-react';
-import { useResumeContext } from '../context/ResumeContext';
+import { Award, Briefcase, FolderGit2, Github, GraduationCap, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import React from 'react';
+import { TemplateProps } from '../helpers/interfaces';
 
 
 const SIDEBAR_BG = '#f0f0f0';  // Light gray background for sidebar
@@ -101,9 +101,7 @@ const SkillList = styled('ul')({
     color: TEXT_PRIMARY,
 });
 
-const ModernResume: React.FC = () => {
-    const { state } = useResumeContext();
-    const resume = state.resume;
+const ModernResume: React.FC<TemplateProps> = ({ resume }) => {
 
     return (
         <Page>

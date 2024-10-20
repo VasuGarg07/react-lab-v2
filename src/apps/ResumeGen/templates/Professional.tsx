@@ -1,12 +1,10 @@
-import React from 'react';
-import { Box, Typography, Divider, List, ListItem, styled } from '@mui/joy';
-import { useResumeContext } from '../context/ResumeContext';
+import { Box, Divider, List, ListItem, styled, Typography } from '@mui/joy';
 import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import React from 'react';
+import { TemplateProps } from '../helpers/interfaces';
 
-interface ProfessionalResumeProps {
-    primaryColor?: string;
-    secondaryColor?: string;
-}
+const PRIMARY_COLOR = '#2F3E46';
+const SECONDARY_COLOR = '#4682B4';
 
 const Page = styled('div')(({ theme }) => ({
     width: '210mm',
@@ -25,16 +23,15 @@ const Header = styled('header')(({ theme }) => ({
     textAlign: 'center',
 }));
 
-const Name = styled(Typography)<{ primaryColor: string }>(({ primaryColor }) => ({
+const Name = styled(Typography)({
     fontSize: '24pt',
     fontWeight: 'bold',
-    color: primaryColor,
+    color: PRIMARY_COLOR,
     marginBottom: '4px',
-}));
+});
 
 const ContactInfo = styled(Typography)({
     fontSize: '10pt',
-    color: '#333333',
     display: "flex",
     justifyContent: "center",
     gap: "16px",
@@ -46,6 +43,7 @@ const ContactItem = styled('a')({
     alignItems: 'center',
     gap: '4px',
     marginBottom: '4px',
+    color: '#383B53',
     textDecoration: 'none',
     "&:hover": {
         textDecoration: 'underline'
@@ -57,13 +55,13 @@ const Section = styled('section')(({ theme }) => ({
     marginBottom: theme.spacing(2),
 }));
 
-const SectionTitle = styled(Typography)<{ primaryColor: string }>(({ primaryColor }) => ({
+const SectionTitle = styled(Typography)({
     fontSize: '14pt',
     fontWeight: 'bold',
-    color: primaryColor,
+    color: PRIMARY_COLOR,
     textTransform: 'uppercase',
     marginBottom: '8px',
-}));
+});
 
 const Content = styled(Typography)({
     fontSize: '11pt',
@@ -93,22 +91,17 @@ const BulletItem = styled(ListItem)({
     display: 'list-item',
 });
 
-const StyledDivider = styled(Divider)<{ secondaryColor: string }>(({ secondaryColor }) => ({
-    borderColor: secondaryColor,
+const StyledDivider = styled(Divider)({
+    borderColor: SECONDARY_COLOR,
     margin: '12px 0',
-}));
+});
 
-const ProfessionalResume: React.FC<ProfessionalResumeProps> = ({
-    primaryColor = '#000080',
-    secondaryColor = '#4682B4'
-}) => {
-    const { state } = useResumeContext();
-    const resume = state.resume;
+const ProfessionalResume: React.FC<TemplateProps> = ({ resume }) => {
 
     return (
         <Page>
             <Header>
-                <Name primaryColor={primaryColor}>{resume.contactInfo.name}</Name>
+                <Name>{resume.contactInfo.name}</Name>
                 <ContactInfo>
                     <ContactItem href={`mailto:${resume.contactInfo.email}`}>
                         <Mail size={16} />
@@ -132,16 +125,16 @@ const ProfessionalResume: React.FC<ProfessionalResumeProps> = ({
                     </ContactItem>)}
                 </ContactInfo>
             </Header>
-            <StyledDivider secondaryColor={secondaryColor} />
+            <StyledDivider />
 
             <Section>
                 <Content>{resume.profile}</Content>
             </Section>
 
-            <StyledDivider secondaryColor={secondaryColor} />
+            <StyledDivider />
 
             <Section>
-                <SectionTitle primaryColor={primaryColor}>Professional Experience</SectionTitle>
+                <SectionTitle>Professional Experience</SectionTitle>
                 {resume.workExperience.map((job, index) => (
                     <Box key={index} sx={{ marginBottom: 2 }}>
                         <JobTitle>{job.title}</JobTitle>
@@ -159,10 +152,10 @@ const ProfessionalResume: React.FC<ProfessionalResumeProps> = ({
                 ))}
             </Section>
 
-            <StyledDivider secondaryColor={secondaryColor} />
+            <StyledDivider />
 
             <Section>
-                <SectionTitle primaryColor={primaryColor}>Education</SectionTitle>
+                <SectionTitle>Education</SectionTitle>
                 {resume.education.map((edu, index) => (
                     <Box key={index} sx={{ marginBottom: 1 }}>
                         <Content>
@@ -172,10 +165,10 @@ const ProfessionalResume: React.FC<ProfessionalResumeProps> = ({
                 ))}
             </Section>
 
-            <StyledDivider secondaryColor={secondaryColor} />
+            <StyledDivider />
 
             <Section>
-                <SectionTitle primaryColor={primaryColor}>Additional Skills</SectionTitle>
+                <SectionTitle>Additional Skills</SectionTitle>
                 <BulletList>
                     {resume.technicalSkills.map((skillCategory, index) => (
                         <BulletItem key={index}>
@@ -189,9 +182,9 @@ const ProfessionalResume: React.FC<ProfessionalResumeProps> = ({
 
             {resume.projects && resume.projects.length > 0 && (
                 <>
-                    <StyledDivider secondaryColor={secondaryColor} />
+                    <StyledDivider />
                     <Section>
-                        <SectionTitle primaryColor={primaryColor}>Projects</SectionTitle>
+                        <SectionTitle>Projects</SectionTitle>
                         {resume.projects.map((project, index) => (
                             <Box key={index} sx={{ marginBottom: 1 }}>
                                 <Content sx={{ fontWeight: 'bold' }}>{project.name}</Content>
@@ -210,9 +203,9 @@ const ProfessionalResume: React.FC<ProfessionalResumeProps> = ({
 
             {resume.achievements && resume.achievements.length > 0 && (
                 <>
-                    <StyledDivider secondaryColor={secondaryColor} />
+                    <StyledDivider />
                     <Section>
-                        <SectionTitle primaryColor={primaryColor}>Achievements</SectionTitle>
+                        <SectionTitle>Achievements</SectionTitle>
                         <BulletList>
                             {resume.achievements.map((achievement, index) => (
                                 <BulletItem key={index}>

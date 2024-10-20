@@ -1,11 +1,9 @@
 import React from 'react';
 import { Box, Divider, Typography, styled } from '@mui/joy';
 import { Phone, Mail, Linkedin, Github, Briefcase, GraduationCap, MapPin, FolderGit2, Award } from 'lucide-react';
-import { useResumeContext } from '../context/ResumeContext';
+import { TemplateProps } from '../helpers/interfaces';
 
-interface ModernResumeProps {
-    accentColor?: string;
-}
+const ACCENT_COLOR = "#333333";
 
 const Page = styled('div')(({ theme }) => ({
     width: '210mm',
@@ -23,12 +21,12 @@ const Header = styled('header')(({ theme }) => ({
     marginBottom: theme.spacing(2),
 }));
 
-const Name = styled(Typography)<{ accentColor: string }>(({ accentColor }) => ({
+const Name = styled(Typography)({
     fontSize: '24pt',
     fontWeight: 'bold',
-    color: accentColor,
+    color: ACCENT_COLOR,
     marginBottom: '4px',
-}));
+});
 
 const ContactInfo = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -41,7 +39,7 @@ const ContactItem = styled('a')({
     display: 'flex',
     alignItems: 'center',
     gap: '4px',
-    color: '#333333',
+    color: ACCENT_COLOR,
     textDecoration: 'none',
     '&:hover': {
         textDecoration: 'underline',
@@ -52,16 +50,16 @@ const Section = styled('section')(({ theme }) => ({
     marginBottom: theme.spacing(2),
 }));
 
-const SectionTitle = styled(Typography)<{ accentColor: string }>(({ accentColor }) => ({
+const SectionTitle = styled(Typography)({
     fontSize: '12pt',
     fontWeight: 'bold',
-    color: accentColor,
+    color: ACCENT_COLOR,
     textTransform: 'uppercase',
     marginBottom: '8px',
     display: 'flex',
     alignItems: 'center',
     gap: '6px',
-}));
+});
 
 const Content = styled(Typography)({
     fontSize: '10pt',
@@ -89,41 +87,39 @@ const BulletItem = styled('li')({
     marginBottom: '2px',
 });
 
-const IconWrapper = styled('span')<{ accentColor: string }>(({ accentColor }) => ({
+const IconWrapper = styled('span')({
     display: 'inline-flex',
     width: '14px',
     height: '14px',
-    color: accentColor,
-}));
+    color: ACCENT_COLOR,
+});
 
-const MinimalistResume: React.FC<ModernResumeProps> = ({ accentColor = '#333333' }) => {
-    const { state } = useResumeContext();
-    const resume = state.resume;
+const MinimalistResume: React.FC<TemplateProps> = ({ resume }) => {
 
     return (
         <Page>
             <Header>
-                <Name accentColor={accentColor}>{resume.contactInfo.name}</Name>
+                <Name>{resume.contactInfo.name}</Name>
                 <Typography level="h4" mb={1}>{resume.contactInfo.title}</Typography>
                 <ContactInfo>
                     <ContactItem href={`tel:${resume.contactInfo.phone}`}>
-                        <IconWrapper accentColor={accentColor}><Phone size={14} /></IconWrapper>
+                        <IconWrapper><Phone size={14} /></IconWrapper>
                         {resume.contactInfo.phone}
                     </ContactItem>
                     <ContactItem href={`mailto:${resume.contactInfo.email}`}>
-                        <IconWrapper accentColor={accentColor}><Mail size={14} /></IconWrapper>
+                        <IconWrapper><Mail size={14} /></IconWrapper>
                         {resume.contactInfo.email}
                     </ContactItem>
                     <ContactItem href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(resume.contactInfo.location)}`} target="_blank" rel="noopener noreferrer">
-                        <IconWrapper accentColor={accentColor}><MapPin size={16} /></IconWrapper>
+                        <IconWrapper><MapPin size={16} /></IconWrapper>
                         {resume.contactInfo.location}
                     </ContactItem>
                     {resume.contactInfo.linkedIn && (<ContactItem href={resume.contactInfo.linkedIn} target="_blank" rel="noopener noreferrer">
-                        <IconWrapper accentColor={accentColor}><Linkedin size={16} /></IconWrapper>
+                        <IconWrapper><Linkedin size={16} /></IconWrapper>
                         {resume.contactInfo.linkedIn.split('/').pop()}
                     </ContactItem>)}
                     {resume.contactInfo.github && (<ContactItem href={resume.contactInfo.github} target="_blank" rel="noopener noreferrer">
-                        <IconWrapper accentColor={accentColor}><Github size={16} /></IconWrapper>
+                        <IconWrapper><Github size={16} /></IconWrapper>
                         {resume.contactInfo.github.split('/').pop()}
                     </ContactItem>)}
                 </ContactInfo>
@@ -131,13 +127,13 @@ const MinimalistResume: React.FC<ModernResumeProps> = ({ accentColor = '#333333'
             </Header>
 
             <Section>
-                <SectionTitle accentColor={accentColor}>Profile</SectionTitle>
+                <SectionTitle>Profile</SectionTitle>
                 <Content>{resume.profile}</Content>
                 <Divider sx={{ mt: 2 }} />
             </Section>
 
             <Section>
-                <SectionTitle accentColor={accentColor}>Technical Skills</SectionTitle>
+                <SectionTitle>Technical Skills</SectionTitle>
                 {resume.technicalSkills.map((skillCategory, index) => (
                     <Box key={index} sx={{ marginBottom: 1 }}>
                         <Content sx={{ fontWeight: 'bold', display: 'inline' }}>
@@ -150,8 +146,8 @@ const MinimalistResume: React.FC<ModernResumeProps> = ({ accentColor = '#333333'
             </Section>
 
             <Section>
-                <SectionTitle accentColor={accentColor}>
-                    <IconWrapper accentColor={accentColor}><Briefcase size={14} /></IconWrapper>
+                <SectionTitle>
+                    <IconWrapper><Briefcase size={14} /></IconWrapper>
                     Experience
                 </SectionTitle>
                 {resume.workExperience.map((job, index) => (
@@ -173,8 +169,8 @@ const MinimalistResume: React.FC<ModernResumeProps> = ({ accentColor = '#333333'
             </Section>
 
             <Section>
-                <SectionTitle accentColor={accentColor}>
-                    <IconWrapper accentColor={accentColor}><GraduationCap size={14} /></IconWrapper>
+                <SectionTitle>
+                    <IconWrapper><GraduationCap size={14} /></IconWrapper>
                     Education
                 </SectionTitle>
                 {resume.education.map((edu, index) => (
@@ -192,8 +188,8 @@ const MinimalistResume: React.FC<ModernResumeProps> = ({ accentColor = '#333333'
 
             {resume.projects && resume.projects.length > 0 && (
                 <Section>
-                    <SectionTitle accentColor={accentColor}>
-                        <IconWrapper accentColor={accentColor}><FolderGit2 size={14} /></IconWrapper>
+                    <SectionTitle>
+                        <IconWrapper><FolderGit2 size={14} /></IconWrapper>
                         Projects
                     </SectionTitle>
                     {resume.projects.map((project, index) => (
@@ -216,8 +212,8 @@ const MinimalistResume: React.FC<ModernResumeProps> = ({ accentColor = '#333333'
 
             {resume.achievements && resume.achievements.length > 0 && (
                 <Section>
-                    <SectionTitle accentColor={accentColor}>
-                        <IconWrapper accentColor={accentColor}><Award size={16} /></IconWrapper>
+                    <SectionTitle>
+                        <IconWrapper><Award size={16} /></IconWrapper>
                         Achievements
                     </SectionTitle>
                     {resume.achievements.map((achievement, index) => (

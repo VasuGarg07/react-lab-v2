@@ -1,12 +1,7 @@
-import React from 'react';
-import { Box, List, ListItem, styled, Typography, Grid } from '@mui/joy';
-import { useResumeContext } from '../context/ResumeContext';
+import { Box, Grid, List, ListItem, styled, Typography } from '@mui/joy';
 import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
-
-interface TwoColumnResumeProps {
-    primaryColor?: string;
-    secondaryColor?: string;
-}
+import React from 'react';
+import { TemplateProps } from '../helpers/interfaces';
 
 const Page = styled('div')({
     width: '210mm',
@@ -88,9 +83,7 @@ const JobDetails = styled(Typography)({
     fontStyle: 'italic',
 });
 
-const TwoColumnResume: React.FC<TwoColumnResumeProps> = () => {
-    const { state } = useResumeContext();
-    const resume = state.resume;
+const TwoColumnResume: React.FC<TemplateProps> = ({ resume }) => {
 
     return (
         <Page>

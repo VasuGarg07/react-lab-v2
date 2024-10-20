@@ -51,3 +51,7 @@ export interface ResumeModel {
     projects?: Project[];
     achievements?: Achievement[];
 }
+
+export interface TemplateProps {
+    resume: ResumeModel;
+}

@@ -13,18 +13,17 @@ import { alphabetMeals, categoryMeals, mealDetails, regionalMeals, searchMeals }
 import Wrapper from "../apps/QuickByte/Wrapper";
 import Quizzo from "../apps/Quizzo/Quizzo";
 import { ResumeProvider } from "../apps/ResumeGen/context/ResumeContext";
+import { sampleResume } from "../apps/ResumeGen/helpers/sample";
 import ResumeEdge from "../apps/ResumeGen/pages/ResumeEdge";
 import ResumeForm from "../apps/ResumeGen/pages/ResumeForm";
 import ResumePreview from "../apps/ResumeGen/pages/ResumePreview";
-import SleekResume from "../apps/ResumeGen/templates/Sleek";
+import ResumeTemplates from "../apps/ResumeGen/pages/ResumeTemplates";
+import TwoColumnResume from "../apps/ResumeGen/templates/TwoColumn";
 import SnapFind from "../apps/SnapFind/SnapFind";
 import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
-import BluePrintResume from "../apps/ResumeGen/templates/BluePrint";
-import ClassicResume from "../apps/ResumeGen/templates/Classic";
-import MinimalistResume from "../apps/ResumeGen/templates/Minimalist";
 
 export const router = createBrowserRouter([
   {
@@ -51,12 +50,16 @@ export const router = createBrowserRouter([
             element: <ResumeForm />
           },
           {
+            path: 'select-template',
+            element: <ResumeTemplates />
+          },
+          {
             path: 'preview',
             element: <ResumePreview />
           },
           {
             path: 'test',
-            element: <MinimalistResume />
+            element: <TwoColumnResume resume={sampleResume} />
           }
         ]
       },

@@ -1,7 +1,7 @@
+import { Box, Grid, styled, Typography } from '@mui/joy';
+import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import React from 'react';
-import { Box, Typography, Grid, styled } from '@mui/joy';
-import { Phone, Mail, Linkedin, MapPin, Github } from 'lucide-react';
-import { useResumeContext } from '../context/ResumeContext';
+import { TemplateProps } from '../helpers/interfaces';
 
 const Page = styled('div')(({ theme }) => ({
     width: '210mm',
@@ -88,9 +88,7 @@ const JobDetails = styled(Typography)({
 });
 
 
-const RefinedSleekResume: React.FC = () => {
-    const { state } = useResumeContext();
-    const resume = state.resume;
+const RefinedSleekResume: React.FC<TemplateProps> = ({ resume }) => {
 
     return (
         <Page>

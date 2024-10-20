@@ -1,7 +1,7 @@
-import React from 'react';
 import { Box, styled, Typography } from '@mui/joy';
-import { Phone, Mail, Linkedin, Github, MapPin } from 'lucide-react';
-import { useResumeContext } from '../context/ResumeContext';
+import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import React from 'react';
+import { TemplateProps } from '../helpers/interfaces';
 
 const PURPLE_ACCENT = '#8E44AD';
 const TEXT_COLOR = '#333333';
@@ -73,7 +73,7 @@ const SectionTitle = styled(Typography)({
     gap: '10px',
 });
 
-const CircleIcon = styled('div')({
+const CircleIcon = styled('span')({
     width: '26px',
     height: '26px',
     borderRadius: '50%',
@@ -115,9 +115,7 @@ const ListItem = styled('li')({
     marginBottom: '5px',
 });
 
-const PurpleAccentResume: React.FC = () => {
-    const { state } = useResumeContext();
-    const resume = state.resume;
+const PurpleAccentResume: React.FC<TemplateProps> = ({ resume }) => {
 
     const [firstName, ...lastNameParts] = resume.contactInfo.name.split(' ');
     const lastName = lastNameParts.join(' ');

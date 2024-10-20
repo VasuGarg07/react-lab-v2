@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, styled, Typography } from '@mui/joy';
-import { useResumeContext } from '../context/ResumeContext';
 import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { TemplateProps } from '../helpers/interfaces';
 
 const MAIN_COLOR = '#30566B';
 const BACKGROUND_COLOR = '#F1F5F9';
@@ -110,9 +110,8 @@ const ListItem = styled('li')({
     marginBottom: '5px',
 });
 
-const BluePrintResume: React.FC = () => {
-    const { state } = useResumeContext();
-    const resume = state.resume;
+
+const BluePrintResume: React.FC<TemplateProps> = ({ resume }) => {
 
     return (
         <Page>
