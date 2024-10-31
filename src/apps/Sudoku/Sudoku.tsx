@@ -3,8 +3,8 @@ import { Box, Grid, Typography, Button, Input, Stack, Sheet, Divider, CircularPr
 import { deepCopy, fetchInitialBoard, isValid, solveBoard } from './helpers';
 import { BgCenteredBox } from '../../components/BgCenteredBox';
 import { useAlert } from '../../shared/AlertProvider';
-import DarkBg from '../../assets/backgrounds/abstract-dark.webp';
-import LightBg from '../../assets/backgrounds/abstract.webp';
+import DarkBg from '/backgrounds/abstract-dark.webp';
+import LightBg from '/backgrounds/abstract.webp';
 
 const inputStyles = {
     width: 40,
@@ -112,7 +112,7 @@ const SudokuBoard: React.FC = () => {
 
         if (number >= 1 && number <= 9) {
             if (!isValid(board, row, col, number)) {
-                showAlert('danger', 'Invalid Move');
+                showAlert('Invalid Move', 'danger');
             } else {
                 setBoard(prevBoard => {
                     const newBoard = [...prevBoard];
@@ -121,7 +121,7 @@ const SudokuBoard: React.FC = () => {
                 });
             }
         } else {
-            showAlert('danger', 'Value out of bounds');
+            showAlert('Value out of bounds', 'warning');
         }
     }, [board, showAlert]);
 

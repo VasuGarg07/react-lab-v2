@@ -4,9 +4,9 @@ import QuizProvider, { useQuizContext } from "./Context";
 import Result from "./Result";
 import Board from "./Board";
 import Setup from "./Setup";
-import QuizFg from '../../assets/quiz-fg.png';
-import DarkBg from '../../assets/backgrounds/abstract-dark.webp';
-import LightBg from '../../assets/backgrounds/abstract.webp'
+import QuizFg from '/quiz-fg.png';
+import DarkBg from '/backgrounds/abstract-dark.webp';
+import LightBg from '/backgrounds/abstract.webp'
 import { BgCenteredBox } from "../../components/BgCenteredBox";
 
 const Quizzo = () => {

@@ -1,15 +1,15 @@
-import Glass from '../assets/cover/glass.webp';
-import Loan from '../assets/cover/loan.webp';
-import Memory from '../assets/cover/memory.webp';
-import Quiz from '../assets/cover/quiz.webp';
-import Byte from '../assets/cover/byte.webp';
-import Snap from '../assets/cover/image.webp';
-import Leetcode from '../assets/cover/leetcode.webp';
-import Sudoku from '../assets/cover/sudoku.webp';
-import TicTacToe from '../assets/cover/tictactoe.webp';
-import Visualizer from '../assets/cover/visualizer.webp';
-import Invoice from '../assets/cover/invoice.png';
-import Resume from '../assets/cover/resume.webp';
+import Glass from '/cover/glass.webp';
+import Loan from '/cover/loan.webp';
+import Memory from '/cover/memory.webp';
+import Quiz from '/cover/quiz.webp';
+import Byte from '/cover/byte.webp';
+import Snap from '/cover/image.webp';
+import Leetcode from '/cover/leetcode.webp';
+import Sudoku from '/cover/sudoku.webp';
+import TicTacToe from '/cover/tictactoe.webp';
+import Visualizer from '/cover/visualizer.webp';
+import Invoice from '/cover/invoice.png';
+import Resume from '/cover/resume.webp';
 import { BarChart2, Code, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, UtensilsCrossed } from 'lucide-react';
 
 export interface AppInfo {

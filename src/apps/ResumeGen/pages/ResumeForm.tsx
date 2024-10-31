@@ -62,9 +62,9 @@ const ResumeForm: React.FC = () => {
         try {
             const resumeData = await importJSON(file);
             dispatch({ type: 'SET_RESUME', payload: resumeData });
-            showAlert('success', 'Resume data imported successfully!');
+            showAlert('Resume data imported successfully!');
         } catch (error) {
-            showAlert('danger', (error as Error).message);
+            showAlert((error as Error).message, 'danger');
         }
     };
 

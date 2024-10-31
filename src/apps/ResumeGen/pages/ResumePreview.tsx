@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Tooltip, Typography, useTheme } from '@mui/joy';
+import { Box, Button, CircularProgress, IconButton, Tooltip, Typography, useTheme } from '@mui/joy';
 import { CheckCircle, Edit, FileDown, FileJson, GitCompare, LayoutTemplate } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,9 @@ import JDComparator from '../components/JDComparator';
 import { useResumeContext } from '../context/ResumeContext';
 import { Templates } from '../helpers/templates';
 import { downloadJSON } from '../helpers/utilities';
+import { useAlert } from '../../../shared/AlertProvider';
+import generateResumePDF from '../pdfGenerators/pdfGenerator';
+import { TemplateName } from '../pdfGenerators/types';
 
 interface ButtonConfig {
     label: string;
@@ -15,6 +18,7 @@ interface ButtonConfig {
     hoverColor: string;
     onClick: () => void;
     hide?: boolean;
+    loading?: boolean;
 }
 
 const ResumePreview: React.FC = () => {
@@ -25,8 +29,28 @@ const ResumePreview: React.FC = () => {
     const resumeRef = useRef<HTMLDivElement | null>(null);
     const [showATSCheck, setShowATSCheck] = useState(false);
     const [showJDComparator, setShowJDComparator] = useState(false);
+    const [isPdfLoading, setIsPdfLoading] = useState(false);
+    const { showAlert } = useAlert();
 
     const SelectedTemplate = Templates.find(t => t.id === state.selectedTemplate?.id)?.component;
+
+    const handlePdfGeneration = async () => {
+        if (!state.selectedTemplate?.id) {
+            showAlert('Please select a template first', 'danger');
+            return;
+        }
+
+        setIsPdfLoading(true);
+        try {
+            await generateResumePDF(state.resume, state.selectedTemplate.id.toLocaleLowerCase() as TemplateName);
+            showAlert('PDF generated successfully');
+        } catch (error) {
+            console.error('PDF generation failed:', error);
+            showAlert('Failed to generate PDF. Please try again.', 'danger');
+        } finally {
+            setIsPdfLoading(false);
+        }
+    };
 
     const buttonConfigs: ButtonConfig[] = [
         {
@@ -52,10 +76,13 @@ const ResumePreview: React.FC = () => {
         },
         {
             label: 'Save as PDF',
-            icon: <FileDown />,
+            icon: isPdfLoading ?
+                <CircularProgress size="sm" variant="soft" /> :
+                <FileDown />,
             color: 'linear-gradient(135deg, #FF416C, #FF4B2B)',
             hoverColor: 'linear-gradient(135deg, #FF4B2B, #C02425)',
-            onClick: () => { },
+            onClick: handlePdfGeneration,
+            loading: isPdfLoading,
         },
         {
             label: 'ATS Check',
@@ -125,6 +152,7 @@ const ResumePreview: React.FC = () => {
                             <Button
                                 startDecorator={button.icon}
                                 onClick={button.onClick}
+                                disabled={button.loading}
                                 sx={{
                                     background: button.color,
                                     color: '#fff',
@@ -139,6 +167,7 @@ const ResumePreview: React.FC = () => {
                             </Button>
                             <IconButton
                                 onClick={button.onClick}
+                                disabled={button.loading}
                                 sx={{
                                     background: button.color,
                                     color: '#fff',
@@ -160,7 +189,8 @@ const ResumePreview: React.FC = () => {
             </Box>
 
             {/* Resume Preview Section */}
-            <Box ref={resumeRef}
+            <Box
+                ref={resumeRef}
                 sx={{
                     backgroundColor: '#ffffff',
                     boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
@@ -185,16 +215,16 @@ const ResumePreview: React.FC = () => {
             <ATSCheck
                 isOpen={showATSCheck}
                 resume={state.resume}
-                onClose={() => setShowATSCheck(false)} />
+                onClose={() => setShowATSCheck(false)}
+            />
 
             <JDComparator
                 isOpen={showJDComparator}
-                resume={state.resume}  // Pass the current resume state
-                onClose={() => setShowJDComparator(false)}  // Close the modal
+                resume={state.resume}
+                onClose={() => setShowJDComparator(false)}
             />
         </Box>
     );
 };
-
 
 export default ResumePreview;
