@@ -16,43 +16,53 @@ const Preview: React.FC = () => {
     const formatCurrency = (amount: number) => `${currencySymbol}${amount.toFixed(2)}`;
 
     return (
-        <Sheet variant="outlined" sx={{ p: 2, borderRadius: 'sm', fontSize: 'sm' }}>
-            <Typography level="h4" sx={{ mb: 1 }}>Invoice</Typography>
+        <Sheet
+            variant="outlined"
+            sx={{
+                p: 2,
+                borderRadius: 'sm',
+                fontSize: 'sm',
+                backgroundColor: '#ffffff',
+                color: '#000000',
+                border: '1px solid #ddd',
+                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            }}
+        >
+            <Typography level="h4" sx={{ mb: 1, color: '#000' }}>Invoice</Typography>
             <Grid container spacing={1} sx={{ mb: 2 }}>
                 <Grid xs={6}>
-                    <Typography level="body-xs">Date: {currentDate}</Typography>
-                    <Typography level="body-xs">Due: {dueDate}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>Date: {currentDate}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>Due: {dueDate}</Typography>
                 </Grid>
                 <Grid xs={6} sx={{ textAlign: 'right' }}>
-                    <Typography level="body-xs">Invoice #: {invoiceNumber}</Typography>
-                    <Typography level="body-xs">Currency: {currency}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>Invoice #: {invoiceNumber}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>Currency: {currency}</Typography>
                 </Grid>
             </Grid>
             <Grid container spacing={1} sx={{ mb: 2 }}>
                 <Grid xs={6}>
-                    <Typography level="body-sm" fontWeight="bold">Bill To:</Typography>
-                    <Typography level="body-xs">{billTo.name}</Typography>
-                    <Typography level="body-xs">{billTo.email}</Typography>
-                    <Typography level="body-xs">{billTo.address}</Typography>
+                    <Typography level="body-sm" fontWeight="bold" sx={{ color: '#000' }}>Bill To:</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>{billTo.name}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>{billTo.email}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>{billTo.address}</Typography>
                 </Grid>
                 <Grid xs={6} sx={{ textAlign: 'right' }}>
-                    <Typography level="body-sm" fontWeight="bold">Bill From:</Typography>
-                    <Typography level="body-xs">{billFrom.name}</Typography>
-                    <Typography level="body-xs">{billFrom.email}</Typography>
-                    <Typography level="body-xs">{billFrom.address}</Typography>
+                    <Typography level="body-sm" fontWeight="bold" sx={{ color: '#000' }}>Bill From:</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>{billFrom.name}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>{billFrom.email}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>{billFrom.address}</Typography>
                 </Grid>
             </Grid>
             <Table
                 aria-label="Invoice items"
                 sx={{
                     mb: 2,
-                    '& th': { fontWeight: 'bold', backgroundColor: 'neutral.100', fontSize: 'xs' },
-                    '& td': { fontSize: 'xs' },
+                    '& th': { fontWeight: 'bold', backgroundColor: '#f0f0f0', fontSize: 'xs', color: '#000' },
+                    '& td': { fontSize: 'xs', color: '#000' },
                     '& td, & th': { p: 1, whiteSpace: 'nowrap' },
-                    '& tr:nth-of-type(even)': { backgroundColor: 'neutral.50' },
+                    '& tr:nth-of-type(even)': { backgroundColor: '#f9f9f9' },
                     borderCollapse: 'collapse',
-                    border: '1px solid',
-                    borderColor: 'neutral.200',
+                    border: '1px solid #ddd',
                 }}
             >
                 <thead>
@@ -78,20 +88,20 @@ const Preview: React.FC = () => {
             </Table>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
                 <Box sx={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: 0.5, textAlign: 'right' }}>
-                    <Typography level="body-xs">Subtotal:</Typography>
-                    <Typography level="body-xs">{formatCurrency(subtotal)}</Typography>
-                    <Typography level="body-xs">Tax ({taxRate}%):</Typography>
-                    <Typography level="body-xs">{formatCurrency(taxAmount)}</Typography>
-                    <Typography level="body-xs">Discount ({discountRate}%):</Typography>
-                    <Typography level="body-xs">{formatCurrency(discountAmount)}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>Subtotal:</Typography>
+                    <Typography level="body-xs" sx={{ color: '#000' }}>{formatCurrency(subtotal)}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>Tax ({taxRate}%):</Typography>
+                    <Typography level="body-xs" sx={{ color: '#000' }}>{formatCurrency(taxAmount)}</Typography>
+                    <Typography level="body-xs" sx={{ color: '#555' }}>Discount ({discountRate}%):</Typography>
+                    <Typography level="body-xs" sx={{ color: '#000' }}>{formatCurrency(discountAmount)}</Typography>
                     <Divider sx={{ gridColumn: '1 / -1', my: 0.5 }} />
-                    <Typography level="body-sm" fontWeight="bold">Total:</Typography>
-                    <Typography level="body-sm" fontWeight="bold">{formatCurrency(total)}</Typography>
+                    <Typography level="body-sm" fontWeight="bold" sx={{ color: '#000' }}>Total:</Typography>
+                    <Typography level="body-sm" fontWeight="bold" sx={{ color: '#000' }}>{formatCurrency(total)}</Typography>
                 </Box>
             </Box>
             <Box>
-                <Typography level="body-sm" fontWeight="bold">Notes:</Typography>
-                <Typography level="body-xs">{notes || "Thank you for your business!"}</Typography>
+                <Typography level="body-sm" fontWeight="bold" sx={{ color: '#000' }}>Notes:</Typography>
+                <Typography level="body-xs" sx={{ color: '#555' }}>{notes || "Thank you for your business!"}</Typography>
             </Box>
         </Sheet>
     );

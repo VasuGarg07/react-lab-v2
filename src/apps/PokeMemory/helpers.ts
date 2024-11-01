@@ -1,16 +1,16 @@
-import card1 from '../../assets/images/001.png';
-import card2 from '../../assets/images/002.png';
-import card3 from '../../assets/images/003.png';
-import card4 from '../../assets/images/004.png';
-import card5 from '../../assets/images/005.png';
-import card6 from '../../assets/images/006.png';
-import card7 from '../../assets/images/007.png';
-import card8 from '../../assets/images/008.png';
-import card9 from '../../assets/images/009.png';
-import card10 from '../../assets/images/0010.png';
-import card11 from '../../assets/images/0011.png';
-import card12 from '../../assets/images/0012.png';
-import cover from '../../assets/images/pokemon_card_back.jpg';
+import cover from '/images/pokemon_card_back.jpg';
+import card1 from '/images/001.png';
+import card2 from '/images/002.png';
+import card3 from '/images/003.png';
+import card4 from '/images/004.png';
+import card5 from '/images/005.png';
+import card6 from '/images/006.png';
+import card7 from '/images/007.png';
+import card8 from '/images/008.png';
+import card9 from '/images/009.png';
+import card10 from '/images/0010.png';
+import card11 from '/images/0011.png';
+import card12 from '/images/0012.png';
 
 export type CardType = {
   id: string,

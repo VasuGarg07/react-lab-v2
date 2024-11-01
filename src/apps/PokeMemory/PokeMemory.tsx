@@ -4,8 +4,8 @@ import Setup from './Setup';
 import Board from './Board';
 import Result from './Result';
 import { BgCenteredBox } from '../../components/BgCenteredBox';
-import Light from '../../assets/backgrounds/bg-poke.png';
-import Dark from '../../assets/backgrounds/bg-poke-dark.webp';
+import Light from '/backgrounds/bg-poke.png';
+import Dark from '/backgrounds/bg-poke-dark.webp';
 import { useTheme } from '@mui/joy';
 
 const PokeMemory = () => {

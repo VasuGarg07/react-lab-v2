@@ -3,7 +3,7 @@ import { CardType, GameMode, GameState, loadCards } from './helpers';
 import { useGameContext } from './Context';
 import { Button, Card, Divider, Input, Stack, Typography, Box, Container, Tooltip } from '@mui/joy';
 import { keyframes } from '@emotion/react';
-import Logo from '../../assets/game-logo.png';
+import Logo from '/game-logo.png';
 import { ErrorMessage } from '../../components/ErrorMessage';
 import { Gamepad2, UserRound, Zap, Puzzle, Skull } from 'lucide-react';
 

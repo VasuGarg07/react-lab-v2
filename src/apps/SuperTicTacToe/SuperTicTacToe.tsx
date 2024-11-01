@@ -1,7 +1,7 @@
 import { Box, Card, Grid, useTheme } from '@mui/joy';
 import React, { useEffect, useRef, useState } from 'react';
-import DarkBg from '../../assets/backgrounds/abstract-dark.webp';
-import LightBg from '../../assets/backgrounds/abstract.webp';
+import DarkBg from '/backgrounds/abstract-dark.webp';
+import LightBg from '/backgrounds/abstract.webp';
 import { BgCenteredBox } from '../../components/BgCenteredBox';
 import MiniBoard from './MiniBoard';
 import Sidebar from './Sidebar';

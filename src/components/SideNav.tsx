@@ -1,76 +1,126 @@
-import { DialogTitle, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemContent, ModalClose, Sheet } from '@mui/joy'
-import { useState } from 'react'
-import { Apps } from '../shared/apps'
-import { navigate } from '../shared/Router'
-import { ChevronRight, Home, Menu } from 'lucide-react'
+import { Drawer, IconButton, List, ListItem, ListItemButton, Typography, Sheet, Divider, Stack } from '@mui/joy';
+import { useState } from 'react';
+import { Menu, ChevronRight, Home, X } from 'lucide-react';
+import { Apps } from '../shared/apps';
+import { navigate } from '../shared/Router';
+import { Spacer } from './Spacer';
 
 const SideNav = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
 
   const handleRouting = (path: string) => {
-    navigate(path)
+    navigate(path);
     closeDrawer();
-  }
+  };
 
   return (
     <>
-      <IconButton children={<Menu />} onClick={openDrawer} />
+      <IconButton onClick={openDrawer}>
+        <Menu />
+      </IconButton>
+
       <Drawer
-        size="sm"
-        variant="plain"
         open={open}
         onClose={closeDrawer}
+        anchor="left"
+        variant="plain"
         slotProps={{
           content: {
             sx: {
-              bgcolor: 'transparent',
-              p: 2,
-              boxShadow: 'none',
+              m: 2,
+              width: '80%',
+              maxWidth: '300px',
+              bgcolor: 'background.body',
+              boxShadow: 'lg',
+              height: 'calc(100% - 32px)',
+              borderRadius: 'lg',
             },
           },
         }}
       >
         <Sheet
           sx={{
-            borderRadius: 'md',
-            height: 'auto',
             p: 2,
-            overflow: 'auto',
+            bgcolor: 'background.surface',
+            borderRadius: 'lg',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
           }}
-          className="flex-column pad-16 margin"
         >
-          <DialogTitle>React Lab</DialogTitle>
-          <ModalClose />
-          <Divider />
+          {/* Header with Close Button */}
+          <Stack direction='row' justifyContent='space-between' alignItems='center'>
+            <Typography level="h4" fontWeight="bold">
+              React Lab
+            </Typography>
+            <IconButton onClick={closeDrawer}>
+              <X />
+            </IconButton>
+          </Stack>
+          <Divider sx={{ mt: 1 }} />
 
-          <List
-            color="neutral"
-            size='sm'
-            sx={{ mt: 1 }}
-          >
+          {/* Navigation List */}
+          <List sx={{ mt: 1 }}>
             <ListItem>
-              <ListItemButton component="a" href="/">
-                <ListItemContent>Dashboard</ListItemContent>
+              <ListItemButton
+                onClick={() => handleRouting('/')}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  '&:hover': {
+                    bgcolor: 'primary.lightBg',
+                  },
+                  transition: 'background-color 0.3s ease-in-out',
+                }}
+              >
                 <Home />
+                <Typography level="body-sm" sx={{ ml: 1, fontWeight: 800 }}>
+                  Dashboard
+                </Typography>
+                <Spacer />
+                <ChevronRight />
               </ListItemButton>
             </ListItem>
-            {Apps.map((app, index) => (
+
+            {Apps.filter(app => app.visible).map((app, index) => (
               <ListItem key={index}>
-                <ListItemButton onClick={() => handleRouting(app.path)}>
-                  <ListItemContent>{app.name}</ListItemContent>
+                <ListItemButton
+                  onClick={() => handleRouting(app.path)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    '&:hover': {
+                      bgcolor: 'primary.lightBg',
+                    },
+                    transition: 'background-color 0.3s ease-in-out',
+                  }}
+                >
+                  <app.icon />
+                  <Typography level="body-sm" sx={{ fontWeight: 'bold', ml: 1 }}>
+                    {app.name}
+                  </Typography>
+                  <Spacer />
                   <ChevronRight />
                 </ListItemButton>
               </ListItem>
             ))}
           </List>
 
+          {/* Footer */}
+          <Divider sx={{ mt: 1 }} />
+          <Typography level="body-xs" textAlign="center" sx={{ mt: 1 }}>
+            © 2024 React Lab
+          </Typography>
         </Sheet>
       </Drawer>
     </>
-  )
-}
+  );
+};
 
-export default SideNav
+export default SideNav;

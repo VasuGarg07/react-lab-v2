@@ -3,6 +3,7 @@ export interface ContactInfo {
     title: string;
     phone: string;
     email: string;
+    location: string;
     linkedIn: string;
     github: string;
 }
@@ -18,7 +19,7 @@ export interface WorkExperience {
     location: string;
     startDate: string;
     endDate: string;
-    responsibilities: string[];
+    highlights: string[];
 }
 
 export interface Education {
@@ -38,7 +39,7 @@ export interface Project {
 export interface Achievement {
     title: string;
     description: string;
-    date?: string;
+    date: string;
 }
 
 export interface ResumeModel {
@@ -49,4 +50,8 @@ export interface ResumeModel {
     education: Education[];
     projects?: Project[];
     achievements?: Achievement[];
+}
+
+export interface TemplateProps {
+    resume: ResumeModel;
 }

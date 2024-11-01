@@ -1,6 +1,6 @@
 import { Button, Card, Typography } from '@mui/joy';
 import { useGameContext } from './Context';
-import Logo from '../../assets/game-logo.png';
+import Logo from '/game-logo.png';
 import CardGrid from './CardGrid';
 import { Spacer } from '../../components/Spacer';
 

@@ -62,8 +62,8 @@ const LandingPage: React.FC = () => {
             position: 'relative',
             overflow: 'hidden',
             background: theme.palette.mode === 'light'
-                ? 'linear-gradient(135deg, #A9B4C2 0%, #7D98A1 100%)'
-                : 'linear-gradient(135deg, #141e30 0%, #243b55 100%)',
+                ? 'radial-gradient(circle at top left, #E6EAF5, #EEF3FC 50%, #D7DDE8 100%)'
+                : 'radial-gradient(circle at top left, #1c2841, #05204A 50%, #243b55 100%)',
             '&::before': {
                 content: '""',
                 position: 'absolute',
@@ -71,8 +71,10 @@ const LandingPage: React.FC = () => {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                background: 'radial-gradient(circle, transparent 20%, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.05) 80%, transparent 80%, transparent)',
-                backgroundSize: '50px 50px',
+                background: theme.palette.mode === 'light'
+                    ? 'linear-gradient(45deg, rgba(255,255,255,0.2) 25%, transparent 25%), linear-gradient(135deg, rgba(255,255,255,0.2) 25%, transparent 25%), linear-gradient(225deg, rgba(255,255,255,0.2) 25%, transparent 25%), linear-gradient(315deg, rgba(255,255,255,0.2) 25%, transparent 25%)'
+                    : 'linear-gradient(45deg, rgba(0, 0, 0, 0.2) 25%, transparent 25%), linear-gradient(135deg, rgba(0, 0, 0, 0.2) 25%, transparent 25%), linear-gradient(225deg, rgba(0, 0, 0, 0.2) 25%, transparent 25%), linear-gradient(315deg, rgba(0, 0, 0, 0.2) 25%, transparent 25%)',
+                backgroundSize: '80px 80px',  // Larger spacing for diagonal pattern
             },
             pt: 6, // Added top padding to account for header
         }}>
@@ -91,6 +93,7 @@ const LandingPage: React.FC = () => {
                     mb={2}
                     fontFamily={'Poppins'}
                     sx={{
+                        zIndex: 2,
                         textShadow: (theme) => theme.palette.mode === 'light'
                             ? '2px 2px 4px rgba(0,0,0,0.1)'
                             : '2px 2px 4px rgba(0,0,0,0.5)',
@@ -105,6 +108,7 @@ const LandingPage: React.FC = () => {
                     mb={4}
                     sx={{
                         maxWidth: '800px',
+                        zIndex: 2,
                         textShadow: (theme) => theme.palette.mode === 'light'
                             ? '1px 1px 2px rgba(0,0,0,0.1)'
                             : '1px 1px 2px rgba(0,0,0,0.3)',

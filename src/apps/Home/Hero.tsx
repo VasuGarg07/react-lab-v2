@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, AspectRatio, Typography, Grid, Box, useTheme } from '@mui/joy';
-import Logo from '../../assets/homepage.svg';
+import Logo from '/homepage.svg';
 
 const Hero: React.FC = () => {
     const theme = useTheme();

@@ -2,77 +2,131 @@ import { ResumeModel } from './interfaces';
 
 export const sampleResume: ResumeModel = {
     contactInfo: {
-        name: "Vasu Garg",
-        title: "Senior Software Engineer",
-        phone: "+91-9878207089",
-        email: "vasugarg6656@gmail.com",
-        linkedIn: "vasu-garg-07",
-        github: "VasuGarg07"
+        name: "Jane Doe",
+        title: "Full Stack Developer",
+        phone: "+1 (555) 123-4567",
+        email: "jane.doe@example.com",
+        location: "New York, NY",
+        linkedIn: "https://www.linkedin.com/in/janedoe",
+        github: "https://www.github.com/janedoe"
     },
-    profile: "Experienced Full Stack Developer with a proven track record of two years. Proficient in designing and developing robust, scalable and seamlessly responsive solutions.",
+    profile: "Passionate and versatile Full Stack Developer with 5 years of experience in building scalable web applications. Proficient in both front-end and back-end technologies, with a strong focus on creating efficient, maintainable, and user-friendly solutions.",
     technicalSkills: [
-        { category: "Languages", skills: ["Javascript", "Typescript", "Python", "C/C++", "HTML/CSS"] },
-        { category: "Libraries/Frameworks", skills: ["React", "Angular", "Firebase"] },
-        { category: "Databases", skills: ["MongoDB", "Firebase", "MySQL"] },
-        { category: "Developer Tools", skills: ["Git", "Linux"] }
+        {
+            category: "Programming Languages",
+            skills: [
+                "JavaScript",
+                "TypeScript",
+                "Python",
+                "Java"
+            ]
+        },
+        {
+            category: "Front-end Technologies",
+            skills: [
+                "React",
+                "Vue.js",
+                "HTML5",
+                "CSS3",
+                "SASS"
+            ]
+        },
+        {
+            category: "Back-end Technologies",
+            skills: [
+                "Node.js",
+                "Express",
+                "Django",
+                "Spring Boot"
+            ]
+        },
+        {
+            category: "Databases",
+            skills: [
+                "MongoDB",
+                "PostgreSQL",
+                "MySQL"
+            ]
+        },
+        {
+            category: "DevOps & Tools",
+            skills: [
+                "Git",
+                "Docker",
+                "Jenkins",
+                "AWS",
+                "Jira"
+            ]
+        }
     ],
     workExperience: [
         {
-            title: "Senior Software Engineer",
-            company: "uTrade Solutions",
-            location: "Punjab, India",
-            startDate: "05/2024",
-            endDate: "present",
-            responsibilities: [
-                "Developed an Artificial Intelligence assistant for developing trading strategies and portfolios using OpenAI, WebSockets, Angular, and Go.",
-                "Designed uAlgoScript - a YAML based configuration language tailored specially for defining complex options trading strategies.",
-                "Developed an extensive and feature rich portfolio editor for the AI assistant, enabling collaborative work between users and AI.",
-                "Built an AI powered chatbot named uTrade Advisor, offering comprehensive user support and guidance.",
-                "Developed a API management dashboard for uTrade's Open Trading and Market data APIs using Next.JS, Redux and NodeJS"
+            title: "Senior Full Stack Developer",
+            company: "TechCorp Solutions",
+            location: "San Francisco, CA",
+            startDate: "2020-03",
+            endDate: "Present",
+            highlights: [
+                "Led a team of 5 developers in redesigning and implementing a high-traffic e-commerce platform, resulting in a 40% increase in user engagement",
+                "Architected and developed a microservices-based backend system, improving scalability and reducing server costs by 30%",
+                "Implemented comprehensive unit and integration testing strategies, reducing bug reports by 50%"
             ]
         },
         {
-            title: "Software Engineer",
-            company: "uTrade Solutions",
-            location: "Punjab, India",
-            startDate: "07/2022",
-            endDate: "04/2024",
-            responsibilities: [
-                "Developed 25+ features and fixed 200+ bugs, including secure anonymous file sharing, client-side tokenized document searching, and microservices to improve COVE-DRIVE platform scalability and efficiency.",
-                "Integrated Google Analytics in CoveDrive, tracking user interactions and most popular features, in turn contributing to a 25% improvement in user retention over 6 months by optimizing user experience based on data insights.",
-                "Revamped the application UI and modular architecture, reducing template size by 45% and improving site loading performance by 16%.",
-                "Developed a dynamic e-KYC portal, using Angular, PostGreSQL and Django to create a more user-friendly and adaptable interface which reduced dev efforts by 60% for onboarding of new client.",
-                "Designed migration scripts and cloud functions for Firestore and Storage Bucket to update and synchronize user data across multiple Firebase applications.",
-                "Contributed in development an affiliate dashboard to manage trading activity records of clients, refactoring the existing client reports and funds reports to upscale the record management efficiency by 20%"
-            ]
-        },
-        {
-            title: "Software Engineer Intern",
-            company: "uTrade Solutions",
-            location: "Punjab, India",
-            startDate: "01/2022",
-            endDate: "06/2022",
-            responsibilities: [
-                "Developed an SEO-optimized website for uTrade's trading and market data REST APIs using Next.js and MkDocs.",
-                "Contributed to the development of features and bug fixes the Crypto Exchange web portal",
-                "Implemented the Cove Drop web extension that facilitates real-time data transfer between the Cove App and the web extension using React."
+            title: "Full Stack Developer",
+            company: "WebWizards Inc.",
+            location: "New York, NY",
+            startDate: "2017-06",
+            endDate: "2020-02",
+            highlights: [
+                "Developed and maintained multiple client-facing web applications using React and Node.js",
+                "Collaborated with UX designers to implement responsive and accessible front-end interfaces",
+                "Optimized database queries and implemented caching strategies, improving application performance by 60%"
             ]
         }
     ],
     education: [
         {
-            institution: "Chandigarh College of Engineering and Technology",
-            degree: "Bachelor of Engineering",
-            fieldOfStudy: "Computer Science and Technology",
-            graduationYear: "2022"
+            institution: "University of Technology",
+            degree: "Bachelor of Science",
+            fieldOfStudy: "Computer Science",
+            graduationYear: "2017"
         }
     ],
     projects: [
         {
-            name: "React Lab",
-            description: "Developed a comprehensive showcase application demonstrating various React concepts and best practices. This project serves as a learning platform and reference for React developers, featuring multiple sub-projects that highlight different aspects of React development. Key features include state management demonstrations, custom hook implementations, responsive design patterns, and integration with modern UI libraries.",
-            technologies: ["React", "TypeScript", "Joy UI", "React Router", "Context API", "Custom Hooks"],
-            link: "https://react-lab-v2.web.app"
+            name: "EcoTrack",
+            description: "A mobile app for tracking and reducing personal carbon footprint",
+            technologies: [
+                "React Native",
+                "Node.js",
+                "MongoDB",
+                "AWS"
+            ],
+            link: "https://github.com/janedoe/ecotrack"
+        },
+        {
+            name: "AITutor",
+            description: "An AI-powered tutoring platform for students",
+            technologies: [
+                "Python",
+                "TensorFlow",
+                "Flask",
+                "Vue.js"
+            ],
+            link: "https://github.com/janedoe/aitutor"
+        }
+    ],
+    achievements: [
+        {
+            title: "Best Innovative Project Award",
+            description: "Received award for EcoTrack app at the Global Green Tech Hackathon",
+            date: "2022-09-09"
+        },
+        {
+            title: "Speaker at ReactConf 2021",
+            description: "Presented on 'Optimizing Performance in Large-Scale React Applications'",
+            date: "2021-11-09"
         }
     ]
-};
+}

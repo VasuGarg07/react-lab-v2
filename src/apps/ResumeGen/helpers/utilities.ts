@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
+import { ResumeModel } from './interfaces';
+import { isValidResumeModel } from './validateJson';
 
 export const generateUniqueId = (): string => {
     return uuidv4();
@@ -57,3 +59,53 @@ export const getInitials = (name: string): string => {
         .join('')
         .toUpperCase();
 };
+
+export const importJSON = (file: File): Promise<ResumeModel> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+            try {
+                const json = JSON.parse(event.target?.result as string);
+
+                // Validate the JSON against our ResumeModel interface
+                if (isValidResumeModel(json)) {
+                    resolve(json);
+                } else {
+                    reject(new Error('Invalid JSON structure. Please ensure it matches the required format.'));
+                }
+            } catch (error) {
+                reject(new Error('Error parsing JSON file.'));
+            }
+        };
+
+        reader.onerror = () => {
+            reject(new Error('Error reading file.'));
+        };
+
+        reader.readAsText(file);
+    });
+};
+
+
+export const downloadJSON = (resume: ResumeModel) => {
+    // Step 1: Convert the object to a JSON string
+    const jsonString = JSON.stringify(resume, null, 2); // 'null, 2' adds indentation for readability
+
+    // Step 2: Create a Blob from the JSON string
+    const blob = new Blob([jsonString], { type: 'application/json' });
+
+    // Step 3: Create a link element, set the download attribute, and trigger the download
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `resume_data.json`;
+
+    // Append the link to the body (required for Firefox)
+    document.body.appendChild(link);
+
+    // Trigger a click event to download the file
+    link.click();
+
+    // Clean up by removing the link
+    document.body.removeChild(link);
+}

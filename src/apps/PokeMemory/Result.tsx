@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card, Grid, Stack, Typography, Box } from "@mui/joy";
 import { keyframes } from '@emotion/react';
 import { useGameContext } from "./Context";
-import GameWon from '../../assets/game-won.png';
+import GameWon from '/game-won.png';
 import { PartyPopper, Trophy } from 'lucide-react';
 
 interface Props {
