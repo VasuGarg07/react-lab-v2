@@ -3,7 +3,7 @@ import { navigate } from "../shared/Router"
 import SideNav from "./SideNav"
 import ThemeToggle from "./ThemeToggle"
 import { Spacer } from "./Spacer"
-import Signup from "./Signup"
+import AuthButton from "./AuthButton"
 import { useLocation } from "react-router-dom"
 import CookNav from "../apps/QuickByte/Navigation/CookNav"
 
@@ -31,7 +31,7 @@ const Navbar = () => {
       </Typography>
       <Spacer />
       <ThemeToggle />
-      <Signup />
+      <AuthButton />
     </Stack>
   )
 }

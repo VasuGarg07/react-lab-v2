@@ -24,6 +24,9 @@ import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
+import AuthForm from "../auth/AuthForm";
+import { AuthGuard } from "../auth/AuthGuard";
+import UpdateProfile from "../components/UpdateProfile";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +39,16 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <Home />,
+      },
+      {
+        path: '/login',
+        element: <AuthForm />,
+      },
+      {
+        path: '/profile',
+        element: <AuthGuard>
+          <UpdateProfile />
+        </AuthGuard>
       },
       {
         path: 'resume',

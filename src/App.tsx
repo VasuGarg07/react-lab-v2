@@ -3,7 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./shared/Router";
 import "./styles/styles.scss";
 import theme from "./styles/theme";
-import { AuthProvider } from "./shared/AuthContext";
+import { AuthProvider } from "./auth/AuthContext";
 import Background from "./components/Background";
 import { AlertProvider } from "./shared/AlertProvider";
 
