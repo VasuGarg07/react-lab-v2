@@ -33,12 +33,16 @@ const Result: React.FC = () => {
     <Card
       variant="outlined"
       sx={{
-        boxShadow: 'lg',
         maxWidth: 800,
         margin: 'auto',
         mt: 4,
         overflow: 'hidden',
         transition: 'all 0.3s ease-in-out',
+        boxShadow: '0 2px 8px 2px #242424',
+        borderRadius: 'xl',
+        backdropFilter: 'blur(2px)',
+        border: '2px dashed white',
+        background: 'rgb(0 0 0 / 0.3)'
       }}
     >
       <Grid container spacing={4} alignItems="center">
@@ -75,7 +79,7 @@ const Result: React.FC = () => {
               level="h2"
               sx={{
                 fontWeight: 'bold',
-                color: 'primary.main',
+                color: '#f2f2f2',
                 textAlign: 'center',
                 animation: `${pulseAnimation} 2s infinite`,
                 textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
@@ -89,17 +93,17 @@ const Result: React.FC = () => {
                 textAlign: 'center',
                 maxWidth: '80%',
                 fontWeight: 'bold',
-                color: 'text.primary',
+                color: '#f0f0f0',
               }}
             >
-              Amazing job, <Typography sx={{ color: "#1976d2" }}>{name}</Typography>!
+              Amazing job, <Typography sx={{ color: "#1976d2" }}>{name}</Typography>.
               <br />You've conquered the Memory Game in just <Typography sx={{ color: '#1976d2' }}>{turns}</Typography> turns.
             </Typography>
             <Typography
               level="body-md"
               sx={{
                 textAlign: 'center',
-                color: 'text.secondary',
+                color: '#e3e3e3',
                 fontStyle: 'italic',
               }}
             >
@@ -108,7 +112,7 @@ const Result: React.FC = () => {
             <Button
               variant="solid"
               onClick={resetGame}
-              color='primary'
+              color='danger'
               startDecorator={<PartyPopper />}
               sx={{
                 mt: 2,

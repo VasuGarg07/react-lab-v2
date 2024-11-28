@@ -69,9 +69,9 @@ const SortingVisualizer: React.FC = () => {
     return (
         <Box sx={{
             minHeight: 'calc(100vh - 52px)',
-            background: mode === 'light'
-                ? 'linear-gradient(45deg, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%)'
-                : 'linear-gradient(45deg, #2c3e50 0%, #1a2a3d 99%, #1a2a3d 100%)',
+            background: mode === 'dark'
+                ? 'linear-gradient(135deg, #0f0f1e 0%, #1a1a3a 50%, #252550 100%)'
+                : 'linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 50%, #edf2f7 100%)',
         }}>
             <ControlPanel
                 algorithm={algorithm}

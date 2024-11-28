@@ -1,8 +1,9 @@
+import { Box, CircularProgress, Grid, Input, Sheet, Stack, useTheme } from '@mui/joy';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Grid, Typography, Button, Input, Stack, Sheet, Divider, CircularProgress, useTheme } from '@mui/joy';
-import { deepCopy, fetchInitialBoard, isValid, solveBoard } from './helpers';
 import { BgCenteredBox } from '../../components/BgCenteredBox';
 import { useAlert } from '../../shared/AlertProvider';
+import { deepCopy, fetchInitialBoard, isValid, solveBoard } from './helpers';
+import SudokuHeader from './SudokuHeader';
 import DarkBg from '/backgrounds/abstract-dark.webp';
 import LightBg from '/backgrounds/abstract.webp';
 
@@ -150,15 +151,11 @@ const SudokuBoard: React.FC = () => {
 
     return (
         <BgCenteredBox bg={isDark ? DarkBg : LightBg}>
-            <Stack component={Sheet} variant='outlined' direction='row' spacing={1} alignItems='center' sx={{ my: 2, p: 1, borderRadius: 'md' }}>
-                <Typography level="h4" component="h1" gutterBottom>
-                    Sudoku Solver
-                </Typography>
-                <Divider orientation='vertical' />
-                <Button size='sm' onClick={fetchBoard}>New</Button>
-                <Button size='sm' color="warning" onClick={giveHint}>Hint</Button>
-                <Button size='sm' color='success' onClick={handleSolve} sx={{ marginTop: 2 }}>Solve</Button>
-            </Stack>
+            <SudokuHeader
+                onNewGame={fetchBoard}
+                onHint={giveHint}
+                onSolve={handleSolve}
+            />
             <Sheet
                 color='neutral'
                 variant='outlined'

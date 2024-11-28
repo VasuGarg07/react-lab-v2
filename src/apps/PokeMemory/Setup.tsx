@@ -61,13 +61,11 @@ const Setup: React.FC = () => {
         sx={{
           width: '100%',
           p: 4,
-          boxShadow: 'lg',
-          backgroundColor: 'background.surface',
-          transition: 'all 0.3s ease-in-out',
-          '&:hover': {
-            boxShadow: 'xl',
-            transform: 'translateY(-5px)',
-          },
+          boxShadow: '0 2px 8px 2px #242424',
+          borderRadius: 'xl',
+          backdropFilter: 'blur(2px)',
+          border: '2px dashed white',
+          background: 'linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1))',
         }}
       >
         <Stack spacing={2} alignItems="center">
@@ -96,7 +94,7 @@ const Setup: React.FC = () => {
             </Typography>
           </Box>
 
-          <Typography level="body-md" textAlign="center" sx={{ maxWidth: '80%', color: 'text.secondary' }}>
+          <Typography level="body-md" textAlign="center" sx={{ maxWidth: '80%', color: 'white' }}>
             Challenge your mind with our engaging Memory Game! Match pairs, reveal hidden images, and test your concentration. Are you ready to become a memory master?
           </Typography>
 

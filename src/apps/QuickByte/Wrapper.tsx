@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/joy';
+import { Box, useColorScheme } from '@mui/joy';
 import { ReactNode } from 'react';
 import { BgCenteredBox } from '../../components/BgCenteredBox';
 
@@ -7,13 +7,15 @@ interface WrapperProps {
 }
 
 const Wrapper: React.FC<WrapperProps> = ({ children }) => {
-  const theme = useTheme();
+  const { mode } = useColorScheme();
+  const isDarkMode = mode === 'dark';
 
   return (
     <Box sx={{
-      background: theme.palette.mode === 'dark'
-        ? 'linear-gradient(135deg, #1a472a 0%, #2e8b57 100%)'
-        : 'linear-gradient(-60deg, #f09819 0%, #ff5858 100%)',
+      background: isDarkMode
+        ? 'linear-gradient(to top, #0f0f1e 0%, #1a1a3a 50%, #252550 100%)'
+        : 'linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%)',
+      backgroundBlendMode: 'normal, color-burn',
       position: 'relative',
       '&::before': {
         content: '""',
@@ -23,14 +25,16 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
         right: 0,
         bottom: 0,
         background: `
-            linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
-            linear-gradient(-45deg, rgba(255,255,255,0.1) 25%, transparent 25%),
-            linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.1) 75%),
-            linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.1) 75%)
+            linear-gradient(135deg, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.5)'} 25%, 
+            transparent 25%,
+            transparent 50%, 
+            ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.5)'} 50%,
+            ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.5)'} 75%,
+            transparent 75%,
+            transparent)
           `,
-        backgroundSize: '40px 40px',
-        backgroundPosition: '0 0, 0 20px, 20px -20px, -20px 0px',
-        opacity: 0.3,
+        backgroundSize: '60px 60px',
+        opacity: isDarkMode ? 0.4 : 0.2,
       },
     }}>
       <BgCenteredBox>
