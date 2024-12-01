@@ -22,8 +22,8 @@ const Container = styled(Box)({
         '& .background-image': {
             filter: 'grayscale(0)',
         },
-        '& .gradient-button': {
-            transform: 'translate(-50%, -50%) scale(1.5)',
+        '& button': {
+            transform: 'scale(1.1)',
         },
     },
 });

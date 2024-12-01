@@ -27,9 +27,9 @@ const Pokeverse: React.FC = () => {
             <Section>
                 <ImageSection
                     backgroundImage="/backgrounds/pokedex.jpg"
-                    buttonText="Pokédex"
+                    buttonText="Perfect Pokédex"
                     onButtonClick={() => console.log('Button 1 clicked')}
-                    gradientColors={GRADIENTS.ocean}
+                    gradientColors={GRADIENTS.blue}
                 />
             </Section>
             <Section>
@@ -37,7 +37,7 @@ const Pokeverse: React.FC = () => {
                     backgroundImage="/backgrounds/battle-sim.webp"
                     buttonText="Battle Simulator"
                     onButtonClick={() => console.log('Button 2 clicked')}
-                    gradientColors={GRADIENTS.red}
+                    gradientColors={GRADIENTS.ruby}
                 />
             </Section>
         </Container>
