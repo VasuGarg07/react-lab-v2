@@ -22,18 +22,17 @@ const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
         return (
             <Button
                 ref={ref}
-                size="lg"
+                size="md"
                 {...props}
                 sx={{
-                    px: 4,
-                    py: 1.5,
-                    fontSize: 'lg',
+                    px: 2,
+                    py: 0.5,
+                    fontSize: 'md',
                     fontWeight: 600,
-                    borderRadius: 'xl',
+                    borderRadius: 'md',
                     background: `linear-gradient(to left, ${gradient.from} 0%, ${gradient.to} 100%)`,
                     color: 'white',
                     textTransform: 'uppercase',
-                    letterSpacing: '1px',
                     border: 'none',
                     boxShadow: `0 10px 20px ${shadowColor}`,
                     transition: 'all 0.3s ease-in-out',
@@ -81,17 +80,12 @@ const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
                     },
 
                     '&:hover': {
-                        transform: 'scale(1.05)',
                         boxShadow: `0 15px 30px ${shadowColor}`,
                         background: `linear-gradient(to right, ${gradient.from} 0%, ${gradient.to} 100%)`,
 
                         '&::after': {
                             animation: 'shine 1.5s infinite',
                         }
-                    },
-
-                    '&:active': {
-                        transform: 'scale(0.98)',
                     },
 
                     ...props.sx

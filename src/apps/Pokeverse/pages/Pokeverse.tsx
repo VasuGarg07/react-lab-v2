@@ -1,17 +1,18 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Box } from '@mui/joy';
-import ImageSection from './components/ImageSection';
-import { GRADIENTS } from './helpers/constant';
+import ImageSection from '../components/ImageSection';
+import { GRADIENTS } from '../helpers/constant';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled(Box)({
     display: 'flex',
     flexDirection: 'column',
     // gap: '16px',
-    height: 'calc(100vh - 52px)',
     // padding: '16px',
+    height: 'calc(100vh - 52px)',
 
-    '@media (min-width: 900px)': {  // md breakpoint in Joy UI
+    '@media (min-width: 900px)': {
         flexDirection: 'row',
     },
 });
@@ -22,14 +23,17 @@ const Section = styled(Box)({
 });
 
 const Pokeverse: React.FC = () => {
+
+    const navigate = useNavigate();
+
     return (
         <Container>
             <Section>
                 <ImageSection
                     backgroundImage="/backgrounds/pokedex.jpg"
-                    buttonText="Pokédex"
-                    onButtonClick={() => console.log('Button 1 clicked')}
-                    gradientColors={GRADIENTS.ocean}
+                    buttonText="Perfect Pokédex"
+                    onButtonClick={() => navigate('pokedex')}
+                    gradientColors={GRADIENTS.blue}
                 />
             </Section>
             <Section>
@@ -37,7 +41,7 @@ const Pokeverse: React.FC = () => {
                     backgroundImage="/backgrounds/battle-sim.webp"
                     buttonText="Battle Simulator"
                     onButtonClick={() => console.log('Button 2 clicked')}
-                    gradientColors={GRADIENTS.red}
+                    gradientColors={GRADIENTS.ruby}
                 />
             </Section>
         </Container>

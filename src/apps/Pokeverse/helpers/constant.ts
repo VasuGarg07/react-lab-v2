@@ -17,6 +17,117 @@ export const GRADIENTS = {
     ruby: { from: '#FF1744', to: '#FFC107' },       // ruby to amber
     sunset: { from: '#FF8C00', to: '#FFD700' },     // deep orange to gold
     ocean: { from: '#0277BD', to: '#4FC3F7' }       // deep blue to light blue
-} as const;
+};
 
-export type GradientKey = keyof typeof GRADIENTS;
+export const REGION_DATA = [
+    {
+        name: "Kanto",
+        pokemonCount: 151,
+        startId: 1,
+        endId: 151,
+        pokedexUrl: "https://pokeapi.co/api/v2/pokedex/2/",
+        regionUrl: "https://pokeapi.co/api/v2/region/1/"
+    },
+    {
+        name: "Johto",
+        pokemonCount: 100,
+        startId: 152,
+        endId: 251,
+        pokedexUrl: "https://pokeapi.co/api/v2/pokedex/3/",
+        regionUrl: "https://pokeapi.co/api/v2/region/2/"
+    },
+    {
+        name: "Hoenn",
+        pokemonCount: 135,
+        startId: 252,
+        endId: 386,
+        pokedexUrl: "https://pokeapi.co/api/v2/pokedex/4/",
+        regionUrl: "https://pokeapi.co/api/v2/region/3/"
+    },
+    {
+        name: "Sinnoh",
+        pokemonCount: 107,
+        startId: 387,
+        endId: 493,
+        pokedexUrl: "https://pokeapi.co/api/v2/pokedex/5/",
+        regionUrl: "https://pokeapi.co/api/v2/region/4/"
+    },
+    {
+        name: "Unova",
+        pokemonCount: 156,
+        startId: 494,
+        endId: 649,
+        pokedexUrl: "https://pokeapi.co/api/v2/pokedex/8/",
+        regionUrl: "https://pokeapi.co/api/v2/region/5/"
+    },
+    {
+        name: "Kalos",
+        pokemonCount: 72,
+        startId: 650,
+        endId: 721,
+        pokedexUrl: "https://pokeapi.co/api/v2/pokedex/12/",
+        regionUrl: "https://pokeapi.co/api/v2/region/6/"
+    },
+    {
+        name: "Alola",
+        pokemonCount: 88,
+        startId: 722,
+        endId: 809,
+        pokedexUrl: "https://pokeapi.co/api/v2/pokedex/16/",
+        regionUrl: "https://pokeapi.co/api/v2/region/7/"
+    },
+    {
+        name: "Galar",
+        pokemonCount: 96,
+        startId: 810,
+        endId: 905,
+        pokedexUrl: "https://pokeapi.co/api/v2/pokedex/27/",
+        regionUrl: "https://pokeapi.co/api/v2/region/8/"
+    },
+    {
+        name: "Paldea",
+        pokemonCount: 110,
+        startId: 906,
+        endId: 1015,
+        pokedexUrl: "https://pokeapi.co/api/v2/pokedex/31/",
+        regionUrl: "https://pokeapi.co/api/v2/region/9/"
+    },
+    // {
+    //     name: "Kitakami",
+    //     pokemonCount: 7,
+    //     startId: 1009,
+    //     endId: 1015,
+    //     pokedexUrl: "https://pokeapi.co/api/v2/pokedex/32/",
+    //     regionUrl: "https://pokeapi.co/api/v2/region/11/"
+    // }
+];
+
+export const TYPE_COLORS: Record<string, string> = {
+    normal: '#A8A878',    // Beige
+    fighting: '#C03028',  // Dark red
+    flying: '#A890F0',    // Light purple
+    poison: '#A040A0',    // Purple
+    ground: '#E0C068',    // Tan
+    rock: '#B8A038',      // Dark tan
+    bug: '#A8B820',       // Light green
+    ghost: '#705898',     // Purple-gray
+    steel: '#B8B8D0',     // Steel gray
+    fire: '#F08030',      // Orange-red
+    water: '#6890F0',     // Blue
+    grass: '#78C850',     // Green
+    electric: '#F8D030',  // Yellow
+    psychic: '#F85888',   // Pink
+    ice: '#98D8D8',       // Light blue
+    dragon: '#7038F8',    // Dark purple
+    dark: '#705848',      // Dark gray
+    fairy: '#EE99AC'      // Light pink
+};
+
+export const BASE_API = 'https://pokeapi.co/api/v2/';
+
+export const END_POINT = {
+    details: 'pokemon',
+    species: 'pokemon-species',
+    forms: 'pokemon-form',
+    evolutionChain: 'evolution-chain'
+}

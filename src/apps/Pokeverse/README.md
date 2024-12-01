@@ -1,112 +1,260 @@
-# Pokédex Application
+# Pokémon Battle Simulator Development Guide
 
-This project is a comprehensive Pokédex built using React and PokéAPI. It allows users to explore Pokémon data interactively.
+## Table of Contents
+- [Overview](#overview)
+- [Data Structures](#data-structures)
+- [Components Architecture](#components-architecture)
+- [Battle Mechanics](#battle-mechanics)
+- [Implementation Guide](#implementation-guide)
+- [API Integration](#api-integration)
 
-## Features
+## Overview
 
-### 1. **Search Pokémon**
-- Users can search for a specific Pokémon by name or ID.
+### Project Scope
+Creating a Pokémon battle simulator using PokéAPI that allows:
+- Two players to battle
+- Team selection (6 Pokémon each)
+- Turn-based combat
+- Move selection and damage calculation
+- Type effectiveness
+- Level 100 stat calculation
 
-### 2. **List Pokémon by Generation**
-- Pokémon can be filtered and displayed by their generation (e.g., Gen I, Gen II).
+### Tech Stack
+- React + TypeScript
+- PokéAPI
+- Framer Motion (animations)
+- Joy UI (components)
 
-### 3. **List Pokémon by Type**
-- Pokémon can be filtered and displayed by their primary or secondary type (e.g., Grass, Fire).
+## Data Structures
 
----
+### Core Interfaces
 
-## Pokémon Details
+```typescript
+interface BattlePokemon extends Pokemon {
+  level: number;
+  currentHP: number;
+  maxHP: number;
+  selectedMoves: Move[];
+  calculatedStats: {
+    hp: number;
+    attack: number;
+    defense: number;
+    specialAttack: number;
+    specialDefense: number;
+    speed: number;
+  };
+  status?: StatusCondition;
+  volatileStatus: VolatileStatus[];
+}
 
-### 1. **Pokédex Data**
-- **National Dex No.**: The National Pokédex number.
-- **Type**: Primary and secondary types.
-- **Species**: Pokémon's species designation.
-- **Height**: Pokémon's height.
-- **Weight**: Pokémon's weight.
-- **Abilities**: A list of abilities with brief descriptions.
+interface BattlePlayer {
+  name: string;
+  team: BattlePokemon[];
+  activePokemon: number;
+  isReady: boolean;
+}
 
-### 2. **Stats**
-- Display base stats (HP, Attack, Defense, Special Attack, Special Defense, and Speed).
-- Include total base stats for easy comparison.
+interface BattleState {
+  turn: number;
+  weather?: Weather;
+  field?: FieldEffect[];
+  lastMove?: Move;
+  isActive: boolean;
+  winner?: string;
+}
 
-### 3. **Effectiveness on Other Types**
-- Display a type-effectiveness chart showing:
-  - Strengths (e.g., Grass is strong against Water).
-  - Weaknesses (e.g., Grass is weak to Fire).
-  - Immunities (e.g., Ground is immune to Electric).
+interface Move {
+  id: number;
+  name: string;
+  type: string;
+  power?: number;
+  accuracy?: number;
+  pp: number;
+  currentPp: number;
+  category: 'Physical' | 'Special' | 'Status';
+  priority: number;
+  effects?: MoveEffect[];
+}
+```
 
-### 4. **Evolution Chart**
-- Display the complete evolution chain of the Pokémon.
-- Include conditions for evolution (e.g., level, item, trade).
+## Components Architecture
 
-### 5. **Moves**
-- List all moves the Pokémon can learn, categorized by:
-  - **Level-Up**: Moves learned by leveling up.
-  - **TM/HM/Move Tutor**: Moves learned via technical or hidden machines.
-  - **Egg Moves**: Moves learned through breeding.
-- Include detailed information for each move:
-  - Power, accuracy, and PP.
-  - Description of the move's effect.
+### 1. Battle Setup Flow
 
-### 6. **Images and Cries**
-- Display high-quality images for the Pokémon.
-- Play the Pokémon’s cry on interaction (e.g., hover or click).
+```
+BattleSetup/
+├── PlayerRegistration.tsx
+├── TeamSelection/
+│   ├── PokemonGrid.tsx
+│   ├── PokemonCard.tsx
+│   ├── SelectedTeam.tsx
+│   └── TeamConfirmation.tsx
+└── BattleInitialization.tsx
+```
 
----
+### 2. Battle Interface
 
-## API Endpoints Used
+```
+BattleInterface/
+├── BattleField/
+│   ├── PokemonSprite.tsx
+│   ├── HealthBar.tsx
+│   ├── StatusIndicator.tsx
+│   └── WeatherAnimation.tsx
+├── BattleControls/
+│   ├── MoveSelection.tsx
+│   ├── SwitchPokemon.tsx
+│   └── BattleLog.tsx
+└── BattleStats/
+    ├── TeamPreview.tsx
+    └── EffectDisplay.tsx
+```
 
-### Pokémon Data
-- `/pokemon/{id or name}`: To fetch general Pokémon data including stats, types, and abilities.
+## Battle Mechanics
 
-### Pokémon Species
-- `/pokemon-species/{id or name}`: To get species-level data including evolution chain and flavor text.
+### 1. Stats Calculation
 
-### Evolution Chain
-- `/evolution-chain/{id}`: To retrieve detailed evolution information.
+```typescript
+const calculateStats = (pokemon: Pokemon, level: number = 100): CalculatedStats => {
+  return {
+    hp: calculateHP(pokemon.stats[0].base_stat, level),
+    attack: calculateOtherStat(pokemon.stats[1].base_stat, level),
+    defense: calculateOtherStat(pokemon.stats[2].base_stat, level),
+    specialAttack: calculateOtherStat(pokemon.stats[3].base_stat, level),
+    specialDefense: calculateOtherStat(pokemon.stats[4].base_stat, level),
+    speed: calculateOtherStat(pokemon.stats[5].base_stat, level)
+  };
+};
+```
 
-### Types
-- `/type/{id or name}`: For type-effectiveness calculations.
+### 2. Damage Calculation
 
-### Moves
-- `/move/{id or name}`: To get detailed information on moves.
+```typescript
+const calculateDamage = (
+  attacker: BattlePokemon,
+  defender: BattlePokemon,
+  move: Move,
+  weather: Weather
+): number => {
+  // Base damage
+  const baseDamage = ((2 * attacker.level) / 5 + 2) * move.power;
+  
+  // Attack/Defense ratio
+  const atkDefRatio = move.category === 'Physical' 
+    ? attacker.calculatedStats.attack / defender.calculatedStats.defense
+    : attacker.calculatedStats.specialAttack / defender.calculatedStats.specialDefense;
+  
+  // Modifiers
+  const stab = attacker.types.includes(move.type) ? 1.5 : 1;
+  const typeEffectiveness = calculateTypeEffectiveness(move.type, defender.types);
+  const weatherModifier = calculateWeatherModifier(move.type, weather);
+  
+  return Math.floor((baseDamage * atkDefRatio / 50 + 2) * stab * typeEffectiveness * weatherModifier);
+};
+```
 
-### Generations
-- `/generation/{id or name}`: To filter Pokémon by generation.
+## Implementation Guide
 
----
+### 1. Battle Setup Phase
 
-## Project Structure
+```typescript
+// Battle Context
+interface BattleContextType {
+  battleState: BattleState;
+  players: [BattlePlayer, BattlePlayer];
+  dispatch: (action: BattleAction) => void;
+}
 
-### Components
-1. **SearchBar**: For searching Pokémon.
-2. **PokemonList**: To display lists of Pokémon.
-3. **PokemonDetails**: To show detailed information for a specific Pokémon.
-4. **TypeChart**: For type-effectiveness chart.
-5. **EvolutionChain**: To display the evolution chart.
-6. **MoveList**: To display the list of moves.
+// Battle Actions
+type BattleAction =
+  | { type: 'SELECT_MOVE'; playerId: number; moveIndex: number }
+  | { type: 'SWITCH_POKEMON'; playerId: number; pokemonIndex: number }
+  | { type: 'APPLY_DAMAGE'; targetId: number; amount: number }
+  | { type: 'END_TURN' };
+```
 
-### Pages
-1. **Home Page**: Displays options to filter Pokémon by generation or type.
-2. **Details Page**: Shows detailed information about a specific Pokémon.
+### 2. Battle Flow
 
----
+```typescript
+const executeTurn = async (
+  player1Action: BattleAction,
+  player2Action: BattleAction,
+  battleState: BattleState
+): Promise<BattleState> => {
+  const actions = determineTurnOrder(player1Action, player2Action, battleState);
+  
+  for (const action of actions) {
+    await executeAction(action, battleState);
+    await checkWinCondition(battleState);
+  }
+  
+  return applyEndTurnEffects(battleState);
+};
+```
 
-## Design Considerations
-- **Responsive Design**: Ensure the UI is mobile-friendly.
-- **Caching**: Use caching to minimize API calls for frequently accessed data.
-- **Loading States**: Add loading indicators for API calls.
-- **Error Handling**: Handle API errors gracefully and show appropriate messages.
+### 3. Move Selection Logic
 
----
+```typescript
+const selectIntelligentMoves = (pokemon: Pokemon, allMoves: Move[]): Move[] => {
+  const moves: Move[] = [];
+  const pokemonTypes = new Set(pokemon.types);
+  
+  // Ensure at least one STAB move
+  const stabMoves = allMoves.filter(move => pokemonTypes.has(move.type));
+  if (stabMoves.length) moves.push(selectBestMove(stabMoves));
+  
+  // Add coverage move
+  const coverageMoves = allMoves.filter(move => !pokemonTypes.has(move.type));
+  if (coverageMoves.length) moves.push(selectBestMove(coverageMoves));
+  
+  // Add status move
+  const statusMoves = allMoves.filter(move => move.category === 'Status');
+  if (statusMoves.length) moves.push(selectBestMove(statusMoves));
+  
+  // Fill remaining slots with strong moves
+  while (moves.length < 4) {
+    const remainingMoves = allMoves.filter(move => !moves.includes(move));
+    if (!remainingMoves.length) break;
+    moves.push(selectBestMove(remainingMoves));
+  }
+  
+  return moves;
+};
+```
 
-## Future Enhancements
-- Add localization for Pokémon names and descriptions.
-- Include shiny versions of Pokémon.
-- Allow users to favorite Pokémon and save their list.
-- Implement pagination for large lists.
+## API Integration
 
----
+### Required Endpoints
 
-## References
-- [PokéAPI Documentation](https://pokeapi.co/docs/v2)
+1. Base Pokémon Data:
+```typescript
+const fetchPokemonData = async (id: number): Promise<Pokemon> => {
+  const [pokemon, species] = await Promise.all([
+    fetch(`${BASE_API}/pokemon/${id}`),
+    fetch(`${BASE_API}/pokemon-species/${id}`)
+  ]);
+  
+  return processRawPokemonData(pokemon, species);
+};
+```
+
+2. Move Data:
+```typescript
+const fetchMoveData = async (moveUrl: string): Promise<Move> => {
+  const response = await fetch(moveUrl);
+  const data = await response.json();
+  
+  return processMoveData(data);
+};
+```
+
+3. Type Effectiveness:
+```typescript
+const fetchTypeEffectiveness = async (): Promise<TypeChart> => {
+  const types = await Promise.all(
+    TYPE_LIST.map(type => fetch(`${BASE_API}/type/${type}`))
+  );
+  
+  return processTypeChart(types);
+};
+```
