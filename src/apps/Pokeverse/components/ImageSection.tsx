@@ -23,7 +23,8 @@ const Container = styled(Box)({
             filter: 'grayscale(0)',
         },
         '& button': {
-            transform: 'scale(1.1)',
+            padding: '8px 24px',
+            transform: 'scale(1.2)',
         },
     },
 });

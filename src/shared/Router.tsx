@@ -25,6 +25,8 @@ import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
 import Pokeverse from "../apps/Pokeverse/Pokeverse";
+import { path } from "pdfkit";
+import Pokedex from "../apps/Pokeverse/Pokedex";
 
 export const router = createBrowserRouter([
   {
@@ -40,7 +42,28 @@ export const router = createBrowserRouter([
       },
       {
         path: 'pokeverse',
-        element: <Pokeverse />
+        element: <Outlet />,
+        children: [
+          {
+            path: '',
+            element: <Pokeverse />
+          },
+          {
+            path: 'pokedex',
+            element: <Outlet />,
+            children: [
+              {
+                path: '',
+                element: <Pokedex />
+              }
+            ]
+          },
+          {
+            path: 'battle-sim',
+            element: <Outlet />,
+            children: []
+          }
+        ]
       },
       {
         path: 'resume',
