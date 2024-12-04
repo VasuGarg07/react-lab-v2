@@ -32,3 +32,25 @@ export namespace PokedexUtils {
         );
     };
 }
+
+export namespace BattleSimUtils {
+    export const calculateStat = (
+        baseStat: number,
+        ev: number = 0,
+        level: number = 50,
+        isHP: boolean = false,
+        iv: number = 15 // Default average IV
+    ): number => {
+        if (isHP) {
+            // HP formula
+            return Math.floor((((2 * baseStat + iv + Math.floor(ev / 4)) * level) / 100) + level + 10);
+        } else {
+            // Other stats formula
+            return Math.floor((((2 * baseStat + iv + Math.floor(ev / 4)) * level) / 100) + 5);
+        }
+    };
+}
+
+export const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};

@@ -86,20 +86,20 @@ export const REGION_DATA = [
     },
     {
         name: "Paldea",
-        pokemonCount: 103,
+        pokemonCount: 110,
         startId: 906,
-        endId: 1008,
+        endId: 1015,
         pokedexUrl: "https://pokeapi.co/api/v2/pokedex/31/",
         regionUrl: "https://pokeapi.co/api/v2/region/9/"
     },
-    {
-        name: "Kitakami",
-        pokemonCount: 7,
-        startId: 1009,
-        endId: 1015,
-        pokedexUrl: "https://pokeapi.co/api/v2/pokedex/32/",
-        regionUrl: "https://pokeapi.co/api/v2/region/11/"
-    }
+    // {
+    //     name: "Kitakami",
+    //     pokemonCount: 7,
+    //     startId: 1009,
+    //     endId: 1015,
+    //     pokedexUrl: "https://pokeapi.co/api/v2/pokedex/32/",
+    //     regionUrl: "https://pokeapi.co/api/v2/region/11/"
+    // }
 ];
 
 export const TYPE_COLORS: Record<string, string> = {

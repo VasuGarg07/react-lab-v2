@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import React, { useState } from 'react';
 import { TYPE_COLORS } from '../helpers/constant';
+import { PokemonDetail } from '../helpers/types';
 
 interface PokemonCardProps {
     pokemon: PokemonDetail;
@@ -106,7 +107,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
                 >
                     <Box
                         component="img"
-                        src={pokemon.sprites.other['official-artwork'].front_default || pokemon.sprites.front_default}
+                        src={pokemon.sprites.other['home'].front_default || pokemon.sprites.front_default}
                         alt={pokemon.name}
                         sx={{
                             width: '75%',

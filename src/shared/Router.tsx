@@ -24,9 +24,9 @@ import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
-import Pokeverse from "../apps/Pokeverse/Pokeverse";
-import { path } from "pdfkit";
-import Pokedex from "../apps/Pokeverse/Pokedex";
+import Pokeverse from "../apps/Pokeverse/pages/Pokeverse";
+import Pokedex from "../apps/Pokeverse/pages/Pokedex";
+import PokemonDetails from "../apps/Pokeverse/pages/PokemonDetails";
 
 export const router = createBrowserRouter([
   {
@@ -50,13 +50,11 @@ export const router = createBrowserRouter([
           },
           {
             path: 'pokedex',
-            element: <Outlet />,
-            children: [
-              {
-                path: '',
-                element: <Pokedex />
-              }
-            ]
+            element: <Pokedex />
+          },
+          {
+            path: 'pokedex/:id',
+            element: <PokemonDetails />,
           },
           {
             path: 'battle-sim',
