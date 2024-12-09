@@ -55,6 +55,8 @@ const PokemonDetails: React.FC = () => {
                     const { data: details } = await axios.get<PokemonDetail>(`${BASE_API}pokemon/${id}`);
                     speciesId = getIdFromUrl(details.species.url);
                     DexUtils.updateDetails(updatedPokemon, details);
+                } else {
+                    speciesId = updatedPokemon.speciesId!;
                 }
 
                 // Fetch Species API if not already fetched
@@ -64,6 +66,8 @@ const PokemonDetails: React.FC = () => {
                     const { data: species } = await axios.get<PokemonSpecies>(speciesUrl);
                     evoChainId = getIdFromUrl(species.evolution_chain.url);
                     DexUtils.updateSpecies(updatedPokemon, species);
+                } else {
+                    evoChainId = updatedPokemon.evoChainId!;
                 }
 
                 // Fetch Evolution Chain API if not already fetched

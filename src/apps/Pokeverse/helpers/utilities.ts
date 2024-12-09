@@ -1,4 +1,5 @@
-import { END_POINT } from "./constant";
+import { BattlePlayer, BattlePokemon, Move } from "./battle.types";
+import { DAMAGE_MULTIPLIERS, END_POINT } from "./constant";
 import { EvolutionDetails, Pokemon } from "./model.types";
 import { PokemonDetail, PokemonSpecies, PokemonSprite } from "./response.types";
 
@@ -50,6 +51,8 @@ export namespace DexUtils {
             name: move.move.name,
             url: move.move.url
         }))
+
+        pokemon.speciesId = getIdFromUrl(details.species.url);
         pokemon.fetchedApis.add(END_POINT.details);
     };
 
@@ -73,6 +76,7 @@ export namespace DexUtils {
             id: getIdFromUrl(variety.pokemon.url)
         }))
 
+        pokemon.evoChainId = getIdFromUrl(species.evolution_chain.url);
         pokemon.fetchedApis.add(END_POINT.species);
     }
 
@@ -110,6 +114,27 @@ export namespace BattleSimUtils {
             // Other stats formula
             return Math.floor((((2 * baseStat + iv + Math.floor(ev / 4)) * level) / 100) + 5);
         }
+    };
+
+    export const calculateDamage = (
+        attacker: BattlePokemon,
+        defender: BattlePokemon,
+        move: Move
+    ): number => {
+        const typeMultiplier = DAMAGE_MULTIPLIERS[move.type]?.[defender.types[0]] || 1;
+
+        const attackStat = move.category === 'Physical' ? attacker.calculatedStats.attack : attacker.calculatedStats.specialAttack;
+        const defenseStat = move.category === 'Physical' ? defender.calculatedStats.defense : defender.calculatedStats.specialDefense;
+
+        const isCritical = Math.random() < 1 / 16;
+        const criticalMultiplier = isCritical ? 1.5 : 1;
+
+        const baseDamage = (move.power || 50) * (attackStat / defenseStat);
+        return Math.floor(baseDamage * typeMultiplier * criticalMultiplier);
+    };
+
+    export const getNextPokemon = (player: BattlePlayer): number | undefined => {
+        return player.team.findIndex(pokemon => pokemon.currentHP > 0);
     };
 }
 
