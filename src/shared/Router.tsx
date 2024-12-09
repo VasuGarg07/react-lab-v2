@@ -28,6 +28,10 @@ import Pokeverse from "../apps/Pokeverse/pages/Pokeverse";
 import Pokedex from "../apps/Pokeverse/pages/Pokedex";
 import PokemonDetails from "../apps/Pokeverse/pages/PokemonDetails";
 import { PokedexProvider } from "../apps/Pokeverse/context/PokedexContext";
+import { BattleProvider } from "../apps/Pokeverse/context/BattleSimContext";
+import { PlayerSetupScreen } from "../apps/Pokeverse/pages/PlayerSetup";
+import { TeamSelectionScreen } from "../apps/Pokeverse/pages/TeamSelection";
+import { BattleScreen } from "../apps/Pokeverse/pages/BattleScreen";
 
 export const router = createBrowserRouter([
   {
@@ -43,7 +47,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'pokeverse',
-        element: <PokedexProvider><Outlet /></PokedexProvider>,
+        element: <PokedexProvider outlet={<Outlet />} />,
         children: [
           {
             path: '',
@@ -59,7 +63,21 @@ export const router = createBrowserRouter([
           },
           {
             path: 'battle-sim',
-            element: <Outlet />,
+            element: <BattleProvider><Outlet /></BattleProvider>,
+            children: [
+              {
+                path: '',
+                element: <PlayerSetupScreen />
+              },
+              {
+                path: 'team-selection',
+                element: <TeamSelectionScreen />
+              },
+              {
+                path: 'battle',
+                element: <BattleScreen />
+              }
+            ]
           }
         ]
       },

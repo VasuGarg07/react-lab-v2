@@ -1,4 +1,5 @@
-import { END_POINT } from "./constant";
+import { BattlePlayer, BattlePokemon, GamePhase, Move } from "./battle.types";
+import { DAMAGE_MULTIPLIERS, END_POINT } from "./constant";
 import { EvolutionDetails, Pokemon } from "./model.types";
 import { PokemonDetail, PokemonSpecies, PokemonSprite } from "./response.types";
 
@@ -50,6 +51,8 @@ export namespace DexUtils {
             name: move.move.name,
             url: move.move.url
         }))
+
+        pokemon.speciesId = getIdFromUrl(details.species.url);
         pokemon.fetchedApis.add(END_POINT.details);
     };
 
@@ -73,6 +76,7 @@ export namespace DexUtils {
             id: getIdFromUrl(variety.pokemon.url)
         }))
 
+        pokemon.evoChainId = getIdFromUrl(species.evolution_chain.url);
         pokemon.fetchedApis.add(END_POINT.species);
     }
 
@@ -91,7 +95,6 @@ export namespace DexUtils {
             evolvesTo: chain.evolves_to.map((evolution: any) => extractEvolutionChain(evolution)),
         };
     }
-
 }
 
 
@@ -101,15 +104,122 @@ export namespace BattleSimUtils {
         ev: number = 0,
         level: number = 50,
         isHP: boolean = false,
-        iv: number = 15 // Default average IV
+        iv: number = 15
     ): number => {
         if (isHP) {
-            // HP formula
             return Math.floor((((2 * baseStat + iv + Math.floor(ev / 4)) * level) / 100) + level + 10);
         } else {
-            // Other stats formula
             return Math.floor((((2 * baseStat + iv + Math.floor(ev / 4)) * level) / 100) + 5);
         }
+    };
+
+    export const calculateDamage = (
+        attacker: BattlePokemon,
+        defender: BattlePokemon,
+        move: Move
+    ): number => {
+        const typeMultiplier = DAMAGE_MULTIPLIERS[move.type]?.[defender.types[0]] || 1;
+
+        const attackStat = move.category === 'Physical' ? attacker.calculatedStats.attack : attacker.calculatedStats.specialAttack;
+        const defenseStat = move.category === 'Physical' ? defender.calculatedStats.defense : defender.calculatedStats.specialDefense;
+
+        const isCritical = Math.random() < 1 / 16;
+        const criticalMultiplier = isCritical ? 1.5 : 1;
+
+        // Add STAB (Same Type Attack Bonus)
+        const stab = attacker.types.includes(move.type) ? 1.5 : 1;
+        // Random factor between 0.85 and 1
+        const randomFactor = 0.85 + (Math.random() * 0.15);
+
+        const baseDamage = ((2 * 50 / 5 + 2) * (move.power || 50) * (attackStat / defenseStat) / 50 + 2);
+        const finalDamage = Math.floor(baseDamage * typeMultiplier * criticalMultiplier * stab * randomFactor);
+
+        return Math.max(1, finalDamage); // Minimum 1 damage
+    };
+
+    export const getNextPokemon = (team: BattlePokemon[]): number | undefined => {
+        const index = team.findIndex(pokemon => pokemon.currentHP > 0);
+        return index === -1 ? undefined : index;
+    };
+
+    export const canSwitchTo = (pokemonIndex: number, team: BattlePokemon[]): boolean => {
+        return pokemonIndex >= 0 &&
+            pokemonIndex < team.length &&
+            team[pokemonIndex].currentHP > 0;
+    };
+
+    export const isValidGamePhaseTransition = (
+        currentPhase: GamePhase,
+        nextPhase: GamePhase
+    ): boolean => {
+        const validTransitions: Record<GamePhase, GamePhase[]> = {
+            'SETUP': ['PLAYER_NAMING'],
+            'PLAYER_NAMING': ['TEAM_SELECTION'],
+            'TEAM_SELECTION': ['BATTLE'],
+            'BATTLE': ['ENDED'],
+            'ENDED': ['SETUP'] // If you want to allow restarting
+        };
+
+        return validTransitions[currentPhase]?.includes(nextPhase) || false;
+    };
+
+    // Helper to check if both teams are valid to start battle
+    export const areTeamsValid = (
+        team1: BattlePokemon[],
+        team2: BattlePokemon[],
+        maxTeamSize: number
+    ): boolean => {
+        return team1.length > 0 &&
+            team1.length <= maxTeamSize &&
+            team2.length > 0 &&
+            team2.length <= maxTeamSize;
+    };
+
+    // Helper to format pokemon data from PokeAPI to BattlePokemon
+    export const formatPokemonData = (
+        pokemonData: Pokemon,
+        selectedMoves: Move[]
+    ): BattlePokemon => {
+        const stats = {
+            hp: calculateStat(pokemonData.stats[0].value, 0, 50, true),
+            attack: calculateStat(pokemonData.stats[1].value),
+            defense: calculateStat(pokemonData.stats[2].value),
+            specialAttack: calculateStat(pokemonData.stats[3].value),
+            specialDefense: calculateStat(pokemonData.stats[4].value),
+            speed: calculateStat(pokemonData.stats[5].value)
+        };
+
+        return {
+            id: pokemonData.id,
+            name: pokemonData.name,
+            types: pokemonData.types,
+            currentHP: stats.hp,
+            maxHP: stats.hp,
+            selectedMoves,
+            frontSprite: pokemonData.sprites.front_default,
+            backSprite: pokemonData.sprites.back_default || pokemonData.sprites.front_default,
+            calculatedStats: stats
+        };
+    };
+
+    // Add helper function to check if a team has any playable Pokemon
+    export const hasPlayablePokemon = (team: BattlePokemon[]): boolean => {
+        return team.some(pokemon => pokemon.currentHP > 0);
+    };
+
+    // Add helper function to check game over conditions
+    export const checkGameOver = (players: [BattlePlayer, BattlePlayer]): { isGameOver: boolean; winner?: string } => {
+        const player1HasPokemon = hasPlayablePokemon(players[0].team);
+        const player2HasPokemon = hasPlayablePokemon(players[1].team);
+
+        if (!player1HasPokemon && !player2HasPokemon) {
+            return { isGameOver: true, winner: 'Draw' }; // Extremely rare case where both teams faint simultaneously
+        } else if (!player1HasPokemon) {
+            return { isGameOver: true, winner: players[1].name };
+        } else if (!player2HasPokemon) {
+            return { isGameOver: true, winner: players[0].name };
+        }
+        return { isGameOver: false };
     };
 }
 
@@ -152,8 +262,11 @@ export const getSoftComplementaryColor = (hex: string) => {
 
 export const getIdFromUrl = (url: string) => parseInt(url.split("/").slice(-2)[0]);
 
-export const getOfficialImage = (id: number) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
+export const getOfficialImage = (id: number) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 export const get3dImage = (id: number) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
+
+export const backSprite = (id: number) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
+export const frontSprite = (id: number) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
 export const formatString = (input: string) => input
     .split('-')

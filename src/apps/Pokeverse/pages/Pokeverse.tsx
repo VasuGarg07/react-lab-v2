@@ -23,7 +23,6 @@ const Section = styled(Box)({
 });
 
 const Pokeverse: React.FC = () => {
-
     const navigate = useNavigate();
 
     return (
@@ -40,7 +39,7 @@ const Pokeverse: React.FC = () => {
                 <ImageSection
                     backgroundImage="/backgrounds/battle-sim.webp"
                     buttonText="Battle Simulator"
-                    onButtonClick={() => console.log('Button 2 clicked')}
+                    onButtonClick={() => navigate('battle-sim')}
                     gradientColors={GRADIENTS.ruby}
                 />
             </Section>

@@ -9,7 +9,7 @@ interface PokedexContextType {
 
 const PokedexContext = createContext<PokedexContextType | null>(null);
 
-export const PokedexProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const PokedexProvider: React.FC<{ outlet: ReactNode }> = ({ outlet }) => {
     const [pokemons, setPokemons] = useState<Record<number, Pokemon>>({});
 
     // Adds a new Pokémon or retrieves an existing one
@@ -24,7 +24,7 @@ export const PokedexProvider: React.FC<{ children: ReactNode }> = ({ children })
 
     return (
         <PokedexContext.Provider value={{ pokemons, addPokemon, getPokemonById }}>
-            {children}
+            {outlet}
         </PokedexContext.Provider>
     );
 };

@@ -55,5 +55,7 @@ export interface Pokemon {
     // Evolution Chain
     evolutionChain: EvolutionDetails;
 
+    speciesId?: number;
+    evoChainId?: number;
     fetchedApis: Set<string>; // Track fetched APIs
 }
