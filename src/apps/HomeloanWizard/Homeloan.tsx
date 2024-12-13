@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { DefaultValue, LoanData } from "./helpers";
-import { Grid, Sheet } from "@mui/joy";
+import { Grid, Sheet, useColorScheme } from "@mui/joy";
 import SliderSelect from "./SliderSelect";
 import Result from "./Result";
 
 
 const Homeloan = () => {
+  const { mode } = useColorScheme();
   const [data, setData] = useState<LoanData>(DefaultValue);
 
   return (
@@ -14,7 +15,9 @@ const Homeloan = () => {
         width: 1,
         minHeight: 'calc(100vh - 53px)',
         p: { md: 3, xs: 2 },
-        backgroundColor: 'transparent'
+        background: mode === 'dark'
+          ? 'linear-gradient(135deg, #0f0f1e 0%, #1a1a3a 50%, #252550 100%)'
+          : 'linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 50%, #edf2f7 100%)',
       }}>
       <Grid container spacing={3} alignItems="center">
         <Grid xs={12} sm={6} md={8} sx={{ p: { md: 3, xs: 2 } }}>

@@ -62,8 +62,8 @@ const LandingPage: React.FC = () => {
             position: 'relative',
             overflow: 'hidden',
             background: theme.palette.mode === 'light'
-                ? 'radial-gradient(circle at top left, #E6EAF5, #EEF3FC 50%, #D7DDE8 100%)'
-                : 'radial-gradient(circle at top left, #1c2841, #05204A 50%, #243b55 100%)',
+                ? 'linear-gradient(60deg, #96deda 0%, #50c9c3 100%)'
+                : 'linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%)',
             '&::before': {
                 content: '""',
                 position: 'absolute',
@@ -130,9 +130,7 @@ const LandingPage: React.FC = () => {
                         fontSize: 'lg',
                         fontWeight: 600,
                         borderRadius: 'xl',
-                        background: theme.palette.mode === 'dark'
-                            ? 'linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%)'
-                            : 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                        background: 'linear-gradient(to top, #7028e4 0%, #e5b2ca 100%)',
                         color: 'white',
                         textTransform: 'uppercase',
                         letterSpacing: '1px',

@@ -1,12 +1,12 @@
 import { Box, Card, Grid, useTheme } from '@mui/joy';
 import React, { useEffect, useRef, useState } from 'react';
-import DarkBg from '/backgrounds/abstract-dark.webp';
-import LightBg from '/backgrounds/abstract.webp';
 import { BgCenteredBox } from '../../components/BgCenteredBox';
 import MiniBoard from './MiniBoard';
 import Sidebar from './Sidebar';
 import StartGamePopup from './StartGamePopup';
-import { BOARD_COLOR, BoxShadow, checkWinner, COLOR_O, COLOR_X, createEmptyBoard, createSuperBoard, InsetBoxShadow, Instructions, makeRandomMove, REM, SQ_SIZE, Timeout } from './helpers';
+import { BoxShadow, checkWinner, COLOR_O, COLOR_X, createEmptyBoard, createSuperBoard, InsetBoxShadow, Instructions, makeRandomMove, REM, SQ_SIZE, Timeout } from './helpers';
+import DarkBg from '/backgrounds/abstract-dark.webp';
+import LightBg from '/backgrounds/abstract.webp';
 
 const SuperTicTacToe: React.FC = () => {
     const [boards, setBoards] = useState<string[][][][]>(createSuperBoard());
@@ -167,7 +167,7 @@ const SuperTicTacToe: React.FC = () => {
                         boxShadow: BoxShadow,
                         padding: 2,
                         borderRadius: 16,
-                        backgroundColor: isPlayable ? BOARD_COLOR : 'transparent',
+                        background: isPlayable ? 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)' : 'transparent',
                     }}
                 >
                     <MiniBoard

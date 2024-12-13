@@ -79,7 +79,7 @@ const ResumeForm: React.FC = () => {
             sx={{
                 zIndex: 2,
                 minWidth: 250,
-                p: 2, mt: '2px',
+                p: 2, mt: '1px',
                 borderRight: '1px solid',
                 borderColor: 'divider',
                 display: { xs: isMobileMenuOpen ? 'block' : 'none', md: 'block' },
@@ -160,7 +160,7 @@ const ResumeForm: React.FC = () => {
                 flexDirection: { xs: 'column', md: 'row' },
                 background: isDarkMode
                     ? 'linear-gradient(135deg, #0f0f1e 0%, #1a1a3a 50%, #252550 100%)'
-                    : 'linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 50%, #edf2f7 100%)',
+                    : 'linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%)',
                 color: isDarkMode ? '#e0e0e0' : '#333333',
                 transition: 'background 0.3s, color 0.3s',
             }}

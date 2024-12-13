@@ -10,7 +10,9 @@ import TicTacToe from '/cover/tictactoe.webp';
 import Visualizer from '/cover/visualizer.webp';
 import Invoice from '/cover/invoice.png';
 import Resume from '/cover/resume.webp';
-import { BarChart2, Code, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, UtensilsCrossed } from 'lucide-react';
+import BattleSim from '/cover/battle-sim2.webp';
+
+import { BarChart2, Code, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed } from 'lucide-react';
 
 export interface AppInfo {
   name: string;
@@ -24,6 +26,16 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  {
+    name: 'Pokeverse',
+    path: '/pokeverse',
+    tag: "Become the Ultimate Trainer",
+    image: BattleSim,
+    visible: true,
+    description: "Experience dynamic Pokemon battles with strategic gameplay mechanics",
+    techStack: ['Game Logic', 'State Management', 'Real-time Updates'],
+    icon: Swords
+  },
   {
     name: 'Resume Generator',
     path: '/resume',

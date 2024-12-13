@@ -110,7 +110,7 @@ const ResumePreview: React.FC = () => {
                 flexDirection: 'column',
                 background: isDarkMode
                     ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
-                    : 'linear-gradient(135deg, #f6f9fc 0%, #f0f4f8 50%, #edf2f7 100%)',
+                    : 'linear-gradient(to top, #cd9cf2 0%, #f6f3ff 100%)',
                 color: isDarkMode ? '#e0e0e0' : '#333333',
                 transition: 'background 0.3s, color 0.3s',
             }}

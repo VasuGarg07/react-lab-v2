@@ -24,6 +24,14 @@ import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
 import MainLayout from "../components/MainLayout";
+import Pokeverse from "../apps/Pokeverse/pages/Pokeverse";
+import Pokedex from "../apps/Pokeverse/pages/Pokedex";
+import PokemonDetails from "../apps/Pokeverse/pages/PokemonDetails";
+import { PokedexProvider } from "../apps/Pokeverse/context/PokedexContext";
+import { BattleProvider } from "../apps/Pokeverse/context/BattleSimContext";
+import { PlayerSetupScreen } from "../apps/Pokeverse/pages/PlayerSetup";
+import { TeamSelectionScreen } from "../apps/Pokeverse/pages/TeamSelection";
+import { BattleScreen } from "../apps/Pokeverse/pages/BattleScreen";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +44,42 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <Home />,
+      },
+      {
+        path: 'pokeverse',
+        element: <PokedexProvider outlet={<Outlet />} />,
+        children: [
+          {
+            path: '',
+            element: <Pokeverse />
+          },
+          {
+            path: 'pokedex',
+            element: <Pokedex />
+          },
+          {
+            path: 'pokedex/:id',
+            element: <PokemonDetails />,
+          },
+          {
+            path: 'battle-sim',
+            element: <BattleProvider><Outlet /></BattleProvider>,
+            children: [
+              {
+                path: '',
+                element: <PlayerSetupScreen />
+              },
+              {
+                path: 'team-selection',
+                element: <TeamSelectionScreen />
+              },
+              {
+                path: 'battle',
+                element: <BattleScreen />
+              }
+            ]
+          }
+        ]
       },
       {
         path: 'resume',
