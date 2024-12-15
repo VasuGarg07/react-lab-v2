@@ -19,7 +19,7 @@ const Home = () => {
           justifyContent: 'space-between',
           position: 'relative',
           background: theme.palette.mode === 'light'
-            ? 'linear-gradient(to right, #DAE2F8, #ffffff)'
+            ? 'linear-gradient(to right, #DAE2F8, #fff7f7)'
             : 'linear-gradient(to right, #0f2027, #203a43, #2c5364)',
           zIndex: 0,
         }}

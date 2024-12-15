@@ -30,7 +30,7 @@ const ResumePreview: React.FC = () => {
     const [showATSCheck, setShowATSCheck] = useState(false);
     const [showJDComparator, setShowJDComparator] = useState(false);
     const [isPdfLoading, setIsPdfLoading] = useState(false);
-    const { showAlert } = useAlert();
+    const { alert: showAlert } = useAlert();
 
     const SelectedTemplate = Templates.find(t => t.id === state.selectedTemplate?.id)?.component;
 

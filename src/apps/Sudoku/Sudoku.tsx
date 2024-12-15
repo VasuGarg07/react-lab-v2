@@ -59,7 +59,7 @@ const SudokuBoard: React.FC = () => {
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
 
-    const { showAlert } = useAlert();
+    const { alert: showAlert } = useAlert();
 
     const fetchBoard = useCallback(async () => {
         setLoading(true);
