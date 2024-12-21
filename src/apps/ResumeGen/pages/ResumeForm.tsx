@@ -31,7 +31,7 @@ const ResumeForm: React.FC = () => {
     const isDarkMode = theme.palette.mode === 'dark';
     const navigate = useNavigate();
     const { dispatch } = useResumeContext();
-    const { showAlert } = useAlert();
+    const { alert: showAlert } = useAlert();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const ActiveComponent = sectionConfig[activeSection].component;

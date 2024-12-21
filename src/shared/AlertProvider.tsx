@@ -3,7 +3,7 @@ import { Ban } from 'lucide-react';
 import React, { createContext, useContext, useState } from 'react';
 
 interface AlertContextType {
-    showAlert: (message: string, color?: SnackbarProps['color']) => void;
+    alert: (message: string, color?: SnackbarProps['color']) => void;
 }
 
 interface AlertProviderProps {
@@ -17,14 +17,14 @@ export const AlertProvider: React.FC<AlertProviderProps> = ({ children }) => {
     const [message, setMessage] = useState('');
     const [color, setColor] = useState<SnackbarProps['color']>('neutral');
 
-    const showAlert = (message: string, color: SnackbarProps['color'] = 'success') => {
+    const alert = (message: string, color: SnackbarProps['color'] = 'success') => {
         setColor(color);
         setMessage(message);
         setOpen(true);
     };
 
     return (
-        <AlertContext.Provider value={{ showAlert }}>
+        <AlertContext.Provider value={{ alert }}>
             {children}
             <Snackbar
                 autoHideDuration={3000}

@@ -32,6 +32,10 @@ import { BattleProvider } from "../apps/Pokeverse/context/BattleSimContext";
 import { PlayerSetupScreen } from "../apps/Pokeverse/pages/PlayerSetup";
 import { TeamSelectionScreen } from "../apps/Pokeverse/pages/TeamSelection";
 import { BattleScreen } from "../apps/Pokeverse/pages/BattleScreen";
+import AuthWrapper from "../auth/AuthWrapper";
+import Register from "../auth/Register";
+import Login from "../auth/Login";
+import ForgotPassword from "../auth/ForgotPassword";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +48,24 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <Home />,
+      },
+      {
+        path: 'auth',
+        element: <AuthWrapper />,
+        children: [
+          {
+            path: 'register',
+            element: <Register />
+          },
+          {
+            path: 'login',
+            element: <Login />
+          },
+          {
+            path: 'forgot-password',
+            element: <ForgotPassword />
+          }
+        ]
       },
       {
         path: 'pokeverse',

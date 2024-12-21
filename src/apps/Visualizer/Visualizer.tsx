@@ -67,12 +67,21 @@ const SortingVisualizer: React.FC = () => {
     };
 
     return (
-        <Box sx={{
-            minHeight: 'calc(100vh - 52px)',
-            background: mode === 'dark'
-                ? 'linear-gradient(135deg, #0f0f1e 0%, #1a1a3a 50%, #252550 100%)'
-                : 'linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 50%, #edf2f7 100%)',
-        }}>
+        <Box
+            sx={{
+                minHeight: 'calc(100dvh - 52px)',
+                background: mode === 'light'
+                    ? `
+                        radial-gradient(circle at 30% 20%, rgba(102, 84, 241, 0.4), transparent 70%),
+                        radial-gradient(circle at 70% 80%, rgba(105, 234, 203, 0.4), transparent 70%),
+                        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4), transparent 70%)
+                    `
+                    : `
+                        radial-gradient(circle at 30% 20%, rgba(0, 147, 130, 0.4), transparent 70%),
+                        radial-gradient(circle at 70% 80%, rgba(162, 0, 0, 0.4), transparent 70%),
+                        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4), transparent 70%)
+                    `,
+            }}>
             <ControlPanel
                 algorithm={algorithm}
                 setAlgorithm={setAlgorithm}
