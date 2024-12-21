@@ -17,7 +17,7 @@ const Homeloan = () => {
         p: { md: 3, xs: 2 },
         background: mode === 'dark'
           ? 'linear-gradient(135deg, #0f0f1e 0%, #1a1a3a 50%, #252550 100%)'
-          : 'linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 50%, #edf2f7 100%)',
+          : 'linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%)',
       }}>
       <Grid container spacing={3} alignItems="center">
         <Grid xs={12} sm={6} md={8} sx={{ p: { md: 3, xs: 2 } }}>

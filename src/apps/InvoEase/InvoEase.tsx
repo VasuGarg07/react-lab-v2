@@ -95,26 +95,18 @@ const InvoEase: React.FC = () => {
         <InvoiceProvider>
             <Sheet
                 sx={{
-                    minHeight: 'calc(100vh - 52px)',
-                    position: 'relative',
-                    background: mode === 'dark'
-                        ? 'linear-gradient(135deg, #0f0f1e 0%, #1a1a3a 50%, #252550 100%)'
-                        : 'linear-gradient(to top, #bdc2e8 0%, #bdc2e8 1%, #e6dee9 100%)',
-                    '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        background: mode === 'dark'
-                            ? ` repeating-linear-gradient(45deg, transparent 0, transparent 35px, rgba(255,255,255,0.03) 35px, rgba(255,255,255,0.03) 37px),
-                                repeating-linear-gradient(-45deg, transparent 0, transparent 35px, rgba(255,255,255,0.03) 35px, rgba(255,255,255,0.03) 37px)`
-                            : `repeating-linear-gradient(45deg, transparent 0, transparent 35px, rgba(0,0,0,0.03) 35px, rgba(0,0,0,0.03) 37px),
-                                repeating-linear-gradient(-45deg, transparent 0, transparent 35px, rgba(0,0,0,0.03) 35px, rgba(0,0,0,0.03) 37px)`,
-                        backgroundSize: '100px 100px',
-                    },
-                    p: 2,
+                    minHeight: 'calc(100dvh - 52px)', p: 2,
+                    background: mode === 'light'
+                        ? `
+                            radial-gradient(circle at 30% 20%, rgba(102, 84, 241, 0.4), transparent 70%),
+                            radial-gradient(circle at 70% 80%, rgba(105, 234, 203, 0.4), transparent 70%),
+                            radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4), transparent 70%)
+                        `
+                        : `
+                            radial-gradient(circle at 30% 20%, rgba(0, 147, 130, 0.4), transparent 70%),
+                            radial-gradient(circle at 70% 80%, rgba(162, 0, 0, 0.4), transparent 70%),
+                            radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4), transparent 70%)
+                        `,
                 }}
             >
                 <Box sx={{ width: '100%', maxWidth: 800, mx: 'auto' }}>

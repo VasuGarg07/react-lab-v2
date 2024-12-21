@@ -2,30 +2,64 @@ import { AspectRatio, Card, CardContent, CardOverflow, Grid, IconButton, Stack, 
 import { BookOpenText } from 'lucide-react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Meal } from './utils/helpers';
+import { motion } from 'framer-motion';
 
 interface GalleryData {
   title: string;
   meals: Meal[];
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      ease: "easeOut"
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut"
+    }
+  }
+};
+
+
 const Gallery = () => {
   const { title, meals } = useLoaderData() as GalleryData;
 
   return (
-    <>
-      <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1} gutterBottom>
-        {title}
-      </Typography>
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <motion.div variants={itemVariants}>
+        <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1} gutterBottom>
+          {title}
+        </Typography>
+      </motion.div>
 
-      <Grid container spacing={2} flexWrap='wrap'>
-        {meals.map(meal => (
-          <Grid key={meal.id} xs={6} sm={4}>
+      <Grid container spacing={2} flexWrap='wrap' component={motion.div} variants={containerVariants}>
+        {meals.map((meal) => (
+          <Grid key={meal.id} xs={6} sm={4} component={motion.div} variants={itemVariants}>
             <MealCard meal={meal} />
           </Grid>
         ))}
       </Grid>
-    </>
-  )
+    </motion.div>
+  );
 }
 
 export default Gallery

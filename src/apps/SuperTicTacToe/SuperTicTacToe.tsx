@@ -184,7 +184,8 @@ const SuperTicTacToe: React.FC = () => {
     return (
         <BgCenteredBox bg={isDark ? DarkBg : LightBg}>
             <StartGamePopup open={!gameStarted} onStart={handleStartGame} />
-            <Grid container spacing={4} width={1}>
+            <Grid container spacing={4} width={1}
+                sx={{ justifyContent: 'center' }}>
                 <Grid>
                     <Grid container spacing={2} justifyContent="center"
                         sx={{
@@ -204,7 +205,7 @@ const SuperTicTacToe: React.FC = () => {
                             )}
                     </Grid>
                 </Grid>
-                <Grid flex={1} p={2}>
+                <Grid p={2}>
                     <Sidebar
                         gameWinner={gameWinner}
                         currentPlayer={currentPlayer}

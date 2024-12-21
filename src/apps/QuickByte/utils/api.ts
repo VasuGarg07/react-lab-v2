@@ -63,7 +63,7 @@ export const random = async () => {
 
 export const mealDetails = async ({ params }: LoaderFunctionArgs) => {
   const url = params.mealId ? `/lookup.php?i=${params.mealId}` : `/random.php`;
-  const { data } = await axios.get(url);
+  const { data } = await axiosInstance.get(url);
 
   const meal: MealDetails = {
     id: data.meals[0].idMeal,
