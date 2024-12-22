@@ -1,8 +1,16 @@
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+// AuthProvider.tsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useAlert } from "../shared/AlertProvider";
+import {
+    saveAuthData,
+    clearAuthData,
+    refreshAccessToken,
+    register,
+    login,
+    changePassword,
+} from "./auth.service";
 import { ChangePasswordData, LoginData, RegisterData, User } from "./auth.types";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 
 interface AuthContextType {
     isLoggedIn: boolean;
@@ -17,124 +25,77 @@ interface ContextProps {
     children: React.ReactNode;
 }
 
+type DecodedToken = JwtPayload & User;
+
 const AuthContext = createContext<AuthContextType | null>(null);
+
+const isTokenExpired = (exp: number): boolean => {
+    const currentTime = Math.floor(Date.now() / 1000);
+    return currentTime > exp;
+}
 
 export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState<User | null>(null);
-
     const { alert } = useAlert();
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
-    const axiosInstance = axios.create({ baseURL: `${API_URL}/auth` });
-
-    // Intercept requests to add Authorization header
-    axiosInstance.interceptors.request.use(async (config) => {
-        const token = localStorage.getItem("accessToken");
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    });
-
-    // Save authentication data
-    const saveAuthData = (accessToken: string, refreshToken: string) => {
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-
-        const decodedToken = jwtDecode<User>(accessToken);
-        setUser({
-            id: decodedToken.id,
-            username: decodedToken.username,
-            email: decodedToken.email
-        });
-        setIsLoggedIn(true);
-    };
-
-    // Clear authentication data
-    const clearAuthData = () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        setUser(null);
-        setIsLoggedIn(false);
-    };
-
-    // Refresh access token
-    const refreshAccessToken = async (): Promise<void> => {
-        const refreshToken = localStorage.getItem("refreshToken");
-        if (!refreshToken) {
-            clearAuthData();
-            return;
-        }
-
+    const handleRegister = async (data: RegisterData): Promise<void> => {
         try {
-            const response = await axiosInstance.post("/refresh-token", { refreshToken });
-            const { accessToken } = response.data;
-            localStorage.setItem("accessToken", accessToken);
-
-            const decodedToken = jwtDecode<User>(accessToken);
-            setUser({
-                id: decodedToken.id,
-                username: decodedToken.username,
-                email: decodedToken.email
-            });
-        } catch (error) {
-            console.error("Failed to refresh token:", error);
-            clearAuthData();
-        }
-    };
-
-    // Register API
-    const register = async (data: RegisterData): Promise<void> => {
-        try {
-            await axiosInstance.post("/register", data);
+            await register(data);
             alert("User registered successfully", "success");
         } catch (error: any) {
             console.error("Error during registration:", error.response?.data?.error || error.message);
+            alert("Registeration Failed", "danger");
             throw error;
         }
     };
 
-    // Login API
-    const login = async (data: LoginData): Promise<void> => {
+    const handleLogin = async (data: LoginData): Promise<void> => {
         try {
-            const response = await axiosInstance.post("/login", data);
-            const { accessToken, refreshToken } = response.data;
+            const { accessToken, refreshToken } = await login(data);
             saveAuthData(accessToken, refreshToken);
+            const decodedToken = jwtDecode<User>(accessToken);
+            setUser(decodedToken);
+            setIsLoggedIn(true);
         } catch (error: any) {
             console.error("Error during login:", error.response?.data?.error || error.message);
+            alert("Login failed", 'danger');
             throw error;
         }
     };
 
-    // Change Password API
-    const changePassword = async (data: ChangePasswordData): Promise<void> => {
+    const handleChangePassword = async (data: ChangePasswordData): Promise<void> => {
         try {
-            await axiosInstance.post("/change-password", data);
-            alert("Password changed. Please login.", "success");
+            await changePassword(data);
+            alert("Password changed successfully. Please Login", "success");
         } catch (error: any) {
             console.error("Error during password change:", error.response?.data?.error || error.message);
             throw error;
         }
     };
 
-    // Logout Functionality
-    const logout = () => {
+    const handleLogout = () => {
         clearAuthData();
-        alert("User logged out.", "success");
+        setUser(null);
+        setIsLoggedIn(false);
+        alert("User logged out", "success");
     };
 
     // Initialize Authentication State on App Load
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
         if (token) {
+            const decoded = jwtDecode<DecodedToken>(token);
             try {
-                const decodedToken = jwtDecode<User>(token);
-                setUser({
-                    id: decodedToken.id,
-                    username: decodedToken.username,
-                    email: decodedToken.email
-                });
+                if (isTokenExpired(decoded.exp!)) {
+                    refreshAccessToken();
+                } else {
+                    setUser({
+                        id: decoded.id,
+                        username: decoded.username,
+                        email: decoded.email
+                    });
+                }
                 setIsLoggedIn(true);
             } catch {
                 // Token is invalid or expired; try refreshing it
@@ -144,7 +105,16 @@ export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, user, register, login, changePassword, logout }}>
+        <AuthContext.Provider
+            value={{
+                isLoggedIn,
+                user,
+                register: handleRegister,
+                login: handleLogin,
+                changePassword: handleChangePassword,
+                logout: handleLogout,
+            }}
+        >
             {children}
         </AuthContext.Provider>
     );
