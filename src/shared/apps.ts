@@ -11,8 +11,9 @@ import Visualizer from '/cover/visualizer.webp';
 import Invoice from '/cover/invoice.png';
 import Resume from '/cover/resume.webp';
 import BattleSim from '/cover/battle-sim2.webp';
+import Budget from '/cover/budget.webp';
 
-import { BarChart2, Code, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed } from 'lucide-react';
+import { BarChart2, Code, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
 
 export interface AppInfo {
   name: string;
@@ -26,6 +27,16 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  {
+    name: 'BudgetBuddy',
+    path: '/budget-buddy',
+    tag: 'Manage Your Expenses',
+    image: Budget,
+    visible: true,
+    description: 'An intuitive app to help you track and manage your expenses.',
+    techStack: ['Expense Tracking', 'Real-time Updates', 'Data Visualization'],
+    icon: Wallet2,
+  },
   {
     name: 'Pokeverse',
     path: '/pokeverse',
