@@ -1,18 +1,7 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { CurrencyOptions, generateCompactId } from './helpers';
-
-interface BillingInfo {
-    name: string;
-    email: string;
-    address: string;
-}
-
-interface InvoiceItem {
-    name: string;
-    description: string;
-    quantity: number;
-    price: number;
-}
+import InvoEase from './InvoEase';
+import { BillingInfo, InvoiceItem } from './types';
 
 interface InvoiceContextType {
     currentDate: string;
@@ -47,7 +36,7 @@ export const useInvoice = () => {
     return context;
 };
 
-export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const InvoiceProvider: React.FC = () => {
     const [currentDate] = useState(new Date().toLocaleDateString());
     const [dueDate, setDueDate] = useState('');
     const [invoiceNumber, setInvoiceNumber] = useState(generateCompactId());
@@ -89,7 +78,7 @@ export const InvoiceProvider: React.FC<{ children: ReactNode }> = ({ children })
             notes,
             setNotes,
         }}>
-            {children}
+            <InvoEase />
         </InvoiceContext.Provider>
     );
 };

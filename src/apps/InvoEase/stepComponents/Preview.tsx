@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Box, Typography, Sheet, Grid, Divider, Table } from '@mui/joy';
-import { useInvoice } from './InvoiceContext';
+import { useInvoice } from '../InvoiceContext';
 
 const Preview: React.FC = () => {
     const { currentDate, dueDate, invoiceNumber, currency, billTo, billFrom, items, taxRate, discountRate, notes, currencySymbol } = useInvoice();

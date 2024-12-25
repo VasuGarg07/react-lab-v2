@@ -1,3 +1,6 @@
+import apiClient from "../../shared/apiClient";
+import { Invoice } from "./types";
+
 export const CurrencyOptions = [
     { value: 'USD', label: 'USD ($)', symbol: '$' },
     { value: 'EUR', label: 'EUR (€)', symbol: '€' },
@@ -26,3 +29,27 @@ export function generateCompactId(): string {
 
     return id;
 }
+
+export const generateAndDownloadPDF = async (invoice: Invoice): Promise<void> => {
+    try {
+        const response = await apiClient.post('/invoice/generate', invoice, {
+            responseType: 'blob', // Important for handling PDF blob response
+            headers: {
+                'Accept': 'application/pdf',
+            },
+        });
+
+        const blob = new Blob([response.data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `invoice-${invoice.invoiceNumber}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode?.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        throw error;
+    }
+};

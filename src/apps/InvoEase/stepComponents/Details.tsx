@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Input, Select, Option, FormControl, FormLabel, FormHelperText, Grid } from '@mui/joy';
-import { useInvoice } from './InvoiceContext';
-import { CurrencyOptions } from './helpers';
+import { useInvoice } from '../InvoiceContext';
+import { CurrencyOptions } from '../helpers';
 
 interface DetailsProps {
     onValidStep: (isValid: boolean) => void;

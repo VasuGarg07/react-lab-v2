@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormHelperText, FormLabel, Grid, Input } from '@mui/joy';
 import { Plus, Trash2 } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useInvoice } from './InvoiceContext';
+import { useInvoice } from '../InvoiceContext';
 
 const InvoiceItems: React.FC<{ onValidStep: (isValid: boolean) => void }> = ({ onValidStep }) => {
     const { items, setItems, currencySymbol } = useInvoice();
@@ -79,7 +79,7 @@ const InvoiceItems: React.FC<{ onValidStep: (isValid: boolean) => void }> = ({ o
                                 <Input
                                     placeholder="Enter quantity"
                                     value={item.quantity}
-                                    onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
+                                    onChange={(e) => handleItemChange(index, 'quantity', parseInt(e.target.value))}
                                     sx={{ width: '100%' }}
                                 />
                             </FormControl>

@@ -1,12 +1,14 @@
 import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom";
 import BudgetBuddy from "../apps/BudgetBuddy/BudgetBuddy";
+import HomePage from "../apps/BudgetBuddy/pages/Homepage";
+import Overview from "../apps/BudgetBuddy/pages/Overview";
 import Statistics from "../apps/BudgetBuddy/pages/Statistics";
 import Timeline from "../apps/BudgetBuddy/pages/Timeline";
 import NotFound from "../apps/Errors/NotFound";
 import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
 import Home from "../apps/Home/Home";
 import Homeloan from "../apps/HomeloanWizard/Homeloan";
-import InvoEase from "../apps/InvoEase/InvoEase";
+import { InvoiceProvider } from "../apps/InvoEase/InvoiceContext";
 import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "../apps/Pokeverse/context/BattleSimContext";
@@ -39,8 +41,6 @@ import ForgotPassword from "../auth/ForgotPassword";
 import Login from "../auth/Login";
 import Register from "../auth/Register";
 import MainLayout from "../components/MainLayout";
-import Overview from "../apps/BudgetBuddy/pages/Overview";
-import HomePage from "../apps/BudgetBuddy/pages/Homepage";
 
 export const router = createBrowserRouter([
   {
@@ -167,7 +167,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'invoease',
-        element: <InvoEase />
+        element: <InvoiceProvider />
       },
       {
         path: 'sorting-visualizer',
