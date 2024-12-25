@@ -1,4 +1,7 @@
-import { Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom";
+import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom";
+import BudgetBuddy from "../apps/BudgetBuddy/BudgetBuddy";
+import Statistics from "../apps/BudgetBuddy/pages/Statistics";
+import Timeline from "../apps/BudgetBuddy/pages/Timeline";
 import NotFound from "../apps/Errors/NotFound";
 import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
 import Home from "../apps/Home/Home";
@@ -6,6 +9,14 @@ import Homeloan from "../apps/HomeloanWizard/Homeloan";
 import InvoEase from "../apps/InvoEase/InvoEase";
 import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
+import { BattleProvider } from "../apps/Pokeverse/context/BattleSimContext";
+import { PokedexProvider } from "../apps/Pokeverse/context/PokedexContext";
+import { BattleScreen } from "../apps/Pokeverse/pages/BattleScreen";
+import { PlayerSetupScreen } from "../apps/Pokeverse/pages/PlayerSetup";
+import Pokedex from "../apps/Pokeverse/pages/Pokedex";
+import PokemonDetails from "../apps/Pokeverse/pages/PokemonDetails";
+import Pokeverse from "../apps/Pokeverse/pages/Pokeverse";
+import { TeamSelectionScreen } from "../apps/Pokeverse/pages/TeamSelection";
 import Details from "../apps/QuickByte/Details";
 import Gallery from "../apps/QuickByte/Gallery";
 import RecipeHaven from "../apps/QuickByte/RecipeHaven";
@@ -23,19 +34,13 @@ import SnapFind from "../apps/SnapFind/SnapFind";
 import Sudoku from "../apps/Sudoku/Sudoku";
 import SuperTicTacToe from "../apps/SuperTicTacToe/SuperTicTacToe";
 import SortingVisualizer from "../apps/Visualizer/Visualizer";
-import MainLayout from "../components/MainLayout";
-import Pokeverse from "../apps/Pokeverse/pages/Pokeverse";
-import Pokedex from "../apps/Pokeverse/pages/Pokedex";
-import PokemonDetails from "../apps/Pokeverse/pages/PokemonDetails";
-import { PokedexProvider } from "../apps/Pokeverse/context/PokedexContext";
-import { BattleProvider } from "../apps/Pokeverse/context/BattleSimContext";
-import { PlayerSetupScreen } from "../apps/Pokeverse/pages/PlayerSetup";
-import { TeamSelectionScreen } from "../apps/Pokeverse/pages/TeamSelection";
-import { BattleScreen } from "../apps/Pokeverse/pages/BattleScreen";
 import AuthWrapper from "../auth/AuthWrapper";
-import Register from "../auth/Register";
-import Login from "../auth/Login";
 import ForgotPassword from "../auth/ForgotPassword";
+import Login from "../auth/Login";
+import Register from "../auth/Register";
+import MainLayout from "../components/MainLayout";
+import Overview from "../apps/BudgetBuddy/pages/Overview";
+import HomePage from "../apps/BudgetBuddy/pages/Homepage";
 
 export const router = createBrowserRouter([
   {
@@ -64,6 +69,37 @@ export const router = createBrowserRouter([
           {
             path: 'forgot-password',
             element: <ForgotPassword />
+          }
+        ]
+      },
+      {
+        path: 'budget-buddy',
+        element: <BudgetBuddy />,
+        children: [
+          {
+            path: 'home',
+            element: <HomePage />
+          },
+          {
+            path: 'overview',
+            element: <Overview />
+          },
+          {
+            path: 'statistics',
+            element: <Statistics />
+          },
+          {
+            path: 'timeline',
+            element: <Timeline />
+          },
+          // fallbacks
+          {
+            path: '',
+            element: <Navigate to='home' replace />
+          },
+          {
+            path: '*',
+            element: <Navigate to='' replace />
           }
         ]
       },
