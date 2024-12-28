@@ -2,7 +2,7 @@ import Box from "@mui/joy/Box";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
 import { PieChart, Cell, Pie, ResponsiveContainer } from 'recharts';
-import { EXPENSE_TYPES, INCOME_TYPES, Transaction } from "../helpers/constants";
+import { EXPENSE_TYPES, INCOME_TYPES, Transaction } from "../helpers/expense.constants";
 import { useColorScheme } from "@mui/joy/styles";
 
 interface CategoryData {

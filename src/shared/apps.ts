@@ -12,8 +12,9 @@ import Invoice from '/cover/invoice.png';
 import Resume from '/cover/resume.webp';
 import BattleSim from '/cover/battle-sim2.webp';
 import Budget from '/cover/budget.webp';
+import Blogger from '/cover/blogger.webp';
 
-import { BarChart2, Code, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
+import { BarChart2, Code, Feather, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
 
 export interface AppInfo {
   name: string;
@@ -27,6 +28,16 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  {
+    name: 'Blogify',
+    path: '/blogify',
+    tag: "Express Your Ideas",
+    image: Blogger,
+    visible: true,
+    description: "A beautiful platform to share your thoughts, stories, and inspirations with the world.",
+    techStack: ['Rich Text Editor', 'Responsive Design', 'User Management'],
+    icon: Feather,
+  },
   {
     name: 'BudgetBuddy',
     path: '/budget-buddy',

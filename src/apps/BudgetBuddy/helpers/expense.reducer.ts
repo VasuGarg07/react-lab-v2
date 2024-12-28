@@ -1,4 +1,4 @@
-import { Transaction } from "./constants";
+import { Transaction } from "./expense.constants";
 
 export interface BudgetState {
     transactions: Transaction[];

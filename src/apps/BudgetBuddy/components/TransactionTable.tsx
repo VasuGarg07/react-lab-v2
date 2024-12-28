@@ -8,7 +8,7 @@ import {
 import { ArrowDownCircle, ArrowUpCircle, Edit2, Trash2 } from 'lucide-react';
 import React from 'react';
 import { useBudget } from '../BudgetContext';
-import { formatDate, Transaction } from '../helpers/constants';
+import { formatDate, Transaction } from '../helpers/expense.constants';
 
 interface TransactionTableProps {
     transactions: Transaction[];
