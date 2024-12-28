@@ -8,10 +8,6 @@ export interface Transaction {
     id?: string;
 }
 
-export interface TransactionResponse extends Omit<Transaction, "id"> {
-    _id: string // MongoDB ID
-}
-
 export const INCOME_TYPES = [
     { name: 'Salary', color: '#FF6B6B' },      // Coral Red
     { name: 'Business', color: '#4ECDC4' },    // Turquoise

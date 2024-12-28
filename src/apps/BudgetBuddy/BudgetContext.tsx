@@ -7,8 +7,8 @@ import {
     updateTransaction as updateTransactionAPI,
     clearAllTransactions as clearAllTransactionsAPI,
 } from './helpers/expense.service';
-import { Transaction } from './helpers/constants';
-import { budgetReducer, BudgetState, initialState } from './helpers/reducer';
+import { Transaction } from './helpers/expense.constants';
+import { budgetReducer, BudgetState, initialState } from './helpers/expense.reducer';
 import TransactionForm from './components/TransactionForm';
 
 interface ModalState {

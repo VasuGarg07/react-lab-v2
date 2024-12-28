@@ -1,4 +1,11 @@
 import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom";
+import Blogify from "../apps/Blogify/Blogify";
+import { blogDetailLoader, blogListLoader, homeLoader, myBlogsLoader, publishBlogAction, publishBlogLoader } from "../apps/Blogify/helpers/blog-router.actions";
+import BlogDetail from "../apps/Blogify/pages/BlogDetail";
+import BlogHome from "../apps/Blogify/pages/BlogHome";
+import BlogListPage from "../apps/Blogify/pages/BlogList";
+import MyBlogs from "../apps/Blogify/pages/MyBlogs";
+import PublishBlog from "../apps/Blogify/pages/PublishBlog";
 import BudgetBuddy from "../apps/BudgetBuddy/BudgetBuddy";
 import HomePage from "../apps/BudgetBuddy/pages/Homepage";
 import Overview from "../apps/BudgetBuddy/pages/Overview";
@@ -69,6 +76,58 @@ export const router = createBrowserRouter([
           {
             path: 'forgot-password',
             element: <ForgotPassword />
+          }
+        ]
+      },
+      {
+        path: 'blogify',
+        element: <Blogify />,
+        children: [
+          {
+            path: 'home',
+            element: <BlogHome />,
+            loader: homeLoader
+          },
+          {
+            path: 'publish',
+            element: <PublishBlog />,
+            loader: publishBlogLoader,
+            action: publishBlogAction,
+          },
+          {
+            path: 'edit/:blogId',
+            element: <PublishBlog />,
+            loader: publishBlogLoader,
+            action: publishBlogAction,
+          },
+          {
+            path: 'list',
+            element: <BlogListPage />,
+            loader: blogListLoader
+          },
+          {
+            path: 'list/:author',
+            element: <BlogListPage />,
+            loader: blogListLoader
+          },
+          {
+            path: 'me',
+            element: <MyBlogs />,
+            loader: myBlogsLoader
+          },
+          {
+            path: 'blog/:blogId',
+            element: <BlogDetail />,
+            loader: blogDetailLoader
+          },
+          // fallbacks
+          {
+            path: '',
+            element: <Navigate to='home' replace />
+          },
+          {
+            path: '*',
+            element: <Navigate to='' replace />
           }
         ]
       },

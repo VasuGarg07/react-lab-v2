@@ -1,10 +1,10 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { CONFIG } from "./config";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 const apiClient = axios.create({
-    baseURL: API_URL,
+    baseURL: CONFIG.API_URL,
 });
 
 // Intercept requests to add Authorization header
@@ -43,7 +43,7 @@ apiClient.interceptors.response.use(
                 }
 
                 // Get a new access token using the refresh token
-                const { data } = await axios.post(`${API_URL}/auth/refresh-token`, {
+                const { data } = await axios.post(`${CONFIG.API_URL}/auth/refresh-token`, {
                     refreshToken,
                 });
 
