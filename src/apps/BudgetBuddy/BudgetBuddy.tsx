@@ -4,14 +4,12 @@ import { Outlet } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthProvider';
 import BudgetProvider from './BudgetContext';
 import AuthPrompt from './components/AuthPrompt';
-import SideNav from './components/SideNav';
+import BudgetNav from './components/BudgetNav';
 
 const BudgetBuddy: React.FC = () => {
 
     const { mode } = useColorScheme();
     const { isLoggedIn } = useAuth();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-
 
     if (!isLoggedIn) {
         return <AuthPrompt mode={mode} />
@@ -35,19 +33,17 @@ const BudgetBuddy: React.FC = () => {
                 display: 'flex',
                 flexDirection: { xs: 'column', sm: 'row' }
             }}>
-            <SideNav
-                mobileOpen={mobileOpen}
-                onMobileToggle={() => setMobileOpen(!mobileOpen)}
-            />
+            <BudgetNav mode={mode} />
 
             <Box
                 component="main"
                 sx={{
                     flexGrow: 1,
                     width: { sm: 'calc(100% - 280px)' },
-                    minHeight: 'calc(100vh - 52px)',
-                    height: { xs: 'auto', sm: 'calc(100vh - 52px)' },
-                    overflow: 'auto'
+                    minHeight: { xs: 'calc(100vh - 116px)', md: 'calc(100vh - 52px)' },
+                    height: { xs: 'auto', md: 'calc(100vh - 52px)' },
+                    overflow: 'auto',
+                    pb: { xs: '64px', md: 0 }  // Account for bottom nav on mobile
                 }}
             >
                 <BudgetProvider>

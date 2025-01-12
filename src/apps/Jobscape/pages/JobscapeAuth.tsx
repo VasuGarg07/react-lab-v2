@@ -9,7 +9,7 @@ const JobScapeAuth = ({ mode = 'light' }) => {
     return (
         <Box
             sx={{
-                minHeight: 'calc(100vh - 52px)',
+                minHeight: '100vh',
                 padding: 2,
                 display: 'flex',
                 flexDirection: 'column',

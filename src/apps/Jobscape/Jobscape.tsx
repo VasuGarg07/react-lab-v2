@@ -1,6 +1,8 @@
 import { useAuth } from '../../auth/AuthProvider';
-import { useColorScheme } from '@mui/joy';
+import { Box, useColorScheme } from '@mui/joy';
 import JobScapeAuth from './pages/JobscapeAuth';
+import { Outlet } from 'react-router-dom';
+import JobNav from './components/JobNav';
 
 const Jobscape = () => {
     const { mode } = useColorScheme();
@@ -11,7 +13,10 @@ const Jobscape = () => {
     }
 
     return (
-        <div>Jobscape</div>
+        <Box>
+            <JobNav userType={'none'} />
+            <Outlet />
+        </Box>
     )
 }
 

@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
             setIsLoggedIn(true);
         } catch (error: any) {
             console.error("Error during login:", error.response?.data?.error || error.message);
-            alert("Login failed", 'danger');
+            alert(error.response?.data?.error || error.message, 'danger');
             throw error;
         }
     };
