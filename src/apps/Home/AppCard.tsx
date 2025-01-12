@@ -38,7 +38,13 @@ export const AppCard: React.FC<AppInfo> = ({ name, tag, path, image, description
       </CardOverflow>
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-          <Typography level="title-lg" fontSize="md" fontWeight="bold">
+          <Typography level="title-lg" sx={{
+            fontSize: "md",
+            fontWeight: "bold",
+            fontFamily: 'Overlock',
+            textTransform: 'uppercase',
+            letterSpacing: '1px'
+          }}>
             {name}
           </Typography>
           <IconButton

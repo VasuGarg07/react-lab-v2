@@ -13,8 +13,9 @@ import Resume from '/cover/resume.webp';
 import BattleSim from '/cover/battle-sim2.webp';
 import Budget from '/cover/budget.webp';
 import Blogger from '/cover/blogger.webp';
+import Jobscape from '/cover/jobscape2.webp';
 
-import { BarChart2, Code, Feather, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
+import { BarChart2, BriefcaseBusiness, Code, Feather, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
 
 export interface AppInfo {
   name: string;
@@ -28,6 +29,16 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  {
+    name: 'Jobscape',
+    path: '/jobscape',
+    tag: "Find your ideal job",
+    image: Jobscape,
+    visible: true,
+    description: "A dynamic portal connecting job seekers with top employers through seamless experience.",
+    techStack: ['Rich Text Editor', 'Dashboard Analytics', 'Profile Management'],
+    icon: BriefcaseBusiness,
+  },
   {
     name: 'Blogify',
     path: '/blogify',

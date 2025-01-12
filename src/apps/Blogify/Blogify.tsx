@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Outlet, useLocation } from 'react-router-dom';
 import BlogifyNav from './components/BlogifyNav';
 import { useAuth } from '../../auth/AuthProvider';
-import BlogifyAuth from './components/BlogifyAuth';
+import BlogifyAuth from './pages/BlogifyAuth';
 import { useColorScheme } from '@mui/joy';
 
 const Blogify = () => {

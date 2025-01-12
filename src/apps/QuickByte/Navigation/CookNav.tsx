@@ -33,7 +33,7 @@ const CookNav = () => {
         py: 1, px: 2,
         backdropFilter: isDark ? 'brightness(0.6)' : 'contrast(0.9)'
       }}>
-      <IconButton children={<CircleArrowLeft />} onClick={() => navigate('/')} />
+      <IconButton children={<CircleArrowLeft />} onClick={() => navigate(-1)} />
       <Divider orientation="vertical" />
       <Typography
         level="h4"

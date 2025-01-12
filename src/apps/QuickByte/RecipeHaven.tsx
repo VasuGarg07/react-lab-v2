@@ -53,7 +53,7 @@ const RecipeHaven: React.FC = () => {
         minHeight: 'calc(100dvh - 52px)',
         background: theme.palette.mode === 'light'
           ? `
-            radial-gradient(circle at 30% 20%, rgba(102, 84, 241, 0.4), transparent 70%),
+            radial-gradient(circle at 30% 20%, rgba(231, 241, 84, 0.4), transparent 70%),
             radial-gradient(circle at 70% 80%, rgba(105, 234, 203, 0.4), transparent 70%),
             radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4), transparent 70%)
           `

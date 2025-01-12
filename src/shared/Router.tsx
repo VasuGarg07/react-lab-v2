@@ -48,6 +48,7 @@ import ForgotPassword from "../auth/ForgotPassword";
 import Login from "../auth/Login";
 import Register from "../auth/Register";
 import MainLayout from "../components/MainLayout";
+import Jobscape from "../apps/Jobscape/Jobscape";
 
 export const router = createBrowserRouter([
   {
@@ -78,6 +79,11 @@ export const router = createBrowserRouter([
             element: <ForgotPassword />
           }
         ]
+      },
+      {
+        path: 'jobscape',
+        element: <Jobscape />,
+        children: []
       },
       {
         path: 'blogify',

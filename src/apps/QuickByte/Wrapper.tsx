@@ -14,7 +14,7 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
     <Box sx={{
       background: isDarkMode
         ? 'linear-gradient(-225deg,rgb(2, 91, 81) 0%,rgb(97, 0, 0) 100%)'
-        : 'linear-gradient(-225deg, #69EACB 0%, #EACCF8 50%, #6654F1 100%)',
+        : 'linear-gradient(-225deg, #69EACB 0%, #EACCF8 50%,rgb(241, 163, 84) 100%)',
     }}>
       <BgCenteredBox>
         <Box
