@@ -49,6 +49,7 @@ import Login from "../auth/Login";
 import Register from "../auth/Register";
 import MainLayout from "../components/MainLayout";
 import Jobscape from "../apps/Jobscape/Jobscape";
+import JobHome from "../apps/Jobscape/pages/JobHome";
 
 export const router = createBrowserRouter([
   {
@@ -83,7 +84,17 @@ export const router = createBrowserRouter([
       {
         path: 'jobscape',
         element: <Jobscape />,
-        children: []
+        children: [
+          {
+            path: 'home',
+            element: <JobHome />
+          },
+          // fallbacks
+          {
+            path: '',
+            element: <Navigate to='home' replace />
+          },
+        ]
       },
       {
         path: 'blogify',

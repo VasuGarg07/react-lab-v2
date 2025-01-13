@@ -58,7 +58,7 @@ const Signup: React.FC = () => {
                     {user?.username.charAt(0)}
                 </Avatar>
             </MenuButton>
-            <Menu sx={{ minWidth: 280 }}            >
+            <Menu sx={{ minWidth: 280 }}>
                 <Box sx={{ p: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
                         <Avatar

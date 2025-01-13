@@ -1,21 +1,21 @@
 import {
+    Avatar,
     Box,
     Button,
     Container,
     Dropdown,
     IconButton,
-    Input,
     Menu,
     MenuButton,
     MenuItem,
     Sheet,
     Stack,
-    Typography
+    Typography,
+    useColorScheme
 } from '@mui/joy';
-import { Menu as MenuIcon, Search, X } from 'lucide-react';
+import { LogOut, Menu as MenuIcon, Moon, Sun, User, User2, UserRoundPlus } from 'lucide-react';
 import { useState } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import ThemeToggle from '../../../components/ThemeToggle';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 
 interface NavbarProps {
     userType: 'none' | 'employer' | 'applicant';
@@ -25,197 +25,236 @@ interface NavbarProps {
 const Navbar = ({ userType, onLogout }: NavbarProps) => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
+    const { mode, setMode } = useColorScheme();
+
+    const toggleColorMode = () => {
+        setMode(mode === 'light' ? 'dark' : 'light');
+    };
 
     // Role-based navigation items
     const navItems = {
         none: [
-            { label: 'Home', path: '/' },
-            { label: 'Find Job', path: '/jobs' },
-            { label: 'Employers', path: '/employers' },
-            { label: 'Contact Us', path: '/support' },
+            { label: 'Home', path: 'home' },
+            { label: 'Find Job', path: 'jobs' },
+            { label: 'About Us', path: 'about' },
+            { label: 'Contact Us', path: 'support' },
         ],
         employer: [
-            { label: 'Home', path: '/' },
-            { label: 'Dashboard', path: '/employer-dashboard' },
-            { label: 'Candidates', path: '/candidates' },
-            { label: 'Contact Us', path: '/support' },
+            { label: 'Home', path: 'home' },
+            { label: 'Dashboard', path: 'employer-dashboard' },
+            { label: 'Candidates', path: 'candidates' },
+            { label: 'Contact Us', path: 'support' },
         ],
         applicant: [
-            { label: 'Home', path: '/' },
-            { label: 'Dashboard', path: '/applicant-dashboard' },
-            { label: 'Find Job', path: '/jobs' },
-            { label: 'Companies', path: '/companies' },
-            { label: 'Contact Us', path: '/support' },
+            { label: 'Home', path: 'home' },
+            { label: 'Dashboard', path: 'applicant-dashboard' },
+            { label: 'Find Job', path: 'jobs' },
+            { label: 'Companies', path: 'companies' },
+            { label: 'Contact Us', path: 'support' },
         ],
     };
 
     const currentNavItems = navItems[userType];
+
+    const isActive = (path: string): boolean => {
+        const paths = location.pathname.split('/');
+        return paths[paths.length - 1] == path;
+    }
 
     return (
         <Box component="header" sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
             {/* Top Navigation */}
             <Box
                 sx={{
-                    borderBottom: '1px solid',
-                    borderColor: 'divider',
                     bgcolor: 'background.level1',
-                    display: { xs: 'none', md: 'block' }, // Hide on mobile
+                    boxShadow: 'md',
+                    py: 1
                 }}
             >
-                <Container maxWidth="lg">
+                <Stack
+                    component={Container}
+                    maxWidth='xl'
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    sx={{ minHeight: '48px' }}
+                >
+                    <Stack direction="row" alignItems="center" spacing={2}>
+                        {/* Mobile Menu Button */}
+                        <IconButton
+                            onClick={() => setMobileOpen(!mobileOpen)}
+                            sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+
+                        <Box sx={{
+                            width: '40px',
+                            height: '40px',
+                            lineHeight: 0
+                        }}>
+                            <img src="/briefcase.png" alt="Jobscape Logo"
+                                style={{ width: "100%" }} />
+                        </Box>
+                        <Typography
+                            level='h3'
+                            fontFamily='Inter'>
+                            JobScape
+                        </Typography>
+                    </Stack>
+
+                    {/* Navigation Links */}
                     <Stack
                         direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        sx={{ minHeight: '48px' }}
+                        spacing={1}
+                        sx={{ display: { xs: 'none', md: 'flex' } }}
                     >
-                        {/* Navigation Links */}
-                        <Stack
-                            direction="row"
-                            spacing={1}
-                            sx={{ display: { xs: 'none', md: 'flex' } }}
-                        >
-                            {currentNavItems.map((item) => (
-                                <Button
-                                    key={item.path}
-                                    component={RouterLink}
-                                    to={item.path}
-                                    variant="plain"
-                                    color={location.pathname === item.path ? 'primary' : 'neutral'}
-                                    size="sm"
-                                    sx={{
-                                        fontSize: 'sm',
-                                        fontWeight: 'md',
-                                        '&:hover': { bgcolor: 'transparent', color: 'primary.main' },
-                                    }}
-                                >
-                                    {item.label}
-                                </Button>
-                            ))}
-                        </Stack>
-
-                        <ThemeToggle />
-                    </Stack>
-                </Container>
-            </Box>
-
-            {/* Main Navigation */}
-            <Box sx={{ py: { xs: 1, md: 2 } }}>
-                <Container maxWidth="lg">
-                    <Stack direction="row" spacing={4} alignItems="center">
-                        {/* Logo */}
-                        <Stack
-                            component={RouterLink}
-                            to="/"
-                            direction="row"
-                            spacing={1}
-                            alignItems="center"
-                            sx={{ textDecoration: 'none' }}
-                        >
-                            <img src="/briefcase.png" alt="Jobscape" style={{ height: 32 }} />
-                            <Typography
-                                level="title-lg"
+                        {currentNavItems.map((item) => (
+                            <Button
+                                key={item.path}
+                                component={RouterLink}
+                                to={item.path}
+                                variant={isActive(item.path) ? 'soft' : 'plain'}
+                                color={isActive(item.path) ? 'primary' : 'neutral'}
+                                size="sm"
                                 sx={{
-                                    color: 'primary.main',
-                                    fontWeight: 'xl',
-                                    display: { xs: 'none', sm: 'block' }
+                                    fontSize: 'sm',
+                                    fontWeight: 'md',
+                                    '&:hover': { bgcolor: 'transparent', color: 'primary.main' },
                                 }}
                             >
-                                Jobscape
-                            </Typography>
-                        </Stack>
-
-                        <Input
-                            size="sm"
-                            placeholder="Job title, keyword, company"
-                            startDecorator={<Search size={16} />}
-                            sx={{
-                                display: { xs: 'none', md: 'flex' },
-                                flex: 1,
-                                maxWidth: 'md',
-                                mx: 2,
-                                '--Input-focusedThickness': '2px',
-                            }}
-                        />
-
-                        {/* Right Section */}
-                        <Stack direction="row" spacing={2} alignItems="center">
-                            {userType === 'none' ? (
-                                <>
-                                    <Button
-                                        component={RouterLink}
-                                        to="/login"
-                                        variant="outlined"
-                                        color="neutral"
-                                        size="sm"
-                                        sx={{
-                                            display: { xs: 'none', md: 'flex' },
-                                            fontWeight: 'md'
-                                        }}
-                                    >
-                                        Sign In
-                                    </Button>
-                                    <Button
-                                        component={RouterLink}
-                                        to="/post-job"
-                                        variant="solid"
-                                        color="primary"
-                                        size="sm"
-                                    >
-                                        Post A Job
-                                    </Button>
-                                </>
-                            ) : (
-                                <Dropdown>
-                                    <MenuButton
-                                        slots={{ root: IconButton }}
-                                        slotProps={{ root: { variant: 'soft', size: 'sm' } }}
-                                        sx={{ borderRadius: '50%' }}
-                                    >
-                                        <Box
-                                            component="img"
-                                            src="https://ui-avatars.com/api/?name=User&background=random"
-                                            alt="User"
-                                            sx={{ width: 32, height: 32, borderRadius: '50%' }}
-                                        />
-                                    </MenuButton>
-                                    <Menu>
-                                        <MenuItem onClick={onLogout}>Logout</MenuItem>
-                                    </Menu>
-                                </Dropdown>
-                            )}
-
-                            {/* Mobile Menu Button */}
-                            <IconButton
-                                variant="outlined"
-                                color="neutral"
-                                onClick={() => setMobileOpen(!mobileOpen)}
-                                sx={{ display: { xs: 'flex', md: 'none' } }}
-                            >
-                                {mobileOpen ? <X /> : <MenuIcon />}
-                            </IconButton>
-                        </Stack>
+                                {item.label}
+                            </Button>
+                        ))}
                     </Stack>
-                </Container>
+
+                    <Dropdown>
+                        <MenuButton
+                            slots={{ root: IconButton }}
+                            slotProps={{
+                                root: {
+                                    variant: 'outline',
+                                    sx: { p: 0 }
+                                },
+                            }}
+                        >
+                            {
+                                userType !== 'none'
+                                    ? <User2 />
+                                    : <Avatar
+                                        size="md"
+                                        variant="soft"
+                                        src={`https://api.dicebear.com/7.x/initials/svg?seed=${'Guest User'}`}
+                                    />
+                            }
+                        </MenuButton>
+                        <Menu
+                            sx={{
+                                minWidth: 200,
+                                bgcolor: 'background.surface',
+                                borderRadius: 'md',
+                                boxShadow: 'md',
+                                p: 0,
+                            }}>
+                            <Stack sx={{ p: 1.5 }} spacing={1.5}>
+                                {
+                                    userType === 'none'
+                                        ?
+                                        <MenuItem
+                                            onClick={toggleColorMode}
+                                            color='primary'
+                                            variant='soft'
+                                            sx={{
+                                                borderRadius: 'sm',
+                                                px: 2,
+                                                '&:hover': {
+                                                    bgcolor: 'background.level2'
+                                                }
+                                            }}
+                                        >
+                                            <UserRoundPlus size={18} />
+                                            <Typography textColor='inherit' sx={{ ml: 1, fontWeight: 'md' }}> Register</Typography>
+                                        </MenuItem>
+                                        : <>
+                                            <MenuItem
+                                                onClick={() => navigate('profile')}
+                                                sx={{
+                                                    borderRadius: 'sm',
+                                                    px: 2,
+                                                    '&:hover': {
+                                                        bgcolor: 'background.level2'
+                                                    }
+                                                }}
+                                            >
+                                                <User size={18} />
+                                                <Typography sx={{ ml: 1, fontWeight: 'md' }}>Profile</Typography>
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={onLogout}
+                                                color="danger"
+                                                sx={{
+                                                    borderRadius: 'sm',
+                                                    px: 2,
+                                                    '&:hover': {
+                                                        bgcolor: 'danger.softHoverBg'
+                                                    }
+                                                }}
+                                            >
+                                                <LogOut size={18} />
+                                                <Typography sx={{ ml: 1, fontWeight: 'md' }}>Logout</Typography>
+                                            </MenuItem>
+                                        </>
+                                }
+                                <MenuItem
+                                    onClick={toggleColorMode}
+                                    sx={{
+                                        borderRadius: 'sm',
+                                        px: 2,
+                                        '&:hover': {
+                                            bgcolor: 'background.level2'
+                                        }
+                                    }}
+                                >
+                                    {mode === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+                                    <Typography sx={{ ml: 1, fontWeight: 'md' }}> {mode === 'light' ? "Dark Mode" : "Light Mode"}</Typography>
+                                </MenuItem>
+                            </Stack>
+                        </Menu>
+                    </Dropdown>
+                </Stack>
             </Box>
 
             {/* Mobile Menu */}
             <Sheet
-                variant="outlined"
+                variant="soft"
                 sx={{
                     display: { xs: mobileOpen ? 'block' : 'none', md: 'none' },
                     position: 'fixed',
-                    top: '64px',
-                    left: 0,
-                    right: 0,
+                    top: '80px',
+                    left: '16px',
+                    width: 'calc(100% - 32px)',
                     bgcolor: 'background.surface',
-                    borderTop: '1px solid',
-                    borderColor: 'divider',
+                    maxWidth: '320px',
+                    borderRadius: 'md',
+                    boxShadow: 'md',
                     zIndex: 1000,
+                    overflow: 'hidden',
+                    animation: mobileOpen ? 'slideIn 0.2s ease-out' : 'none',
+                    '@keyframes slideIn': {
+                        from: {
+                            opacity: 0,
+                            transform: 'translate(0, -20px)'
+                        },
+                        to: {
+                            opacity: 1,
+                            transform: 'translate(0, 0)'
+                        }
+                    }
                 }}
             >
-                <Box sx={{ p: 2 }}>
-                    <Stack spacing={1}>
+                <Box sx={{ p: 1.5 }}>
+                    <Stack spacing={1.5}>
                         {currentNavItems.map((item) => (
                             <Button
                                 key={item.path}
@@ -224,22 +263,22 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
                                 variant={location.pathname === item.path ? 'soft' : 'plain'}
                                 color={location.pathname === item.path ? 'primary' : 'neutral'}
                                 fullWidth
+                                size="sm"
+                                sx={{
+                                    justifyContent: 'flex-start',
+                                    px: 2,
+                                    py: 1,
+                                    borderRadius: 'md',
+                                    fontWeight: location.pathname === item.path ? 'bold' : 'normal',
+                                    '&:hover': {
+                                        bgcolor: 'background.level2'
+                                    }
+                                }}
                                 onClick={() => setMobileOpen(false)}
                             >
                                 {item.label}
                             </Button>
                         ))}
-                        {userType === 'none' && (
-                            <Button
-                                component={RouterLink}
-                                to="/login"
-                                variant="outlined"
-                                color="neutral"
-                                fullWidth
-                            >
-                                Sign In
-                            </Button>
-                        )}
                     </Stack>
                 </Box>
             </Sheet>
