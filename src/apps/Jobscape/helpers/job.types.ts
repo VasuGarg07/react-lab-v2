@@ -1,3 +1,9 @@
+type MongoResponse<T> = T & {
+    id: string;
+    createdAt: number; // unix in seconds 
+    updatedAt: number; // unix in seconds 
+}
+
 // APPLICANT MODEL
 export interface IExperience {
     title: string;
@@ -30,10 +36,6 @@ export interface IPreference {
 }
 
 export interface IApplicant {
-    id: string;
-    createdAt: number; // unix in seconds 
-    updatedAt: number; // unix in seconds 
-
     userId: string;
     fullName: string;
     contactEmail: string;
@@ -62,10 +64,6 @@ export interface IESocialLinks {
 }
 
 export interface IEmployer {
-    id: string;
-    createdAt: number; // unix in seconds 
-    updatedAt: number; // unix in seconds 
-
     userId: string;
     companyName: string;
     logoURL: string;
@@ -94,10 +92,6 @@ export interface IJobDetails {
 }
 
 export interface IJob extends Partial<IJobDetails> {
-    id: string;
-    createdAt: number; // unix in seconds 
-    updatedAt: number; // unix in seconds 
-
     postedBy: string;
     title: string;
     location: string;
@@ -118,10 +112,6 @@ export interface IJob extends Partial<IJobDetails> {
 
 // APPLICATION MODEL
 export interface IApplication {
-    id: string;
-    createdAt: number; // unix in seconds 
-    updatedAt: number; // unix in seconds 
-
     jobId: string;
     applicantId: string;
     status: "pending" | "shortlisted" | "rejected" | "contacted" | "hired";
@@ -137,7 +127,13 @@ export interface ISavedJob {
     id: string;
     createdAt: number; // unix in seconds 
     updatedAt: number; // unix in seconds 
-
     applicantId: string;
     jobId: string;
 }
+
+
+// MODEL RESPONSE TYPES
+export type ApplicantResponse = MongoResponse<IApplicant>;
+export type EmployerResponse = MongoResponse<IEmployer>;
+export type JobResponse = MongoResponse<IJob>;
+export type ApplicationResponse = MongoResponse<IApplication>;

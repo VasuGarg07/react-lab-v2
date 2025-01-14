@@ -16,6 +16,9 @@ import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
 import Home from "../apps/Home/Home";
 import Homeloan from "../apps/HomeloanWizard/Homeloan";
 import { InvoiceProvider } from "../apps/InvoEase/InvoiceContext";
+import Jobscape from "../apps/Jobscape/Jobscape";
+import JobHome from "../apps/Jobscape/pages/JobHome";
+import RegisterHero from "../apps/Jobscape/pages/RegisterHero";
 import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "../apps/Pokeverse/context/BattleSimContext";
@@ -47,15 +50,14 @@ import AuthWrapper from "../auth/AuthWrapper";
 import ForgotPassword from "../auth/ForgotPassword";
 import Login from "../auth/Login";
 import Register from "../auth/Register";
-import MainLayout from "../components/MainLayout";
-import Jobscape from "../apps/Jobscape/Jobscape";
-import JobHome from "../apps/Jobscape/pages/JobHome";
+import Navbar from "../components/Navbar";
 
 export const router = createBrowserRouter([
   {
     path: '',
     element: <>
-      <MainLayout />
+      <Navbar />
+      <Outlet />
       <ScrollRestoration />
     </>,
     children: [
@@ -88,6 +90,10 @@ export const router = createBrowserRouter([
           {
             path: 'home',
             element: <JobHome />
+          },
+          {
+            path: 'register',
+            element: <RegisterHero />
           },
           // fallbacks
           {

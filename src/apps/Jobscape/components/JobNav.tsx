@@ -162,7 +162,7 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
                                     userType === 'none'
                                         ?
                                         <MenuItem
-                                            onClick={toggleColorMode}
+                                            onClick={() => navigate('/jobscape/register')}
                                             color='primary'
                                             variant='soft'
                                             sx={{
@@ -178,7 +178,7 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
                                         </MenuItem>
                                         : <>
                                             <MenuItem
-                                                onClick={() => navigate('profile')}
+                                                onClick={() => navigate('/jobscape/profile')}
                                                 sx={{
                                                     borderRadius: 'sm',
                                                     px: 2,
