@@ -1,8 +1,13 @@
 import React from 'react';
 import { Box, Button, Typography, Container, Stack } from '@mui/joy';
 import { Briefcase, User2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import BrandLogo from '../components/BrandLogo';
 
 const RegisterHero: React.FC = () => {
+
+    const navigate = useNavigate();
+
     return (
         <Box
             sx={{
@@ -23,10 +28,7 @@ const RegisterHero: React.FC = () => {
             >
                 <Container maxWidth="sm">
                     {/* Logo */}
-                    <Stack direction="row" spacing={1} alignItems="center" mb={6}>
-                        <Briefcase color='#058bd3' />
-                        <Typography level="title-lg">JobScape</Typography>
-                    </Stack>
+                    <BrandLogo />
 
                     {/* Main Content */}
                     <Stack spacing={4}>
@@ -47,6 +49,7 @@ const RegisterHero: React.FC = () => {
                                 variant="solid"
                                 color="primary"
                                 fullWidth
+                                onClick={() => navigate('/jobscape/register-employer')}
                             >
                                 Register as Applicant
                             </Button>

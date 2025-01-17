@@ -1,5 +1,5 @@
 import apiClient from '../../../shared/apiClient';
-import { IApplicant, IEmployer, IJob, IApplication } from './job.types';
+import { IApplicant, IEmployer, IJob, IApplication, ApplicantResponse, EmployerResponse } from './job.types';
 
 type UserRole = 'employer' | 'applicant' | 'profile';
 
@@ -43,18 +43,18 @@ class JobscapeService {
 
     /** ------------------------- Profile APIs ------------------------- **/
 
-    async fetchUserProfile(): Promise<IApplicant | IEmployer | null> {
+    async fetchUserProfile(): Promise<ApplicantResponse | EmployerResponse | null> {
         const client = this.getClient();
         const response = await client.get('/profile');
         return response.data;
     }
 
-    async registerAsApplicant(applicantData: Partial<IApplicant>): Promise<void> {
+    async registerAsApplicant(applicantData: IApplicant): Promise<void> {
         const client = this.getClient();
         await client.post('/register/applicant', applicantData);
     }
 
-    async registerAsEmployer(employerData: Partial<IEmployer>): Promise<void> {
+    async registerAsEmployer(employerData: IEmployer): Promise<void> {
         const client = this.getClient();
         await client.post('/register/employer', employerData);
     }

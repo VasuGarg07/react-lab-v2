@@ -18,6 +18,7 @@ import Homeloan from "../apps/HomeloanWizard/Homeloan";
 import { InvoiceProvider } from "../apps/InvoEase/InvoiceContext";
 import Jobscape from "../apps/Jobscape/Jobscape";
 import JobHome from "../apps/Jobscape/pages/JobHome";
+import RegisterEmployer from "../apps/Jobscape/pages/RegisterEmployer";
 import RegisterHero from "../apps/Jobscape/pages/RegisterHero";
 import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
@@ -94,6 +95,10 @@ export const router = createBrowserRouter([
           {
             path: 'register',
             element: <RegisterHero />
+          },
+          {
+            path: 'register-employer',
+            element: <RegisterEmployer />
           },
           // fallbacks
           {

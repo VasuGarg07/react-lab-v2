@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import JobscapeService from './helpers/job.service';
-import { IApplicant, IEmployer } from './helpers/job.types';
+import { ApplicantResponse, IApplicant, IEmployer } from './helpers/job.types';
 import { useAuth } from '../../auth/AuthProvider';
 
 interface JobscapeContextType {
@@ -36,7 +36,7 @@ export const JobscapeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                 setProfile(userProfile);
                 setIsRegistered(true);
 
-                const detectedRole = (userProfile as IApplicant).preference ? 'applicant' : 'employer';
+                const detectedRole = (userProfile as ApplicantResponse).preference ? 'applicant' : 'employer';
                 setRole(detectedRole);
                 setProfileId(userProfile.id);
 

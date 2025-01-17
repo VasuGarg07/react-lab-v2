@@ -1,8 +1,30 @@
-import { Box, Container, Link, Stack, Typography } from '@mui/joy';
+import { Box, Container, Link, Sheet, Stack, Typography } from '@mui/joy';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-const Footer: React.FC = () => {
+const Footer: React.FC<{ compact?: boolean }> = ({ compact = false }) => {
+
+    if (compact) {
+        return (
+            <Sheet component="footer" sx={{
+                p: 2,
+                borderTop: '1px solid #DADADA',
+            }}>
+                <Container maxWidth="lg">
+                    <Typography
+                        level="body-sm"
+                        sx={{
+                            color: '#777',
+                            textAlign: 'center',
+                        }}
+                    >
+                        © {new Date().getFullYear()} JobScape - Job Portal. All rights Reserved
+                    </Typography>
+                </Container>
+            </Sheet>
+        )
+    }
+
     const links = {
         'Quick Link': [
             { label: 'About', path: 'about' },

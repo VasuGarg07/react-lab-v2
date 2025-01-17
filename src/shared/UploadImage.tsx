@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Box, Typography, IconButton, CircularProgress } from "@mui/joy";
 import { Upload, X } from "lucide-react";
-import { CONFIG } from "../../../shared/config";
-import { ErrorMessage } from "../../../components/ErrorMessage";
+import { CONFIG } from "./config";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 interface UploadImageProps {
     onUpload: (url: string) => void;
@@ -167,7 +167,8 @@ const UploadImage = ({
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        gap: 1
+                        textAlign: 'center',
+                        gap: 1, p: 2
                     }}>
                         <Upload size={24} />
                         <Typography level="body-sm">

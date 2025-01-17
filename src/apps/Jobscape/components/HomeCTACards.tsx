@@ -1,18 +1,23 @@
 import React from 'react';
 import { Box, Button, Container, Stack, Typography } from '@mui/joy';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const HomeCTACards: React.FC = () => {
+    const navigate = useNavigate();
+
     const cards = [
         {
             title: "Become a Candidate",
             description: "Start your job search journey and connect with top employers. Create your professional profile and access exclusive opportunities.",
-            buttonText: "Register Now"
+            buttonText: "Register Now",
+            handleClick: () => navigate('/jobscape/register-applicant')
         },
         {
             title: "Become an Employer",
             description: "Find the perfect talent for your organization. Post jobs, review applications, and build your dream team efficiently.",
-            buttonText: "Register Now"
+            buttonText: "Register Now",
+            handleClick: () => navigate('/jobscape/register-employer')
         }
     ];
 
@@ -90,6 +95,7 @@ const HomeCTACards: React.FC = () => {
                                 variant="solid"
                                 color="primary"
                                 endDecorator={<ArrowRight size={16} />}
+                                onClick={card.handleClick}
                                 sx={{
                                     width: 'fit-content',
                                     fontWeight: 600,

@@ -16,6 +16,7 @@ import {
 import { LogOut, Menu as MenuIcon, Moon, Sun, User, User2, UserRoundPlus } from 'lucide-react';
 import { useState } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import BrandLogo from './BrandLogo';
 
 interface NavbarProps {
     userType: 'none' | 'employer' | 'applicant';
@@ -89,19 +90,7 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
                             <MenuIcon />
                         </IconButton>
 
-                        <Box sx={{
-                            width: '40px',
-                            height: '40px',
-                            lineHeight: 0
-                        }}>
-                            <img src="/briefcase.png" alt="Jobscape Logo"
-                                style={{ width: "100%" }} />
-                        </Box>
-                        <Typography
-                            level='h3'
-                            fontFamily='Inter'>
-                            JobScape
-                        </Typography>
+                        <BrandLogo />
                     </Stack>
 
                     {/* Navigation Links */}
