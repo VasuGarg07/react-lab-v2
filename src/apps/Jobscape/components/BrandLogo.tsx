@@ -8,7 +8,7 @@ const BrandLogo: React.FC = () => {
     const navigate = useNavigate();
 
     return (
-        <Stack direction="row" alignItems="center" spacing={2}
+        <Stack direction="row" alignItems="center" spacing={2} sx={{ cursor: 'pointer' }}
             onClick={() => navigate('/jobscape')}>
             <Box sx={{
                 width: '40px',

@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, FormControl, FormLabel, Input, Select, Stack, Tab, TabList, TabPanel, Tabs, Option, Grid } from '@mui/joy';
+import { Autocomplete, Box, Button, FormControl, FormLabel, Input, Select, Stack, Tab, TabList, TabPanel, Tabs, Option, Grid, FormHelperText } from '@mui/joy';
 import { ArrowLeft, ArrowRight, AtSign, Building, Building2, Calendar, CircleUserRound, Globe, Link, Mail, MapPin, Upload, Users } from 'lucide-react';
 import React, { useState } from 'react';
 import RichTextEditor from '../../../shared/RichTextEditor';
@@ -8,52 +8,46 @@ import { INDUSTRY_OPTIONS, TEAM_SIZE_OPTIONS } from '../helpers/job.constants';
 import SocialLinkInput, { SocialPlatform } from './SocialLinkInput';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { Control, Controller, FieldErrors, useFormContext } from 'react-hook-form';
 
-const EmployerForm: React.FC<FormProps<IEmployer>> = ({ data, setData, btnLabel, handleSubmit }) => {
+const EmployerForm: React.FC<FormProps<IEmployer>> = ({
+    onSubmit,
+    btnLabel
+}) => {
     const [activeTab, setActiveTab] = useState(0);
-
-    const handleFieldChange = (field: string, value: any) => {
-        if (field === 'socialLinks') {
-            setData(prev => ({
-                ...prev,
-                socialLinks: value
-            }));
-        } else {
-            setData(prev => ({
-                ...prev,
-                [field]: value
-            }));
-        }
-    };
+    const { handleSubmit, control, formState: { errors } } = useFormContext<IEmployer>();
 
     const tabs = [
         {
             label: 'Company Info',
             icon: <Building size={20} />,
             content: <CompanyDetails
-                data={data}
-                onChange={handleFieldChange}
+                control={control}
+                errors={errors}
             />
         },
         {
             label: 'Founding Info',
             icon: <CircleUserRound size={20} />,
-            content: <FoundingDetails data={data}
-                onChange={handleFieldChange}
+            content: <FoundingDetails
+                control={control}
+                errors={errors}
             />
         },
         {
             label: 'Social Media Links',
             icon: <Globe size={20} />,
-            content: <SocialLinks data={data}
-                onChange={handleFieldChange}
+            content: <SocialLinks
+                control={control}
+                errors={errors}
             />
         },
         {
             label: 'Contact',
             icon: <AtSign size={20} />,
-            content: <ContactDetails data={data}
-                onChange={handleFieldChange}
+            content: <ContactDetails
+                control={control}
+                errors={errors}
             />
         },
     ];
@@ -72,75 +66,77 @@ const EmployerForm: React.FC<FormProps<IEmployer>> = ({ data, setData, btnLabel,
 
     return (
         <Box sx={{ width: '100%', minHeight: 'calc(100dvh - 186px)' }}>
-            <Tabs
-                value={activeTab}
-                onChange={(_, value) => setActiveTab(value as number)}
-                sx={{ bgcolor: 'background.body' }}
-            >
-                <TabList
-                    variant="plain"
-                    sx={{
-                        pt: 2,
-                        justifyContent: 'center',
-                    }}
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Tabs
+                    value={activeTab}
+                    onChange={(_, value) => setActiveTab(value as number)}
+                    sx={{ bgcolor: 'background.body' }}
                 >
+                    <TabList
+                        variant="plain"
+                        sx={{
+                            pt: 2,
+                            justifyContent: 'center',
+                        }}
+                    >
+                        {tabs.map((tab, index) => (
+                            <Tab
+                                key={index}
+                                variant={index === activeTab ? 'solid' : 'plain'}
+                                color={index === activeTab ? 'primary' : 'neutral'}
+                            >
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    {tab.icon}
+                                    <span>{tab.label}</span>
+                                </Stack>
+                            </Tab>
+                        ))}
+                    </TabList>
+
                     {tabs.map((tab, index) => (
-                        <Tab
-                            key={index}
-                            variant={index === activeTab ? 'solid' : 'plain'}
-                            color={index === activeTab ? 'primary' : 'neutral'}
-                        >
-                            <Stack direction="row" spacing={1} alignItems="center">
-                                {tab.icon}
-                                <span>{tab.label}</span>
-                            </Stack>
-                        </Tab>
+                        <TabPanel key={index} value={index}>
+                            {tab.content}
+                        </TabPanel>
                     ))}
-                </TabList>
+                </Tabs>
 
-                {tabs.map((tab, index) => (
-                    <TabPanel key={index} value={index}>
-                        {tab.content}
-                    </TabPanel>
-                ))}
-            </Tabs>
-
-            <Stack
-                direction="row"
-                spacing={2}
-                justifyContent="space-between"
-                sx={{ mt: 3, px: 2, pb: 2 }}
-            >
-                <Button
-                    variant="outlined"
-                    color="neutral"
-                    onClick={handlePrev}
-                    disabled={activeTab === 0}
-                    startDecorator={<ArrowLeft size={20} />}
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    justifyContent="space-between"
+                    sx={{ mt: 3, px: 2, pb: 2 }}
                 >
-                    Previous
-                </Button>
+                    <Button
+                        variant="outlined"
+                        color="neutral"
+                        onClick={handlePrev}
+                        disabled={activeTab === 0}
+                        startDecorator={<ArrowLeft size={20} />}
+                    >
+                        Previous
+                    </Button>
 
-                {activeTab === tabs.length - 1 ? (
-                    <Button
-                        variant="solid"
-                        color="primary"
-                        onClick={handleSubmit}
-                        endDecorator={<Upload size={20} />}
-                    >
-                        {btnLabel}
-                    </Button>
-                ) : (
-                    <Button
-                        variant="solid"
-                        color="primary"
-                        onClick={handleNext}
-                        endDecorator={<ArrowRight size={20} />}
-                    >
-                        Next
-                    </Button>
-                )}
-            </Stack>
+                    {activeTab === tabs.length - 1 ? (
+                        <Button
+                            variant="solid"
+                            color="primary"
+                            type="submit"
+                            endDecorator={<Upload size={20} />}
+                        >
+                            {btnLabel}
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="solid"
+                            color="primary"
+                            onClick={handleNext}
+                            endDecorator={<ArrowRight size={20} />}
+                        >
+                            Next
+                        </Button>
+                    )}
+                </Stack>
+            </form>
         </Box>
     );
 };
@@ -150,62 +146,73 @@ export default EmployerForm;
 
 // Tab Panel Components
 
-interface CompanyDetailsProps {
-    data: {
-        companyName: string;
-        logoURL: string;
-        companyOverview?: string;
-    };
-    onChange: (field: string, value: string) => void;
+interface TabPanelComponentProps {
+    control: Control<IEmployer>;
+    errors: FieldErrors<IEmployer>;
 }
 
-const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data, onChange }) => {
+const CompanyDetails: React.FC<TabPanelComponentProps> = ({ control, errors }) => {
     return (
         <Stack spacing={3}>
-            <FormControl required>
-                <FormLabel>Company Logo</FormLabel>
-                <UploadImage
-                    imageUrl={data.logoURL}
-                    onUpload={(url) => onChange('logoURL', url)}
-                    onRemove={() => onChange('logoURL', '')}
-                    width={200}
-                    height={200}
-                />
-            </FormControl>
+            <Controller
+                name="logoURL"
+                control={control}
+                render={({ field }) => (
+                    <FormControl required error={!!errors.logoURL}>
+                        <FormLabel>Company Logo</FormLabel>
+                        <UploadImage
+                            imageUrl={field.value}
+                            onUpload={(url) => field.onChange(url)}
+                            onRemove={() => field.onChange('')}
+                            width={200}
+                            height={200}
+                        />
+                        {errors.logoURL && (
+                            <FormHelperText>{errors.logoURL.message}</FormHelperText>
+                        )}
+                    </FormControl>
+                )}
+            />
 
-            <FormControl required>
-                <FormLabel>Company Name</FormLabel>
-                <Input
-                    placeholder="Enter your company name"
-                    value={data.companyName}
-                    onChange={(e) => onChange('companyName', e.target.value)}
-                />
-            </FormControl>
+            <Controller
+                name="companyName"
+                control={control}
+                render={({ field }) => (
+                    <FormControl required error={!!errors.companyName}>
+                        <FormLabel>Company Name</FormLabel>
+                        <Input
+                            {...field}
+                            placeholder="Enter your company name"
+                        />
+                        {errors.companyName && (
+                            <FormHelperText>{errors.companyName.message}</FormHelperText>
+                        )}
+                    </FormControl>
+                )}
+            />
 
-            <FormControl required>
-                <FormLabel>About Company</FormLabel>
-                <RichTextEditor
-                    value={data.companyOverview || ''}
-                    onChange={(content) => onChange('companyOverview', content)}
-                    placeholder="Write about your company..."
-                />
-            </FormControl>
+            <Controller
+                name="companyOverview"
+                control={control}
+                render={({ field }) => (
+                    <FormControl required error={!!errors.companyOverview}>
+                        <FormLabel>About Company</FormLabel>
+                        <RichTextEditor
+                            value={field.value || ''}
+                            onChange={field.onChange}
+                            placeholder="Write about your company..."
+                        />
+                        {errors.companyOverview && (
+                            <FormHelperText>{errors.companyOverview.message}</FormHelperText>
+                        )}
+                    </FormControl>
+                )}
+            />
         </Stack>
     );
 };
 
-interface FoundingDetailsProps {
-    data: {
-        industry: string;
-        employeeStrength: string;
-        yearOfEstablishMent: string;
-        websiteUrl?: string;
-        companyVision?: string;
-    };
-    onChange: (field: string, value: string) => void;
-}
-
-const FoundingDetails: React.FC<FoundingDetailsProps> = ({ data, onChange }) => {
+const FoundingDetails: React.FC<TabPanelComponentProps> = ({ control, errors }) => {
     const currentYear = new Date().getFullYear();
     const yearOptions = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
@@ -213,98 +220,125 @@ const FoundingDetails: React.FC<FoundingDetailsProps> = ({ data, onChange }) => 
         <Stack spacing={3}>
             <Grid container spacing={2}>
                 <Grid xs={12} md={6}>
-                    <FormControl required>
-                        <FormLabel>Industry</FormLabel>
-                        <Autocomplete
-                            startDecorator={<Building2 size={20} />}
-                            placeholder="Select or type your industry"
-                            options={INDUSTRY_OPTIONS}
-                            value={data.industry}
-                            onChange={(_, newValue) => onChange('industry', newValue || '')}
-                            freeSolo
-                        />
-                    </FormControl>
+                    <Controller
+                        name="industry"
+                        control={control}
+                        render={({ field }) => (
+                            <FormControl required error={!!errors.industry}>
+                                <FormLabel>Industry</FormLabel>
+                                <Autocomplete
+                                    startDecorator={<Building2 size={20} />}
+                                    placeholder="Select or type your industry"
+                                    options={INDUSTRY_OPTIONS}
+                                    value={field.value}
+                                    onChange={(_, newValue) => field.onChange(newValue || '')}
+                                    freeSolo
+                                />
+                                {errors.industry && (
+                                    <FormHelperText>{errors.industry.message}</FormHelperText>
+                                )}
+                            </FormControl>
+                        )}
+                    />
                 </Grid>
 
                 <Grid xs={12} md={6}>
-                    <FormControl required>
-                        <FormLabel>Team Size</FormLabel>
-                        <Select
-                            startDecorator={<Users size={20} />}
-                            placeholder="Select team size"
-                            value={data.employeeStrength}
-                            onChange={(_, newValue) => onChange('employeeStrength', newValue || '')}
-                        >
-                            {TEAM_SIZE_OPTIONS.map((size) => (
-                                <Option key={size} value={size}>
-                                    {size}
-                                </Option>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    <Controller
+                        name="employeeStrength"
+                        control={control}
+                        render={({ field }) => (
+                            <FormControl required error={!!errors.employeeStrength}>
+                                <FormLabel>Team Size</FormLabel>
+                                <Select
+                                    startDecorator={<Users size={20} />}
+                                    placeholder="Select team size"
+                                    value={field.value}
+                                    onChange={(_, newValue) => field.onChange(newValue || '')}
+                                >
+                                    {TEAM_SIZE_OPTIONS.map((size) => (
+                                        <Option key={size} value={size}>
+                                            {size}
+                                        </Option>
+                                    ))}
+                                </Select>
+                                {errors.employeeStrength && (
+                                    <FormHelperText>{errors.employeeStrength.message}</FormHelperText>
+                                )}
+                            </FormControl>
+                        )}
+                    />
                 </Grid>
 
                 <Grid xs={12} md={6}>
-                    <FormControl required>
-                        <FormLabel>Year of Establishment</FormLabel>
-                        <Select
-                            startDecorator={<Calendar size={20} />}
-                            placeholder="Select year"
-                            value={data.yearOfEstablishMent}
-                            onChange={(_, newValue) => onChange('yearOfEstablishMent', newValue || '')}
-                        >
-                            {yearOptions.map((year) => (
-                                <Option key={year} value={year.toString()}>
-                                    {year}
-                                </Option>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    <Controller
+                        name="yearOfEstablishMent"
+                        control={control}
+                        render={({ field }) => (
+                            <FormControl required error={!!errors.yearOfEstablishMent}>
+                                <FormLabel>Year of Establishment</FormLabel>
+                                <Select
+                                    startDecorator={<Calendar size={20} />}
+                                    placeholder="Select year"
+                                    value={field.value}
+                                    onChange={(_, newValue) => field.onChange(newValue || '')}
+                                >
+                                    {yearOptions.map((year) => (
+                                        <Option key={year} value={year.toString()}>
+                                            {year}
+                                        </Option>
+                                    ))}
+                                </Select>
+                                {errors.yearOfEstablishMent && (
+                                    <FormHelperText>{errors.yearOfEstablishMent.message}</FormHelperText>
+                                )}
+                            </FormControl>
+                        )}
+                    />
                 </Grid>
 
                 <Grid xs={12} md={6}>
-                    <FormControl>
-                        <FormLabel>Company Website</FormLabel>
-                        <Input
-                            startDecorator={<Link size={20} />}
-                            placeholder="https://example.com"
-                            value={data.websiteUrl}
-                            onChange={(e) => onChange('websiteUrl', e.target.value)}
-                        />
-                    </FormControl>
+                    <Controller
+                        name="websiteUrl"
+                        control={control}
+                        render={({ field }) => (
+                            <FormControl error={!!errors.websiteUrl}>
+                                <FormLabel>Company Website</FormLabel>
+                                <Input
+                                    {...field}
+                                    startDecorator={<Link size={20} />}
+                                    placeholder="https://example.com"
+                                />
+                                {errors.websiteUrl && (
+                                    <FormHelperText>{errors.websiteUrl.message}</FormHelperText>
+                                )}
+                            </FormControl>
+                        )}
+                    />
                 </Grid>
             </Grid>
 
-            <FormControl>
-                <FormLabel>Company Vision</FormLabel>
-                <RichTextEditor
-                    value={data.companyVision || ''}
-                    onChange={(content) => onChange('companyVision', content)}
-                    placeholder="Tell us about your company vision..."
-                />
-            </FormControl>
+            <Controller
+                name="companyVision"
+                control={control}
+                render={({ field }) => (
+                    <FormControl error={!!errors.companyVision}>
+                        <FormLabel>Company Vision</FormLabel>
+                        <RichTextEditor
+                            value={field.value || ''}
+                            onChange={field.onChange}
+                            placeholder="Tell us about your company vision..."
+                        />
+                        {errors.companyVision && (
+                            <FormHelperText>{errors.companyVision.message}</FormHelperText>
+                        )}
+                    </FormControl>
+                )}
+            />
         </Stack>
     );
 };
 
-
-interface SocialLinksProps {
-    data: {
-        socialLinks?: Partial<IESocialLinks>;
-    };
-    onChange: (field: string, value: any) => void;
-}
-
-const SocialLinks: React.FC<SocialLinksProps> = ({ data, onChange }) => {
-
-    const handleSocialChange = (platform: SocialPlatform, value: string) => {
-        const updatedSocialLinks = {
-            ...data.socialLinks,
-            [platform]: value
-        };
-        onChange('socialLinks', updatedSocialLinks);
-    };
-
+const SocialLinks: React.FC<TabPanelComponentProps> = ({ control, errors }) => {
     const platforms: SocialPlatform[] = [
         'facebook',
         'twitter',
@@ -315,79 +349,116 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ data, onChange }) => {
 
     return (
         <Stack spacing={3}>
-            {platforms.map(platform => (
-                <FormControl key={platform}>
-                    <FormLabel>{`${platform.charAt(0).toUpperCase() + platform.slice(1)} Url`}</FormLabel>
-                    <SocialLinkInput
-                        platform={platform}
-                        value={data.socialLinks?.[platform as keyof IESocialLinks] || ''}
-                        onChange={(value) => handleSocialChange(platform, value)}
-                    />
-                </FormControl>
-            ))}
+            <Controller
+                name="socialLinks"
+                control={control}
+                render={({ field }) => (
+                    <>
+                        {platforms.map(platform => (
+                            <FormControl key={platform} error={!!errors.socialLinks?.[platform as keyof IESocialLinks]}>
+                                <FormLabel>
+                                    {`${platform.charAt(0).toUpperCase() + platform.slice(1)} Url`}
+                                </FormLabel>
+                                <SocialLinkInput
+                                    platform={platform}
+                                    value={field.value?.[platform as keyof IESocialLinks] || ''}
+                                    onChange={(value) => {
+                                        const updatedSocialLinks = {
+                                            ...field.value,
+                                            [platform]: value
+                                        };
+                                        field.onChange(updatedSocialLinks);
+                                    }}
+                                />
+                                {errors.socialLinks?.[platform as keyof IESocialLinks] && (
+                                    <FormHelperText>
+                                        {errors.socialLinks[platform as keyof IESocialLinks]?.message}
+                                    </FormHelperText>
+                                )}
+                            </FormControl>
+                        ))}
+                    </>
+                )}
+            />
         </Stack>
     );
 };
 
-interface ContactDetailsProps {
-    data: {
-        contactNumber: string;
-        email: string;
-        address: string;
-    };
-    onChange: (field: string, value: string) => void;
-}
 
-const ContactDetails: React.FC<ContactDetailsProps> = ({ data, onChange }) => {
-
+const ContactDetails: React.FC<TabPanelComponentProps> = ({ control, errors }) => {
     return (
         <Stack spacing={3}>
-            <FormControl required>
-                <FormLabel>Contact Number</FormLabel>
-                <PhoneInput
-                    country={'in'} // Default country
-                    value={data.contactNumber}
-                    onChange={(phone) => onChange('contactNumber', phone)}
-                    inputStyle={{
-                        width: '100%',
-                        fontSize: '16px',
-                        borderRadius: '6px',
-                        border: '1px solid var(--joy-palette-neutral-300)',
-                        backgroundColor: 'var(--joy-palette-background-surface)',
-                    }}
-                    buttonStyle={{
-                        backgroundColor: 'transparent',
-                        border: 'none',
-                        borderRight: '1px solid var(--joy-palette-neutral-300)',
-                        borderRadius: '6px 0 0 6px',
-                    }}
-                    dropdownStyle={{
-                        backgroundColor: 'var(--joy-palette-background-surface)',
-                        color: 'var(--joy-palette-text-primary)'
-                    }}
-                />
-            </FormControl>
+            <Controller
+                name="contactNumber"
+                control={control}
+                render={({ field }) => (
+                    <FormControl required error={!!errors.contactNumber}>
+                        <FormLabel>Contact Number</FormLabel>
+                        <PhoneInput
+                            country={'in'}
+                            value={field.value}
+                            onChange={(phone) => field.onChange(phone)}
+                            inputStyle={{
+                                width: '100%',
+                                fontSize: '16px',
+                                borderRadius: '6px',
+                                border: '1px solid var(--joy-palette-neutral-300)',
+                                backgroundColor: 'var(--joy-palette-background-surface)',
+                            }}
+                            buttonStyle={{
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                borderRight: '1px solid var(--joy-palette-neutral-300)',
+                                borderRadius: '6px 0 0 6px',
+                            }}
+                            dropdownStyle={{
+                                backgroundColor: 'var(--joy-palette-background-surface)',
+                                color: 'var(--joy-palette-text-primary)'
+                            }}
+                        />
+                        {errors.contactNumber && (
+                            <FormHelperText>{errors.contactNumber.message}</FormHelperText>
+                        )}
+                    </FormControl>
+                )}
+            />
 
-            <FormControl required>
-                <FormLabel>Email</FormLabel>
-                <Input
-                    startDecorator={<Mail size={20} />}
-                    type="email"
-                    placeholder="Email address"
-                    value={data.email}
-                    onChange={(e) => onChange('email', e.target.value)}
-                />
-            </FormControl>
+            <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                    <FormControl required error={!!errors.email}>
+                        <FormLabel>Email</FormLabel>
+                        <Input
+                            {...field}
+                            startDecorator={<Mail size={20} />}
+                            type="email"
+                            placeholder="Email address"
+                        />
+                        {errors.email && (
+                            <FormHelperText>{errors.email.message}</FormHelperText>
+                        )}
+                    </FormControl>
+                )}
+            />
 
-            <FormControl required>
-                <FormLabel>Address</FormLabel>
-                <Input
-                    startDecorator={<MapPin size={20} />}
-                    placeholder="Map location"
-                    value={data.address}
-                    onChange={(e) => onChange('address', e.target.value)}
-                />
-            </FormControl>
+            <Controller
+                name="address"
+                control={control}
+                render={({ field }) => (
+                    <FormControl required error={!!errors.address}>
+                        <FormLabel>Address</FormLabel>
+                        <Input
+                            {...field}
+                            startDecorator={<MapPin size={20} />}
+                            placeholder="Map location"
+                        />
+                        {errors.address && (
+                            <FormHelperText>{errors.address.message}</FormHelperText>
+                        )}
+                    </FormControl>
+                )}
+            />
         </Stack>
     );
 };

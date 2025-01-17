@@ -8,22 +8,13 @@ export const DefaultEmployer: IEmployer = {
     contactNumber: "",
     email: "",
     address: "",
-    websiteUrl: "",
 
     industry: "",
     employeeStrength: "",
     yearOfEstablishMent: "",
-    companyOverview: "",
-    companyVision: "",
-
-    socialLinks: {
-        facebook: "",
-        twitter: "",
-        instagram: "",
-        linkedin: "",
-        youtube: ""
-    }
 }
+
+// Applicant Form Empty State
 
 // Team size options
 export const TEAM_SIZE_OPTIONS = [

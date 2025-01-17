@@ -1,27 +1,38 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Container } from '@mui/joy';
-import React, { useState } from 'react';
+import React from 'react';
+import { FormProvider, useForm } from "react-hook-form";
 import { useAuth } from '../../../auth/AuthProvider';
 import Footer from '../components/Footer';
 import EmployerForm from '../forms/EmployerForm';
 import FormHeader from '../forms/FormHeader';
 import { DefaultEmployer } from '../helpers/job.constants';
 import { IEmployer } from '../helpers/job.types';
+import { employerFormSchema } from "../helpers/validationSchema";
 import { useJobscape } from '../JobscapeProvider';
+import { useAlert } from "../../../shared/AlertProvider";
+
 
 const RegisterEmployer: React.FC = () => {
-    const [employer, setEmployer] = useState<IEmployer>(DefaultEmployer);
     const { user } = useAuth();
     const { profileService } = useJobscape();
+    const { alert } = useAlert();
 
-    const handleSubmit = async () => {
-        console.log(employer)
+    const methods = useForm<IEmployer>({
+        resolver: zodResolver(employerFormSchema),
+        defaultValues: DefaultEmployer
+    });
+
+    const onSubmit = async (data: IEmployer) => {
         try {
-            employer.userId = user!.id;
-            await profileService.registerAsEmployer(employer);
-            // Add success handling here if needed
-        } catch (error) {
+            await profileService.registerAsEmployer({
+                ...data,
+                userId: user!.id,
+            });
+            alert("You are now registered as Employer on Jobscape", 'success');
+        } catch (error: any) {
             console.error('Error registering employer:', error);
-            // Add error handling here if needed
+            alert("Something Went Wrong", 'danger');
         }
     };
 
@@ -29,12 +40,13 @@ const RegisterEmployer: React.FC = () => {
         <>
             <FormHeader title="Register as Employer" />
             <Container maxWidth="lg" sx={{ my: 4 }}>
-                <EmployerForm
-                    data={employer}
-                    setData={setEmployer}
-                    btnLabel="Register"
-                    handleSubmit={handleSubmit}
-                />
+                <FormProvider {...methods}>
+                    <EmployerForm
+                        defaultValues={DefaultEmployer}
+                        onSubmit={onSubmit}
+                        btnLabel="Register"
+                    />
+                </FormProvider>
             </Container>
             <Footer compact />
         </>

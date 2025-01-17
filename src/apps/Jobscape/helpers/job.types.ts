@@ -143,8 +143,7 @@ export type ApplicationResponse = MongoResponse<IApplication>;
 
 // Reuseable FormProps
 export interface FormProps<T> {
-    data: T;
-    setData: React.Dispatch<React.SetStateAction<T>>;
-    btnLabel: string;
-    handleSubmit: (e: React.FormEvent) => void;
+    defaultValues: T;                       // Initial form data
+    onSubmit: (data: T) => Promise<void>;   // Submit handler
+    btnLabel: string;                       // Button label for flexibility
 }
