@@ -1,5 +1,5 @@
-import { Autocomplete, Box, Button, FormControl, FormLabel, Input, Select, Stack, Tab, TabList, TabPanel, Tabs, Option, Grid, FormHelperText } from '@mui/joy';
-import { ArrowLeft, ArrowRight, AtSign, Building, Building2, Calendar, CircleUserRound, Globe, Link, Mail, MapPin, Upload, Users } from 'lucide-react';
+import { Autocomplete, Box, Button, FormControl, FormLabel, Input, Select, Stack, Tab, TabList, TabPanel, Tabs, Option, Grid, FormHelperText, tabClasses } from '@mui/joy';
+import { ArrowLeft, ArrowRight, AtSign, Building, Building2, Calendar, CircleUserRound, Globe, Link, Mail, MapPin, CheckCircle, Users } from 'lucide-react';
 import React, { useState } from 'react';
 import RichTextEditor from '../../../shared/RichTextEditor';
 import UploadImage from '../../../shared/UploadImage';
@@ -10,10 +10,8 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { Control, Controller, FieldErrors, useFormContext } from 'react-hook-form';
 
-const EmployerForm: React.FC<FormProps<IEmployer>> = ({
-    onSubmit,
-    btnLabel
-}) => {
+const EmployerForm: React.FC<FormProps<IEmployer>> = ({ onSubmit, btnLabel }) => {
+
     const [activeTab, setActiveTab] = useState(0);
     const { handleSubmit, control, formState: { errors } } = useFormContext<IEmployer>();
 
@@ -21,34 +19,22 @@ const EmployerForm: React.FC<FormProps<IEmployer>> = ({
         {
             label: 'Company Info',
             icon: <Building size={20} />,
-            content: <CompanyDetails
-                control={control}
-                errors={errors}
-            />
+            content: <CompanyDetails control={control} errors={errors} />
         },
         {
             label: 'Founding Info',
             icon: <CircleUserRound size={20} />,
-            content: <FoundingDetails
-                control={control}
-                errors={errors}
-            />
+            content: <FoundingDetails control={control} errors={errors} />
         },
         {
-            label: 'Social Media Links',
+            label: 'Social Links',
             icon: <Globe size={20} />,
-            content: <SocialLinks
-                control={control}
-                errors={errors}
-            />
+            content: <SocialLinks control={control} errors={errors} />
         },
         {
             label: 'Contact',
             icon: <AtSign size={20} />,
-            content: <ContactDetails
-                control={control}
-                errors={errors}
-            />
+            content: <ContactDetails control={control} errors={errors} />
         },
     ];
 
@@ -65,23 +51,34 @@ const EmployerForm: React.FC<FormProps<IEmployer>> = ({
     };
 
     return (
-        <Box sx={{ width: '100%', minHeight: 'calc(100dvh - 186px)' }}>
+        <Box sx={{
+            width: '100%',
+            minHeight: 'calc(100dvh - 186px)',
+        }}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Tabs
                     value={activeTab}
                     onChange={(_, value) => setActiveTab(value as number)}
-                    sx={{ bgcolor: 'background.body' }}
+                    sx={{ bgcolor: 'transparent' }}
                 >
                     <TabList
                         variant="plain"
+                        disableUnderline
                         sx={{
-                            pt: 2,
+                            p: 1,
+                            gap: 1,
+                            borderRadius: 'xl',
+                            bgcolor: 'background.level1',
                             justifyContent: 'center',
+                            [`& .${tabClasses.root}[aria-selected="true"]`]: {
+                                boxShadow: 'sm',
+                            },
                         }}
                     >
                         {tabs.map((tab, index) => (
                             <Tab
                                 key={index}
+                                disableIndicator
                                 variant={index === activeTab ? 'solid' : 'plain'}
                                 color={index === activeTab ? 'primary' : 'neutral'}
                             >
@@ -121,7 +118,7 @@ const EmployerForm: React.FC<FormProps<IEmployer>> = ({
                             variant="solid"
                             color="primary"
                             type="submit"
-                            endDecorator={<Upload size={20} />}
+                            endDecorator={<CheckCircle size={20} />}
                         >
                             {btnLabel}
                         </Button>
@@ -137,7 +134,7 @@ const EmployerForm: React.FC<FormProps<IEmployer>> = ({
                     )}
                 </Stack>
             </form>
-        </Box>
+        </Box >
     );
 };
 

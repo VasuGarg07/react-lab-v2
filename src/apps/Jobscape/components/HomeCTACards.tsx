@@ -11,13 +11,13 @@ const HomeCTACards: React.FC = () => {
             title: "Become a Candidate",
             description: "Start your job search journey and connect with top employers. Create your professional profile and access exclusive opportunities.",
             buttonText: "Register Now",
-            handleClick: () => navigate('/jobscape/register-applicant')
+            handleClick: () => navigate('/jobscape/register/applicant')
         },
         {
             title: "Become an Employer",
             description: "Find the perfect talent for your organization. Post jobs, review applications, and build your dream team efficiently.",
             buttonText: "Register Now",
-            handleClick: () => navigate('/jobscape/register-employer')
+            handleClick: () => navigate('/jobscape/register/employer')
         }
     ];
 

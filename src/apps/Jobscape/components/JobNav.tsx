@@ -17,6 +17,8 @@ import { LogOut, Menu as MenuIcon, Moon, Sun, User, User2, UserRoundPlus } from 
 import { useState } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from './BrandLogo';
+import { useJobscape } from '../JobscapeProvider';
+import { ApplicantResponse, EmployerResponse } from '../helpers/job.types';
 
 interface NavbarProps {
     userType: 'none' | 'employer' | 'applicant';
@@ -28,6 +30,21 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
     const location = useLocation();
     const navigate = useNavigate();
     const { mode, setMode } = useColorScheme();
+
+    const { profile, role } = useJobscape();
+
+    const getAvatar = (): string => {
+        if (!role) {
+            return `https://api.dicebear.com/7.x/initials/svg?seed=${'Guest User'}`;
+        }
+
+        if (role === 'employer') {
+            return (profile as EmployerResponse).logoURL;
+        } else {
+            return (profile as ApplicantResponse).photoUrl
+                || `https://api.dicebear.com/7.x/initials/svg?seed=${(profile as ApplicantResponse).fullName}`;
+        }
+    }
 
     const toggleColorMode = () => {
         setMode(mode === 'light' ? 'dark' : 'light');
@@ -89,7 +106,6 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
                         >
                             <MenuIcon />
                         </IconButton>
-
                         <BrandLogo />
                     </Stack>
 
@@ -129,12 +145,12 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
                             }}
                         >
                             {
-                                userType !== 'none'
+                                userType == 'none'
                                     ? <User2 />
                                     : <Avatar
                                         size="md"
                                         variant="soft"
-                                        src={`https://api.dicebear.com/7.x/initials/svg?seed=${'Guest User'}`}
+                                        src={getAvatar()}
                                     />
                             }
                         </MenuButton>

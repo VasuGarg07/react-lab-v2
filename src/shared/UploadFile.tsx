@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/joy";
-import { Loader2, Plus, X } from "lucide-react";
+import { File, Loader2, Plus, X } from "lucide-react";
 import { useState } from "react";
 import { CONFIG } from "./config";
 
@@ -140,7 +140,7 @@ const FileUploader = ({
             }}>
                 {fileUrl ? (
                     <>
-                        <Plus size={20} style={{ transform: 'rotate(45deg)' }} />
+                        <File size={20} />
                         <Typography level="body-sm" sx={{ flex: 1 }}>
                             {getFileName(fileUrl)}
                         </Typography>

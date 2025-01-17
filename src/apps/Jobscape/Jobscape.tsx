@@ -8,7 +8,7 @@ const Jobscape = () => {
     const { mode } = useColorScheme();
     const { isLoggedIn } = useAuth();
 
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
         return <JobScapeAuth mode={mode} />
     }
 

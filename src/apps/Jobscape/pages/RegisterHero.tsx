@@ -49,7 +49,7 @@ const RegisterHero: React.FC = () => {
                                 variant="solid"
                                 color="primary"
                                 fullWidth
-                                onClick={() => navigate('/jobscape/register-employer')}
+                                onClick={() => navigate('applicant')}
                             >
                                 Register as Applicant
                             </Button>
@@ -59,6 +59,7 @@ const RegisterHero: React.FC = () => {
                                 variant="outlined"
                                 color="primary"
                                 fullWidth
+                                onClick={() => navigate('employer')}
                             >
                                 Register as Employer
                             </Button>

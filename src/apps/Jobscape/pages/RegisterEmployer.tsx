@@ -3,14 +3,14 @@ import { Container } from '@mui/joy';
 import React from 'react';
 import { FormProvider, useForm } from "react-hook-form";
 import { useAuth } from '../../../auth/AuthProvider';
-import Footer from '../components/Footer';
+import { useAlert } from "../../../shared/AlertProvider";
 import EmployerForm from '../forms/EmployerForm';
+import FormFooter from "../forms/FormFooter";
 import FormHeader from '../forms/FormHeader';
-import { DefaultEmployer } from '../helpers/job.constants';
+import { defaultEmployer } from '../helpers/job.constants';
 import { IEmployer } from '../helpers/job.types';
 import { employerFormSchema } from "../helpers/validationSchema";
 import { useJobscape } from '../JobscapeProvider';
-import { useAlert } from "../../../shared/AlertProvider";
 
 
 const RegisterEmployer: React.FC = () => {
@@ -20,7 +20,7 @@ const RegisterEmployer: React.FC = () => {
 
     const methods = useForm<IEmployer>({
         resolver: zodResolver(employerFormSchema),
-        defaultValues: DefaultEmployer
+        defaultValues: defaultEmployer
     });
 
     const onSubmit = async (data: IEmployer) => {
@@ -42,13 +42,12 @@ const RegisterEmployer: React.FC = () => {
             <Container maxWidth="lg" sx={{ my: 4 }}>
                 <FormProvider {...methods}>
                     <EmployerForm
-                        defaultValues={DefaultEmployer}
                         onSubmit={onSubmit}
                         btnLabel="Register"
                     />
                 </FormProvider>
             </Container>
-            <Footer compact />
+            <FormFooter />
         </>
     );
 };

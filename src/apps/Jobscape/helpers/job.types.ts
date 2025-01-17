@@ -1,3 +1,4 @@
+
 type MongoResponse<T> = T & {
     id: string;
     createdAt: number; // unix in seconds 
@@ -38,18 +39,18 @@ export interface IPreference {
 export interface IApplicant {
     userId: string;
     fullName: string;
+    photoUrl?: string;
     contactEmail: string;
     phoneNumber: string;
-
-    photoUrl?: string;
     profileSummary?: string;
+
     resumeURL: string;
     skills: string[];
     languages: string[];
     preference: IPreference;
 
-    experience?: IExperience[];
-    education?: IEducation[];
+    experience: IExperience[];
+    education: IEducation[];
     socialLinks?: Partial<IASocialLinks>;
 }
 
@@ -143,7 +144,7 @@ export type ApplicationResponse = MongoResponse<IApplication>;
 
 // Reuseable FormProps
 export interface FormProps<T> {
-    defaultValues: T;                       // Initial form data
+    // defaultValues: T;                    // Initial form data
     onSubmit: (data: T) => Promise<void>;   // Submit handler
     btnLabel: string;                       // Button label for flexibility
 }
