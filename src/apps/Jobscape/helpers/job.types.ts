@@ -1,3 +1,4 @@
+export type JobRoles = 'applicant' | 'employer';
 
 type MongoResponse<T> = T & {
     id: string;
@@ -140,11 +141,17 @@ export type JobResponse = MongoResponse<IJob>;
 export type ApplicationResponse = MongoResponse<IApplication>;
 
 
-
-
-// Reuseable FormProps
+// REUSEABLE FORM PROPS
 export interface FormProps<T> {
     // defaultValues: T;                    // Initial form data
     onSubmit: (data: T) => Promise<void>;   // Submit handler
     btnLabel: string;                       // Button label for flexibility
+}
+
+
+// API RESPONSE TYPES
+export interface ProfileResponse {
+    role: JobRoles;
+    message: string;
+    profile: ApplicantResponse | EmployerResponse;
 }

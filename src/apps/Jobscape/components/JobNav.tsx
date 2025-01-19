@@ -18,10 +18,10 @@ import { useState } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from './BrandLogo';
 import { useJobscape } from '../JobscapeProvider';
-import { ApplicantResponse, EmployerResponse } from '../helpers/job.types';
+import { ApplicantResponse, EmployerResponse, JobRoles } from '../helpers/job.types';
 
 interface NavbarProps {
-    userType: 'none' | 'employer' | 'applicant';
+    userType: JobRoles | 'none';
     onLogout?: () => void;
 }
 

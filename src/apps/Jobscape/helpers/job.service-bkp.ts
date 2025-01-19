@@ -1,8 +1,8 @@
 import apiClient from '../../../shared/apiClient';
-import { IApplicant, IEmployer, IJob, IApplication } from './job.types';
+import { IApplicant, IEmployer, IJob, IApplication, JobRoles } from './job.types';
 
 // Helper for role-based headers
-const getProfileRoleHeader = (role: 'employer' | 'applicant', profileId: string) => ({
+const getProfileRoleHeader = (role: JobRoles, profileId: string) => ({
     headers: { 'X-ProfileRole': `${role}_${profileId}` },
 });
 

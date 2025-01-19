@@ -3,7 +3,7 @@ import Sheet from '@mui/joy/Sheet'
 import Typography from '@mui/joy/Typography'
 import React from 'react'
 
-const FormFooter: React.FC = () => {
+const CompactFooter: React.FC = () => {
     return (
         <Sheet component="footer" sx={{
             p: 2,
@@ -24,4 +24,4 @@ const FormFooter: React.FC = () => {
     )
 }
 
-export default FormFooter
+export default CompactFooter

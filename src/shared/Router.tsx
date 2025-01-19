@@ -53,6 +53,8 @@ import Login from "../auth/Login";
 import Register from "../auth/Register";
 import Navbar from "../components/Navbar";
 import RegisterApplicant from "../apps/Jobscape/pages/RegisterApplicant";
+import AuthGaurd from "../apps/Jobscape/guards/AuthGuard";
+import RoleGuard from "../apps/Jobscape/guards/RoleGuard";
 
 export const router = createBrowserRouter([
   {
@@ -95,7 +97,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'register',
-            element: <Outlet />,
+            element: <AuthGaurd />,
             children: [
               {
                 index: true, // Default for /register
@@ -110,6 +112,16 @@ export const router = createBrowserRouter([
                 element: <RegisterApplicant />
               }
             ]
+          },
+          {
+            path: 'employer',
+            element: <RoleGuard guardRole="employer" />,
+            children: []
+          },
+          {
+            path: 'applicant',
+            element: <RoleGuard guardRole="applicant" />,
+            children: []
           },
           // fallbacks
           {

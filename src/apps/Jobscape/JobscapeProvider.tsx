@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import JobscapeService from './helpers/job.service';
-import { ApplicantResponse, IApplicant, IEmployer } from './helpers/job.types';
 import { useAuth } from '../../auth/AuthProvider';
+import JobscapeService from './helpers/job.service';
+import { ApplicantResponse, EmployerResponse, JobRoles } from './helpers/job.types';
 
 interface JobscapeContextType {
-    profile: IApplicant | IEmployer | null;
-    role: 'applicant' | 'employer' | null;
+    profile: ApplicantResponse | EmployerResponse | null;
+    role: JobRoles | null;
     isRegistered: boolean;
     profileId: string | null;
     fetchProfile: () => Promise<void>;
@@ -18,8 +18,8 @@ interface JobscapeContextType {
 const JobscapeContext = createContext<JobscapeContextType | null>(null);
 
 export const JobscapeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [profile, setProfile] = useState<IApplicant | IEmployer | null>(null);
-    const [role, setRole] = useState<'applicant' | 'employer' | null>(null);
+    const [profile, setProfile] = useState<ApplicantResponse | EmployerResponse | null>(null);
+    const [role, setRole] = useState<JobRoles | null>(null);
     const [isRegistered, setIsRegistered] = useState<boolean>(false);
     const [profileId, setProfileId] = useState<string | null>(null);
     const [employerService, setEmployerService] = useState<JobscapeService | null>(null);
@@ -31,21 +31,20 @@ export const JobscapeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     /** Fetch User Profile */
     const fetchProfile = async () => {
         try {
-            const userProfile = await profileService.fetchUserProfile();
-            if (userProfile) {
-                setProfile(userProfile);
+            const { role, profile } = await profileService.fetchUserProfile();
+            if (profile) {
+                setProfile(profile);
                 setIsRegistered(true);
 
-                const detectedRole = (userProfile as ApplicantResponse).preference ? 'applicant' : 'employer';
-                setRole(detectedRole);
-                setProfileId(userProfile.id);
+                setRole(role);
+                setProfileId(profile.id);
 
                 // Auto-generate role-specific service instances
-                if (detectedRole === 'employer') {
-                    setEmployerService(new JobscapeService('employer', userProfile.id));
+                if (role === 'employer') {
+                    setEmployerService(new JobscapeService('employer', profile.id));
                     setApplicantService(null);
-                } else if (detectedRole === 'applicant') {
-                    setApplicantService(new JobscapeService('applicant', userProfile.id));
+                } else if (role === 'applicant') {
+                    setApplicantService(new JobscapeService('applicant', profile.id));
                     setEmployerService(null);
                 }
             } else {

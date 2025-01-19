@@ -9,8 +9,9 @@ import { applicantSchema } from '../helpers/validationSchema';
 import { defaultApplicant } from '../helpers/job.constants';
 import FormHeader from '../forms/FormHeader';
 import Container from '@mui/joy/Container';
-import FormFooter from '../forms/FormFooter';
+import CompactFooter from '../components/CompactFooter';
 import ApplicantForm from '../forms/ApplicantForm';
+import { AxiosError } from 'axios';
 
 const RegisterApplicant: React.FC = () => {
     const { user } = useAuth();
@@ -30,8 +31,12 @@ const RegisterApplicant: React.FC = () => {
             });
             alert("You are now registered as Applicant on Jobscape", 'success');
         } catch (error: any) {
-            console.error('Error registering employer:', error);
-            alert("Something Went Wrong", 'danger');
+            console.error(error);
+            let errorMessage = "Something Went Wrong. Please try again later."
+            if (error instanceof AxiosError) {
+                errorMessage = error.response?.data?.error;
+            }
+            alert(errorMessage, 'danger');
         }
     };
 
@@ -46,7 +51,7 @@ const RegisterApplicant: React.FC = () => {
                     />
                 </FormProvider>
             </Container>
-            <FormFooter />
+            <CompactFooter />
         </>
     )
 }

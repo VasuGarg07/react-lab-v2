@@ -2,11 +2,13 @@ import React from 'react';
 import { Box, Button, Container, Stack, Typography } from '@mui/joy';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useJobscape } from '../JobscapeProvider';
 
 const HomeCTACards: React.FC = () => {
+    const { isRegistered } = useJobscape();
     const navigate = useNavigate();
 
-    const cards = [
+    const authCards = [
         {
             title: "Become a Candidate",
             description: "Start your job search journey and connect with top employers. Create your professional profile and access exclusive opportunities.",
@@ -21,6 +23,22 @@ const HomeCTACards: React.FC = () => {
         }
     ];
 
+    const registeredCards = [
+        {
+            title: "Manage Your Applications",
+            description: "Track your job applications, view updates, and connect with potential employers to advance your career.",
+            buttonText: "View Dashboard",
+            handleClick: () => navigate('/jobscape/applicant/dashboard') // Adjust route as per your setup
+        },
+        {
+            title: "Manage Job Postings",
+            description: "Monitor applications, post new jobs, and manage your talent acquisition process with ease.",
+            buttonText: "View Dashboard",
+            handleClick: () => navigate('/jobscape/employer/dashboard') // Adjust route as per your setup
+        }
+    ];
+
+
     return (
         <Box sx={{ py: 8, bgcolor: 'background.surface' }}>
             <Container maxWidth="xl">
@@ -31,7 +49,7 @@ const HomeCTACards: React.FC = () => {
                     justifyContent="center"
                     sx={{ maxWidth: '1000px', mx: 'auto' }}
                 >
-                    {cards.map((card, index) => (
+                    {(isRegistered ? registeredCards : authCards).map((card, index) => (
                         <Box
                             key={index}
                             sx={{
