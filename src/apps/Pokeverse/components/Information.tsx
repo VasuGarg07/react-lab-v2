@@ -4,7 +4,7 @@ import { Crown, Dumbbell, EyeOff, Heart, Ruler, Scale, Target, TreePine } from '
 import React from 'react';
 import { REGION_DATA, TYPE_COLORS } from '../helpers/constant';
 import { Pokemon } from '../helpers/model.types';
-import { formatString } from '../helpers/utilities';
+import { formatString } from '../../../shared/utilities';
 
 interface ChipProps {
     ability: string;

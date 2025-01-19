@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useJobscape } from '../JobscapeProvider';
 
 const HomeCTACards: React.FC = () => {
+    // TODO: improve with Role specific cards
     const { isRegistered } = useJobscape();
     const navigate = useNavigate();
 

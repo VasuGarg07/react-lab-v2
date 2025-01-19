@@ -124,6 +124,7 @@ const EmployerForm: React.FC<FormProps<IEmployer>> = ({ onSubmit, btnLabel }) =>
                         </Button>
                     ) : (
                         <Button
+                            type="button"
                             variant="solid"
                             color="primary"
                             onClick={handleNext}

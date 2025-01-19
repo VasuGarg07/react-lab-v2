@@ -147,11 +147,3 @@ export interface FormProps<T> {
     onSubmit: (data: T) => Promise<void>;   // Submit handler
     btnLabel: string;                       // Button label for flexibility
 }
-
-
-// API RESPONSE TYPES
-export interface ProfileResponse {
-    role: JobRoles;
-    message: string;
-    profile: ApplicantResponse | EmployerResponse;
-}

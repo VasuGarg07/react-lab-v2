@@ -9,6 +9,7 @@ interface JobscapeContextType {
     isRegistered: boolean;
     profileId: string | null;
     fetchProfile: () => Promise<void>;
+    updateProfile: (profile: ApplicantResponse | EmployerResponse) => void;
 
     profileService: JobscapeService;
     employerService: JobscapeService | null;
@@ -27,6 +28,8 @@ export const JobscapeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     const { isLoggedIn } = useAuth();
     const profileService = new JobscapeService('profile');
+
+    const updateProfile = (profile: ApplicantResponse | EmployerResponse) => setProfile(profile);
 
     /** Fetch User Profile */
     const fetchProfile = async () => {
@@ -72,6 +75,7 @@ export const JobscapeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                 isRegistered,
                 profileId,
                 fetchProfile,
+                updateProfile,
                 profileService, // ✅ Added this line
                 employerService,
                 applicantService,

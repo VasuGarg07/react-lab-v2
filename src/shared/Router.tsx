@@ -55,6 +55,9 @@ import Navbar from "../components/Navbar";
 import RegisterApplicant from "../apps/Jobscape/pages/RegisterApplicant";
 import AuthGaurd from "../apps/Jobscape/guards/AuthGuard";
 import RoleGuard from "../apps/Jobscape/guards/RoleGuard";
+import EmployerDashboard from "../apps/Jobscape/pages/EmployerDashboard";
+import EmployerOverview from '../apps/Jobscape/employer/Overview';
+import EmployerProfile from '../apps/Jobscape/employer/Profile';
 
 export const router = createBrowserRouter([
   {
@@ -116,7 +119,21 @@ export const router = createBrowserRouter([
           {
             path: 'employer',
             element: <RoleGuard guardRole="employer" />,
-            children: []
+            children: [
+              {
+                path: '',
+                element: <EmployerDashboard />,
+                children: [
+                  { path: 'overview', element: <EmployerOverview /> },
+                  { path: 'profile', element: <EmployerProfile /> },
+                  { path: 'post-job', element: <>Post a Job</> },
+                  { path: 'jobs', element: <>My Jobs</> },
+                  { path: 'candidates', element: <>Saved Candidates</> },
+                  { path: 'settings', element: <>Settings</> },
+                  { path: '', element: <Navigate to='overview' replace /> },
+                ]
+              }
+            ]
           },
           {
             path: 'applicant',
@@ -124,10 +141,7 @@ export const router = createBrowserRouter([
             children: []
           },
           // fallbacks
-          {
-            path: '',
-            element: <Navigate to='home' replace />
-          },
+          { path: '', element: <Navigate to='home' replace /> },
         ]
       },
       {

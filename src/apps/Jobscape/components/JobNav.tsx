@@ -60,13 +60,13 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
         ],
         employer: [
             { label: 'Home', path: 'home' },
-            { label: 'Dashboard', path: 'employer-dashboard' },
+            { label: 'Dashboard', path: 'employer' },
             { label: 'Candidates', path: 'candidates' },
             { label: 'Contact Us', path: 'support' },
         ],
         applicant: [
             { label: 'Home', path: 'home' },
-            { label: 'Dashboard', path: 'applicant-dashboard' },
+            { label: 'Dashboard', path: 'applicant' },
             { label: 'Find Job', path: 'jobs' },
             { label: 'Companies', path: 'companies' },
             { label: 'Contact Us', path: 'support' },
@@ -119,7 +119,7 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
                             <Button
                                 key={item.path}
                                 component={RouterLink}
-                                to={item.path}
+                                to={`/jobscape/${item.path}`}
                                 variant={isActive(item.path) ? 'soft' : 'plain'}
                                 color={isActive(item.path) ? 'primary' : 'neutral'}
                                 size="sm"
@@ -264,7 +264,7 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
                             <Button
                                 key={item.path}
                                 component={RouterLink}
-                                to={item.path}
+                                to={`/jobscape/${item.path}`}
                                 variant={location.pathname === item.path ? 'soft' : 'plain'}
                                 color={location.pathname === item.path ? 'primary' : 'neutral'}
                                 fullWidth
