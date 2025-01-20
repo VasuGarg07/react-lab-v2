@@ -1,11 +1,11 @@
-import { Box, Button, Card, CardProps, Chip, IconButton, Sheet, Stack, Table, Typography } from '@mui/joy';
-import { Briefcase, Clock, Eye, MoreVertical, MoveRight, Users } from 'lucide-react';
+import { Box, Button, Card, CardProps, Stack, Typography } from '@mui/joy';
+import { Briefcase, MoveRight } from 'lucide-react';
 import React, { useCallback } from 'react';
-import { useApiClient } from '../../../shared/useApiClient';
-import { EmployerResponse, JobResponse } from '../helpers/job.types';
-import { useJobscape } from '../JobscapeProvider';
-import { formatString } from '../../../shared/utilities';
 import { NavLink } from 'react-router-dom';
+import { useApiClient } from '../../../shared/useApiClient';
+import { EmployerResponse } from '../helpers/job.types';
+import { useJobscape } from '../JobscapeProvider';
+import JobsOverview from './JobsOverview';
 
 const Overview: React.FC = () => {
 
@@ -20,10 +20,6 @@ const Overview: React.FC = () => {
 
     const { data, loading, error } = useApiClient(fetchDashboard, [], true);
 
-    if (!data) {
-        console.log(loading, error);
-        return;
-    }
 
     return (
         <>
@@ -36,17 +32,17 @@ const Overview: React.FC = () => {
 
             <Stack spacing={2} direction='row' sx={{ my: 3 }}>
                 <StatCard
-                    count={data.jobSummary.totalJobs}
+                    count={data?.jobSummary.totalJobs}
                     caption='Total Jobs'
                     color="primary"
                 />
                 <StatCard
-                    count={data.jobSummary.activeJobs}
+                    count={data?.jobSummary.activeJobs}
                     caption='Active Jobs'
                     color="warning"
                 />
                 <StatCard
-                    count={data.jobSummary.archivedJobs}
+                    count={data?.jobSummary.archivedJobs}
                     caption='Archive Jobs'
                     color="neutral"
                 />
@@ -67,7 +63,7 @@ const Overview: React.FC = () => {
                 </Button>
             </Stack>
 
-            <JobsOverview jobs={data.recentJobs} />
+            <JobsOverview jobs={data?.recentJobs || []} />
         </>
     )
 }
@@ -77,12 +73,12 @@ export default Overview;
 
 interface StatCardProps {
     color: CardProps['color'],
-    count: number,
+    count?: number,
     caption: string;
     icon?: JSX.Element;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ color, count, caption, icon }) => (
+const StatCard: React.FC<StatCardProps> = ({ color, count = 0, caption, icon }) => (
     <Card variant='soft' color={color} sx={{
         p: 2,
         display: 'flex',
@@ -111,93 +107,4 @@ const StatCard: React.FC<StatCardProps> = ({ color, count, caption, icon }) => (
             {icon || <Briefcase size={24} />}
         </Box>
     </Card>
-)
-
-const JobsOverview: React.FC<{ jobs: JobResponse[] }> = ({ jobs }) => {
-
-
-    const getStatusChip = (job: JobResponse) => {
-        const isExpired = job.applicationDeadline ?
-            job.applicationDeadline < Math.floor(Date.now() / 1000) :
-            false;
-
-        return (
-            <Chip
-                variant="soft"
-                color={isExpired ? 'danger' : 'success'}
-                startDecorator={isExpired ? <Clock size={16} /> : null
-                }
-                size="sm"
-            >
-                {isExpired ? 'Expired' : 'Active'}
-            </Chip>
-        );
-    };
-
-    return (
-        <Sheet variant="outlined" sx={{ borderRadius: 'sm' }}>
-            <Table
-                stickyHeader
-                hoverRow
-                sx={{
-                    '--TableCell-headBackground': 'var(--joy-palette-background-level1)',
-                    '--Table-headerUnderlineThickness': '1px',
-                    '--TableRow-hoverBackground': 'var(--joy-palette-background-level1)',
-                }}
-            >
-                <thead>
-                    <tr>
-                        <th style={{ width: '40%' }}> JOBS </th>
-                        <th style={{ width: '20%', textAlign: 'center' }}> STATUS </th>
-                        <th style={{ width: '20%', textAlign: 'center' }}> EXP. REQUIRED </th>
-                        <th style={{ width: '20%', textAlign: 'center' }}> ACTIONS </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        jobs.map((job) => (
-                            <tr key={job.id} >
-                                <td>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-                                        <Typography level="title-sm" > {job.title} </Typography>
-                                        < Typography level="body-xs" sx={{ display: 'flex', gap: 1 }}>
-                                            {formatString(job.jobLevel)} • {' '}
-                                            {formatString(job.employmentType)}
-                                        </Typography>
-                                    </Box>
-                                </td>
-                                <td> {getStatusChip(job)} </td>
-                                <td>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                        <Users size={16} />
-                                        < Typography level="body-sm" >
-                                            {job.experienceRequired} Years
-                                        </Typography>
-                                    </Box>
-                                </td>
-                                <td>
-                                    <Box sx={{ display: 'flex', gap: 1 }}>
-                                        <Button
-                                            size="sm"
-                                            variant="plain"
-                                            color="primary"
-                                            startDecorator={< Eye size={16} />}
-                                        >
-                                            View Applications
-                                        </Button>
-                                        < IconButton
-                                            size="sm"
-                                            variant="plain"
-                                            color="neutral"
-                                        >
-                                            <MoreVertical size={16} />
-                                        </IconButton>
-                                    </Box>
-                                </td>
-                            </tr>
-                        ))}
-                </tbody>
-            </Table>
-        </Sheet>
-    );
-};
+);

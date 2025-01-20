@@ -123,10 +123,6 @@ const JobForm: React.FC<FormProps<IJob>> = ({ onSubmit, btnLabel }) => {
                         </Grid>
 
                         <Grid xs={12}>
-                            <SalaryRangeSlider control={control} errors={errors} />
-                        </Grid>
-
-                        <Grid xs={12}>
                             <Controller
                                 name="isFeatured"
                                 control={control}
@@ -148,19 +144,24 @@ const JobForm: React.FC<FormProps<IJob>> = ({ onSubmit, btnLabel }) => {
 
                     <Typography level='body-sm'>Advance Information</Typography>
                     <Grid container spacing={2}>
+
+                        <Grid xs={12}>
+                            <SalaryRangeSlider control={control} errors={errors} />
+                        </Grid>
+
                         <Grid xs={12}>
                             <Controller
                                 name="skillsRequired"
                                 control={control}
                                 render={({ field }) => (
-                                    <FormControl required error={!!errors.skillsRequired}>
+                                    <FormControl error={!!errors.skillsRequired}>
                                         <FormLabel>Skills Required</FormLabel>
                                         <TagsListInput
                                             value={field.value || []}
                                             onChange={field.onChange}
                                             inputValue={skillInput}
                                             onInputChange={setSkillInput}
-                                            maxTags={5}
+                                            maxTags={10}
                                             placeholder="Type and press Enter to add skills"
                                         />
                                         {errors.skillsRequired && (
@@ -171,7 +172,7 @@ const JobForm: React.FC<FormProps<IJob>> = ({ onSubmit, btnLabel }) => {
                             />
                         </Grid>
 
-                        <Grid xs={12} md={4}>
+                        <Grid xs={12} md={6}>
                             <Controller
                                 name="employmentType"
                                 control={control}
@@ -201,7 +202,7 @@ const JobForm: React.FC<FormProps<IJob>> = ({ onSubmit, btnLabel }) => {
                             />
                         </Grid>
 
-                        <Grid xs={12} md={4}>
+                        <Grid xs={12} md={6}>
                             <Controller
                                 name="shiftType"
                                 control={control}
@@ -231,7 +232,7 @@ const JobForm: React.FC<FormProps<IJob>> = ({ onSubmit, btnLabel }) => {
                             />
                         </Grid>
 
-                        <Grid xs={12} md={4}>
+                        <Grid xs={12} md={6}>
                             <Controller
                                 name="vacancies"
                                 control={control}
@@ -264,34 +265,6 @@ const JobForm: React.FC<FormProps<IJob>> = ({ onSubmit, btnLabel }) => {
                                         />
                                         {errors.experienceRequired && (
                                             <FormHelperText>{errors.experienceRequired.message}</FormHelperText>
-                                        )}
-                                    </FormControl>
-                                )}
-                            />
-                        </Grid>
-
-                        <Grid xs={12} sm={6}>
-                            <Controller
-                                name="applicationDeadline"
-                                control={control}
-                                render={({ field: { onChange, value, ref, ...field } }) => (
-                                    <FormControl required error={!!errors.applicationDeadline}>
-                                        <FormLabel>Expiry Date</FormLabel>
-                                        <Input
-                                            type="date"
-                                            {...field}
-                                            ref={ref}
-                                            value={(value ? new Date(value) : new Date()).toISOString().split('T')[0]}
-                                            onChange={e => e.target.value && onChange(new Date(e.target.value).getTime())}
-                                            placeholder="Job expires on"
-                                            slotProps={{
-                                                input: {
-                                                    min: new Date().toISOString().split('T')[0]
-                                                }
-                                            }}
-                                        />
-                                        {errors.applicationDeadline && (
-                                            <FormHelperText>{errors.applicationDeadline.message}</FormHelperText>
                                         )}
                                     </FormControl>
                                 )}

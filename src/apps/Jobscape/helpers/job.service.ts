@@ -1,6 +1,6 @@
 import apiClient from '../../../shared/apiClient';
-import { IApplicant, IApplication, IEmployer, IJob, JobRoles } from './job.types';
-import { EmployerAnalytics, ProfileResponse } from './response.types';
+import { IApplicant, IApplication, IEmployer, IJob, JobResponse, JobRoles } from './job.types';
+import { EmployerAnalytics, JobsListResponse, ProfileResponse } from './response.types';
 
 type UserRole = JobRoles | 'profile';
 
@@ -80,13 +80,13 @@ class JobscapeService {
     async fetchEmployerDashboard(): Promise<EmployerAnalytics> {
         const client = this.getClient();
         const response = await client.get('/dashboard');
-        console.log(response.data);
         return response.data;
     }
 
-    async postNewJob(jobData: IJob): Promise<void> {
+    async postNewJob(jobData: IJob): Promise<{ job: JobResponse }> {
         const client = this.getClient();
-        await client.post('/jobs/new', jobData);
+        const response = await client.post('/jobs/new', jobData);
+        return response.data;
     }
 
     async updateJob(jobId: string, jobData: Partial<IJob>): Promise<void> {
@@ -107,7 +107,7 @@ class JobscapeService {
 
     /** ------------------------- Applicant APIs ------------------------- **/
 
-    async fetchAllJobs(): Promise<IJob[]> {
+    async fetchAllJobs(): Promise<JobsListResponse> {
         const client = this.getClient();
         const response = await client.get('/jobs');
         return response.data;

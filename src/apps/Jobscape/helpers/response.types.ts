@@ -9,11 +9,17 @@ export interface ProfileResponse {
 }
 
 export interface EmployerAnalytics {
-    succes: boolean,
+    success: boolean,
     recentJobs: JobResponse[],
     jobSummary: {
         activeJobs: number;
         archivedJobs: number;
         totalJobs: number;
     }
+}
+
+export interface JobsListResponse {
+    success: boolean;
+    count: number;
+    jobs: JobResponse[];
 }

@@ -1,17 +1,19 @@
-import Typography from '@mui/joy/Typography'
-import React from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod';
+import Typography from '@mui/joy/Typography';
+import { AxiosError } from 'axios';
+import React from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useAlert } from '../../../shared/AlertProvider';
 import { useJobscape } from '../JobscapeProvider';
-import { IJob } from '../helpers/job.types';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { defaultJob } from '../helpers/job.constants';
 import JobForm from '../forms/JobForm';
-import { AxiosError } from 'axios';
+import { defaultJob } from '../helpers/job.constants';
+import { IJob } from '../helpers/job.types';
 import { JobSchema } from '../helpers/validationSchema';
 
 const PostJob: React.FC = () => {
     const { alert } = useAlert();
+    const navigate = useNavigate();
     const { profileId, employerService } = useJobscape();
 
     const methods = useForm<IJob>({
@@ -25,6 +27,7 @@ const PostJob: React.FC = () => {
                 ...data, postedBy: profileId!
             });
             alert("New Job Posted", 'success');
+            navigate('/jobscape/employer')
         } catch (error: any) {
             console.error(error);
             let errorMessage = "Something Went Wrong. Please try again later."

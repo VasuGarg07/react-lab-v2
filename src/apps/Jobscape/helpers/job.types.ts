@@ -106,7 +106,6 @@ export interface IJob extends IJobDetails {
     shiftType: 'day' | 'night' | 'flexible';
     vacancies: number;
 
-    applicationDeadline?: number; // in seconds
     isFeatured?: boolean;
     isArchived?: boolean;
 }

@@ -1,11 +1,12 @@
 import Box from '@mui/joy/Box';
 import Container from '@mui/joy/Container';
 import Typography from '@mui/joy/Typography';
-import { Briefcase, Layers, PlusCircle, Settings, UserCircle, Users } from 'lucide-react';
+import { Briefcase, Layers, LogOut, PlusCircle, Settings, UserCircle, Users } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useJobscape } from '../JobscapeProvider';
 import CompactFooter from '../components/CompactFooter';
 import JobNav from '../components/JobNav';
+import Button from '@mui/joy/Button';
 
 const navItems = [
     { icon: Layers, label: 'Overview', path: 'overview' },
@@ -56,12 +57,34 @@ const EmployerDashboard: React.FC = () => {
                                 color: isActive ? 'var(--joy-palette-primary-600)' : 'inherit',
                                 backgroundColor: isActive ? 'var(--joy-palette-primary-50)' : 'transparent',
                                 textDecoration: 'none',
+                                '&:hover': {
+                                    color: 'var(--joy-palette-primary-600)',
+                                    backgroundColor: 'var(--joy-palette-primary-50)'
+                                }
                             })}
                         >
                             <Icon size={20} />
                             {label}
                         </NavLink>
                     ))}
+                    <Button
+                        variant='plain'
+                        color='danger'
+                        sx={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'flex-start',
+                            gap: '12px',
+                            padding: '8px',
+                            borderRadius: '4px 0 0 4px',
+                            '&:hover': {
+                                borderLeft: '4px solid'
+                            }
+                        }}>
+                        <LogOut size={20} />
+                        Logout
+                    </Button>
                 </Box>
 
                 {/* Main Content */}

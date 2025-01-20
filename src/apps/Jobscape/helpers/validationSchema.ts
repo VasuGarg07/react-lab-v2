@@ -138,7 +138,6 @@ export const JobSchema = JobDetailsSchema.merge(
 
         vacancies: z.number().int().positive("Vacancies must be a positive number"),
 
-        applicationDeadline: z.number().int().optional(),
         isFeatured: z.boolean().optional(),
         isArchived: z.boolean().optional(),
     })

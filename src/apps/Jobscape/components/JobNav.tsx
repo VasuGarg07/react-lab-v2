@@ -19,18 +19,18 @@ import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import BrandLogo from './BrandLogo';
 import { useJobscape } from '../JobscapeProvider';
 import { ApplicantResponse, EmployerResponse, JobRoles } from '../helpers/job.types';
+import { useAuth } from '../../../auth/AuthProvider';
 
 interface NavbarProps {
     userType: JobRoles | 'none';
-    onLogout?: () => void;
 }
 
-const Navbar = ({ userType, onLogout }: NavbarProps) => {
+const Navbar = ({ userType }: NavbarProps) => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
     const { mode, setMode } = useColorScheme();
-
+    const { logout } = useAuth();
     const { profile, role } = useJobscape();
 
     const getAvatar = (): string => {
@@ -196,7 +196,7 @@ const Navbar = ({ userType, onLogout }: NavbarProps) => {
                                                 <Typography sx={{ ml: 1, fontWeight: 'md' }}>Profile</Typography>
                                             </MenuItem>
                                             <MenuItem
-                                                onClick={onLogout}
+                                                onClick={logout}
                                                 color="danger"
                                                 sx={{
                                                     borderRadius: 'sm',

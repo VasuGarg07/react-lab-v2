@@ -48,35 +48,32 @@ const SalaryRangeSlider: React.FC<SalaryRangeSliderProps> = ({ control, errors }
             defaultValue="10L - 15L"
             render={({ field }) => (
                 <FormControl required error={!!errors.salaryRange}>
-                    <FormLabel>Salary Range</FormLabel>
-                    <Box sx={{ p: 1 }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1, gap: 1 }}>
-                            <Typography level="title-sm"> Range Value: </Typography>
-                            <Typography level="title-sm" fontWeight='bold'>
-                                {formatSalary(stringToNumberArray(field.value)[0])} -                                {formatSalary(stringToNumberArray(field.value)[1])}
-                            </Typography>
-                        </Box>
-                        <Slider
-                            value={stringToNumberArray(field.value)}
-                            min={100000}  // 1L
-                            max={10000000}  // 1Cr
-                            step={100000}  // 1L steps
-                            onChange={(_, value) => {
-                                const numberArray = Array.isArray(value) ? value : [value, value];
-                                field.onChange(numberArrayToString(numberArray));
-                            }}
-                            valueLabelDisplay="auto"
-                            valueLabelFormat={formatSalary}
-                            marks={[
-                                { value: 100000, label: '1L' },
-                                { value: 2500000, label: '25L' },
-                                { value: 5000000, label: '50L' },
-                                { value: 7500000, label: '75L' },
-                                { value: 10000000, label: '1Cr' },
-                            ]}
-                        />
-
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1, gap: 1 }}>
+                        <FormLabel>Salary Range</FormLabel>
+                        <Typography level="title-sm" fontWeight='bold'>
+                            {formatSalary(stringToNumberArray(field.value)[0])} - {formatSalary(stringToNumberArray(field.value)[1])}
+                        </Typography>
                     </Box>
+                    <Slider
+                        sx={{ mx: 1, width: 'calc(100% - 16px)' }}
+                        value={stringToNumberArray(field.value)}
+                        min={100000}  // 1L
+                        max={10000000}  // 1Cr
+                        step={100000}  // 1L steps
+                        onChange={(_, value) => {
+                            const numberArray = Array.isArray(value) ? value : [value, value];
+                            field.onChange(numberArrayToString(numberArray));
+                        }}
+                        valueLabelDisplay="auto"
+                        valueLabelFormat={formatSalary}
+                        marks={[
+                            { value: 100000, label: '1L' },
+                            { value: 2500000, label: '25L' },
+                            { value: 5000000, label: '50L' },
+                            { value: 7500000, label: '75L' },
+                            { value: 10000000, label: '1Cr' },
+                        ]}
+                    />
                     {errors.salaryRange && (
                         <FormHelperText>{errors.salaryRange.message}</FormHelperText>
                     )}
