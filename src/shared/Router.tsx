@@ -58,6 +58,7 @@ import RoleGuard from "../apps/Jobscape/guards/RoleGuard";
 import EmployerDashboard from "../apps/Jobscape/pages/EmployerDashboard";
 import EmployerOverview from '../apps/Jobscape/employer/Overview';
 import EmployerProfile from '../apps/Jobscape/employer/Profile';
+import PostJob from "../apps/Jobscape/employer/PostJob";
 
 export const router = createBrowserRouter([
   {
@@ -103,7 +104,7 @@ export const router = createBrowserRouter([
             element: <AuthGaurd />,
             children: [
               {
-                index: true, // Default for /register
+                path: '', // Default for /register
                 element: <RegisterHero />
               },
               {
@@ -126,7 +127,7 @@ export const router = createBrowserRouter([
                 children: [
                   { path: 'overview', element: <EmployerOverview /> },
                   { path: 'profile', element: <EmployerProfile /> },
-                  { path: 'post-job', element: <>Post a Job</> },
+                  { path: 'post-job', element: <PostJob /> },
                   { path: 'jobs', element: <>My Jobs</> },
                   { path: 'candidates', element: <>Saved Candidates</> },
                   { path: 'settings', element: <>Settings</> },

@@ -1,14 +1,13 @@
-import React from 'react'
-import { useJobscape } from '../JobscapeProvider'
-import { useAuth } from '../../../auth/AuthProvider';
-import { useAlert } from '../../../shared/AlertProvider';
-import { EmployerResponse, IEmployer } from '../helpers/job.types';
-import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { employerFormSchema } from '../helpers/validationSchema';
-import { AxiosError } from 'axios';
 import Typography from '@mui/joy/Typography';
+import { AxiosError } from 'axios';
+import React from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useAlert } from '../../../shared/AlertProvider';
 import EmployerForm from '../forms/EmployerForm';
+import { EmployerResponse, IEmployer } from '../helpers/job.types';
+import { employerFormSchema } from '../helpers/validationSchema';
+import { useJobscape } from '../JobscapeProvider';
 
 const Profile: React.FC = () => {
     const { profile, profileService, updateProfile } = useJobscape();

@@ -95,3 +95,54 @@ export const applicantSchema = z.object({
 
 // Type inference
 export type ApplicantFormData = z.infer<typeof applicantSchema>;
+
+
+// Define the job details schema
+const JobDetailsSchema = z.object({
+    description: z.string().min(10, "Description must be at least 10 characters long"),
+    requirements: z.string().min(10, "Requirements must be at least 10 characters long"),
+    responsibilities: z.string().optional(),
+    benefits: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+});
+
+// Define the main job schema
+export const JobSchema = JobDetailsSchema.merge(
+    z.object({
+        postedBy: z.string().min(1, "Posted by is required"),
+        title: z.string().min(3, "Job title must be at least 3 characters long"),
+        location: z.string().min(3, "Location must be at least 3 characters long"),
+
+        jobLevel: z.enum([
+            "internship",
+            "entry-level",
+            "mid-level",
+            "senior-level",
+            "lead",
+            "manager"
+        ], { errorMap: () => ({ message: "Invalid job level" }) }),
+
+        skillsRequired: z.array(z.string()).min(1, "At least one skill is required"),
+        experienceRequired: z.string().min(1, "Experience required is mandatory"),
+        salaryRange: z.string().min(1, "Salary range is required"),
+
+        employmentType: z.enum([
+            "full-time",
+            "part-time",
+            "contractual",
+            "freelance",
+            "internship"
+        ], { errorMap: () => ({ message: "Invalid employment type" }) }),
+
+        shiftType: z.enum(["day", "night", "flexible"], { errorMap: () => ({ message: "Invalid shift type" }) }),
+
+        vacancies: z.number().int().positive("Vacancies must be a positive number"),
+
+        applicationDeadline: z.number().int().optional(),
+        isFeatured: z.boolean().optional(),
+        isArchived: z.boolean().optional(),
+    })
+);
+
+// Infer TypeScript type from the Zod schema
+export type IJobValidation = z.infer<typeof JobSchema>;

@@ -47,7 +47,10 @@ const RegisterEmployer: React.FC = () => {
     return (
         <>
             <FormHeader title="Register as Employer" />
-            <Container maxWidth="lg" sx={{ my: 4 }}>
+            <Container maxWidth="lg" sx={{
+                my: 4,
+                minHeight: 'calc(100dvh - 186px)',
+            }}>
                 <FormProvider {...methods}>
                     <EmployerForm
                         onSubmit={onSubmit}

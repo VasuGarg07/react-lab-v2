@@ -86,14 +86,14 @@ export interface IEmployer {
 
 // JOB MODEL
 export interface IJobDetails {
-    tags: string[];
     description: string;
-    responsibilities: string[];
-    requirements: string[];
-    benefits: string[];
+    responsibilities?: string;
+    requirements: string;
+    benefits?: string;
+    tags?: string[];
 }
 
-export interface IJob extends Partial<IJobDetails> {
+export interface IJob extends IJobDetails {
     postedBy: string;
     title: string;
     location: string;

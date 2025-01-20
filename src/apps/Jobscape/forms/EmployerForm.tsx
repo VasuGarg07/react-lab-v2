@@ -53,7 +53,6 @@ const EmployerForm: React.FC<FormProps<IEmployer>> = ({ onSubmit, btnLabel }) =>
     return (
         <Box sx={{
             width: '100%',
-            minHeight: 'calc(100dvh - 186px)',
         }}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Tabs

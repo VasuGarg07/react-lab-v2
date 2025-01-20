@@ -84,7 +84,7 @@ class JobscapeService {
         return response.data;
     }
 
-    async postNewJob(jobData: Partial<IJob>): Promise<void> {
+    async postNewJob(jobData: IJob): Promise<void> {
         const client = this.getClient();
         await client.post('/jobs/new', jobData);
     }

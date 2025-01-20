@@ -5,6 +5,7 @@ import { useApiClient } from '../../../shared/useApiClient';
 import { EmployerResponse, JobResponse } from '../helpers/job.types';
 import { useJobscape } from '../JobscapeProvider';
 import { formatString } from '../../../shared/utilities';
+import { NavLink } from 'react-router-dom';
 
 const Overview: React.FC = () => {
 
@@ -54,11 +55,13 @@ const Overview: React.FC = () => {
             <Stack justifyContent='space-between' direction='row' sx={{ mb: 2 }}>
                 <Typography level='body-sm'>Recently Posted Jobs</Typography>
                 <Button
+                    component={NavLink}
                     size='sm'
                     color='neutral'
                     variant='plain'
                     endDecorator={<MoveRight size={16} />}
                     sx={{ color: "neutral.500" }}
+                    to="/jobscape/employer/jobs"
                 >
                     View All
                 </Button>

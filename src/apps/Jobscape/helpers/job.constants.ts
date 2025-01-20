@@ -1,4 +1,5 @@
-import { IApplicant, IEmployer } from "./job.types";
+import { formatString } from "../../../shared/utilities";
+import { IApplicant, IEmployer, IJob } from "./job.types";
 
 // Employer Form Empty State
 export const defaultEmployer: IEmployer = {
@@ -33,6 +34,21 @@ export const defaultApplicant: IApplicant = {
     },
 }
 
+export const defaultJob: IJob = {
+    postedBy: "",
+    title: "",
+    location: "",
+    jobLevel: "internship",
+    skillsRequired: [],
+    experienceRequired: "",
+    salaryRange: "",
+    employmentType: "full-time",
+    shiftType: "day",
+    vacancies: 1,
+    description: "",
+    requirements: ""
+}
+
 // Team size options
 export const TEAM_SIZE_OPTIONS = [
     '1-10',
@@ -60,19 +76,29 @@ export const INDUSTRY_OPTIONS = [
     'Entertainment'
 ];
 
+export const JOB_LEVELS = [
+    "internship", "entry-level", "mid-level", "senior-level", "lead", "manager"
+].map(type => {
+    return { value: type, displayName: formatString(type) }
+});
+
 export const JOB_TYPES = [
-    { value: 'full-time', displayName: 'Full Time' },
-    { value: 'part-time', displayName: 'Part Time' },
-    { value: 'contractual', displayName: 'Contractual' },
-    { value: 'freelance', displayName: 'Freelance' },
-    { value: 'internship', displayName: 'Internship' }
-];
+    'full-time',
+    'part-time',
+    'contractual',
+    'freelance',
+    'internship'
+].map(type => {
+    return { value: type, displayName: formatString(type) }
+});
 
 export const SHIFT_TYPES = [
-    { value: 'day', displayName: 'Day' },
-    { value: 'night', displayName: 'Night' },
-    { value: 'flexible', displayName: 'Flexible' }
-];
+    'day',
+    'night',
+    'flexible'
+].map(type => {
+    return { value: type, displayName: formatString(type) }
+});
 
 // TODO: Testing Only
 export const sampleApplicant: IApplicant = {
