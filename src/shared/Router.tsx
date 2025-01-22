@@ -55,11 +55,12 @@ import Navbar from "../components/Navbar";
 import RegisterApplicant from "../apps/Jobscape/pages/RegisterApplicant";
 import AuthGaurd from "../apps/Jobscape/guards/AuthGuard";
 import RoleGuard from "../apps/Jobscape/guards/RoleGuard";
-import EmployerDashboard from "../apps/Jobscape/pages/EmployerDashboard";
+import UserDashboard from "../apps/Jobscape/pages/UserDashboard";
 import EmployerOverview from '../apps/Jobscape/employer/Overview';
-import EmployerProfile from '../apps/Jobscape/employer/Profile';
+import { EmployerProfile, ApplicantProfile } from '../apps/Jobscape/employer/Profile';
 import PostJob from "../apps/Jobscape/employer/PostJob";
 import MyJobs from "../apps/Jobscape/employer/MyJobs";
+import Settings from "../apps/Jobscape/employer/Settings";
 
 export const router = createBrowserRouter([
   {
@@ -104,18 +105,9 @@ export const router = createBrowserRouter([
             path: 'register',
             element: <AuthGaurd />,
             children: [
-              {
-                path: '', // Default for /register
-                element: <RegisterHero />
-              },
-              {
-                path: 'employer', // /register/employer
-                element: <RegisterEmployer />
-              },
-              {
-                path: 'applicant', // /register/applicant
-                element: <RegisterApplicant />
-              }
+              { path: '', element: <RegisterHero /> },
+              { path: 'employer', element: <RegisterEmployer /> },
+              { path: 'applicant', element: <RegisterApplicant /> }
             ]
           },
           {
@@ -124,14 +116,15 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: '',
-                element: <EmployerDashboard />,
+                element: <UserDashboard />,
                 children: [
                   { path: 'overview', element: <EmployerOverview /> },
                   { path: 'profile', element: <EmployerProfile /> },
                   { path: 'post-job', element: <PostJob /> },
                   { path: 'jobs', element: <MyJobs /> },
                   { path: 'candidates', element: <>Saved Candidates</> },
-                  { path: 'settings', element: <>Settings</> },
+                  { path: 'settings', element: <Settings /> },
+                  { path: 'edit/:jobId', element: <PostJob /> },
                   { path: '', element: <Navigate to='overview' replace /> },
                 ]
               }
@@ -140,7 +133,21 @@ export const router = createBrowserRouter([
           {
             path: 'applicant',
             element: <RoleGuard guardRole="applicant" />,
-            children: []
+            children: [
+              {
+                path: '',
+                element: <UserDashboard />,
+                children: [
+                  { path: 'overview', element: <EmployerOverview /> },
+                  { path: 'profile', element: <ApplicantProfile /> },
+                  { path: 'applications', element: <MyJobs /> },
+                  { path: 'saved-jobs', element: <MyJobs /> },
+                  { path: 'settings', element: <Settings /> },
+                  { path: 'jobs/:jobId', element: <PostJob /> },
+                  { path: '', element: <Navigate to='overview' replace /> },
+                ]
+              }
+            ]
           },
           // fallbacks
           { path: '', element: <Navigate to='home' replace /> },

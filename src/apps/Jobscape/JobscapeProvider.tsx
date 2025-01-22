@@ -4,6 +4,7 @@ import JobscapeService from './helpers/job.service';
 import { ApplicantResponse, EmployerResponse, JobRoles } from './helpers/job.types';
 
 interface JobscapeContextType {
+    loading: boolean;
     profile: ApplicantResponse | EmployerResponse | null;
     role: JobRoles | null;
     isRegistered: boolean;
@@ -19,6 +20,8 @@ interface JobscapeContextType {
 const JobscapeContext = createContext<JobscapeContextType | null>(null);
 
 export const JobscapeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [loading, setLoading] = useState<boolean>(true);
+
     const [profile, setProfile] = useState<ApplicantResponse | EmployerResponse | null>(null);
     const [role, setRole] = useState<JobRoles | null>(null);
     const [isRegistered, setIsRegistered] = useState<boolean>(false);
@@ -34,15 +37,14 @@ export const JobscapeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     /** Fetch User Profile */
     const fetchProfile = async () => {
         try {
+            setLoading(true);
             const { role, profile } = await profileService.fetchUserProfile();
             if (profile) {
                 setProfile(profile);
                 setIsRegistered(true);
-
                 setRole(role);
                 setProfileId(profile.id);
 
-                // Auto-generate role-specific service instances
                 if (role === 'employer') {
                     setEmployerService(new JobscapeService('employer', profile.id));
                     setApplicantService(null);
@@ -52,11 +54,14 @@ export const JobscapeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                 }
             } else {
                 setIsRegistered(false);
-                setEmployerService(null);
-                setApplicantService(null);
+                setRole(null);
             }
         } catch (error) {
             console.error('Failed to fetch profile:', error);
+            setIsRegistered(false);
+            setRole(null);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -70,6 +75,7 @@ export const JobscapeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return (
         <JobscapeContext.Provider
             value={{
+                loading,
                 profile,
                 role,
                 isRegistered,

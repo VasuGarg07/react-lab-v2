@@ -5,11 +5,12 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useAlert } from '../../../shared/AlertProvider';
 import EmployerForm from '../forms/EmployerForm';
-import { EmployerResponse, IEmployer } from '../helpers/job.types';
-import { employerFormSchema } from '../helpers/validationSchema';
+import { ApplicantResponse, EmployerResponse, IApplicant, IEmployer } from '../helpers/job.types';
+import { applicantFormSchema, employerFormSchema } from '../helpers/validationSchema';
 import { useJobscape } from '../JobscapeProvider';
+import ApplicantForm from '../forms/ApplicantForm';
 
-const Profile: React.FC = () => {
+const EmployerProfile: React.FC = () => {
     const { profile, profileService, updateProfile } = useJobscape();
     const { alert } = useAlert();
 
@@ -48,4 +49,43 @@ const Profile: React.FC = () => {
     )
 }
 
-export default Profile
+const ApplicantProfile: React.FC = () => {
+    const { profile, profileService, updateProfile } = useJobscape();
+    const { alert } = useAlert();
+
+    const applicant = profile as ApplicantResponse;
+
+    const methods = useForm<IApplicant>({
+        resolver: zodResolver(applicantFormSchema),
+        defaultValues: applicant
+    });
+
+    const onSubmit = async (data: IApplicant) => {
+        try {
+            const response = await profileService.updateUserProfile(data, "applicant");
+            updateProfile(response.profile)
+            alert("Profile Updated", 'success');
+        } catch (error: any) {
+            console.error(error);
+            let errorMessage = "Something Went Wrong. Please try again later."
+            if (error instanceof AxiosError) {
+                errorMessage = error.response?.data?.error;
+            }
+            alert(errorMessage, 'danger');
+        }
+    };
+
+    return (
+        <>
+            <Typography level='title-md' sx={{ mb: 3 }}>Update Profile</Typography>
+            <FormProvider {...methods}>
+                <ApplicantForm
+                    onSubmit={onSubmit}
+                    btnLabel="Update"
+                />
+            </FormProvider>
+        </>
+    )
+}
+
+export { ApplicantProfile, EmployerProfile }

@@ -10,7 +10,6 @@ import JobsOverview from './JobsOverview';
 const Overview: React.FC = () => {
 
     const { profile, employerService } = useJobscape();
-
     const employer = profile as EmployerResponse;
 
     const fetchDashboard = useCallback(() => {
@@ -20,6 +19,9 @@ const Overview: React.FC = () => {
 
     const { data, loading, error } = useApiClient(fetchDashboard, [], true);
 
+    // Handle loading and error states
+    if (loading) return <Typography>Loading job details...</Typography>;
+    if (error) return <Typography color="danger">Failed to load job details.</Typography>;
 
     return (
         <>

@@ -1,6 +1,6 @@
 import apiClient from '../../../shared/apiClient';
 import { IApplicant, IApplication, IEmployer, IJob, JobResponse, JobRoles } from './job.types';
-import { EmployerAnalytics, JobsListResponse, ProfileResponse } from './response.types';
+import { EmployerAnalytics, JobDetailsResponse, JobsListResponse, ProfileResponse } from './response.types';
 
 type UserRole = JobRoles | 'profile';
 
@@ -83,6 +83,12 @@ class JobscapeService {
         return response.data;
     }
 
+    async fetchJobDetails(jobId: string): Promise<JobDetailsResponse> {
+        const client = this.getClient();
+        const response = await client.get(`/jobs/${jobId}`);
+        return response.data;
+    }
+
     async postNewJob(jobData: IJob): Promise<{ job: JobResponse }> {
         const client = this.getClient();
         const response = await client.post('/jobs/new', jobData);
@@ -92,6 +98,11 @@ class JobscapeService {
     async updateJob(jobId: string, jobData: Partial<IJob>): Promise<void> {
         const client = this.getClient();
         await client.patch(`/jobs/${jobId}/update`, jobData);
+    }
+
+    async archiveJob(jobId: string, archive: boolean): Promise<void> {
+        const client = this.getClient();
+        await client.patch(`/jobs/${jobId}/archive`, { archive });
     }
 
     async deleteJob(jobId: string): Promise<void> {

@@ -71,7 +71,7 @@ const preferenceSchema = z.object({
 });
 
 // Main Applicant Schema
-export const applicantSchema = z.object({
+export const applicantFormSchema = z.object({
     userId: z.string().min(1, "User ID is required"),
     fullName: z.string().min(2, "Full name must be at least 2 characters"),
     contactEmail: z.string().email("Please enter a valid email address"),
@@ -94,7 +94,7 @@ export const applicantSchema = z.object({
 });
 
 // Type inference
-export type ApplicantFormData = z.infer<typeof applicantSchema>;
+export type ApplicantFormData = z.infer<typeof applicantFormSchema>;
 
 
 // Define the job details schema

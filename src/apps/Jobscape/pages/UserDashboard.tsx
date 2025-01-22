@@ -1,25 +1,62 @@
 import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
 import Container from '@mui/joy/Container';
 import Typography from '@mui/joy/Typography';
-import { Briefcase, Layers, LogOut, PlusCircle, Settings, UserCircle, Users } from 'lucide-react';
+import { Bookmark, Briefcase, Layers, LogOut, PlusCircle, Settings, UserCircle } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useJobscape } from '../JobscapeProvider';
 import CompactFooter from '../components/CompactFooter';
 import JobNav from '../components/JobNav';
-import Button from '@mui/joy/Button';
+import { useAuth } from '../../../auth/AuthProvider';
 
-const navItems = [
+const employerNavItems = [
     { icon: Layers, label: 'Overview', path: 'overview' },
     { icon: UserCircle, label: 'Employer Profile', path: 'profile' },
     { icon: PlusCircle, label: 'Post a Job', path: 'post-job' },
     { icon: Briefcase, label: 'My Jobs', path: 'jobs' },
-    { icon: Users, label: 'Saved Candidates', path: 'candidates' },
     { icon: Settings, label: 'Settings', path: 'settings' }
 ];
 
+const applicantNavItems = [
+    { icon: Layers, label: 'Overview', path: 'overview' },
+    { icon: UserCircle, label: 'Applicant Profile', path: 'profile' },
+    { icon: Briefcase, label: 'Applied Jobs', path: 'applications' },
+    { icon: Bookmark, label: 'Saved Jobs', path: 'saved-jobs' },
+    { icon: Settings, label: 'Settings', path: 'settings' }
+]
 
 const EmployerDashboard: React.FC = () => {
     const { role } = useJobscape();
+    const { logout } = useAuth();
+
+    const renderNavItems = () => {
+        const navItems = role === 'applicant' ? applicantNavItems : employerNavItems;
+
+        return navItems.map(({ icon: Icon, label, path }) => (
+            <NavLink
+                key={path}
+                to={`/jobscape/${role}/${path}`}
+                style={({ isActive }) => ({
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '8px',
+                    borderRadius: '4px 0 0 4px',
+                    borderLeft: isActive ? '4px solid' : '',
+                    color: isActive ? 'var(--joy-palette-primary-600)' : 'inherit',
+                    backgroundColor: isActive ? 'var(--joy-palette-primary-50)' : 'transparent',
+                    textDecoration: 'none',
+                    '&:hover': {
+                        color: 'var(--joy-palette-primary-600)',
+                        backgroundColor: 'var(--joy-palette-primary-50)'
+                    }
+                })}
+            >
+                <Icon size={20} />
+                {label}
+            </NavLink>
+        ))
+    }
 
     return (
         <>
@@ -41,32 +78,9 @@ const EmployerDashboard: React.FC = () => {
                             textTransform: 'uppercase',
                             p: 2,
                         }}>
-                        Employer Dashboard
+                        {role === 'applicant' ? 'Applicant' : 'Employer'} Dashboard
                     </Typography>
-                    {navItems.map(({ icon: Icon, label, path }) => (
-                        <NavLink
-                            key={path}
-                            to={`/jobscape/employer/${path}`}
-                            style={({ isActive }) => ({
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '12px',
-                                padding: '8px',
-                                borderRadius: '4px 0 0 4px',
-                                borderLeft: isActive ? '4px solid' : '',
-                                color: isActive ? 'var(--joy-palette-primary-600)' : 'inherit',
-                                backgroundColor: isActive ? 'var(--joy-palette-primary-50)' : 'transparent',
-                                textDecoration: 'none',
-                                '&:hover': {
-                                    color: 'var(--joy-palette-primary-600)',
-                                    backgroundColor: 'var(--joy-palette-primary-50)'
-                                }
-                            })}
-                        >
-                            <Icon size={20} />
-                            {label}
-                        </NavLink>
-                    ))}
+                    {renderNavItems()}
                     <Button
                         variant='plain'
                         color='danger'
@@ -81,7 +95,9 @@ const EmployerDashboard: React.FC = () => {
                             '&:hover': {
                                 borderLeft: '4px solid'
                             }
-                        }}>
+                        }}
+                        onClick={logout}
+                    >
                         <LogOut size={20} />
                         Logout
                     </Button>

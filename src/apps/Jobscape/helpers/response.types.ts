@@ -23,3 +23,9 @@ export interface JobsListResponse {
     count: number;
     jobs: JobResponse[];
 }
+
+export interface JobDetailsResponse {
+    success: boolean;
+    job: JobResponse;
+    applicationCount: number;
+}

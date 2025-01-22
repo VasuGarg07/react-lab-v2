@@ -5,13 +5,14 @@ import { useAlert } from '../../../shared/AlertProvider';
 import { FormProvider, useForm } from 'react-hook-form';
 import { IApplicant } from '../helpers/job.types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { applicantSchema } from '../helpers/validationSchema';
+import { applicantFormSchema } from '../helpers/validationSchema';
 import { defaultApplicant } from '../helpers/job.constants';
 import FormHeader from '../forms/FormHeader';
 import Container from '@mui/joy/Container';
 import CompactFooter from '../components/CompactFooter';
 import ApplicantForm from '../forms/ApplicantForm';
 import { AxiosError } from 'axios';
+import { sampleApplicant } from '../helpers/sampleData';
 
 const RegisterApplicant: React.FC = () => {
     const { user } = useAuth();
@@ -19,11 +20,12 @@ const RegisterApplicant: React.FC = () => {
     const { alert } = useAlert();
 
     const methods = useForm<IApplicant>({
-        resolver: zodResolver(applicantSchema),
-        defaultValues: defaultApplicant
+        resolver: zodResolver(applicantFormSchema),
+        defaultValues: sampleApplicant
     });
 
     const onSubmit = async (data: IApplicant) => {
+        console.log("yes", data)
         try {
             await profileService.registerAsApplicant({
                 ...data,
