@@ -1,6 +1,6 @@
 import apiClient from '../../../shared/apiClient';
 import { IApplicant, IApplication, IEmployer, IJob, JobResponse, JobRoles } from './job.types';
-import { EmployerAnalytics, JobDetailsResponse, JobsListResponse, ProfileResponse } from './response.types';
+import { CompaniesCardListResponse, CompanyDetailsResponse, EmployerAnalytics, JobDetailsResponse, JobsCardListResponse, JobsListResponse, ProfileResponse } from './response.types';
 
 type UserRole = JobRoles | 'profile';
 
@@ -83,6 +83,12 @@ class JobscapeService {
         return response.data;
     }
 
+    async fetchAllJobs(): Promise<JobsListResponse> {
+        const client = this.getClient();
+        const response = await client.get('/jobs');
+        return response.data;
+    }
+
     async fetchJobDetails(jobId: string): Promise<JobDetailsResponse> {
         const client = this.getClient();
         const response = await client.get(`/jobs/${jobId}`);
@@ -118,7 +124,19 @@ class JobscapeService {
 
     /** ------------------------- Applicant APIs ------------------------- **/
 
-    async fetchAllJobs(): Promise<JobsListResponse> {
+    async fetchAllCompanies(): Promise<CompaniesCardListResponse> {
+        const client = this.getClient();
+        const response = await client.get('/companies');
+        return response.data;
+    }
+
+    async fetchCompanyDetails(companyId: string): Promise<CompanyDetailsResponse> {
+        const client = this.getClient();
+        const response = await client.get(`/companies/${companyId}`);
+        return response.data;
+    }
+
+    async fetchApplicantJobsList(): Promise<JobsCardListResponse> {
         const client = this.getClient();
         const response = await client.get('/jobs');
         return response.data;

@@ -29,3 +29,44 @@ export interface JobDetailsResponse {
     job: JobResponse;
     applicationCount: number;
 }
+
+export interface CompaniesCardListResponse {
+    success: boolean;
+    count: number;
+    limit: number;
+    page: number;
+    companies: CompanyCardInfo[];
+}
+
+export interface CompanyCardInfo {
+    id: string;
+    companyName: string;
+    logoURL: string;
+    address: string;
+    activeJobsCount: number
+}
+
+export interface CompanyDetailsResponse {
+    success: boolean;
+    job: JobResponse;
+    applicationCount: number;
+}
+
+export interface JobsCardListResponse {
+    success: boolean;
+    count: number;
+    limit: number;
+    page: number;
+    comapnies: JobsCardInfo[];
+}
+
+export interface JobsCardInfo {
+    id: string;
+    location: string;
+    employmentType: "full-time" | "part-time" | "contractual" | "freelance" | "internship";
+    salaryRange: string;
+    isFeatured?: boolean;
+    companyName: string;
+    logoUrl: string;
+    totalApplicants: number;
+}

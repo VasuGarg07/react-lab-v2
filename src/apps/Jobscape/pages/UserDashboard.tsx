@@ -25,7 +25,7 @@ const applicantNavItems = [
     { icon: Settings, label: 'Settings', path: 'settings' }
 ]
 
-const EmployerDashboard: React.FC = () => {
+const UserDashboard: React.FC = () => {
     const { role } = useJobscape();
     const { logout } = useAuth();
 
@@ -120,4 +120,4 @@ const EmployerDashboard: React.FC = () => {
     )
 }
 
-export default EmployerDashboard
+export default UserDashboard
