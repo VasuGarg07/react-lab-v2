@@ -48,8 +48,9 @@ export interface CompanyCardInfo {
 
 export interface CompanyDetailsResponse {
     success: boolean;
-    job: JobResponse;
-    applicationCount: number;
+    company: EmployerResponse;
+    jobs: JobsCardInfo[];
+    jobCount: number;
 }
 
 export interface JobsCardListResponse {
@@ -57,16 +58,17 @@ export interface JobsCardListResponse {
     count: number;
     limit: number;
     page: number;
-    comapnies: JobsCardInfo[];
+    jobs: JobsCardInfo[];
 }
 
 export interface JobsCardInfo {
     id: string;
+    title: string;
     location: string;
     employmentType: "full-time" | "part-time" | "contractual" | "freelance" | "internship";
     salaryRange: string;
     isFeatured?: boolean;
     companyName: string;
-    logoUrl: string;
+    logoURL: string;
     totalApplicants: number;
 }

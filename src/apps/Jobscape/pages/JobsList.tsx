@@ -9,14 +9,15 @@ import React, { useEffect, useState } from 'react';
 import ReactPagination from 'react-responsive-pagination';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import CompactFooter from '../components/CompactFooter';
-import { CompanyCard } from '../components/CompanyCard';
+import JobCard from '../components/JobCard';
 import JobNav from '../components/JobNav';
-import { CompaniesCardListResponse } from '../helpers/response.types';
+import { JobsCardListResponse } from '../helpers/response.types';
 import { useJobscape } from '../JobscapeProvider';
 
 const ITEMS_PER_PAGE = 10;
 
-const CompaniesList: React.FC = () => {
+
+const JobsList: React.FC = () => {
     const { role, applicantService } = useJobscape();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -27,21 +28,22 @@ const CompaniesList: React.FC = () => {
 
     // Local states
     const [searchInput, setSearchInput] = useState(searchQuery);
-    const [data, setData] = useState<CompaniesCardListResponse | null>(null);
+    const [data, setData] = useState<JobsCardListResponse | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     // Calculate total pages
     const totalPages = data ? Math.ceil(data.count / data.limit) : 0;
 
-    // Fetch companies
-    const fetchCompanies = async () => {
+
+    // Fetch jobs
+    const fetchJobs = async () => {
         if (!applicantService) return;
 
         setIsLoading(true);
         setError(null);
         try {
-            const result = await applicantService.fetchAllCompanies(
+            const result = await applicantService.fetchApplicantJobsList(
                 currentPage,
                 ITEMS_PER_PAGE,
                 searchQuery
@@ -62,7 +64,7 @@ const CompaniesList: React.FC = () => {
 
     // Fetch data when page or search changes
     useEffect(() => {
-        fetchCompanies();
+        fetchJobs();
     }, [currentPage, searchQuery]);
 
     // Update URL params
@@ -109,12 +111,12 @@ const CompaniesList: React.FC = () => {
                     mb: 4
                 }}>
                     <Typography level="h3">
-                        Find Employers
+                        Find Jobs
                     </Typography>
 
                     <form onSubmit={handleSearch} style={{ display: 'flex', gap: '8px' }}>
                         <Input
-                            placeholder="Search companies..."
+                            placeholder="Search jobs..."
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
                             sx={{ minWidth: 240, flex: 1 }}
@@ -138,18 +140,18 @@ const CompaniesList: React.FC = () => {
                     </Typography>
                 )}
 
-                {/* Companies Grid */}
-                {data?.companies && (
+                {/* Jobs Grid */}
+                {data?.jobs && (
                     <>
                         <Grid
                             container
                             spacing={2}
                             sx={{ mb: 4 }}
                         >
-                            {data.companies.map(company => (
-                                <Grid key={company.id} xs={12} md={6}>
-                                    <CompanyCard
-                                        info={company}
+                            {data.jobs.map(job => (
+                                <Grid key={job.id} xs={12} sm={6} md={4}>
+                                    <JobCard
+                                        info={job}
                                         onClick={handleCardClick}
                                     />
                                 </Grid>
@@ -173,7 +175,7 @@ const CompaniesList: React.FC = () => {
                         )}
 
                         {/* No Results */}
-                        {data.companies.length === 0 && (
+                        {data.jobs.length === 0 && (
                             <Typography
                                 level="body-lg"
                                 sx={{ textAlign: 'center', my: 4 }}
@@ -183,10 +185,11 @@ const CompaniesList: React.FC = () => {
                         )}
                     </>
                 )}
+
             </Container>
             <CompactFooter />
         </>
-    );
-};
+    )
+}
 
-export default CompaniesList;
+export default JobsList

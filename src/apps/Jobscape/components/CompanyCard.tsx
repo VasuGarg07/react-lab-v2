@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Box, Typography, Button } from '@mui/joy';
+import { Card, Box, Typography, Button, AspectRatio } from '@mui/joy';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { CompanyCardInfo } from '../helpers/response.types';
 
@@ -13,79 +13,125 @@ export const CompanyCard: React.FC<CompanyCardProps> = ({ info, onClick }) => (
         variant="outlined"
         sx={{
             width: '100%',
-            p: 1.5,
-            mb: 1,
-            transition: 'all 0.2s',
+            maxWidth: 380,
+            p: 2,
+            mb: 2,
+            bgcolor: 'background.surface',
+            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+            borderColor: 'neutral.outlinedBorder',
             '&:hover': {
-                bgcolor: 'background.level1',
+                borderColor: 'primary.300',
+                boxShadow: 'md',
                 cursor: 'pointer',
             },
         }}
         onClick={() => onClick(info.id)}
     >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <img
-                src={info.logoURL}
-                alt=""
-                style={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '8px',
-                    objectFit: 'cover',
+        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+            <AspectRatio
+                ratio="1"
+                sx={{
+                    width: 72,
+                    borderRadius: 'md',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    overflow: 'hidden',
+                    flexShrink: 0,
                 }}
-            />
+            >
+                <img
+                    src={info.logoURL}
+                    alt=""
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                    }}
+                />
+            </AspectRatio>
 
             <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography level="title-sm">{info.companyName}</Typography>
+                <Typography
+                    level="h4"
+                    sx={{
+                        fontSize: 'lg',
+                        fontWeight: 600,
+                        color: 'text.primary',
+                        mb: 0.5,
+                        letterSpacing: '-0.01em'
+                    }}
+                >
+                    {info.companyName}
+                </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <MapPin size={13} />
+                    <MapPin
+                        size={14}
+                        style={{
+                            color: 'var(--joy-palette-neutral-400)',
+                            strokeWidth: 2
+                        }}
+                    />
                     <Typography
                         level="body-sm"
-                        color="neutral"
                         sx={{
                             textOverflow: 'ellipsis',
                             overflow: 'hidden',
-                            whiteSpace: 'nowrap'
+                            whiteSpace: 'nowrap',
+                            color: 'neutral.500',
+                            fontWeight: 500
                         }}
                     >
                         {info.address}
                     </Typography>
                 </Box>
             </Box>
+        </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Typography
-                    level="body-xs"
-                    sx={{
-                        bgcolor: 'background.level2',
-                        px: 1,
-                        py: 0.5,
-                        borderRadius: 'sm',
-                    }}
-                >
-                    {`${info.activeJobsCount} open job${info.activeJobsCount !== 1 ? 's' : ''}`}
-                </Typography>
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: 2,
+                mt: 'auto'
+            }}
+        >
+            <Typography
+                sx={{
+                    color: 'primary.600',
+                    bgcolor: 'primary.50',
+                    px: 1.5,
+                    py: 0.5,
+                    borderRadius: 'md',
+                    fontSize: 'sm',
+                    fontWeight: 600
+                }}
+            >
+                {`${info.activeJobsCount} Open Position${info.activeJobsCount !== 1 ? 's' : ''}`}
+            </Typography>
 
-                <Button
-                    variant="plain"
-                    color="primary"
-                    endDecorator={<ArrowRight size={14} />}
-                    size="sm"
-                    sx={{
-                        gap: 0.5,
-                        '&:hover': {
-                            '& .lucide-arrow-right': {
-                                transform: 'translateX(2px)',
-                            },
-                        },
-                        '& .lucide-arrow-right': {
-                            transition: 'transform 0.2s',
-                        },
-                    }}
-                >
-                    Find Jobs
-                </Button>
-            </Box>
+            <Button
+                size="sm"
+                variant="solid"
+                color="primary"
+                endDecorator={
+                    <ArrowRight
+                        size={16}
+                        style={{
+                            transition: 'transform 0.2s ease',
+                        }}
+                    />
+                }
+                sx={{
+                    fontWeight: 600,
+                    '&:hover': {
+                        transform: 'translateX(4px)',
+                        transition: 'all 0.3s ease-in-out'
+                    },
+                }}
+            >
+                Know More
+            </Button>
         </Box>
     </Card>
 );

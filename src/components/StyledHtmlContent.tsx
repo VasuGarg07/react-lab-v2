@@ -5,7 +5,7 @@ interface StyledBlogContentProps {
     htmlContent: string;
 }
 
-const StyledBlogContent: React.FC<StyledBlogContentProps> = ({ htmlContent }) => {
+const StyledHtmlContent: React.FC<StyledBlogContentProps> = ({ htmlContent }) => {
     return (
         <Box
             sx={{
@@ -65,4 +65,4 @@ const StyledBlogContent: React.FC<StyledBlogContentProps> = ({ htmlContent }) =>
     );
 };
 
-export default StyledBlogContent;
+export default StyledHtmlContent;

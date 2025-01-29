@@ -124,9 +124,13 @@ class JobscapeService {
 
     /** ------------------------- Applicant APIs ------------------------- **/
 
-    async fetchAllCompanies(): Promise<CompaniesCardListResponse> {
+    async fetchAllCompanies(page: number = 1, limit: number = 10, name?: string): Promise<CompaniesCardListResponse> {
         const client = this.getClient();
-        const response = await client.get('/companies');
+        let query = `?page=${page}&limit=${limit}`;
+        if (name) {
+            query += `&name=${encodeURIComponent(name)}`;
+        }
+        const response = await client.get(`/companies${query}`);
         return response.data;
     }
 
@@ -136,9 +140,13 @@ class JobscapeService {
         return response.data;
     }
 
-    async fetchApplicantJobsList(): Promise<JobsCardListResponse> {
+    async fetchApplicantJobsList(page: number = 1, limit: number = 10, name?: string): Promise<JobsCardListResponse> {
         const client = this.getClient();
-        const response = await client.get('/jobs');
+        let query = `?page=${page}&limit=${limit}`;
+        if (name) {
+            query += `&name=${encodeURIComponent(name)}`;
+        }
+        const response = await client.get(`/jobs${query}`);
         return response.data;
     }
 

@@ -62,6 +62,8 @@ import PostJob from "../apps/Jobscape/employer/PostJob";
 import MyJobs from "../apps/Jobscape/employer/MyJobs";
 import Settings from "../apps/Jobscape/employer/Settings";
 import CompaniesList from "../apps/Jobscape/pages/CompaniesList";
+import CompanyDetails from "../apps/Jobscape/pages/CompanyDetails";
+import JobsList from "../apps/Jobscape/pages/JobsList";
 
 export const router = createBrowserRouter([
   {
@@ -149,19 +151,10 @@ export const router = createBrowserRouter([
               }
             ]
           },
-          {
-            path: 'companies',
-            element: <CompaniesList />
-          },
-          {
-            path: 'companies/:companyId'
-          },
-          {
-            path: 'jobs',
-          },
-          {
-            path: 'jobs/:jobId'
-          },
+          { path: 'companies', element: <CompaniesList /> },
+          { path: 'companies/:companyId', element: <CompanyDetails /> },
+          { path: 'jobs', element: <JobsList /> },
+          { path: 'jobs/:jobId' },
           // fallbacks
           { path: '', element: <Navigate to='home' replace /> },
         ]
