@@ -1,8 +1,9 @@
 import { Box, Button, Container, Divider, Grid, IconButton, Typography } from '@mui/joy';
-import { ArrowRight, Building2, Calendar, Facebook, Globe, Handshake, Instagram, Linkedin, LucideIcon, Mail, Phone, Twitter, Users, Youtube } from 'lucide-react';
+import { Building2, Calendar, ExternalLink, Facebook, Globe, Handshake, Instagram, Linkedin, LucideIcon, Mail, Phone, Twitter, Users, Youtube } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import StyledHtmlContent from '../../../components/StyledHtmlContent';
+import { useAlert } from '../../../shared/AlertProvider';
 import { useJobscape } from '../JobscapeProvider';
 import CompactFooter from '../components/CompactFooter';
 import JobCard from '../components/JobCard';
@@ -14,10 +15,10 @@ const CompanyDetails: React.FC = () => {
     const { companyId } = useParams();
     const { role, applicantService } = useJobscape();
     const navigate = useNavigate();
+    const { alert } = useAlert();
 
     const [data, setData] = useState<CompanyDetailsResponse | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchDetails = async () => {
@@ -28,10 +29,10 @@ const CompanyDetails: React.FC = () => {
                 if (result.success) {
                     setData(result);
                 } else {
-                    setError('Failed to load company details');
+                    alert('Failed to load company details', 'danger');
                 }
             } catch (err) {
-                setError('Failed to load company details');
+                alert('Failed to load company details', 'danger');
                 console.error('Error fetching company details:', err);
             } finally {
                 setIsLoading(false);
@@ -41,50 +42,45 @@ const CompanyDetails: React.FC = () => {
         fetchDetails();
     }, [companyId, applicantService]);
 
+    if (isLoading) return <Typography>Loading company details...</Typography>;
+    if (!data) return <Typography color="danger">Failed to load company details</Typography>;
+
+    const { company, jobs, jobCount } = data;
+
     const handleJobClick = (jobId: string) => {
         navigate(`/jobscape/jobs/${jobId}`);
     };
-
-    if (isLoading) return <Typography>Loading company details...</Typography>;
-    if (error) return <Typography color="danger">{error}</Typography>;
-    if (!data) return null;
-
-    const { company, jobs, jobCount } = data;
 
     return (
         <>
             <JobNav userType={role || 'none'} />
             <Container maxWidth="lg" sx={{ my: 4, minHeight: 'calc(100dvh - 186px)' }}>
-                <Box sx={{ p: 0, mb: 3 }}>
-                    <CompanyHeader company={company} />
+                <CompanyHeader company={company} />
 
-                    <Box sx={{ p: 3 }}>
-                        <Grid container spacing={4}>
-                            {/* Left Column */}
-                            <Grid xs={12} md={8}>
-                                <CompanyDescription
-                                    companyOverview={company.companyOverview}
-                                    companyVision={company.companyVision}
-                                />
-                            </Grid>
+                <Grid container spacing={4} sx={{ p: 3, mb: 3 }}>
+                    {/* Left Column */}
+                    <Grid xs={12} md={8}>
+                        <CompanyDescription
+                            companyOverview={company.companyOverview}
+                            companyVision={company.companyVision}
+                        />
+                    </Grid>
 
-                            {/* Right Column */}
-                            <Grid xs={12} md={4}>
-                                <CompanyMetadata company={company} />
+                    {/* Right Column */}
+                    <Grid xs={12} md={4}>
+                        <CompanyMetadata company={company} />
 
-                                <ContactInformation
-                                    websiteUrl={company.websiteUrl}
-                                    contactNumber={company.contactNumber}
-                                    email={company.email}
-                                />
+                        <ContactInformation
+                            websiteUrl={company.websiteUrl}
+                            contactNumber={company.contactNumber}
+                            email={company.email}
+                        />
 
-                                {company.socialLinks && Object.keys(company.socialLinks).length > 0 && (
-                                    <SocialLinks socialLinks={company.socialLinks} />
-                                )}
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Box>
+                        {company.socialLinks && Object.keys(company.socialLinks).length > 0 && (
+                            <SocialLinks socialLinks={company.socialLinks} />
+                        )}
+                    </Grid>
+                </Grid>
 
                 <OpenPositions
                     jobs={jobs}
@@ -114,39 +110,40 @@ export const CompanyHeader: React.FC<CompanyHeaderProps> = ({ company }) => (
         borderRadius: 'md',
         border: '2px solid',
         borderColor: 'primary.100',
+        display: 'flex', gap: 2,
+        alignItems: 'center',
+        justifyContent: 'space-between'
     }}>
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                <Box
-                    component="img"
-                    src={company.logoURL}
-                    alt={company.companyName}
-                    sx={{
-                        width: 120,
-                        height: 120,
-                        borderRadius: 'md',
-                        objectFit: 'cover',
-                    }}
-                />
-                <Box>
-                    <Typography level="h2">
-                        {company.companyName}
-                    </Typography>
-                    <Typography level="title-lg" textColor="neutral.500">
-                        {company.industry}
-                    </Typography>
-                </Box>
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Box
+                component="img"
+                src={company.logoURL}
+                alt={company.companyName}
+                sx={{
+                    width: 120,
+                    height: 120,
+                    borderRadius: 'md',
+                    objectFit: 'cover',
+                }}
+            />
+            <Box>
+                <Typography level="h3">
+                    {company.companyName}
+                </Typography>
+                <Typography level="title-md" textColor="neutral.500">
+                    {company.industry}
+                </Typography>
             </Box>
-
-            <Button
-                variant="solid"
-                color="primary"
-                endDecorator={<ArrowRight size={16} />}
-                onClick={() => window.open(company.websiteUrl, '_blank')}
-            >
-                View Open Position
-            </Button>
         </Box>
+
+        <Button
+            variant="solid"
+            color="primary"
+            endDecorator={<ExternalLink size={16} />}
+            onClick={() => window.open(company.websiteUrl, '_blank')}
+        >
+            Visit Company
+        </Button>
     </Box>
 );
 
@@ -173,16 +170,19 @@ export const CompanyDescription: React.FC<CompanyDescriptionProps> = ({ companyO
     </Box>
 );
 
-// InfoSection.tsx
-interface InfoBoxProps {
-    title: string;
-    value: string;
-    icon: React.ReactNode;
+interface CompanyMetadataProps {
+    company: EmployerResponse;
 }
 
-export const InfoBox: React.FC<InfoBoxProps> = ({ title, value, icon }) => (
+interface InfoBoxProps {
+    title: string;
+    value: string | number;
+    icon: LucideIcon;
+}
+
+const InfoBox: React.FC<InfoBoxProps> = ({ title, value, icon: Icon }) => (
     <Box sx={{ p: 2 }}>
-        {icon}
+        <Icon size={32} color="var(--joy-palette-primary-500)" />
         <Typography level="body-xs" sx={{ color: 'neutral.400', textTransform: 'uppercase' }}>
             {title}
         </Typography>
@@ -200,11 +200,7 @@ export const InfoBox: React.FC<InfoBoxProps> = ({ title, value, icon }) => (
     </Box>
 );
 
-interface CompanyMetadataProps {
-    company: EmployerResponse;
-}
-
-export const CompanyMetadata: React.FC<CompanyMetadataProps> = ({ company }) => (
+const CompanyMetadata: React.FC<CompanyMetadataProps> = ({ company }) => (
     <Box sx={{
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
@@ -218,22 +214,22 @@ export const CompanyMetadata: React.FC<CompanyMetadataProps> = ({ company }) => 
         <InfoBox
             title="Founded in"
             value={company.yearOfEstablishMent}
-            icon={<Calendar size={32} color="var(--joy-palette-primary-500)" />}
+            icon={Calendar}
         />
         <InfoBox
             title="Organization Type"
             value="Private Company"
-            icon={<Handshake size={32} color="var(--joy-palette-primary-500)" />}
+            icon={Handshake}
         />
         <InfoBox
             title="Team Size"
             value={company.employeeStrength}
-            icon={<Users size={32} color="var(--joy-palette-primary-500)" />}
+            icon={Users}
         />
         <InfoBox
             title="Industry Types"
             value={company.industry}
-            icon={<Building2 size={32} color="var(--joy-palette-primary-500)" />}
+            icon={Building2}
         />
     </Box>
 );

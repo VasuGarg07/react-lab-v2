@@ -28,6 +28,8 @@ export interface JobDetailsResponse {
     success: boolean;
     job: JobResponse;
     applicationCount: number;
+    companyName: string;
+    logoURL: string;
 }
 
 export interface CompaniesCardListResponse {

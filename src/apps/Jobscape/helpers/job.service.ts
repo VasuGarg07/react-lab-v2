@@ -150,9 +150,9 @@ class JobscapeService {
         return response.data;
     }
 
-    async applyForJob(applicationData: Partial<IApplication>): Promise<void> {
+    async applyForJob(jobId: string, coverLetter?: string): Promise<void> {
         const client = this.getClient();
-        await client.post('/jobs/apply', applicationData);
+        await client.post('/jobs/apply', { jobId, coverLetter });
     }
 
     async saveJob(jobId: string): Promise<void> {

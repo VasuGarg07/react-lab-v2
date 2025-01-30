@@ -18,9 +18,8 @@ const employerNavItems = [
 ];
 
 const applicantNavItems = [
-    { icon: Layers, label: 'Overview', path: 'overview' },
-    { icon: UserCircle, label: 'Applicant Profile', path: 'profile' },
     { icon: Briefcase, label: 'Applied Jobs', path: 'applications' },
+    { icon: UserCircle, label: 'Applicant Profile', path: 'profile' },
     { icon: Bookmark, label: 'Saved Jobs', path: 'saved-jobs' },
     { icon: Settings, label: 'Settings', path: 'settings' }
 ]

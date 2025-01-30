@@ -13,6 +13,7 @@ import JobCard from '../components/JobCard';
 import JobNav from '../components/JobNav';
 import { JobsCardListResponse } from '../helpers/response.types';
 import { useJobscape } from '../JobscapeProvider';
+import { useAlert } from '../../../shared/AlertProvider';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -21,6 +22,7 @@ const JobsList: React.FC = () => {
     const { role, applicantService } = useJobscape();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
+    const { alert } = useAlert();
 
     // Get URL params with defaults
     const currentPage = Number(searchParams.get('page')) || 1;
@@ -30,7 +32,7 @@ const JobsList: React.FC = () => {
     const [searchInput, setSearchInput] = useState(searchQuery);
     const [data, setData] = useState<JobsCardListResponse | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<boolean>(false);
 
     // Calculate total pages
     const totalPages = data ? Math.ceil(data.count / data.limit) : 0;
@@ -41,7 +43,7 @@ const JobsList: React.FC = () => {
         if (!applicantService) return;
 
         setIsLoading(true);
-        setError(null);
+        setError(false);
         try {
             const result = await applicantService.fetchApplicantJobsList(
                 currentPage,
@@ -52,10 +54,12 @@ const JobsList: React.FC = () => {
             if (result.success) {
                 setData(result);
             } else {
-                setError('Failed to load companies');
+                alert('Failed to load jobs', 'danger');
+                setError(true);
             }
         } catch (err) {
-            setError('Failed to load companies');
+            alert('Failed to load jobs', 'danger');
+            setError(true);
             console.error('Error fetching companies:', err);
         } finally {
             setIsLoading(false);
