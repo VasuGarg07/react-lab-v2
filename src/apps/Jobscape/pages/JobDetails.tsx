@@ -5,53 +5,44 @@ import Grid from '@mui/joy/Grid';
 import IconButton from '@mui/joy/IconButton';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
+import { AxiosError } from 'axios';
 import { ArrowRight, Bookmark, Briefcase, Calendar, Gauge, MapPin, Power, Users, Wallet } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import StyledHtmlContent from '../../../components/StyledHtmlContent';
 import { useAlert } from '../../../shared/AlertProvider';
+import { useApiClient } from '../../../shared/useApiClient';
 import { formatString } from '../../../shared/utilities';
 import { useJobscape } from '../JobscapeProvider';
 import CompactFooter from '../components/CompactFooter';
+import FeaturedChip from '../components/FeaturedChip';
 import InfoStrip from '../components/InfoBox';
 import JobNav from '../components/JobNav';
 import { JobResponse } from '../helpers/job.types';
 import { JobDetailsResponse } from '../helpers/response.types';
-import Chip from '@mui/joy/Chip';
-import { AxiosError } from 'axios';
 
 const JobDetails: React.FC = () => {
     const { jobId } = useParams();
     const { role, applicantService } = useJobscape();
     const { alert } = useAlert();
 
-    const [data, setData] = useState<JobDetailsResponse | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    if (!jobId || !applicantService) return;
 
-    useEffect(() => {
-        const fetchDetails = async () => {
-            if (!jobId || !applicantService) return;
-
-            try {
-                const result = await applicantService.fetchJobDetails(jobId);
-                if (result.success) {
-                    setData(result);
-                } else {
-                    alert('Failed to load job details', 'danger');
-                }
-            } catch (err) {
-                alert('Failed to load job details', 'danger');
-                console.error('Error fetching job details:', err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchDetails();
+    const fetchJobDetails = useCallback(() => {
+        return applicantService.fetchJobDetails(jobId);
     }, [jobId, applicantService]);
 
-    if (isLoading) return <Typography>Loading job details...</Typography>;
-    if (!data) return <Typography color="danger">Failed to load job details</Typography>;
+    const { data, loading, error } = useApiClient<JobDetailsResponse, [string]>(
+        fetchJobDetails,
+        [jobId],
+        !!jobId
+    );
+
+    if (loading) return <Typography>Loading job details...</Typography>;
+    if (error || !data) {
+        alert('Failed to load job details', 'danger');
+        return <Typography color="danger">Failed to load job details</Typography>;
+    }
 
     const handleSaveJob = async () => {
         try {
@@ -163,25 +154,7 @@ export const JobHeader: React.FC<JobHeaderProps> = ({ job, companyName, logoURL,
                     <Typography level="title-md" textColor="neutral.500">
                         {companyName}
                     </Typography>
-                    {job.isFeatured && (
-                        <Chip
-                            size="sm"
-                            variant="soft"
-                            color="danger"
-                            sx={{
-                                fontSize: '11px',
-                                px: 1,
-                                py: 0,
-                                height: '20px',
-                                fontWeight: 500,
-                                textTransform: 'capitalize',
-                                bgcolor: 'var(--joy-palette-danger-100)',
-                                color: 'var(--joy-palette-danger-600)'
-                            }}
-                        >
-                            Featured
-                        </Chip>
-                    )}
+                    {job.isFeatured && (<FeaturedChip />)}
                 </Box>
             </Box>
         </Box>

@@ -56,20 +56,20 @@ const Navbar = ({ userType }: NavbarProps) => {
             { label: 'Home', path: 'home' },
             { label: 'Find Job', path: 'jobs' },
             { label: 'About Us', path: 'about' },
-            { label: 'Contact Us', path: 'support' },
+            // { label: 'Contact Us', path: 'support' }, // TODO: Implement
         ],
         employer: [
             { label: 'Home', path: 'home' },
             { label: 'Dashboard', path: 'employer' },
-            { label: 'Candidates', path: 'candidates' },
-            { label: 'Contact Us', path: 'support' },
+            // { label: 'Candidates', path: 'candidates' }, // TODO: Implemente
+            // { label: 'Contact Us', path: 'support' },
         ],
         applicant: [
             { label: 'Home', path: 'home' },
             { label: 'Dashboard', path: 'applicant' },
             { label: 'Find Job', path: 'jobs' },
             { label: 'Companies', path: 'companies' },
-            { label: 'Contact Us', path: 'support' },
+            // { label: 'Contact Us', path: 'support' },
         ],
     };
 

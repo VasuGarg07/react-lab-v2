@@ -166,15 +166,21 @@ class JobscapeService {
         return response.data;
     }
 
-    async fetchRecommendedJobs(): Promise<IJob[]> {
+    async deleteSavedJob(jobId: string) {
+        const client = this.getClient();
+        await client.delete(`/saved-jobs/${jobId}`);
+    }
+
+    async fetchRecommendedJobs(): Promise<JobsCardListResponse> {
         const client = this.getClient();
         const response = await client.get('/recommended');
         return response.data;
     }
 
-    async updateApplicantPreferences(preferences: Partial<IApplicant['preference']>): Promise<void> {
+    async fetchAppliedJobs(): Promise<JobsCardListResponse> {
         const client = this.getClient();
-        await client.patch('/preferences', preferences);
+        const response = await client.get('/applications');
+        return response.data;
     }
 }
 

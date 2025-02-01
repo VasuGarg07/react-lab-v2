@@ -2,7 +2,7 @@ import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Container from '@mui/joy/Container';
 import Typography from '@mui/joy/Typography';
-import { Bookmark, Briefcase, Layers, LogOut, PlusCircle, Settings, UserCircle } from 'lucide-react';
+import { Bookmark, Briefcase, Layers, LogOut, PlusCircle, Settings, Sparkles, UserCircle } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useJobscape } from '../JobscapeProvider';
 import CompactFooter from '../components/CompactFooter';
@@ -18,6 +18,7 @@ const employerNavItems = [
 ];
 
 const applicantNavItems = [
+    { icon: Sparkles, label: 'Recommendations', path: 'recommendations' },
     { icon: Briefcase, label: 'Applied Jobs', path: 'applications' },
     { icon: UserCircle, label: 'Applicant Profile', path: 'profile' },
     { icon: Bookmark, label: 'Saved Jobs', path: 'saved-jobs' },

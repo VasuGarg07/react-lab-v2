@@ -72,5 +72,6 @@ export interface JobsCardInfo {
     isFeatured?: boolean;
     companyName: string;
     logoURL: string;
-    totalApplicants: number;
+    totalApplicants?: number;
+    status?: "pending" | "shortlisted" | "rejected" | "contacted" | "hired";
 }

@@ -1,49 +1,23 @@
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Chip from '@mui/joy/Chip';
+import Dropdown from '@mui/joy/Dropdown';
 import IconButton from '@mui/joy/IconButton';
+import Menu from '@mui/joy/Menu';
+import MenuButton from '@mui/joy/MenuButton';
+import MenuItem from '@mui/joy/MenuItem';
 import Sheet from '@mui/joy/Sheet';
-import { styled } from '@mui/joy/styles';
-import Table from '@mui/joy/Table';
+import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
+import { AxiosError } from 'axios';
 import { Archive, CheckCircle, Clock, MoreVertical, Pencil, Star, Trash2, Users } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAlert } from '../../../shared/AlertProvider';
 import { formatString } from '../../../shared/utilities';
+import StyledTable from '../components/StyledTable';
 import { JobResponse, JobRoles } from '../helpers/job.types';
 import { useJobscape } from '../JobscapeProvider';
-import { useAlert } from '../../../shared/AlertProvider';
-import { AxiosError } from 'axios';
-import Dropdown from '@mui/joy/Dropdown';
-import MenuButton from '@mui/joy/MenuButton';
-import Menu from '@mui/joy/Menu';
-import MenuItem from '@mui/joy/MenuItem';
-import { useNavigate } from 'react-router-dom';
-import Stack from '@mui/joy/Stack';
-
-const StyledTable = styled(Table)({
-    '& thead th': {
-        backgroundColor: 'var(--joy-palette-background-level2)',
-        fontWeight: 'bold',
-    },
-    '& tbody tr:hover': {
-        backgroundColor: 'var(--joy-palette-background-level1)',
-        transition: 'all 0.2s ease',
-    },
-    // Apply width and alignment to table cells
-    '& th, & td': {
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-    },
-    '& .featured-job': {
-        background: 'linear-gradient(to right, #F6BA001d 0%, rgba(246, 186, 0, 0) 100%)',
-    },
-    '& .featured-job:hover': {
-        background: '#F6BA002A',
-        transition: 'background-color 0.2s ease',
-        boxShadow: 'none'
-    },
-});
 
 interface JobsOverviewProps {
     role: JobRoles | null;
@@ -56,10 +30,15 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
     const { alert } = useAlert();
     const navigate = useNavigate();
 
+    const [data, setData] = useState<JobResponse[]>(jobs);
+
     const handleArchive = async (jobId: string, archive: boolean) => {
         try {
             await employerService!.archiveJob(jobId, archive);
             alert(`Job ${archive ? 'A' : 'Una'}rchived`, 'success');
+            setData(prev => prev.map((job) =>
+                job.id === jobId ? { ...job, isArchived: archive } : job
+            ));
         } catch (error) {
             console.error(error);
             let errorMessage = "Something Went Wrong. Please try again later."
@@ -74,6 +53,7 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
         try {
             await employerService!.deleteJob(jobId);
             alert("Job deleted successfully", 'primary');
+            setData(prev => prev.filter(item => item.id !== jobId));
         } catch (error) {
             console.error(error);
             let errorMessage = "Something Went Wrong. Please try again later."
@@ -102,10 +82,25 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
         );
     };
 
-    const handleApplyJob = async (job: JobResponse) => {
+    const handleApplyJob = async (jobId: string) => {
         try {
-            await applicantService!.applyForJob(job.id);
+            await applicantService!.applyForJob(jobId);
             alert("Applied", 'success')
+        } catch (error) {
+            console.error(error);
+            let errorMessage = "Something Went Wrong. Please try again later."
+            if (error instanceof AxiosError) {
+                errorMessage = error.response?.data?.error;
+            }
+            alert(errorMessage, 'danger');
+        }
+    }
+
+    const handleDeleteSaved = async (jobId: string) => {
+        try {
+            await applicantService!.deleteSavedJob(jobId);
+            alert("Job removed from Saved", 'success');
+            setData(prev => prev.filter(item => item.id !== jobId));
         } catch (error) {
             console.error(error);
             let errorMessage = "Something Went Wrong. Please try again later."
@@ -129,7 +124,7 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
                 </thead>
                 <tbody>
                     {
-                        jobs.map((job) => (
+                        data.map((job) => (
                             <tr key={job.id} className={job.isFeatured ? "featured-job" : ''}>
                                 <td>
                                     <Stack spacing={0.5}>
@@ -153,32 +148,44 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
                                     </Box>
                                 </td>
                                 <td>
-                                    {role === 'employer' ? (
-                                        <Box sx={{ display: 'flex', gap: 1 }}>
-                                            <Button
-                                                size="sm"
-                                                variant="soft"
-                                                color="primary"
-                                            >
-                                                View Applications
-                                            </Button>
-                                            <JobMenu
-                                                job={job}
-                                                handleArchive={handleArchive}
-                                                handleDelete={handleDelete}
-                                                handleEdit={handleEdit}
-                                            />
-                                        </Box>
-                                    ) : (
-                                        <Button
-                                            size="sm"
-                                            variant="soft"
-                                            color="primary"
-                                            onClick={() => handleApplyJob(job)}
-                                        >
-                                            Apply
-                                        </Button>
-                                    )}
+                                    <Box sx={{ display: 'flex', gap: 1 }}>
+                                        {role === 'employer' ? (
+                                            <>
+                                                <Button
+                                                    size="sm"
+                                                    variant="soft"
+                                                    color="primary"
+                                                >
+                                                    View Applications
+                                                </Button>
+                                                <JobMenu
+                                                    job={job}
+                                                    handleArchive={handleArchive}
+                                                    handleDelete={handleDelete}
+                                                    handleEdit={handleEdit}
+                                                />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Button
+                                                    size="sm"
+                                                    variant="soft"
+                                                    color="primary"
+                                                    onClick={() => handleApplyJob(job.id)}
+                                                >
+                                                    Apply
+                                                </Button>
+                                                <IconButton
+                                                    size="sm"
+                                                    variant="soft"
+                                                    color="danger"
+                                                    onClick={() => handleDeleteSaved(job.id)}
+                                                >
+                                                    <Trash2 />
+                                                </IconButton>
+                                            </>
+                                        )}
+                                    </Box>
                                 </td>
                             </tr>
                         ))}

@@ -66,6 +66,8 @@ import CompanyDetails from "../apps/Jobscape/pages/CompanyDetails";
 import JobsList from "../apps/Jobscape/pages/JobsList";
 import JobDetails from "../apps/Jobscape/pages/JobDetails";
 import SavedJobs from "../apps/Jobscape/dashboard/SavedJobs";
+import Recommendations from "../apps/Jobscape/dashboard/Recommendations";
+import AppliedJobs from "../apps/Jobscape/dashboard/AppliedJobs";
 
 export const router = createBrowserRouter([
   {
@@ -143,11 +145,12 @@ export const router = createBrowserRouter([
                 path: '',
                 element: <UserDashboard />,
                 children: [
-                  { path: 'applications', element: <MyJobs /> },
+                  { path: 'recommendations', element: <Recommendations /> },
+                  { path: 'applications', element: <AppliedJobs /> },
                   { path: 'profile', element: <ApplicantProfile /> },
                   { path: 'saved-jobs', element: <SavedJobs /> },
                   { path: 'settings', element: <Settings /> },
-                  { path: '', element: <Navigate to='applications' replace /> },
+                  { path: '', element: <Navigate to='recommendations' replace /> },
                 ]
               }
             ]

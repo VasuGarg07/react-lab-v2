@@ -1,9 +1,10 @@
 import { Box, Button, Container, Divider, Grid, IconButton, Typography } from '@mui/joy';
 import { Building2, Calendar, ExternalLink, Facebook, Globe, Handshake, Instagram, Linkedin, LucideIcon, Mail, Phone, Twitter, Users, Youtube } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import StyledHtmlContent from '../../../components/StyledHtmlContent';
 import { useAlert } from '../../../shared/AlertProvider';
+import { useApiClient } from '../../../shared/useApiClient';
 import { useJobscape } from '../JobscapeProvider';
 import CompactFooter from '../components/CompactFooter';
 import JobCard from '../components/JobCard';
@@ -17,33 +18,23 @@ const CompanyDetails: React.FC = () => {
     const navigate = useNavigate();
     const { alert } = useAlert();
 
-    const [data, setData] = useState<CompanyDetailsResponse | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    if (!companyId || !applicantService) return;
 
-    useEffect(() => {
-        const fetchDetails = async () => {
-            if (!companyId || !applicantService) return;
-
-            try {
-                const result = await applicantService.fetchCompanyDetails(companyId);
-                if (result.success) {
-                    setData(result);
-                } else {
-                    alert('Failed to load company details', 'danger');
-                }
-            } catch (err) {
-                alert('Failed to load company details', 'danger');
-                console.error('Error fetching company details:', err);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchDetails();
+    const fetchCompanyDetails = useCallback(() => {
+        return applicantService.fetchCompanyDetails(companyId);
     }, [companyId, applicantService]);
 
-    if (isLoading) return <Typography>Loading company details...</Typography>;
-    if (!data) return <Typography color="danger">Failed to load company details</Typography>;
+    const { data, loading, error } = useApiClient<CompanyDetailsResponse, [string]>(
+        fetchCompanyDetails,
+        [companyId],
+        !!companyId
+    );
+
+    if (loading) return <Typography>Loading company details...</Typography>;
+    if (error || !data) {
+        alert('Failed to load company details', 'danger');
+        return <Typography color="danger">Failed to load company details</Typography>;
+    }
 
     const { company, jobs, jobCount } = data;
 

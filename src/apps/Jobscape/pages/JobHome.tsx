@@ -13,7 +13,7 @@ const JobHome: React.FC = () => {
             <JobNav userType={role || 'none'} />
             <HeroSection />
             <HowItWorks />
-            <HomeCTACards />
+            {!role && <HomeCTACards />}
             <Footer />
         </>
     )

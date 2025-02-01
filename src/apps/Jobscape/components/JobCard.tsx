@@ -1,7 +1,8 @@
-import { Box, Card, Chip, Typography } from '@mui/joy';
+import { Box, Card, Typography } from '@mui/joy';
 import { MapPin } from 'lucide-react';
 import React from 'react';
 import { JobsCardInfo } from '../helpers/response.types';
+import FeaturedChip from './FeaturedChip';
 
 interface JobCardProps {
     info: JobsCardInfo;
@@ -46,25 +47,7 @@ export const JobCard: React.FC<JobCardProps> = ({ info, onClick }) => (
                     <Typography level="body-md" sx={{ fontWeight: 500 }}>
                         {info.title}
                     </Typography>
-                    {info.isFeatured && (
-                        <Chip
-                            size="sm"
-                            variant="soft"
-                            color="danger"
-                            sx={{
-                                fontSize: '11px',
-                                px: 1,
-                                py: 0,
-                                height: '20px',
-                                fontWeight: 500,
-                                textTransform: 'capitalize',
-                                bgcolor: 'var(--joy-palette-danger-100)',
-                                color: 'var(--joy-palette-danger-600)'
-                            }}
-                        >
-                            Featured
-                        </Chip>
-                    )}
+                    {info.isFeatured && (<FeaturedChip />)}
                 </Box>
 
                 <Typography
