@@ -9,7 +9,7 @@ import JobsOverview from './JobsOverview';
 
 const Overview: React.FC = () => {
 
-    const { profile, employerService } = useJobscape();
+    const { profile, employerService, role } = useJobscape();
     const employer = profile as EmployerResponse;
 
     const fetchDashboard = useCallback(() => {
@@ -65,7 +65,7 @@ const Overview: React.FC = () => {
                 </Button>
             </Stack>
 
-            <JobsOverview jobs={data?.recentJobs || []} />
+            <JobsOverview jobs={data?.recentJobs || []} role={role} />
         </>
     )
 }

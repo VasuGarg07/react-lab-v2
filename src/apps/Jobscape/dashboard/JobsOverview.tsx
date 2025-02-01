@@ -9,7 +9,7 @@ import Typography from '@mui/joy/Typography';
 import { Archive, CheckCircle, Clock, MoreVertical, Pencil, Star, Trash2, Users } from 'lucide-react';
 import React from 'react';
 import { formatString } from '../../../shared/utilities';
-import { JobResponse } from '../helpers/job.types';
+import { JobResponse, JobRoles } from '../helpers/job.types';
 import { useJobscape } from '../JobscapeProvider';
 import { useAlert } from '../../../shared/AlertProvider';
 import { AxiosError } from 'axios';
@@ -46,12 +46,13 @@ const StyledTable = styled(Table)({
 });
 
 interface JobsOverviewProps {
+    role: JobRoles | null;
     jobs: JobResponse[]
 }
 
-const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs }) => {
+const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
 
-    const { employerService } = useJobscape();
+    const { employerService, applicantService } = useJobscape();
     const { alert } = useAlert();
     const navigate = useNavigate();
 
@@ -101,6 +102,20 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs }) => {
         );
     };
 
+    const handleApplyJob = async (job: JobResponse) => {
+        try {
+            await applicantService!.applyForJob(job.id);
+            alert("Applied", 'success')
+        } catch (error) {
+            console.error(error);
+            let errorMessage = "Something Went Wrong. Please try again later."
+            if (error instanceof AxiosError) {
+                errorMessage = error.response?.data?.error;
+            }
+            alert(errorMessage, 'danger');
+        }
+    }
+
     return (
         <Sheet sx={{ background: 'transparent' }}>
             <StyledTable hoverRow>
@@ -138,21 +153,32 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs }) => {
                                     </Box>
                                 </td>
                                 <td>
-                                    <Box sx={{ display: 'flex', gap: 1 }}>
+                                    {role === 'employer' ? (
+                                        <Box sx={{ display: 'flex', gap: 1 }}>
+                                            <Button
+                                                size="sm"
+                                                variant="soft"
+                                                color="primary"
+                                            >
+                                                View Applications
+                                            </Button>
+                                            <JobMenu
+                                                job={job}
+                                                handleArchive={handleArchive}
+                                                handleDelete={handleDelete}
+                                                handleEdit={handleEdit}
+                                            />
+                                        </Box>
+                                    ) : (
                                         <Button
                                             size="sm"
                                             variant="soft"
                                             color="primary"
+                                            onClick={() => handleApplyJob(job)}
                                         >
-                                            View Applications
+                                            Apply
                                         </Button>
-                                        <JobMenu
-                                            job={job}
-                                            handleArchive={handleArchive}
-                                            handleDelete={handleDelete}
-                                            handleEdit={handleEdit}
-                                        />
-                                    </Box>
+                                    )}
                                 </td>
                             </tr>
                         ))}

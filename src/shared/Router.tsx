@@ -56,15 +56,16 @@ import RegisterApplicant from "../apps/Jobscape/pages/RegisterApplicant";
 import AuthGaurd from "../apps/Jobscape/guards/AuthGuard";
 import RoleGuard from "../apps/Jobscape/guards/RoleGuard";
 import UserDashboard from "../apps/Jobscape/pages/UserDashboard";
-import EmployerOverview from '../apps/Jobscape/employer/Overview';
-import { EmployerProfile, ApplicantProfile } from '../apps/Jobscape/employer/Profile';
-import PostJob from "../apps/Jobscape/employer/PostJob";
-import MyJobs from "../apps/Jobscape/employer/MyJobs";
-import Settings from "../apps/Jobscape/employer/Settings";
+import EmployerOverview from '../apps/Jobscape/dashboard/Overview';
+import { EmployerProfile, ApplicantProfile } from '../apps/Jobscape/dashboard/Profile';
+import PostJob from "../apps/Jobscape/dashboard/PostJob";
+import MyJobs from "../apps/Jobscape/dashboard/MyJobs";
+import Settings from "../apps/Jobscape/dashboard/Settings";
 import CompaniesList from "../apps/Jobscape/pages/CompaniesList";
 import CompanyDetails from "../apps/Jobscape/pages/CompanyDetails";
 import JobsList from "../apps/Jobscape/pages/JobsList";
 import JobDetails from "../apps/Jobscape/pages/JobDetails";
+import SavedJobs from "../apps/Jobscape/dashboard/SavedJobs";
 
 export const router = createBrowserRouter([
   {
@@ -144,7 +145,7 @@ export const router = createBrowserRouter([
                 children: [
                   { path: 'applications', element: <MyJobs /> },
                   { path: 'profile', element: <ApplicantProfile /> },
-                  { path: 'saved-jobs', element: <MyJobs /> },
+                  { path: 'saved-jobs', element: <SavedJobs /> },
                   { path: 'settings', element: <Settings /> },
                   { path: '', element: <Navigate to='applications' replace /> },
                 ]

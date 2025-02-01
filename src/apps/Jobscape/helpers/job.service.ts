@@ -160,7 +160,7 @@ class JobscapeService {
         await client.post('/jobs/save', { jobId });
     }
 
-    async fetchSavedJobs(): Promise<IJob[]> {
+    async fetchSavedJobs(): Promise<JobsListResponse> {
         const client = this.getClient();
         const response = await client.get('/saved-jobs');
         return response.data;
