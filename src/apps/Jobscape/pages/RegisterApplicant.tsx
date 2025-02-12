@@ -12,7 +12,6 @@ import Container from '@mui/joy/Container';
 import CompactFooter from '../components/CompactFooter';
 import ApplicantForm from '../forms/ApplicantForm';
 import { AxiosError } from 'axios';
-import { sampleApplicant } from '../helpers/sampleData';
 
 const RegisterApplicant: React.FC = () => {
     const { user } = useAuth();
@@ -21,7 +20,7 @@ const RegisterApplicant: React.FC = () => {
 
     const methods = useForm<IApplicant>({
         resolver: zodResolver(applicantFormSchema),
-        defaultValues: sampleApplicant
+        defaultValues: defaultApplicant
     });
 
     const onSubmit = async (data: IApplicant) => {

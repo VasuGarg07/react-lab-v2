@@ -71,14 +71,14 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ control, errors }) => {
         description: control._getWatch(`experience.${currentIndex}.description`)
     };
 
-    const isFormValid = () => {
-        return !!(
-            currentValues.title?.trim() &&
-            currentValues.company?.trim() &&
-            currentValues.duration?.trim() &&
-            currentValues.description?.trim()
-        );
-    };
+    // const isFormValid = () => {
+    //     return !!(
+    //         currentValues.title?.trim() &&
+    //         currentValues.company?.trim() &&
+    //         currentValues.duration?.trim() &&
+    //         currentValues.description?.trim()
+    //     );
+    // };
 
     const handleSave = () => {
         if (editIndex !== null) {

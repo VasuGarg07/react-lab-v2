@@ -65,13 +65,13 @@ const EducationForm: React.FC<EducationFormProps> = ({ control, errors }) => {
         year: control._getWatch(`education.${currentIndex}.year`),
     };
 
-    const isFormValid = () => {
-        return !!(
-            currentValues.degree?.trim() &&
-            currentValues.institution?.trim() &&
-            currentValues.year?.trim()
-        );
-    };
+    // const isFormValid = () => {
+    //     return !!(
+    //         currentValues.degree?.trim() &&
+    //         currentValues.institution?.trim() &&
+    //         currentValues.year?.trim()
+    //     );
+    // };
 
     const handleSave = () => {
         if (editIndex !== null) {
