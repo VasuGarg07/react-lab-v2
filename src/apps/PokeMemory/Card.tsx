@@ -1,4 +1,4 @@
-import { Tilt } from "react-tilt"
+import Tilt from "react-parallax-tilt"
 import { CardType, defaultTiltOptions } from "./helpers"
 import './Card.styles.scss';
 
@@ -16,7 +16,7 @@ const Card = ({ card, flipped, interaction, handleChoice }: Props) => {
   }
 
   return (
-    <Tilt options={defaultTiltOptions} className="card">
+    <Tilt {...defaultTiltOptions} className="card">
       <img
         className={`card-img  ${flipped ? 'card-front-flipped' : 'card-front'}`}
         src={card.frontImage}

@@ -16,6 +16,10 @@ import Glassmorphism from "../apps/Glassmorphism/Glassmorphism";
 import Home from "../apps/Home/Home";
 import Homeloan from "../apps/HomeloanWizard/Homeloan";
 import { InvoiceProvider } from "../apps/InvoEase/InvoiceContext";
+import Jobscape from "../apps/Jobscape/Jobscape";
+import JobHome from "../apps/Jobscape/pages/JobHome";
+import RegisterEmployer from "../apps/Jobscape/pages/RegisterEmployer";
+import RegisterHero from "../apps/Jobscape/pages/RegisterHero";
 import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "../apps/Pokeverse/context/BattleSimContext";
@@ -47,14 +51,30 @@ import AuthWrapper from "../auth/AuthWrapper";
 import ForgotPassword from "../auth/ForgotPassword";
 import Login from "../auth/Login";
 import Register from "../auth/Register";
-import MainLayout from "../components/MainLayout";
-import Jobscape from "../apps/Jobscape/Jobscape";
+import Navbar from "../components/Navbar";
+import RegisterApplicant from "../apps/Jobscape/pages/RegisterApplicant";
+import AuthGaurd from "../apps/Jobscape/guards/AuthGuard";
+import RoleGuard from "../apps/Jobscape/guards/RoleGuard";
+import UserDashboard from "../apps/Jobscape/pages/UserDashboard";
+import EmployerOverview from '../apps/Jobscape/dashboard/Overview';
+import { EmployerProfile, ApplicantProfile } from '../apps/Jobscape/dashboard/Profile';
+import PostJob from "../apps/Jobscape/dashboard/PostJob";
+import MyJobs from "../apps/Jobscape/dashboard/MyJobs";
+import Settings from "../apps/Jobscape/dashboard/Settings";
+import CompaniesList from "../apps/Jobscape/pages/CompaniesList";
+import CompanyDetails from "../apps/Jobscape/pages/CompanyDetails";
+import JobsList from "../apps/Jobscape/pages/JobsList";
+import JobDetails from "../apps/Jobscape/pages/JobDetails";
+import SavedJobs from "../apps/Jobscape/dashboard/SavedJobs";
+import Recommendations from "../apps/Jobscape/dashboard/Recommendations";
+import AppliedJobs from "../apps/Jobscape/dashboard/AppliedJobs";
 
 export const router = createBrowserRouter([
   {
     path: '',
     element: <>
-      <MainLayout />
+      <Navbar />
+      <Outlet />
       <ScrollRestoration />
     </>,
     children: [
@@ -83,7 +103,65 @@ export const router = createBrowserRouter([
       {
         path: 'jobscape',
         element: <Jobscape />,
-        children: []
+        children: [
+          {
+            path: 'home',
+            element: <JobHome />
+          },
+          {
+            path: 'register',
+            element: <AuthGaurd />,
+            children: [
+              { path: '', element: <RegisterHero /> },
+              { path: 'employer', element: <RegisterEmployer /> },
+              { path: 'applicant', element: <RegisterApplicant /> }
+            ]
+          },
+          {
+            path: 'employer',
+            element: <RoleGuard guardRole="employer" />,
+            children: [
+              {
+                path: '',
+                element: <UserDashboard />,
+                children: [
+                  { path: 'overview', element: <EmployerOverview /> },
+                  { path: 'profile', element: <EmployerProfile /> },
+                  { path: 'post-job', element: <PostJob /> },
+                  { path: 'jobs', element: <MyJobs /> },
+                  { path: 'candidates', element: <>Saved Candidates</> },
+                  { path: 'settings', element: <Settings /> },
+                  { path: 'edit/:jobId', element: <PostJob /> },
+                  { path: '', element: <Navigate to='overview' replace /> },
+                ]
+              }
+            ]
+          },
+          {
+            path: 'applicant',
+            element: <RoleGuard guardRole="applicant" />,
+            children: [
+              {
+                path: '',
+                element: <UserDashboard />,
+                children: [
+                  { path: 'recommendations', element: <Recommendations /> },
+                  { path: 'applications', element: <AppliedJobs /> },
+                  { path: 'profile', element: <ApplicantProfile /> },
+                  { path: 'saved-jobs', element: <SavedJobs /> },
+                  { path: 'settings', element: <Settings /> },
+                  { path: '', element: <Navigate to='recommendations' replace /> },
+                ]
+              }
+            ]
+          },
+          { path: 'companies', element: <CompaniesList /> },
+          { path: 'companies/:companyId', element: <CompanyDetails /> },
+          { path: 'jobs', element: <JobsList /> },
+          { path: 'jobs/:jobId', element: <JobDetails /> },
+          // fallbacks
+          { path: '', element: <Navigate to='home' replace /> },
+        ]
       },
       {
         path: 'blogify',

@@ -1,6 +1,8 @@
-import { useAuth } from '../../auth/AuthProvider';
 import { useColorScheme } from '@mui/joy';
+import { Outlet } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthProvider';
 import JobScapeAuth from './pages/JobscapeAuth';
+import { JobscapeProvider } from './JobscapeProvider';
 
 const Jobscape = () => {
     const { mode } = useColorScheme();
@@ -11,7 +13,9 @@ const Jobscape = () => {
     }
 
     return (
-        <div>Jobscape</div>
+        <JobscapeProvider>
+            <Outlet />
+        </JobscapeProvider>
     )
 }
 

@@ -16,6 +16,10 @@ const Navbar = () => {
     return <CookNav />
   }
 
+  if (location.pathname.startsWith('/jobscape')) {
+    return <></>
+  }
+
   return (
     <Stack direction='row' alignItems='center' spacing={1}
       sx={{

@@ -14,7 +14,7 @@ import { ChevronRight } from 'lucide-react';
 import { Link, useLoaderData } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
 import { Blog } from '../helpers/blog.constants';
-import StyledBlogContent from '../components/StyledBlogContent';
+import StyledHtmlContent from '../../../components/StyledHtmlContent';
 
 interface LoaderData {
     blog: Blog;
@@ -124,7 +124,7 @@ const BlogDetail = () => {
                 <Divider sx={{ my: 4 }} />
 
                 {/* Blog Content */}
-                <StyledBlogContent htmlContent={blog.blogContent} />
+                <StyledHtmlContent htmlContent={blog.blogContent} />
             </Box>
 
             <Divider />
