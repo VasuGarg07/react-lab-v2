@@ -10,7 +10,8 @@ const ThemeToggle: React.FC<BtnProps> = ({ size }) => {
   const { mode, setMode } = useColorScheme();
 
   const switchTheme = () => {
-    setMode(mode === 'light' ? 'dark' : 'light');
+    const newMode = mode === 'light' ? 'dark' : 'light';
+    setMode(newMode);
   }
 
   return (

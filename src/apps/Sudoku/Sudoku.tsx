@@ -1,11 +1,11 @@
 import { Box, CircularProgress, Grid, Input, Sheet, Stack, useTheme } from '@mui/joy';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BgCenteredBox } from '../../components/BgCenteredBox';
-import { useAlert } from '../../shared/AlertProvider';
 import { deepCopy, fetchInitialBoard, isValid, solveBoard } from './helpers';
 import SudokuHeader from './SudokuHeader';
 import DarkBg from '/backgrounds/abstract-dark.webp';
 import LightBg from '/backgrounds/abstract.webp';
+import { toastService } from '../../providers/toastr';
 
 const inputStyles = {
     width: 40,
@@ -59,7 +59,6 @@ const SudokuBoard: React.FC = () => {
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
 
-    const { alert: showAlert } = useAlert();
 
     const fetchBoard = useCallback(async () => {
         setLoading(true);
@@ -113,7 +112,7 @@ const SudokuBoard: React.FC = () => {
 
         if (number >= 1 && number <= 9) {
             if (!isValid(board, row, col, number)) {
-                showAlert('Invalid Move', 'danger');
+                toastService.error("Invalid move");
             } else {
                 setBoard(prevBoard => {
                     const newBoard = [...prevBoard];
@@ -122,9 +121,9 @@ const SudokuBoard: React.FC = () => {
                 });
             }
         } else {
-            showAlert('Value out of bounds', 'warning');
+            toastService.error("Value out of bounds");
         }
-    }, [board, showAlert]);
+    }, [board]);
 
     const handleSolve = () => {
         const solvedBoard = solveBoard(initialBoard);

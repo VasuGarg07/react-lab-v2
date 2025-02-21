@@ -1,17 +1,16 @@
 import React, { useCallback } from 'react'
 import { useJobscape } from '../JobscapeProvider'
-import { useAlert } from '../../../shared/AlertProvider';
 import { JobsCardListResponse } from '../helpers/response.types';
 import { useApiClient } from '../../../shared/useApiClient';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/joy/Typography';
 import Grid from '@mui/joy/Grid';
 import { JobCard } from '../components/JobCard';
+import { toastService } from '../../../providers/toastr';
 
 const Recommendations: React.FC = () => {
 
     const { applicantService } = useJobscape();
-    const { alert } = useAlert();
     const navigate = useNavigate();
 
     if (!applicantService) return;
@@ -32,7 +31,7 @@ const Recommendations: React.FC = () => {
     }
 
     if (error || !data) {
-        alert('Failed to load recommended jobs', 'danger');
+        toastService.error('Failed to load recommended jobs');
         return <Typography color="danger">Failed to load job details</Typography>;
     }
 

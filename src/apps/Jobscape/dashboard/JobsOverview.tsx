@@ -13,11 +13,11 @@ import { AxiosError } from 'axios';
 import { Archive, CheckCircle, Clock, MoreVertical, Pencil, Star, Trash2, Users } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAlert } from '../../../shared/AlertProvider';
 import { formatString } from '../../../shared/utilities';
 import StyledTable from '../components/StyledTable';
 import { JobResponse, JobRoles } from '../helpers/job.types';
 import { useJobscape } from '../JobscapeProvider';
+import { toastService } from '../../../providers/toastr';
 
 interface JobsOverviewProps {
     role: JobRoles | null;
@@ -27,7 +27,6 @@ interface JobsOverviewProps {
 const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
 
     const { employerService, applicantService } = useJobscape();
-    const { alert } = useAlert();
     const navigate = useNavigate();
 
     const [data, setData] = useState<JobResponse[]>(jobs);
@@ -35,7 +34,7 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
     const handleArchive = async (jobId: string, archive: boolean) => {
         try {
             await employerService!.archiveJob(jobId, archive);
-            alert(`Job ${archive ? 'A' : 'Una'}rchived`, 'success');
+            toastService.success(`Job ${archive ? 'A' : 'Una'}rchived`);
             setData(prev => prev.map((job) =>
                 job.id === jobId ? { ...job, isArchived: archive } : job
             ));
@@ -45,14 +44,14 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
             if (error instanceof AxiosError) {
                 errorMessage = error.response?.data?.error;
             }
-            alert(errorMessage, 'danger');
+            toastService.error(errorMessage);
         }
     }
 
     const handleDelete = async (jobId: string) => {
         try {
             await employerService!.deleteJob(jobId);
-            alert("Job deleted successfully", 'primary');
+            toastService.message("Job deleted successfully");
             setData(prev => prev.filter(item => item.id !== jobId));
         } catch (error) {
             console.error(error);
@@ -60,7 +59,7 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
             if (error instanceof AxiosError) {
                 errorMessage = error.response?.data?.error;
             }
-            alert(errorMessage, 'danger');
+            toastService.error(errorMessage);
         }
     }
 
@@ -85,21 +84,21 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
     const handleApplyJob = async (jobId: string) => {
         try {
             await applicantService!.applyForJob(jobId);
-            alert("Applied", 'success')
+            toastService.success("Applied")
         } catch (error) {
             console.error(error);
             let errorMessage = "Something Went Wrong. Please try again later."
             if (error instanceof AxiosError) {
                 errorMessage = error.response?.data?.error;
             }
-            alert(errorMessage, 'danger');
+            toastService.error(errorMessage);
         }
     }
 
     const handleDeleteSaved = async (jobId: string) => {
         try {
             await applicantService!.deleteSavedJob(jobId);
-            alert("Job removed from Saved", 'success');
+            toastService.success("Job removed from Saved");
             setData(prev => prev.filter(item => item.id !== jobId));
         } catch (error) {
             console.error(error);
@@ -107,7 +106,7 @@ const JobsOverview: React.FC<JobsOverviewProps> = ({ jobs, role }) => {
             if (error instanceof AxiosError) {
                 errorMessage = error.response?.data?.error;
             }
-            alert(errorMessage, 'danger');
+            toastService.error(errorMessage);
         }
     }
 

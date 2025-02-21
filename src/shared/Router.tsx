@@ -20,7 +20,6 @@ import Jobscape from "../apps/Jobscape/Jobscape";
 import JobHome from "../apps/Jobscape/pages/JobHome";
 import RegisterEmployer from "../apps/Jobscape/pages/RegisterEmployer";
 import RegisterHero from "../apps/Jobscape/pages/RegisterHero";
-import LeetcodeRivals from "../apps/LeetcodeRivals/LeetcodeRivals";
 import PokeMemory from "../apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "../apps/Pokeverse/context/BattleSimContext";
 import { PokedexProvider } from "../apps/Pokeverse/context/PokedexContext";
@@ -323,10 +322,6 @@ export const router = createBrowserRouter([
       {
         path: 'sudoku',
         element: <Sudoku />
-      },
-      {
-        path: 'leetcode-rivals',
-        element: <LeetcodeRivals />
       },
       {
         path: 'glassmorphism',

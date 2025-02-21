@@ -5,16 +5,15 @@ import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import { MapPin } from 'lucide-react';
 import React, { useCallback } from 'react';
-import { useAlert } from '../../../shared/AlertProvider';
 import { useApiClient } from '../../../shared/useApiClient';
 import { formatString } from '../../../shared/utilities';
 import FeaturedChip from '../components/FeaturedChip';
 import StyledTable from '../components/StyledTable';
 import { useJobscape } from '../JobscapeProvider';
+import { toastService } from '../../../providers/toastr';
 
 const AppliedJobs: React.FC = () => {
     const { applicantService } = useJobscape();
-    const { alert } = useAlert();
 
     if (!applicantService) return;
 
@@ -31,7 +30,7 @@ const AppliedJobs: React.FC = () => {
     }
 
     if (error || !data) {
-        alert('Failed to load recommended jobs', 'danger');
+        toastService.error('Failed to load recommended jobs');
         return <Typography color="danger">Failed to load job applications</Typography>;
     }
 

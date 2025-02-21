@@ -10,7 +10,6 @@ import { ArrowRight, Bookmark, Briefcase, Calendar, Gauge, MapPin, Power, Users,
 import React, { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import StyledHtmlContent from '../../../components/StyledHtmlContent';
-import { useAlert } from '../../../shared/AlertProvider';
 import { useApiClient } from '../../../shared/useApiClient';
 import { formatString } from '../../../shared/utilities';
 import { useJobscape } from '../JobscapeProvider';
@@ -20,11 +19,11 @@ import InfoStrip from '../components/InfoBox';
 import JobNav from '../components/JobNav';
 import { JobResponse } from '../helpers/job.types';
 import { JobDetailsResponse } from '../helpers/response.types';
+import { toastService } from '../../../providers/toastr';
 
 const JobDetails: React.FC = () => {
     const { jobId } = useParams();
     const { role, applicantService } = useJobscape();
-    const { alert } = useAlert();
 
     if (!jobId || !applicantService) return;
 
@@ -40,35 +39,35 @@ const JobDetails: React.FC = () => {
 
     if (loading) return <Typography>Loading job details...</Typography>;
     if (error || !data) {
-        alert('Failed to load job details', 'danger');
+        toastService.error("Failed to load job information");
         return <Typography color="danger">Failed to load job details</Typography>;
     }
 
     const handleSaveJob = async () => {
         try {
             await applicantService!.saveJob(job.id);
-            alert("Job saved", 'success')
+            toastService.success("Job saved")
         } catch (error: any) {
             console.error(error);
             let errorMessage = "Something Went Wrong. Please try again later."
             if (error instanceof AxiosError) {
                 errorMessage = error.response?.data?.error;
             }
-            alert(errorMessage, 'danger');
+            toastService.error(errorMessage);
         }
     }
 
     const handleApplyJob = async () => {
         try {
             await applicantService!.applyForJob(job.id);
-            alert("Applied", 'success')
+            toastService.success("Applied")
         } catch (error) {
             console.error(error);
             let errorMessage = "Something Went Wrong. Please try again later."
             if (error instanceof AxiosError) {
                 errorMessage = error.response?.data?.error;
             }
-            alert(errorMessage, 'danger');
+            toastService.error(errorMessage);
         }
     }
 

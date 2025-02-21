@@ -3,23 +3,22 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./shared/Router";
 import "./styles/styles.scss";
 import theme from "./styles/theme";
-import Background from "./components/Background";
-import { AlertProvider } from "./shared/AlertProvider";
 import { AuthProvider } from "./auth/AuthProvider";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
   return (
-    <AlertProvider>
+    <>
       <AuthProvider>
         <CssVarsProvider theme={theme}>
           <CssBaseline />
-          <Background>
-            <RouterProvider router={router} />
-          </Background>
+          <RouterProvider router={router} />
         </CssVarsProvider>
       </AuthProvider>
-    </AlertProvider>
+      <ToastContainer stacked limit={5} />
+    </>
   );
 }
 
