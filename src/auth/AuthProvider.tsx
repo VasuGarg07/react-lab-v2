@@ -1,6 +1,5 @@
 // AuthProvider.tsx
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useAlert } from "../shared/AlertProvider";
 import {
     saveAuthData,
     clearAuthData,
@@ -11,6 +10,7 @@ import {
 } from "./auth.service";
 import { ChangePasswordData, LoginData, RegisterData, User } from "./auth.types";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+import { toastService } from "../providers/toastr";
 
 interface AuthContextType {
     isLoggedIn: boolean;
@@ -37,15 +37,14 @@ const isTokenExpired = (exp: number): boolean => {
 export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState<User | null>(null);
-    const { alert } = useAlert();
 
     const handleRegister = async (data: RegisterData): Promise<void> => {
         try {
             await register(data);
-            alert("User registered successfully", "success");
+            toastService.success("User registered successfully")
         } catch (error: any) {
             console.error("Error during registration:", error.response?.data?.error || error.message);
-            alert("Registeration Failed", "danger");
+            toastService.error("Registeration failed")
             throw error;
         }
     };
@@ -57,9 +56,10 @@ export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
             const decodedToken = jwtDecode<User>(accessToken);
             setUser(decodedToken);
             setIsLoggedIn(true);
+            toastService.success("Login successful")
         } catch (error: any) {
             console.error("Error during login:", error.response?.data?.error || error.message);
-            alert(error.response?.data?.error || error.message, 'danger');
+            toastService.error(error.response?.data?.error || error.message);
             throw error;
         }
     };
@@ -67,9 +67,10 @@ export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
     const handleChangePassword = async (data: ChangePasswordData): Promise<void> => {
         try {
             await changePassword(data);
-            alert("Password changed successfully. Please Login", "success");
+            toastService.success("Password changed successfully. Please Login");
         } catch (error: any) {
             console.error("Error during password change:", error.response?.data?.error || error.message);
+            toastService.error(error.response?.data?.error || error.message);
             throw error;
         }
     };
@@ -78,7 +79,7 @@ export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
         clearAuthData();
         setUser(null);
         setIsLoggedIn(false);
-        alert("User logged out", "success");
+        toastService.info("User logged out");
     };
 
     // Initialize Authentication State on App Load

@@ -5,7 +5,6 @@ import React from 'react';
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../../auth/AuthProvider';
-import { useAlert } from "../../../shared/AlertProvider";
 import EmployerForm from '../forms/EmployerForm';
 import CompactFooter from "../components/CompactFooter";
 import FormHeader from '../forms/FormHeader';
@@ -13,12 +12,12 @@ import { defaultEmployer } from '../helpers/job.constants';
 import { IEmployer } from '../helpers/job.types';
 import { employerFormSchema } from "../helpers/validationSchema";
 import { useJobscape } from '../JobscapeProvider';
+import { toastService } from "../../../providers/toastr";
 
 
 const RegisterEmployer: React.FC = () => {
     const { user } = useAuth();
     const { profileService } = useJobscape();
-    const { alert } = useAlert();
     const navigate = useNavigate();
 
     const methods = useForm<IEmployer>({
@@ -32,7 +31,7 @@ const RegisterEmployer: React.FC = () => {
                 ...data,
                 userId: user!.id,
             });
-            alert("You are now registered as Employer on Jobscape", 'success');
+            toastService.success("You are now registered as Employer on Jobscape");
             navigate('/jobscape');
         } catch (error: any) {
             console.error(error);
@@ -40,7 +39,7 @@ const RegisterEmployer: React.FC = () => {
             if (error instanceof AxiosError) {
                 errorMessage = error.response?.data?.error;
             }
-            alert(errorMessage, 'danger');
+            toastService.error(errorMessage);
         }
     };
 

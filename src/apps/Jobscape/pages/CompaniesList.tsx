@@ -13,7 +13,7 @@ import { CompanyCard } from '../components/CompanyCard';
 import JobNav from '../components/JobNav';
 import { CompaniesCardListResponse } from '../helpers/response.types';
 import { useJobscape } from '../JobscapeProvider';
-import { useAlert } from '../../../shared/AlertProvider';
+import { toastService } from '../../../providers/toastr';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -21,7 +21,6 @@ const CompaniesList: React.FC = () => {
     const { role, applicantService } = useJobscape();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
-    const { alert } = useAlert();
 
     // Get URL params with defaults
     const currentPage = Number(searchParams.get('page')) || 1;
@@ -52,11 +51,11 @@ const CompaniesList: React.FC = () => {
             if (result.success) {
                 setData(result);
             } else {
-                alert('Failed to load companies', 'danger');
+                toastService.error('Failed to load companies');
                 setError(true);
             }
         } catch (err) {
-            alert('Failed to load companies', 'danger');
+            toastService.error('Failed to load companies');
             setError(true);
             console.error('Error fetching companies:', err);
         } finally {

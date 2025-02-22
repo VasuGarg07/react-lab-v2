@@ -4,7 +4,6 @@ import { AxiosError } from 'axios';
 import React, { useEffect, useCallback } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAlert } from '../../../shared/AlertProvider';
 import { useJobscape } from '../JobscapeProvider';
 import JobForm from '../forms/JobForm';
 import { defaultJob } from '../helpers/job.constants';
@@ -12,9 +11,9 @@ import { IJob } from '../helpers/job.types';
 import { JobSchema } from '../helpers/validationSchema';
 import { useApiClient } from '../../../shared/useApiClient';
 import { JobDetailsResponse } from '../helpers/response.types';
+import { toastService } from '../../../providers/toastr';
 
 const PostJob: React.FC = () => {
-    const { alert } = useAlert();
     const navigate = useNavigate();
     const { profileId, employerService } = useJobscape();
     const { jobId } = useParams<{ jobId?: string }>();  // jobId may be undefined for /post-job
@@ -54,14 +53,14 @@ const PostJob: React.FC = () => {
                     ...data,
                     postedBy: profileId!
                 });
-                alert("Job Updated Successfully", 'success');
+                toastService.success("Job Updated Successfully");
             } else {
                 // Create new job
                 await employerService!.postNewJob({
                     ...data,
                     postedBy: profileId!
                 });
-                alert("New Job Posted", 'success');
+                toastService.success("New Job Posted");
             }
             navigate('/jobscape/employer/jobs');
         } catch (error: any) {
@@ -70,7 +69,7 @@ const PostJob: React.FC = () => {
             if (error instanceof AxiosError) {
                 errorMessage = error.response?.data?.error || errorMessage;
             }
-            alert(errorMessage, 'danger');
+            toastService.error(errorMessage);
         }
     };
 

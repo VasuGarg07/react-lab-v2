@@ -7,9 +7,9 @@ import JDComparator from '../components/JDComparator';
 import { useResumeContext } from '../context/ResumeContext';
 import { Templates } from '../helpers/templates';
 import { downloadJSON } from '../helpers/utilities';
-import { useAlert } from '../../../shared/AlertProvider';
 import generateResumePDF from '../pdfGenerators/pdfGenerator';
 import { TemplateName } from '../pdfGenerators/types';
+import { toastService } from '../../../providers/toastr';
 
 interface ButtonConfig {
     label: string;
@@ -30,23 +30,22 @@ const ResumePreview: React.FC = () => {
     const [showATSCheck, setShowATSCheck] = useState(false);
     const [showJDComparator, setShowJDComparator] = useState(false);
     const [isPdfLoading, setIsPdfLoading] = useState(false);
-    const { alert: showAlert } = useAlert();
 
     const SelectedTemplate = Templates.find(t => t.id === state.selectedTemplate?.id)?.component;
 
     const handlePdfGeneration = async () => {
         if (!state.selectedTemplate?.id) {
-            showAlert('Please select a template first', 'danger');
+            toastService.error('Please select a template first');
             return;
         }
 
         setIsPdfLoading(true);
         try {
             await generateResumePDF(state.resume, state.selectedTemplate.id.toLocaleLowerCase() as TemplateName);
-            showAlert('PDF generated successfully');
+            toastService.success('PDF generated successfully');
         } catch (error) {
             console.error('PDF generation failed:', error);
-            showAlert('Failed to generate PDF. Please try again.', 'danger');
+            toastService.error('Failed to generate PDF. Please try again.');
         } finally {
             setIsPdfLoading(false);
         }

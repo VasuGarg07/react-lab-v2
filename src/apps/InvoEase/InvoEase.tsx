@@ -13,7 +13,7 @@ import { Check, Download } from 'lucide-react';
 import { useAuth } from '../../auth/AuthProvider';
 import InvoiceLoginPrompt from './InvoiceLoginPrompt';
 import { generateAndDownloadPDF } from './helpers';
-import { useAlert } from '../../shared/AlertProvider';
+import { toastService } from '../../providers/toastr';
 
 const steps = [
     { label: 'Invoice Details', component: Details },
@@ -29,7 +29,6 @@ const InvoEase: React.FC = () => {
     const [isGenerating, setIsGenerating] = useState(false);
     const { mode } = useColorScheme();
     const { isLoggedIn } = useAuth();
-    const { alert } = useAlert();
     const {
         currentDate,
         dueDate,
@@ -78,7 +77,7 @@ const InvoEase: React.FC = () => {
             });
         } catch (error) {
             console.error('Error generating PDF:', error);
-            alert('Failed to generate PDF. Please try again.', 'danger');
+            toastService.error('Failed to generate PDF. Please try again.');
         } finally {
             setIsGenerating(false);
         }

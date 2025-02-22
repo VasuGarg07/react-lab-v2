@@ -3,7 +3,6 @@ import { Award, Briefcase, ChevronLeft, ChevronRight, ChevronsLeft, Code, Feathe
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Spacer } from '../../../components/Spacer';
-import { useAlert } from '../../../shared/AlertProvider';
 import AchievementsForm from '../components/AchievementsForm';
 import ContactInfoForm from '../components/ContactInfoForm';
 import EducationForm from '../components/EducationForm';
@@ -13,6 +12,7 @@ import SkillsForm from '../components/SkillsForm';
 import WorkExperienceForm from '../components/WorkExperienceForm';
 import { useResumeContext } from '../context/ResumeContext';
 import { importJSON } from '../helpers/utilities';
+import { toastService } from '../../../providers/toastr';
 
 const sectionConfig = [
     { icon: User, label: 'Contact Details', component: ContactInfoForm, color: '#724CF9' },
@@ -31,7 +31,6 @@ const ResumeForm: React.FC = () => {
     const isDarkMode = theme.palette.mode === 'dark';
     const navigate = useNavigate();
     const { dispatch } = useResumeContext();
-    const { alert: showAlert } = useAlert();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const ActiveComponent = sectionConfig[activeSection].component;
@@ -62,9 +61,9 @@ const ResumeForm: React.FC = () => {
         try {
             const resumeData = await importJSON(file);
             dispatch({ type: 'SET_RESUME', payload: resumeData });
-            showAlert('Resume data imported successfully!');
+            toastService.success('Resume data imported successfully!');
         } catch (error) {
-            showAlert((error as Error).message, 'danger');
+            toastService.error((error as Error).message);
         }
     };
 

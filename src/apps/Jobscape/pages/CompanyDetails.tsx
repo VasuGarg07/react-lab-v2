@@ -3,7 +3,6 @@ import { Building2, Calendar, ExternalLink, Facebook, Globe, Handshake, Instagra
 import React, { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import StyledHtmlContent from '../../../components/StyledHtmlContent';
-import { useAlert } from '../../../shared/AlertProvider';
 import { useApiClient } from '../../../shared/useApiClient';
 import { useJobscape } from '../JobscapeProvider';
 import CompactFooter from '../components/CompactFooter';
@@ -11,12 +10,12 @@ import JobCard from '../components/JobCard';
 import JobNav from '../components/JobNav';
 import { EmployerResponse, IESocialLinks } from '../helpers/job.types';
 import { CompanyDetailsResponse, JobsCardInfo } from '../helpers/response.types';
+import { toastService } from '../../../providers/toastr';
 
 const CompanyDetails: React.FC = () => {
     const { companyId } = useParams();
     const { role, applicantService } = useJobscape();
     const navigate = useNavigate();
-    const { alert } = useAlert();
 
     if (!companyId || !applicantService) return;
 
@@ -32,7 +31,7 @@ const CompanyDetails: React.FC = () => {
 
     if (loading) return <Typography>Loading company details...</Typography>;
     if (error || !data) {
-        alert('Failed to load company details', 'danger');
+        toastService.error('Failed to load company details');
         return <Typography color="danger">Failed to load company details</Typography>;
     }
 
