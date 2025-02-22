@@ -4,7 +4,7 @@ import { BgCenteredBox } from '@/components/BgCenteredBox';
 import MiniBoard from '@/apps/SuperTicTacToe/MiniBoard';
 import Sidebar from '@/apps/SuperTicTacToe/Sidebar';
 import StartGamePopup from '@/apps/SuperTicTacToe/StartGamePopup';
-import { BoxShadow, checkWinner, COLOR_O, COLOR_X, createEmptyBoard, createSuperBoard, InsetBoxShadow, Instructions, makeRandomMove, REM, SQ_SIZE, Timeout } from '@/apps/SuperTicTacToe/helpers';
+import { BOX_SHADOW, checkWinner, COLOR_O, COLOR_X, createEmptyBoard, createSuperBoard, INSET_BOX_SHADOW, INSTRUCTIONS, makeRandomMove, REM, SQ_SIZE, TIMEOUT } from '@/apps/SuperTicTacToe/helpers';
 import DarkBg from '/backgrounds/abstract-dark.webp';
 import LightBg from '/backgrounds/abstract.webp';
 
@@ -15,7 +15,7 @@ const SuperTicTacToe: React.FC = () => {
     const [nextBoard, setNextBoard] = useState<string | null>(null);
     const [gameWinner, setGameWinner] = useState<string | null>(null);
     const [gameStarted, setGameStarted] = useState<boolean>(false);
-    const [timer, setTimer] = useState<number>(Timeout);
+    const [timer, setTimer] = useState<number>(TIMEOUT);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const isDark = useTheme().palette.mode === 'dark';
 
@@ -28,7 +28,7 @@ const SuperTicTacToe: React.FC = () => {
                 const { bIndex, rIndex, cIndex } = move;
                 handlePlay(bIndex, rIndex, cIndex)
             }
-            setTimer(Timeout); // Reset timer for the next player
+            setTimer(TIMEOUT); // Reset timer for the next player
         }
         timeoutRef.current = setTimeout(() => setTimer(timer - 1), 1000);
         return () => {
@@ -89,7 +89,7 @@ const SuperTicTacToe: React.FC = () => {
         setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
         setNextBoard(newWinners[rowIndex][colIndex] ? null : `${rowIndex}-${colIndex}`);
         setGameWinner(superWinner);
-        setTimer(Timeout); // Reset timer for the next player
+        setTimer(TIMEOUT); // Reset timer for the next player
     };
 
     const renderBoard = (bigRow: number, bigCol: number) => {
@@ -99,8 +99,8 @@ const SuperTicTacToe: React.FC = () => {
                 <Grid xs={4} key={`${bigRow}-${bigCol}`}>
                     <Box
                         sx={{
-                            boxShadow: BoxShadow,
-                            padding: 2,
+                            boxShadow: BOX_SHADOW,
+                            p: 2,
                             borderRadius: 16,
                             backdropFilter: 'blur(16px)',
                         }}
@@ -131,7 +131,7 @@ const SuperTicTacToe: React.FC = () => {
                 <Grid xs={4} key={`${bigRow}-${bigCol}`}>
                     <Box
                         sx={{
-                            boxShadow: BoxShadow,
+                            boxShadow: BOX_SHADOW,
                             padding: 2,
                             borderRadius: 16,
                             backdropFilter: 'blur(16px)',
@@ -164,7 +164,7 @@ const SuperTicTacToe: React.FC = () => {
             <Grid xs={4} key={`${bigRow}-${bigCol}`}>
                 <Box
                     sx={{
-                        boxShadow: BoxShadow,
+                        boxShadow: BOX_SHADOW,
                         padding: 2,
                         borderRadius: 16,
                         background: isPlayable ? 'linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%)' : 'transparent',
@@ -189,7 +189,7 @@ const SuperTicTacToe: React.FC = () => {
                 <Grid>
                     <Grid container spacing={2} justifyContent="center"
                         sx={{
-                            boxShadow: InsetBoxShadow,
+                            boxShadow: INSET_BOX_SHADOW,
                             padding: 2,
                             borderRadius: 24,
                             width: 15 * SQ_SIZE,
@@ -211,7 +211,7 @@ const SuperTicTacToe: React.FC = () => {
                         currentPlayer={currentPlayer}
                         timer={timer}
                         handleRestartGame={handleRestartGame}
-                        Instructions={Instructions}
+                        Instructions={INSTRUCTIONS}
                         COLOR_X={COLOR_X}
                         COLOR_O={COLOR_O}
                     />

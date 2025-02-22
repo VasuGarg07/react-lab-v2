@@ -11,7 +11,6 @@ import Overview from "@/apps/BudgetBuddy/pages/Overview";
 import Statistics from "@/apps/BudgetBuddy/pages/Statistics";
 import Timeline from "@/apps/BudgetBuddy/pages/Timeline";
 import NotFound from "@/apps/Errors/NotFound";
-import Glassmorphism from "@/apps/Glassmorphism/Glassmorphism";
 import Home from "@/apps/Home/Home";
 import Homeloan from "@/apps/HomeloanWizard/Homeloan";
 import { InvoiceProvider } from "@/apps/InvoEase/InvoiceContext";
@@ -210,7 +209,6 @@ const routes = [
       { path: 'sorting-visualizer', element: <SortingVisualizer /> },
       { path: 'super-tic-tac-toe', element: <SuperTicTacToe /> },
       { path: 'sudoku', element: <Sudoku /> },
-      { path: 'glassmorphism', element: <Glassmorphism /> },
       { path: 'homeloan-wizard', element: <Homeloan /> },
       { path: 'poke-memory', element: <PokeMemory /> },
       { path: 'snapfind', element: <SnapFind /> },

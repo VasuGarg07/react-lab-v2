@@ -1,7 +1,6 @@
-import React from 'react';
-import { Button, Option, Select, Stack, Typography } from '@mui/joy';
-import { Spacer } from '@/components/Spacer';
 import { ArraySize, TimeDuration } from '@/apps/Visualizer/helpers';
+import { Button, Option, Select, Stack, Typography } from '@mui/joy';
+import React from 'react';
 
 interface ControlPanelProps {
     algorithm: string;
@@ -50,7 +49,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
     return (
         <Stack direction='row' p={2} spacing={1}>
             <Typography level='h2' fontFamily={'Kanit'}>Sorting Visualizer</Typography>
-            <Spacer />
+            <span className='spacer' />
+
             <Button onClick={resetArray}>Generate</Button>
             <Select value={algorithm} onChange={handleAlgorithmChange}>
                 <Option value="Bubble Sort">Bubble Sort</Option>

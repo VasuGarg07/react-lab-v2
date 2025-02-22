@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { CardType, GameMode, GameState, loadCards } from '@/apps/PokeMemory/helpers';
 import { useGameContext } from '@/apps/PokeMemory/Context';
-import { Button, Card, Divider, Input, Stack, Typography, Box, Container, Tooltip } from '@mui/joy';
+import { CardType, GameMode, GameState, loadCards } from '@/apps/PokeMemory/helpers';
+import { toastService } from '@/providers/toastr';
 import { keyframes } from '@emotion/react';
+import { Box, Button, Card, Container, Divider, Input, Stack, Tooltip, Typography } from '@mui/joy';
+import { Gamepad2, Puzzle, Skull, UserRound, Zap } from 'lucide-react';
+import React from 'react';
 import Logo from '/game-logo.png';
-import { ErrorMessage } from '@/components/ErrorMessage';
-import { Gamepad2, UserRound, Zap, Puzzle, Skull } from 'lucide-react';
 
 interface Props {
   name: string;
@@ -30,15 +30,13 @@ const pulseAnimation = keyframes`
 
 const Setup: React.FC = () => {
   const { name, difficulty, setName, setDifficulty, setCards, setGameState }: Props = useGameContext();
-  const [error, setError] = useState(false);
 
   const handleSubmit = async () => {
     if (!difficulty || !name.trim()) {
-      setError(true);
+      toastService.error("Please enter your name and select a difficulty level");
       return;
     }
 
-    setError(false);
 
     switch (difficulty) {
       case GameMode.Easy:
@@ -99,8 +97,6 @@ const Setup: React.FC = () => {
           </Typography>
 
           <Divider sx={{ width: '100%' }} />
-
-          {error && <ErrorMessage message="Please enter your name and select a difficulty level" />}
 
           <Input
             placeholder="Enter Your Name"
