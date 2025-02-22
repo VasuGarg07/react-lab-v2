@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/joy";
-import { useQuizContext } from "./Context";
+import { useQuizContext } from "@/apps/Quizzo/Context";
 
 const Result = () => {
   const { name, score, resetGame } = useQuizContext();

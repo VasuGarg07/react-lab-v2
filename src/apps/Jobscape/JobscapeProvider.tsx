@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useAuth } from '../../auth/AuthProvider';
-import JobscapeService from './helpers/job.service';
-import { ApplicantResponse, EmployerResponse, JobRoles } from './helpers/job.types';
+import { useAuth } from '@/auth/AuthProvider';
+import JobscapeService from '@/apps/Jobscape/helpers/job.service';
+import { ApplicantResponse, EmployerResponse, JobRoles } from '@/apps/Jobscape/helpers/job.types';
 
 interface JobscapeContextType {
     loading: boolean;

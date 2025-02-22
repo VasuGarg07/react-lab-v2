@@ -1,7 +1,7 @@
 import { Box, Button, List, ListItem, Modal, ModalDialog, Typography, useTheme } from '@mui/joy';
 import { Swords } from 'lucide-react';
 import React from 'react';
-import { Instructions } from './helpers';
+import { Instructions } from '@/apps/SuperTicTacToe/helpers';
 
 interface StartGamePopupProps {
     open: boolean;

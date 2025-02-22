@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
-import { ResumeModel } from '../helpers/interfaces';
-import { templateConfigs } from './templateConfigs';
-import { TemplateName, TextAlignment } from './types';
+import { ResumeModel } from '@/apps/ResumeGen/helpers/interfaces';
+import { templateConfigs } from '@/apps/ResumeGen/pdfGenerators/templateConfigs';
+import { TemplateName, TextAlignment } from '@/apps/ResumeGen/pdfGenerators/types';
 
 export class PDFGenerator {
     private doc: jsPDF;

@@ -1,10 +1,10 @@
 import { Button, Divider, Sheet, Stack, Typography } from '@mui/joy';
 import { ChevronRight, X } from 'lucide-react';
 import React, { useState } from 'react';
-import { ErrorMessage } from '../../components/ErrorMessage';
-import { GameState } from '../PokeMemory/helpers';
-import { useQuizContext } from './Context';
-import { Question } from './helper';
+import { ErrorMessage } from '@/components/ErrorMessage';
+import { GameState } from '@/apps/PokeMemory/helpers';
+import { useQuizContext } from '@/apps/Quizzo/Context';
+import { Question } from '@/apps/Quizzo/helper';
 
 interface ContextProps {
   questions: Question[],

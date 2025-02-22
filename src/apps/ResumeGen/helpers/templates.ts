@@ -6,15 +6,15 @@ import Professional from '/resume-templates/Professional.png';
 import PurpleAccent from '/resume-templates/PurpleAccent.png';
 import Sleek from '/resume-templates/Sleek.png';
 import TwoColumn from '/resume-templates/TwoColumn.png';
-import BluePrintResume from '../templates/BluePrint';
-import ClassicResume from '../templates/Classic';
-import MinimalistResume from '../templates/Minimalist';
-import ModernResume from '../templates/Modern';
-import ProfessionalResume from '../templates/Professional';
-import PurpleAccentResume from '../templates/PurpleAccent';
-import RefinedSleekResume from '../templates/Sleek';
-import TwoColumnResume from '../templates/TwoColumn';
-import { TemplateProps } from './interfaces';
+import BluePrintResume from '@/apps/ResumeGen/templates/BluePrint';
+import ClassicResume from '@/apps/ResumeGen/templates/Classic';
+import MinimalistResume from '@/apps/ResumeGen/templates/Minimalist';
+import ModernResume from '@/apps/ResumeGen/templates/Modern';
+import ProfessionalResume from '@/apps/ResumeGen/templates/Professional';
+import PurpleAccentResume from '@/apps/ResumeGen/templates/PurpleAccent';
+import RefinedSleekResume from '@/apps/ResumeGen/templates/Sleek';
+import TwoColumnResume from '@/apps/ResumeGen/templates/TwoColumn';
+import { TemplateProps } from '@/apps/ResumeGen/helpers/interfaces';
 
 interface TemplateInfo {
     id: string;

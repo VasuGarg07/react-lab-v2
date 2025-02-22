@@ -3,12 +3,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronRight, Flag, Sword } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { BgCenteredBox } from '../../../components/BgCenteredBox';
-import { GameOverModal } from '../components/GameOverModal';
-import PokemonBattleCard from '../components/PokemonBattleCard';
-import { SwitchPokemonModal } from '../components/SwitchPokemonModal';
-import { useBattle, useBattleActions } from '../context/BattleSimContext';
-import { TYPE_COLORS } from '../helpers/constant';
+import { BgCenteredBox } from '@/components/BgCenteredBox';
+import { GameOverModal } from '@/apps/Pokeverse/components/GameOverModal';
+import PokemonBattleCard from '@/apps/Pokeverse/components/PokemonBattleCard';
+import { SwitchPokemonModal } from '@/apps/Pokeverse/components/SwitchPokemonModal';
+import { useBattle, useBattleActions } from '@/apps/Pokeverse/context/BattleSimContext';
+import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
 import Dark from '/backgrounds/bg-poke-dark.webp';
 import Light from '/backgrounds/bg-poke.png';
 

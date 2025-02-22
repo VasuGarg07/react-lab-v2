@@ -8,12 +8,12 @@ import { Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import ReactPagination from 'react-responsive-pagination';
 import { useNavigate, useSearchParams } from 'react-router';
-import CompactFooter from '../components/CompactFooter';
-import { CompanyCard } from '../components/CompanyCard';
-import JobNav from '../components/JobNav';
-import { CompaniesCardListResponse } from '../helpers/response.types';
-import { useJobscape } from '../JobscapeProvider';
-import { toastService } from '../../../providers/toastr';
+import CompactFooter from '@/apps/Jobscape/components/CompactFooter';
+import { CompanyCard } from '@/apps/Jobscape/components/CompanyCard';
+import JobNav from '@/apps/Jobscape/components/JobNav';
+import { CompaniesCardListResponse } from '@/apps/Jobscape/helpers/response.types';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import { toastService } from '@/providers/toastr';
 
 const ITEMS_PER_PAGE = 10;
 

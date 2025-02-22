@@ -1,6 +1,6 @@
-import apiClient from '../../../shared/apiClient';
-import { IApplicant, IApplication, IEmployer, IJob, JobResponse, JobRoles } from './job.types';
-import { CompaniesCardListResponse, CompanyDetailsResponse, EmployerAnalytics, JobDetailsResponse, JobsCardListResponse, JobsListResponse, ProfileResponse } from './response.types';
+import apiClient from '@/shared/apiClient';
+import { IApplicant, IApplication, IEmployer, IJob, JobResponse, JobRoles } from '@/apps/Jobscape/helpers/job.types';
+import { CompaniesCardListResponse, CompanyDetailsResponse, EmployerAnalytics, JobDetailsResponse, JobsCardListResponse, JobsListResponse, ProfileResponse } from '@/apps/Jobscape/helpers/response.types';
 
 type UserRole = JobRoles | 'profile';
 

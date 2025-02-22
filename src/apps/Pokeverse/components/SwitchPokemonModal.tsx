@@ -1,9 +1,9 @@
 import { Box, Button, Chip, Divider, Grid, IconButton, Modal, Sheet, Typography } from '@mui/joy';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Heart, X, Zap } from 'lucide-react';
-import { BattlePokemon } from '../helpers/battle.types';
-import { TYPE_COLORS } from '../helpers/constant';
-import { getOfficialImage } from '../helpers/utilities';
+import { BattlePokemon } from '@/apps/Pokeverse/helpers/battle.types';
+import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { getOfficialImage } from '@/apps/Pokeverse/helpers/utilities';
 
 interface SwitchPokemonModalProps {
     open: boolean;

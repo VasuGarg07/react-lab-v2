@@ -1,9 +1,9 @@
 import { Alert, Box, CircularProgress, Typography } from '@mui/joy';
 import { PieChart, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
 import React from 'react';
-import { useBudget } from '../BudgetContext';
-import AggregateView from '../components/AggregateView';
-import BalanceCard from '../components/BalanceCard';
+import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
+import AggregateView from '@/apps/BudgetBuddy/components/AggregateView';
+import BalanceCard from '@/apps/BudgetBuddy/components/BalanceCard';
 
 const Statistics: React.FC = () => {
     const {

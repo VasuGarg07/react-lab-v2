@@ -1,4 +1,4 @@
-import { PokemonSprite } from "./response.types";
+import { PokemonSprite } from "@/apps/Pokeverse/helpers/response.types";
 
 export interface Ability {
     name: string;

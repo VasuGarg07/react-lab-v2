@@ -17,9 +17,9 @@ import {
     User2
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { useAuth } from '../../../auth/AuthProvider';
-import { CSVDownloader } from '../../../shared/CSVDownloader';
-import { useBudget } from '../BudgetContext';
+import { useAuth } from '@/auth/AuthProvider';
+import { CSVDownloader } from '@/shared/CSVDownloader';
+import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
 
 const HomePage = () => {
     const {

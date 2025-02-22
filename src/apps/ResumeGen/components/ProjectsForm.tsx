@@ -1,10 +1,10 @@
 import { Box, Button, Card, CardContent, Divider, FormControl, IconButton, Input, Stack, Textarea, Tooltip, Typography } from '@mui/joy';
 import { AlertCircle, FolderGit2, Link as LinkIcon, Plus, Trash2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { useResumeContext } from '../context/ResumeContext';
-import { MAX_PROJECTS, MAX_PROJECT_DESCRIPTION_LENGTH, MAX_TECHNOLOGIES } from '../helpers/constants';
-import { Project } from '../helpers/interfaces';
-import { MinimalistSkillChip } from './SkillChips';
+import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
+import { MAX_PROJECTS, MAX_PROJECT_DESCRIPTION_LENGTH, MAX_TECHNOLOGIES } from '@/apps/ResumeGen/helpers/constants';
+import { Project } from '@/apps/ResumeGen/helpers/interfaces';
+import { MinimalistSkillChip } from '@/apps/ResumeGen/components/SkillChips';
 
 interface ProjectsFormProps {
     color: string;

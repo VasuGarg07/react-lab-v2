@@ -16,10 +16,10 @@ import {
 import { LogOut, Menu as MenuIcon, Moon, Sun, User, User2, UserRoundPlus } from 'lucide-react';
 import { useState } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router';
-import BrandLogo from './BrandLogo';
-import { useJobscape } from '../JobscapeProvider';
-import { ApplicantResponse, EmployerResponse, JobRoles } from '../helpers/job.types';
-import { useAuth } from '../../../auth/AuthProvider';
+import BrandLogo from '@/apps/Jobscape/components/BrandLogo';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import { ApplicantResponse, EmployerResponse, JobRoles } from '@/apps/Jobscape/helpers/job.types';
+import { useAuth } from '@/auth/AuthProvider';
 
 interface NavbarProps {
     userType: JobRoles | 'none';

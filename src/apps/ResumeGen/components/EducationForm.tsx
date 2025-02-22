@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useResumeContext } from '../context/ResumeContext';
+import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
 import { Box, FormControl, Input, Stack, IconButton, Card, CardContent, Typography, Button, Divider, Tooltip } from '@mui/joy';
 import { GraduationCap, Plus, Trash2, AlertCircle, Building, Book, Calendar } from 'lucide-react';
-import { MAX_EDUCATION_ENTRIES } from '../helpers/constants';
-import { Education } from '../helpers/interfaces';
+import { MAX_EDUCATION_ENTRIES } from '@/apps/ResumeGen/helpers/constants';
+import { Education } from '@/apps/ResumeGen/helpers/interfaces';
 
 interface EducationFormProps {
     color: string;

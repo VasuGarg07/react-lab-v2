@@ -17,9 +17,9 @@ import {
 } from '@mui/joy';
 import { MoreVertical, Pencil, Archive } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
-import { Blog } from '../helpers/blog.constants';
-import { archiveBlog } from '../helpers/blog.service';
-import { useAuth } from '../../../auth/AuthProvider';
+import { Blog } from '@/apps/Blogify/helpers/blog.constants';
+import { archiveBlog } from '@/apps/Blogify/helpers/blog.service';
+import { useAuth } from '@/auth/AuthProvider';
 
 interface BlogCardProps {
     blog: Blog;

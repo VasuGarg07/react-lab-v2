@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react';
 import { Box, Button, Checkbox, Typography, useTheme } from '@mui/joy';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { useResumeContext } from '../context/ResumeContext';
-import { Templates } from '../helpers/templates';
+import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
+import { Templates } from '@/apps/ResumeGen/helpers/templates';
 
 const TemplateSelection: React.FC = () => {
     const theme = useTheme();

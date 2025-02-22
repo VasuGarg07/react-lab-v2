@@ -1,8 +1,8 @@
 import { Box, Sheet, Typography } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
-import { TYPE_COLORS } from '../helpers/constant';
-import { Move } from '../helpers/model.types';
+import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { Move } from '@/apps/Pokeverse/helpers/model.types';
 
 interface MovesSectionProps {
     moves: Move[];

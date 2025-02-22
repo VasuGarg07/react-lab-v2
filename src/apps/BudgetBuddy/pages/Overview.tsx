@@ -1,9 +1,9 @@
 import { Alert, Box, Button, CircularProgress, Divider, Modal, ModalDialog, Stack, Typography } from '@mui/joy';
 import { AlertTriangle, Download, History, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
-import { CSVDownloader } from '../../../shared/CSVDownloader';
-import { useBudget } from '../BudgetContext';
-import TransactionTable from '../components/TransactionTable';
+import { CSVDownloader } from '@/shared/CSVDownloader';
+import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
+import TransactionTable from '@/apps/BudgetBuddy/components/TransactionTable';
 
 const Overview: React.FC = () => {
     const { transactions, loading, error, handleAddTransaction, clearAllTransactions } = useBudget();

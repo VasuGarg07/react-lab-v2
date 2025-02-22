@@ -1,17 +1,17 @@
 import React from 'react'
-import { useAuth } from '../../../auth/AuthProvider';
-import { useJobscape } from '../JobscapeProvider';
+import { useAuth } from '@/auth/AuthProvider';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
 import { FormProvider, useForm } from 'react-hook-form';
-import { IApplicant } from '../helpers/job.types';
+import { IApplicant } from '@/apps/Jobscape/helpers/job.types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { applicantFormSchema } from '../helpers/validationSchema';
-import { defaultApplicant } from '../helpers/job.constants';
-import FormHeader from '../forms/FormHeader';
+import { applicantFormSchema } from '@/apps/Jobscape/helpers/validationSchema';
+import { defaultApplicant } from '@/apps/Jobscape/helpers/job.constants';
+import FormHeader from '@/apps/Jobscape/forms/FormHeader';
 import Container from '@mui/joy/Container';
-import CompactFooter from '../components/CompactFooter';
-import ApplicantForm from '../forms/ApplicantForm';
+import CompactFooter from '@/apps/Jobscape/components/CompactFooter';
+import ApplicantForm from '@/apps/Jobscape/forms/ApplicantForm';
 import { AxiosError } from 'axios';
-import { toastService } from '../../../providers/toastr';
+import { toastService } from '@/providers/toastr';
 
 const RegisterApplicant: React.FC = () => {
     const { user } = useAuth();

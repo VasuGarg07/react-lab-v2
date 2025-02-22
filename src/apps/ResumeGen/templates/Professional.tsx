@@ -1,7 +1,7 @@
 import { Box, Divider, List, ListItem, styled, Typography } from '@mui/joy';
 import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import React from 'react';
-import { TemplateProps } from '../helpers/interfaces';
+import { TemplateProps } from '@/apps/ResumeGen/helpers/interfaces';
 
 const PRIMARY_COLOR = '#2F3E46';
 const SECONDARY_COLOR = '#4682B4';

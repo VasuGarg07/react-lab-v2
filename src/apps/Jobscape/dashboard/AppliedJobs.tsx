@@ -5,12 +5,12 @@ import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
 import { MapPin } from 'lucide-react';
 import React, { useCallback } from 'react';
-import { useApiClient } from '../../../shared/useApiClient';
-import { formatString } from '../../../shared/utilities';
-import FeaturedChip from '../components/FeaturedChip';
-import StyledTable from '../components/StyledTable';
-import { useJobscape } from '../JobscapeProvider';
-import { toastService } from '../../../providers/toastr';
+import { useApiClient } from '@/shared/useApiClient';
+import { formatString } from '@/shared/utilities';
+import FeaturedChip from '@/apps/Jobscape/components/FeaturedChip';
+import StyledTable from '@/apps/Jobscape/components/StyledTable';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import { toastService } from '@/providers/toastr';
 
 const AppliedJobs: React.FC = () => {
     const { applicantService } = useJobscape();

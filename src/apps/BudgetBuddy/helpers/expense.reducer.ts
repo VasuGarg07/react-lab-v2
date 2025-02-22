@@ -1,4 +1,4 @@
-import { Transaction } from "./expense.constants";
+import { Transaction } from "@/apps/BudgetBuddy/helpers/expense.constants";
 
 export interface BudgetState {
     transactions: Transaction[];

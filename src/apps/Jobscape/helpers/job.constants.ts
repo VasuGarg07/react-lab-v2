@@ -1,5 +1,5 @@
-import { formatString } from "../../../shared/utilities";
-import { IApplicant, IEmployer, IJob } from "./job.types";
+import { formatString } from "@/shared/utilities";
+import { IApplicant, IEmployer, IJob } from "@/apps/Jobscape/helpers/job.types";
 
 // Employer Form Empty State
 export const defaultEmployer: IEmployer = {

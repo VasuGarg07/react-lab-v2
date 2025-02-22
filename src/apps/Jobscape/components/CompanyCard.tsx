@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Box, Typography, Button, AspectRatio } from '@mui/joy';
 import { MapPin, ArrowRight } from 'lucide-react';
-import { CompanyCardInfo } from '../helpers/response.types';
+import { CompanyCardInfo } from '@/apps/Jobscape/helpers/response.types';
 
 interface CompanyCardProps {
     info: CompanyCardInfo;

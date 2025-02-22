@@ -1,9 +1,9 @@
 import { Box } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { Outlet, useLocation } from 'react-router';
-import BlogifyNav from './components/BlogifyNav';
-import { useAuth } from '../../auth/AuthProvider';
-import BlogifyAuth from './pages/BlogifyAuth';
+import BlogifyNav from '@/apps/Blogify/components/BlogifyNav';
+import { useAuth } from '@/auth/AuthProvider';
+import BlogifyAuth from '@/apps/Blogify/pages/BlogifyAuth';
 import { useColorScheme } from '@mui/joy';
 
 const Blogify = () => {

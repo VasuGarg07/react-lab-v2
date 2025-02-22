@@ -2,9 +2,9 @@ import { Box, Sheet, Typography } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { Crown, Dumbbell, EyeOff, Heart, Ruler, Scale, Target, TreePine } from 'lucide-react';
 import React from 'react';
-import { REGION_DATA, TYPE_COLORS } from '../helpers/constant';
-import { Pokemon } from '../helpers/model.types';
-import { formatString } from '../../../shared/utilities';
+import { REGION_DATA, TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { Pokemon } from '@/apps/Pokeverse/helpers/model.types';
+import { formatString } from '@/shared/utilities';
 
 interface ChipProps {
     ability: string;

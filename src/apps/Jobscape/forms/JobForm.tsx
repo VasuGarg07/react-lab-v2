@@ -14,11 +14,11 @@ import Typography from '@mui/joy/Typography';
 import { Upload } from 'lucide-react';
 import React, { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import RichTextEditor from '../../../shared/RichTextEditor';
-import { JOB_LEVELS, JOB_TYPES, SHIFT_TYPES } from '../helpers/job.constants';
-import { FormProps, IJob } from '../helpers/job.types';
-import TagsListInput from './TagsListInput';
-import SalaryRangeSlider from './SalaryRange';
+import RichTextEditor from '@/shared/RichTextEditor';
+import { JOB_LEVELS, JOB_TYPES, SHIFT_TYPES } from '@/apps/Jobscape/helpers/job.constants';
+import { FormProps, IJob } from '@/apps/Jobscape/helpers/job.types';
+import TagsListInput from '@/apps/Jobscape/forms/TagsListInput';
+import SalaryRangeSlider from '@/apps/Jobscape/forms/SalaryRange';
 
 const JobForm: React.FC<FormProps<IJob>> = ({ onSubmit, btnLabel }) => {
 

@@ -1,7 +1,7 @@
 import { Box, styled, Typography } from '@mui/joy';
 import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import React from 'react';
-import { TemplateProps } from '../helpers/interfaces';
+import { TemplateProps } from '@/apps/ResumeGen/helpers/interfaces';
 
 const PURPLE_ACCENT = '#8E44AD';
 const TEXT_COLOR = '#333333';

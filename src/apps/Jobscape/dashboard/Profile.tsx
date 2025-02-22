@@ -3,12 +3,12 @@ import Typography from '@mui/joy/Typography';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import EmployerForm from '../forms/EmployerForm';
-import { ApplicantResponse, EmployerResponse, IApplicant, IEmployer } from '../helpers/job.types';
-import { applicantFormSchema, employerFormSchema } from '../helpers/validationSchema';
-import { useJobscape } from '../JobscapeProvider';
-import ApplicantForm from '../forms/ApplicantForm';
-import { toastService } from '../../../providers/toastr';
+import EmployerForm from '@/apps/Jobscape/forms/EmployerForm';
+import { ApplicantResponse, EmployerResponse, IApplicant, IEmployer } from '@/apps/Jobscape/helpers/job.types';
+import { applicantFormSchema, employerFormSchema } from '@/apps/Jobscape/helpers/validationSchema';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import ApplicantForm from '@/apps/Jobscape/forms/ApplicantForm';
+import { toastService } from '@/providers/toastr';
 
 const EmployerProfile: React.FC = () => {
     const { profile, profileService, updateProfile } = useJobscape();

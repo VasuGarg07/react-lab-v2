@@ -1,8 +1,8 @@
 import { Box, Button, Card, CardContent, Chip, Divider, FormControl, LinearProgress, Stack, Textarea, Typography } from '@mui/joy';
 import { AlertCircle, CheckCircle, Eraser, FileText, Lightbulb } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { useResumeContext } from '../context/ResumeContext';
-import { MAX_PROFILE_LENGTH, SAMPLE_PROFILES } from '../helpers/constants';
+import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
+import { MAX_PROFILE_LENGTH, SAMPLE_PROFILES } from '@/apps/ResumeGen/helpers/constants';
 
 interface ProfileFormProps {
     color: string;

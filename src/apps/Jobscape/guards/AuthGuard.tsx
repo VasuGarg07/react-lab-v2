@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router';
-import { useJobscape } from '../JobscapeProvider';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
 
 const AuthGaurd: React.FC = () => {
     const { isRegistered } = useJobscape();

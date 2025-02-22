@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext, useState } from "react";
-import { Pokemon } from "../helpers/model.types";
+import { Pokemon } from "@/apps/Pokeverse/helpers/model.types";
 
 interface PokedexContextType {
     pokemons: Record<number, Pokemon>; // Stores Pokémon objects keyed by ID

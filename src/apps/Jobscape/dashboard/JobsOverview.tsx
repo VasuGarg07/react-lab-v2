@@ -13,11 +13,11 @@ import { AxiosError } from 'axios';
 import { Archive, CheckCircle, Clock, MoreVertical, Pencil, Star, Trash2, Users } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { formatString } from '../../../shared/utilities';
-import StyledTable from '../components/StyledTable';
-import { JobResponse, JobRoles } from '../helpers/job.types';
-import { useJobscape } from '../JobscapeProvider';
-import { toastService } from '../../../providers/toastr';
+import { formatString } from '@/shared/utilities';
+import StyledTable from '@/apps/Jobscape/components/StyledTable';
+import { JobResponse, JobRoles } from '@/apps/Jobscape/helpers/job.types';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import { toastService } from '@/providers/toastr';
 
 interface JobsOverviewProps {
     role: JobRoles | null;

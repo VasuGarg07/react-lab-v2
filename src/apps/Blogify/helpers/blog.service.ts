@@ -1,6 +1,6 @@
 // blog.service.ts
-import apiClient from "../../../shared/apiClient";
-import { Blog, BlogListResponse, BlogRequest } from "./blog.constants";
+import apiClient from "@/shared/apiClient";
+import { Blog, BlogListResponse, BlogRequest } from "@/apps/Blogify/helpers/blog.constants";
 
 const buildQuery = (params: Record<string, any>) =>
     Object.entries(params).map(([key, value]) => `${key}=${value}`).join("&");

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, styled, Typography } from '@mui/joy';
 import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
-import { TemplateProps } from '../helpers/interfaces';
+import { TemplateProps } from '@/apps/ResumeGen/helpers/interfaces';
 
 const MAIN_COLOR = '#30566B';
 const BACKGROUND_COLOR = '#F1F5F9';

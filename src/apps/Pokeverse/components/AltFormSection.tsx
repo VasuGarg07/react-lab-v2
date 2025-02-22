@@ -1,9 +1,9 @@
 import { Box, Sheet, Typography } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
-import { TYPE_COLORS } from '../helpers/constant';
-import { AltForm } from '../helpers/model.types';
-import { getOfficialImage } from '../helpers/utilities';
+import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { AltForm } from '@/apps/Pokeverse/helpers/model.types';
+import { getOfficialImage } from '@/apps/Pokeverse/helpers/utilities';
 
 interface AltFormProps {
     varieties: AltForm[];

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Grid, Stack, Typography, Box } from "@mui/joy";
 import { keyframes } from '@emotion/react';
-import { useGameContext } from "./Context";
+import { useGameContext } from "@/apps/PokeMemory/Context";
 import GameWon from '/game-won.png';
 import { PartyPopper, Trophy } from 'lucide-react';
 

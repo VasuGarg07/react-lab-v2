@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { CircularProgress, Stack, Typography, useTheme, Card, Box } from "@mui/joy";
 import ResponsivePagination from 'react-responsive-pagination';
 import 'react-responsive-pagination/themes/classic.css';
-import { ErrorMessage } from "../../components/ErrorMessage";
-import ImageGallery from "./ImageGallery";
-import SearchBar from "./SearchBar";
-import { Image, unsplashImages } from "./helper";
-import { Spacer } from "../../components/Spacer";
+import { ErrorMessage } from "@/components/ErrorMessage";
+import ImageGallery from "@/apps/SnapFind/ImageGallery";
+import SearchBar from "@/apps/SnapFind/SearchBar";
+import { Image, unsplashImages } from "@/apps/SnapFind/helper";
+import { Spacer } from "@/components/Spacer";
 
 const SnapFind: React.FC = () => {
   const theme = useTheme();

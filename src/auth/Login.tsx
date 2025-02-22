@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { Eye, EyeOff, Lock, User } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { useAuth } from './AuthProvider';
-import { LoginData } from './auth.types';
+import { useAuth } from '@/auth/AuthProvider';
+import { LoginData } from '@/auth/auth.types';
 
 const Login = () => {
     const [formData, setFormData] = useState<LoginData>({

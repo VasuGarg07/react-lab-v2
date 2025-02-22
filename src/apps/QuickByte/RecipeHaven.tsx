@@ -3,7 +3,7 @@ import { Box, Card, CardContent, IconButton, Input, Stack, Typography } from '@m
 import { useTheme } from '@mui/joy/styles';
 import { Book, Search, Utensils } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import DrawerMenu from './DrawerMenu';
+import DrawerMenu from '@/apps/QuickByte/DrawerMenu';
 
 interface FeatureCardProps {
   icon: React.ReactNode;

@@ -1,11 +1,11 @@
 import { Autocomplete, Box, Button, FormControl, FormLabel, Input, Select, Stack, Tab, TabList, TabPanel, Tabs, Option, Grid, FormHelperText, tabClasses } from '@mui/joy';
 import { ArrowLeft, ArrowRight, AtSign, Building, Building2, Calendar, CircleUserRound, Globe, Link, Mail, MapPin, CheckCircle, Users } from 'lucide-react';
 import React, { useState } from 'react';
-import RichTextEditor from '../../../shared/RichTextEditor';
-import UploadImage from '../../../shared/UploadImage';
-import { FormProps, IEmployer, IESocialLinks } from '../helpers/job.types';
-import { INDUSTRY_OPTIONS, TEAM_SIZE_OPTIONS } from '../helpers/job.constants';
-import SocialLinkInput, { SocialPlatform } from './SocialLinkInput';
+import RichTextEditor from '@/shared/RichTextEditor';
+import UploadImage from '@/shared/UploadImage';
+import { FormProps, IEmployer, IESocialLinks } from '@/apps/Jobscape/helpers/job.types';
+import { INDUSTRY_OPTIONS, TEAM_SIZE_OPTIONS } from '@/apps/Jobscape/helpers/job.constants';
+import SocialLinkInput, { SocialPlatform } from '@/apps/Jobscape/forms/SocialLinkInput';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { Control, Controller, FieldErrors, useFormContext } from 'react-hook-form';

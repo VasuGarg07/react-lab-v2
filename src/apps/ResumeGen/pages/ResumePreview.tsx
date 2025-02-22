@@ -2,14 +2,14 @@ import { Box, Button, CircularProgress, IconButton, Tooltip, Typography, useThem
 import { CheckCircle, Edit, FileDown, FileJson, GitCompare, LayoutTemplate } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
-import ATSCheck from '../components/AtsCheck';
-import JDComparator from '../components/JDComparator';
-import { useResumeContext } from '../context/ResumeContext';
-import { Templates } from '../helpers/templates';
-import { downloadJSON } from '../helpers/utilities';
-import generateResumePDF from '../pdfGenerators/pdfGenerator';
-import { TemplateName } from '../pdfGenerators/types';
-import { toastService } from '../../../providers/toastr';
+import ATSCheck from '@/apps/ResumeGen/components/AtsCheck';
+import JDComparator from '@/apps/ResumeGen/components/JDComparator';
+import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
+import { Templates } from '@/apps/ResumeGen/helpers/templates';
+import { downloadJSON } from '@/apps/ResumeGen/helpers/utilities';
+import generateResumePDF from '@/apps/ResumeGen/pdfGenerators/pdfGenerator';
+import { TemplateName } from '@/apps/ResumeGen/pdfGenerators/types';
+import { toastService } from '@/providers/toastr';
 
 interface ButtonConfig {
     label: string;

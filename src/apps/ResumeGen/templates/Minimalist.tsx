@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Divider, Typography, styled } from '@mui/joy';
 import { Phone, Mail, Linkedin, Github, Briefcase, GraduationCap, MapPin, FolderGit2, Award } from 'lucide-react';
-import { TemplateProps } from '../helpers/interfaces';
+import { TemplateProps } from '@/apps/ResumeGen/helpers/interfaces';
 
 const ACCENT_COLOR = "#333333";
 

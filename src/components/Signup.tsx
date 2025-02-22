@@ -12,8 +12,8 @@ import {
 } from '@mui/joy';
 import { LogIn, User, LogOut } from 'lucide-react';
 import React from 'react';
-import { navigate } from '../shared/Router';
-import { useAuth } from '../auth/AuthProvider';
+import { navigate } from '@/shared/Router';
+import { useAuth } from '@/auth/AuthProvider';
 
 const Signup: React.FC = () => {
     const { isLoggedIn, user, logout } = useAuth();

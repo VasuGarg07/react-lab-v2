@@ -3,8 +3,8 @@ import { Box, Card, Chip, Typography, useColorScheme } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import React, { useState } from 'react';
-import { TYPE_COLORS } from '../helpers/constant';
-import { Pokemon } from '../helpers/model.types';
+import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { Pokemon } from '@/apps/Pokeverse/helpers/model.types';
 
 interface PokemonCardProps {
     pokemon: Pokemon;

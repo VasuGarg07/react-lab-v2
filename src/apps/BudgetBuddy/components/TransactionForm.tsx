@@ -13,7 +13,7 @@ import {
 } from '@mui/joy';
 import { ReceiptText } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { EXPENSE_TYPES, INCOME_TYPES, Transaction } from '../helpers/expense.constants';
+import { EXPENSE_TYPES, INCOME_TYPES, Transaction } from '@/apps/BudgetBuddy/helpers/expense.constants';
 
 interface TransactionFormProps {
     mode: 'add' | 'edit';

@@ -1,6 +1,6 @@
 import { Box } from '@mui/joy';
-import { Image } from './helper'
-import ImageCard from './ImageCard';
+import { Image } from '@/apps/SnapFind/helper'
+import ImageCard from '@/apps/SnapFind/ImageCard';
 import React from 'react';
 
 interface GalleryProps {

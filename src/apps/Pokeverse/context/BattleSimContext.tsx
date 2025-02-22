@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useReducer } from 'react';
-import { BattleAction, BattlePlayer, BattlePokemon, BattleState } from '../helpers/battle.types';
-import { BattleSimUtils } from '../helpers/utilities';
+import { BattleAction, BattlePlayer, BattlePokemon, BattleState } from '@/apps/Pokeverse/helpers/battle.types';
+import { BattleSimUtils } from '@/apps/Pokeverse/helpers/utilities';
 
 const initialState: BattleState = {
     phase: 'SETUP',

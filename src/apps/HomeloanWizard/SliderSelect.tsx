@@ -1,6 +1,6 @@
-import { fixInt } from "./helpers";
-import SliderComponent from "./Slider";
-import { LoanData } from "./helpers";
+import { fixInt } from "@/apps/HomeloanWizard/helpers";
+import SliderComponent from "@/apps/HomeloanWizard/Slider";
+import { LoanData } from "@/apps/HomeloanWizard/helpers";
 
 interface Props {
   data: LoanData,

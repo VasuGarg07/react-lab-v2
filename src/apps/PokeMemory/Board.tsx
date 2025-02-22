@@ -1,8 +1,8 @@
 import { Button, Card, Typography } from '@mui/joy';
-import { useGameContext } from './Context';
+import { useGameContext } from '@/apps/PokeMemory/Context';
 import Logo from '/game-logo.png';
-import CardGrid from './CardGrid';
-import { Spacer } from '../../components/Spacer';
+import CardGrid from '@/apps/PokeMemory/CardGrid';
+import { Spacer } from '@/components/Spacer';
 
 interface Props {
   name: string,

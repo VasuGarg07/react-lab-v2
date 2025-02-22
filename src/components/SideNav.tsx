@@ -1,9 +1,9 @@
 import { Drawer, IconButton, List, ListItem, ListItemButton, Typography, Sheet, Divider, Stack } from '@mui/joy';
 import { useState } from 'react';
 import { Menu, ChevronRight, Home, X } from 'lucide-react';
-import { Apps } from '../shared/apps';
-import { navigate } from '../shared/Router';
-import { Spacer } from './Spacer';
+import { Apps } from '@/shared/apps';
+import { navigate } from '@/shared/Router';
+import { Spacer } from '@/components/Spacer';
 
 const SideNav = () => {
   const [open, setOpen] = useState(false);

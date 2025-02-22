@@ -1,10 +1,10 @@
 import { Box, Card, Grid, useTheme } from '@mui/joy';
 import React, { useEffect, useRef, useState } from 'react';
-import { BgCenteredBox } from '../../components/BgCenteredBox';
-import MiniBoard from './MiniBoard';
-import Sidebar from './Sidebar';
-import StartGamePopup from './StartGamePopup';
-import { BoxShadow, checkWinner, COLOR_O, COLOR_X, createEmptyBoard, createSuperBoard, InsetBoxShadow, Instructions, makeRandomMove, REM, SQ_SIZE, Timeout } from './helpers';
+import { BgCenteredBox } from '@/components/BgCenteredBox';
+import MiniBoard from '@/apps/SuperTicTacToe/MiniBoard';
+import Sidebar from '@/apps/SuperTicTacToe/Sidebar';
+import StartGamePopup from '@/apps/SuperTicTacToe/StartGamePopup';
+import { BoxShadow, checkWinner, COLOR_O, COLOR_X, createEmptyBoard, createSuperBoard, InsetBoxShadow, Instructions, makeRandomMove, REM, SQ_SIZE, Timeout } from '@/apps/SuperTicTacToe/helpers';
 import DarkBg from '/backgrounds/abstract-dark.webp';
 import LightBg from '/backgrounds/abstract.webp';
 

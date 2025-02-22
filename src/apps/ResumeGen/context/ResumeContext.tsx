@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
-import { ResumeModel, ContactInfo, TechnicalSkill, WorkExperience, Education, Project, Achievement } from '../helpers/interfaces';
-import { INITIAL_RESUME } from '../helpers/constants';
+import { ResumeModel, ContactInfo, TechnicalSkill, WorkExperience, Education, Project, Achievement } from '@/apps/ResumeGen/helpers/interfaces';
+import { INITIAL_RESUME } from '@/apps/ResumeGen/helpers/constants';
 
 interface ResumeTemplate {
     id: string;

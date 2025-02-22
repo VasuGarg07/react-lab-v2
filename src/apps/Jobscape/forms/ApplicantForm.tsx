@@ -18,15 +18,15 @@ import React, { useState } from 'react';
 import { Control, Controller, FieldErrors, useFormContext } from 'react-hook-form';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import RichTextEditor from '../../../shared/RichTextEditor';
-import FileUploader from '../../../shared/UploadFile';
-import UploadImage from '../../../shared/UploadImage';
-import { JOB_TYPES, SHIFT_TYPES } from '../helpers/job.constants';
-import { FormProps, IApplicant, IASocialLinks } from '../helpers/job.types';
-import SocialLinkInput, { SocialPlatform } from './SocialLinkInput';
-import TagsListInput from './TagsListInput';
-import ExperienceForm from './ExperienceForm';
-import EducationForm from './EducationForm';
+import RichTextEditor from '@/shared/RichTextEditor';
+import FileUploader from '@/shared/UploadFile';
+import UploadImage from '@/shared/UploadImage';
+import { JOB_TYPES, SHIFT_TYPES } from '@/apps/Jobscape/helpers/job.constants';
+import { FormProps, IApplicant, IASocialLinks } from '@/apps/Jobscape/helpers/job.types';
+import SocialLinkInput, { SocialPlatform } from '@/apps/Jobscape/forms/SocialLinkInput';
+import TagsListInput from '@/apps/Jobscape/forms/TagsListInput';
+import ExperienceForm from '@/apps/Jobscape/forms/ExperienceForm';
+import EducationForm from '@/apps/Jobscape/forms/EducationForm';
 
 
 const ApplicantForm: React.FC<FormProps<IApplicant>> = ({ onSubmit, btnLabel }) => {

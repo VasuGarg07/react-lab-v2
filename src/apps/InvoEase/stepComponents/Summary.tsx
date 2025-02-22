@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { Box, Typography, Input, Textarea, Divider, Grid, FormControl, FormLabel } from '@mui/joy';
-import { useInvoice } from '../InvoiceContext';
+import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
 
 const InvoiceSummary: React.FC<{ onValidStep: (isValid: boolean) => void }> = ({ onValidStep }) => {
     const {

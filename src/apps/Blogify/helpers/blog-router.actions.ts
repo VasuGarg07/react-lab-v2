@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from "react-router";
-import { getBlogById, getBlogs, getBlogsOfAuthor, getRecentBlogs, getRelatedBlogs, getUserBlogs, publishBlog, updateBlog } from "./blog.service";
+import { getBlogById, getBlogs, getBlogsOfAuthor, getRecentBlogs, getRelatedBlogs, getUserBlogs, publishBlog, updateBlog } from "@/apps/Blogify/helpers/blog.service";
 
 export const publishBlogLoader = async ({ params }: LoaderFunctionArgs) => {
     // If no blogId, return initial data

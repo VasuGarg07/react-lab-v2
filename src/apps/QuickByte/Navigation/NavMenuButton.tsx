@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Sheet, Grid, Dropdown, MenuButton, Menu, useTheme, IconButton, Tooltip } from '@mui/joy';
-import { areaList, categoryList } from '../utils/api';
-import { ALPHABETS, TABS } from '../utils/helpers';
+import { areaList, categoryList } from '@/apps/QuickByte/utils/api';
+import { ALPHABETS, TABS } from '@/apps/QuickByte/utils/helpers';
 import { useNavigate } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
 

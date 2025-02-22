@@ -2,7 +2,7 @@ import { Box, IconButton, Sheet, Typography } from '@mui/joy';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
-import { TYPE_COLORS } from '../helpers/constant';
+import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
 
 interface EntriesSectionProps {
     flavorTexts: string[];

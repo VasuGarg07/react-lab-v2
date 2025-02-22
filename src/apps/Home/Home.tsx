@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, Container, Grid, Typography, useTheme } from "@mui/joy";
-import { Apps } from "../../shared/apps";
-import { AppCard } from "./AppCard";
-import Footer from "./Footer";
-import Hero from './Hero';
+import { Apps } from "@/shared/apps";
+import { AppCard } from "@/apps/Home/AppCard";
+import Footer from "@/apps/Home/Footer";
+import Hero from '@/apps/Home/Hero';
 
 const Home = () => {
   const theme = useTheme();

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Card, Typography, useTheme } from '@mui/joy';
 import { motion } from 'framer-motion';
-import { GRADIENTS } from '../helpers/constant';
-import { getOfficialImage } from '../helpers/utilities';
+import { GRADIENTS } from '@/apps/Pokeverse/helpers/constant';
+import { getOfficialImage } from '@/apps/Pokeverse/helpers/utilities';
 
 interface PokemonSelectionCardProps {
     id: number;

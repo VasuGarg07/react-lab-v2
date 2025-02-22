@@ -1,8 +1,8 @@
 import Typography from '@mui/joy/Typography';
 import React, { useCallback } from 'react';
-import { useApiClient } from '../../../shared/useApiClient';
-import { useJobscape } from '../JobscapeProvider';
-import JobsOverview from './JobsOverview';
+import { useApiClient } from '@/shared/useApiClient';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import JobsOverview from '@/apps/Jobscape/dashboard/JobsOverview';
 
 const MyJobs: React.FC = () => {
     const { employerService, role } = useJobscape();

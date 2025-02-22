@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/joy";
 import { File, Loader2, Plus, X } from "lucide-react";
 import { useState } from "react";
-import { CONFIG } from "./config";
+import { CONFIG } from "@/shared/config";
 
 interface FileUploaderProps {
     onUpload: (url: string) => void;

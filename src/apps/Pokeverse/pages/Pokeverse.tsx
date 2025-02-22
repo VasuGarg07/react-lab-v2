@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Box } from '@mui/joy';
-import ImageSection from '../components/ImageSection';
-import { GRADIENTS } from '../helpers/constant';
+import ImageSection from '@/apps/Pokeverse/components/ImageSection';
+import { GRADIENTS } from '@/apps/Pokeverse/helpers/constant';
 import { useNavigate } from 'react-router';
 
 const Container = styled(Box)({

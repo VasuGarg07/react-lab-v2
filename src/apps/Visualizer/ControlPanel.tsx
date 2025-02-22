@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Option, Select, Stack, Typography } from '@mui/joy';
-import { Spacer } from '../../components/Spacer';
-import { ArraySize, TimeDuration } from './helpers';
+import { Spacer } from '@/components/Spacer';
+import { ArraySize, TimeDuration } from '@/apps/Visualizer/helpers';
 
 interface ControlPanelProps {
     algorithm: string;

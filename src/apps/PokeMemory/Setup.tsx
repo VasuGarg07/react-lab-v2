@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { CardType, GameMode, GameState, loadCards } from './helpers';
-import { useGameContext } from './Context';
+import { CardType, GameMode, GameState, loadCards } from '@/apps/PokeMemory/helpers';
+import { useGameContext } from '@/apps/PokeMemory/Context';
 import { Button, Card, Divider, Input, Stack, Typography, Box, Container, Tooltip } from '@mui/joy';
 import { keyframes } from '@emotion/react';
 import Logo from '/game-logo.png';
-import { ErrorMessage } from '../../components/ErrorMessage';
+import { ErrorMessage } from '@/components/ErrorMessage';
 import { Gamepad2, UserRound, Zap, Puzzle, Skull } from 'lucide-react';
 
 interface Props {

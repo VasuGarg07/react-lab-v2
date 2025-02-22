@@ -1,6 +1,6 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { CONFIG } from "./config";
+import { CONFIG } from "@/shared/config";
 
 
 const apiClient = axios.create({

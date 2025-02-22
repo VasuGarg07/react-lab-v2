@@ -2,15 +2,15 @@ import { Box, Button, Container, Divider, Grid, IconButton, Typography } from '@
 import { Building2, Calendar, ExternalLink, Facebook, Globe, Handshake, Instagram, Linkedin, LucideIcon, Mail, Phone, Twitter, Users, Youtube } from 'lucide-react';
 import React, { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import StyledHtmlContent from '../../../components/StyledHtmlContent';
-import { useApiClient } from '../../../shared/useApiClient';
-import { useJobscape } from '../JobscapeProvider';
-import CompactFooter from '../components/CompactFooter';
-import JobCard from '../components/JobCard';
-import JobNav from '../components/JobNav';
-import { EmployerResponse, IESocialLinks } from '../helpers/job.types';
-import { CompanyDetailsResponse, JobsCardInfo } from '../helpers/response.types';
-import { toastService } from '../../../providers/toastr';
+import StyledHtmlContent from '@/components/StyledHtmlContent';
+import { useApiClient } from '@/shared/useApiClient';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import CompactFooter from '@/apps/Jobscape/components/CompactFooter';
+import JobCard from '@/apps/Jobscape/components/JobCard';
+import JobNav from '@/apps/Jobscape/components/JobNav';
+import { EmployerResponse, IESocialLinks } from '@/apps/Jobscape/helpers/job.types';
+import { CompanyDetailsResponse, JobsCardInfo } from '@/apps/Jobscape/helpers/response.types';
+import { toastService } from '@/providers/toastr';
 
 const CompanyDetails: React.FC = () => {
     const { companyId } = useParams();

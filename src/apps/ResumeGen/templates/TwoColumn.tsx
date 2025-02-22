@@ -1,7 +1,7 @@
 import { Box, Grid, List, ListItem, styled, Typography } from '@mui/joy';
 import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import React from 'react';
-import { TemplateProps } from '../helpers/interfaces';
+import { TemplateProps } from '@/apps/ResumeGen/helpers/interfaces';
 
 const Page = styled('div')({
     padding: '20px',

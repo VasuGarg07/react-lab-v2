@@ -1,4 +1,4 @@
-import { ApplicantResponse, EmployerResponse, JobResponse, JobRoles } from "./job.types";
+import { ApplicantResponse, EmployerResponse, JobResponse, JobRoles } from "@/apps/Jobscape/helpers/job.types";
 
 
 // API RESPONSE TYPES

@@ -1,9 +1,9 @@
 import { Autocomplete, Box, Button, Card, CardContent, Divider, FormControl, IconButton, Input, Stack, Tooltip, Typography } from '@mui/joy';
 import { Briefcase, CheckCircle, Github, Linkedin, Mail, MapPinned, Phone, User } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { useResumeContext } from '../context/ResumeContext';
-import { DEFAULT_JOB_TITLES } from '../helpers/constants';
-import { ContactInfo } from '../helpers/interfaces';
+import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
+import { DEFAULT_JOB_TITLES } from '@/apps/ResumeGen/helpers/constants';
+import { ContactInfo } from '@/apps/ResumeGen/helpers/interfaces';
 
 interface ContactInfoFormProps {
     color: string;
