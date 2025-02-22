@@ -3,20 +3,20 @@ import axios from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Activity, ArrowLeft, Book, GitBranch, ImageIcon, Info, Layers, Swords } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import EntriesSection from '../components/EntriesSection';
-import InfoSection from '../components/Information';
-import MovesSection from '../components/MovesGrid';
-import { AnimatedTypeBadge, ImageCard } from '../components/PokemonUI';
-import StatsSection from '../components/StatsSection';
-import { usePokedex } from '../context/PokedexContext';
-import { BASE_API, END_POINT, TYPE_COLORS } from '../helpers/constant';
-import { Pokemon } from '../helpers/model.types';
-import { PokemonDetail, PokemonSpecies } from '../helpers/response.types';
-import { DexUtils, getIdFromUrl } from '../helpers/utilities';
-import EvolutionChain from '../components/EvolutionChain';
-import AltFormsSection from '../components/AltFormSection';
-import GallerySection from '../components/GallerySection';
+import { useNavigate, useParams } from 'react-router';
+import EntriesSection from '@/apps/Pokeverse/components/EntriesSection';
+import InfoSection from '@/apps/Pokeverse/components/Information';
+import MovesSection from '@/apps/Pokeverse/components/MovesGrid';
+import { AnimatedTypeBadge, ImageCard } from '@/apps/Pokeverse/components/PokemonUI';
+import StatsSection from '@/apps/Pokeverse/components/StatsSection';
+import { usePokedex } from '@/apps/Pokeverse/context/PokedexContext';
+import { BASE_API, END_POINT, TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { Pokemon } from '@/apps/Pokeverse/helpers/model.types';
+import { PokemonDetail, PokemonSpecies } from '@/apps/Pokeverse/helpers/response.types';
+import { DexUtils, getIdFromUrl } from '@/apps/Pokeverse/helpers/utilities';
+import EvolutionChain from '@/apps/Pokeverse/components/EvolutionChain';
+import AltFormsSection from '@/apps/Pokeverse/components/AltFormSection';
+import GallerySection from '@/apps/Pokeverse/components/GallerySection';
 
 const Sections = [
     { id: 'info', label: 'Information', icon: Info },

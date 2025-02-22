@@ -1,10 +1,10 @@
 import { Box, useColorScheme } from '@mui/joy';
 import React from 'react';
-import { Outlet } from 'react-router-dom';
-import { useAuth } from '../../auth/AuthProvider';
-import BudgetProvider from './BudgetContext';
-import AuthPrompt from './components/AuthPrompt';
-import BudgetNav from './components/BudgetNav';
+import { Outlet } from 'react-router';
+import { useAuth } from '@/auth/AuthProvider';
+import BudgetProvider from '@/apps/BudgetBuddy/BudgetContext';
+import AuthPrompt from '@/apps/BudgetBuddy/components/AuthPrompt';
+import BudgetNav from '@/apps/BudgetBuddy/components/BudgetNav';
 
 const BudgetBuddy: React.FC = () => {
 

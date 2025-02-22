@@ -1,18 +1,17 @@
+import AchievementsForm from '@/apps/ResumeGen/components/AchievementsForm';
+import ContactInfoForm from '@/apps/ResumeGen/components/ContactInfoForm';
+import EducationForm from '@/apps/ResumeGen/components/EducationForm';
+import ProfileForm from '@/apps/ResumeGen/components/ProfileForm';
+import ProjectsForm from '@/apps/ResumeGen/components/ProjectsForm';
+import SkillsForm from '@/apps/ResumeGen/components/SkillsForm';
+import WorkExperienceForm from '@/apps/ResumeGen/components/WorkExperienceForm';
+import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
+import { importJSON } from '@/apps/ResumeGen/helpers/utilities';
+import { toastService } from '@/providers/toastr';
 import { Box, Button, Divider, IconButton, Sheet, Stack, Typography, useTheme } from '@mui/joy';
 import { Award, Briefcase, ChevronLeft, ChevronRight, ChevronsLeft, Code, Feather, FileText, GraduationCap, Menu, SendHorizonal, Upload, User } from 'lucide-react';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Spacer } from '../../../components/Spacer';
-import AchievementsForm from '../components/AchievementsForm';
-import ContactInfoForm from '../components/ContactInfoForm';
-import EducationForm from '../components/EducationForm';
-import ProfileForm from '../components/ProfileForm';
-import ProjectsForm from '../components/ProjectsForm';
-import SkillsForm from '../components/SkillsForm';
-import WorkExperienceForm from '../components/WorkExperienceForm';
-import { useResumeContext } from '../context/ResumeContext';
-import { importJSON } from '../helpers/utilities';
-import { toastService } from '../../../providers/toastr';
+import { useNavigate } from 'react-router';
 
 const sectionConfig = [
     { icon: User, label: 'Contact Details', component: ContactInfoForm, color: '#724CF9' },
@@ -187,7 +186,8 @@ const ResumeForm: React.FC = () => {
                     >
                         Home
                     </Button>
-                    <Spacer />
+                    <span className='spacer' />
+
                     <Button
                         size="sm"
                         variant="soft"

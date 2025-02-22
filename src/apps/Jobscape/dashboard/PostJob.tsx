@@ -3,15 +3,15 @@ import Typography from '@mui/joy/Typography';
 import { AxiosError } from 'axios';
 import React, { useEffect, useCallback } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useJobscape } from '../JobscapeProvider';
-import JobForm from '../forms/JobForm';
-import { defaultJob } from '../helpers/job.constants';
-import { IJob } from '../helpers/job.types';
-import { JobSchema } from '../helpers/validationSchema';
-import { useApiClient } from '../../../shared/useApiClient';
-import { JobDetailsResponse } from '../helpers/response.types';
-import { toastService } from '../../../providers/toastr';
+import { useNavigate, useParams } from 'react-router';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import JobForm from '@/apps/Jobscape/forms/JobForm';
+import { defaultJob } from '@/apps/Jobscape/helpers/job.constants';
+import { IJob } from '@/apps/Jobscape/helpers/job.types';
+import { JobSchema } from '@/apps/Jobscape/helpers/validationSchema';
+import { useApiClient } from '@/shared/useApiClient';
+import { JobDetailsResponse } from '@/apps/Jobscape/helpers/response.types';
+import { toastService } from '@/providers/toastr';
 
 const PostJob: React.FC = () => {
     const navigate = useNavigate();

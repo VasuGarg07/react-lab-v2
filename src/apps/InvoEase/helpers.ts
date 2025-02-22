@@ -1,5 +1,5 @@
-import apiClient from "../../shared/apiClient";
-import { Invoice } from "./types";
+import apiClient from "@/shared/apiClient";
+import { Invoice } from "@/apps/InvoEase/types";
 
 export const CurrencyOptions = [
     { value: 'USD', label: 'USD ($)', symbol: '$' },

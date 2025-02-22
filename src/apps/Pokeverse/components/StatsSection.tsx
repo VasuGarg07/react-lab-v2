@@ -1,8 +1,8 @@
 import { Box, Sheet, Typography } from '@mui/joy';
 import { motion } from 'framer-motion';
-import { StatsRadar } from '../components/PokemonUI';
-import { TYPE_COLORS } from '../helpers/constant';
-import { Pokemon } from '../helpers/model.types';
+import { StatsRadar } from '@/apps/Pokeverse/components/PokemonUI';
+import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { Pokemon } from '@/apps/Pokeverse/helpers/model.types';
 
 interface StatsSectionProps {
     pokemon: Pokemon;

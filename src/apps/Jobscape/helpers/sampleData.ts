@@ -1,4 +1,4 @@
-import { IApplicant, IEmployer, IJob } from "./job.types";
+import { IApplicant, IEmployer, IJob } from "@/apps/Jobscape/helpers/job.types";
 
 // TODO: Testing Only
 export const sampleApplicant: IApplicant = {

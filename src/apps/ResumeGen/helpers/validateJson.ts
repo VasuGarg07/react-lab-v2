@@ -1,4 +1,4 @@
-import { Achievement, ContactInfo, Education, Project, ResumeModel, TechnicalSkill, WorkExperience } from "./interfaces";
+import { Achievement, ContactInfo, Education, Project, ResumeModel, TechnicalSkill, WorkExperience } from "@/apps/ResumeGen/helpers/interfaces";
 
 function isValidContactInfo(info: any): info is ContactInfo {
     return (

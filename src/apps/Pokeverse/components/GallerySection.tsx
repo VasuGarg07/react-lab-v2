@@ -1,7 +1,7 @@
 import { Box, Sheet, Typography } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { ImageIcon } from 'lucide-react';
-import { TYPE_COLORS } from '../helpers/constant';
+import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
 
 interface GalleryImage {
     label: string;

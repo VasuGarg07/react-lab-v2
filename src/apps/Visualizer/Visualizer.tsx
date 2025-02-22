@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Divider, Sheet, Stack, useColorScheme } from '@mui/joy';
-import ControlPanel from './ControlPanel';
-import Bar from './Bar';
+import ControlPanel from '@/apps/Visualizer/ControlPanel';
+import Bar from '@/apps/Visualizer/Bar';
 import {
     randomIntFromInterval,
     bubbleSort,
@@ -12,7 +12,7 @@ import {
     getMaxOfArray,
     TimeDuration,
     ArraySize
-} from './helpers';
+} from '@/apps/Visualizer/helpers';
 
 const SortingVisualizer: React.FC = () => {
     const { mode } = useColorScheme();

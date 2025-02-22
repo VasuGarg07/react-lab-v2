@@ -9,9 +9,9 @@ import {
     Typography
 } from '@mui/joy';
 import { ArrowRight } from 'lucide-react';
-import { Link, useLoaderData } from 'react-router-dom';
-import BlogCard from '../components/BlogCard';
-import { Blog } from '../helpers/blog.constants';
+import { Link, useLoaderData } from 'react-router';
+import BlogCard from '@/apps/Blogify/components/BlogCard';
+import { Blog } from '@/apps/Blogify/helpers/blog.constants';
 
 interface LoaderData {
     recentBlogs: Blog[];

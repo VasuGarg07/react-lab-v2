@@ -1,5 +1,5 @@
-import apiClient from "../../../shared/apiClient";
-import { Transaction } from "./expense.constants";
+import apiClient from "@/shared/apiClient";
+import { Transaction } from "@/apps/BudgetBuddy/helpers/expense.constants";
 
 
 export const addTransaction = async (transaction: Transaction): Promise<Transaction> => {

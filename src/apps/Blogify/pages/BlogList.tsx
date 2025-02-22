@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from '@mui/joy';
-import { useLoaderData, useSearchParams, useNavigation } from 'react-router-dom';
-import BlogGallery from '../components/BlogGallery';
-import { BlogListResponse } from '../helpers/blog.constants';
+import { useLoaderData, useSearchParams, useNavigation } from 'react-router';
+import BlogGallery from '@/apps/Blogify/components/BlogGallery';
+import { BlogListResponse } from '@/apps/Blogify/helpers/blog.constants';
 
 const BlogListPage = () => {
     const response = useLoaderData() as BlogListResponse;

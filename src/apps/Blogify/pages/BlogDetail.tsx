@@ -11,10 +11,10 @@ import {
     Typography
 } from '@mui/joy';
 import { ChevronRight } from 'lucide-react';
-import { Link, useLoaderData } from 'react-router-dom';
-import BlogCard from '../components/BlogCard';
-import { Blog } from '../helpers/blog.constants';
-import StyledHtmlContent from '../../../components/StyledHtmlContent';
+import { Link, useLoaderData } from 'react-router';
+import BlogCard from '@/apps/Blogify/components/BlogCard';
+import { Blog } from '@/apps/Blogify/helpers/blog.constants';
+import StyledHtmlContent from '@/components/StyledHtmlContent';
 
 interface LoaderData {
     blog: Blog;

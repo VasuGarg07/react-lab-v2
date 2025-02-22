@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, styled } from '@mui/joy';
-import CustomButton from './CustomButton';
+import CustomButton from '@/apps/Pokeverse/components/CustomButton';
 
 interface ImageSectionProps {
     backgroundImage: string;

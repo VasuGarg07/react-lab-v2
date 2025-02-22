@@ -1,7 +1,7 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useJobscape } from '../JobscapeProvider';
-import { JobRoles } from '../helpers/job.types';
+import { Navigate, Outlet } from 'react-router';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import { JobRoles } from '@/apps/Jobscape/helpers/job.types';
 
 const RoleGuard: React.FC<{ guardRole: JobRoles }> = ({ guardRole }) => {
     const { isRegistered, role, loading } = useJobscape();

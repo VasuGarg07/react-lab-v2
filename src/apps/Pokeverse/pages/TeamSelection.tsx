@@ -3,15 +3,15 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Loader, Swords, Users } from 'lucide-react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { PokemonSelectionCard } from '../components/PokemonSelectionCard';
-import { useBattle, useBattleActions } from '../context/BattleSimContext';
-import { usePokedex } from '../context/PokedexContext';
-import { Move } from '../helpers/battle.types';
-import { BASE_API, END_POINT, REGION_DATA } from '../helpers/constant';
-import { PokemonDetail } from '../helpers/response.types';
-import { BattleSimUtils, DexUtils, getIdFromUrl, scrollToTop } from '../helpers/utilities';
-import useCacheApi from '../hooks/useCacheApi';
+import { useNavigate } from 'react-router';
+import { PokemonSelectionCard } from '@/apps/Pokeverse/components/PokemonSelectionCard';
+import { useBattle, useBattleActions } from '@/apps/Pokeverse/context/BattleSimContext';
+import { usePokedex } from '@/apps/Pokeverse/context/PokedexContext';
+import { Move } from '@/apps/Pokeverse/helpers/battle.types';
+import { BASE_API, END_POINT, REGION_DATA } from '@/apps/Pokeverse/helpers/constant';
+import { PokemonDetail } from '@/apps/Pokeverse/helpers/response.types';
+import { BattleSimUtils, DexUtils, getIdFromUrl, scrollToTop } from '@/apps/Pokeverse/helpers/utilities';
+import useCacheApi from '@/apps/Pokeverse/hooks/useCacheApi';
 
 interface PokemonListItem {
     name: string;

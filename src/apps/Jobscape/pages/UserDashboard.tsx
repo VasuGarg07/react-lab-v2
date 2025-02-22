@@ -3,11 +3,11 @@ import Button from '@mui/joy/Button';
 import Container from '@mui/joy/Container';
 import Typography from '@mui/joy/Typography';
 import { Bookmark, Briefcase, Layers, LogOut, PlusCircle, Settings, Sparkles, UserCircle } from 'lucide-react';
-import { NavLink, Outlet } from 'react-router-dom';
-import { useJobscape } from '../JobscapeProvider';
-import CompactFooter from '../components/CompactFooter';
-import JobNav from '../components/JobNav';
-import { useAuth } from '../../../auth/AuthProvider';
+import { NavLink, Outlet } from 'react-router';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import CompactFooter from '@/apps/Jobscape/components/CompactFooter';
+import JobNav from '@/apps/Jobscape/components/JobNav';
+import { useAuth } from '@/auth/AuthProvider';
 
 const employerNavItems = [
     { icon: Layers, label: 'Overview', path: 'overview' },

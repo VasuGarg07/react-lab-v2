@@ -7,13 +7,13 @@ import Typography from '@mui/joy/Typography';
 import { Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import ReactPagination from 'react-responsive-pagination';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import CompactFooter from '../components/CompactFooter';
-import JobCard from '../components/JobCard';
-import JobNav from '../components/JobNav';
-import { JobsCardListResponse } from '../helpers/response.types';
-import { useJobscape } from '../JobscapeProvider';
-import { toastService } from '../../../providers/toastr';
+import { useNavigate, useSearchParams } from 'react-router';
+import CompactFooter from '@/apps/Jobscape/components/CompactFooter';
+import JobCard from '@/apps/Jobscape/components/JobCard';
+import JobNav from '@/apps/Jobscape/components/JobNav';
+import { JobsCardListResponse } from '@/apps/Jobscape/helpers/response.types';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import { toastService } from '@/providers/toastr';
 
 const ITEMS_PER_PAGE = 10;
 

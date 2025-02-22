@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Container, Stack, Typography } from '@mui/joy';
 import { ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const HomeCTACards: React.FC = () => {
     // TODO: improve with Role specific cards

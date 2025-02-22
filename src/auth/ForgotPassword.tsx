@@ -2,10 +2,10 @@ import { Button, Card, CardContent, Divider, FormControl, FormLabel, Input, Stac
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, KeyRound, KeySquare, User } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { navigate } from '../shared/Router';
-import { useAuth } from './AuthProvider';
-import { ChangePasswordData } from './auth.types';
+import { Link } from 'react-router';
+import { navigate } from '@/shared/Router';
+import { useAuth } from '@/auth/AuthProvider';
+import { ChangePasswordData } from '@/auth/auth.types';
 
 const ForgotPassword = () => {
     const [formData, setFormData] = useState<ChangePasswordData>({

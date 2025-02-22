@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { CardType, GameMode, GameState } from "./helpers";
+import { CardType, GameMode, GameState } from "@/apps/PokeMemory/helpers";
 
 const GameContext = createContext<any>(null);
 

@@ -1,8 +1,8 @@
 import { Box, Card, Chip, LinearProgress, Stack, Typography, useColorScheme } from "@mui/joy";
 import { motion } from "framer-motion";
-import { BattlePokemon } from "../helpers/battle.types";
-import { TYPE_COLORS } from "../helpers/constant";
-import { getOfficialImage } from "../helpers/utilities";
+import { BattlePokemon } from "@/apps/Pokeverse/helpers/battle.types";
+import { TYPE_COLORS } from "@/apps/Pokeverse/helpers/constant";
+import { getOfficialImage } from "@/apps/Pokeverse/helpers/utilities";
 
 interface PokemonBattleCardProps {
     pokemon: BattlePokemon,

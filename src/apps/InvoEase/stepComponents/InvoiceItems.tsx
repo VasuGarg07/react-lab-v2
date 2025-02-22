@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, FormHelperText, FormLabel, Grid, Input } from '@mui/joy';
 import { Plus, Trash2 } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useInvoice } from '../InvoiceContext';
+import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
 
 const InvoiceItems: React.FC<{ onValidStep: (isValid: boolean) => void }> = ({ onValidStep }) => {
     const { items, setItems, currencySymbol } = useInvoice();

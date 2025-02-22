@@ -1,10 +1,10 @@
 import React from 'react'
-import JobNav from '../components/JobNav'
-import HeroSection from '../components/HeroComponent'
-import HowItWorks from '../components/HowItWorks'
-import HomeCTACards from '../components/HomeCTACards'
-import Footer from '../components/Footer'
-import { useJobscape } from '../JobscapeProvider'
+import JobNav from '@/apps/Jobscape/components/JobNav'
+import HeroSection from '@/apps/Jobscape/components/HeroComponent'
+import HowItWorks from '@/apps/Jobscape/components/HowItWorks'
+import HomeCTACards from '@/apps/Jobscape/components/HomeCTACards'
+import Footer from '@/apps/Jobscape/components/Footer'
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider'
 
 const JobHome: React.FC = () => {
     const { role } = useJobscape();

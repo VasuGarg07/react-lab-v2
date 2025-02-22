@@ -2,14 +2,14 @@ import { Box, Button, CircularProgress, Container, Divider, Grid, Typography, us
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertCircle, ArrowUp, ChevronsDown, PawPrint } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import PokemonCard from '../components/PokemonCard';
-import { BASE_API, END_POINT, REGION_DATA, TYPE_COLORS } from '../helpers/constant';
-import { PokemonDetail, PokemonListResponse } from '../helpers/response.types';
-import useCacheApi from '../hooks/useCacheApi';
-import { DexUtils, getIdFromUrl, scrollToTop } from '../helpers/utilities';
-import { usePokedex } from "../context/PokedexContext";
-import { Pokemon } from '../helpers/model.types';
+import { Link } from 'react-router';
+import PokemonCard from '@/apps/Pokeverse/components/PokemonCard';
+import { BASE_API, END_POINT, REGION_DATA, TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { PokemonDetail, PokemonListResponse } from '@/apps/Pokeverse/helpers/response.types';
+import useCacheApi from '@/apps/Pokeverse/hooks/useCacheApi';
+import { DexUtils, getIdFromUrl, scrollToTop } from '@/apps/Pokeverse/helpers/utilities';
+import { usePokedex } from "@/apps/Pokeverse/context/PokedexContext";
+import { Pokemon } from '@/apps/Pokeverse/helpers/model.types';
 
 const LIMIT = 20;
 const CACHE_TIME = 15 * 60 * 1000;

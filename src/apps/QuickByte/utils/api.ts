@@ -1,6 +1,6 @@
 import axios from "axios";
-import { LoaderFunctionArgs } from "react-router-dom";
-import { Meal, MealDetails } from "./helpers";
+import { LoaderFunctionArgs } from "react-router";
+import { Meal, MealDetails } from "@/apps/QuickByte/utils/helpers";
 
 const axiosInstance = axios.create({ baseURL: 'https://www.themealdb.com/api/json/v1/1' });
 

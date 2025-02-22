@@ -1,7 +1,7 @@
 import { Box, Grid } from "@mui/joy";
-import { CardType } from "./helpers";
-import Card from "./Card";
-import { useGameContext } from "./Context";
+import { CardType } from "@/apps/PokeMemory/helpers";
+import Card from "@/apps/PokeMemory/Card";
+import { useGameContext } from "@/apps/PokeMemory/Context";
 
 interface Props {
   cards: CardType[],

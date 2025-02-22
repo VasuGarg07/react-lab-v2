@@ -1,7 +1,7 @@
 import { Box, styled, Typography } from '@mui/joy';
 import { Award, Briefcase, FolderGit2, Github, GraduationCap, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import React from 'react';
-import { TemplateProps } from '../helpers/interfaces';
+import { TemplateProps } from '@/apps/ResumeGen/helpers/interfaces';
 
 
 const SIDEBAR_BG = '#f0f0f0';  // Light gray background for sidebar

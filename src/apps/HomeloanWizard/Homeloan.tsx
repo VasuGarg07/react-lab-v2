@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { DefaultValue, LoanData } from "./helpers";
+import { DefaultValue, LoanData } from "@/apps/HomeloanWizard/helpers";
 import { Grid, Sheet, useColorScheme } from "@mui/joy";
-import SliderSelect from "./SliderSelect";
-import Result from "./Result";
+import SliderSelect from "@/apps/HomeloanWizard/SliderSelect";
+import Result from "@/apps/HomeloanWizard/Result";
 
 
 const Homeloan = () => {

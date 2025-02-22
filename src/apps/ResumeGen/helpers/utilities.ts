@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ResumeModel } from './interfaces';
-import { isValidResumeModel } from './validateJson';
+import { ResumeModel } from '@/apps/ResumeGen/helpers/interfaces';
+import { isValidResumeModel } from '@/apps/ResumeGen/helpers/validateJson';
 
 export const generateUniqueId = (): string => {
     return uuidv4();

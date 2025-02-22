@@ -1,7 +1,7 @@
-import { BattlePlayer, BattlePokemon, GamePhase, Move } from "./battle.types";
-import { DAMAGE_MULTIPLIERS, END_POINT } from "./constant";
-import { EvolutionDetails, Pokemon } from "./model.types";
-import { PokemonDetail, PokemonSpecies, PokemonSprite } from "./response.types";
+import { BattlePlayer, BattlePokemon, GamePhase, Move } from "@/apps/Pokeverse/helpers/battle.types";
+import { DAMAGE_MULTIPLIERS, END_POINT } from "@/apps/Pokeverse/helpers/constant";
+import { EvolutionDetails, Pokemon } from "@/apps/Pokeverse/helpers/model.types";
+import { PokemonDetail, PokemonSpecies, PokemonSprite } from "@/apps/Pokeverse/helpers/response.types";
 
 export namespace DexUtils {
     export const createPokemon = (id: number, name: string): Pokemon => ({

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, List, ListItem, ListItemDecorator, Chip, CircularProgress, Card, CardContent, Modal, ModalDialog, ModalClose } from '@mui/joy';
 import { Check, X, AlertTriangle } from 'lucide-react';
-import { ResumeModel } from '../helpers/interfaces';
+import { ResumeModel } from '@/apps/ResumeGen/helpers/interfaces';
 
 interface ATSCheckProps {
   resume: ResumeModel;

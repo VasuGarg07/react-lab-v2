@@ -1,6 +1,6 @@
 import { Box, useColorScheme } from '@mui/joy';
 import { ReactNode } from 'react';
-import { BgCenteredBox } from '../../components/BgCenteredBox';
+import { BgCenteredBox } from '@/components/BgCenteredBox';
 
 interface WrapperProps {
   children: ReactNode;

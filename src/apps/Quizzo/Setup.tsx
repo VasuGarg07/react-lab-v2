@@ -1,10 +1,10 @@
 import { Button, Input, Option, Select, Stack, Typography } from '@mui/joy';
 import { Dices, User } from 'lucide-react';
 import React, { useState } from 'react';
-import { ErrorMessage } from '../../components/ErrorMessage';
-import { GameMode, GameState } from '../PokeMemory/helpers';
-import { useQuizContext } from './Context';
-import { Question, QuizCategories, fetchQuiz } from './helper';
+import { GameMode, GameState } from '@/apps/PokeMemory/helpers';
+import { useQuizContext } from '@/apps/Quizzo/Context';
+import { Question, QuizCategories, fetchQuiz } from '@/apps/Quizzo/helper';
+import { toastService } from '@/providers/toastr';
 
 interface Props {
   name: string,
@@ -21,7 +21,6 @@ const Setup = () => {
   const [difficulty, setDifficulty] = useState("");
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const handleDifficulty = (_: any, newValue: GameMode | null) => {
     newValue && setDifficulty(newValue);
@@ -33,7 +32,7 @@ const Setup = () => {
 
   const handleSubmit = async () => {
     if (!name || !(difficulty && category)) {
-      setError(true);
+      toastService.error("Please Fill all the feilds");
 
     } else {
       setLoading(true);
@@ -49,7 +48,6 @@ const Setup = () => {
 
     <Stack spacing={1} alignItems='center' justifyContent='center' sx={{ height: 1, p: 2 }}>
       <Typography level="title-lg" sx={{ mb: 1 }}>Quiz Settings</Typography>
-      {error && <ErrorMessage message='Please Fill all the feilds' />}
 
       <Input
         required

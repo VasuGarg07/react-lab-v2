@@ -1,13 +1,13 @@
 import { Box, Card, Divider, Grid, Typography, useTheme } from "@mui/joy";
-import { GameState } from "../PokeMemory/helpers";
-import QuizProvider, { useQuizContext } from "./Context";
-import Result from "./Result";
-import Board from "./Board";
-import Setup from "./Setup";
+import { GameState } from "@/apps/PokeMemory/helpers";
+import QuizProvider, { useQuizContext } from "@/apps/Quizzo/Context";
+import Result from "@/apps/Quizzo/Result";
+import Board from "@/apps/Quizzo/Board";
+import Setup from "@/apps/Quizzo/Setup";
 import QuizFg from '/quiz-fg.png';
 import DarkBg from '/backgrounds/abstract-dark.webp';
 import LightBg from '/backgrounds/abstract.webp'
-import { BgCenteredBox } from "../../components/BgCenteredBox";
+import { BgCenteredBox } from "@/components/BgCenteredBox";
 
 const Quizzo = () => {
   const theme = useTheme();

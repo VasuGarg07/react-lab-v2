@@ -2,7 +2,7 @@ import Box from '@mui/joy/Box'
 import Stack from '@mui/joy/Stack'
 import Typography from '@mui/joy/Typography'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 const BrandLogo: React.FC = () => {
     const navigate = useNavigate();

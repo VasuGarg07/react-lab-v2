@@ -2,8 +2,8 @@ import { Box, Button, FormControl, FormHelperText, FormLabel, Grid, IconButton, 
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 import { Control, Controller, FieldErrors, useFieldArray } from 'react-hook-form';
-import RichTextEditor from '../../../shared/RichTextEditor';
-import { IApplicant, IExperience } from '../helpers/job.types';
+import RichTextEditor from '@/components/RichTextEditor';
+import { IApplicant, IExperience } from '@/apps/Jobscape/helpers/job.types';
 
 
 interface ExperienceEntryProps {

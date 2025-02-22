@@ -2,8 +2,8 @@ import { Box, Sheet, Typography, useColorScheme } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { Dumbbell, Heart, Scale, Sparkles, TreePine } from 'lucide-react';
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip } from 'recharts';
-import { TYPE_COLORS } from '../helpers/constant';
-import { Pokemon, Stats } from '../helpers/model.types';
+import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { Pokemon, Stats } from '@/apps/Pokeverse/helpers/model.types';
 
 export const ImageCard = ({ pokemon }: { pokemon: Pokemon }) => {
 

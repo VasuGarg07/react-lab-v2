@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { LogIn } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const JobScapeAuth = ({ mode = 'light' }) => {
     const navigate = useNavigate();

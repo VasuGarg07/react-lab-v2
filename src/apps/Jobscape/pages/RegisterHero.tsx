@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Button, Typography, Container, Stack } from '@mui/joy';
 import { Briefcase, User2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import BrandLogo from '../components/BrandLogo';
+import { useNavigate } from 'react-router';
+import BrandLogo from '@/apps/Jobscape/components/BrandLogo';
 
 const RegisterHero: React.FC = () => {
 

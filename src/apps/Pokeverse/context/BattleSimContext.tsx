@@ -1,6 +1,7 @@
-import React, { createContext, ReactNode, useContext, useReducer } from 'react';
-import { BattleAction, BattlePlayer, BattlePokemon, BattleState } from '../helpers/battle.types';
-import { BattleSimUtils } from '../helpers/utilities';
+import { BattleAction, BattlePlayer, BattlePokemon, BattleState } from '@/apps/Pokeverse/helpers/battle.types';
+import { BattleSimUtils } from '@/apps/Pokeverse/helpers/utilities';
+import React, { createContext, useContext, useReducer } from 'react';
+import { Outlet } from 'react-router';
 
 const initialState: BattleState = {
     phase: 'SETUP',
@@ -223,11 +224,11 @@ const BattleContext = createContext<{
     dispatch: React.Dispatch<BattleAction>;
 }>({ state: initialState, dispatch: () => { } });
 
-export const BattleProvider = ({ children }: { children: ReactNode }) => {
+export const BattleProvider = () => {
     const [state, dispatch] = useReducer(battleReducer, initialState);
     return (
         <BattleContext.Provider value={{ state, dispatch }}>
-            {children}
+            <Outlet />
         </BattleContext.Provider>
     );
 };

@@ -22,7 +22,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     /* Paths */
+    "baseUrl": ".",
     "paths": {
+      "@/*": [
+        "src/*"
+      ],
       "@mui/material": [
         "./node_modules/@mui/joy"
       ]

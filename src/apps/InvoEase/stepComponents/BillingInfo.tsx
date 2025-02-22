@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Box, Input, Stack, Textarea, Typography, FormControl, FormLabel, FormHelperText } from '@mui/joy';
-import { useInvoice } from '../InvoiceContext';
+import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
 
 interface BillingData {
     name: string;

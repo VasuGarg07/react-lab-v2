@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
-import { useJobscape } from '../JobscapeProvider'
-import { JobsCardListResponse } from '../helpers/response.types';
-import { useApiClient } from '../../../shared/useApiClient';
-import { useNavigate } from 'react-router-dom';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider'
+import { JobsCardListResponse } from '@/apps/Jobscape/helpers/response.types';
+import { useApiClient } from '@/shared/useApiClient';
+import { useNavigate } from 'react-router';
 import Typography from '@mui/joy/Typography';
 import Grid from '@mui/joy/Grid';
-import { JobCard } from '../components/JobCard';
-import { toastService } from '../../../providers/toastr';
+import { JobCard } from '@/apps/Jobscape/components/JobCard';
+import { toastService } from '@/providers/toastr';
 
 const Recommendations: React.FC = () => {
 

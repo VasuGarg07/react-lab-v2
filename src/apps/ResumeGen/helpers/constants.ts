@@ -1,4 +1,4 @@
-import { ResumeModel } from './interfaces';
+import { ResumeModel } from '@/apps/ResumeGen/helpers/interfaces';
 
 export const INITIAL_RESUME: ResumeModel = {
     contactInfo: {

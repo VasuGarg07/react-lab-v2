@@ -1,10 +1,10 @@
+import { GameState } from '@/apps/PokeMemory/helpers';
+import { useQuizContext } from '@/apps/Quizzo/Context';
+import { Question } from '@/apps/Quizzo/helper';
+import { toastService } from '@/providers/toastr';
 import { Button, Divider, Sheet, Stack, Typography } from '@mui/joy';
 import { ChevronRight, X } from 'lucide-react';
 import React, { useState } from 'react';
-import { ErrorMessage } from '../../components/ErrorMessage';
-import { GameState } from '../PokeMemory/helpers';
-import { useQuizContext } from './Context';
-import { Question } from './helper';
 
 interface ContextProps {
   questions: Question[],
@@ -31,7 +31,6 @@ const QuestionCard = ({
   const { questions, score, setScore, setGameState, resetGame }: ContextProps = useQuizContext();
 
   const [selected, setSelected] = useState<string>();
-  const [error, setError] = useState<string>('');
 
   const handleSelect = (i: string) => {
     if (selected === i && selected === correct) return "select";
@@ -43,7 +42,6 @@ const QuestionCard = ({
   const handleCheck = (i: string) => {
     setSelected(i);
     if (i === correct) setScore(score + 1);
-    setError('');
   };
 
   const handleNext = () => {
@@ -54,7 +52,7 @@ const QuestionCard = ({
       setCurrQues(currQues + 1);
       setSelected('');
 
-    } else setError("Please select an option first");
+    } else toastService.error("Please select an option first");
   };
 
   const handleQuit = () => {
@@ -75,8 +73,6 @@ const QuestionCard = ({
 
       <Typography level="h4" fontFamily={'Poiret One'} sx={{ letterSpacing: 1 }}>Question {currQues + 1}</Typography>
       <h4 style={{ margin: 0 }} dangerouslySetInnerHTML={{ __html: questions[currQues].question }} />
-
-      {error && <ErrorMessage message={error} />}
 
       <Stack
         direction='row'

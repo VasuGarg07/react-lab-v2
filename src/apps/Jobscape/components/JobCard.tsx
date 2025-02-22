@@ -1,8 +1,8 @@
 import { Box, Card, Typography } from '@mui/joy';
 import { MapPin } from 'lucide-react';
 import React from 'react';
-import { JobsCardInfo } from '../helpers/response.types';
-import FeaturedChip from './FeaturedChip';
+import { JobsCardInfo } from '@/apps/Jobscape/helpers/response.types';
+import FeaturedChip from '@/apps/Jobscape/components/FeaturedChip';
 
 interface JobCardProps {
     info: JobsCardInfo;

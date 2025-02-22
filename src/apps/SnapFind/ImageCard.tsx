@@ -1,7 +1,7 @@
 import { Avatar, Box, Chip, IconButton, Link, Stack } from '@mui/joy';
 import { FC, useState } from 'react';
 import { Blurhash } from 'react-blurhash';
-import { Image } from './helper';
+import { Image } from '@/apps/SnapFind/helper';
 import { ExternalLink } from 'lucide-react';
 
 interface ImageCardProps {

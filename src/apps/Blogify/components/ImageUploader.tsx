@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Button, CircularProgress, Typography, IconButton, Stack } from "@mui/joy";
 import { Upload, X } from "lucide-react";
-import { CONFIG } from "../../../shared/config";
+import { CONFIG } from "@/shared/config";
 
 interface UploadImageProps {
     onUpload: (url: string) => void;

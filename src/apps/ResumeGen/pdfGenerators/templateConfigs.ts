@@ -1,6 +1,6 @@
 // templateConfigs.ts
 
-import { PDFGeneratorConfig, TemplateName } from './types';
+import { PDFGeneratorConfig, TemplateName } from '@/apps/ResumeGen/pdfGenerators/types';
 
 export const templateConfigs: Record<TemplateName, PDFGeneratorConfig> = {
     purpleaccent: {

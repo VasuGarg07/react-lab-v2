@@ -3,16 +3,16 @@ import { Container } from '@mui/joy';
 import { AxiosError } from "axios";
 import React from 'react';
 import { FormProvider, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from '../../../auth/AuthProvider';
-import EmployerForm from '../forms/EmployerForm';
-import CompactFooter from "../components/CompactFooter";
-import FormHeader from '../forms/FormHeader';
-import { defaultEmployer } from '../helpers/job.constants';
-import { IEmployer } from '../helpers/job.types';
-import { employerFormSchema } from "../helpers/validationSchema";
-import { useJobscape } from '../JobscapeProvider';
-import { toastService } from "../../../providers/toastr";
+import { useNavigate } from "react-router";
+import { useAuth } from '@/auth/AuthProvider';
+import EmployerForm from '@/apps/Jobscape/forms/EmployerForm';
+import CompactFooter from "@/apps/Jobscape/components/CompactFooter";
+import FormHeader from '@/apps/Jobscape/forms/FormHeader';
+import { defaultEmployer } from '@/apps/Jobscape/helpers/job.constants';
+import { IEmployer } from '@/apps/Jobscape/helpers/job.types';
+import { employerFormSchema } from "@/apps/Jobscape/helpers/validationSchema";
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import { toastService } from "@/providers/toastr";
 
 
 const RegisterEmployer: React.FC = () => {

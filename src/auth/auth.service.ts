@@ -1,5 +1,5 @@
-import apiClient from "../shared/apiClient";
-import { ChangePasswordData, LoginData, RegisterData } from "./auth.types";
+import apiClient from "@/shared/apiClient";
+import { ChangePasswordData, LoginData, RegisterData } from "@/auth/auth.types";
 
 // Save authentication data
 export const saveAuthData = (accessToken: string, refreshToken: string) => {

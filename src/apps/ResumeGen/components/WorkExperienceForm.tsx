@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useResumeContext } from '../context/ResumeContext';
+import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
 import { Box, FormControl, Input, Stack, IconButton, Card, CardContent, Typography, Button, Autocomplete, Divider, Tooltip } from '@mui/joy';
 import { Briefcase, Plus, Trash2, AlertCircle, Building, MapPin, Calendar, BriefcaseBusiness } from 'lucide-react';
-import { MAX_WORK_EXPERIENCES, MAX_HIGHLIGHT_LENGTH, MAX_WORK_HIGHLIGHTS, DEFAULT_JOB_TITLES } from '../helpers/constants';
-import { WorkExperience } from '../helpers/interfaces';
+import { MAX_WORK_EXPERIENCES, MAX_HIGHLIGHT_LENGTH, MAX_WORK_HIGHLIGHTS, DEFAULT_JOB_TITLES } from '@/apps/ResumeGen/helpers/constants';
+import { WorkExperience } from '@/apps/ResumeGen/helpers/interfaces';
 
 interface WorkExperienceFormProps {
     color: string;

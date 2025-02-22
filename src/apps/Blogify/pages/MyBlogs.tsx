@@ -1,8 +1,8 @@
 import { Box, CircularProgress, Stack, Typography, Avatar, Card } from '@mui/joy';
-import { useLoaderData, useSearchParams, useNavigation } from 'react-router-dom';
-import BlogGallery from '../components/BlogGallery';
-import { BlogListResponse } from '../helpers/blog.constants';
-import { useAuth } from '../../../auth/AuthProvider';
+import { useLoaderData, useSearchParams, useNavigation } from 'react-router';
+import BlogGallery from '@/apps/Blogify/components/BlogGallery';
+import { BlogListResponse } from '@/apps/Blogify/helpers/blog.constants';
+import { useAuth } from '@/auth/AuthProvider';
 
 const MyBlogs = () => {
     const response = useLoaderData() as BlogListResponse;

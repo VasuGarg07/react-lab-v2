@@ -1,8 +1,7 @@
+import CardGrid from '@/apps/PokeMemory/CardGrid';
+import { useGameContext } from '@/apps/PokeMemory/Context';
 import { Button, Card, Typography } from '@mui/joy';
-import { useGameContext } from './Context';
 import Logo from '/game-logo.png';
-import CardGrid from './CardGrid';
-import { Spacer } from '../../components/Spacer';
 
 interface Props {
   name: string,
@@ -30,7 +29,7 @@ const Board = () => {
         }}>
         <img style={{ width: 120 }} src={Logo} alt="" />
         <Typography level='title-lg'>Memory Game</Typography>
-        <Spacer />
+        <span className='spacer' />
         <div>
           <Typography level='title-sm'>Player: {name} </Typography>
           <Typography level="body-sm">Turns: {turns}</Typography>

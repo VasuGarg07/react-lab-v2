@@ -1,5 +1,5 @@
 import React from 'react'
-import { useJobscape } from '../JobscapeProvider';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
 import Typography from '@mui/joy/Typography';
 import Button from '@mui/joy/Button';
 import { CirclePlus } from 'lucide-react';

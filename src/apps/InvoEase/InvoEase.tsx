@@ -3,17 +3,17 @@ import { Button, Typography, Card, Divider, Stack, Box, Sheet, useColorScheme } 
 import Stepper from '@mui/joy/Stepper';
 import Step from '@mui/joy/Step';
 import StepIndicator from '@mui/joy/StepIndicator';
-import { useInvoice } from './InvoiceContext';
-import Details from './stepComponents/Details';
-import BillingInfo from './stepComponents/BillingInfo';
-import InvoiceItems from './stepComponents/InvoiceItems';
-import Summary from './stepComponents/Summary';
-import Preview from './stepComponents/Preview';
+import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
+import Details from '@/apps/InvoEase/stepComponents/Details';
+import BillingInfo from '@/apps/InvoEase/stepComponents/BillingInfo';
+import InvoiceItems from '@/apps/InvoEase/stepComponents/InvoiceItems';
+import Summary from '@/apps/InvoEase/stepComponents/Summary';
+import Preview from '@/apps/InvoEase/stepComponents/Preview';
 import { Check, Download } from 'lucide-react';
-import { useAuth } from '../../auth/AuthProvider';
-import InvoiceLoginPrompt from './InvoiceLoginPrompt';
-import { generateAndDownloadPDF } from './helpers';
-import { toastService } from '../../providers/toastr';
+import { useAuth } from '@/auth/AuthProvider';
+import InvoiceLoginPrompt from '@/apps/InvoEase/InvoiceLoginPrompt';
+import { generateAndDownloadPDF } from '@/apps/InvoEase/helpers';
+import { toastService } from '@/providers/toastr';
 
 const steps = [
     { label: 'Invoice Details', component: Details },

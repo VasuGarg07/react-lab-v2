@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardOverflow, AspectRatio, Typography, Chip, Box, IconButton, useTheme } from '@mui/joy';
-import { useNavigate } from 'react-router-dom';
-import { AppInfo } from '../../shared/apps';
+import { useNavigate } from 'react-router';
+import { AppInfo } from '@/shared/apps';
 import { ArrowRight, Info } from 'lucide-react';
 
 export const AppCard: React.FC<AppInfo> = ({ name, tag, path, image, description, techStack }) => {

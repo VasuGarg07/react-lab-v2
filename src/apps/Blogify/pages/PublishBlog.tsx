@@ -18,11 +18,11 @@ import {
     useNavigation,
     useParams,
     useSubmit
-} from 'react-router-dom';
-import { useAuth } from '../../../auth/AuthProvider';
-import RichTextEditor from '../../../shared/RichTextEditor';
-import { Blog, BlogRequest } from '../helpers/blog.constants';
-import UploadImage from '../components/ImageUploader';
+} from 'react-router';
+import { useAuth } from '@/auth/AuthProvider';
+import RichTextEditor from '@/components/RichTextEditor';
+import { Blog, BlogRequest } from '@/apps/Blogify/helpers/blog.constants';
+import UploadImage from '@/apps/Blogify/components/ImageUploader';
 
 interface LoaderData {
     blog: Blog | null;

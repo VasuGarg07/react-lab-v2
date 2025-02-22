@@ -2,7 +2,7 @@ import { Box, Button, FormControl, FormHelperText, FormLabel, Grid, IconButton, 
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 import { Control, Controller, FieldErrors, useFieldArray } from 'react-hook-form';
-import { IApplicant, IEducation } from '../helpers/job.types';
+import { IApplicant, IEducation } from '@/apps/Jobscape/helpers/job.types';
 
 interface EducationEntryProps {
     education: IEducation;

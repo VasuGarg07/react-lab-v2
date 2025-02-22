@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useResumeContext } from '../context/ResumeContext';
+import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
 import { Box, FormControl, Input, Stack, IconButton, Card, CardContent, Typography, Button, Divider, Tooltip, Textarea } from '@mui/joy';
 import { Trophy, Plus, Trash2, AlertCircle, Calendar } from 'lucide-react';
-import { MAX_PROJECTS as MAX_ACHIEVEMENTS, MAX_PROJECT_DESCRIPTION_LENGTH as MAX_ACHIEVEMENT_DESCRIPTION_LENGTH } from '../helpers/constants';
-import { Achievement } from '../helpers/interfaces';
+import { MAX_PROJECTS as MAX_ACHIEVEMENTS, MAX_PROJECT_DESCRIPTION_LENGTH as MAX_ACHIEVEMENT_DESCRIPTION_LENGTH } from '@/apps/ResumeGen/helpers/constants';
+import { Achievement } from '@/apps/ResumeGen/helpers/interfaces';
 
 interface AchievementsFormProps {
     color: string;

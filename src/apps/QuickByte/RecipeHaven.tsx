@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Box, Card, CardContent, IconButton, Input, Stack, Typography } from '@mui/joy';
 import { useTheme } from '@mui/joy/styles';
 import { Book, Search, Utensils } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import DrawerMenu from './DrawerMenu';
+import { useNavigate } from 'react-router';
+import DrawerMenu from '@/apps/QuickByte/DrawerMenu';
 
 interface FeatureCardProps {
   icon: React.ReactNode;

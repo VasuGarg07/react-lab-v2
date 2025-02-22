@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext, useState } from 'react'
-import { Question } from './helper';
-import { GameState } from '../PokeMemory/helpers';
+import { Question } from '@/apps/Quizzo/helper';
+import { GameState } from '@/apps/PokeMemory/helpers';
 
 const QuizContext = createContext<any>(null);
 

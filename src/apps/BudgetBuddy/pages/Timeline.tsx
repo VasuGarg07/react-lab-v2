@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { useBudget } from '../BudgetContext'
+import { useBudget } from '@/apps/BudgetBuddy/BudgetContext'
 import Box from '@mui/joy/Box';
 import CircularProgress from '@mui/joy/CircularProgress';
 import Alert from '@mui/joy/Alert';

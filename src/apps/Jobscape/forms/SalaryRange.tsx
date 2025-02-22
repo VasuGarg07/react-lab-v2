@@ -6,7 +6,7 @@ import FormHelperText from '@mui/joy/FormHelperText';
 import Slider from '@mui/joy/Slider';
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
-import { IJob } from '../helpers/job.types';
+import { IJob } from '@/apps/Jobscape/helpers/job.types';
 
 interface SalaryRangeSliderProps {
     control: Control<IJob>;

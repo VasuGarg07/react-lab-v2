@@ -6,10 +6,10 @@ import {
     getAllTransactions as getAllTransactionsAPI,
     updateTransaction as updateTransactionAPI,
     clearAllTransactions as clearAllTransactionsAPI,
-} from './helpers/expense.service';
-import { Transaction } from './helpers/expense.constants';
-import { budgetReducer, BudgetState, initialState } from './helpers/expense.reducer';
-import TransactionForm from './components/TransactionForm';
+} from '@/apps/BudgetBuddy/helpers/expense.service';
+import { Transaction } from '@/apps/BudgetBuddy/helpers/expense.constants';
+import { budgetReducer, BudgetState, initialState } from '@/apps/BudgetBuddy/helpers/expense.reducer';
+import TransactionForm from '@/apps/BudgetBuddy/components/TransactionForm';
 
 interface ModalState {
     isOpen: boolean;

@@ -1,11 +1,11 @@
 import { Box, Button, Card, CardProps, Stack, Typography } from '@mui/joy';
 import { Briefcase, MoveRight } from 'lucide-react';
 import React, { useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useApiClient } from '../../../shared/useApiClient';
-import { EmployerResponse } from '../helpers/job.types';
-import { useJobscape } from '../JobscapeProvider';
-import JobsOverview from './JobsOverview';
+import { NavLink } from 'react-router';
+import { useApiClient } from '@/shared/useApiClient';
+import { EmployerResponse } from '@/apps/Jobscape/helpers/job.types';
+import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
+import JobsOverview from '@/apps/Jobscape/dashboard/JobsOverview';
 
 const Overview: React.FC = () => {
 

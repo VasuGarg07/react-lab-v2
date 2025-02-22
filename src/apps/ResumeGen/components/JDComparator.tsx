@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Box, Button, Textarea, Typography, Modal, ModalDialog, ModalClose } from '@mui/joy';
-import { ResumeModel } from '../helpers/interfaces';
+import { ResumeModel } from '@/apps/ResumeGen/helpers/interfaces';
 
 interface JDComparatorProps {
     resume: ResumeModel;
