@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { CircularProgress, Stack, Typography, useTheme, Card, Box } from "@mui/joy";
-import ResponsivePagination from 'react-responsive-pagination';
-import 'react-responsive-pagination/themes/classic.css';
-import { ErrorMessage } from "@/components/ErrorMessage";
 import ImageGallery from "@/apps/SnapFind/ImageGallery";
 import SearchBar from "@/apps/SnapFind/SearchBar";
 import { Image, unsplashImages } from "@/apps/SnapFind/helper";
-import { Spacer } from "@/components/Spacer";
+import { toastService } from "@/providers/toastr";
+import { Box, Card, CircularProgress, Stack, Typography, useTheme } from "@mui/joy";
+import React, { useEffect, useState } from "react";
+import ResponsivePagination from 'react-responsive-pagination';
+import 'react-responsive-pagination/themes/classic.css';
 
 const SnapFind: React.FC = () => {
   const theme = useTheme();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [images, setImages] = useState<Image[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -20,7 +18,7 @@ const SnapFind: React.FC = () => {
 
   const handleSubmit = async (reset: boolean = false) => {
     if (!query) {
-      setError('Please input your query');
+      toastService.error('Please input your query');
       return;
     }
 
@@ -30,11 +28,10 @@ const SnapFind: React.FC = () => {
       reset && setPage(1);
       const data = await unsplashImages(query, page, value);
 
-      setError('');
       setTotalPages(data.total_pages);
       setImages(data.results);
     } catch (error) {
-      setError('Unable to load images. Please try again later.');
+      toastService.error('Unable to load images. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -101,10 +98,10 @@ const SnapFind: React.FC = () => {
             onToggleChange={setValue}
           />
 
-          {error && <ErrorMessage message={error} />}
         </Card>
 
-        <Spacer />
+        <span className='spacer' />
+
 
         {images?.length > 0 && (
           <ImageGallery images={images} />
@@ -123,7 +120,8 @@ const SnapFind: React.FC = () => {
           />
         )}
 
-        <Spacer />
+        <span className='spacer' />
+
 
         {images?.length > 0 && totalPages > 1 && (
           <Card

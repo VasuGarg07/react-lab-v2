@@ -1,9 +1,8 @@
-import { Divider, IconButton, Stack, Typography, useTheme } from '@mui/joy'
-import { navigate } from '@/shared/Router'
-import { BookA, ChefHat, CircleArrowLeft, Salad, TreePalm } from 'lucide-react'
-import { Spacer } from '@/components/Spacer'
 import NavMenuButton from '@/apps/QuickByte/Navigation/NavMenuButton'
 import ThemeToggle from '@/components/ThemeToggle'
+import { navigate } from '@/shared/Router'
+import { Divider, IconButton, Stack, Typography, useTheme } from '@mui/joy'
+import { BookA, ChefHat, CircleArrowLeft, Salad, TreePalm } from 'lucide-react'
 import { useState } from 'react'
 
 const Menus = [
@@ -42,7 +41,7 @@ const CookNav = () => {
         startDecorator={<ChefHat />}>
         Recipe Haven
       </Typography>
-      <Spacer />
+      <span className='spacer' />
 
       <Stack direction='row' alignItems='center' spacing={1}
         divider={<Divider orientation="vertical" />}>

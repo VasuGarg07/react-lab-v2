@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Typography, IconButton, CircularProgress } from "@mui/joy";
 import { Upload, X } from "lucide-react";
 import { CONFIG } from "@/shared/config";
-import { ErrorMessage } from "@/components/ErrorMessage";
+import { toastService } from "@/providers/toastr";
 
 interface UploadImageProps {
     onUpload: (url: string) => void;
@@ -20,7 +20,6 @@ const UploadImage = ({
     height = 400
 }: UploadImageProps) => {
     const [uploading, setUploading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const [dragActive, setDragActive] = useState(false);
 
     const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +28,7 @@ const UploadImage = ({
 
         // Basic validation
         if (file.size > 2 * 1024 * 1024) { // 2MB
-            setError("Image size should be less than 2MB");
+            toastService.error("Image size should be less than 2MB");
             return;
         }
 
@@ -56,14 +55,13 @@ const UploadImage = ({
         if (file && file.type.startsWith('image/')) {
             handleImageUpload(file);
         } else {
-            setError("Please drop an image file");
+            toastService.error("Please drop an image file");
         }
     };
 
 
     const handleImageUpload = async (file: File) => {
         setUploading(true);
-        setError(null);
 
         const formData = new FormData();
         formData.append("image", file);
@@ -81,10 +79,10 @@ const UploadImage = ({
             if (data.success) {
                 onUpload(data.data.url);
             } else {
-                setError("Failed to upload image");
+                toastService.error("Failed to upload image");
             }
         } catch (error) {
-            setError("Upload failed. Please try again");
+            toastService.error("Upload failed. Please try again");
         } finally {
             setUploading(false);
         }
@@ -200,7 +198,6 @@ const UploadImage = ({
                 )}
             </Box>
 
-            {error && <ErrorMessage message={error} />}
         </Box>
     );
 };

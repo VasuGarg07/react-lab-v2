@@ -1,10 +1,9 @@
+import { OutlinedSkillChip } from '@/apps/ResumeGen/components/SkillChips';
+import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
+import { MAX_SKILLS, SKILL_CATEGORIES } from '@/apps/ResumeGen/helpers/constants';
 import { Box, Button, Card, CardContent, CircularProgress, Divider, FormControl, Grid, IconButton, Input, Option, Select, Stack, Tooltip, Typography } from '@mui/joy';
 import { Award, Code, Plus, Search } from 'lucide-react';
 import React, { useState } from 'react';
-import { Spacer } from '@/components/Spacer';
-import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
-import { MAX_SKILLS, SKILL_CATEGORIES } from '@/apps/ResumeGen/helpers/constants';
-import { OutlinedSkillChip } from '@/apps/ResumeGen/components/SkillChips';
 
 interface SkillsFormProps {
     color: string;
@@ -80,7 +79,7 @@ const SkillsForm: React.FC<SkillsFormProps> = ({ color }) => {
                                 <Award />
                             </IconButton>
                         </Tooltip>
-                        <Spacer />
+                        <span className='spacer' />
                         <CircularProgress
                             size="lg"
                             determinate
