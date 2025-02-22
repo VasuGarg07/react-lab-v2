@@ -1,4 +1,3 @@
-import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from "react-router";
 import Blogify from "@/apps/Blogify/Blogify";
 import { blogDetailLoader, blogListLoader, homeLoader, myBlogsLoader, publishBlogAction, publishBlogLoader } from "@/apps/Blogify/helpers/blog-router.actions";
 import BlogDetail from "@/apps/Blogify/pages/BlogDetail";
@@ -16,10 +15,26 @@ import Glassmorphism from "@/apps/Glassmorphism/Glassmorphism";
 import Home from "@/apps/Home/Home";
 import Homeloan from "@/apps/HomeloanWizard/Homeloan";
 import { InvoiceProvider } from "@/apps/InvoEase/InvoiceContext";
+import AppliedJobs from "@/apps/Jobscape/dashboard/AppliedJobs";
+import MyJobs from "@/apps/Jobscape/dashboard/MyJobs";
+import EmployerOverview from '@/apps/Jobscape/dashboard/Overview';
+import PostJob from "@/apps/Jobscape/dashboard/PostJob";
+import { ApplicantProfile, EmployerProfile } from '@/apps/Jobscape/dashboard/Profile';
+import Recommendations from "@/apps/Jobscape/dashboard/Recommendations";
+import SavedJobs from "@/apps/Jobscape/dashboard/SavedJobs";
+import Settings from "@/apps/Jobscape/dashboard/Settings";
+import AuthGuard from "@/apps/Jobscape/guards/AuthGuard";
+import RoleGuard from "@/apps/Jobscape/guards/RoleGuard";
 import Jobscape from "@/apps/Jobscape/Jobscape";
+import CompaniesList from "@/apps/Jobscape/pages/CompaniesList";
+import CompanyDetails from "@/apps/Jobscape/pages/CompanyDetails";
+import JobDetails from "@/apps/Jobscape/pages/JobDetails";
 import JobHome from "@/apps/Jobscape/pages/JobHome";
+import JobsList from "@/apps/Jobscape/pages/JobsList";
+import RegisterApplicant from "@/apps/Jobscape/pages/RegisterApplicant";
 import RegisterEmployer from "@/apps/Jobscape/pages/RegisterEmployer";
 import RegisterHero from "@/apps/Jobscape/pages/RegisterHero";
+import UserDashboard from "@/apps/Jobscape/pages/UserDashboard";
 import PokeMemory from "@/apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "@/apps/Pokeverse/context/BattleSimContext";
 import { PokedexProvider } from "@/apps/Pokeverse/context/PokedexContext";
@@ -51,69 +66,45 @@ import ForgotPassword from "@/auth/ForgotPassword";
 import Login from "@/auth/Login";
 import Register from "@/auth/Register";
 import Navbar from "@/components/Navbar";
-import RegisterApplicant from "@/apps/Jobscape/pages/RegisterApplicant";
-import AuthGaurd from "@/apps/Jobscape/guards/AuthGuard";
-import RoleGuard from "@/apps/Jobscape/guards/RoleGuard";
-import UserDashboard from "@/apps/Jobscape/pages/UserDashboard";
-import EmployerOverview from '@/apps/Jobscape/dashboard/Overview';
-import { EmployerProfile, ApplicantProfile } from '@/apps/Jobscape/dashboard/Profile';
-import PostJob from "@/apps/Jobscape/dashboard/PostJob";
-import MyJobs from "@/apps/Jobscape/dashboard/MyJobs";
-import Settings from "@/apps/Jobscape/dashboard/Settings";
-import CompaniesList from "@/apps/Jobscape/pages/CompaniesList";
-import CompanyDetails from "@/apps/Jobscape/pages/CompanyDetails";
-import JobsList from "@/apps/Jobscape/pages/JobsList";
-import JobDetails from "@/apps/Jobscape/pages/JobDetails";
-import SavedJobs from "@/apps/Jobscape/dashboard/SavedJobs";
-import Recommendations from "@/apps/Jobscape/dashboard/Recommendations";
-import AppliedJobs from "@/apps/Jobscape/dashboard/AppliedJobs";
+import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from "react-router";
 
-export const router = createBrowserRouter([
+const Layout: React.FC = () => (
+  <>
+    <Navbar />
+    <Outlet />
+    <ScrollRestoration />
+  </>
+)
+
+const routes = [
   {
     path: '',
-    element: <>
-      <Navbar />
-      <Outlet />
-      <ScrollRestoration />
-    </>,
+    element: <Layout />,
     children: [
-      {
-        path: '',
-        element: <Home />,
-      },
+      { index: true, element: <Home /> },
       {
         path: 'auth',
         element: <AuthWrapper />,
         children: [
-          {
-            path: 'register',
-            element: <Register />
-          },
-          {
-            path: 'login',
-            element: <Login />
-          },
-          {
-            path: 'forgot-password',
-            element: <ForgotPassword />
-          }
+          { index: true, element: <Navigate to='login' replace /> },
+          { path: 'register', element: <Register /> },
+          { path: 'login', element: <Login /> },
+          { path: 'forgot-password', element: <ForgotPassword /> },
+          { path: '*', element: <Navigate to='/auth/login' replace /> }, // Catch invalid auth paths
         ]
       },
       {
         path: 'jobscape',
         element: <Jobscape />,
         children: [
-          {
-            path: 'home',
-            element: <JobHome />
-          },
+          { index: true, element: <JobHome /> },
           {
             path: 'register',
-            element: <AuthGaurd />,
+            element: <AuthGuard />,
             children: [
-              { path: '', element: <RegisterHero /> },
+              { index: true, element: <RegisterHero /> },
               { path: 'employer', element: <RegisterEmployer /> },
-              { path: 'applicant', element: <RegisterApplicant /> }
+              { path: 'applicant', element: <RegisterApplicant /> },
             ]
           },
           {
@@ -121,14 +112,13 @@ export const router = createBrowserRouter([
             element: <RoleGuard guardRole="employer" />,
             children: [
               {
-                path: '',
                 element: <UserDashboard />,
                 children: [
                   { path: 'overview', element: <EmployerOverview /> },
                   { path: 'profile', element: <EmployerProfile /> },
                   { path: 'post-job', element: <PostJob /> },
                   { path: 'jobs', element: <MyJobs /> },
-                  { path: 'candidates', element: <>Saved Candidates</> },
+                  // { path: 'candidates', element: <>Saved Candidates</> },
                   { path: 'settings', element: <Settings /> },
                   { path: 'edit/:jobId', element: <PostJob /> },
                   { path: '', element: <Navigate to='overview' replace /> },
@@ -141,7 +131,6 @@ export const router = createBrowserRouter([
             element: <RoleGuard guardRole="applicant" />,
             children: [
               {
-                path: '',
                 element: <UserDashboard />,
                 children: [
                   { path: 'recommendations', element: <Recommendations /> },
@@ -158,125 +147,50 @@ export const router = createBrowserRouter([
           { path: 'companies/:companyId', element: <CompanyDetails /> },
           { path: 'jobs', element: <JobsList /> },
           { path: 'jobs/:jobId', element: <JobDetails /> },
-          // fallbacks
-          { path: '', element: <Navigate to='home' replace /> },
+          { path: '*', element: <Navigate to='home' replace /> },
         ]
       },
       {
         path: 'blogify',
         element: <Blogify />,
         children: [
-          {
-            path: 'home',
-            element: <BlogHome />,
-            loader: homeLoader
-          },
-          {
-            path: 'publish',
-            element: <PublishBlog />,
-            loader: publishBlogLoader,
-            action: publishBlogAction,
-          },
-          {
-            path: 'edit/:blogId',
-            element: <PublishBlog />,
-            loader: publishBlogLoader,
-            action: publishBlogAction,
-          },
-          {
-            path: 'list',
-            element: <BlogListPage />,
-            loader: blogListLoader
-          },
-          {
-            path: 'list/:author',
-            element: <BlogListPage />,
-            loader: blogListLoader
-          },
-          {
-            path: 'me',
-            element: <MyBlogs />,
-            loader: myBlogsLoader
-          },
-          {
-            path: 'blog/:blogId',
-            element: <BlogDetail />,
-            loader: blogDetailLoader
-          },
-          // fallbacks
-          {
-            path: '',
-            element: <Navigate to='home' replace />
-          },
-          {
-            path: '*',
-            element: <Navigate to='' replace />
-          }
+          { path: 'home', element: <BlogHome />, loader: homeLoader },
+          { path: 'publish', element: <PublishBlog />, loader: publishBlogLoader, action: publishBlogAction },
+          { path: 'edit/:blogId', element: <PublishBlog />, loader: publishBlogLoader, action: publishBlogAction },
+          { path: 'list', element: <BlogListPage />, loader: blogListLoader },
+          { path: 'list/:author', element: <BlogListPage />, loader: blogListLoader },
+          { path: 'me', element: <MyBlogs />, loader: myBlogsLoader },
+          { path: 'blog/:blogId', element: <BlogDetail />, loader: blogDetailLoader },
+          { path: '', element: <Navigate to='home' replace /> },
+          { path: '*', element: <Navigate to='home' replace /> },
         ]
       },
       {
         path: 'budget-buddy',
         element: <BudgetBuddy />,
         children: [
-          {
-            path: 'home',
-            element: <HomePage />
-          },
-          {
-            path: 'overview',
-            element: <Overview />
-          },
-          {
-            path: 'statistics',
-            element: <Statistics />
-          },
-          {
-            path: 'timeline',
-            element: <Timeline />
-          },
-          // fallbacks
-          {
-            path: '',
-            element: <Navigate to='home' replace />
-          },
-          {
-            path: '*',
-            element: <Navigate to='' replace />
-          }
+          { path: 'home', element: <HomePage /> },
+          { path: 'overview', element: <Overview /> },
+          { path: 'statistics', element: <Statistics /> },
+          { path: 'timeline', element: <Timeline /> },
+          { path: '', element: <Navigate to='home' replace /> },
+          { path: '*', element: <Navigate to='home' replace /> },
         ]
       },
       {
         path: 'pokeverse',
-        element: <PokedexProvider outlet={<Outlet />} />,
+        element: <PokedexProvider />,
         children: [
-          {
-            path: '',
-            element: <Pokeverse />
-          },
-          {
-            path: 'pokedex',
-            element: <Pokedex />
-          },
-          {
-            path: 'pokedex/:id',
-            element: <PokemonDetails />,
-          },
+          { index: true, element: <Pokeverse /> },
+          { path: 'pokedex', element: <Pokedex /> },
+          { path: 'pokedex/:id', element: <PokemonDetails /> },
           {
             path: 'battle-sim',
-            element: <BattleProvider><Outlet /></BattleProvider>,
+            element: <BattleProvider />,
             children: [
-              {
-                path: '',
-                element: <PlayerSetupScreen />
-              },
-              {
-                path: 'team-selection',
-                element: <TeamSelectionScreen />
-              },
-              {
-                path: 'battle',
-                element: <BattleScreen />
-              }
+              { index: true, element: <PlayerSetupScreen /> },
+              { path: 'team-selection', element: <TeamSelectionScreen /> },
+              { path: 'battle', element: <BattleScreen /> },
             ]
           }
         ]
@@ -285,119 +199,40 @@ export const router = createBrowserRouter([
         path: 'resume',
         element: <ResumeProvider><Outlet /></ResumeProvider>,
         children: [
-          {
-            path: '',
-            element: <ResumeEdge />
-          },
-          {
-            path: 'form',
-            element: <ResumeForm />
-          },
-          {
-            path: 'select-template',
-            element: <ResumeTemplates />
-          },
-          {
-            path: 'preview',
-            element: <ResumePreview />
-          },
-          {
-            path: 'test',
-            element: <TwoColumnResume resume={sampleResume} />
-          }
+          { index: true, element: <ResumeEdge /> },
+          { path: 'form', element: <ResumeForm /> },
+          { path: 'select-template', element: <ResumeTemplates /> },
+          { path: 'preview', element: <ResumePreview /> },
+          { path: 'test', element: <TwoColumnResume resume={sampleResume} /> },
         ]
       },
-      {
-        path: 'invoease',
-        element: <InvoiceProvider />
-      },
-      {
-        path: 'sorting-visualizer',
-        element: <SortingVisualizer />
-      },
-      {
-        path: 'super-tic-tac-toe',
-        element: <SuperTicTacToe />
-      },
-      {
-        path: 'sudoku',
-        element: <Sudoku />
-      },
-      {
-        path: 'glassmorphism',
-        element: <Glassmorphism />,
-      },
-      {
-        path: 'homeloan-wizard',
-        element: <Homeloan />
-      },
-      {
-        path: 'poke-memory',
-        element: <PokeMemory />
-      },
-      {
-        path: 'snapfind',
-        element: <SnapFind />
-      },
-      {
-        path: 'quizzo',
-        element: <Quizzo />
-      },
+      { path: 'invoease', element: <InvoiceProvider /> },
+      { path: 'sorting-visualizer', element: <SortingVisualizer /> },
+      { path: 'super-tic-tac-toe', element: <SuperTicTacToe /> },
+      { path: 'sudoku', element: <Sudoku /> },
+      { path: 'glassmorphism', element: <Glassmorphism /> },
+      { path: 'homeloan-wizard', element: <Homeloan /> },
+      { path: 'poke-memory', element: <PokeMemory /> },
+      { path: 'snapfind', element: <SnapFind /> },
+      { path: 'quizzo', element: <Quizzo /> },
       {
         path: 'recipe-haven',
-        element: <>
-          <Outlet />
-          <ScrollRestoration />
-        </>,
+        element: <><Outlet /><ScrollRestoration /></>, // Handles Outlet + ScrollRestoration
         children: [
-          {
-            path: '',
-            element: <RecipeHaven />
-          },
-          {
-            path: 'search/:searchTerm',
-            element: <Wrapper children={<Gallery />} />,
-            loader: searchMeals
-          },
-          {
-            path: 'category/:categoryId',
-            element: <Wrapper children={<Gallery />} />,
-            loader: categoryMeals
-          },
-          {
-            path: 'region/:areaId',
-            element: <Wrapper children={<Gallery />} />,
-            loader: regionalMeals
-          },
-          {
-            path: 'alphabet/:letter',
-            element: <Wrapper children={<Gallery />} />,
-            loader: alphabetMeals
-          },
-          {
-            path: 'area/:areaId',
-            element: <Wrapper children={<Gallery />} />,
-            loader: regionalMeals
-          },
-          {
-            path: 'meal/:mealId',
-            element: <Wrapper children={<Details />} />,
-            loader: mealDetails
-          },
+          { path: '', element: <RecipeHaven /> },
+          { path: 'search/:searchTerm', element: <Wrapper children={<Gallery />} />, loader: searchMeals },
+          { path: 'category/:categoryId', element: <Wrapper children={<Gallery />} />, loader: categoryMeals },
+          { path: 'region/:areaId', element: <Wrapper children={<Gallery />} />, loader: regionalMeals },
+          { path: 'alphabet/:letter', element: <Wrapper children={<Gallery />} />, loader: alphabetMeals },
+          { path: 'area/:areaId', element: <Wrapper children={<Gallery />} />, loader: regionalMeals },
+          { path: 'meal/:mealId', element: <Wrapper children={<Details />} />, loader: mealDetails },
         ]
       },
-      {
-        path: "*",
-        element: <NotFound />,
-      }
+      { path: '*', element: <NotFound /> },
     ]
   }
-], {
-  future: {
-    v7_relativeSplatPath: true,
-    v7_fetcherPersist: true,
-    v7_skipActionErrorRevalidation: true,
-  },
-});
+];
 
-export const navigate = router.navigate; 
+
+export const Router = createBrowserRouter(routes);
+export const navigate = Router.navigate; 

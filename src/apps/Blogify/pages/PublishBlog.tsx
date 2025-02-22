@@ -20,7 +20,7 @@ import {
     useSubmit
 } from 'react-router';
 import { useAuth } from '@/auth/AuthProvider';
-import RichTextEditor from '@/shared/RichTextEditor';
+import RichTextEditor from '@/components/RichTextEditor';
 import { Blog, BlogRequest } from '@/apps/Blogify/helpers/blog.constants';
 import UploadImage from '@/apps/Blogify/components/ImageUploader';
 

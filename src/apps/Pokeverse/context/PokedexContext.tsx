@@ -1,5 +1,6 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
 import { Pokemon } from "@/apps/Pokeverse/helpers/model.types";
+import React, { createContext, useContext, useState } from "react";
+import { Outlet } from "react-router";
 
 interface PokedexContextType {
     pokemons: Record<number, Pokemon>; // Stores Pokémon objects keyed by ID
@@ -9,7 +10,7 @@ interface PokedexContextType {
 
 const PokedexContext = createContext<PokedexContextType | null>(null);
 
-export const PokedexProvider: React.FC<{ outlet: ReactNode }> = ({ outlet }) => {
+export const PokedexProvider: React.FC = () => {
     const [pokemons, setPokemons] = useState<Record<number, Pokemon>>({});
 
     // Adds a new Pokémon or retrieves an existing one
@@ -24,7 +25,7 @@ export const PokedexProvider: React.FC<{ outlet: ReactNode }> = ({ outlet }) => 
 
     return (
         <PokedexContext.Provider value={{ pokemons, addPokemon, getPokemonById }}>
-            {outlet}
+            <Outlet />
         </PokedexContext.Provider>
     );
 };
