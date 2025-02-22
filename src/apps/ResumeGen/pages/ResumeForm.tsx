@@ -1,7 +1,7 @@
 import { Box, Button, Divider, IconButton, Sheet, Stack, Typography, useTheme } from '@mui/joy';
 import { Award, Briefcase, ChevronLeft, ChevronRight, ChevronsLeft, Code, Feather, FileText, GraduationCap, Menu, SendHorizonal, Upload, User } from 'lucide-react';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Spacer } from '../../../components/Spacer';
 import AchievementsForm from '../components/AchievementsForm';
 import ContactInfoForm from '../components/ContactInfoForm';

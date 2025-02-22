@@ -1,6 +1,6 @@
 import { AspectRatio, Card, CardContent, CardOverflow, Grid, IconButton, Stack, Typography } from '@mui/joy';
 import { BookOpenText } from 'lucide-react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router';
 import { Meal } from './utils/helpers';
 import { motion } from 'framer-motion';
 

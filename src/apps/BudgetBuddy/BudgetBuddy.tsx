@@ -1,6 +1,6 @@
 import { Box, useColorScheme } from '@mui/joy';
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { useAuth } from '../../auth/AuthProvider';
 import BudgetProvider from './BudgetContext';
 import AuthPrompt from './components/AuthPrompt';

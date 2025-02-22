@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Box, Button, Checkbox, Typography, useTheme } from '@mui/joy';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useResumeContext } from '../context/ResumeContext';
 import { Templates } from '../helpers/templates';
 

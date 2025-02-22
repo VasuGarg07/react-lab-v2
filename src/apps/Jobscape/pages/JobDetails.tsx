@@ -8,7 +8,7 @@ import Typography from '@mui/joy/Typography';
 import { AxiosError } from 'axios';
 import { ArrowRight, Bookmark, Briefcase, Calendar, Gauge, MapPin, Power, Users, Wallet } from 'lucide-react';
 import React, { useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import StyledHtmlContent from '../../../components/StyledHtmlContent';
 import { useApiClient } from '../../../shared/useApiClient';
 import { formatString } from '../../../shared/utilities';

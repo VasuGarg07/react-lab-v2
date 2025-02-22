@@ -18,7 +18,7 @@ import {
     useNavigation,
     useParams,
     useSubmit
-} from 'react-router-dom';
+} from 'react-router';
 import { useAuth } from '../../../auth/AuthProvider';
 import RichTextEditor from '../../../shared/RichTextEditor';
 import { Blog, BlogRequest } from '../helpers/blog.constants';

@@ -2,7 +2,7 @@ import { Button, Card, CardContent, Divider, FormControl, FormLabel, Input, Opti
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, KeyRound, KeySquare, Lock, Mail, User } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { useAuth } from './AuthProvider';
 import { RegisterData } from './auth.types';
 

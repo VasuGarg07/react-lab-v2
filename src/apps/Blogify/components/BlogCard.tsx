@@ -16,7 +16,7 @@ import {
     Divider,
 } from '@mui/joy';
 import { MoreVertical, Pencil, Archive } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { Blog } from '../helpers/blog.constants';
 import { archiveBlog } from '../helpers/blog.service';
 import { useAuth } from '../../../auth/AuthProvider';

@@ -9,7 +9,7 @@ import {
     Typography
 } from '@mui/joy';
 import { ArrowRight } from 'lucide-react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router';
 import BlogCard from '../components/BlogCard';
 import { Blog } from '../helpers/blog.constants';
 

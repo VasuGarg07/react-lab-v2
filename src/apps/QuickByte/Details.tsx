@@ -1,5 +1,5 @@
 import { AspectRatio, Button, Card, Chip, Divider, Link, List, ListItem, ListItemDecorator, Stack, Typography } from '@mui/joy';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router';
 import { MealDetails } from './utils/helpers';
 import { Info, LoaderPinwheel, Play } from 'lucide-react';
 import { motion } from 'framer-motion';

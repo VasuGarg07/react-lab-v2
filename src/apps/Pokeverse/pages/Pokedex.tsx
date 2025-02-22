@@ -2,7 +2,7 @@ import { Box, Button, CircularProgress, Container, Divider, Grid, Typography, us
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertCircle, ArrowUp, ChevronsDown, PawPrint } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import PokemonCard from '../components/PokemonCard';
 import { BASE_API, END_POINT, REGION_DATA, TYPE_COLORS } from '../helpers/constant';
 import { PokemonDetail, PokemonListResponse } from '../helpers/response.types';

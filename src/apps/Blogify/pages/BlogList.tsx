@@ -1,5 +1,5 @@
 import { Box, CircularProgress } from '@mui/joy';
-import { useLoaderData, useSearchParams, useNavigation } from 'react-router-dom';
+import { useLoaderData, useSearchParams, useNavigation } from 'react-router';
 import BlogGallery from '../components/BlogGallery';
 import { BlogListResponse } from '../helpers/blog.constants';
 

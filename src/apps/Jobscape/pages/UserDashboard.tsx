@@ -3,7 +3,7 @@ import Button from '@mui/joy/Button';
 import Container from '@mui/joy/Container';
 import Typography from '@mui/joy/Typography';
 import { Bookmark, Briefcase, Layers, LogOut, PlusCircle, Settings, Sparkles, UserCircle } from 'lucide-react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router';
 import { useJobscape } from '../JobscapeProvider';
 import CompactFooter from '../components/CompactFooter';
 import JobNav from '../components/JobNav';

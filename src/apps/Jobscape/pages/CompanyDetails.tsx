@@ -1,7 +1,7 @@
 import { Box, Button, Container, Divider, Grid, IconButton, Typography } from '@mui/joy';
 import { Building2, Calendar, ExternalLink, Facebook, Globe, Handshake, Instagram, Linkedin, LucideIcon, Mail, Phone, Twitter, Users, Youtube } from 'lucide-react';
 import React, { useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import StyledHtmlContent from '../../../components/StyledHtmlContent';
 import { useApiClient } from '../../../shared/useApiClient';
 import { useJobscape } from '../JobscapeProvider';

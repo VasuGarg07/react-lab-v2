@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Box } from '@mui/joy';
 import ImageSection from '../components/ImageSection';
 import { GRADIENTS } from '../helpers/constant';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const Container = styled(Box)({
     display: 'flex',

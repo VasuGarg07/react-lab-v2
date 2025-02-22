@@ -1,4 +1,4 @@
-import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from "react-router-dom";
+import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from "react-router";
 import Blogify from "../apps/Blogify/Blogify";
 import { blogDetailLoader, blogListLoader, homeLoader, myBlogsLoader, publishBlogAction, publishBlogLoader } from "../apps/Blogify/helpers/blog-router.actions";
 import BlogDetail from "../apps/Blogify/pages/BlogDetail";
@@ -392,6 +392,12 @@ export const router = createBrowserRouter([
       }
     ]
   }
-]);
+], {
+  future: {
+    v7_relativeSplatPath: true,
+    v7_fetcherPersist: true,
+    v7_skipActionErrorRevalidation: true,
+  },
+});
 
 export const navigate = router.navigate; 

@@ -1,4 +1,4 @@
-import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from "react-router-dom";
+import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from "react-router";
 import { getBlogById, getBlogs, getBlogsOfAuthor, getRecentBlogs, getRelatedBlogs, getUserBlogs, publishBlog, updateBlog } from "./blog.service";
 
 export const publishBlogLoader = async ({ params }: LoaderFunctionArgs) => {

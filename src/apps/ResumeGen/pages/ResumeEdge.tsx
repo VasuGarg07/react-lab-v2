@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Typography from '@mui/joy/Typography';
 import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';

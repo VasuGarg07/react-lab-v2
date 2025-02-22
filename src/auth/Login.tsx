@@ -2,7 +2,7 @@ import { Button, Card, CardContent, Divider, FormControl, FormLabel, Input, Stac
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Lock, User } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { useAuth } from './AuthProvider';
 import { LoginData } from './auth.types';
 

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { getOfficialImage, getRandomColor } from '../helpers/utilities';
 import { EvolutionDetails } from '../helpers/model.types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 interface Props {
     evolution: EvolutionDetails;

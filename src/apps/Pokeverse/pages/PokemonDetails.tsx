@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Activity, ArrowLeft, Book, GitBranch, ImageIcon, Info, Layers, Swords } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import EntriesSection from '../components/EntriesSection';
 import InfoSection from '../components/Information';
 import MovesSection from '../components/MovesGrid';

@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardProps, Stack, Typography } from '@mui/joy';
 import { Briefcase, MoveRight } from 'lucide-react';
 import React, { useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { useApiClient } from '../../../shared/useApiClient';
 import { EmployerResponse } from '../helpers/job.types';
 import { useJobscape } from '../JobscapeProvider';

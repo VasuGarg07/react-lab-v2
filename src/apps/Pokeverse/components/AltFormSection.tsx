@@ -1,6 +1,6 @@
 import { Box, Sheet, Typography } from '@mui/joy';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { TYPE_COLORS } from '../helpers/constant';
 import { AltForm } from '../helpers/model.types';
 import { getOfficialImage } from '../helpers/utilities';

@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { Box, useColorScheme } from '@mui/joy';
 import { motion } from 'framer-motion';
 

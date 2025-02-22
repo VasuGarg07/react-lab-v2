@@ -1,6 +1,6 @@
 import { Box, Container, Link, Stack, Typography } from '@mui/joy';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router';
 
 const Footer: React.FC = () => {
     const links = {

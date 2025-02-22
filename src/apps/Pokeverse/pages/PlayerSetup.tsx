@@ -12,7 +12,7 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import { Sparkles, Swords, Trophy } from 'lucide-react';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { BgCenteredBox } from '../../../components/BgCenteredBox';
 import { useBattleActions } from '../context/BattleSimContext';
 import Dark from '/backgrounds/bg-poke-dark.webp';

@@ -15,7 +15,7 @@ import {
 } from '@mui/joy';
 import { LogOut, Menu as MenuIcon, Moon, Sun, User, User2, UserRoundPlus } from 'lucide-react';
 import { useState } from 'react';
-import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router';
 import BrandLogo from './BrandLogo';
 import { useJobscape } from '../JobscapeProvider';
 import { ApplicantResponse, EmployerResponse, JobRoles } from '../helpers/job.types';

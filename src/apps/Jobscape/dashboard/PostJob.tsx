@@ -3,7 +3,7 @@ import Typography from '@mui/joy/Typography';
 import { AxiosError } from 'axios';
 import React, { useEffect, useCallback } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { useJobscape } from '../JobscapeProvider';
 import JobForm from '../forms/JobForm';
 import { defaultJob } from '../helpers/job.constants';

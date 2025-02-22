@@ -11,7 +11,7 @@ import {
     Typography
 } from '@mui/joy';
 import { ChevronRight } from 'lucide-react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router';
 import BlogCard from '../components/BlogCard';
 import { Blog } from '../helpers/blog.constants';
 import StyledHtmlContent from '../../../components/StyledHtmlContent';

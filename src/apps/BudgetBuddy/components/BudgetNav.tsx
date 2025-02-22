@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, List, ListItem, ListItemButton, ListItemDecorator, Sheet, Typography } from '@mui/joy';
 import { BarChart3, History, LayoutGrid, PieChart } from 'lucide-react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router';
 
 const SIDEBAR_WIDTH = '280px';
 

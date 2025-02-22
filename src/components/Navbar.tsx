@@ -4,7 +4,7 @@ import SideNav from "./SideNav"
 import ThemeToggle from "./ThemeToggle"
 import { Spacer } from "./Spacer"
 import Signup from "./Signup"
-import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router"
 import CookNav from "../apps/QuickByte/Navigation/CookNav"
 
 const Navbar = () => {

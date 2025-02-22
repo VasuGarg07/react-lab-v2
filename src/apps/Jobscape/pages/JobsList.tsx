@@ -7,7 +7,7 @@ import Typography from '@mui/joy/Typography';
 import { Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import ReactPagination from 'react-responsive-pagination';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import CompactFooter from '../components/CompactFooter';
 import JobCard from '../components/JobCard';
 import JobNav from '../components/JobNav';

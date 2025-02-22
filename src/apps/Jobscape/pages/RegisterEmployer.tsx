@@ -3,7 +3,7 @@ import { Container } from '@mui/joy';
 import { AxiosError } from "axios";
 import React from 'react';
 import { FormProvider, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useAuth } from '../../../auth/AuthProvider';
 import EmployerForm from '../forms/EmployerForm';
 import CompactFooter from "../components/CompactFooter";

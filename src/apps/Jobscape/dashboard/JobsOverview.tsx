@@ -12,7 +12,7 @@ import Typography from '@mui/joy/Typography';
 import { AxiosError } from 'axios';
 import { Archive, CheckCircle, Clock, MoreVertical, Pencil, Star, Trash2, Users } from 'lucide-react';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { formatString } from '../../../shared/utilities';
 import StyledTable from '../components/StyledTable';
 import { JobResponse, JobRoles } from '../helpers/job.types';

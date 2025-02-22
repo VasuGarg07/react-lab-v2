@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardOverflow, AspectRatio, Typography, Chip, Box, IconButton, useTheme } from '@mui/joy';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { AppInfo } from '../../shared/apps';
 import { ArrowRight, Info } from 'lucide-react';
 

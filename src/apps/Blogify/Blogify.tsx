@@ -1,6 +1,6 @@
 import { Box } from '@mui/joy';
 import { motion } from 'framer-motion';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router';
 import BlogifyNav from './components/BlogifyNav';
 import { useAuth } from '../../auth/AuthProvider';
 import BlogifyAuth from './pages/BlogifyAuth';

@@ -1,5 +1,5 @@
 import { CssBaseline, CssVarsProvider } from "@mui/joy";
-import { RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router/dom";
 import { router } from "./shared/Router";
 import "./styles/styles.scss";
 import theme from "./styles/theme";

@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, IconButton, Tooltip, Typography, useTheme } from '@mui/joy';
 import { CheckCircle, Edit, FileDown, FileJson, GitCompare, LayoutTemplate } from 'lucide-react';
 import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import ATSCheck from '../components/AtsCheck';
 import JDComparator from '../components/JDComparator';
 import { useResumeContext } from '../context/ResumeContext';

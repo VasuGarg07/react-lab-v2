@@ -2,7 +2,7 @@ import { Box, Button, CircularProgress, Sheet, Stack, Typography, useTheme } fro
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronRight, Flag, Sword } from 'lucide-react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { BgCenteredBox } from '../../../components/BgCenteredBox';
 import { GameOverModal } from '../components/GameOverModal';
 import PokemonBattleCard from '../components/PokemonBattleCard';
