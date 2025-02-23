@@ -1,7 +1,7 @@
 import { Box, Button, List, ListItem, Modal, ModalDialog, Typography, useTheme } from '@mui/joy';
 import { Swords } from 'lucide-react';
 import React from 'react';
-import { Instructions } from '@/apps/SuperTicTacToe/helpers';
+import { INSTRUCTIONS } from '@/apps/SuperTicTacToe/helpers';
 
 interface StartGamePopupProps {
     open: boolean;
@@ -58,7 +58,7 @@ const StartGamePopup: React.FC<StartGamePopupProps> = ({ open, onStart }) => {
                     }}
                 >
                     <List component="ol" sx={{ pl: 2 }}>
-                        {Instructions.map((instruction, index) => (
+                        {INSTRUCTIONS.map((instruction, index) => (
                             <ListItem
                                 key={index}
                                 sx={{
