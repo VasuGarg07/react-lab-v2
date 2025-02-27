@@ -1,5 +1,5 @@
 import { Box } from '@mui/joy';
-import { Image } from '@/apps/SnapFind/helper'
+import { Image } from '@/apps/SnapFind/snapfind.helper'
 import ImageCard from '@/apps/SnapFind/ImageCard';
 import React from 'react';
 

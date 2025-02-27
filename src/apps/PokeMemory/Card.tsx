@@ -1,5 +1,5 @@
 import Tilt from "react-parallax-tilt"
-import { CardType, defaultTiltOptions } from "@/apps/PokeMemory/helpers"
+import { CardType, defaultTiltOptions } from "@/apps/PokeMemory/pokememory.utils"
 import '@/apps/PokeMemory/Card.styles.scss';
 
 interface Props {

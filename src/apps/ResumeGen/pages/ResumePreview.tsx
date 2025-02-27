@@ -9,7 +9,7 @@ import { Templates } from '@/apps/ResumeGen/helpers/templates';
 import { downloadJSON } from '@/apps/ResumeGen/helpers/utilities';
 import generateResumePDF from '@/apps/ResumeGen/pdfGenerators/pdfGenerator';
 import { TemplateName } from '@/apps/ResumeGen/pdfGenerators/types';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 interface ButtonConfig {
     label: string;

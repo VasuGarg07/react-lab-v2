@@ -11,7 +11,7 @@ import { IJob } from '@/apps/Jobscape/helpers/job.types';
 import { JobSchema } from '@/apps/Jobscape/helpers/validationSchema';
 import { useApiClient } from '@/shared/useApiClient';
 import { JobDetailsResponse } from '@/apps/Jobscape/helpers/response.types';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 const PostJob: React.FC = () => {
     const navigate = useNavigate();

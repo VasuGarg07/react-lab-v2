@@ -12,8 +12,8 @@ import Preview from '@/apps/InvoEase/stepComponents/Preview';
 import { Check, Download } from 'lucide-react';
 import { useAuth } from '@/auth/AuthProvider';
 import InvoiceLoginPrompt from '@/apps/InvoEase/InvoiceLoginPrompt';
-import { generateAndDownloadPDF } from '@/apps/InvoEase/helpers';
-import { toastService } from '@/providers/toastr';
+import { generateAndDownloadPDF } from '@/apps/InvoEase/invoice.utils';
+import { toastService } from '@/shared/toastr';
 
 const steps = [
     { label: 'Invoice Details', component: Details },

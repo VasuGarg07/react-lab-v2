@@ -13,7 +13,7 @@ import { CompanyCard } from '@/apps/Jobscape/components/CompanyCard';
 import JobNav from '@/apps/Jobscape/components/JobNav';
 import { CompaniesCardListResponse } from '@/apps/Jobscape/helpers/response.types';
 import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 const ITEMS_PER_PAGE = 10;
 

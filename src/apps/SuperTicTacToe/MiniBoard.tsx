@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Card } from '@mui/joy';
-import { COLOR_O, COLOR_X, MiniBoardProps, SQ_SIZE } from '@/apps/SuperTicTacToe/helpers';
+import { COLOR_O, COLOR_X, MiniBoardProps, SQ_SIZE } from '@/apps/SuperTicTacToe/tictactoe.helpers';
 
 const MiniBoard: React.FC<MiniBoardProps> = ({ board, onPlay, boardIndex }) => {
     return (

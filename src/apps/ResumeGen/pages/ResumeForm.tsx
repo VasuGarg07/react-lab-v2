@@ -7,7 +7,7 @@ import SkillsForm from '@/apps/ResumeGen/components/SkillsForm';
 import WorkExperienceForm from '@/apps/ResumeGen/components/WorkExperienceForm';
 import { useResumeContext } from '@/apps/ResumeGen/context/ResumeContext';
 import { importJSON } from '@/apps/ResumeGen/helpers/utilities';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 import { Box, Button, Divider, IconButton, Sheet, Stack, Typography, useTheme } from '@mui/joy';
 import { Award, Briefcase, ChevronLeft, ChevronRight, ChevronsLeft, Code, Feather, FileText, GraduationCap, Menu, SendHorizonal, Upload, User } from 'lucide-react';
 import React, { useState } from 'react';

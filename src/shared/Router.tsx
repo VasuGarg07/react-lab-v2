@@ -46,7 +46,7 @@ import { TeamSelectionScreen } from "@/apps/Pokeverse/pages/TeamSelection";
 import Details from "@/apps/QuickByte/Details";
 import Gallery from "@/apps/QuickByte/Gallery";
 import RecipeHaven from "@/apps/QuickByte/RecipeHaven";
-import { alphabetMeals, categoryMeals, mealDetails, regionalMeals, searchMeals } from "@/apps/QuickByte/utils/api";
+import { alphabetMeals, categoryMeals, mealDetails, regionalMeals, searchMeals } from "@/apps/QuickByte/utils/recipe.api";
 import Wrapper from "@/apps/QuickByte/Wrapper";
 import Quizzo from "@/apps/Quizzo/Quizzo";
 import { ResumeProvider } from "@/apps/ResumeGen/context/ResumeContext";

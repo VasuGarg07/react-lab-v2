@@ -12,7 +12,7 @@ import { defaultEmployer } from '@/apps/Jobscape/helpers/job.constants';
 import { IEmployer } from '@/apps/Jobscape/helpers/job.types';
 import { employerFormSchema } from "@/apps/Jobscape/helpers/validationSchema";
 import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
-import { toastService } from "@/providers/toastr";
+import { toastService } from "@/shared/toastr";
 
 
 const RegisterEmployer: React.FC = () => {

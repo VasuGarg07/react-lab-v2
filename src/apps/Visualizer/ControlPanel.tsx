@@ -1,4 +1,4 @@
-import { ArraySize, TimeDuration } from '@/apps/Visualizer/helpers';
+import { ArraySize, TimeDuration } from '@/apps/Visualizer/algorithms';
 import { Button, Option, Select, Stack, Typography } from '@mui/joy';
 import React from 'react';
 

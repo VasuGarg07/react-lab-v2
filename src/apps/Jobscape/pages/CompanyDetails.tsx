@@ -10,7 +10,7 @@ import JobCard from '@/apps/Jobscape/components/JobCard';
 import JobNav from '@/apps/Jobscape/components/JobNav';
 import { EmployerResponse, IESocialLinks } from '@/apps/Jobscape/helpers/job.types';
 import { CompanyDetailsResponse, JobsCardInfo } from '@/apps/Jobscape/helpers/response.types';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 const CompanyDetails: React.FC = () => {
     const { companyId } = useParams();

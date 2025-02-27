@@ -10,7 +10,7 @@ import {
 } from "@/auth/auth.service";
 import { ChangePasswordData, LoginData, RegisterData, User } from "@/auth/auth.types";
 import { jwtDecode, JwtPayload } from "jwt-decode";
-import { toastService } from "@/providers/toastr";
+import { toastService } from "@/shared/toastr";
 
 interface AuthContextType {
     isLoggedIn: boolean;

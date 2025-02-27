@@ -19,7 +19,7 @@ import InfoStrip from '@/apps/Jobscape/components/InfoBox';
 import JobNav from '@/apps/Jobscape/components/JobNav';
 import { JobResponse } from '@/apps/Jobscape/helpers/job.types';
 import { JobDetailsResponse } from '@/apps/Jobscape/helpers/response.types';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 const JobDetails: React.FC = () => {
     const { jobId } = useParams();

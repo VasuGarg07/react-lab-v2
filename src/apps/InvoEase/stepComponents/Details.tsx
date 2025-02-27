@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Input, Select, Option, FormControl, FormLabel, FormHelperText, Grid } from '@mui/joy';
 import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
-import { CurrencyOptions } from '@/apps/InvoEase/helpers';
+import { CurrencyOptions } from '@/apps/InvoEase/invoice.utils';
 
 interface DetailsProps {
     onValidStep: (isValid: boolean) => void;

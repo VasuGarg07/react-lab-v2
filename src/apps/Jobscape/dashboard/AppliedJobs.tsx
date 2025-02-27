@@ -10,7 +10,7 @@ import { formatString } from '@/shared/utilities';
 import FeaturedChip from '@/apps/Jobscape/components/FeaturedChip';
 import StyledTable from '@/apps/Jobscape/components/StyledTable';
 import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 const AppliedJobs: React.FC = () => {
     const { applicantService } = useJobscape();

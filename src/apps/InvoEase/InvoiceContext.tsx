@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
-import { CurrencyOptions, generateCompactId } from '@/apps/InvoEase/helpers';
+import { CurrencyOptions, generateCompactId } from '@/apps/InvoEase/invoice.utils';
 import InvoEase from '@/apps/InvoEase/InvoEase';
-import { BillingInfo, InvoiceItem } from '@/apps/InvoEase/types';
+import { BillingInfo, InvoiceItem } from '@/apps/InvoEase/invoice.types';
 
 interface InvoiceContextType {
     currentDate: string;

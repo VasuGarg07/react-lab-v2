@@ -1,7 +1,7 @@
 import ImageGallery from "@/apps/SnapFind/ImageGallery";
 import SearchBar from "@/apps/SnapFind/SearchBar";
-import { Image, unsplashImages } from "@/apps/SnapFind/helper";
-import { toastService } from "@/providers/toastr";
+import { Image, unsplashImages } from "@/apps/SnapFind/snapfind.helper";
+import { toastService } from "@/shared/toastr";
 import { Box, Card, CircularProgress, Stack, Typography, useTheme } from "@mui/joy";
 import React, { useEffect, useState } from "react";
 import ResponsivePagination from 'react-responsive-pagination';

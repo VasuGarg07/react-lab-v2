@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Typography, IconButton, CircularProgress } from "@mui/joy";
 import { Upload, X } from "lucide-react";
 import { CONFIG } from "@/shared/config";
-import { toastService } from "@/providers/toastr";
+import { toastService } from "@/shared/toastr";
 
 interface UploadImageProps {
     onUpload: (url: string) => void;

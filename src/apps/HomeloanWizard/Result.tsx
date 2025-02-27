@@ -1,6 +1,6 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 import { Stack, Typography } from "@mui/joy";
-import { LoanData } from "@/apps/HomeloanWizard/helpers";
+import { LoanData } from "@/apps/HomeloanWizard/loan.utils";
 
 interface Props {
   data: LoanData

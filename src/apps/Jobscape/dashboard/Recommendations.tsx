@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import Typography from '@mui/joy/Typography';
 import Grid from '@mui/joy/Grid';
 import { JobCard } from '@/apps/Jobscape/components/JobCard';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 const Recommendations: React.FC = () => {
 

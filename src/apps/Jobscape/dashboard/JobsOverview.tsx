@@ -17,7 +17,7 @@ import { formatString } from '@/shared/utilities';
 import StyledTable from '@/apps/Jobscape/components/StyledTable';
 import { JobResponse, JobRoles } from '@/apps/Jobscape/helpers/job.types';
 import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 interface JobsOverviewProps {
     role: JobRoles | null;

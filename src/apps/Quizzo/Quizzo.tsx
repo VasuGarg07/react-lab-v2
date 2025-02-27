@@ -1,5 +1,5 @@
 import { Box, Card, Divider, Grid, Typography, useTheme } from "@mui/joy";
-import { GameState } from "@/apps/PokeMemory/helpers";
+import { GameState } from "@/apps/PokeMemory/pokememory.utils";
 import QuizProvider, { useQuizContext } from "@/apps/Quizzo/Context";
 import Result from "@/apps/Quizzo/Result";
 import Board from "@/apps/Quizzo/Board";

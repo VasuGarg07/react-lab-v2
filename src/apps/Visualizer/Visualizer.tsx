@@ -12,7 +12,7 @@ import {
     getMaxOfArray,
     TimeDuration,
     ArraySize
-} from '@/apps/Visualizer/helpers';
+} from '@/apps/Visualizer/algorithms';
 
 const SortingVisualizer: React.FC = () => {
     const { mode } = useColorScheme();

@@ -1,5 +1,5 @@
 import { Box, Grid } from "@mui/joy";
-import { CardType } from "@/apps/PokeMemory/helpers";
+import { CardType } from "@/apps/PokeMemory/pokememory.utils";
 import Card from "@/apps/PokeMemory/Card";
 import { useGameContext } from "@/apps/PokeMemory/Context";
 

@@ -4,7 +4,7 @@ import { BgCenteredBox } from '@/components/BgCenteredBox';
 import MiniBoard from '@/apps/SuperTicTacToe/MiniBoard';
 import Sidebar from '@/apps/SuperTicTacToe/Sidebar';
 import StartGamePopup from '@/apps/SuperTicTacToe/StartGamePopup';
-import { BOX_SHADOW, checkWinner, COLOR_O, COLOR_X, createEmptyBoard, createSuperBoard, INSET_BOX_SHADOW, INSTRUCTIONS, makeRandomMove, REM, SQ_SIZE, TIMEOUT } from '@/apps/SuperTicTacToe/helpers';
+import { BOX_SHADOW, checkWinner, COLOR_O, COLOR_X, createEmptyBoard, createSuperBoard, INSET_BOX_SHADOW, INSTRUCTIONS, makeRandomMove, REM, SQ_SIZE, TIMEOUT } from '@/apps/SuperTicTacToe/tictactoe.helpers';
 import DarkBg from '/backgrounds/abstract-dark.webp';
 import LightBg from '/backgrounds/abstract.webp';
 

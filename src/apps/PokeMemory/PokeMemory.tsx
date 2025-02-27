@@ -1,5 +1,5 @@
 import GameProvider, { useGameContext } from '@/apps/PokeMemory/Context';
-import { GameState } from '@/apps/PokeMemory/helpers';
+import { GameState } from '@/apps/PokeMemory/pokememory.utils';
 import Setup from '@/apps/PokeMemory/Setup';
 import Board from '@/apps/PokeMemory/Board';
 import Result from '@/apps/PokeMemory/Result';

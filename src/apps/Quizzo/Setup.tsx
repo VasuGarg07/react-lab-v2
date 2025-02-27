@@ -1,10 +1,10 @@
 import { Button, Input, Option, Select, Stack, Typography } from '@mui/joy';
 import { Dices, User } from 'lucide-react';
 import React, { useState } from 'react';
-import { GameMode, GameState } from '@/apps/PokeMemory/helpers';
+import { GameMode, GameState } from '@/apps/PokeMemory/pokememory.utils';
 import { useQuizContext } from '@/apps/Quizzo/Context';
-import { Question, QuizCategories, fetchQuiz } from '@/apps/Quizzo/helper';
-import { toastService } from '@/providers/toastr';
+import { Question, QuizCategories, fetchQuiz } from '@/apps/Quizzo/quiz.helper';
+import { toastService } from '@/shared/toastr';
 
 interface Props {
   name: string,

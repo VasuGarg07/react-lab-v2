@@ -8,7 +8,7 @@ import { ApplicantResponse, EmployerResponse, IApplicant, IEmployer } from '@/ap
 import { applicantFormSchema, employerFormSchema } from '@/apps/Jobscape/helpers/validationSchema';
 import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
 import ApplicantForm from '@/apps/Jobscape/forms/ApplicantForm';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 const EmployerProfile: React.FC = () => {
     const { profile, profileService, updateProfile } = useJobscape();

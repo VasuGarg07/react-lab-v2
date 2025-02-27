@@ -1,11 +1,11 @@
 import { Box, CircularProgress, Grid, Input, Sheet, Stack, useTheme } from '@mui/joy';
 import React, { useCallback, useEffect, useState } from 'react';
 import { BgCenteredBox } from '@/components/BgCenteredBox';
-import { deepCopy, fetchInitialBoard, isValid, solveBoard } from '@/apps/Sudoku/helpers';
+import { deepCopy, fetchInitialBoard, isValid, solveBoard } from '@/apps/Sudoku/sudoku.utils';
 import SudokuHeader from '@/apps/Sudoku/SudokuHeader';
 import DarkBg from '/backgrounds/abstract-dark.webp';
 import LightBg from '/backgrounds/abstract.webp';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 const inputStyles = {
     width: 40,

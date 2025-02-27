@@ -11,7 +11,7 @@ import Container from '@mui/joy/Container';
 import CompactFooter from '@/apps/Jobscape/components/CompactFooter';
 import ApplicantForm from '@/apps/Jobscape/forms/ApplicantForm';
 import { AxiosError } from 'axios';
-import { toastService } from '@/providers/toastr';
+import { toastService } from '@/shared/toastr';
 
 const RegisterApplicant: React.FC = () => {
     const { user } = useAuth();
