@@ -12,7 +12,8 @@ import Statistics from "@/apps/BudgetBuddy/pages/Statistics";
 import Timeline from "@/apps/BudgetBuddy/pages/Timeline";
 import NotFound from "@/apps/Errors/NotFound";
 import Home from "@/apps/Home/Home";
-import Homeloan from "@/apps/HomeloanWizard/Homeloan";
+import HomeloanWizard from "@/apps/HomeloanWizard/HomeloanWizard";
+import { LoanProvider } from "@/apps/HomeloanWizard/LoanContext";
 import { InvoiceProvider } from "@/apps/InvoEase/InvoiceContext";
 import AppliedJobs from "@/apps/Jobscape/dashboard/AppliedJobs";
 import MyJobs from "@/apps/Jobscape/dashboard/MyJobs";
@@ -205,14 +206,6 @@ const routes = [
           { path: 'test', element: <TwoColumnResume resume={sampleResume} /> },
         ]
       },
-      { path: 'invoease', element: <InvoiceProvider /> },
-      { path: 'sorting-visualizer', element: <SortingVisualizer /> },
-      { path: 'super-tic-tac-toe', element: <SuperTicTacToe /> },
-      { path: 'sudoku', element: <Sudoku /> },
-      { path: 'homeloan-wizard', element: <Homeloan /> },
-      { path: 'poke-memory', element: <PokeMemory /> },
-      { path: 'snapfind', element: <SnapFind /> },
-      { path: 'quizzo', element: <Quizzo /> },
       {
         path: 'recipe-haven',
         element: <><Outlet /><ScrollRestoration /></>, // Handles Outlet + ScrollRestoration
@@ -226,6 +219,14 @@ const routes = [
           { path: 'meal/:mealId', element: <Wrapper children={<Details />} />, loader: mealDetails },
         ]
       },
+      { path: 'homeloan-wizard', element: <LoanProvider><HomeloanWizard /></LoanProvider> },
+      { path: 'invoease', element: <InvoiceProvider /> },
+      { path: 'sorting-visualizer', element: <SortingVisualizer /> },
+      { path: 'super-tic-tac-toe', element: <SuperTicTacToe /> },
+      { path: 'sudoku', element: <Sudoku /> },
+      { path: 'poke-memory', element: <PokeMemory /> },
+      { path: 'snapfind', element: <SnapFind /> },
+      { path: 'quizzo', element: <Quizzo /> },
       { path: '*', element: <NotFound /> },
     ]
   }
