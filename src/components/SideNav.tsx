@@ -81,7 +81,7 @@ const SideNav = () => {
                 <Typography level="body-sm" sx={{ ml: 1, fontWeight: 800 }}>
                   Dashboard
                 </Typography>
-                <span className='spacer' />
+                <span className='flex-grow' />
 
                 <ChevronRight />
               </ListItemButton>
@@ -105,7 +105,7 @@ const SideNav = () => {
                   <Typography level="body-sm" sx={{ fontWeight: 'bold', ml: 1 }}>
                     {app.name}
                   </Typography>
-                  <span className='spacer' />
+                  <span className='flex-grow' />
 
                   <ChevronRight />
                 </ListItemButton>

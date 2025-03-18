@@ -56,7 +56,7 @@ const SocialLinkInput: React.FC<SocialLinkInputProps> = ({
             startDecorator={
                 <Stack direction="row" spacing={1} alignItems="center" minWidth="120px">
                     {config.icon}
-                    <span className='spacer'>{config.label}</span>
+                    <span className='flex-grow'>{config.label}</span>
                     <Divider orientation="vertical" />
                 </Stack>
             }

@@ -49,7 +49,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
     return (
         <Stack direction='row' p={2} spacing={1}>
             <Typography level='h2' fontFamily={'Kanit'}>Sorting Visualizer</Typography>
-            <span className='spacer' />
+            <span className='flex-grow' />
 
             <Button onClick={resetArray}>Generate</Button>
             <Select value={algorithm} onChange={handleAlgorithmChange}>

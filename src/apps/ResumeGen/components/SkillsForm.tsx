@@ -79,7 +79,7 @@ const SkillsForm: React.FC<SkillsFormProps> = ({ color }) => {
                                 <Award />
                             </IconButton>
                         </Tooltip>
-                        <span className='spacer' />
+                        <span className='flex-grow' />
                         <CircularProgress
                             size="lg"
                             determinate
