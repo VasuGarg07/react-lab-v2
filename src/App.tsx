@@ -1,10 +1,10 @@
 import { CssBaseline, CssVarsProvider } from "@mui/joy";
 import { RouterProvider } from "react-router/dom";
 import { Router } from "@/shared/Router";
-import "@/styles/styles.scss";
-import theme from "@/styles/theme";
 import { AuthProvider } from "@/auth/AuthProvider";
 import { ToastContainer } from 'react-toastify';
+import theme from "@/styles/theme";
+import "@/styles/styles.css";
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {

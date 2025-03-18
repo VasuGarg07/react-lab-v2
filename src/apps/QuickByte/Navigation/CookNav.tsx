@@ -41,7 +41,7 @@ const CookNav = () => {
         startDecorator={<ChefHat />}>
         Recipe Haven
       </Typography>
-      <span className='spacer' />
+      <span className='flex-grow' />
 
       <Stack direction='row' alignItems='center' spacing={1}
         divider={<Divider orientation="vertical" />}>

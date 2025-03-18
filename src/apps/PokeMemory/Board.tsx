@@ -29,7 +29,7 @@ const Board = () => {
         }}>
         <img style={{ width: 120 }} src={Logo} alt="" />
         <Typography level='title-lg'>Memory Game</Typography>
-        <span className='spacer' />
+        <span className='flex-grow' />
         <div>
           <Typography level='title-sm'>Player: {name} </Typography>
           <Typography level="body-sm">Turns: {turns}</Typography>

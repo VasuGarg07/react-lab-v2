@@ -100,7 +100,7 @@ const SnapFind: React.FC = () => {
 
         </Card>
 
-        <span className='spacer' />
+        <span className='flex-grow' />
 
 
         {images?.length > 0 && (
@@ -120,7 +120,7 @@ const SnapFind: React.FC = () => {
           />
         )}
 
-        <span className='spacer' />
+        <span className='flex-grow' />
 
 
         {images?.length > 0 && totalPages > 1 && (

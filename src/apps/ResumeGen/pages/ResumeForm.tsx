@@ -186,7 +186,7 @@ const ResumeForm: React.FC = () => {
                     >
                         Home
                     </Button>
-                    <span className='spacer' />
+                    <span className='flex-grow' />
 
                     <Button
                         size="sm"

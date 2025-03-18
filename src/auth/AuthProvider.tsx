@@ -1,13 +1,6 @@
 // AuthProvider.tsx
 import React, { createContext, useContext, useEffect, useState } from "react";
-import {
-    saveAuthData,
-    clearAuthData,
-    refreshAccessToken,
-    register,
-    login,
-    changePassword,
-} from "@/auth/auth.service";
+import { saveAuthData, clearAuthData, refreshAccessToken, register, login, changePassword } from "@/auth/auth.service";
 import { ChangePasswordData, LoginData, RegisterData, User } from "@/auth/auth.types";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { toastService } from "@/shared/toastr";
@@ -15,6 +8,7 @@ import { toastService } from "@/shared/toastr";
 interface AuthContextType {
     isLoggedIn: boolean;
     user: User | null;
+    loading: boolean;
     register: (data: RegisterData) => Promise<void>;
     login: (data: LoginData) => Promise<void>;
     changePassword: (data: ChangePasswordData) => Promise<void>;
@@ -32,20 +26,40 @@ const AuthContext = createContext<AuthContextType | null>(null);
 const isTokenExpired = (exp: number): boolean => {
     const currentTime = Math.floor(Date.now() / 1000);
     return currentTime > exp;
-}
+};
+
+const parseUserFromToken = (token: string): User | null => {
+    try {
+        const decoded = jwtDecode<DecodedToken>(token);
+        return {
+            id: decoded.id,
+            username: decoded.username,
+            email: decoded.email
+        };
+    } catch (error) {
+        console.error("Failed to parse user from token:", error);
+        return null;
+    }
+};
+
+const handleAuthError = (error: any, operation: string): never => {
+    const errorMessage = error.response?.data?.error || error.message || `${operation} failed`;
+    console.error(`Error during ${operation}:`, errorMessage);
+    toastService.error(errorMessage);
+    throw error;
+};
 
 export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
     const handleRegister = async (data: RegisterData): Promise<void> => {
         try {
             await register(data);
-            toastService.success("User registered successfully")
+            toastService.success("User registered successfully");
         } catch (error: any) {
-            console.error("Error during registration:", error.response?.data?.error || error.message);
-            toastService.error("Registeration failed")
-            throw error;
+            handleAuthError(error, "registration");
         }
     };
 
@@ -53,14 +67,17 @@ export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
         try {
             const { accessToken, refreshToken } = await login(data);
             saveAuthData(accessToken, refreshToken);
-            const decodedToken = jwtDecode<User>(accessToken);
-            setUser(decodedToken);
+
+            const userData = parseUserFromToken(accessToken);
+            if (!userData) {
+                throw new Error("Invalid token data");
+            }
+
+            setUser(userData);
             setIsLoggedIn(true);
-            toastService.success("Login successful")
+            toastService.success("Login successful");
         } catch (error: any) {
-            console.error("Error during login:", error.response?.data?.error || error.message);
-            toastService.error(error.response?.data?.error || error.message);
-            throw error;
+            handleAuthError(error, "login");
         }
     };
 
@@ -69,9 +86,7 @@ export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
             await changePassword(data);
             toastService.success("Password changed successfully. Please Login");
         } catch (error: any) {
-            console.error("Error during password change:", error.response?.data?.error || error.message);
-            toastService.error(error.response?.data?.error || error.message);
-            throw error;
+            handleAuthError(error, "password change");
         }
     };
 
@@ -84,32 +99,99 @@ export const AuthProvider: React.FC<ContextProps> = ({ children }) => {
 
     // Initialize Authentication State on App Load
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
-        if (token) {
-            const decoded = jwtDecode<DecodedToken>(token);
-            try {
-                if (isTokenExpired(decoded.exp!)) {
-                    refreshAccessToken();
-                } else {
-                    setUser({
-                        id: decoded.id,
-                        username: decoded.username,
-                        email: decoded.email
-                    });
-                }
-                setIsLoggedIn(true);
-            } catch {
-                // Token is invalid or expired; try refreshing it
-                refreshAccessToken();
+        const initializeAuth = async () => {
+            setLoading(true);
+            const token = localStorage.getItem("accessToken");
+
+            if (!token) {
+                setLoading(false);
+                return;
             }
-        }
+
+            try {
+                const decoded = jwtDecode<DecodedToken>(token);
+
+                if (isTokenExpired(decoded.exp!)) {
+                    // Token is expired, try to refresh
+                    const newToken = await refreshAccessToken();
+                    if (newToken) {
+                        const userData = parseUserFromToken(newToken);
+                        if (userData) {
+                            setUser(userData);
+                            setIsLoggedIn(true);
+                        } else {
+                            handleLogout();
+                        }
+                    } else {
+                        handleLogout();
+                    }
+                } else {
+                    // Token is valid
+                    const userData = parseUserFromToken(token);
+                    if (userData) {
+                        setUser(userData);
+                        setIsLoggedIn(true);
+                    } else {
+                        handleLogout();
+                    }
+                }
+            } catch (error) {
+                console.error("Error initializing auth:", error);
+                handleLogout();
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        initializeAuth();
     }, []);
+
+    // Set up automatic token refresh before expiration
+    useEffect(() => {
+        if (!isLoggedIn || !user) return;
+
+        const token = localStorage.getItem("accessToken");
+        if (!token) return;
+
+        try {
+            const decoded = jwtDecode<DecodedToken>(token);
+            const expiresIn = decoded.exp! - Math.floor(Date.now() / 1000);
+
+            // Refresh 5 minutes before expiry
+            const refreshTime = Math.max(0, expiresIn - 300) * 1000;
+
+            const refreshTimer = setTimeout(async () => {
+                try {
+                    const newToken = await refreshAccessToken();
+                    if (newToken) {
+                        const userData = parseUserFromToken(newToken);
+                        if (userData) {
+                            setUser(userData);
+                        } else {
+                            handleLogout();
+                        }
+                    } else {
+                        handleLogout();
+                    }
+                } catch (error) {
+                    console.error("Failed to refresh token automatically:", error);
+                    handleLogout();
+                }
+            }, refreshTime);
+
+            return () => clearTimeout(refreshTimer);
+        } catch (error) {
+            console.error("Failed to set up token refresh:", error);
+            handleLogout();
+        }
+    }, [isLoggedIn, user]);
 
     return (
         <AuthContext.Provider
             value={{
                 isLoggedIn,
                 user,
+                loading,
                 register: handleRegister,
                 login: handleLogin,
                 changePassword: handleChangePassword,
