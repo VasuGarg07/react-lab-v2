@@ -1,0 +1,577 @@
+/* tw-theme.css - Tailwind 4 Theme Configuration */
+
+/* Import Tailwind CSS */
+@import 'tailwindcss';
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Theme Configuration */
+@theme {
+    /* Color Palette - Practical variants */
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-200: #bfdbfe;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+    --color-primary-800: #1e40af;
+    --color-primary-900: #1e3a8a;
+
+    --color-secondary-50: #f5f3ff;
+    --color-secondary-100: #ede9fe;
+    --color-secondary-200: #ddd6fe;
+    --color-secondary-300: #c4b5fd;
+    --color-secondary-400: #a78bfa;
+    --color-secondary-500: #8b5cf6;
+    --color-secondary-600: #7c3aed;
+    --color-secondary-700: #6d28d9;
+    --color-secondary-800: #5b21b6;
+    --color-secondary-900: #4c1d95;
+
+    --color-neutral-50: #f9fafb;
+    --color-neutral-100: #f3f4f6;
+    --color-neutral-200: #e5e7eb;
+    --color-neutral-300: #d1d5db;
+    --color-neutral-400: #9ca3af;
+    --color-neutral-500: #6b7280;
+    --color-neutral-600: #4b5563;
+    --color-neutral-700: #374151;
+    --color-neutral-800: #1f2937;
+    --color-neutral-900: #111827;
+
+    --color-success-50: #ecfdf5;
+    --color-success-100: #d1fae5;
+    --color-success-200: #a7f3d0;
+    --color-success-300: #6ee7b7;
+    --color-success-400: #34d399;
+    --color-success-500: #10b981;
+    --color-success-600: #059669;
+    --color-success-700: #047857;
+    --color-success-800: #065f46;
+    --color-success-900: #064e3b;
+
+    --color-warning-50: #fffbeb;
+    --color-warning-100: #fef3c7;
+    --color-warning-200: #fde68a;
+    --color-warning-300: #fcd34d;
+    --color-warning-400: #fbbf24;
+    --color-warning-500: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-warning-700: #b45309;
+    --color-warning-800: #92400e;
+    --color-warning-900: #78350f;
+
+    --color-danger-50: #fef2f2;
+    --color-danger-100: #fee2e2;
+    --color-danger-200: #fecaca;
+    --color-danger-300: #fca5a5;
+    --color-danger-400: #f87171;
+    --color-danger-500: #ef4444;
+    --color-danger-600: #dc2626;
+    --color-danger-700: #b91c1c;
+    --color-danger-800: #991b1b;
+    --color-danger-900: #7f1d1d;
+
+    /* Common semantic color aliases */
+    --color-text-primary: var(--color-neutral-900);
+    --color-text-secondary: var(--color-neutral-700);
+    --color-text-tertiary: var(--color-neutral-500);
+    --color-text-inverse: var(--color-neutral-50);
+
+    --color-background-primary: #ffffff;
+    --color-background-secondary: var(--color-neutral-50);
+    --color-background-tertiary: var(--color-neutral-100);
+
+    --color-border-light: var(--color-neutral-200);
+    --color-border-medium: var(--color-neutral-300);
+    --color-border-heavy: var(--color-neutral-400);
+
+    /* Typography */
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+    --font-size-xs: 0.75rem;
+    /* 12px */
+    --font-size-sm: 0.875rem;
+    /* 14px */
+    --font-size-base: 1rem;
+    /* 16px */
+    --font-size-lg: 1.125rem;
+    /* 18px */
+    --font-size-xl: 1.25rem;
+    /* 20px */
+    --font-size-2xl: 1.5rem;
+    /* 24px */
+    --font-size-3xl: 1.875rem;
+    /* 30px */
+    --font-size-4xl: 2.25rem;
+    /* 36px */
+    --font-size-5xl: 3rem;
+    /* 48px */
+    --font-size-6xl: 3.75rem;
+    /* 60px */
+
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    --line-height-none: 1;
+    --line-height-tight: 1.25;
+    --line-height-snug: 1.375;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.625;
+    --line-height-loose: 2;
+
+    /* Spacing - Practical set */
+    --spacing-0: 0px;
+    --spacing-1: 0.25rem;
+    /* 4px */
+    --spacing-2: 0.5rem;
+    /* 8px */
+    --spacing-3: 0.75rem;
+    /* 12px */
+    --spacing-4: 1rem;
+    /* 16px */
+    --spacing-5: 1.25rem;
+    /* 20px */
+    --spacing-6: 1.5rem;
+    /* 24px */
+    --spacing-8: 2rem;
+    /* 32px */
+    --spacing-10: 2.5rem;
+    /* 40px */
+    --spacing-12: 3rem;
+    /* 48px */
+    --spacing-16: 4rem;
+    /* 64px */
+    --spacing-20: 5rem;
+    /* 80px */
+    --spacing-24: 6rem;
+    /* 96px */
+    --spacing-32: 8rem;
+    /* 128px */
+    --spacing-40: 10rem;
+    /* 160px */
+    --spacing-48: 12rem;
+    /* 192px */
+    --spacing-64: 16rem;
+    /* 256px */
+    --spacing-80: 20rem;
+    /* 320px */
+    --spacing-96: 24rem;
+    /* 384px */
+
+    /* Breakpoints */
+    --screen-sm: 640px;
+    --screen-md: 768px;
+    --screen-lg: 1024px;
+    --screen-xl: 1280px;
+    --screen-2xl: 1536px;
+
+    /* Border Radius - Practical set */
+    --radius-none: 0px;
+    --radius-sm: 0.125rem;
+    /* 2px */
+    --radius-md: 0.25rem;
+    /* 4px */
+    --radius-lg: 0.5rem;
+    /* 8px */
+    --radius-xl: 0.75rem;
+    /* 12px */
+    --radius-2xl: 1rem;
+    /* 16px */
+    --radius-full: 9999px;
+
+    /* Box Shadow - Practical set */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    --shadow-none: 0 0 #0000;
+
+    /* Transitions - Practical set */
+    --transition-fast: 150ms;
+    --transition-normal: 300ms;
+    --transition-slow: 500ms;
+    --transition-timing-default: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom Utility Classes */
+@utilities {
+
+    /* Text Colors */
+    .text-primary {
+        color: var(--color-primary-500);
+    }
+
+    .text-primary-light {
+        color: var(--color-primary-300);
+    }
+
+    .text-primary-dark {
+        color: var(--color-primary-700);
+    }
+
+    .text-secondary {
+        color: var(--color-secondary-500);
+    }
+
+    .text-secondary-light {
+        color: var(--color-secondary-300);
+    }
+
+    .text-secondary-dark {
+        color: var(--color-secondary-700);
+    }
+
+    .text-success {
+        color: var(--color-success-500);
+    }
+
+    .text-warning {
+        color: var(--color-warning-500);
+    }
+
+    .text-danger {
+        color: var(--color-danger-500);
+    }
+
+    .text-default {
+        color: var(--color-text-primary);
+    }
+
+    .text-muted {
+        color: var(--color-text-secondary);
+    }
+
+    .text-light {
+        color: var(--color-text-tertiary);
+    }
+
+    /* Background Colors */
+    .bg-primary {
+        background-color: var(--color-primary-500);
+    }
+
+    .bg-primary-light {
+        background-color: var(--color-primary-100);
+    }
+
+    .bg-primary-dark {
+        background-color: var(--color-primary-700);
+    }
+
+    .bg-secondary {
+        background-color: var(--color-secondary-500);
+    }
+
+    .bg-secondary-light {
+        background-color: var(--color-secondary-100);
+    }
+
+    .bg-secondary-dark {
+        background-color: var(--color-secondary-700);
+    }
+
+    .bg-success {
+        background-color: var(--color-success-500);
+    }
+
+    .bg-warning {
+        background-color: var(--color-warning-500);
+    }
+
+    .bg-danger {
+        background-color: var(--color-danger-500);
+    }
+
+    .bg-default {
+        background-color: var(--color-background-primary);
+    }
+
+    .bg-subtle {
+        background-color: var(--color-background-secondary);
+    }
+
+    .bg-muted {
+        background-color: var(--color-background-tertiary);
+    }
+
+    /* Border Colors */
+    .border-default {
+        border-color: var(--color-border-light);
+    }
+
+    .border-medium {
+        border-color: var(--color-border-medium);
+    }
+
+    .border-heavy {
+        border-color: var(--color-border-heavy);
+    }
+
+    /* Button Variants */
+    .btn {
+        padding: var(--spacing-2) var(--spacing-4);
+        border-radius: var(--radius-md);
+        font-weight: var(--font-weight-medium);
+        transition: all var(--transition-fast) var(--transition-timing-default);
+    }
+
+    .btn-primary {
+        background-color: var(--color-primary-500);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--color-primary-600);
+    }
+
+    .btn-secondary {
+        background-color: var(--color-secondary-500);
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: var(--color-secondary-600);
+    }
+
+    .btn-outline {
+        background-color: transparent;
+        border: 1px solid var(--color-border-medium);
+        color: var(--color-text-primary);
+    }
+
+    .btn-outline:hover {
+        background-color: var(--color-background-secondary);
+    }
+
+    /* Card Component */
+    .card {
+        background-color: var(--color-background-primary);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: var(--spacing-4);
+    }
+}
+
+/* Dark Mode Configuration */
+@media (prefers-color-scheme: dark) {
+    @theme {
+        /* Semantic color remapping for dark mode */
+        --color-text-primary: var(--color-neutral-50);
+        --color-text-secondary: var(--color-neutral-300);
+        --color-text-tertiary: var(--color-neutral-400);
+        --color-text-inverse: var(--color-neutral-900);
+
+        --color-background-primary: var(--color-neutral-900);
+        --color-background-secondary: var(--color-neutral-800);
+        --color-background-tertiary: var(--color-neutral-700);
+
+        --color-border-light: var(--color-neutral-700);
+        --color-border-medium: var(--color-neutral-600);
+        --color-border-heavy: var(--color-neutral-500);
+
+        /* Adjust primary color for better contrast in dark mode */
+        --color-primary-500: #60a5fa;
+        /* Brightened for dark mode */
+
+        /* Adjust shadow for dark mode */
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Dark mode specific overrides */
+    @utilities {
+        .dark-card {
+            background-color: var(--color-neutral-800);
+            border: 1px solid var(--color-neutral-700);
+        }
+
+        .dark-btn-outline {
+            border-color: var(--color-neutral-600);
+            color: var(--color-neutral-200);
+        }
+
+        .dark-btn-outline:hover {
+            background-color: var(--color-neutral-700);
+        }
+    }
+}
+
+/* Container Queries - Common Use Cases */
+.container-sm {
+    max-width: var(--screen-sm);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-md {
+    max-width: var(--screen-md);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-lg {
+    max-width: var(--screen-lg);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-xl {
+    max-width: var(--screen-xl);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Container query examples */
+@container (min-width: 640px) {
+    .container-responsive {
+        padding: var(--spacing-4);
+    }
+}
+
+@container (min-width: 768px) {
+    .container-responsive {
+        padding: var(--spacing-6);
+    }
+}
+
+/* Practical Grid System */
+.grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-cols-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.grid-cols-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+@media (min-width: var(--screen-sm)) {
+    .sm\:grid-cols-1 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .sm\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sm\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .sm\:grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .sm\:grid-cols-6 {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .sm\:grid-cols-12 {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+}
+
+/* Common Animation Keyframes */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .5;
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(-25%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+
+    50% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}
+
+/* Practical Animation Classes */
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce {
+    animation: bounce 1s infinite;
+}
+
+/* Layout Utilities */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Common Form Elements */
+.input {
+    border: 1px solid var(--color-border-medium);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--font-size-base);
+    background-color: var(--color-background-primary);
+    color: var(--color-text-primary);
+    transition: border-color var(--transition-fast) var(--transition-timing-default);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--color-primary-500);
+    box-shadow: 0 0 0 2px var(--color-primary-100);
+}

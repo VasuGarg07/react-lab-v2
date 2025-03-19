@@ -6,18 +6,21 @@ import { ToastContainer } from 'react-toastify';
 import theme from "@/styles/theme";
 import "@/styles/styles.css";
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeProvider } from "./styles/ThemeProvider";
 
 function App() {
 
   return (
     <>
-      <AuthProvider>
-        <CssVarsProvider theme={theme}>
-          <CssBaseline />
-          <RouterProvider router={Router} />
-        </CssVarsProvider>
-      </AuthProvider>
-      <ToastContainer stacked limit={5} />
+      <ThemeProvider>
+        <AuthProvider>
+          <CssVarsProvider theme={theme}>
+            <CssBaseline />
+            <RouterProvider router={Router} />
+          </CssVarsProvider>
+        </AuthProvider>
+        <ToastContainer stacked limit={5} />
+      </ThemeProvider>
     </>
   );
 }

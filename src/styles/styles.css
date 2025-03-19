@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Noto+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Kanit&family=Poppins&family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
-@import 'tailwindcss';
+@import './tw-theme.css';
 
 html {
   font-family: 'Inter', sans-serif;
