@@ -66,7 +66,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                             ref={ref}
                             id={id}
                             className={cn(
-                                "w-full rounded-lg border transition-all outline-none text-sm",
+                                "w-full rounded-lg border transition-all outline-none text-sm text-neutral-800 dark:text-neutral-100",
                                 "focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30",
                                 "py-2.5 pr-3",
                                 icon ? "pl-10" : "pl-3",

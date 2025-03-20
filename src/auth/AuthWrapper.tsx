@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const AuthWrapper = () => {
     return (
-        <div className="relative min-h-[calc(100vh-52px)] flex items-center justify-center overflow-hidden">
+        <div className="relative min-h-[calc(100vh-53px)] flex items-center justify-center overflow-hidden">
             {/* Base background */}
             <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-black z-0" />
 

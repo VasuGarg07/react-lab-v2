@@ -1,14 +1,51 @@
 export const ArraySize = [10, 20, 25, 30, 40, 50];
 export const TimeDuration = [400, 500, 600, 750, 800, 1000];
 
-export const randomIntFromInterval = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-};
+export interface AlgoInfo {
+    name: string;
+    description: string;
+    spaceComplexity: string;
+    timeComplexity: string;
+    caption: string;
+}
 
-export const getMaxOfArray = (array: number[]): number => {
-    return Math.max(...array);
+export const Algorithms: Record<string, AlgoInfo> = {
+    bubbleSort: {
+        name: "Bubble Sort",
+        description: "Repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.",
+        timeComplexity: "O(n²)",
+        spaceComplexity: "O(1)",
+        caption: "The array is nearly sorted or small in size."
+    },
+    selectionSort: {
+        name: "Selection Sort",
+        description: "Divides the input list into a sorted and an unsorted region, and repeatedly selects the smallest element from the unsorted region and moves it to the sorted region.",
+        timeComplexity: "O(n²)",
+        spaceComplexity: "O(1)",
+        caption: "Memory space is limited and simplicity is preferred over performance."
+    },
+    insertionSort: {
+        name: "Insertion Sort",
+        description: "Builds the sorted array one item at a time by comparisons and shifting elements.",
+        timeComplexity: "O(n²)",
+        spaceComplexity: "O(1)",
+        caption: "Dealing with small datasets or continuously sorting incoming data."
+    },
+    mergeSort: {
+        name: "Merge Sort",
+        description: "Divides the array into halves, sorts them and then merges them back together.",
+        timeComplexity: "O(n log n)",
+        spaceComplexity: "O(n)",
+        caption: "Stable sorting is required and O(n log n) performance is needed regardless of input."
+    },
+    quickSort: {
+        name: "Quick Sort",
+        description: "Selects a 'pivot' element and partitions the array around the pivot.",
+        timeComplexity: "O(n log n) average, O(n²) worst case",
+        spaceComplexity: "O(log n)",
+        caption: "Average-case performance is critical and the data doesn't have many duplicates."
+    }
 };
-
 
 export const bubbleSort = async (
     array: number[],
