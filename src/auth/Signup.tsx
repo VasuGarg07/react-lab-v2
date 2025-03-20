@@ -1,96 +1,114 @@
-// src/components/Signup.tsx
-import {
-    Dropdown,
-    IconButton,
-    Menu,
-    MenuButton,
-    MenuItem,
-    Avatar,
-    Typography,
-    Divider,
-    Box
-} from '@mui/joy';
-import { LogIn, User, LogOut } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
+import { LogIn, User, LogOut, Settings, ChevronRight } from 'lucide-react';
 import { navigate } from '@/shared/Router';
 import { useAuth } from '@/auth/AuthProvider';
+import Dialog from '@/ui/Dialog';
 
 const Signup: React.FC = () => {
     const { isLoggedIn, user, logout } = useAuth();
+    const [isOpen, setIsOpen] = useState(false);
 
     if (!isLoggedIn) {
         return (
-            <IconButton
-                size="sm"
-                variant="plain"
+            <button
+                className="p-1.5 rounded-full text-gray-700 hover:bg-gray-100/80 dark:text-gray-200 dark:hover:bg-gray-800/80 transition-all duration-200"
                 onClick={() => navigate('/auth/login')}
+                aria-label="Sign in"
             >
-                <LogIn />
-            </IconButton>
+                <LogIn size={20} className="stroke-[1.5px]" />
+            </button>
         );
     }
 
     const handleLogout = () => {
         logout();
         navigate('/');
+        setIsOpen(false);
+    };
+
+    const getInitial = () => {
+        return user?.username ? user.username.charAt(0).toUpperCase() : '?';
     };
 
     return (
-        <Dropdown>
-            <MenuButton
-                slots={{ root: IconButton }}
-                slotProps={{
-                    root: {
-                        variant: 'plain',
-                        sx: { p: 0 }
-                    },
-                }}
+        <>
+            <button
+                onClick={() => setIsOpen(true)}
+                className="inline-flex w-9 h-9 justify-center items-center rounded-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 dark:from-primary-600 dark:to-primary-500 text-white shadow-sm hover:shadow transition-all duration-200 focus:outline-none"
+                aria-label="User menu"
             >
-                <Avatar
-                    size="sm"
-                    variant="solid"
-                    sx={{
-                        bgcolor: 'primary.solidBg',
-                        color: 'primary.solidColor',
-                        textTransform: 'uppercase'
-                    }}
-                >
-                    {user?.username.charAt(0)}
-                </Avatar>
-            </MenuButton>
-            <Menu sx={{ minWidth: 280 }}>
-                <Box sx={{ p: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
-                        <Avatar
-                            size="md"
-                            variant="solid"
-                            sx={{
-                                bgcolor: 'primary.solidBg',
-                                color: 'primary.solidColor',
-                                textTransform: 'uppercase'
-                            }}
-                        >
-                            {user?.username.charAt(0)}
-                        </Avatar>
-                        <Box>
-                            <Typography level="title-sm">{user?.username}</Typography>
-                            <Typography level="body-sm" sx={{ color: 'neutral.500' }}>
+                <span className="text-sm font-medium">{getInitial()}</span>
+            </button>
+
+            <Dialog
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                position="top-right"
+                size="sm"
+                showCloseButton={false}
+                contentClassName="w-80"
+            >
+                <div className="p-5">
+                    <div className="flex items-center gap-4">
+                        <div className="flex-shrink-0">
+                            <div className="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 dark:from-primary-500 dark:to-primary-700 text-white font-medium shadow-sm">
+                                <span className="text-lg">{getInitial()}</span>
+                            </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                                {user?.username}
+                            </h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
                                 {user?.email}
-                            </Typography>
-                        </Box>
-                    </Box>
-                    <Divider sx={{ my: 1 }} />
-                    <MenuItem sx={{ borderRadius: 'sm' }} onClick={() => navigate('/profile')}>
-                        <User size={18} />
-                        <Typography sx={{ ml: 1 }}>Profile</Typography>
-                    </MenuItem>
-                    <MenuItem sx={{ borderRadius: 'sm' }} onClick={handleLogout} color="danger">
-                        <LogOut size={18} />
-                        <Typography sx={{ ml: 1 }}>Logout</Typography>
-                    </MenuItem>
-                </Box>
-            </Menu>
-        </Dropdown>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white dark:bg-gray-800 rounded-b-2xl overflow-hidden">
+                    <div className="px-2 py-2 space-y-1">
+                        <button
+                            onClick={() => {
+                                navigate('/profile');
+                                setIsOpen(false);
+                            }}
+                            className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                        >
+                            <div className="flex items-center">
+                                <User size={18} className="mr-3 text-gray-500 dark:text-gray-400" />
+                                <span className="font-medium">Profile</span>
+                            </div>
+                            <ChevronRight size={16} className="text-gray-400 dark:text-gray-500" />
+                        </button>
+
+                        <button
+                            onClick={() => {
+                                navigate('/settings');
+                                setIsOpen(false);
+                            }}
+                            className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                        >
+                            <div className="flex items-center">
+                                <Settings size={18} className="mr-3 text-gray-500 dark:text-gray-400" />
+                                <span className="font-medium">Settings</span>
+                            </div>
+                            <ChevronRight size={16} className="text-gray-400 dark:text-gray-500" />
+                        </button>
+                    </div>
+
+                    <div className="px-2 py-2 border-t border-gray-200 dark:border-gray-700/50 mt-1">
+                        <button
+                            onClick={handleLogout}
+                            className="flex w-full items-center rounded-xl px-3 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                        >
+                            <LogOut size={18} className="mr-3" />
+                            <span className="font-medium">Sign Out</span>
+                        </button>
+                    </div>
+                </div>
+            </Dialog>
+        </>
     );
 };
 
