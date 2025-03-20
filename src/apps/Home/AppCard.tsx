@@ -1,102 +1,61 @@
 import React from 'react';
-import { Card, CardContent, CardOverflow, AspectRatio, Typography, Chip, Box, IconButton, useTheme } from '@mui/joy';
 import { useNavigate } from 'react-router';
 import { AppInfo } from '@/shared/apps';
 import { ArrowRight, Info } from 'lucide-react';
+import { AspectRatio } from 'radix-ui';
 
-export const AppCard: React.FC<AppInfo> = ({ name, tag, path, image, description, techStack }) => {
+export const AppCard: React.FC<AppInfo> = ({ name, tag, path, image, description, techStack, icon: Icon }) => {
   const navigate = useNavigate();
-  const theme = useTheme();
-
-  const isLightTheme = theme.palette.mode === 'light';
 
   return (
-    <Card
-      variant="outlined"
+    <div
       onClick={() => navigate(path)}
-      sx={{
-        cursor: 'pointer',
-        transition: 'all 0.3s',
-        position: 'relative',
-        overflow: 'hidden',
-        '&:hover': {
-          boxShadow: 'md',
-          transform: 'translateY(-4px)',
-          '& .hover-overlay': {
-            opacity: 1,
-          },
-        },
-        '&:active': {
-          transform: 'translateY(-2px)',
-        },
-      }}
+      className="group relative overflow-hidden rounded-xl mb-4 border border-neutral-100 dark:border-neutral-800 bg-white dark:bg-neutral-900 transition-all duration-300 hover:shadow-md hover:-translate-y-1 active:translate-y-0 cursor-pointer"
     >
-      <CardOverflow>
-        <AspectRatio ratio="5/3">
-          <img src={image} alt={name} style={{ objectFit: 'cover' }} />
-        </AspectRatio>
-      </CardOverflow>
-      <CardContent>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-          <Typography level="title-lg" sx={{
-            fontSize: "md",
-            fontWeight: "bold",
-            fontFamily: 'Overlock',
-            textTransform: 'uppercase',
-            letterSpacing: '1px'
-          }}>
-            {name}
-          </Typography>
-          <IconButton
-            variant="solid"
-            color="primary"
-            size="sm"
-          >
-            <ArrowRight size={18} />
-          </IconButton>
-        </Box>
-        <Chip size="sm" variant="soft" color="success">
+      {/* Image */}
+      <div className="overflow-hidden">
+        <AspectRatio.Root ratio={5 / 3}>
+          <img src={image} alt={name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        </AspectRatio.Root>
+      </div>
+
+      {/* Content */}
+      <div className="p-4">
+        <div className="flex justify-between items-center mb-2">
+          <div className="flex items-center space-x-2">
+            <Icon size={16} className="text-neutral-800 dark:text-neutral-200" />
+            <h3 className="text-sm font-medium text-neutral-900 dark:text-white">
+              {name}
+            </h3>
+          </div>
+          <div className="rounded-full p-1.5 bg-secondary-500 text-white">
+            <ArrowRight size={14} />
+          </div>
+        </div>
+        <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
           {tag}
-        </Chip>
-      </CardContent>
+        </span>
+      </div>
 
       {/* Hover Overlay */}
-      <Box
-        className="hover-overlay"
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: isLightTheme ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.8)',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: 2,
-          opacity: 0,
-          transition: 'opacity 0.3s ease-in-out',
-          backdropFilter: 'blur(2px)'
-        }}
+      <div
+        className="absolute inset-0 bg-white/50 dark:bg-black/50 backdrop-blur-xs flex flex-col justify-center items-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
       >
-        <Info size={24} style={{ marginBottom: '8px' }} />
-        <Typography level="body-sm" mb={1} textAlign="center">
+        <Info className="mb-3 text-neutral-800 dark:text-neutral-100" />
+        <p className="text-sm text-center mb-4 text-neutral-700 dark:text-neutral-300">
           {description}
-        </Typography>
-        <Box display="flex" gap={1} flexWrap="wrap" justifyContent="center">
+        </p>
+        <div className="flex flex-wrap gap-1.5 justify-center">
           {techStack.map((tech, index) => (
-            <Chip
+            <span
               key={index}
-              size="sm"
-              variant="soft"
-              color={isLightTheme ? "danger" : "warning"}
+              className="px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-300 dark:bg-cyan-600 text-neutral-800 dark:text-neutral-200"
             >
               {tech}
-            </Chip>
+            </span>
           ))}
-        </Box>
-      </Box>
-    </Card>
+        </div>
+      </div>
+    </div>
   );
 };
