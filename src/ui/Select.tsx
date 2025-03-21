@@ -4,7 +4,7 @@ import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/shared/cn';
 
 export interface SelectOption {
-    value: string;
+    value: any;
     label: string;
 }
 
@@ -88,13 +88,17 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                                 className="overflow-hidden bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-50"
                                 position="popper"
                                 sideOffset={5}
-                                align="center"
+                                side="bottom"
+                                avoidCollisions
+                                collisionPadding={8}
+                                align="start"
+                                alignOffset={-5}
                             >
-                                <SelectPrimitive.ScrollUpButton className="flex items-center justify-center h-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-default">
+                                <SelectPrimitive.ScrollUpButton className="flex items-center justify-center h-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-default sticky top-0 border-b border-gray-200 dark:border-gray-700 z-10">
                                     <ChevronUp size={16} />
                                 </SelectPrimitive.ScrollUpButton>
 
-                                <SelectPrimitive.Viewport className="p-1">
+                                <SelectPrimitive.Viewport className="p-1 max-h-60 overflow-y-auto">
                                     {options.map((option) => (
                                         <SelectPrimitive.Item
                                             key={option.value}
@@ -103,13 +107,13 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                                         >
                                             <SelectPrimitive.ItemText>{option.label}</SelectPrimitive.ItemText>
                                             <SelectPrimitive.ItemIndicator className="absolute left-1 inline-flex items-center">
-                                                <Check size={16} className="text-primary-500" />
+                                                <Check size={16} className="text-blue-500" />
                                             </SelectPrimitive.ItemIndicator>
                                         </SelectPrimitive.Item>
                                     ))}
                                 </SelectPrimitive.Viewport>
 
-                                <SelectPrimitive.ScrollDownButton className="flex items-center justify-center h-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-default">
+                                <SelectPrimitive.ScrollDownButton className="flex items-center justify-center h-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-default sticky bottom-0 border-t border-gray-200 dark:border-gray-700 z-10">
                                     <ChevronDown size={16} />
                                 </SelectPrimitive.ScrollDownButton>
                             </SelectPrimitive.Content>
@@ -125,6 +129,5 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
     }
 );
 
-Select.displayName = 'Select';
 
 export default Select;

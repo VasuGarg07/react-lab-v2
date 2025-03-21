@@ -1,5 +1,5 @@
 import Board from "@/apps/Quizzo/Board";
-import QuizProvider, { useQuizContext } from "@/apps/Quizzo/Context";
+import QuizProvider, { useQuizContext } from "@/apps/Quizzo/Quiz.context";
 import Result from "@/apps/Quizzo/Result";
 import Setup from "@/apps/Quizzo/Setup";
 import AppBackground from "@/components/AppBackground";

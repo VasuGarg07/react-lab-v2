@@ -6,7 +6,7 @@ interface CustomToastOptions extends Partial<ToastOptions> {
 }
 
 const defaultOptions: ToastOptions = {
-    position: 'bottom-right',
+    position: 'top-right',
     autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: true,

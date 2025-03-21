@@ -1,5 +1,4 @@
 import GameProvider, { useGameContext } from '@/apps/PokeMemory/Context';
-import { GameState } from '@/apps/PokeMemory/pokememory.utils';
 import Setup from '@/apps/PokeMemory/Setup';
 import Board from '@/apps/PokeMemory/Board';
 import Result from '@/apps/PokeMemory/Result';
@@ -7,6 +6,7 @@ import { BgCenteredBox } from '@/components/BgCenteredBox';
 import Light from '/backgrounds/bg-poke.png';
 import Dark from '/backgrounds/bg-poke-dark.webp';
 import { useTheme } from '@mui/joy';
+import { GameState } from '@/shared/utilities';
 
 const PokeMemory = () => {
   const theme = useTheme();

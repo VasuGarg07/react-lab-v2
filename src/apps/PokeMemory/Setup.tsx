@@ -1,11 +1,12 @@
 import { useGameContext } from '@/apps/PokeMemory/Context';
-import { CardType, GameMode, GameState, loadCards } from '@/apps/PokeMemory/pokememory.utils';
+import { CardType, loadCards } from '@/apps/PokeMemory/pokememory.utils';
 import { toastService } from '@/shared/toastr';
 import { keyframes } from '@emotion/react';
 import { Box, Button, Card, Container, Divider, Input, Stack, Tooltip, Typography } from '@mui/joy';
 import { Gamepad2, Puzzle, Skull, UserRound, Zap } from 'lucide-react';
 import React from 'react';
 import Logo from '/game-logo.png';
+import { GameMode, GameState } from '@/shared/utilities';
 
 interface Props {
   name: string;
