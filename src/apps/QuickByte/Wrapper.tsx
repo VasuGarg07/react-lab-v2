@@ -1,33 +1,21 @@
-import { Box, useColorScheme } from '@mui/joy';
+import AppBackground from '@/components/AppBackground';
 import { ReactNode } from 'react';
-import { BgCenteredBox } from '@/components/BgCenteredBox';
 
 interface WrapperProps {
   children: ReactNode;
 }
 
 const Wrapper: React.FC<WrapperProps> = ({ children }) => {
-  const { mode } = useColorScheme();
-  const isDarkMode = mode === 'dark';
 
   return (
-    <Box sx={{
-      background: isDarkMode
-        ? 'linear-gradient(-225deg,rgb(2, 91, 81) 0%,rgb(97, 0, 0) 100%)'
-        : 'linear-gradient(-225deg, #69EACB 0%, #EACCF8 50%,rgb(241, 163, 84) 100%)',
-    }}>
-      <BgCenteredBox>
-        <Box
-          sx={{
-            mx: 'auto',
-            maxWidth: 1000,
-            p: 2
-          }}>
-          {children}
-        </Box>
-      </BgCenteredBox>
-    </Box>
-  )
-}
+    <div className="relative min-h-[calc(100vh-54px)] w-full overflow-hidden">
+      <AppBackground />
 
-export default Wrapper
+      <div className="relative w-full max-w-4xl mx-auto z-10 flex items-center justify-center p-4">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default Wrapper;

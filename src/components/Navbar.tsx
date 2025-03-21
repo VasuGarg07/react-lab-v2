@@ -1,4 +1,3 @@
-import CookNav from "@/apps/QuickByte/Navigation/CookNav";
 import Signup from "@/auth/Signup";
 import SideNav from "@/components/SideNav";
 import { navigate } from "@/shared/Router";
@@ -7,10 +6,6 @@ import { useLocation } from "react-router";
 
 const Navbar = () => {
   const location = useLocation();
-
-  if (location.pathname.startsWith("/recipe-haven")) {
-    return <CookNav />;
-  }
 
   if (location.pathname.startsWith("/jobscape")) {
     return null;

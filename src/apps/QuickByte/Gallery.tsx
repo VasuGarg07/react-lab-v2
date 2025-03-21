@@ -1,4 +1,3 @@
-import { AspectRatio, Card, CardContent, CardOverflow, Grid, IconButton, Stack, Typography } from '@mui/joy';
 import { BookOpenText } from 'lucide-react';
 import { useLoaderData, useNavigate } from 'react-router';
 import { Meal } from '@/apps/QuickByte/utils/recipe.helpers';
@@ -35,7 +34,6 @@ const itemVariants = {
   }
 };
 
-
 const Gallery = () => {
   const { title, meals } = useLoaderData() as GalleryData;
 
@@ -46,27 +44,23 @@ const Gallery = () => {
       variants={containerVariants}
     >
       <motion.div variants={itemVariants}>
-        <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1} gutterBottom>
+        <h2 className="text-2xl font-semibold mb-4 tracking-wide text-gray-800 dark:text-gray-100">
           {title}
-        </Typography>
+        </h2>
       </motion.div>
 
-      <Grid container spacing={2} flexWrap='wrap' component={motion.div} variants={containerVariants}>
+      <motion.div variants={containerVariants} className="flex flex-wrap -mx-2">
         {meals.map((meal) => (
-          <Grid key={meal.id} xs={6} sm={4} component={motion.div} variants={itemVariants}>
+          <motion.div key={meal.id} variants={itemVariants} className="w-1/2 sm:w-1/3 px-2 mb-4">
             <MealCard meal={meal} />
-          </Grid>
+          </motion.div>
         ))}
-      </Grid>
+      </motion.div>
     </motion.div>
   );
 }
 
-export default Gallery
-
-
 const MealCard = ({ meal }: { meal: Meal }) => {
-
   const navigate = useNavigate();
 
   const handleMealNav = (id: string) => {
@@ -74,42 +68,31 @@ const MealCard = ({ meal }: { meal: Meal }) => {
   }
 
   return (
-    <Card sx={{
-      border: 'none',
-      '&:hover': {
-        boxShadow: 'lg',
-        cursor: 'pointer',
-        transform: 'translateY(-4px)',
-        transition: 'transform 0.2s linear',
-      }
-    }}
-      onClick={() => handleMealNav(meal.id)}>
-      <CardOverflow>
-        <AspectRatio ratio={4 / 3} objectFit='cover'>
+    <div
+      className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl cursor-pointer transform transition-transform duration-200 hover:-translate-y-1"
+      onClick={() => handleMealNav(meal.id)}
+    >
+      <div className="overflow-hidden">
+        <div className="relative pt-[75%]">
           <img
-            src={meal.image} srcSet={meal.image} alt={meal.name}
+            src={meal.image}
+            alt={meal.name}
+            className="absolute top-0 left-0 w-full h-full object-cover"
           />
-        </AspectRatio>
-      </CardOverflow>
-      <CardContent>
-        <Stack direction='row' alignItems='center' sx={{ mt: 1 }} spacing={1}>
-          <Typography level="title-lg"
-            sx={{
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              flexGrow: 1,
-              fontFamily: 'Overlock',
-              letterSpacing: 1,
-              textTransform: 'uppercase',
-              overflow: 'hidden'
-            }}>
+        </div>
+      </div>
+      <div className="p-3">
+        <div className="mt-1 flex items-center gap-1">
+          <h3 className="text-lg truncate flex-grow font-['Overlock'] tracking-wide uppercase text-gray-800 dark:text-gray-100">
             {meal.name}
-          </Typography>
-          <IconButton size='sm' color='primary' variant='soft' sx={{ borderRadius: 'xl' }}>
+          </h3>
+          <button className="p-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-xl">
             <BookOpenText size={20} />
-          </IconButton>
-        </Stack>
-      </CardContent>
-    </Card>
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }
+
+export default Gallery
