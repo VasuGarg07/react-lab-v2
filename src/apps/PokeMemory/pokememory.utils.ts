@@ -11,6 +11,7 @@ import card9 from '/images/009.png';
 import card10 from '/images/0010.png';
 import card11 from '/images/0011.png';
 import card12 from '/images/0012.png';
+import { shuffleArray } from '@/shared/utilities';
 
 export type CardType = {
   id: string,
@@ -22,13 +23,6 @@ export type CardType = {
 
 const cards: string[] = [card1, card2, card3, card4, card5, card6, card7, card8, card9, card10, card11, card12];
 
-export function shuffleArray(array: any[]): any[] {
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array
-};
 
 export const loadCards = (num: number = 4): CardType[] => {
   const cardSet = shuffleArray(cards).slice(0, num)

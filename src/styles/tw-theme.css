@@ -167,6 +167,7 @@
     /* 384px */
 
     /* Breakpoints */
+    --screen-xs: 480px;
     --screen-sm: 640px;
     --screen-md: 768px;
     --screen-lg: 1024px;
@@ -470,31 +471,6 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 
-@media (min-width: var(--screen-sm)) {
-    .sm\:grid-cols-1 {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
-    }
-
-    .sm\:grid-cols-2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .sm\:grid-cols-3 {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .sm\:grid-cols-4 {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .sm\:grid-cols-6 {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-    }
-
-    .sm\:grid-cols-12 {
-        grid-template-columns: repeat(12, minmax(0, 1fr));
-    }
-}
 
 /* Common Animation Keyframes */
 @keyframes spin {

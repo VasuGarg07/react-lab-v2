@@ -26,7 +26,7 @@ const Home = () => {
             <Separator.Root className="bg-neutral-200 dark:bg-neutral-800 h-px w-12" />
           </div>
 
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 w-full">
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full">
             {visibleApps.map((app) => (
               <AppCard key={app.path} {...app} />
             ))}

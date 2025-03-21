@@ -9,13 +9,13 @@ import QuizFg from '/quiz-fg.png';
 const Quizzo = () => {
   return (
     <QuizProvider>
-      <div className="relative min-h-screen w-full flex items-center justify-center p-4 overflow-hidden">
+      <div className="relative min-h-[calc(100vh-54px)] w-full flex items-center justify-center p-4 overflow-hidden">
         <AppBackground />
 
         {/* Main content card */}
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-5xl shadow-xl z-10 
           shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-700">
-          <h2 className="text-2xl md:text-3xl text-center uppercase font-['Poppins'] tracking-wider font-bold text-gray-800 dark:text-gray-100">
+          <h2 className="text-2xl md:text-3xl text-center uppercase tracking-wider font-bold text-gray-800 dark:text-gray-100">
             Quizzo
           </h2>
 
