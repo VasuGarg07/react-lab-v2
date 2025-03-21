@@ -1,7 +1,7 @@
-import { GameState } from '@/apps/PokeMemory/pokememory.utils';
 import { useQuizContext } from '@/apps/Quizzo/Context';
 import { Question } from '@/apps/Quizzo/quiz.helper';
 import { toastService } from '@/shared/toastr';
+import { GameState } from '@/shared/utilities';
 import { Button, Divider, Sheet, Stack, Typography } from '@mui/joy';
 import { ChevronRight, X } from 'lucide-react';
 import React, { useState } from 'react';

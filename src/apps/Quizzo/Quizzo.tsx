@@ -1,56 +1,58 @@
-import { Box, Card, Divider, Grid, Typography, useTheme } from "@mui/joy";
-import { GameState } from "@/apps/PokeMemory/pokememory.utils";
+import Board from "@/apps/Quizzo/Board";
 import QuizProvider, { useQuizContext } from "@/apps/Quizzo/Context";
 import Result from "@/apps/Quizzo/Result";
-import Board from "@/apps/Quizzo/Board";
 import Setup from "@/apps/Quizzo/Setup";
+import AppBackground from "@/components/AppBackground";
+import { GameState } from "@/shared/utilities";
 import QuizFg from '/quiz-fg.png';
-import DarkBg from '/backgrounds/abstract-dark.webp';
-import LightBg from '/backgrounds/abstract.webp'
-import { BgCenteredBox } from "@/components/BgCenteredBox";
 
 const Quizzo = () => {
-  const theme = useTheme();
-  const isDark = theme.palette.mode === 'dark';
-
   return (
     <QuizProvider>
-      <BgCenteredBox bg={isDark ? DarkBg : LightBg}>
-        <Card sx={{
-          width: 1, maxWidth: 1000, borderRadius: 'md', p: 2, gap: 0,
-          boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px'
-        }}>
-          <Typography level="h2" textAlign="center" textTransform="uppercase" fontFamily={'Poppins'} letterSpacing={1}>Quizzo</Typography>
-          <Divider inset="none">Test Your Wit, Ace the Trivia!</Divider>
+      <div className="relative min-h-screen w-full flex items-center justify-center p-4 overflow-hidden">
+        <AppBackground />
 
-          <Grid container spacing={0}>
-            <Grid xs={12} sm={6}>
+        {/* Main content card */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-5xl shadow-xl z-10 
+          shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-700">
+          <h2 className="text-2xl md:text-3xl text-center uppercase font-['Poppins'] tracking-wider font-bold text-gray-800 dark:text-gray-100">
+            Quizzo
+          </h2>
+
+          <div className="relative flex items-center justify-center my-3">
+            <span className="absolute w-full border-t border-gray-300 dark:border-gray-600"></span>
+            <span className="relative px-4 py-1 text-sm bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+              Test Your Wit, Ace the Trivia!
+            </span>
+          </div>
+
+          <div className="flex flex-col sm:flex-row w-full">
+            <div className="w-full sm:w-1/2">
               <Screen />
-            </Grid>
-            <Grid xs={0} sm={6}>
-              <Box sx={{ width: 1 }}>
-                <img src={QuizFg} srcSet={QuizFg} alt=""
-                  style={{ width: '100%', objectFit: 'contain' }} />
-              </Box>
-            </Grid>
-          </Grid>
-        </Card>
-      </BgCenteredBox>
+            </div>
+            <div className="hidden sm:block w-1/2">
+              <div className="w-full h-full flex items-center justify-center">
+                <img src={QuizFg} alt="Quiz illustration" className="w-full object-contain" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </QuizProvider>
-  )
-}
-
-export default Quizzo
+  );
+};
 
 const Screen = () => {
   const { gameState }: { gameState: GameState } = useQuizContext();
 
   switch (gameState) {
     case GameState.Gameover:
-      return <Result />
+      return <Result />;
     case GameState.Playing:
-      return <Board />
+      return <Board />;
     default:
-      return <Setup />
+      return <Setup />;
   }
-}
+};
+
+export default Quizzo;

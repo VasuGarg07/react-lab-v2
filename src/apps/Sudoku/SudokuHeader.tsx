@@ -1,6 +1,5 @@
+import { Lightbulb, PlayCircle, RotateCcw } from 'lucide-react';
 import React from 'react';
-import { Sheet, Typography, Button, Divider, Stack } from '@mui/joy';
-import { RotateCcw, Lightbulb, PlayCircle } from 'lucide-react';
 
 interface SudokuHeaderProps {
     onNewGame: () => Promise<void>;
@@ -10,83 +9,39 @@ interface SudokuHeaderProps {
 
 const SudokuHeader: React.FC<SudokuHeaderProps> = ({ onNewGame, onHint, onSolve }) => {
     return (
-        <Sheet
-            variant="outlined"
-            sx={{
-                borderRadius: 'lg',
-                p: 2,
-                my: 2,
-                background: 'background.surface',
-                boxShadow: 'sm',
-            }}
-        >
-            <Stack
-                direction="row"
-                spacing={2}
-                alignItems="center"
-                sx={{ width: '100%' }}
-            >
-                <Typography
-                    level="h2"
-                    sx={{
-                        fontSize: 'xl2',
-                        fontWeight: 'lg',
-                        color: 'primary.plainColor',
-                    }}
-                >
+        <div className="w-full rounded-xl p-3 mb-4 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm shadow-sm border border-neutral-100 dark:border-neutral-700">
+            <div className="flex flex-col items-center justify-between w-full gap-3">
+                <h2 className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
                     Sudoku Solver
-                </Typography>
+                </h2>
 
-                <Divider orientation="vertical" />
-
-                <Stack direction="row" spacing={1}>
-                    <Button
-                        size="sm"
-                        variant="outlined"
-                        color="neutral"
-                        startDecorator={<RotateCcw size={18} />}
+                <div className="flex gap-2">
+                    <button
                         onClick={onNewGame}
-                        sx={{
-                            '&:hover': {
-                                background: 'neutral.softHoverBg',
-                            },
-                        }}
+                        className="flex items-center gap-1.5 py-1.5 px-2.5 text-sm font-medium rounded-lg border border-secondary-200 dark:border-secondary-700 bg-white dark:bg-neutral-800 text-secondary-700 dark:text-secondary-300 hover:bg-secondary-50 dark:hover:bg-secondary-700/20 transition-colors"
                     >
-                        New Game
-                    </Button>
+                        <RotateCcw size={16} />
+                        <span>New Game</span>
+                    </button>
 
-                    <Button
-                        size="sm"
-                        variant="outlined"
-                        color="warning"
-                        startDecorator={<Lightbulb size={18} />}
+                    <button
                         onClick={onHint}
-                        sx={{
-                            '&:hover': {
-                                background: 'warning.softHoverBg',
-                            },
-                        }}
+                        className="flex items-center gap-1.5 py-1.5 px-2.5 text-sm font-medium rounded-lg border border-amber-200 dark:border-amber-800/50 bg-white dark:bg-neutral-800 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
                     >
-                        Hint
-                    </Button>
+                        <Lightbulb size={16} />
+                        <span>Hint</span>
+                    </button>
 
-                    <Button
-                        size="sm"
-                        variant="outlined"
-                        color="success"
-                        startDecorator={<PlayCircle size={18} />}
+                    <button
                         onClick={onSolve}
-                        sx={{
-                            '&:hover': {
-                                background: 'success.softHoverBg',
-                            },
-                        }}
+                        className="flex items-center gap-1.5 py-1.5 px-2.5 text-sm font-medium rounded-lg border border-emerald-200 dark:border-emerald-800/50 bg-white dark:bg-neutral-800 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors"
                     >
-                        Solve
-                    </Button>
-                </Stack>
-            </Stack>
-        </Sheet>
+                        <PlayCircle size={16} />
+                        <span>Solve</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     );
 };
 

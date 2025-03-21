@@ -1,11 +1,9 @@
-import { Avatar, Box, Chip, IconButton, Link, Stack } from '@mui/joy';
-import { FC, useState } from 'react';
-import { Blurhash } from 'react-blurhash';
 import { Image } from '@/apps/SnapFind/snapfind.helper';
 import { ExternalLink } from 'lucide-react';
+import { FC, useState } from 'react';
 
 interface ImageCardProps {
-    image: Image
+    image: Image;
 }
 
 const ImageCard: FC<ImageCardProps> = ({ image }) => {
@@ -18,62 +16,58 @@ const ImageCard: FC<ImageCardProps> = ({ image }) => {
     };
 
     return (
-        <>
-            <div style={{ position: 'relative', borderRadius: '16px' }}>
-                {!isLoaded && (
-                    <Blurhash
-                        hash={image.blur_hash}
-                        width={400} // Set to your desired width
-                        height={300} // Set to your desired height
-                        style={{ position: 'absolute' }} />
-                )}
-                <img
-                    src={image.urls.regular}
-                    onLoad={() => setIsLoaded(true)}
-                    style={{ width: '100%', height: '100%', borderRadius: '16px', display: isLoaded ? 'block' : 'none' }}
-                    alt="" />
-            </div>
-            <Box
-                className="overlay"
-                sx={{
-                    width: 1, height: 1,
-                    position: 'absolute',
-                    top: 0, left: 0,
-                    bgcolor: `${image.color}a0`,
-                    borderRadius: 16, p: 2,
-                    display: 'none',
-                }}
+        <div className="group relative w-full overflow-hidden rounded-2xl">
+            {/* Image placeholder */}
+            {!isLoaded && (
+                <div
+                    className="absolute inset-0 w-full h-full animate-pulse"
+                    style={{ backgroundColor: image.color || '#f3f4f6' }}
+                />
+            )}
+
+            {/* Main image */}
+            <img
+                src={image.urls.regular}
+                onLoad={() => setIsLoaded(true)}
+                className={`w-full h-full object-cover rounded-2xl transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                alt={image.descripition || "Unsplash image"}
+            />
+
+            {/* Overlay - visible on hover */}
+            <div
+                className="absolute inset-0 p-4 flex flex-col justify-between bg-opacity-60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
+                style={{ backgroundColor: `${image.color}a0` }}
             >
-                <Stack width={1} height={1} justifyContent='space-between'>
-                    <Stack direction='row' justifyContent='space-between'>
-                        <Avatar size="lg" src={image.user.profile_image.large} />
-                        <Chip
-                            variant="plain"
-                            color="neutral"
-                            size="sm"
-                            sx={{
-                                height: '24px',
-                                "--Chip-radius": "8px",
-                                "--Chip-gap": "0px",
-                                "--Chip-paddingInline": "8px",
-                            }}
-                            // startDecorator={<Avatar src={image.user.instagram_username ? IGLogo : ''} />}
-                            onClick={() => navigateToExternalUrl(image.user.instagram_username)}
-                        >
-                            {image.user.name}
-                        </Chip>
-                    </Stack>
+                {/* Top section with user info */}
+                <div className="flex justify-between items-start">
+                    <img
+                        src={image.user.profile_image.large}
+                        className="w-12 h-12 rounded-full border-2 border-white/70"
+                        alt={image.user.name}
+                    />
 
-                    <Stack direction='row' justifyContent='flex-end' spacing={1} zIndex={2}>
-                        <IconButton variant='solid' size='sm' color='success'>
-                            <Link overlay href={image.links.download} target="_blank" />
-                            <ExternalLink size={20} />
-                        </IconButton>
-                    </Stack>
-                </Stack>
-            </Box>
-        </>
-    )
-}
+                    <button
+                        onClick={() => navigateToExternalUrl(image.user.instagram_username)}
+                        className="px-3 py-1 bg-white/90 dark:bg-black/60 text-xs font-medium rounded-lg text-gray-800 dark:text-gray-200 hover:bg-white/100 dark:hover:bg-black/80 transition-colors"
+                    >
+                        {image.user.name}
+                    </button>
+                </div>
 
-export default ImageCard
+                {/* Bottom section with actions */}
+                <div className="flex justify-end z-10">
+                    <a
+                        href={image.links.download}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 bg-green-600 hover:bg-green-700 transition-colors rounded-lg text-white shadow-md"
+                    >
+                        <ExternalLink size={16} />
+                    </a>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ImageCard;

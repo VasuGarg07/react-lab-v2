@@ -8,6 +8,7 @@ import AmortizationSchedule from './AmortizationSchedule';
 import ComparisonTable from './ComparisonTable';
 import LoanInputs from './LoanInputs';
 import LoanSummary from './LoanSummary';
+import AppBackground from '@/components/AppBackground';
 
 const HomeloanWizard: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -47,32 +48,7 @@ const HomeloanWizard: React.FC = () => {
 
   return (
     <div className="relative min-h-[calc(100vh-53px)] overflow-hidden">
-      {/* Base background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-black z-0" />
-
-      {/* Large colorful decorative elements */}
-      <div className="absolute -top-20 -right-20 w-96 h-96 bg-blue-400/30 dark:bg-blue-600/20 rounded-full blur-3xl z-0" />
-      <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-400/30 dark:bg-purple-600/20 rounded-full blur-3xl z-0" />
-
-      {/* Additional decorative elements */}
-      <div className="absolute top-1/4 left-1/6 w-72 h-72 bg-pink-400/20 dark:bg-pink-600/15 rounded-full blur-3xl z-0" />
-      <div className="absolute bottom-1/4 right-1/6 w-60 h-60 bg-indigo-400/20 dark:bg-indigo-600/15 rounded-full blur-3xl z-0" />
-
-      {/* Animated gradient overlay */}
-      <motion.div
-        className="absolute inset-0 opacity-30 dark:opacity-40 z-0"
-        style={{
-          background: 'linear-gradient(120deg, rgba(99, 102, 241, 0.3) 0%, rgba(168, 85, 247, 0.3) 50%, rgba(236, 72, 153, 0.3) 100%)',
-        }}
-        animate={{
-          backgroundPosition: ['0% 0%', '100% 100%'],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          repeatType: 'reverse',
-        }}
-      />
+      <AppBackground />
 
       {/* Content container */}
       <div className="relative z-10 max-w-7xl mx-auto p-3 md:p-5">

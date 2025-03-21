@@ -1,6 +1,5 @@
 import { Box, Grid, Stack, Typography } from '@mui/joy';
-import ResponsivePagination from 'react-responsive-pagination';
-import 'react-responsive-pagination/themes/classic.css';
+import Pagination from "@/ui/Pagination";
 import { BlogListResponse } from '@/apps/Blogify/helpers/blog.constants';
 import BlogCard from '@/apps/Blogify/components/BlogCard';
 
@@ -62,11 +61,10 @@ const BlogGallery = ({
 
             {/* Pagination */}
             {pagination.totalPages > 1 && (
-                <ResponsivePagination
-                    current={pagination.currentPage}
-                    total={pagination.totalPages}
+                <Pagination
+                    currentPage={pagination.currentPage}
+                    totalPages={pagination.totalPages}
                     onPageChange={onPageChange}
-                    maxWidth={300}
                 />
             )}
         </Stack>

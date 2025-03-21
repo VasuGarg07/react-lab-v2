@@ -1,14 +1,12 @@
 import ImageGallery from "@/apps/SnapFind/ImageGallery";
 import SearchBar from "@/apps/SnapFind/SearchBar";
 import { Image, unsplashImages } from "@/apps/SnapFind/snapfind.helper";
+import AppBackground from "@/components/AppBackground";
 import { toastService } from "@/shared/toastr";
-import { Box, Card, CircularProgress, Stack, Typography, useTheme } from "@mui/joy";
+import Pagination from "@/ui/Pagination";
 import React, { useEffect, useState } from "react";
-import ResponsivePagination from 'react-responsive-pagination';
-import 'react-responsive-pagination/themes/classic.css';
 
 const SnapFind: React.FC = () => {
-  const theme = useTheme();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState<Image[]>([]);
@@ -41,54 +39,16 @@ const SnapFind: React.FC = () => {
     if (query) handleSubmit();
   }, [page]);
 
-  const patternColor = theme.palette.mode === 'light' ? '#000000' : '#ffffff';
-  const baseColor = theme.palette.mode === 'light' ? '#ffffff' : '#121212';
-
   return (
-    <Box
-      sx={{
-        minHeight: 'calc(100dvh - 54px)',
-        background: `
-          ${baseColor} url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='${patternColor.replace('#', '%23')}' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
-        `,
-        transition: 'background 0.3s ease-in-out',
-      }}
-    >
-      <Stack
-        spacing={3}
-        alignItems='center'
-        sx={{
-          p: 3,
-          width: '100%',
-          maxWidth: '1200px',
-          m: 'auto',
-        }}
-      >
-        <Card
-          variant="outlined"
-          sx={{
-            width: '100%',
-            backgroundColor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(18, 18, 18, 0.8)',
-            backdropFilter: 'blur(10px)',
-            borderRadius: '16px',
-            p: 3,
-            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-          }}
-        >
-          <Typography
-            fontFamily={'Kanit'}
-            letterSpacing={1.5}
-            level="h1"
-            sx={{
-              fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
-              textAlign: 'center',
-              color: theme.palette.mode === 'light' ? 'primary.600' : 'primary.300',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
-              mb: 2,
-            }}
-          >
+    <div className="relative min-h-[calc(100dvh-54px)] w-full overflow-hidden">
+      <AppBackground />
+
+      {/* Main content */}
+      <div className="container max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col items-center min-h-[calc(100dvh-54px)] z-10 relative">
+        <div className="w-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-gray-200/50 dark:border-gray-800/50 mb-8">
+          <h1 className="tracking-wider text-4xl sm:text-5xl md:text-6xl text-center text-violet-600 dark:text-violet-400 font-bold mb-6 drop-shadow-sm">
             SNAP FIND
-          </Typography>
+          </h1>
 
           <SearchBar
             loading={loading}
@@ -97,54 +57,43 @@ const SnapFind: React.FC = () => {
             onSubmit={handleSubmit}
             onToggleChange={setValue}
           />
+        </div>
 
-        </Card>
+        {/* Flexible space */}
+        <div className="flex-grow" />
 
-        <span className='flex-grow' />
-
-
+        {/* Image Gallery */}
         {images?.length > 0 && (
-          <ImageGallery images={images} />
+          <div className="w-full">
+            <ImageGallery images={images} />
+          </div>
         )}
 
+        {/* Loading Indicator */}
         {loading && (
-          <CircularProgress
-            color="primary"
-            size="lg"
-            sx={{
-              my: 2,
-              "--CircularProgress-size": "120px",
-              "--CircularProgress-trackThickness": "12px",
-              "--CircularProgress-progressThickness": "12px"
-            }}
-          />
+          <div className="flex justify-center my-8">
+            <div className="relative w-24 h-24">
+              <div className="absolute inset-0 rounded-full border-t-4 border-b-4 border-blue-500 animate-spin"></div>
+              <div className="absolute inset-3 rounded-full border-t-4 border-b-4 border-pink-500 animate-spin-reverse duration-700"></div>
+            </div>
+          </div>
         )}
 
-        <span className='flex-grow' />
+        {/* Flexible space */}
+        <div className="flex-grow" />
 
-
+        {/* Pagination */}
         {images?.length > 0 && totalPages > 1 && (
-          <Card
-            variant="outlined"
-            sx={{
-              width: '100%',
-              maxWidth: '400px',
-              backgroundColor: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(18, 18, 18, 0.8)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: '16px',
-              p: 2,
-              boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-            }}
-          >
-            <ResponsivePagination
-              current={page}
-              total={totalPages}
+          <div className="mt-8 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md rounded-xl p-4 shadow-md border border-gray-200/50 dark:border-gray-800/50">
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
               onPageChange={setPage}
             />
-          </Card>
+          </div>
         )}
-      </Stack>
-    </Box>
+      </div>
+    </div>
   );
 };
 

@@ -1,64 +1,37 @@
-import { Box, CircularProgress, Grid, Input, Sheet, Stack, useTheme } from '@mui/joy';
 import React, { useCallback, useEffect, useState } from 'react';
-import { BgCenteredBox } from '@/components/BgCenteredBox';
 import { deepCopy, fetchInitialBoard, isValid, solveBoard } from '@/apps/Sudoku/sudoku.utils';
 import SudokuHeader from '@/apps/Sudoku/SudokuHeader';
-import DarkBg from '/backgrounds/abstract-dark.webp';
-import LightBg from '/backgrounds/abstract.webp';
 import { toastService } from '@/shared/toastr';
+import AppBackground from '@/components/AppBackground';
 
-const inputStyles = {
-    width: 40,
-    height: 40,
-    textAlign: 'center',
-    padding: 0,
-    '& input[type=number]': {
-        MozAppearance: 'textfield',
-        textAlign: 'center',
-        padding: 0,
-    },
-    '& input[type=number]::-webkit-outer-spin-button, & input[type=number]::-webkit-inner-spin-button': {
-        WebkitAppearance: 'none',
-        margin: 0,
-    },
-};
+interface CellProps {
+    cell: number,
+    onChange: (value: string) => void,
+    editable: boolean
+}
 
-const boxStyles = {
-    width: 40,
-    height: 40,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'grey.300',
-    borderRadius: 'sm',
-    textAlign: 'center',
-    border: '1px solid',
-};
-
-const GridCell = React.memo(({ cell, onChange, editable }: { cell: number, onChange: any, editable: boolean }) => (
+// Memoized cell component to optimize rendering
+const GridCell = React.memo<CellProps>(({ cell, onChange, editable }) => (
     editable ? (
-        <Input
+        <input
             type="number"
             value={cell === 0 ? '' : cell}
-            onChange={onChange}
-            sx={inputStyles}
+            onChange={(e) => onChange(e.target.value)}
+            className="w-10 h-10 text-center rounded-md border border-neutral-300 dark:border-neutral-700 focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-1 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            min="1"
+            max="9"
         />
     ) : (
-        <Box sx={boxStyles}>
-            {cell}
-        </Box>
+        <div className="w-10 h-10 flex items-center justify-center rounded-md bg-neutral-100 dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600 text-neutral-800 dark:text-neutral-200 font-medium">
+            {cell !== 0 ? cell : ''}
+        </div>
     )
 ));
-
 
 const SudokuBoard: React.FC = () => {
     const [board, setBoard] = useState<number[][]>([]);
     const [initialBoard, setInitialBoard] = useState<number[][]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-
-    const theme = useTheme();
-    const isDark = theme.palette.mode === 'dark';
-
 
     const fetchBoard = useCallback(async () => {
         setLoading(true);
@@ -74,7 +47,7 @@ const SudokuBoard: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        fetchBoard(); // Dependency array is empty because `fetchBoard` is memoized and doesn't change.
+        fetchBoard();
     }, [fetchBoard]);
 
     const giveHint = useCallback(() => {
@@ -120,6 +93,13 @@ const SudokuBoard: React.FC = () => {
                     return newBoard;
                 });
             }
+        } else if (value === '') {
+            // Allow clearing the cell
+            setBoard(prevBoard => {
+                const newBoard = [...prevBoard];
+                newBoard[row][col] = 0;
+                return newBoard;
+            });
         } else {
             toastService.error("Value out of bounds");
         }
@@ -133,51 +113,55 @@ const SudokuBoard: React.FC = () => {
 
     if (loading) {
         return (
-            <BgCenteredBox bg={isDark ? DarkBg : LightBg}>
-                <CircularProgress
-                    color="danger"
-                    size="lg"
-                    value={64}
-                    sx={{
-                        my: 2,
-                        "--CircularProgress-size": "120px",
-                        "--CircularProgress-trackThickness": "12px",
-                        "--CircularProgress-progressThickness": "12px"
-                    }} />
-            </BgCenteredBox>
+            <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
+                {/* Background elements */}
+                <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-black z-0" />
+                <div className="absolute -top-20 -right-20 w-96 h-96 bg-blue-400/30 dark:bg-blue-600/20 rounded-full blur-3xl z-0" />
+                <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-400/30 dark:bg-purple-600/20 rounded-full blur-3xl z-0" />
+
+                <div className="relative z-10 flex items-center justify-center">
+                    <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            </div>
         );
     }
 
     return (
-        <BgCenteredBox bg={isDark ? DarkBg : LightBg}>
-            <SudokuHeader
-                onNewGame={fetchBoard}
-                onHint={giveHint}
-                onSolve={handleSolve}
-            />
-            <Sheet
-                color='neutral'
-                variant='outlined'
-                sx={{
-                    borderRadius: 'md',
-                    boxShadow: 'lg',
-                    p: 2,
-                }}>
-                {board.map((row, rowIndex) => (
-                    <Stack key={rowIndex} spacing={1} sx={{ mb: 1 }} direction='row' alignItems='center' justifyContent='center'>
-                        {row.map((_, colIndex) => (
-                            <Grid key={`${rowIndex}-${colIndex}`}>
-                                <GridCell
-                                    cell={board[rowIndex][colIndex]}
-                                    onChange={(e: any) => handleChange(rowIndex, colIndex, e.target.value)}
-                                    editable={!initialBoard[rowIndex][colIndex]}
-                                />
-                            </Grid>
+        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
+            <AppBackground />
+            {/* Game content */}
+            <div className="relative z-10 w-full max-w-lg mx-auto p-4">
+                <SudokuHeader
+                    onNewGame={fetchBoard}
+                    onHint={giveHint}
+                    onSolve={handleSolve}
+                />
+
+                <div className="w-fit mx-auto bg-white/90 dark:bg-neutral-800/90 backdrop-blur-md rounded-xl p-4 shadow-md border border-neutral-100 dark:border-neutral-700">
+                    <div className="flex flex-col items-center gap-1">
+                        {board.map((row, rowIndex) => (
+                            <div key={rowIndex} className="flex gap-1">
+                                {row.map((_, colIndex) => (
+                                    <div
+                                        key={`${rowIndex}-${colIndex}`}
+                                        className={`
+                      ${rowIndex % 3 === 2 && rowIndex < 8 ? 'mb-1' : ''}
+                      ${colIndex % 3 === 2 && colIndex < 8 ? 'mr-1' : ''}
+                    `}
+                                    >
+                                        <GridCell
+                                            cell={board[rowIndex][colIndex]}
+                                            onChange={(value) => handleChange(rowIndex, colIndex, value)}
+                                            editable={!initialBoard[rowIndex][colIndex]}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         ))}
-                    </Stack>
-                ))}
-            </Sheet>
-        </BgCenteredBox>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

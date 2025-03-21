@@ -2,7 +2,8 @@ import { Chip, Stack, Typography } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { useQuizContext } from "@/apps/Quizzo/Context";
 import QuestionCard from "@/apps/Quizzo/QuestionCard";
-import { Question, shuffleArray } from "@/apps/Quizzo/quiz.helper";
+import { Question } from "./quiz.helper";
+import { shuffleArray } from "@/shared/utilities";
 
 interface Props {
   name: string;

@@ -10,6 +10,7 @@ import {
     makeRandomMove,
     TIMEOUT
 } from '@/apps/SuperTicTacToe/tictactoe.helpers';
+import AppBackground from '@/components/AppBackground';
 import React, { useEffect, useRef, useState } from 'react';
 
 const SuperTicTacToe: React.FC = () => {
@@ -136,13 +137,7 @@ const SuperTicTacToe: React.FC = () => {
 
     return (
         <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
-            {/* Background elements similar to AuthWrapper */}
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-black z-0" />
-
-            <div className="absolute -top-20 -right-20 w-96 h-96 bg-blue-400/30 dark:bg-blue-600/20 rounded-full blur-3xl z-0" />
-            <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-400/30 dark:bg-purple-600/20 rounded-full blur-3xl z-0" />
-            <div className="absolute top-1/4 left-1/6 w-72 h-72 bg-pink-400/20 dark:bg-pink-600/15 rounded-full blur-3xl z-0" />
-            <div className="absolute bottom-1/4 right-1/6 w-60 h-60 bg-indigo-400/20 dark:bg-indigo-600/15 rounded-full blur-3xl z-0" />
+            <AppBackground />
 
             {/* Game content */}
             <div className="relative z-10 w-full max-w-7xl mx-auto p-4 md:p-6">
