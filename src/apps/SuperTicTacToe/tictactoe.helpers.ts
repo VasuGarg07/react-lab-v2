@@ -1,6 +1,4 @@
 // Constants
-export const REM = 16;
-export const SQ_SIZE = 3 * REM;
 export const TIMEOUT = 10;
 
 // Colors
@@ -28,7 +26,7 @@ export const INSET_BOX_SHADOW = `
 `;
 
 // Instructions
-export const INSTRUCTIONS = [
+export const Instructions = [
     "Player 'X' starts by marking any cell in any small board.",
     "Players take turns marking cells.",
     "The next move must be made in the small board corresponding to the last marked cell.",

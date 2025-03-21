@@ -1,101 +1,61 @@
-import { Box, Button, List, ListItem, Modal, ModalDialog, Typography, useTheme } from '@mui/joy';
 import { Swords } from 'lucide-react';
 import React from 'react';
-import { INSTRUCTIONS } from '@/apps/SuperTicTacToe/tictactoe.helpers';
+import { Instructions } from '@/apps/SuperTicTacToe/tictactoe.helpers';
+import Dialog from '@/ui/Dialog';
 
 interface StartGamePopupProps {
-    open: boolean;
+    isOpen: boolean;
     onStart: () => void;
 }
 
-const StartGamePopup: React.FC<StartGamePopupProps> = ({ open, onStart }) => {
-    const mode = useTheme().palette.mode;
-
+const StartGamePopup: React.FC<StartGamePopupProps> = ({ isOpen, onStart }) => {
     return (
-        <Modal
-            open={open}
-            aria-labelledby="start-game-title"
-            aria-describedby="start-game-description"
+        <Dialog
+            isOpen={isOpen}
+            onClose={onStart}
+            title="Game Instructions"
+            size="md"
+            position="center"
+            contentClassName="p-0 overflow-hidden"
         >
-            <ModalDialog
-                aria-labelledby="start-game-title"
-                aria-describedby="start-game-description"
-                sx={{
-                    maxWidth: 499,
-                    borderRadius: 'md',
-                    p: 3,
-                    boxShadow: 'lg',
-                }}
-            >
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <Swords size={40} />
-                    <Typography
-                        id="start-game-title"
-                        level="h4"
-                        component="h2"
-                        fontWeight="lg"
-                    >
-                        Super Tic Tac Toe
-                    </Typography>
-                </Box>
+            {/* Header with icon */}
+            <div className="flex items-center gap-3 px-6 pt-5 pb-2">
+                <Swords size={28} className="text-rose-500 dark:text-rose-400" />
+                <h2 className="text-xl font-semibold text-neutral-900 dark:text-white">
+                    Super Tic Tac Toe
+                </h2>
+            </div>
 
-                <Typography
-                    id="start-game-description"
-                    level="body-md"
-                    mb={1}
-                >
+            {/* Description */}
+            <div className="px-6 pb-3">
+                <p className="text-sm text-neutral-700 dark:text-neutral-300">
                     Master the ultimate strategy game! Here's how to play:
-                </Typography>
+                </p>
+            </div>
 
-                <Box
-                    sx={{
-                        mb: 3,
-                        background: mode == 'dark'
-                            ? 'rgba(236, 240, 241, 0.1)'
-                            : 'rgba(44, 62, 80, 0.1)',
-                        borderRadius: 'md',
-                        p: 2
-                    }}
-                >
-                    <List component="ol" sx={{ pl: 2 }}>
-                        {INSTRUCTIONS.map((instruction, index) => (
-                            <ListItem
-                                key={index}
-                                sx={{
-                                    display: 'list-item',
-                                    pl: 1,
-                                    color: 'white',
-                                    '&::marker': { color: '#e74c3c' }
-                                }}
-                            >
-                                <Typography level="body-sm">
-                                    {instruction}
-                                </Typography>
-                            </ListItem>
+            {/* Instructions list */}
+            <div className="px-6 mx-1 mb-5">
+                <div className="bg-neutral-200 dark:bg-neutral-800/50 rounded-lg p-4">
+                    <ol className="list-decimal pl-5 space-y-2">
+                        {Instructions.map((instruction, index) => (
+                            <li key={index} className="text-neutral-800 dark:text-neutral-200 marker:text-rose-500 dark:marker:text-rose-400">
+                                <span className="text-sm">{instruction}</span>
+                            </li>
                         ))}
-                    </List>
-                </Box>
+                    </ol>
+                </div>
+            </div>
 
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button
-                        variant="solid"
-                        color="success"
-                        onClick={onStart}
-                        size="lg"
-                        sx={{
-                            px: 4,
-                            py: 1,
-                            fontSize: '1.1rem',
-                            fontWeight: 'bold',
-                            background: '#27ae60',
-                            '&:hover': { background: '#2ecc71' }
-                        }}
-                    >
-                        Start Game
-                    </Button>
-                </Box>
-            </ModalDialog>
-        </Modal >
+            {/* Action button */}
+            <div className="flex justify-center px-6 pb-6">
+                <button
+                    onClick={onStart}
+                    className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm rounded-lg transition-colors shadow-sm"
+                >
+                    Start Game
+                </button>
+            </div>
+        </Dialog>
     );
 };
 
