@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { Outlet, useLocation } from 'react-router';
 import BlogifyNav from '@/apps/Blogify/components/BlogifyNav';
 import { useAuth } from '@/auth/AuthProvider';
-import BlogifyAuth from '@/apps/Blogify/pages/BlogifyAuth';
 import { useColorScheme } from '@mui/joy';
+import LoginPrompt from '@/components/LoginPrompt';
 
 const Blogify = () => {
     const { mode } = useColorScheme();
@@ -12,13 +12,16 @@ const Blogify = () => {
     const location = useLocation();
 
     if (!isLoggedIn) {
-        return <BlogifyAuth mode={mode} />;
+        return <LoginPrompt
+            title='Welcome to Blogify'
+            caption='Unleash your creativity and share your stories with the world. Join our community of passionate writers today.'
+            image='/blogify.png' />
     }
 
     return (
         <Box
             sx={{
-                minHeight: 'calc(100vh - 52px)',
+                minHeight: 'calc(100vh - 54px)',
                 background: mode === 'light'
                     ? `
                         radial-gradient(circle at 30% 20%, rgba(233, 150, 122, 0.4), transparent 70%),
@@ -41,8 +44,8 @@ const Blogify = () => {
                 sx={{
                     flexGrow: 1,
                     width: { md: 'calc(100% - 280px)' },
-                    minHeight: { xs: 'calc(100vh - 116px)', md: 'calc(100vh - 52px)' },
-                    height: { xs: 'auto', md: 'calc(100vh - 52px)' },
+                    minHeight: { xs: 'calc(100vh - 116px)', md: 'calc(100vh - 54px)' },
+                    height: { xs: 'auto', md: 'calc(100vh - 54px)' },
                     overflow: 'auto',
                     pb: { xs: '64px', md: 0 }  // Account for bottom nav on mobile
                 }}

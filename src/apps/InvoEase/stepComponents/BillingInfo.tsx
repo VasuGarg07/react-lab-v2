@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Box, Input, Stack, Textarea, Typography, FormControl, FormLabel, FormHelperText } from '@mui/joy';
+import React, { useEffect } from 'react';
+import { useForm, Controller, useWatch } from 'react-hook-form';
 import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
 
 interface BillingData {
@@ -10,115 +10,106 @@ interface BillingData {
 
 interface BillingSectionProps {
     title: string;
-    initialData: BillingData;
-    onUpdate: (data: BillingData) => void;
+    control: any;
+    errors: any;
+    fieldPrefix: 'billTo' | 'billFrom';
 }
 
-const BillingSection: React.FC<BillingSectionProps> = React.memo(({ title, initialData, onUpdate }) => {
-    const [data, setData] = useState<BillingData>(initialData);
-    const [errors, setErrors] = useState<Partial<BillingData>>({});
+const BillingSection: React.FC<BillingSectionProps> = ({ title, control, errors, fieldPrefix }) => (
+    <div className="w-full space-y-4">
+        <h2 className="text-lg font-semibold text-primary mb-2">{title}</h2>
 
-    const validateField = useCallback((field: keyof BillingData, value: string) => {
-        switch (field) {
-            case 'name':
-                return value.trim() !== '' ? '' : 'Name is required';
-            case 'email':
-                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? '' : 'Invalid email address';
-            case 'address':
-                return ''; // Address is now optional
-            default:
-                return '';
-        }
-    }, []);
+        <div>
+            <label className="block text-sm font-medium mb-1 text-neutral-800 dark:text-neutral-50">Full Name</label>
+            <Controller
+                name={`${fieldPrefix}.name`}
+                control={control}
+                render={({ field }) => (
+                    <input
+                        {...field}
+                        className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary text-neutral-800 dark:text-neutral-50 bg-white dark:bg-neutral-700"
+                        placeholder="Enter full name"
+                    />
+                )}
+            />
+            {errors?.[fieldPrefix]?.name && (
+                <p className="text-sm text-red-500 mt-1">{errors[fieldPrefix].name.message}</p>
+            )}
+        </div>
 
-    const handleChange = useCallback((field: keyof BillingData, value: string) => {
-        setData(prev => ({ ...prev, [field]: value }));
-        setErrors(prev => ({ ...prev, [field]: validateField(field, value) }));
-    }, [validateField]);
+        <div>
+            <label className="block text-sm font-medium mb-1 text-neutral-800 dark:text-neutral-50">Email Address</label>
+            <Controller
+                name={`${fieldPrefix}.email`}
+                control={control}
+                render={({ field }) => (
+                    <input
+                        {...field}
+                        className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary text-neutral-800 dark:text-neutral-50 bg-white dark:bg-neutral-700"
+                        placeholder="Enter email address"
+                    />
+                )}
+            />
+            {errors?.[fieldPrefix]?.email && (
+                <p className="text-sm text-red-500 mt-1">{errors[fieldPrefix].email.message}</p>
+            )}
+        </div>
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (Object.values(errors).every(error => error === '')) {
-                onUpdate(data);
-            }
-        }, 500);
-
-        return () => clearTimeout(timer);
-    }, [data, errors, onUpdate]);
-
-    return (
-        <Stack spacing={1} width="100%">
-            <Typography
-                level="title-lg"
-                sx={{
-                    color: 'primary.main',
-                    mb: 2,
-                }}
-            >
-                {title}
-            </Typography>
-            <FormControl error={!!errors.name}>
-                <FormLabel>Full Name</FormLabel>
-                <Input
-                    placeholder="Enter full name"
-                    value={data.name}
-                    onChange={(e) => handleChange('name', e.target.value)}
-                />
-                {errors.name && <FormHelperText>{errors.name}</FormHelperText>}
-            </FormControl>
-            <FormControl error={!!errors.email}>
-                <FormLabel>Email Address</FormLabel>
-                <Input
-                    placeholder="Enter email address"
-                    value={data.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                />
-                {errors.email && <FormHelperText>{errors.email}</FormHelperText>}
-            </FormControl>
-            <FormControl>
-                <FormLabel>Billing Address (Optional)</FormLabel>
-                <Textarea
-                    placeholder="Enter billing address (optional)"
-                    value={data.address}
-                    onChange={(e) => handleChange('address', e.target.value)}
-                    minRows={3}
-                />
-            </FormControl>
-        </Stack>
-    );
-});
+        <div>
+            <label className="block text-sm font-medium mb-1 text-neutral-800 dark:text-neutral-50">Billing Address (Optional)</label>
+            <Controller
+                name={`${fieldPrefix}.address`}
+                control={control}
+                render={({ field }) => (
+                    <textarea
+                        {...field}
+                        className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary text-neutral-800 dark:text-neutral-50 bg-white dark:bg-neutral-700"
+                        placeholder="Enter billing address (optional)"
+                        rows={3}
+                    />
+                )}
+            />
+        </div>
+    </div>
+);
 
 const BillingInfo: React.FC<{ onValidStep: (isValid: boolean) => void }> = ({ onValidStep }) => {
     const { billTo, setBillTo, billFrom, setBillFrom } = useInvoice();
 
-    const handleUpdateBillTo = useCallback((data: BillingData) => {
-        setBillTo(data);
-    }, [setBillTo]);
+    const {
+        control,
+        handleSubmit,
+        formState: { errors, isValid },
+    } = useForm<{ billTo: BillingData; billFrom: BillingData }>({
+        defaultValues: { billTo, billFrom },
+        mode: 'onChange',
+    });
 
-    const handleUpdateBillFrom = useCallback((data: BillingData) => {
-        setBillFrom(data);
-    }, [setBillFrom]);
+    // Watch for live changes to push updates
+    const watchedBillTo = useWatch({ control, name: 'billTo' });
+    const watchedBillFrom = useWatch({ control, name: 'billFrom' });
 
     useEffect(() => {
-        const isValid =
-            billTo.name !== '' && billTo.email !== '' &&
-            billFrom.name !== '' && billFrom.email !== '';
+        setBillTo(watchedBillTo);
+        setBillFrom(watchedBillFrom);
+    }, [watchedBillTo, watchedBillFrom, setBillTo, setBillFrom]);
+
+    useEffect(() => {
         onValidStep(isValid);
-    }, [billTo, billFrom, onValidStep]);
+    }, [isValid, onValidStep]);
 
     return (
-        <Stack sx={{ width: '100%' }}
-            direction={{ xs: 'column', md: 'row' }}
-            spacing={4}
-            justifyContent="space-between"
+        <form
+            onSubmit={handleSubmit(() => { })}
+            className="w-full flex flex-col md:flex-row gap-6 justify-between"
         >
-            <Box sx={{ width: { xs: '100%', md: '48%' } }}>
-                <BillingSection title="Bill to:" initialData={billTo} onUpdate={handleUpdateBillTo} />
-            </Box>
-            <Box sx={{ width: { xs: '100%', md: '48%' } }}>
-                <BillingSection title="Bill from:" initialData={billFrom} onUpdate={handleUpdateBillFrom} />
-            </Box>
-        </Stack>
+            <div className="w-full md:w-1/2">
+                <BillingSection title="Bill to:" control={control} errors={errors} fieldPrefix="billTo" />
+            </div>
+            <div className="w-full md:w-1/2">
+                <BillingSection title="Bill from:" control={control} errors={errors} fieldPrefix="billFrom" />
+            </div>
+        </form>
     );
 };
 

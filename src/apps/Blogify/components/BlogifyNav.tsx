@@ -41,7 +41,7 @@ const BlogifyNav = ({ mode = 'light' }) => {
             <Sheet
                 sx={{
                     width: SIDEBAR_WIDTH,
-                    height: 'calc(100vh - 52px)',
+                    height: 'calc(100vh - 54px)',
                     bgcolor: 'background.surface',
                     borderRight: '1px solid',
                     borderColor: 'divider',

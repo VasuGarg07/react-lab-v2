@@ -127,7 +127,7 @@ const Pokedex: React.FC = () => {
     }
 
     return (
-        <div className="min-h-[calc(100vh-52px)] bg-gradient-to-br dark:from-[#13151a] dark:via-[#1a1d24] dark:to-[#22252d] from-[#f8f9fc] via-[#eef1f8] to-[#e4e8f4] relative">
+        <div className="min-h-[calc(100vh-54px)] bg-gradient-to-br dark:from-[#13151a] dark:via-[#1a1d24] dark:to-[#22252d] from-[#f8f9fc] via-[#eef1f8] to-[#e4e8f4] relative">
             <div className="max-w-6xl mx-auto px-4 py-4 md:py-8">
                 <div className="mb-6 md:mb-8">
                     <motion.div

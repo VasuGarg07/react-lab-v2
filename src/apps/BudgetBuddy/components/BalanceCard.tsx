@@ -1,96 +1,64 @@
-import Box from "@mui/joy/Box";
-import Card from "@mui/joy/Card";
-import Typography from "@mui/joy/Typography";
+import React from "react";
+import clsx from "clsx";
 
 interface StatCardProps {
     title: string;
     amount: number;
     icon: React.ReactNode;
-    variant: 'income' | 'expense' | 'balance';
+    variant: "income" | "expense" | "balance";
 }
 
-const styles = {
+const VARIANT_STYLES = {
     income: {
-        background: 'linear-gradient(135deg, #22c55e 0%,rgb(3, 101, 39) 100%)',
-        iconBg: 'rgba(255, 255, 255, 0.2)',
-        shadow: '0 8px 16px -4px rgba(34, 197, 94, 0.2)',
+        bg: "bg-gradient-to-br from-green-400 to-green-900",
+        iconBg: "bg-white/20",
+        shadow: "shadow-green-500/20",
     },
     expense: {
-        background: 'linear-gradient(135deg, #ef4444 0%,rgb(133, 4, 4) 100%)',
-        iconBg: 'rgba(255, 255, 255, 0.2)',
-        shadow: '0 8px 16px -4px rgba(239, 68, 68, 0.2)',
+        bg: "bg-gradient-to-br from-red-400 to-red-900",
+        iconBg: "bg-white/20",
+        shadow: "shadow-red-500/20",
     },
     balance: {
-        background: 'linear-gradient(135deg, #6366f1 0%,rgb(12, 5, 127) 100%)',
-        iconBg: 'rgba(255, 255, 255, 0.2)',
-        shadow: '0 8px 16px -4px rgba(99, 102, 241, 0.2)',
-    }
+        bg: "bg-gradient-to-br from-indigo-400 to-indigo-900",
+        iconBg: "bg-white/20",
+        shadow: "shadow-indigo-500/20",
+    },
 };
 
-const BalanceCard: React.FC<StatCardProps> = ({ title, amount, icon, variant }) => (
-    <Card
-        variant="solid"
-        sx={{
-            p: 2,
-            background: styles[variant].background,
-            boxShadow: 'md',
-            border: 'none',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            transition: 'transform 0.2s ease',
-            '&:hover': {
-                transform: 'translateY(-4px)',
-            }
-        }}
-    >
-        <Box
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-            }}
+const BalanceCard: React.FC<StatCardProps> = ({ title, amount, icon, variant }) => {
+    const { bg, iconBg, shadow } = VARIANT_STYLES[variant];
+
+    return (
+        <div
+            className={clsx(
+                "rounded-2xl p-4 transition-transform transform hover:-translate-y-1 flex flex-col gap-3",
+                bg,
+                shadow,
+                "text-white"
+            )}
         >
-            <Typography
-                level="title-lg"
-                sx={{
-                    color: 'white',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
-                    fontSize: '0.875rem',
-                    fontWeight: 600
-                }}
-            >
-                {title}
-            </Typography>
-            <Box
-                sx={{
-                    p: 1,
-                    borderRadius: 'md',
-                    backgroundColor: styles[variant].iconBg,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}
-            >
-                {icon}
-            </Box>
-        </Box>
-        <Typography
-            level="h3"
-            sx={{
-                color: 'white',
-                fontSize: '1.5rem',
-                fontWeight: 700,
-                letterSpacing: '-0.5px'
-            }}
-        >
-            ₹{amount.toLocaleString('en-IN', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}
-        </Typography>
-    </Card>
-);
+            <div className="flex justify-between items-center">
+                <span className="uppercase tracking-wide text-xs font-semibold">
+                    {title}
+                </span>
+                <div
+                    className={clsx(
+                        "p-2 rounded-md flex items-center justify-center",
+                        iconBg
+                    )}
+                >
+                    {icon}
+                </div>
+            </div>
+            <h3 className="text-xl font-bold tracking-tight">
+                ₹{amount.toLocaleString("en-IN", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                })}
+            </h3>
+        </div>
+    );
+};
 
 export default BalanceCard;

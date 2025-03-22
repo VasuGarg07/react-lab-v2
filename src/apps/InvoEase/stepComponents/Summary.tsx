@@ -1,5 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
-import { Box, Typography, Input, Textarea, Divider, Grid, FormControl, FormLabel } from '@mui/joy';
+import React, { useMemo, useCallback, useEffect } from 'react';
 import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
 
 const InvoiceSummary: React.FC<{ onValidStep: (isValid: boolean) => void }> = ({ onValidStep }) => {
@@ -37,88 +36,89 @@ const InvoiceSummary: React.FC<{ onValidStep: (isValid: boolean) => void }> = ({
         setNotes(e.target.value);
     }, [setNotes]);
 
-    // Validate the summary (always valid in this case)
-    React.useEffect(() => {
-        onValidStep(true);
+    useEffect(() => {
+        onValidStep(true); // always valid
     }, [onValidStep]);
 
     return (
-        <Box>
-            <Grid container spacing={2} sx={{ mb: 2 }}>
-                <Grid xs={6}>
-                    <FormControl>
-                        <FormLabel>Tax Rate (%)</FormLabel>
-                        <Input
+        <div className="w-full flex flex-col gap-6">
+            {/* Tax & Discount */}
+            <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                    <label className="block text-sm font-medium text-neutral-800 dark:text-neutral-200 mb-1">
+                        Tax Rate (%)
+                    </label>
+                    <div className="relative">
+                        <input
                             type="number"
                             value={taxRate}
                             onChange={handleTaxRateChange}
-                            endDecorator="%"
-                            slotProps={{
-                                input: {
-                                    step: 0.1,
-                                    min: 0,
-                                    max: 100,
-                                },
-                            }}
+                            min={0}
+                            max={100}
+                            step={0.1}
+                            className="w-full p-2 pr-10 rounded-md border text-sm bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 border-neutral-300 dark:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                    </FormControl>
-                </Grid>
-                <Grid xs={6}>
-                    <FormControl>
-                        <FormLabel>Discount Rate (%)</FormLabel>
-                        <Input
+                        <span className="absolute right-3 top-2.5 text-sm text-neutral-500 dark:text-neutral-400">%</span>
+                    </div>
+                </div>
+
+                <div className="flex-1">
+                    <label className="block text-sm font-medium text-neutral-800 dark:text-neutral-200 mb-1">
+                        Discount Rate (%)
+                    </label>
+                    <div className="relative">
+                        <input
                             type="number"
                             value={discountRate}
                             onChange={handleDiscountRateChange}
-                            endDecorator="%"
-                            slotProps={{
-                                input: {
-                                    step: 0.1,
-                                    min: 0,
-                                    max: 100,
-                                },
-                            }}
+                            min={0}
+                            max={100}
+                            step={0.1}
+                            className="w-full p-2 pr-10 rounded-md border text-sm bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 border-neutral-300 dark:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                    </FormControl>
-                </Grid>
-            </Grid>
+                        <span className="absolute right-3 top-2.5 text-sm text-neutral-500 dark:text-neutral-400">%</span>
+                    </div>
+                </div>
+            </div>
 
-            <Divider sx={{ my: 2 }} />
+            <hr className="border-t border-neutral-300 dark:border-neutral-700" />
 
-            <Box sx={{ mb: 2 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography level="body-md">Subtotal:</Typography>
-                    <Typography level="body-md">{currencySymbol}{subtotal.toFixed(2)}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography level="body-md">Tax Amount:</Typography>
-                    <Typography level="body-md">{currencySymbol}{taxAmount.toFixed(2)}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography level="body-md">Discount Amount:</Typography>
-                    <Typography level="body-md">{currencySymbol}{discountAmount.toFixed(2)}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography level="title-md">Total:</Typography>
-                    <Typography level="title-md">{currencySymbol}{total.toFixed(2)}</Typography>
-                </Box>
-            </Box>
+            {/* Totals */}
+            <div className="space-y-2 text-sm text-neutral-800 dark:text-neutral-200">
+                <div className="flex justify-between">
+                    <span>Subtotal:</span>
+                    <span>{currencySymbol}{subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                    <span>Tax Amount:</span>
+                    <span>{currencySymbol}{taxAmount.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                    <span>Discount Amount:</span>
+                    <span>{currencySymbol}{discountAmount.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between font-medium text-base mt-2">
+                    <span>Total:</span>
+                    <span>{currencySymbol}{total.toFixed(2)}</span>
+                </div>
+            </div>
 
-            <Divider sx={{ my: 2 }} />
+            <hr className="border-t border-neutral-300 dark:border-neutral-700" />
 
-            <Box>
-                <FormControl>
-                    <FormLabel>Notes</FormLabel>
-                    <Textarea
-                        placeholder="Thanks for your business!"
-                        value={notes}
-                        onChange={handleNotesChange}
-                        minRows={3}
-                        sx={{ width: '100%' }}
-                    />
-                </FormControl>
-            </Box>
-        </Box>
+            {/* Notes */}
+            <div>
+                <label className="block text-sm font-medium text-neutral-800 dark:text-neutral-200 mb-1">
+                    Notes
+                </label>
+                <textarea
+                    value={notes}
+                    onChange={handleNotesChange}
+                    placeholder="Thanks for your business!"
+                    rows={3}
+                    className="w-full p-2 rounded-md border text-sm bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 border-neutral-300 dark:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+            </div>
+        </div>
     );
 };
 

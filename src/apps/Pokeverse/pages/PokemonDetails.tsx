@@ -90,7 +90,7 @@ const PokemonDetails: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="min-h-[calc(100vh-52px)] flex items-center justify-center bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700">
+            <div className="min-h-[calc(100vh-54px)] flex items-center justify-center bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700">
                 <div className="animate-spin w-12 h-12 border-4 border-primary rounded-full border-t-transparent"></div>
             </div>
         );
@@ -98,7 +98,7 @@ const PokemonDetails: React.FC = () => {
 
     if (error || !pokemon) {
         return (
-            <div className="min-h-[calc(100vh-52px)] p-4 bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700">
+            <div className="min-h-[calc(100vh-54px)] p-4 bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700">
                 <button
                     onClick={() => navigate(-1)}
                     className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white dark:bg-neutral-800 shadow-sm mb-4"
@@ -140,7 +140,7 @@ const PokemonDetails: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="min-h-[calc(100vh-52px)] bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700 p-2 md:p-4 text-neutral-900 dark:text-neutral-100"
+                className="min-h-[calc(100vh-54px)] bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700 p-2 md:p-4 text-neutral-900 dark:text-neutral-100"
             >
                 {/* Top Navigation */}
                 <motion.div

@@ -1,11 +1,6 @@
-import {
-    Box,
-    Button,
-    Card,
-    Divider,
-    LinearProgress,
-    Typography
-} from '@mui/joy';
+import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
+import { useAuth } from '@/auth/AuthProvider';
+import { CSVDownloader } from '@/shared/CSVDownloader';
 import {
     ArrowDownCircle,
     ArrowUpCircle,
@@ -17,9 +12,6 @@ import {
     User2
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { useAuth } from '@/auth/AuthProvider';
-import { CSVDownloader } from '@/shared/CSVDownloader';
-import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
 
 const HomePage = () => {
     const {
@@ -31,7 +23,6 @@ const HomePage = () => {
     } = useBudget();
 
     const { user } = useAuth();
-
     const navigate = useNavigate();
 
     const handleDownload = () => {
@@ -49,259 +40,221 @@ const HomePage = () => {
     const recentTransactions = transactions.slice(0, 5);
 
     return (
-        <Box sx={{ p: 3 }}>
+        <div className="p-3">
             {/* Header Section */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1.5,
-                    borderBottom: '2px solid',
-                    borderColor: '#84cc16',
-                    pb: 2,
-                    mb: 3,
-                }}
-            >
-                <User2 size={28} color="#84cc16" />
-                <Typography
-                    level="h2"
-                    sx={{
-                        fontSize: '1.5rem',
-                        fontWeight: 600,
-                        fontFamily: 'Montserrat',
-                        letterSpacing: 1,
-                        textTransform: 'uppercase',
-                    }}
-                >
+            <div className="flex items-center gap-1.5 border-b-2 border-lime-500 pb- mb-3">
+                <User2 size={28} className="text-lime-500" />
+                <h2 className="text-2xl font-semibold font-['Montserrat',sans-serif] tracking-wide uppercase text-gray-800 dark:text-gray-100">
                     Welcome, {user?.username}
-                </Typography>
-            </Box>
+                </h2>
+            </div>
 
             {/* Main Grid */}
-            <Box sx={{ display: 'grid', gap: 3 }}>
+            <div className="grid gap-3">
                 {/* Summary Cards */}
-                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 2 }}>
-                    <Card variant="outlined">
-                        <Typography level="body-xs" sx={{ mb: 0.5 }}>
+                <div className="grid xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {/* Balance Card */}
+                    <div className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-0.5">
                             CURRENT BALANCE
-                        </Typography>
-                        <Typography level="h2">₹{remainingBalance.toLocaleString()}</Typography>
-                        <Divider sx={{ my: 1.5 }} />
-                        <Typography level="body-sm" sx={{ color: 'neutral.500' }}>
+                        </p>
+                        <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                            ₹{remainingBalance.toLocaleString()}
+                        </h3>
+                        <div className="h-px w-full bg-gray-200 dark:bg-gray-700 my-1.5"></div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
                             Total available funds
-                        </Typography>
-                    </Card>
+                        </p>
+                    </div>
 
-                    <Card variant="outlined">
-                        <Typography level="body-xs" sx={{ mb: 0.5 }}>
+                    {/* Income Card */}
+                    <div className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-0.5">
                             TOTAL INCOME
-                        </Typography>
-                        <Typography level="h2" sx={{ color: 'success.500' }}>
+                        </p>
+                        <h3 className="text-2xl font-bold text-green-600 dark:text-green-400">
                             ₹{totalIncome.toLocaleString()}
-                        </Typography>
-                        <Divider sx={{ my: 1.5 }} />
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: 'success.500' }}>
+                        </h3>
+                        <div className="h-px w-full bg-gray-200 dark:bg-gray-700 my-1.5"></div>
+                        <div className="flex items-center gap-0.5 text-green-600 dark:text-green-400">
                             <ArrowUpCircle size={16} />
-                            <Typography level="body-sm">This month's earnings</Typography>
-                        </Box>
-                    </Card>
+                            <p className="text-sm">This month's earnings</p>
+                        </div>
+                    </div>
 
-                    <Card variant="outlined">
-                        <Typography level="body-xs" sx={{ mb: 0.5 }}>
+                    {/* Expenses Card */}
+                    <div className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-0.5">
                             TOTAL EXPENSES
-                        </Typography>
-                        <Typography level="h2" sx={{ color: 'danger.500' }}>
+                        </p>
+                        <h3 className="text-2xl font-bold text-red-600 dark:text-red-400">
                             ₹{totalExpenses.toLocaleString()}
-                        </Typography>
-                        <Divider sx={{ my: 1.5 }} />
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: 'danger.500' }}>
+                        </h3>
+                        <div className="h-px w-full bg-gray-200 dark:bg-gray-700 my-1.5"></div>
+                        <div className="flex items-center gap-0.5 text-red-600 dark:text-red-400">
                             <ArrowDownCircle size={16} />
-                            <Typography level="body-sm">This month's spending</Typography>
-                        </Box>
-                    </Card>
+                            <p className="text-sm">This month's spending</p>
+                        </div>
+                    </div>
 
-                    <Card
-                        variant="solid"
-                        sx={{
-                            bgcolor: '#683de6',
-                            cursor: 'pointer',
-                            '&:hover': { bgcolor: '#5330b9' },
-                        }}
+                    {/* Add Transaction Card */}
+                    <div
+                        className="bg-purple-600 hover:bg-purple-700 rounded-xl p-4 cursor-pointer transition-colors shadow-sm flex flex-col justify-center items-center gap-1 text-white"
                         onClick={handleAddTransaction}
                     >
-                        <Box sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center', gap: 1,
-                            color: 'white', height: 1
-                        }}>
-                            <Plus size={24} />
-                            <Typography level="h4" sx={{ color: 'common.white' }}>Add Transaction</Typography>
-                            <Typography level="title-sm" sx={{ color: 'common.white' }}>Record new income or expense</Typography>
-                        </Box>
-                    </Card>
-                </Box>
+                        <Plus size={24} />
+                        <h3 className="text-xl font-bold">Add Transaction</h3>
+                        <p className="text-sm text-center">Record new income or expense</p>
+                    </div>
+                </div>
 
                 {/* Content Grid */}
-                <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '2fr 1fr' }, gap: 3 }}>
-                    {/* Recent Transactions */}
-                    <Card variant="outlined">
-                        <Box sx={{ p: 2 }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                                <Typography level="h4">Recent Transactions</Typography>
-                                <Button
-                                    variant="plain"
-                                    color="neutral"
-                                    size="sm"
-                                    endDecorator={<History size={16} />}
+                <div className="grid xs:grid-cols-1 md:grid-cols-3 gap-3">
+                    {/* Recent Transactions (2/3 width) */}
+                    <div className="md:col-span-2 bg-white dark:bg-zinc-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                        <div className="p-4">
+                            <div className="flex justify-between items-center mb-2">
+                                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">Recent Transactions</h3>
+                                <button
+                                    className="text-sm text-gray-600 dark:text-gray-300 flex items-center gap-1 hover:text-gray-900 dark:hover:text-gray-100"
                                     onClick={() => navigate('/budget-buddy/overview')}
                                 >
                                     View All
-                                </Button>
-                            </Box>
-                            <Divider />
-                            <Box sx={{ mt: 2 }}>
-                                {recentTransactions.map((transaction) => (
-                                    <Box
-                                        key={transaction.id}
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            py: 1.5,
-                                            borderBottom: '1px solid',
-                                            borderColor: 'divider',
-                                            '&:last-child': { borderBottom: 'none' },
-                                        }}
-                                    >
-                                        <Box>
-                                            <Typography>{transaction.title}</Typography>
-                                            <Typography level="body-sm" sx={{ color: 'neutral.500' }}>
-                                                {transaction.category}
-                                            </Typography>
-                                        </Box>
-                                        <Box sx={{ textAlign: 'right' }}>
-                                            <Typography
-                                                sx={{
-                                                    color: transaction.type === 'income' ? 'success.500' : 'danger.500',
-                                                    fontWeight: 'md',
-                                                }}
-                                            >
-                                                {transaction.type === 'income' ? '+' : '-'}₹{Math.abs(transaction.amount).toLocaleString()}
-                                            </Typography>
-                                            <Typography level="body-sm" sx={{ color: 'neutral.500' }}>
-                                                {new Date(transaction.date).toLocaleDateString()}
-                                            </Typography>
-                                        </Box>
-                                    </Box>
-                                ))}
-                            </Box>
-                        </Box>
-                    </Card>
+                                    <History size={16} />
+                                </button>
+                            </div>
+                            <div className="h-px w-full bg-gray-200 dark:bg-gray-700"></div>
+                            <div className="mt-2">
+                                {recentTransactions.length > 0 ? (
+                                    recentTransactions.map((transaction) => (
+                                        <div
+                                            key={transaction.id}
+                                            className="flex justify-between items-center py-1.5 border-b border-gray-200 dark:border-gray-700 last:border-b-0"
+                                        >
+                                            <div>
+                                                <p className="text-gray-800 dark:text-gray-200">{transaction.title}</p>
+                                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                    {transaction.category}
+                                                </p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className={`font-medium ${transaction.type === 'income'
+                                                    ? 'text-green-600 dark:text-green-400'
+                                                    : 'text-red-600 dark:text-red-400'
+                                                    }`}>
+                                                    {transaction.type === 'income' ? '+' : '-'}₹{Math.abs(transaction.amount).toLocaleString()}
+                                                </p>
+                                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                    {new Date(transaction.date).toLocaleDateString()}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="py-4 text-center text-gray-500 dark:text-gray-400">
+                                        No recent transactions
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
 
-                    {/* Monthly Overview */}
-                    <Card variant="outlined">
-                        <Box sx={{ p: 2 }}>
-                            <Typography level="h4" sx={{ mb: 2 }}>
+                    {/* Monthly Overview (1/3 width) */}
+                    <div className="md:col-span-1 bg-white dark:bg-zinc-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                        <div className="p-4">
+                            <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2">
                                 Monthly Overview
-                            </Typography>
-                            <Divider />
-                            <Box sx={{ mt: 3, mb: 2 }}>
-                                <Box sx={{ mb: 2 }}>
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                                        <Typography level="body-sm">Income</Typography>
-                                        <Typography level="body-sm" sx={{ color: 'success.500' }}>
-                                            {((totalIncome / (totalIncome + totalExpenses)) * 100).toFixed(0)}%
-                                        </Typography>
-                                    </Box>
-                                    <LinearProgress
-                                        determinate
-                                        size="lg"
-                                        value={(totalIncome / (totalIncome + totalExpenses)) * 100}
-                                        color="success"
-                                    />
-                                </Box>
-                                <Box sx={{ mb: 2 }}>
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                                        <Typography level="body-sm">Expenses</Typography>
-                                        <Typography level="body-sm" sx={{ color: 'danger.500' }}>
-                                            {((totalExpenses / (totalIncome + totalExpenses)) * 100).toFixed(0)}%
-                                        </Typography>
-                                    </Box>
-                                    <LinearProgress
-                                        determinate
-                                        size="lg"
-                                        value={(totalExpenses / (totalIncome + totalExpenses)) * 100}
-                                        color="danger"
-                                    />
-                                </Box>
-                            </Box>
-                        </Box>
-                    </Card>
-                </Box>
+                            </h3>
+                            <div className="h-px w-full bg-gray-200 dark:bg-gray-700"></div>
+                            <div className="mt-3 mb-2">
+                                {/* Income Progress */}
+                                <div className="mb-2">
+                                    <div className="flex justify-between mb-1">
+                                        <p className="text-sm text-gray-600 dark:text-gray-300">Income</p>
+                                        <p className="text-sm text-green-600 dark:text-green-400">
+                                            {((totalIncome / (totalIncome + totalExpenses || 1)) * 100).toFixed(0)}%
+                                        </p>
+                                    </div>
+                                    <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                        <div
+                                            className="h-full bg-green-600 rounded-full"
+                                            style={{ width: `${(totalIncome / (totalIncome + totalExpenses || 1)) * 100}%` }}
+                                        ></div>
+                                    </div>
+                                </div>
+
+                                {/* Expenses Progress */}
+                                <div className="mb-2">
+                                    <div className="flex justify-between mb-1">
+                                        <p className="text-sm text-gray-600 dark:text-gray-300">Expenses</p>
+                                        <p className="text-sm text-red-600 dark:text-red-400">
+                                            {((totalExpenses / (totalIncome + totalExpenses || 1)) * 100).toFixed(0)}%
+                                        </p>
+                                    </div>
+                                    <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                        <div
+                                            className="h-full bg-red-600 rounded-full"
+                                            style={{ width: `${(totalExpenses / (totalIncome + totalExpenses || 1)) * 100}%` }}
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Quick Actions */}
-                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 2 }}>
-                    <Card
-                        variant="outlined"
-                        sx={{
-                            cursor: 'pointer',
-                            '&:hover': { bgcolor: 'background.level1' },
-                        }}
+                <div className="grid xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {/* Statistics Card */}
+                    <div
+                        className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
                         onClick={() => navigate('/budget-buddy/statistics')}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <PieChart size={24} color="#84cc16" />
-                            <Box>
-                                <Typography level="h4">Statistics</Typography>
-                                <Typography level="body-sm" sx={{ color: 'neutral.500' }}>
+                        <div className="flex items-center gap-4">
+                            <PieChart size={24} className="text-lime-500" />
+                            <div>
+                                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">Statistics</h3>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
                                     View detailed insights
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Card>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-                    <Card
-                        variant="outlined"
-                        sx={{
-                            cursor: 'pointer',
-                            '&:hover': { bgcolor: 'background.level1' },
-                        }}
+                    {/* Timeline Card */}
+                    <div
+                        className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
                         onClick={() => navigate('/budget-buddy/timeline')}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <Clock size={24} color="#84cc16" />
-                            <Box>
-                                <Typography level="h4">Timeline</Typography>
-                                <Typography level="body-sm" sx={{ color: 'neutral.500' }}>
+                        <div className="flex items-center gap-4">
+                            <Clock size={24} className="text-lime-500" />
+                            <div>
+                                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">Timeline</h3>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
                                     Track your progress
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Card>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-                    <Card
-                        variant="outlined"
-                        sx={{
-                            cursor: 'pointer',
-                            '&:hover': { bgcolor: 'background.level1' },
-                        }}
+                    {/* Generate Report Card */}
+                    <div
+                        className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
                         onClick={handleDownload}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <Download size={24} color="#84cc16" />
-                            <Box>
-                                <Typography level="h4">Generate Report</Typography>
-                                <Typography level="body-sm" sx={{ color: 'neutral.500' }}>
+                        <div className="flex items-center gap-4">
+                            <Download size={24} className="text-lime-500" />
+                            <div>
+                                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">Generate Report</h3>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
                                     Export transactions as CSV
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Card>
-                </Box>
-            </Box>
-        </Box>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

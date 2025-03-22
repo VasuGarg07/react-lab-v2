@@ -1,6 +1,5 @@
-import { Alert, Box, CircularProgress, Typography } from '@mui/joy';
-import { PieChart, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
 import React from 'react';
+import { PieChart, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
 import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
 import AggregateView from '@/apps/BudgetBuddy/components/AggregateView';
 import BalanceCard from '@/apps/BudgetBuddy/components/BalanceCard';
@@ -17,116 +16,59 @@ const Statistics: React.FC = () => {
 
     if (loading) {
         return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 'calc(100vh - 52px)',
-                    p: 3
-                }}
-            >
-                <CircularProgress
-                    size="lg"
-                    variant="soft"
-                    sx={{
-                        '--CircularProgress-trackColor': 'rgba(132, 204, 22, 0.1)',
-                        '--CircularProgress-progressColor': '#84cc16',
-                    }}
-                />
-            </Box>
+            <div className="flex justify-center items-center h-[calc(100vh-54px)] p-3">
+                <div className="w-12 h-12 relative">
+                    <div className="absolute inset-0 border-4 border-lime-500/20 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-lime-500 rounded-full animate-spin border-t-transparent"></div>
+                </div>
+            </div>
         );
     }
 
     if (error) {
         return (
-            <Box sx={{ p: 3 }}>
-                <Alert
-                    variant="soft"
-                    color="danger"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 2,
-                        boxShadow: 'sm'
-                    }}
-                >
+            <div className="p-3">
+                <div className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg shadow-sm">
                     {error}
-                </Alert>
-            </Box>
+                </div>
+            </div>
         );
     }
 
     return (
-        <Box sx={{ p: 3 }}>
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1.5,
-                    borderBottom: '2px solid',
-                    borderColor: '#84cc16',
-                    pb: 2
-                }}
-            >
-                <PieChart size={28} color="#84cc16" />
-                <Typography
-                    level="h2"
-                    sx={{
-                        fontSize: '1.5rem',
-                        fontWeight: 600,
-                        fontFamily: 'Montserrat',
-                        letterSpacing: 1,
-                        textTransform: 'uppercase'
-                    }}
-                >
+        <div className="p-3">
+            {/* Header */}
+            <div className="flex items-center gap-1.5 border-b-2 border-lime-500 pb-2">
+                <PieChart size={28} className="text-lime-500" />
+                <h2 className="text-2xl font-semibold font-['Montserrat',sans-serif] tracking-wide uppercase text-gray-800 dark:text-gray-100">
                     Statistics
-                </Typography>
-            </Box>
+                </h2>
+            </div>
 
             {/* Stat Cards */}
-            <Box
-                sx={{
-                    display: 'grid',
-                    gridTemplateColumns: {
-                        xs: '1fr',
-                        sm: '1fr 1fr',
-                        md: '1fr 1fr 1fr'
-                    },
-                    gap: 3,
-                    py: 3,
-                }}
-            >
+            <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 py-3">
                 <BalanceCard
                     title="Total Income"
                     amount={totalIncome}
-                    icon={<TrendingUp size={20} color="white" />}
+                    icon={<TrendingUp size={20} className="text-white" />}
                     variant="income"
                 />
                 <BalanceCard
                     title="Total Expenses"
                     amount={totalExpenses}
-                    icon={<TrendingDown size={20} color="white" />}
+                    icon={<TrendingDown size={20} className="text-white" />}
                     variant="expense"
                 />
                 <BalanceCard
                     title="Balance"
                     amount={remainingBalance}
-                    icon={<Wallet size={20} color="white" />}
+                    icon={<Wallet size={20} className="text-white" />}
                     variant="balance"
                 />
-            </Box>
+            </div>
 
-            <Box
-                sx={{
-                    display: 'grid',
-                    gridTemplateColumns: {
-                        xs: '1fr',
-                        sm: '1fr 1fr',
-                    },
-                    gap: 3,
-                }}
-            >
+            {/* Aggregate Views */}
+            <div className="grid xs:grid-cols-1 sm:grid-cols-2 gap-3">
                 <AggregateView
                     transactions={transactions}
                     type="income"
@@ -139,8 +81,8 @@ const Statistics: React.FC = () => {
                     total={totalExpenses}
                     title="Expense Details"
                 />
-            </Box>
-        </Box>
+            </div>
+        </div>
     );
 };
 

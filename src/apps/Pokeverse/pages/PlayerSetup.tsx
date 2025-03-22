@@ -7,6 +7,7 @@ import { useBattleActions } from '@/apps/Pokeverse/context/BattleSimContext';
 import Dark from '/backgrounds/bg-poke-dark.webp';
 import Light from '/backgrounds/bg-poke.png';
 import { cn } from '@/shared/cn';
+import { useTheme } from '@/styles/ThemeProvider';
 
 export const PlayerSetupScreen: React.FC = () => {
     const [player1Name, setPlayer1Name] = useState('');
@@ -14,6 +15,7 @@ export const PlayerSetupScreen: React.FC = () => {
     const [focusedPlayer, setFocusedPlayer] = useState<1 | 2 | null>(null);
     const { setPlayerName } = useBattleActions();
     const navigate = useNavigate();
+    const { theme } = useTheme();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -22,7 +24,7 @@ export const PlayerSetupScreen: React.FC = () => {
         navigate('team-selection');
     };
 
-    const bgImage = `url(${window.matchMedia('(prefers-color-scheme: dark)').matches ? Dark : Light})`;
+    const bgImage = `url(${theme === 'dark' ? Dark : Light})`;
 
     return (
         <div

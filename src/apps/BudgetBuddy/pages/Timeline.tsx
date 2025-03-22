@@ -1,11 +1,6 @@
-import React, { useMemo } from 'react'
-import { useBudget } from '@/apps/BudgetBuddy/BudgetContext'
-import Box from '@mui/joy/Box';
-import CircularProgress from '@mui/joy/CircularProgress';
-import Alert from '@mui/joy/Alert';
-import Typography from '@mui/joy/Typography';
+import React, { useMemo } from 'react';
+import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
 import { BarChart4 } from 'lucide-react';
-import Card from '@mui/joy/Card';
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const Timeline: React.FC = () => {
@@ -30,109 +25,47 @@ const Timeline: React.FC = () => {
         });
     }, [transactions]);
 
-
     if (loading) {
         return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 'calc(100vh - 52px)',
-                    p: 3
-                }}
-            >
-                <CircularProgress
-                    size="lg"
-                    variant="soft"
-                    sx={{
-                        '--CircularProgress-trackColor': 'rgba(132, 204, 22, 0.1)',
-                        '--CircularProgress-progressColor': '#84cc16',
-                    }}
-                />
-            </Box>
+            <div className="flex justify-center items-center h-[calc(100vh-52px)] p-3">
+                <div className="w-12 h-12 relative">
+                    <div className="absolute inset-0 border-4 border-lime-500/20 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-lime-500 rounded-full animate-spin border-t-transparent"></div>
+                </div>
+            </div>
         );
     }
 
     if (error) {
         return (
-            <Box sx={{ p: 3 }}>
-                <Alert
-                    variant="soft"
-                    color="danger"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 2,
-                        boxShadow: 'sm'
-                    }}
-                >
+            <div className="p-3">
+                <div className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg shadow-sm">
                     {error}
-                </Alert>
-            </Box>
+                </div>
+            </div>
         );
     }
 
     if (!transactions.length) {
         return (
-            <Box sx={{ p: 3 }}>
-                <Alert
-                    variant="soft"
-                    color="neutral"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 2,
-                        boxShadow: 'sm'
-                    }}
-                >
+            <div className="p-3">
+                <div className="flex items-center gap-2 p-4 bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-sm">
                     No transactions found. Add some transactions to see your balance timeline.
-                </Alert>
-            </Box>
+                </div>
+            </div>
         );
     }
 
     return (
-        <Box sx={{ p: 3 }}>
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1.5,
-                    borderBottom: '2px solid',
-                    borderColor: '#84cc16',
-                    pb: 2,
-                    mb: 3
-                }}
-            >
-                <BarChart4 size={28} color="#84cc16" />
-                <Typography
-                    level="h2"
-                    sx={{
-                        fontSize: '1.5rem',
-                        fontWeight: 600,
-                        fontFamily: 'Montserrat',
-                        letterSpacing: 1,
-                        textTransform: 'uppercase'
-                    }}
-                >
+        <div className="p-3">
+            <div className="flex items-center gap-1.5 border-b-2 border-lime-500 pb-2 mb-3">
+                <BarChart4 size={28} className="text-lime-500" />
+                <h2 className="text-2xl font-semibold font-['Montserrat',sans-serif] tracking-wide uppercase text-gray-800 dark:text-gray-100">
                     Timeline
-                </Typography>
-            </Box>
+                </h2>
+            </div>
 
-            <Card
-                variant="soft"
-                sx={{
-                    p: 2,
-                    boxShadow: 'md',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    height: '500px', // Fixed height for better consistency
-                    transition: 'box-shadow 0.2s ease',
-                    '&:hover': {
-                        boxShadow: 'lg',
-                    },
-                }}
-            >
+            <div className="p-2 rounded-lg shadow-md bg-white/80 dark:bg-zinc-800/90 h-[500px] transition-shadow duration-200 hover:shadow-lg">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                         data={timelineData}
@@ -140,26 +73,28 @@ const Timeline: React.FC = () => {
                     >
                         <CartesianGrid
                             strokeDasharray="3 3"
-                            stroke="rgba(0,0,0,0.1)"
-                            vertical={false} // Only show horizontal grid lines for cleaner look
+                            stroke="rgba(156, 163, 175, 0.2)" // gray-400 with low opacity
+                            vertical={false}
                         />
                         <XAxis
                             dataKey="date"
-                            stroke="rgba(0,0,0,0.5)"
+                            stroke="rgba(107, 114, 128, 0.7)" // gray-500
                             fontSize={12}
                             tickMargin={8}
-                            tick={{ fill: 'rgba(0,0,0,0.7)' }} // Slightly darker text
+                            tick={{ fill: 'rgba(55, 65, 81, 0.8)' }} // gray-700
+                            className="dark:text-gray-100"
                         />
                         <YAxis
-                            stroke="rgba(0,0,0,0.5)"
+                            stroke="rgba(107, 114, 128, 0.7)" // gray-500
                             fontSize={12}
                             tickFormatter={(value) => `₹${value.toLocaleString()}`}
-                            tick={{ fill: 'rgba(0,0,0,0.7)' }}
+                            tick={{ fill: 'rgba(55, 65, 81, 0.8)' }} // gray-700
+                            className="dark:text-gray-100"
                         />
                         <Tooltip content={<CustomTooltip />} />
                         <ReferenceLine
                             y={0}
-                            stroke="rgba(0,0,0,0.2)"
+                            stroke="rgba(107, 114, 128, 0.3)" // gray-500 with low opacity
                             strokeWidth={1}
                             strokeDasharray="3 3"
                         />
@@ -183,43 +118,29 @@ const Timeline: React.FC = () => {
                         </defs>
                     </LineChart>
                 </ResponsiveContainer>
-            </Card>
-        </Box>
+            </div>
+        </div>
     );
-}
-
-export default Timeline;
+};
 
 const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
         const balance = payload[0].value;
         return (
-            <Card
-                variant="outlined"
-                sx={{
-                    background: 'rgba(255, 255, 255, 0.95)',
-                    border: '1px solid rgba(0, 0, 0, 0.1)',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                    p: 1.5
-                }}
-            >
-                <Typography level="body-sm" fontWeight="bold">
+            <div className="bg-white/95 dark:bg-zinc-800/95 border border-gray-200 dark:border-gray-700 shadow-lg rounded-md p-2.5">
+                <p className="text-sm font-bold text-gray-800 dark:text-gray-200">
                     {label}
-                </Typography>
-                <Typography
-                    level="body-sm"
-                    sx={{
-                        color: balance >= 0 ? '#16a34a' : '#dc2626',
-                        fontWeight: 500
-                    }}
-                >
+                </p>
+                <p className={`text-sm font-medium ${balance >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                     ₹{balance.toLocaleString('en-IN', {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2
                     })}
-                </Typography>
-            </Card>
+                </p>
+            </div>
         );
     }
     return null;
 };
+
+export default Timeline;

@@ -1,28 +1,28 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, Flag, Sword } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { BgCenteredBox } from '@/components/BgCenteredBox';
 import { GameOverModal } from '@/apps/Pokeverse/components/GameOverModal';
 import PokemonBattleCard from '@/apps/Pokeverse/components/PokemonBattleCard';
 import { SwitchPokemonModal } from '@/apps/Pokeverse/components/SwitchPokemonModal';
 import { useBattle, useBattleActions } from '@/apps/Pokeverse/context/BattleSimContext';
 import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronRight, Flag, Sword } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import Dark from '/backgrounds/bg-poke-dark.webp';
 import Light from '/backgrounds/bg-poke.png';
+import { useTheme } from '@/styles/ThemeProvider';
 
 export const BattleScreen = () => {
     const [showSwitchModal, setShowSwitchModal] = useState(false);
     const { state } = useBattle();
     const { selectMove, switchPokemon, forfeit, endTurn } = useBattleActions();
     const navigate = useNavigate();
+    const { theme } = useTheme();
 
     const currentPlayer = state.players[state.currentPlayerTurn];
     const opposingPlayer = state.players[1 - state.currentPlayerTurn];
     const activePokemon = currentPlayer.team[currentPlayer.activePokemon];
     const opposingPokemon = opposingPlayer.team[opposingPlayer.activePokemon];
 
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     const handleMoveSelect = (moveIndex: number) => {
         selectMove(state.currentPlayerTurn, moveIndex);
@@ -43,8 +43,14 @@ export const BattleScreen = () => {
         );
     }
 
+    const bgImage = `url(${theme === 'dark' ? Dark : Light})`;
+
+
     return (
-        <BgCenteredBox bg={isDark ? Dark : Light}>
+        <div
+            className="min-h-screen w-full bg-cover bg-center flex items-center justify-center px-4"
+            style={{ backgroundImage: bgImage }}
+        >
             <div className="w-full space-y-4 py-4 px-2">
                 <div className="flex flex-col gap-6">
                     <AnimatePresence mode="wait">
@@ -138,6 +144,6 @@ export const BattleScreen = () => {
                 onReturnHome={() => navigate('/pokeverse')}
                 onRestart={() => navigate('/pokeverse/battle-sim')}
             />
-        </BgCenteredBox>
+        </div>
     );
 };

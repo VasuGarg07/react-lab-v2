@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { Box, Typography, IconButton, CircularProgress } from "@mui/joy";
-import { Upload, X } from "lucide-react";
-import { CONFIG } from "@/shared/config";
-import { toastService } from "@/shared/toastr";
+import { useState } from 'react';
+import { Upload, X } from 'lucide-react';
+import { CONFIG } from '@/shared/config';
+import { toastService } from '@/shared/toastr';
 
 interface UploadImageProps {
     onUpload: (url: string) => void;
-    onRemove?: () => void;  // Added to handle image removal
-    imageUrl?: string;      // Changed from existingUrl to imageUrl for clarity
-    width?: number;         // Optional width/height props for customization
+    onRemove?: () => void;
+    imageUrl?: string;
+    width?: number;
     height?: number;
 }
 
@@ -17,188 +16,120 @@ const UploadImage = ({
     onRemove,
     imageUrl,
     width = 400,
-    height = 400
+    height = 400,
 }: UploadImageProps) => {
     const [uploading, setUploading] = useState(false);
     const [dragActive, setDragActive] = useState(false);
 
-    const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
+    const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
         if (!file) return;
-
-        // Basic validation
-        if (file.size > 2 * 1024 * 1024) { // 2MB
-            toastService.error("Image size should be less than 2MB");
+        if (file.size > 2 * 1024 * 1024) {
+            toastService.error('Image size should be less than 2MB');
             return;
         }
-
         handleImageUpload(file);
     };
 
     const handleDrag = (e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation();
-
-        if (e.type === "dragenter" || e.type === "dragover") {
-            setDragActive(true);
-        } else if (e.type === "dragleave") {
-            setDragActive(false);
-        }
+        if (e.type === 'dragenter' || e.type === 'dragover') setDragActive(true);
+        else if (e.type === 'dragleave') setDragActive(false);
     };
 
     const handleDrop = (e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation();
         setDragActive(false);
-
         const file = e.dataTransfer.files?.[0];
         if (file && file.type.startsWith('image/')) {
             handleImageUpload(file);
         } else {
-            toastService.error("Please drop an image file");
+            toastService.error('Please drop an image file');
         }
     };
 
-
     const handleImageUpload = async (file: File) => {
         setUploading(true);
-
         const formData = new FormData();
-        formData.append("image", file);
-
+        formData.append('image', file);
         try {
             const response = await fetch(
                 `https://api.imgbb.com/1/upload?key=${CONFIG.IMGBB_API_KEY}`,
                 {
-                    method: "POST",
+                    method: 'POST',
                     body: formData,
                 }
             );
             const data = await response.json();
-
             if (data.success) {
                 onUpload(data.data.url);
             } else {
-                toastService.error("Failed to upload image");
+                toastService.error('Failed to upload image');
             }
-        } catch (error) {
-            toastService.error("Upload failed. Please try again");
+        } catch {
+            toastService.error('Upload failed. Please try again');
         } finally {
             setUploading(false);
         }
     };
 
-    const handleRemove = () => {
-        if (onRemove) {
-            onRemove();
-        }
-    };
-
     return (
-        <Box sx={{ width: width, height: height }}>
-            <Box
-                component="label"
+        <div style={{ width, height }}>
+            <label
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
-                sx={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: '2px dashed',
-                    bgcolor: dragActive ? 'background.level1' : 'transparent',
-                    borderColor: dragActive ? 'primary.500' : 'neutral.outlinedBorder',
-                    borderRadius: 'md',
-                    cursor: 'pointer',
-                    position: 'relative',
-                    transition: 'all 0.2s',
-                    '&:hover': {
-                        borderColor: 'primary.500',
-                        bgcolor: 'background.level1'
-                    }
-                }}
+                className={`relative w-full h-full border-2 border-dashed rounded-md flex items-center justify-center transition-colors cursor-pointer ${dragActive
+                        ? 'border-blue-500 bg-blue-50 dark:bg-zinc-800'
+                        : 'border-gray-300 dark:border-zinc-600'
+                    } hover:border-blue-500`}
             >
                 <input
                     type="file"
                     accept="image/*"
                     onChange={handleImageSelect}
-                    style={{ display: 'none' }}
+                    className="hidden"
                 />
 
                 {imageUrl ? (
-                    // Image view state
-                    <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+                    <div className="relative w-full h-full">
                         <img
                             src={imageUrl}
                             alt="Uploaded"
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                borderRadius: '8px'
-                            }}
+                            className="w-full h-full object-cover rounded-md"
                         />
-                        <IconButton
-                            size="sm"
-                            variant="solid"
-                            color="danger"
+                        <button
                             onClick={(e) => {
                                 e.preventDefault();
-                                handleRemove();
+                                onRemove?.();
                             }}
-                            sx={{
-                                position: 'absolute',
-                                top: 8,
-                                right: 8,
-                            }}
+                            className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-full"
                         >
                             <X size={14} />
-                        </IconButton>
-                    </Box>
+                        </button>
+                    </div>
                 ) : (
-                    // Empty state
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        textAlign: 'center',
-                        gap: 1, p: 2
-                    }}>
-                        <Upload size={24} />
-                        <Typography level="body-sm">
+                    <div className="flex flex-col items-center text-center gap-1 px-4">
+                        <Upload size={24} className="text-gray-500 dark:text-gray-300" />
+                        <p className="text-sm text-gray-700 dark:text-gray-200">
                             Browse photo or drop here
-                        </Typography>
-                        <Typography level="body-xs" color="neutral">
-                            A photo larger than 400 pixels work best. Max photo size 2 MB.
-                        </Typography>
-                    </Box>
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                            A photo larger than 400px works best. Max size 2MB.
+                        </p>
+                    </div>
                 )}
 
                 {uploading && (
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            bgcolor: 'rgba(0, 0, 0, 0.3)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius: 'md'
-                        }}
-                    >
-                        <CircularProgress size="sm" />
-                    </Box>
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center rounded-md">
+                        <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin" />
+                    </div>
                 )}
-            </Box>
-
-        </Box>
+            </label>
+        </div>
     );
 };
 

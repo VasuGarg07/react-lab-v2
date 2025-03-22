@@ -1,15 +1,14 @@
-import { Box, Typography } from "@mui/joy";
-import { File, Loader2, Plus, X } from "lucide-react";
-import { useState } from "react";
-import { CONFIG } from "@/shared/config";
+import { useState } from 'react';
+import { File, Loader2, Plus, X } from 'lucide-react';
+import { CONFIG } from '@/shared/config';
 
 interface FileUploaderProps {
     onUpload: (url: string) => void;
     onRemove?: () => void;
     fileUrl?: string;
     label: string;
-    acceptedTypes?: string;    // e.g. ".pdf,.doc,.docx"
-    helperText?: string;      // e.g. "only pdf"
+    acceptedTypes?: string;
+    helperText?: string;
 }
 
 const FileUploader = ({
@@ -17,42 +16,32 @@ const FileUploader = ({
     onRemove,
     fileUrl,
     label,
-    acceptedTypes = ".pdf",
-    helperText = "only pdf"
+    acceptedTypes = '.pdf',
+    helperText = 'only pdf',
 }: FileUploaderProps) => {
     const [uploading, setUploading] = useState(false);
     const [dragActive, setDragActive] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-
-        handleFileUpload(file);
+    const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) handleFileUpload(file);
     };
 
     const handleDrag = (e: React.DragEvent) => {
         e.preventDefault();
-        e.stopPropagation();
-
-        if (e.type === "dragenter" || e.type === "dragover") {
-            setDragActive(true);
-        } else if (e.type === "dragleave") {
-            setDragActive(false);
-        }
+        if (e.type === 'dragenter' || e.type === 'dragover') setDragActive(true);
+        if (e.type === 'dragleave') setDragActive(false);
     };
 
-    const handleDrop = async (e: React.DragEvent) => {
+    const handleDrop = (e: React.DragEvent) => {
         e.preventDefault();
-        e.stopPropagation();
         setDragActive(false);
-
         const file = e.dataTransfer.files?.[0];
         if (!file) return;
 
-        // Check if file type matches accepted types
-        const fileExtension = `.${file.name.split('.').pop()?.toLowerCase()}`;
-        if (!acceptedTypes.includes(fileExtension)) {
+        const ext = `.${file.name.split('.').pop()?.toLowerCase()}`;
+        if (!acceptedTypes.includes(ext)) {
             setError(`Invalid file type. Please upload ${helperText}`);
             return;
         }
@@ -63,27 +52,21 @@ const FileUploader = ({
     const handleFileUpload = async (file: File) => {
         setUploading(true);
         setError(null);
-
         try {
-            // Replace this with your Uploadcare API implementation
             const formData = new FormData();
             formData.append('file', file);
             formData.append('UPLOADCARE_PUB_KEY', CONFIG.UPLOADCARE_PUBLIC_KEY);
 
-            const response = await fetch('https://upload.uploadcare.com/base/', {
+            const res = await fetch('https://upload.uploadcare.com/base/', {
                 method: 'POST',
-                body: formData
+                body: formData,
             });
 
-            const data = await response.json();
-
-            if (data.file) {
-                onUpload(`https://ucarecdn.com/${data.file}/`);
-            } else {
-                throw new Error('Upload failed');
-            }
-        } catch (error) {
-            console.error('File upload error:', error);
+            const data = await res.json();
+            if (data.file) onUpload(`https://ucarecdn.com/${data.file}/`);
+            else throw new Error('Upload failed');
+        } catch (err) {
+            console.error(err);
             setError('Failed to upload file. Please try again.');
         } finally {
             setUploading(false);
@@ -92,34 +75,17 @@ const FileUploader = ({
 
     const handleRemove = (e: React.MouseEvent) => {
         e.preventDefault();
-        e.stopPropagation();
-        if (onRemove) {
-            onRemove();
-        }
+        onRemove?.();
     };
 
-    const getFileName = (url: string) => {
-        // Extract filename from URL or return truncated URL
-        const segments = url.split('/');
-        return segments[segments.length - 1] || url;
-    };
+    const getFileName = (url: string) => url.split('/').pop() || url;
 
     return (
-        <Box
-            component="label"
-            sx={{
-                width: '100%',
-                cursor: 'pointer',
-                borderRadius: 'md',
-                border: '1px dashed',
-                borderColor: dragActive ? 'primary.500' : 'neutral.outlinedBorder',
-                bgcolor: dragActive ? 'background.level1' : 'transparent',
-                transition: 'all 0.2s',
-                '&:hover': {
-                    borderColor: 'primary.500',
-                    bgcolor: 'background.level1'
-                }
-            }}
+        <label
+            className={`block w-full border-2 border-dashed rounded-md transition-all cursor-pointer ${dragActive
+                    ? 'border-blue-500 bg-blue-50 dark:bg-zinc-800'
+                    : 'border-gray-300 dark:border-zinc-600'
+                } hover:border-blue-500`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
@@ -129,61 +95,36 @@ const FileUploader = ({
                 type="file"
                 accept={acceptedTypes}
                 onChange={handleFileSelect}
-                style={{ display: 'none' }}
+                className="hidden"
             />
 
-            <Box sx={{
-                p: 2,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5
-            }}>
+            <div className="flex items-center gap-3 px-4 py-3">
                 {fileUrl ? (
                     <>
-                        <File size={20} />
-                        <Typography level="body-sm" sx={{ flex: 1 }}>
-                            {getFileName(fileUrl)}
-                        </Typography>
-                        <Box
-                            component="button"
-                            onClick={handleRemove}
-                            sx={{
-                                border: 'none',
-                                background: 'none',
-                                cursor: 'pointer',
-                                p: 0,
-                                display: 'flex'
-                            }}
-                        >
+                        <File className="text-gray-600 dark:text-gray-300" size={20} />
+                        <p className="text-sm truncate flex-1 dark:text-white">{getFileName(fileUrl)}</p>
+                        <button onClick={handleRemove} className="text-red-500 hover:text-red-700">
                             <X size={20} />
-                        </Box>
+                        </button>
                     </>
                 ) : (
                     <>
-                        <Plus size={20} />
-                        <Box sx={{ flex: 1 }}>
-                            <Typography level="body-sm">
-                                {label}
-                            </Typography>
-                            <Typography level="body-xs" color="neutral">
+                        <Plus className="text-gray-500 dark:text-gray-300" size={20} />
+                        <div className="flex-1">
+                            <p className="text-sm font-medium text-gray-700 dark:text-gray-200">{label}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
                                 Browse file or drop here, {helperText}
-                            </Typography>
-                        </Box>
-                        {uploading && <Loader2 size={20} className="animate-spin" />}
+                            </p>
+                        </div>
+                        {uploading && <Loader2 size={20} className="animate-spin text-blue-500" />}
                     </>
                 )}
-            </Box>
+            </div>
 
             {error && (
-                <Typography
-                    level="body-sm"
-                    color="danger"
-                    sx={{ mt: 1, px: 2, pb: 2 }}
-                >
-                    {error}
-                </Typography>
+                <p className="text-sm text-red-500 px-4 pb-2">{error}</p>
             )}
-        </Box>
+        </label>
     );
 };
 
