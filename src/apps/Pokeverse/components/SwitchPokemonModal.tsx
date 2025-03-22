@@ -1,10 +1,9 @@
-import React from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Heart, X, Zap } from 'lucide-react';
 import { BattlePokemon } from '@/apps/Pokeverse/helpers/battle.types';
 import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
 import { getOfficialImage } from '@/apps/Pokeverse/helpers/utilities';
-import Dialog from '@/ui/Dialog';
 
 interface SwitchPokemonModalProps {
     open: boolean;
@@ -14,113 +13,111 @@ interface SwitchPokemonModalProps {
     onSwitch: (index: number) => void;
 }
 
-export const SwitchPokemonModal: React.FC<SwitchPokemonModalProps> = ({
+export const SwitchPokemonModal = ({
     open,
     onClose,
     activePokemonIndex,
     team,
-    onSwitch
-}) => {
+    onSwitch,
+}: SwitchPokemonModalProps) => {
     return (
-        <Dialog
-            isOpen={open}
-            onClose={onClose}
-            position="center"
-            size="xl"
-            showCloseButton={false}
-            contentClassName="p-0"
-        >
-            <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-6 relative w-full overflow-hidden text-neutral-900 dark:text-neutral-100"
-            >
-                <div className="flex items-center mb-1">
-                    <h3 className="text-xl font-bold flex-1">Choose Pokemon</h3>
-                    <button
-                        onClick={onClose}
-                        className="ml-1 p-1 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+        <Dialog.Root open={open} onOpenChange={(v) => !v && onClose()}>
+            <Dialog.Portal>
+                <Dialog.Overlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />
+
+                <Dialog.Content asChild>
+                    <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.9, opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center"
                     >
-                        <X className="w-5 h-5" />
-                    </button>
-                </div>
-
-                <div className="h-px w-full bg-neutral-200 dark:bg-neutral-700 mb-4" />
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-                    <AnimatePresence mode="popLayout">
-                        {team.map((pokemon, index) => (
-                            <motion.div
-                                key={pokemon.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                transition={{
-                                    duration: 0.2,
-                                    delay: index * 0.05
-                                }}
-                            >
-                                <div
-                                    className={`border rounded-md overflow-hidden h-full transition-all duration-300 relative ${pokemon.currentHP <= 0 ? 'opacity-50' : 'opacity-100'
-                                        } ${pokemon.currentHP > 0 && index !== activePokemonIndex
-                                            ? 'hover:translate-y-[-8px] hover:shadow-md hover:border-blue-500'
-                                            : ''
-                                        } ${index === activePokemonIndex
-                                            ? 'bg-neutral-100 dark:bg-neutral-700'
-                                            : 'bg-white dark:bg-neutral-800'
-                                        }`}
-                                >
+                        <div className="bg-white dark:bg-zinc-900 rounded-lg max-w-6xl w-[calc(100%-64px)] p-6 relative shadow-xl">
+                            {/* Header */}
+                            <div className="flex items-center mb-4">
+                                <Dialog.Title className="text-xl font-bold flex-1 text-gray-800 dark:text-gray-100">
+                                    Choose Pokémon
+                                </Dialog.Title>
+                                <Dialog.Close asChild>
                                     <button
-                                        disabled={index === activePokemonIndex || pokemon.currentHP <= 0}
-                                        onClick={() => onSwitch(index)}
-                                        className="flex flex-col w-full h-full p-2 text-left disabled:cursor-not-allowed hover:bg-neutral-50 dark:hover:bg-neutral-700/50 disabled:hover:bg-transparent transition-colors"
+                                        className="ml-2 p-2 rounded hover:bg-gray-100 dark:hover:bg-zinc-700 transition"
+                                        aria-label="Close"
                                     >
-                                        <div className="relative flex justify-center overflow-hidden rounded-sm">
-                                            <img
-                                                className="w-full h-full object-contain transition-transform duration-300 hover:scale-110"
-                                                src={getOfficialImage(pokemon.id)}
-                                                alt={pokemon.name}
-                                            />
-                                            {index === activePokemonIndex && (
-                                                <div
-                                                    className="absolute top-0 right-0 px-2 py-1 bg-yellow-500 text-white text-xs rounded flex items-center gap-1"
-                                                >
-                                                    <Zap size={14} />
-                                                    Active
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <h4 className="text-lg font-semibold capitalize mt-2">
-                                            {pokemon.name}
-                                        </h4>
-
-                                        <div className="flex items-center gap-1 mt-1">
-                                            {pokemon.types.map(type => (
-                                                <span
-                                                    key={type}
-                                                    className="px-2 py-0.5 text-xs text-white rounded capitalize"
-                                                    style={{ backgroundColor: TYPE_COLORS[type] }}
-                                                >
-                                                    {type}
-                                                </span>
-                                            ))}
-                                            <Heart size={16} className="text-red-500 ml-1" />
-                                            <span className={`text-sm ${pokemon.currentHP < pokemon.maxHP * 0.3
-                                                ? 'text-red-500 dark:text-red-400'
-                                                : ''
-                                                }`}>
-                                                {pokemon.currentHP}/{pokemon.maxHP}
-                                            </span>
-                                        </div>
+                                        <X />
                                     </button>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </div>
-            </motion.div>
-        </Dialog>
+                                </Dialog.Close>
+                            </div>
+
+                            <div className="border-b border-gray-300 dark:border-zinc-700 mb-4" />
+
+                            <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                <AnimatePresence mode="popLayout">
+                                    {team.map((pokemon, index) => (
+                                        <motion.div
+                                            key={pokemon.id}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -20 }}
+                                            transition={{ duration: 0.2, delay: index * 0.05 }}
+                                            className={
+                                                pokemon.currentHP <= 0 ? 'opacity-50' : 'hover:-translate-y-2 transition-transform'
+                                            }
+                                        >
+                                            <button
+                                                onClick={() => onSwitch(index)}
+                                                disabled={index === activePokemonIndex || pokemon.currentHP <= 0}
+                                                className={`w-full h-full bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-xl p-3 flex flex-col items-center transition-all duration-300 ${index === activePokemonIndex ? 'bg-zinc-200 dark:bg-zinc-700' : ''
+                                                    }`}
+                                            >
+                                                {/* Image & Status */}
+                                                <div className="relative w-full flex justify-center mb-2">
+                                                    <img
+                                                        src={getOfficialImage(pokemon.id)}
+                                                        alt={pokemon.name}
+                                                        className="object-contain w-28 h-28 transition-transform duration-300 group-hover:scale-105"
+                                                    />
+                                                    {index === activePokemonIndex && (
+                                                        <div className="absolute top-1 right-1 bg-yellow-400 text-white text-xs px-2 py-0.5 rounded shadow flex items-center gap-1">
+                                                            <Zap size={14} /> Active
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                {/* Name */}
+                                                <h4 className="capitalize font-semibold text-gray-800 dark:text-white text-lg mb-1">
+                                                    {pokemon.name}
+                                                </h4>
+
+                                                {/* Type + HP */}
+                                                <div className="flex items-center gap-2 flex-wrap justify-center">
+                                                    {pokemon.types.map((type) => (
+                                                        <span
+                                                            key={type}
+                                                            className="text-white text-xs px-2 py-0.5 rounded"
+                                                            style={{ backgroundColor: TYPE_COLORS[type] }}
+                                                        >
+                                                            {type}
+                                                        </span>
+                                                    ))}
+                                                    <Heart size={16} className="text-red-500" />
+                                                    <span
+                                                        className={`text-sm font-medium ${pokemon.currentHP < pokemon.maxHP * 0.3
+                                                            ? 'text-red-600'
+                                                            : 'text-gray-800 dark:text-gray-100'
+                                                            }`}
+                                                    >
+                                                        {pokemon.currentHP}/{pokemon.maxHP}
+                                                    </span>
+                                                </div>
+                                            </button>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </div>
+                        </div>
+                    </motion.div>
+                </Dialog.Content>
+            </Dialog.Portal>
+        </Dialog.Root>
     );
 };

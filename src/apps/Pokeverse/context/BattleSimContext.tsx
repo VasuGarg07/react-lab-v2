@@ -215,7 +215,6 @@ const executeAction = (
 
 const battleReducer = (state: BattleState, action: BattleAction): BattleState => {
     const newState = executeAction(action, state);
-    console.log('Action:', action.type, 'State:', newState); // Helpful for debugging
     return newState;
 };
 

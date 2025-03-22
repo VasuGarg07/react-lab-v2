@@ -1,5 +1,3 @@
-import { Box, Button, CircularProgress, Container, Grid, Sheet, Stack, Typography, useColorScheme } from '@mui/joy';
-import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Loader, Swords, Users } from 'lucide-react';
 import { useState } from 'react';
@@ -13,6 +11,9 @@ import { PokemonDetail } from '@/apps/Pokeverse/helpers/response.types';
 import { BattleSimUtils, DexUtils, getIdFromUrl } from '@/apps/Pokeverse/helpers/utilities';
 import useCacheApi from '@/apps/Pokeverse/hooks/useCacheApi';
 import { scrollToTop } from '@/shared/utilities';
+import { cn } from '@/shared/cn';
+import axios from 'axios';
+import AppBackground from '@/components/AppBackground';
 
 interface PokemonListItem {
     name: string;
@@ -43,7 +44,6 @@ export const TeamSelectionScreen = () => {
     const { addPokemonToTeam, startBattle } = useBattleActions();
     const { getPokemonById } = usePokedex();
     const navigate = useNavigate();
-    const { mode } = useColorScheme();
 
     const { data, loading, error } = useCacheApi<PokemonListResponse>(
         `${BASE_API}pokemon?limit=1015`,
@@ -52,14 +52,13 @@ export const TeamSelectionScreen = () => {
 
     const fetchMoveDetails = async (moveUrl: string): Promise<Move> => {
         const moveData: MoveApiResponse = (await axios(moveUrl)).data;
-
         return {
             id: moveData.id,
             name: moveData.name,
             type: moveData.type.name,
             power: moveData.power || 50,
             accuracy: moveData.accuracy || 100,
-            category: moveData.damage_class.name === 'physical' ? 'Physical' : 'Special'
+            category: moveData.damage_class.name === 'physical' ? 'Physical' : 'Special',
         };
     };
 
@@ -71,30 +70,24 @@ export const TeamSelectionScreen = () => {
             DexUtils.updateDetails(cachedPokemon, details);
         }
 
-        // Get the first 4 moves and fetch their details
         const movePromises = cachedPokemon.moves
             .sort(() => Math.random() - 0.5)
             .slice(0, 4)
-            .map(m => fetchMoveDetails(m.url));
+            .map((m) => fetchMoveDetails(m.url));
         const moves = await Promise.all(movePromises);
 
         return BattleSimUtils.formatPokemonData(cachedPokemon, moves);
     };
 
     const handlePokemonSelect = (id: number) => {
-        if (currentPlayer === 1) {
-            if (selectedPokemon1.includes(id)) {
-                setSelectedPokemon1(prev => prev.filter(p => p !== id));
-            } else if (selectedPokemon1.length < 6) {
-                setSelectedPokemon1(prev => [...prev, id]);
-            }
-        } else {
-            if (selectedPokemon2.includes(id)) {
-                setSelectedPokemon2(prev => prev.filter(p => p !== id));
-            } else if (selectedPokemon2.length < 6) {
-                setSelectedPokemon2(prev => [...prev, id]);
-            }
-        }
+        const [selected, setSelected] =
+            currentPlayer === 1
+                ? [selectedPokemon1, setSelectedPokemon1]
+                : [selectedPokemon2, setSelectedPokemon2];
+
+        setSelected((prev) =>
+            prev.includes(id) ? prev.filter((p) => p !== id) : prev.length < 6 ? [...prev, id] : prev
+        );
     };
 
     const handleConfirmTeam = async () => {
@@ -104,7 +97,6 @@ export const TeamSelectionScreen = () => {
         } else if (currentPlayer === 2 && selectedPokemon2.length > 0) {
             setIsLoadingDetails(true);
             try {
-                // Fetch details for Player 1's Pokemon
                 for (const id of selectedPokemon1) {
                     const pokemon = data?.results[id - 1];
                     if (pokemon) {
@@ -124,8 +116,8 @@ export const TeamSelectionScreen = () => {
 
                 startBattle();
                 navigate('/pokeverse/battle-sim/battle');
-            } catch (error) {
-                console.error('Error fetching Pokemon details:', error);
+            } catch (err) {
+                console.error('Error fetching Pokémon:', err);
             } finally {
                 setIsLoadingDetails(false);
             }
@@ -139,159 +131,111 @@ export const TeamSelectionScreen = () => {
 
     if (error) {
         return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    minHeight: 'calc(100vh - 52px)',
-                    gap: 2,
-                    p: 4,
-                    background: 'linear-gradient(135deg, #ff4b4b, #ffa64b)',
-                }}
-            >
-                <Typography level="h4">
-                    Error loading Pokémon
-                </Typography>
-                <Typography>{error.message}</Typography>
-            </Box>
+            <div className="min-h-[calc(100vh-54px)] flex flex-col items-center justify-center bg-gradient-to-br from-red-500 to-orange-400 text-white px-4 text-center">
+                <h2 className="text-2xl font-bold mb-2">Error loading Pokémon</h2>
+                <p>{error.message}</p>
+            </div>
         );
     }
 
     return (
-        <Box
-            component={motion.div}
+        <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            sx={{
-                minHeight: 'calc(100vh - 52px)',
-                p: 2,
-                background: mode === 'dark'
-                    ? 'linear-gradient(135deg, #323232 0%, #121212 100%)'
-                    : 'linear-gradient(to top, #eef1f5 0%, #f5f7fa 100%)',
-                position: 'relative',
-            }}
+            className="min-h-[calc(100vh-54px)] w-full relative overflow-hidden px-4 py-6"
         >
-            <Container maxWidth="lg">
-                <Stack spacing={4}>
-                    <Sheet
-                        variant="outlined"
-                        sx={{
-                            p: 2,
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            borderRadius: 'lg',
-                            background: (theme) => `linear-gradient(145deg, ${theme.palette.background.surface}, ${theme.palette.background.level1})`,
-                            boxShadow: '0px 4px 15px rgba(0,0,0,0.2)',
-                        }}
-                    >
-                        <Stack direction="row" spacing={2} alignItems="center">
-                            <Users size={24} />
-                            <Typography
-                                level="h4"
-                                sx={{ color: currentPlayer === 1 ? 'primary' : 'danger' }}
-                            >
-                                {currentPlayer === 1 ? state.players[0].name : state.players[1].name}'s Team
-                                Selection
-                            </Typography>
-                        </Stack>
-                        <Typography level="body-lg">
-                            Selected: {currentPlayer === 1 ? selectedPokemon1.length : selectedPokemon2.length}/6
-                        </Typography>
-                    </Sheet>
+            <AppBackground />
+            <div className="max-w-7xl mx-auto space-y-6 relative">
+                <div className="flex justify-between items-center px-4 py-4 rounded-xl bg-white dark:bg-zinc-900 shadow-md">
+                    <div className="flex items-center gap-3">
+                        <Users className="text-gray-800 dark:text-white" />
+                        <h3
+                            className={cn(
+                                'text-xl font-semibold transition-colors',
+                                currentPlayer === 1
+                                    ? 'text-blue-600 dark:text-blue-400'
+                                    : 'text-red-600 dark:text-red-400'
+                            )}
+                        >
+                            {currentPlayer === 1 ? state.players[0].name : state.players[1].name}'s Team Selection
+                        </h3>
+                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                        Selected: {(currentPlayer === 1 ? selectedPokemon1 : selectedPokemon2).length}/6
+                    </p>
+                </div>
 
-                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                <div className="flex flex-wrap justify-center items-center gap-4 flex-col sm:flex-row sm:justify-between">
+                    <div className="flex flex-wrap gap-2">
                         {REGION_DATA.map((region) => (
-                            <Button
+                            <button
                                 key={region.name}
-                                size="md"
-                                variant={selectedRegion.name === region.name ? 'solid' : 'soft'}
-                                color={currentPlayer === 1 ? 'primary' : 'danger'}
                                 onClick={() => setSelectedRegion(region)}
-                                sx={{
-                                    textTransform: 'uppercase',
-                                    borderRadius: 'md',
-                                    boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-                                    transition: 'transform 0.3s ease',
-                                    '&:hover': {
-                                        transform: 'scale(1.05)',
-                                    },
-                                }}
+                                className={cn(
+                                    'px-4 py-2 rounded-md text-xs font-medium uppercase shadow-sm transition-all',
+                                    selectedRegion.name === region.name
+                                        ? currentPlayer === 1
+                                            ? 'bg-blue-600 text-white'
+                                            : 'bg-red-600 text-white'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-zinc-700 dark:text-gray-300 dark:hover:bg-zinc-600'
+                                )}
                             >
                                 {region.name}
-                            </Button>
+                            </button>
                         ))}
-                    </Box>
+                    </div>
 
-                    {(loading || isLoadingDetails) ? (
-                        <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
-                            <Stack spacing={2} alignItems="center">
-                                <CircularProgress size="lg" />
-                                {isLoadingDetails && (
-                                    <Typography level="body-sm">
-                                        Loading Pokémon details and moves...
-                                    </Typography>
-                                )}
-                            </Stack>
-                        </Box>
-                    ) : (
-                        <Grid container spacing={2}>
-                            {filteredPokemon?.map((pokemon) => {
-                                const id = getIdFromUrl(pokemon.url);
-                                return (
-                                    <Grid xs={6} sm={4} md={3} lg={2} key={id}>
-                                        <PokemonSelectionCard
-                                            id={id}
-                                            name={pokemon.name}
-                                            isSelected={
-                                                currentPlayer === 1
-                                                    ? selectedPokemon1.includes(id)
-                                                    : selectedPokemon2.includes(id)
-                                            }
-                                            isPlayer1={currentPlayer === 1}
-                                            onClick={() => handlePokemonSelect(id)}
-                                        />
-                                    </Grid>
-                                );
-                            })}
-                        </Grid>
-                    )}
-                </Stack>
-            </Container>
+                    <button
+                        disabled={
+                            (currentPlayer === 1 && selectedPokemon1.length === 0) ||
+                            (currentPlayer === 2 && selectedPokemon2.length === 0) ||
+                            isLoadingDetails
+                        }
+                        onClick={handleConfirmTeam}
+                        className={cn(
+                            'mt-2 sm:mt-0 flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold shadow-md transition-all min-w-[200px]',
+                            currentPlayer === 1
+                                ? 'bg-blue-600 hover:bg-blue-700'
+                                : 'bg-red-600 hover:bg-red-700',
+                            'disabled:opacity-50 disabled:cursor-not-allowed'
+                        )}
+                    >
+                        {isLoadingDetails ? <Loader className="w-5 h-5 animate-spin" /> : <Swords />}
+                        {currentPlayer === 1 ? 'Confirm Player 1 Team' : 'Start Battle'}
+                    </button>
+                </div>
 
-            <Box
-                sx={{
-                    width: '100%',
-                    p: 2,
-                    display: 'flex',
-                    justifyContent: 'center',
-                }}
-            >
-                <Button
-                    size="lg"
-                    color={currentPlayer === 1 ? 'primary' : 'danger'}
-                    onClick={handleConfirmTeam}
-                    disabled={
-                        (currentPlayer === 1 && selectedPokemon1.length === 0) ||
-                        (currentPlayer === 2 && selectedPokemon2.length === 0) ||
-                        isLoadingDetails
-                    }
-                    endDecorator={isLoadingDetails ? <Loader className="animate-spin" /> : <Swords />}
-                    sx={{
-                        minWidth: '200px',
-                        padding: '12px 24px',
-                        boxShadow: '0px 6px 20px rgba(0,0,0,0.2)',
-                        '&:hover': {
-                            boxShadow: '0px 8px 25px rgba(0,0,0,0.3)',
-                        },
-                    }}
-                >
-                    {currentPlayer === 1 ? 'Confirm Player 1 Team' : 'Start Battle'}
-                </Button>
-            </Box>
-        </Box>
+
+                {loading || isLoadingDetails ? (
+                    <div className="flex justify-center py-10">
+                        <div className="flex flex-col items-center gap-3 text-gray-700 dark:text-gray-300">
+                            <div className="w-10 h-10 border-4 border-blue-400 border-t-transparent rounded-full animate-spin" />
+                            {isLoadingDetails && <p className="text-sm">Loading Pokémon details and moves...</p>}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        {filteredPokemon?.map((pokemon) => {
+                            const id = getIdFromUrl(pokemon.url);
+                            return (
+                                <PokemonSelectionCard
+                                    key={id}
+                                    id={id}
+                                    name={pokemon.name}
+                                    isSelected={
+                                        currentPlayer === 1
+                                            ? selectedPokemon1.includes(id)
+                                            : selectedPokemon2.includes(id)
+                                    }
+                                    isPlayer1={currentPlayer === 1}
+                                    onClick={() => handlePokemonSelect(id)}
+                                />
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+        </motion.div>
     );
 };

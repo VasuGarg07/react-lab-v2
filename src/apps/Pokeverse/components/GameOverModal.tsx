@@ -21,10 +21,10 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({
             isOpen={open}
             onClose={() => { }}
             position="center"
-            size="sm"
+            size="lg"
             showCloseButton={false}
             closeOnClickOutside={false}
-            contentClassName="p-0 overflow-hidden max-w-md mx-auto"
+            contentClassName="p-0 overflow-hidden w-md mx-auto"
         >
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}

@@ -1,5 +1,4 @@
-import { Box, Button, CircularProgress, Sheet, Stack, Typography, useTheme } from '@mui/joy';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Flag, Sword } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -17,13 +16,13 @@ export const BattleScreen = () => {
     const { state } = useBattle();
     const { selectMove, switchPokemon, forfeit, endTurn } = useBattleActions();
     const navigate = useNavigate();
-    const theme = useTheme();
-    const isDark = theme.palette.mode === 'dark';
 
     const currentPlayer = state.players[state.currentPlayerTurn];
     const opposingPlayer = state.players[1 - state.currentPlayerTurn];
     const activePokemon = currentPlayer.team[currentPlayer.activePokemon];
     const opposingPokemon = opposingPlayer.team[opposingPlayer.activePokemon];
+
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     const handleMoveSelect = (moveIndex: number) => {
         selectMove(state.currentPlayerTurn, moveIndex);
@@ -38,16 +37,16 @@ export const BattleScreen = () => {
 
     if (!activePokemon || !opposingPokemon) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                <CircularProgress size="lg" />
-            </Box>
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="w-10 h-10 border-4 border-blue-400 border-t-transparent rounded-full animate-spin" />
+            </div>
         );
     }
 
     return (
         <BgCenteredBox bg={isDark ? Dark : Light}>
-            <Box width={1}>
-                <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 3, my: 2 }}>
+            <div className="w-full space-y-4 py-4 px-2">
+                <div className="flex flex-col gap-6">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={`opponent-${opposingPokemon.id}`}
@@ -69,198 +68,61 @@ export const BattleScreen = () => {
                             <PokemonBattleCard pokemon={activePokemon} />
                         </motion.div>
                     </AnimatePresence>
-                </Box>
+                </div>
 
-                <Sheet
-                    variant="outlined"
-                    sx={{
-                        p: 1.5,
-                        borderRadius: 'xl',
-                        background: theme.vars.palette.background.surface,
-                        borderColor: 'neutral.outlinedBorder',
-                        position: 'relative',
-                        overflow: 'hidden'
-                    }}
-                >
-                    <Stack direction="row" spacing={1.5}>
-                        {/* Moves Section */}
-                        <Box sx={{ flex: 1 }}>
-                            <Box
-                                sx={{
-                                    display: 'grid',
-                                    gridTemplateColumns: 'repeat(2, 1fr)',
-                                    gap: 1
-                                }}
-                            >
-                                {activePokemon.selectedMoves.map((move, index) => (
-                                    <Button
-                                        key={move.id}
-                                        size="md"
-                                        variant="soft"
-                                        onClick={() => handleMoveSelect(index)}
-                                        disabled={currentPlayer.hasActed || state.phase === 'ENDED'}
-                                        sx={{
-                                            bgcolor: `${TYPE_COLORS[move.type]}40`,
-                                            color: theme.vars.palette.background.surface,
-                                            borderRadius: 'md',
-                                            p: 1.5,
-                                            height: '80px',
-                                            transition: 'all 0.2s',
-                                            position: 'relative',
-                                            overflow: 'hidden',
-                                            background: `linear-gradient(135deg, ${TYPE_COLORS[move.type]}40, ${TYPE_COLORS[move.type]}60)`,
-                                            border: '1px solid',
-                                            borderColor: `${TYPE_COLORS[move.type]}70`,
-                                            '&:hover': {
-                                                bgcolor: `${TYPE_COLORS[move.type]}50`,
-                                                transform: 'translateY(-2px)',
-                                                '& .move-icon': {
-                                                    transform: 'rotate(15deg) scale(1.1)'
-                                                }
-                                            },
-                                            '&:disabled': {
-                                                opacity: 0.5,
-                                                transform: 'none'
-                                            }
-                                        }}
-                                    >
-                                        {/* Background Icon */}
-                                        <Box sx={{
-                                            position: 'absolute',
-                                            right: -15,
-                                            top: -15,
-                                            opacity: 0.15,
-                                            color: 'white'
-                                        }}>
-                                            <Sword
-                                                size={80}
-                                                className="move-icon"
-                                                style={{
-                                                    transition: 'transform 0.3s ease'
-                                                }}
-                                            />
-                                        </Box>
+                <div className="rounded-xl border border-gray-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-800/70 p-4 backdrop-blur">
+                    <div className="flex gap-4">
+                        {/* Move buttons */}
+                        <div className="grid grid-cols-2 gap-3 flex-1">
+                            {activePokemon.selectedMoves.map((move, index) => (
+                                <button
+                                    key={move.id}
+                                    onClick={() => handleMoveSelect(index)}
+                                    disabled={currentPlayer.hasActed || state.phase === 'ENDED'}
+                                    className="relative p-3 h-20 rounded-lg border text-white font-bold flex items-center gap-3 transition-all hover:-translate-y-1 disabled:opacity-50"
+                                    style={{
+                                        background: `linear-gradient(135deg, ${TYPE_COLORS[move.type]}40, ${TYPE_COLORS[move.type]}60)`,
+                                        borderColor: `${TYPE_COLORS[move.type]}70`,
+                                    }}
+                                >
+                                    <div className="absolute right-[-15px] top-[-15px] opacity-20">
+                                        <Sword size={80} className="move-icon transition-transform" />
+                                    </div>
+                                    <div className="bg-white/20 rounded-full p-2">
+                                        <Sword size={20} />
+                                    </div>
+                                    <div className="text-left">
+                                        <div className="capitalize text-base leading-tight text-white drop-shadow">{move.name}</div>
+                                        <div className="text-xs bg-black/30 rounded px-2 py-0.5 mt-1 inline-block text-white font-semibold">
+                                            PWR {move.power}
+                                        </div>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
 
-                                        {/* Move Content */}
-                                        <Stack
-                                            direction="row"
-                                            spacing={1.5}
-                                            sx={{
-                                                width: '100%',
-                                                alignItems: 'center',
-                                                zIndex: 1
-                                            }}
-                                        >
-                                            {/* Main Move Icon */}
-                                            <Box
-                                                sx={{
-                                                    bgcolor: 'rgba(255,255,255,0.2)',
-                                                    borderRadius: '50%',
-                                                    p: 0.8,
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center'
-                                                }}
-                                            >
-                                                <Sword size={24} style={{ color: 'white' }} />
-                                            </Box>
-
-                                            {/* Move Info */}
-                                            <Stack spacing={0.5} alignItems="flex-start" sx={{ flex: 1 }}>
-                                                <Typography
-                                                    sx={{
-                                                        textTransform: 'capitalize',
-                                                        fontWeight: 700,
-                                                        fontSize: '1rem',
-                                                        lineHeight: 1.2,
-                                                        color: 'white',
-                                                        textShadow: '0 1px 2px rgba(0,0,0,0.2)'
-                                                    }}
-                                                >
-                                                    {move.name}
-                                                </Typography>
-                                                <Stack
-                                                    direction="row"
-                                                    spacing={0.5}
-                                                    alignItems="center"
-                                                    sx={{
-                                                        bgcolor: 'rgba(0,0,0,0.2)',
-                                                        borderRadius: 'sm',
-                                                        px: 1,
-                                                        py: 0.2
-                                                    }}
-                                                >
-                                                    <Typography
-                                                        level="body-sm"
-                                                        sx={{
-                                                            fontSize: '0.85rem',
-                                                            color: 'white',
-                                                            opacity: 0.9,
-                                                            fontWeight: 600,
-                                                            textShadow: '0 1px 2px rgba(0,0,0,0.2)'
-                                                        }}
-                                                    >
-                                                        PWR {move.power}
-                                                    </Typography>
-                                                </Stack>
-                                            </Stack>
-                                        </Stack>
-                                    </Button>
-                                ))}
-                            </Box>
-                        </Box>
-
-                        {/* Controls Section */}
-                        <Stack spacing={1} sx={{ width: '110px' }}>
-                            <Button
-                                variant="outlined"
-                                color="neutral"
+                        {/* Controls */}
+                        <div className="flex flex-col justify-between w-[110px] gap-2">
+                            <button
                                 onClick={() => setShowSwitchModal(true)}
                                 disabled={state.phase === 'ENDED'}
-                                sx={{
-                                    flexDirection: 'column',
-                                    gap: 0.5,
-                                    height: '80px',
-                                    px: 1,
-                                    borderWidth: 2,
-                                    '&:hover': {
-                                        transform: 'translateY(-2px)',
-                                        borderWidth: 2
-                                    }
-                                }}
+                                className="h-20 px-2 py-2 border-2 rounded-lg text-sm flex flex-col items-center justify-center font-medium hover:-translate-y-1 transition-all"
                             >
                                 <ChevronRight size={22} />
-                                <Typography level="body-sm" sx={{ fontSize: '0.9rem' }}>
-                                    Switch
-                                </Typography>
-                            </Button>
-                            <Button
-                                variant="soft"
-                                color="danger"
+                                Switch
+                            </button>
+                            <button
                                 onClick={() => forfeit(state.currentPlayerTurn)}
                                 disabled={state.phase === 'ENDED'}
-                                sx={{
-                                    flexDirection: 'column',
-                                    gap: 0.5,
-                                    height: '80px',
-                                    px: 1,
-                                    background: 'linear-gradient(135deg, #ff4d4d, #ff1a1a)',
-                                    color: 'white',
-                                    '&:hover': {
-                                        transform: 'translateY(-2px)',
-                                        background: 'linear-gradient(135deg, #ff6666, #ff3333)'
-                                    }
-                                }}
+                                className="h-20 px-2 py-2 rounded-lg text-sm flex flex-col items-center justify-center font-medium bg-red-600 hover:bg-red-700 text-white transition-all"
                             >
                                 <Flag size={22} />
-                                <Typography level="body-sm" sx={{ fontSize: '0.9rem' }}>
-                                    Forfeit
-                                </Typography>
-                            </Button>
-                        </Stack>
-                    </Stack>
-                </Sheet>
-            </Box>
+                                Forfeit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <SwitchPokemonModal
                 open={showSwitchModal}
