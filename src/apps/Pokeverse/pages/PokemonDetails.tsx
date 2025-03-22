@@ -1,10 +1,13 @@
-import { Box, Button, CircularProgress, Sheet, Typography, useColorScheme } from '@mui/joy';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Activity, ArrowLeft, Book, GitBranch, ImageIcon, Info, Layers, Swords } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import axios from 'axios';
+
+import AltFormsSection from '@/apps/Pokeverse/components/AltFormSection';
 import EntriesSection from '@/apps/Pokeverse/components/EntriesSection';
+import EvolutionChain from '@/apps/Pokeverse/components/EvolutionChain';
+import GallerySection from '@/apps/Pokeverse/components/GallerySection';
 import InfoSection from '@/apps/Pokeverse/components/Information';
 import MovesSection from '@/apps/Pokeverse/components/MovesGrid';
 import { AnimatedTypeBadge, ImageCard } from '@/apps/Pokeverse/components/PokemonUI';
@@ -14,9 +17,6 @@ import { BASE_API, END_POINT, TYPE_COLORS } from '@/apps/Pokeverse/helpers/const
 import { Pokemon } from '@/apps/Pokeverse/helpers/model.types';
 import { PokemonDetail, PokemonSpecies } from '@/apps/Pokeverse/helpers/response.types';
 import { DexUtils, getIdFromUrl } from '@/apps/Pokeverse/helpers/utilities';
-import EvolutionChain from '@/apps/Pokeverse/components/EvolutionChain';
-import AltFormsSection from '@/apps/Pokeverse/components/AltFormSection';
-import GallerySection from '@/apps/Pokeverse/components/GallerySection';
 
 const Sections = [
     { id: 'info', label: 'Information', icon: Info },
@@ -28,7 +28,6 @@ const Sections = [
     { id: 'gallery', label: 'Gallery', icon: ImageIcon }
 ];
 
-
 const PokemonDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
@@ -39,8 +38,6 @@ const PokemonDetails: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
 
     const [activeSection, setActiveSection] = useState('info');
-    const { mode } = useColorScheme();
-    const isDarkMode = mode === 'dark';
 
     useEffect(() => {
         const fetchPokemonData = async () => {
@@ -93,40 +90,24 @@ const PokemonDetails: React.FC = () => {
 
     if (loading) {
         return (
-            <Box
-                sx={{
-                    minHeight: 'calc(100vh - 52px)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: isDarkMode
-                        ? 'linear-gradient(135deg, #13151a 0%, #1a1d24 50%, #22252d 100%)'
-                        : 'linear-gradient(135deg, #f8f9fc 0%, #eef1f8 50%, #e4e8f4 100%)'
-                }}
-            >
-                <CircularProgress size="lg" />
-            </Box>
+            <div className="min-h-[calc(100vh-52px)] flex items-center justify-center bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
+                <div className="animate-spin w-12 h-12 border-4 border-primary rounded-full border-t-transparent"></div>
+            </div>
         );
     }
 
     if (error || !pokemon) {
         return (
-            <Box sx={{
-                minHeight: 'calc(100vh - 52px)',
-                p: 4,
-                background: isDarkMode
-                    ? 'linear-gradient(135deg, #13151a 0%, #1a1d24 50%, #22252d 100%)'
-                    : 'linear-gradient(135deg, #f8f9fc 0%, #eef1f8 50%, #e4e8f4 100%)'
-            }}>
-                <Button
+            <div className="min-h-[calc(100vh-52px)] p-4 bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
+                <button
                     onClick={() => navigate(-1)}
-                    startDecorator={<ArrowLeft size={16} />}
-                    sx={{ mb: 2 }}
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white dark:bg-gray-800 shadow-sm mb-4"
                 >
+                    <ArrowLeft size={16} />
                     Back
-                </Button>
-                <Typography level="h3">Pokemon not found</Typography>
-            </Box>
+                </button>
+                <h3 className="text-2xl font-bold text-gray-800 dark:text-white">Pokemon not found</h3>
+            </div>
         );
     }
 
@@ -135,36 +116,31 @@ const PokemonDetails: React.FC = () => {
             case 'info':
                 return <InfoSection pokemon={pokemon} />;
             case 'entries':
-                return <EntriesSection flavorTexts={pokemon.flavorTexts} primaryType={pokemon.types[0]} />
+                return <EntriesSection flavorTexts={pokemon.flavorTexts} primaryType={pokemon.types[0]} />;
             case 'moves':
-                return <MovesSection moves={pokemon.moves} primaryType={pokemon.types[0]} />
+                return <MovesSection moves={pokemon.moves} primaryType={pokemon.types[0]} />;
             case 'stats':
-                return <StatsSection pokemon={pokemon} />
+                return <StatsSection pokemon={pokemon} />;
             case 'evolution':
-                return <EvolutionChain evolution={pokemon.evolutionChain} />
+                return <EvolutionChain evolution={pokemon.evolutionChain} />;
             case 'varieties':
-                return <AltFormsSection varieties={pokemon.varieties} primaryType={pokemon.types[0]} />
+                return <AltFormsSection varieties={pokemon.varieties} primaryType={pokemon.types[0]} />;
             case 'gallery':
-                return <GallerySection id={pokemon.id} primaryType={pokemon.types[0]} />
+                return <GallerySection id={pokemon.id} primaryType={pokemon.types[0]} />;
+            default:
+                return null;
         }
-    }
+    };
 
     return (
         <AnimatePresence mode="wait">
-            <Box
-                component={motion.div}
+            <motion.div
                 key={location.pathname}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                sx={{
-                    minHeight: 'calc(100vh - 52px)',
-                    background: isDarkMode
-                        ? 'linear-gradient(135deg, #13151a 0%, #1a1d24 50%, #22252d 100%)'
-                        : 'linear-gradient(135deg, #f8f9fc 0%, #eef1f8 50%, #e4e8f4 100%)',
-                    p: { xs: 2, md: 4 }
-                }}
+                className="min-h-[calc(100vh-52px)] bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 p-2 md:p-4 text-gray-900 dark:text-gray-100"
             >
                 {/* Top Navigation */}
                 <motion.div
@@ -172,55 +148,32 @@ const PokemonDetails: React.FC = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2 }}
                 >
-                    <Button
+                    <button
                         onClick={() => navigate(-1)}
-                        startDecorator={<ArrowLeft size={16} />}
-                        variant="soft"
-                        sx={{ mb: 4 }}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-violet-500/80 dark:bg-violet-800/80 shadow-sm mb-8"
                     >
+                        <ArrowLeft size={16} />
                         Back to Pokédex
-                    </Button>
+                    </button>
                 </motion.div>
 
                 {/* Main Content */}
-                <Box sx={{
-                    display: 'grid',
-                    gridTemplateColumns: { xs: '1fr', lg: '350px 1fr' },
-                    gap: 4,
-                }}>
+                <div className="grid sm:grid-cols-1 lg:grid-cols-[350px_1fr] gap-4">
                     {/* Left Column - Fixed Content */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 }}
                     >
-                        <Box sx={{
-                            position: { lg: 'sticky' },
-                            top: { lg: '2rem' },
-                            height: 'fit-content'
-                        }}>
+                        <div className="lg:sticky lg:top-8 h-fit">
                             <ImageCard pokemon={pokemon} />
 
                             {/* Name and Types */}
-                            <Typography
-                                level="h1"
-                                sx={{
-                                    textTransform: 'uppercase',
-                                    textAlign: 'center',
-                                    mb: 2,
-                                    fontFamily: 'Poppins',
-                                }}
-
-                            >
+                            <h1 className="uppercase text-center mb-2 font-['Poppins'] text-2xl font-bold">
                                 {pokemon.name}
-                            </Typography>
+                            </h1>
 
-                            <Box sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                gap: 2,
-                                mb: 3
-                            }}>
+                            <div className="flex justify-center gap-2 mb-6">
                                 {pokemon.types.map((type) => (
                                     <AnimatedTypeBadge
                                         key={type}
@@ -228,47 +181,35 @@ const PokemonDetails: React.FC = () => {
                                         color={TYPE_COLORS[type]}
                                     />
                                 ))}
-                            </Box>
+                            </div>
 
                             {/* Section Navigation */}
-                            <Sheet
-                                component={motion.div}
+                            <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.4 }}
-                                sx={{
-                                    p: 2,
-                                    borderRadius: 'xl',
-                                    bgcolor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.5)',
-                                    backdropFilter: 'blur(10px)',
-                                    display: { xs: 'none', lg: 'block' }
-                                }}
+                                className="p-2 rounded-xl bg-white/50 dark:bg-white/5 backdrop-blur-md hidden lg:block"
                             >
                                 {Sections.map((section) => {
                                     const Icon = section.icon;
                                     return (
-                                        <Button
+                                        <motion.button
                                             key={section.id}
-                                            fullWidth
-                                            variant={activeSection === section.id ? 'soft' : 'plain'}
-                                            color={activeSection === section.id ? 'danger' : 'neutral'}
-                                            startDecorator={<Icon size={18} />}
-                                            onClick={() => setActiveSection(section.id)}
-                                            component={motion.button}
                                             whileHover={{ x: 4 }}
                                             whileTap={{ scale: 0.98 }}
-                                            sx={{
-                                                justifyContent: 'flex-start',
-                                                mb: 1,
-                                                transition: 'all 0.2s',
-                                            }}
+                                            onClick={() => setActiveSection(section.id)}
+                                            className={`w-full flex items-center justify-start gap-2 px-3 py-2 mb-1 rounded-lg transition-all duration-200 ${activeSection === section.id
+                                                ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
+                                                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                                                }`}
                                         >
+                                            <Icon size={18} />
                                             {section.label}
-                                        </Button>
+                                        </motion.button>
                                     );
                                 })}
-                            </Sheet>
-                        </Box>
+                            </motion.div>
+                        </div>
                     </motion.div>
 
                     {/* Right Column - Content Sections */}
@@ -277,47 +218,30 @@ const PokemonDetails: React.FC = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.4 }}
                     >
-                        <Sheet
-                            sx={{
-                                borderRadius: 'xl',
-                                bgcolor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.5)',
-                                backdropFilter: 'blur(10px)',
-                                overflow: 'hidden'
-                            }}
-                        >
+                        <div className="rounded-xl bg-white/50 dark:bg-white/5 backdrop-blur-md overflow-hidden">
                             {/* Mobile Navigation */}
-                            <Box sx={{
-                                display: { xs: 'flex', lg: 'none' },
-                                gap: 1,
-                                p: 2,
-                                overflowX: 'auto',
-                                borderBottom: '1px solid',
-                                borderColor: 'divider'
-                            }}>
+                            <div className="flex lg:hidden gap-1 p-2 overflow-x-auto border-b border-gray-200 dark:border-gray-700">
                                 {Sections.map((section) => {
                                     const Icon = section.icon;
                                     return (
-                                        <Button
+                                        <motion.button
                                             key={section.id}
-                                            variant={activeSection === section.id ? 'soft' : 'plain'}
-                                            color={activeSection === section.id ? 'danger' : 'neutral'}
-                                            onClick={() => setActiveSection(section.id)}
-                                            component={motion.button}
                                             whileTap={{ scale: 0.95 }}
-                                            sx={{
-                                                minWidth: 'max-content',
-                                                gap: 1
-                                            }}
+                                            onClick={() => setActiveSection(section.id)}
+                                            className={`flex items-center gap-1 px-2 py-1 rounded-lg whitespace-nowrap ${activeSection === section.id
+                                                ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
+                                                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                                                }`}
                                         >
                                             <Icon size={18} />
                                             {section.label}
-                                        </Button>
+                                        </motion.button>
                                     );
                                 })}
-                            </Box>
+                            </div>
 
                             {/* Content Area */}
-                            <Box sx={{ p: 3 }}>
+                            <div className="p-4">
                                 <AnimatePresence mode="wait">
                                     <motion.div
                                         key={activeSection}
@@ -326,20 +250,19 @@ const PokemonDetails: React.FC = () => {
                                         exit={{ opacity: 0, y: -20 }}
                                         transition={{ duration: 0.2 }}
                                     >
-                                        {/* We'll add section content here */}
-                                        <Box sx={{ minHeight: '400px' }}>
-                                            <Typography level="h3">
+                                        <div className="min-h-[400px]">
+                                            <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
                                                 {Sections.find(s => s.id === activeSection)?.label}
-                                            </Typography>
+                                            </h3>
                                             {activeSectionComponent()}
-                                        </Box>
+                                        </div>
                                     </motion.div>
                                 </AnimatePresence>
-                            </Box>
-                        </Sheet>
+                            </div>
+                        </div>
                     </motion.div>
-                </Box>
-            </Box>
+                </div>
+            </motion.div>
         </AnimatePresence>
     );
 };

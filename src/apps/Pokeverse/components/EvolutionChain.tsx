@@ -1,5 +1,4 @@
-import React from 'react';
-import { Box, Typography } from '@mui/joy';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { getOfficialImage, getRandomColor } from '@/apps/Pokeverse/helpers/utilities';
@@ -9,13 +8,16 @@ import { useNavigate } from 'react-router';
 interface Props {
     evolution: EvolutionDetails;
 }
-// Generate random pastel colors for gradients
 
-
-const EvolutionStage = ({ pokemon }: { pokemon: EvolutionDetails }) => {
-    const [color1] = React.useState(getRandomColor());
-    const [color2] = React.useState(getRandomColor());
+const EvolutionStage: React.FC<{ pokemon: EvolutionDetails }> = ({ pokemon }) => {
+    const [color1] = useState(getRandomColor());
+    const [color2] = useState(getRandomColor());
     const navigate = useNavigate();
+
+    // Create gradient CSS variable dynamically
+    const gradientStyle = {
+        '--gradient-bg': `radial-gradient(circle at top left, ${color1}, ${color2})`,
+    } as React.CSSProperties;
 
     return (
         <motion.div
@@ -24,50 +26,22 @@ const EvolutionStage = ({ pokemon }: { pokemon: EvolutionDetails }) => {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
         >
-            <Box
-                sx={{
-                    width: { xs: '80px', sm: '100px', md: '120px' },
-                    position: 'relative',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 1,
-                    '&:hover': {
-                        cursor: "pointer"
-                    }
-                }}
+            <div
+                className="flex flex-col items-center gap-4 relative cursor-pointer w-20 sm:w-24 md:w-32"
                 onClick={() => navigate("/pokeverse/pokedex/" + pokemon.id)}
             >
-                <Box
-                    sx={{
-                        width: '100%',
-                        aspectRatio: '1',
-                        borderRadius: '16px',
-                        overflow: 'hidden',
-                        position: 'relative',
-                        boxShadow: 'sm',
-                        display: 'flex',  // Added flex display
-                        alignItems: 'center',  // Center vertically
-                        justifyContent: 'center',  // Center horizontally
-                        '&::before': {
-                            content: '""',
-                            position: 'absolute',
-                            inset: 0,
-                            background: `radial-gradient(circle at top left, ${color1}, ${color2})`,
-                            opacity: 0.3,
-                        }
-                    }}
+                <div
+                    className="w-full aspect-square rounded-2xl overflow-hidden relative shadow-sm flex items-center justify-center"
+                    style={gradientStyle}
                 >
+                    <div
+                        className="absolute inset-0 opacity-30"
+                        style={{ background: 'var(--gradient-bg)' }}
+                    />
                     <motion.img
                         src={getOfficialImage(pokemon.id)}
                         alt={pokemon.name}
-                        style={{
-                            width: '90%',
-                            height: '90%',
-                            objectFit: 'contain',
-                            position: 'relative',  // Changed from absolute
-                            display: 'block',  // Added display block
-                        }}
+                        className="w-[90%] h-[90%] object-contain relative block"
                         initial={{ scale: 0, rotate: -10 }}
                         animate={{ scale: 1, rotate: 0 }}
                         transition={{
@@ -76,35 +50,17 @@ const EvolutionStage = ({ pokemon }: { pokemon: EvolutionDetails }) => {
                             damping: 20,
                         }}
                     />
-                </Box>
-                <Typography
-                    level="body-sm"
-                    sx={{
-                        textTransform: 'capitalize',
-                        textAlign: 'center',
-                        fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                        maxWidth: '100%',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                    }}
-                >
+                </div>
+                <p className="text-neutral-800 dark:text-neutral-100 text-xs sm:text-sm capitalize text-center max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
                     {pokemon.name}
-                </Typography>
-            </Box>
+                </p>
+            </div>
         </motion.div>
     );
 };
 
-
-const EvolutionArrow = () => (
-    <Box
-        sx={{
-            display: 'flex',
-            alignItems: 'center',
-            px: { xs: 0.5, sm: 1, md: 2 },
-        }}
-    >
+const EvolutionArrow: React.FC = () => (
+    <div className="flex items-center px-0.5 sm:px-1 md:px-2">
         <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -119,74 +75,47 @@ const EvolutionArrow = () => (
                     repeat: Infinity,
                     ease: "easeInOut"
                 }}
+                className='text-neutral-800 dark:text-neutral-100'
             >
-                <ArrowRight
-                    size={20}
-                />
+                <ArrowRight size={20} />
             </motion.div>
         </motion.div>
-    </Box>
+    </div>
 );
 
-const EvolutionBranch = ({ evolution }: Props) => {
+const EvolutionBranch: React.FC<Props> = ({ evolution }) => {
     const hasMultipleEvolutions = evolution.evolvesTo.length > 1;
 
     return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <div className="flex items-center">
             <EvolutionStage pokemon={evolution} />
 
             {evolution.evolvesTo.length > 0 && (
                 <>
                     <EvolutionArrow />
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            gap: { xs: 1, sm: 2 },
-                        }}
-                    >
+                    <div className="flex flex-wrap gap-1 sm:gap-2">
                         {evolution.evolvesTo.map((evo) => (
-                            <Box
+                            <div
                                 key={evo.id}
-                                sx={{
-                                    zIndex: 1,
-                                    bgcolor: 'background.surface',
-                                    padding: hasMultipleEvolutions ? '4px' : 0,
-                                    borderRadius: 'lg',
-                                }}
+                                className={`z-10 bg-white dark:bg-gray-800 rounded-lg ${hasMultipleEvolutions ? 'p-1' : 'p-0'}`}
                             >
                                 <EvolutionBranch evolution={evo} />
-                            </Box>
+                            </div>
                         ))}
-                    </Box>
+                    </div>
                 </>
             )}
-        </Box>
+        </div>
     );
 };
 
-const EvolutionChain = ({ evolution }: Props) => {
+const EvolutionChain: React.FC<Props> = ({ evolution }) => {
     return (
-        <Box
-            sx={{
-                width: '100%',
-                p: { xs: 2, sm: 3 },
-                bgcolor: 'background.surface',
-                borderRadius: 'lg',
-                boxShadow: 'sm',
-                overflow: 'auto',
-                my: 1
-            }}
-        >
-            <Box
-                sx={{
-                    display: 'inline-flex',
-                    minWidth: 'min-content',
-                }}
-            >
+        <div className="w-full p-2 sm:p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-auto my-1">
+            <div className="inline-flex min-w-min">
                 <EvolutionBranch evolution={evolution} />
-            </Box>
-        </Box>
+            </div>
+        </div>
     );
 };
 

@@ -1,4 +1,4 @@
-import { Box, Sheet, Typography } from '@mui/joy';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
@@ -6,40 +6,26 @@ import { Move } from '@/apps/Pokeverse/helpers/model.types';
 
 interface MovesSectionProps {
     moves: Move[];
-    primaryType: string
+    primaryType: string;
 }
 
-const MovesSection = ({ moves, primaryType }: MovesSectionProps) => {
+const MovesSection: React.FC<MovesSectionProps> = ({ moves, primaryType }) => {
     const accentColor = TYPE_COLORS[primaryType];
 
     return (
-        <Box>
+        <div className="w-full text-gray-800 dark:text-gray-100">
             {/* Header */}
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                mb: 3
-            }}>
-                <Typography level="body-sm" sx={{ color: 'text.secondary' }}>
+            <div className="flex justify-end items-center mb-6">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                     {moves.length} moves
-                </Typography>
-            </Box>
+                </span>
+            </div>
 
             {/* Moves Grid */}
-            <Box sx={{
-                display: 'grid',
-                gridTemplateColumns: {
-                    xs: '1fr',
-                    sm: 'repeat(2, 1fr)',
-                    md: 'repeat(3, 1fr)'
-                },
-                gap: 2
-            }}>
+            <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {moves.map((move, index) => (
-                    <Sheet
+                    <motion.div
                         key={move.name}
-                        component={motion.div}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{
                             opacity: 1,
@@ -51,32 +37,20 @@ const MovesSection = ({ moves, primaryType }: MovesSectionProps) => {
                             transition: { duration: 0.2 }
                         }}
                         whileTap={{ scale: 0.98 }}
-                        variant="plain"
-                        sx={{
-                            p: 2,
-                            borderRadius: 'lg',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            border: '2px solid',
-                            borderColor: accentColor,
-                            transition: 'all 0.2s',
-                            '&:hover': {
-                                bgcolor: `${accentColor}15`,
-                                boxShadow: 'xs'
-                            }
+                        className={`p-4 rounded-xl cursor-pointer flex items-center justify-between transition-all duration-200 border-2 hover:bg-[${accentColor}15]`}
+                        style={{ borderColor: accentColor }}
+                        onMouseOver={(e) => {
+                            e.currentTarget.style.backgroundColor = `${accentColor}15`;
+                            e.currentTarget.style.boxShadow = '0 1px 2px rgba(0, 0, 0, 0.05)';
+                        }}
+                        onMouseOut={(e) => {
+                            e.currentTarget.style.backgroundColor = '';
+                            e.currentTarget.style.boxShadow = '';
                         }}
                     >
-                        <Typography
-                            level="body-md"
-                            sx={{
-                                textTransform: 'capitalize',
-                                fontWeight: 500
-                            }}
-                        >
+                        <span className="text-base capitalize font-medium">
                             {move.name.replace('-', ' ')}
-                        </Typography>
+                        </span>
 
                         <motion.div
                             whileHover={{ x: 5 }}
@@ -87,10 +61,10 @@ const MovesSection = ({ moves, primaryType }: MovesSectionProps) => {
                                 color={accentColor}
                             />
                         </motion.div>
-                    </Sheet>
+                    </motion.div>
                 ))}
-            </Box>
-        </Box>
+            </div>
+        </div>
     );
 };
 

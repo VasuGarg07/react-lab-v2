@@ -1,9 +1,10 @@
-import { Box, Button, Chip, Divider, Grid, IconButton, Modal, Sheet, Typography } from '@mui/joy';
+import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Heart, X, Zap } from 'lucide-react';
 import { BattlePokemon } from '@/apps/Pokeverse/helpers/battle.types';
 import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
 import { getOfficialImage } from '@/apps/Pokeverse/helpers/utilities';
+import Dialog from '@/ui/Dialog';
 
 interface SwitchPokemonModalProps {
     open: boolean;
@@ -13,74 +14,45 @@ interface SwitchPokemonModalProps {
     onSwitch: (index: number) => void;
 }
 
-export const SwitchPokemonModal = ({
+export const SwitchPokemonModal: React.FC<SwitchPokemonModalProps> = ({
     open,
     onClose,
     activePokemonIndex,
     team,
     onSwitch
-}: SwitchPokemonModalProps) => {
+}) => {
     return (
-        <Modal
-            open={open}
+        <Dialog
+            isOpen={open}
             onClose={onClose}
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}
+            position="center"
+            size="xl"
+            showCloseButton={false}
+            contentClassName="p-0"
         >
-            <Sheet
-                component={motion.div}
+            <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                variant="outlined"
-                sx={{
-                    maxWidth: 1000,
-                    width: 'calc(100% - 64px)',
-                    borderRadius: 'lg',
-                    p: 3,
-                    position: 'relative'
-                }}
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 relative w-full overflow-hidden text-gray-900 dark:text-gray-100"
             >
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                    <Typography level="h3" sx={{ flex: 1 }}>
-                        Choose Pokemon
-                    </Typography>
-                    <IconButton
-                        variant="plain"
+                <div className="flex items-center mb-1">
+                    <h3 className="text-xl font-bold flex-1">Choose Pokemon</h3>
+                    <button
                         onClick={onClose}
-                        sx={{
-                            ml: 1,
-                            '&:hover': {
-                                backgroundColor: 'background.level2',
-                            }
-                        }}
+                        className="ml-1 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                     >
-                        <X />
-                    </IconButton>
-                </Box>
+                        <X className="w-5 h-5" />
+                    </button>
+                </div>
 
-                <Divider sx={{ mb: 2 }} />
+                <div className="h-px w-full bg-gray-200 dark:bg-gray-700 mb-4" />
 
-                <Grid
-                    container
-                    spacing={2}
-                    sx={{
-                        flexGrow: 1,
-                        width: '100%'
-                    }}
-                >
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
                     <AnimatePresence mode="popLayout">
                         {team.map((pokemon, index) => (
-                            <Grid
+                            <motion.div
                                 key={pokemon.id}
-                                xs={12}
-                                sm={6}
-                                md={4}
-                                lg={3}
-                                component={motion.div}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -20 }}
@@ -89,112 +61,66 @@ export const SwitchPokemonModal = ({
                                     delay: index * 0.05
                                 }}
                             >
-                                <Sheet
-                                    variant="outlined"
-                                    sx={{
-                                        borderRadius: 'md',
-                                        overflow: 'hidden',
-                                        opacity: pokemon.currentHP <= 0 ? 0.5 : 1,
-                                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                        height: '100%',
-                                        position: 'relative',
-                                        '&:hover': pokemon.currentHP > 0 && index !== activePokemonIndex ? {
-                                            transform: 'translateY(-8px)',
-                                            boxShadow: 'md',
-                                            borderColor: 'primary.500',
-                                            '& .pokemon-image': {
-                                                transform: 'scale(1.1)',
-                                            }
-                                        } : undefined
-                                    }}
+                                <div
+                                    className={`border rounded-md overflow-hidden h-full transition-all duration-300 relative ${pokemon.currentHP <= 0 ? 'opacity-50' : 'opacity-100'
+                                        } ${pokemon.currentHP > 0 && index !== activePokemonIndex
+                                            ? 'hover:translate-y-[-8px] hover:shadow-md hover:border-blue-500'
+                                            : ''
+                                        } ${index === activePokemonIndex
+                                            ? 'bg-gray-100 dark:bg-gray-700'
+                                            : 'bg-white dark:bg-gray-800'
+                                        }`}
                                 >
-                                    <Button
-                                        variant="plain"
+                                    <button
                                         disabled={index === activePokemonIndex || pokemon.currentHP <= 0}
                                         onClick={() => onSwitch(index)}
-                                        sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            width: '100%',
-                                            height: '100%',
-                                            p: 2,
-                                            backgroundColor: index === activePokemonIndex ? 'background.level2' : 'transparent',
-                                            '&:hover': {
-                                                backgroundColor: index === activePokemonIndex ? 'background.level2' : 'background.level1',
-                                            }
-                                        }}
+                                        className="flex flex-col w-full h-full p-2 text-left disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700/50 disabled:hover:bg-transparent transition-colors"
                                     >
-                                        <Box
-                                            sx={{
-                                                position: 'relative',
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                overflow: 'hidden',
-                                                borderRadius: 'xs'
-                                            }}
-                                        >
+                                        <div className="relative flex justify-center overflow-hidden rounded-sm">
                                             <img
-                                                className="pokemon-image"
+                                                className="w-full h-full object-contain transition-transform duration-300 hover:scale-110"
                                                 src={getOfficialImage(pokemon.id)}
                                                 alt={pokemon.name}
-                                                style={{
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    objectFit: 'contain',
-                                                    transition: 'transform 0.3s ease'
-                                                }}
                                             />
                                             {index === activePokemonIndex && (
-                                                <Chip
-                                                    variant="solid" color='warning'
-                                                    startDecorator={<Zap size={14} />}
-                                                    size="sm"
-                                                    sx={{
-                                                        position: 'absolute',
-                                                        top: 0,
-                                                        right: 0,
-                                                    }}
+                                                <div
+                                                    className="absolute top-0 right-0 px-2 py-1 bg-yellow-500 text-white text-xs rounded flex items-center gap-1"
                                                 >
+                                                    <Zap size={14} />
                                                     Active
-                                                </Chip>
+                                                </div>
                                             )}
-                                        </Box>
+                                        </div>
 
-                                        <Typography
-                                            level="h4"
-                                            sx={{
-                                                textTransform: 'capitalize',
-                                            }}
-                                        >
+                                        <h4 className="text-lg font-semibold capitalize mt-2">
                                             {pokemon.name}
-                                        </Typography>
+                                        </h4>
 
-                                        <Box sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 1, mt: 1,
-                                        }}>
+                                        <div className="flex items-center gap-1 mt-1">
                                             {pokemon.types.map(type => (
-                                                <Chip key={type} size='sm' sx={{
-                                                    background: TYPE_COLORS[type],
-                                                    textTransform: 'capitalize',
-                                                    borderRadius: '4px'
-                                                }}>{type}</Chip>
+                                                <span
+                                                    key={type}
+                                                    className="px-2 py-0.5 text-xs text-white rounded capitalize"
+                                                    style={{ backgroundColor: TYPE_COLORS[type] }}
+                                                >
+                                                    {type}
+                                                </span>
                                             ))}
-                                            <Heart size={16} color='red' />
-                                            <Typography level="body-sm" sx={{
-                                                color: pokemon.currentHP < pokemon.maxHP * 0.3 ? 'danger.500' : 'text.primary'
-                                            }}>
+                                            <Heart size={16} className="text-red-500 ml-1" />
+                                            <span className={`text-sm ${pokemon.currentHP < pokemon.maxHP * 0.3
+                                                    ? 'text-red-500 dark:text-red-400'
+                                                    : ''
+                                                }`}>
                                                 {pokemon.currentHP}/{pokemon.maxHP}
-                                            </Typography>
-                                        </Box>
-                                    </Button>
-                                </Sheet>
-                            </Grid>
+                                            </span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </motion.div>
                         ))}
                     </AnimatePresence>
-                </Grid>
-            </Sheet>
-        </Modal>
+                </div>
+            </motion.div>
+        </Dialog>
     );
 };

@@ -1,8 +1,6 @@
-import { keyframes } from '@emotion/react';
-import { Box, Card, Chip, Typography, useColorScheme } from '@mui/joy';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
-import React, { useState } from 'react';
 import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
 import { Pokemon } from '@/apps/Pokeverse/helpers/model.types';
 
@@ -10,197 +8,109 @@ interface PokemonCardProps {
     pokemon: Pokemon;
 }
 
-const shine = keyframes`
-  0% { transform: translateX(-100%); }
-  50%, 100% { transform: translateX(100%); }
-`;
-
 const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const { mode } = useColorScheme();
     const primaryType = pokemon.types[0];
-    const isDark = mode === 'dark';
-
-    console.log(pokemon)
 
     return (
         <motion.div
             transition={{ type: "spring", stiffness: 300 }}
-            style={{ position: 'relative' }}
+            className="relative w-full h-full"
         >
-            <Card
+            <div
+                className="w-full h-full relative overflow-hidden rounded-2xl border dark:border-white/15 border-black/15 flex flex-col bg-white dark:bg-black"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                sx={{
-                    width: '100%',
-                    height: '100%',
-                    background: isDark ? '#000000' : '#ffffff',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    borderRadius: '16px',
-                    border: '1px solid',
-                    borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                }}
             >
                 {/* Background Gradient */}
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        background: `
-                            radial-gradient(circle at 50% 0%, ${TYPE_COLORS[primaryType]}40, transparent 70%)
-                        `,
-                        opacity: isHovered ? 0.8 : 0.4,
-                        transition: 'opacity 0.3s ease',
+                <div
+                    className={`absolute top-0 left-0 w-full h-full transition-opacity duration-300 ${isHovered ? 'opacity-80' : 'opacity-40'}`}
+                    style={{
+                        background: `radial-gradient(circle at 50% 0%, ${TYPE_COLORS[primaryType]}40, transparent 70%)`
                     }}
                 />
 
                 {/* Pokemon Number */}
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: '16px',
-                        right: '16px',
-                        zIndex: 3,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 0.5,
-                    }}
-                >
+                <div className="absolute top-4 right-4 z-10 flex items-center gap-1">
                     <Sparkles
                         size={18}
                         fill={TYPE_COLORS[primaryType]}
                         color={TYPE_COLORS[primaryType]}
                     />
-                    <Typography
-                        level="title-lg"
-                        sx={{
-                            color: TYPE_COLORS[primaryType],
-                            fontFamily: 'monospace',
-                            fontWeight: 'bold',
-                            fontSize: '1.2rem',
-                        }}
+                    <span
+                        className="text-lg font-bold font-mono"
+                        style={{ color: TYPE_COLORS[primaryType] }}
                     >
                         #{pokemon.id.toString().padStart(3, '0')}
-                    </Typography>
-                </Box>
+                    </span>
+                </div>
 
                 {/* Pokemon Image */}
                 <motion.div
-                    animate={isHovered ?
-                        { scale: 1.15, y: -10 } :
-                        { scale: 1, y: 0 }
-                    }
+                    animate={isHovered ? { scale: 1.15, y: -10 } : { scale: 1, y: 0 }}
                     transition={{ type: "spring", stiffness: 200 }}
-                    style={{
-                        position: 'relative',
-                        zIndex: 2,
-                        flex: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginTop: '20px',
-                    }}
+                    className="relative z-[2] flex-1 flex items-center justify-center mt-5"
                 >
-                    <Box
-                        component="img"
+                    <img
                         src={pokemon.sprites.other['home'].front_default}
                         alt={pokemon.name}
-                        sx={{
-                            width: '75%',
-                            height: '75%',
-                            objectFit: 'contain',
-                            filter: isHovered ?
-                                'drop-shadow(0 0 30px rgba(255,255,255,0.2))' :
-                                'drop-shadow(0 8px 20px rgba(0,0,0,0.4))',
-                            transition: 'filter 0.3s ease',
-                        }}
+                        className={`w-3/4 h-3/4 object-contain transition-all duration-300 ${isHovered
+                            ? 'drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]'
+                            : 'drop-shadow-[0_8px_20px_rgba(0,0,0,0.4)]'
+                            }`}
                     />
                 </motion.div>
 
                 {/* Info Panel */}
-                <Box
-                    sx={{
-                        padding: 2,
-                        background: isHovered ?
-                            (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.03)') :
-                            (isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.8)'),
-                        backdropFilter: 'blur(10px)',
-                        borderTop: '1px solid',
-                        borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-                        transition: 'all 0.3s ease',
-                        height: '120px',
-                        borderRadius: 'md',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        '&::after': {
-                            content: '""',
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '200%',
-                            height: '100%',
-                            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-                            animation: isHovered ? `${shine} 2s infinite linear` : 'none',
-                        }
-                    }}
+                <div
+                    className={`p-2 m-4 rounded-lg backdrop-blur-md border-t dark:border-white/10 border-black/10 transition-all duration-300 h-[120px] relative overflow-hidden ${isHovered
+                        ? 'dark:bg-white/10 bg-black/[0.03]'
+                        : 'dark:bg-black/60 bg-white/80'
+                        }`}
                 >
-                    <Typography
-                        level="h3"
-                        sx={{
-                            textTransform: 'uppercase',
-                            fontFamily: 'Kanit',
-                            letterSpacing: 1,
-                            textAlign: 'center',
-                            color: isDark ? '#ffffff' : '#000000',
-                            mb: 2,
-                            fontSize: '1.5rem',
-                            textShadow: isHovered ?
-                                `0 0 20px ${TYPE_COLORS[primaryType]}80` :
-                                'none',
-                            transition: 'text-shadow 0.3s ease',
+                    {/* Shine effect overlay */}
+                    <div
+                        className={`absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full ${isHovered ? 'animate-shine' : ''
+                            }`}
+                    />
+
+                    <h3
+                        className={`text-2xl uppercase font-['Kanit'] tracking-wider text-center mb-4 transition-all duration-300 dark:text-white text-black ${isHovered ? 'text-shadow' : ''
+                            }`}
+                        style={{
+                            textShadow: isHovered ? `0 0 20px ${TYPE_COLORS[primaryType]}80` : 'none'
                         }}
                     >
                         {pokemon.name}
-                    </Typography>
+                    </h3>
 
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            gap: 1,
-                        }}
-                    >
+                    <div className="flex justify-center gap-2">
                         {pokemon.types.map(type => (
-                            <Chip
+                            <span
                                 key={type}
-                                variant="solid"
-                                size="md"
-                                sx={{
-                                    background: TYPE_COLORS[type],
-                                    color: '#ffffff',
-                                    fontSize: '0.85rem',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '0.5px',
-                                    border: '1px solid rgba(255,255,255,0.2)',
-                                    fontFamily: 'Montserrat',
-                                    transition: 'all 0.3s ease',
-                                    '&:hover': {
-                                        background: TYPE_COLORS[type],
-                                    },
-                                }}
+                                className="px-3 py-1 rounded-full text-white text-sm uppercase tracking-wider border border-white/20 font-['Montserrat'] transition-all duration-300"
+                                style={{ backgroundColor: TYPE_COLORS[type] }}
                             >
                                 {type}
-                            </Chip>
+                            </span>
                         ))}
-                    </Box>
-                </Box>
-            </Card>
+                    </div>
+                </div>
+            </div>
+
+            {/* Global styles for animations */}
+            <style>
+                {`
+          @keyframes shine {
+            0% { transform: translateX(-100%); }
+            50%, 100% { transform: translateX(100%); }
+          }
+          
+          .animate-shine {
+            animation: shine 2s infinite linear;
+          }
+        `}
+            </style>
         </motion.div>
     );
 };

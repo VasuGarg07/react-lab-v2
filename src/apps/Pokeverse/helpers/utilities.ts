@@ -223,10 +223,6 @@ export namespace BattleSimUtils {
     };
 }
 
-export const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
 // Helper function to convert hex to RGB
 const hexToRGB = (hex: string) => {
     const r = parseInt(hex.slice(1, 3), 16);

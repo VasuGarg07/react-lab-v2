@@ -1,4 +1,3 @@
-import { Box, Sheet, Typography } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { ImageIcon } from 'lucide-react';
 import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
@@ -50,47 +49,21 @@ const GallerySection = ({ id, primaryType }: GallerySectionProps) => {
     };
 
     return (
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 4,
-            mt: 2
-        }}>
+        <div className="flex flex-col gap-8 mt-4">
             {Object.entries(galleryImages).map(([category, images]) => (
-                <Box key={category}>
-                    <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 2,
-                        mb: 2
-                    }}>
+                <div key={category}>
+                    <div className="flex items-center gap-4 mb-4">
                         <ImageIcon size={24} color={accentColor} />
-                        <Typography level="h3">{category}</Typography>
-                    </Box>
+                        <h3 className="text-xl font-semibold dark:text-white text-gray-800">{category}</h3>
+                    </div>
 
-                    <Box sx={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: 3,
-                        justifyContent: 'center'
-                    }}>
+                    <div className="flex flex-wrap gap-6 justify-center">
                         {images.map((image) => (
-                            <Sheet
+                            <motion.div
                                 key={image.label}
-                                component={motion.div}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                variant="soft"
-                                sx={{
-                                    width: '100%',
-                                    maxWidth: '400px',
-                                    p: 3,
-                                    borderRadius: 'xl',
-                                    overflow: 'hidden',
-                                    position: 'relative',
-                                    boxShadow: 'sm',
-                                    aspectRatio: '1',
-                                }}
+                                className="w-full max-w-[400px] p-6 rounded-xl overflow-hidden relative shadow-sm dark:bg-white/10 bg-black/5 aspect-square"
                             >
                                 <motion.img
                                     src={image.url}
@@ -98,42 +71,26 @@ const GallerySection = ({ id, primaryType }: GallerySectionProps) => {
                                     initial={{ scale: 0.8 }}
                                     animate={{ scale: 1 }}
                                     transition={{ duration: 0.3 }}
-                                    style={{
-                                        maxWidth: '90%',
-                                        maxHeight: '90%',
-                                        objectFit: 'contain',
-                                        padding: '2rem',
-                                        zIndex: 2,
-                                        position: 'relative'
-                                    }}
+                                    className="max-w-[90%] max-h-[90%] object-contain p-8 relative z-10 mx-auto"
                                 />
 
-                                <Box
-                                    sx={{
-                                        position: 'absolute',
-                                        inset: 0,
+                                <div
+                                    className="absolute inset-0 z-0"
+                                    style={{
                                         background: `radial-gradient(circle at center, ${accentColor}40 0%, ${accentColor}20 30%, transparent 70%)`,
                                         opacity: image.label.includes('✨') ? 0.9 : 0.6,
-                                        zIndex: 1
                                     }}
                                 />
 
-                                <Typography
-                                    level="body-sm"
-                                    sx={{
-                                        mt: 2,
-                                        textAlign: 'center',
-                                        color: 'text.secondary'
-                                    }}
-                                >
+                                <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400 relative z-10">
                                     {image.label}
-                                </Typography>
-                            </Sheet>
+                                </p>
+                            </motion.div>
                         ))}
-                    </Box>
-                </Box>
+                    </div>
+                </div>
             ))}
-        </Box>
+        </div>
     );
 };
 

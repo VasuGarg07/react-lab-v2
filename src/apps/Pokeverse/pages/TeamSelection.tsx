@@ -10,8 +10,9 @@ import { usePokedex } from '@/apps/Pokeverse/context/PokedexContext';
 import { Move } from '@/apps/Pokeverse/helpers/battle.types';
 import { BASE_API, END_POINT, REGION_DATA } from '@/apps/Pokeverse/helpers/constant';
 import { PokemonDetail } from '@/apps/Pokeverse/helpers/response.types';
-import { BattleSimUtils, DexUtils, getIdFromUrl, scrollToTop } from '@/apps/Pokeverse/helpers/utilities';
+import { BattleSimUtils, DexUtils, getIdFromUrl } from '@/apps/Pokeverse/helpers/utilities';
 import useCacheApi from '@/apps/Pokeverse/hooks/useCacheApi';
+import { scrollToTop } from '@/shared/utilities';
 
 interface PokemonListItem {
     name: string;
