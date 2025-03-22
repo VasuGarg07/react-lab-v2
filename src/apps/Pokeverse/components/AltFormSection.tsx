@@ -53,7 +53,7 @@ const AltFormsSection = ({ varieties, primaryType }: AltFormProps) => {
                         />
 
                         {/* Alt Form Name */}
-                        <p className="relative z-10 mb-1 text-sm capitalize text-center truncate w-full dark:text-gray-200 text-gray-800">
+                        <p className="relative z-10 mb-1 text-sm capitalize text-center truncate w-full dark:text-neutral-200 text-neutral-800">
                             {variety.name}
                         </p>
                     </motion.div>
@@ -62,7 +62,7 @@ const AltFormsSection = ({ varieties, primaryType }: AltFormProps) => {
 
             {varieties.length === 0 && (
                 <div className="p-6 rounded-xl text-center bg-black/5 dark:bg-white/10">
-                    <p className="text-lg text-gray-500 dark:text-gray-400">
+                    <p className="text-lg text-neutral-500 dark:text-neutral-400">
                         No alternate forms available for this Pokémon
                     </p>
                 </div>

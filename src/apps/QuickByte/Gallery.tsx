@@ -44,7 +44,7 @@ const Gallery = () => {
       variants={containerVariants}
     >
       <motion.div variants={itemVariants}>
-        <h2 className="text-2xl font-semibold mb-4 tracking-wide text-gray-800 dark:text-gray-100">
+        <h2 className="text-2xl font-semibold mb-4 tracking-wide text-neutral-800 dark:text-neutral-100">
           {title}
         </h2>
       </motion.div>
@@ -69,7 +69,7 @@ const MealCard = ({ meal }: { meal: Meal }) => {
 
   return (
     <div
-      className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl cursor-pointer transform transition-transform duration-200 hover:-translate-y-1"
+      className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl cursor-pointer transform transition-transform duration-200 hover:-translate-y-1"
       onClick={() => handleMealNav(meal.id)}
     >
       <div className="overflow-hidden">
@@ -83,7 +83,7 @@ const MealCard = ({ meal }: { meal: Meal }) => {
       </div>
       <div className="p-3">
         <div className="mt-1 flex items-center gap-1">
-          <h3 className="text-lg truncate flex-grow font-['Overlock'] tracking-wide uppercase text-gray-800 dark:text-gray-100">
+          <h3 className="text-lg truncate flex-grow font-['Overlock'] tracking-wide uppercase text-neutral-800 dark:text-neutral-100">
             {meal.name}
           </h3>
           <button className="p-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-xl">

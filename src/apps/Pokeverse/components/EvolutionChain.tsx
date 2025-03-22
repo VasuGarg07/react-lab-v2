@@ -97,7 +97,7 @@ const EvolutionBranch: React.FC<Props> = ({ evolution }) => {
                         {evolution.evolvesTo.map((evo) => (
                             <div
                                 key={evo.id}
-                                className={`z-10 bg-white dark:bg-gray-800 rounded-lg ${hasMultipleEvolutions ? 'p-1' : 'p-0'}`}
+                                className={`z-10 bg-white dark:bg-neutral-800 rounded-lg ${hasMultipleEvolutions ? 'p-1' : 'p-0'}`}
                             >
                                 <EvolutionBranch evolution={evo} />
                             </div>
@@ -111,7 +111,7 @@ const EvolutionBranch: React.FC<Props> = ({ evolution }) => {
 
 const EvolutionChain: React.FC<Props> = ({ evolution }) => {
     return (
-        <div className="w-full p-2 sm:p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-auto my-1">
+        <div className="w-full p-2 sm:p-3 bg-white dark:bg-neutral-800 rounded-lg shadow-sm overflow-auto my-1">
             <div className="inline-flex min-w-min">
                 <EvolutionBranch evolution={evolution} />
             </div>

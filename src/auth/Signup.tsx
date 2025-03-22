@@ -11,7 +11,7 @@ const Signup: React.FC = () => {
     if (!isLoggedIn) {
         return (
             <button
-                className="p-1.5 rounded-full text-gray-700 hover:bg-gray-100/80 dark:text-gray-200 dark:hover:bg-gray-800/80 transition-all duration-200"
+                className="p-1.5 rounded-full text-neutral-700 hover:bg-neutral-100/80 dark:text-neutral-200 dark:hover:bg-neutral-800/80 transition-all duration-200"
                 onClick={() => navigate('/auth/login')}
                 aria-label="Sign in"
             >
@@ -56,30 +56,30 @@ const Signup: React.FC = () => {
                             </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                            <h3 className="text-base font-semibold text-gray-900 dark:text-white">
+                            <h3 className="text-base font-semibold text-neutral-900 dark:text-white">
                                 {user?.username}
                             </h3>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
                                 {user?.email}
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 rounded-b-2xl overflow-hidden">
+                <div className="bg-white dark:bg-neutral-800 rounded-b-2xl overflow-hidden">
                     <div className="px-2 py-2 space-y-1">
                         <button
                             onClick={() => {
                                 navigate('/profile');
                                 setIsOpen(false);
                             }}
-                            className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                            className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700/50 transition-colors"
                         >
                             <div className="flex items-center">
-                                <User size={18} className="mr-3 text-gray-500 dark:text-gray-400" />
+                                <User size={18} className="mr-3 text-neutral-500 dark:text-neutral-400" />
                                 <span className="font-medium">Profile</span>
                             </div>
-                            <ChevronRight size={16} className="text-gray-400 dark:text-gray-500" />
+                            <ChevronRight size={16} className="text-neutral-400 dark:text-neutral-500" />
                         </button>
 
                         <button
@@ -87,17 +87,17 @@ const Signup: React.FC = () => {
                                 navigate('/settings');
                                 setIsOpen(false);
                             }}
-                            className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                            className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700/50 transition-colors"
                         >
                             <div className="flex items-center">
-                                <Settings size={18} className="mr-3 text-gray-500 dark:text-gray-400" />
+                                <Settings size={18} className="mr-3 text-neutral-500 dark:text-neutral-400" />
                                 <span className="font-medium">Settings</span>
                             </div>
-                            <ChevronRight size={16} className="text-gray-400 dark:text-gray-500" />
+                            <ChevronRight size={16} className="text-neutral-400 dark:text-neutral-500" />
                         </button>
                     </div>
 
-                    <div className="px-2 py-2 border-t border-gray-200 dark:border-gray-700/50 mt-1">
+                    <div className="px-2 py-2 border-t border-neutral-200 dark:border-neutral-700/50 mt-1">
                         <button
                             onClick={handleLogout}
                             className="flex w-full items-center rounded-xl px-3 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"

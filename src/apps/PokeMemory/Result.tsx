@@ -44,7 +44,7 @@ const Result: React.FC = () => {
             </p>
           </div>
 
-          <p className="text-gray-300 italic text-center mb-6">
+          <p className="text-neutral-300 italic text-center mb-6">
             Your memory skills are truly impressive. Can you beat your own record?
           </p>
 

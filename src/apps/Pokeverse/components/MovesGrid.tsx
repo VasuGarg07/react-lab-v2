@@ -13,10 +13,10 @@ const MovesSection: React.FC<MovesSectionProps> = ({ moves, primaryType }) => {
     const accentColor = TYPE_COLORS[primaryType];
 
     return (
-        <div className="w-full text-gray-800 dark:text-gray-100">
+        <div className="w-full text-neutral-800 dark:text-neutral-100">
             {/* Header */}
             <div className="flex justify-end items-center mb-6">
-                <span className="text-sm text-gray-500 dark:text-gray-400">
+                <span className="text-sm text-neutral-500 dark:text-neutral-400">
                     {moves.length} moves
                 </span>
             </div>

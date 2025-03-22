@@ -59,7 +59,7 @@ const Details = () => {
 
   return (
     <motion.div
-      className="flex flex-col gap-2 text-gray-800 dark:text-gray-100"
+      className="flex flex-col gap-2 text-neutral-800 dark:text-neutral-100"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -82,10 +82,10 @@ const Details = () => {
 
       <motion.div
         variants={itemVariants}
-        className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md mb-3"
+        className="bg-white dark:bg-neutral-800 p-4 rounded-xl shadow-md mb-3"
       >
         <div className="flex flex-row gap-4 justify-center">
-          <p className="text-lg uppercase font-['Roboto'] text-gray-800 dark:text-gray-100">
+          <p className="text-lg uppercase font-['Roboto'] text-neutral-800 dark:text-neutral-100">
             Region: <span
               className="text-red-600 dark:text-red-400 cursor-pointer hover:underline"
               onClick={handleAreaNav}
@@ -93,7 +93,7 @@ const Details = () => {
               {meal.area}
             </span>
           </p>
-          <p className="text-lg uppercase font-['Roboto'] text-gray-800 dark:text-gray-100">
+          <p className="text-lg uppercase font-['Roboto'] text-neutral-800 dark:text-neutral-100">
             Category: <span
               className="text-red-600 dark:text-red-400 cursor-pointer hover:underline"
               onClick={handleCategoryNav}
@@ -107,7 +107,7 @@ const Details = () => {
           {meal.source &&
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <button
-                className="flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                className="flex items-center px-4 py-2 border border-neutral-300 rounded-md text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-700"
                 onClick={() => handleExternalUrl(meal.source!)}
               >
                 <Info className="mr-2" size={18} />
@@ -139,10 +139,10 @@ const Details = () => {
         </div>
       </motion.div>
 
-      <div className="h-[1.5px] bg-gray-400 my-2"></div>
+      <div className="h-[1.5px] bg-neutral-400 my-2"></div>
 
       <motion.div variants={itemVariants}>
-        <h2 className="text-2xl font-semibold tracking-wide font-['Poiret_One'] text-gray-800 dark:text-gray-100">
+        <h2 className="text-2xl font-semibold tracking-wide font-['Poiret_One'] text-neutral-800 dark:text-neutral-100">
           Ingredients
         </h2>
       </motion.div>
@@ -160,10 +160,10 @@ const Details = () => {
         ))}
       </motion.div>
 
-      <div className="h-[1.5px] bg-gray-400 my-2"></div>
+      <div className="h-[1.5px] bg-neutral-400 my-2"></div>
 
       <motion.div variants={itemVariants}>
-        <h2 className="text-2xl font-semibold tracking-wide font-['Poiret_One'] text-gray-800 dark:text-gray-100">
+        <h2 className="text-2xl font-semibold tracking-wide font-['Poiret_One'] text-neutral-800 dark:text-neutral-100">
           Instructions
         </h2>
       </motion.div>
@@ -178,7 +178,7 @@ const Details = () => {
             <span className="text-blue-600 dark:text-blue-400 mt-1 mr-2">
               <LoaderPinwheel size={20} />
             </span>
-            <p className="text-gray-800 dark:text-gray-200">{step}</p>
+            <p className="text-neutral-800 dark:text-neutral-200">{step}</p>
           </motion.li>
         ))}
       </motion.ul>

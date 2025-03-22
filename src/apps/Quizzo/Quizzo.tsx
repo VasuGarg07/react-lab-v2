@@ -13,15 +13,15 @@ const Quizzo = () => {
         <AppBackground />
 
         {/* Main content card */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-5xl shadow-xl z-10 
-          shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-700">
-          <h2 className="text-2xl md:text-3xl text-center uppercase tracking-wider font-bold text-gray-800 dark:text-gray-100">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 w-full max-w-5xl shadow-xl z-10 
+          shadow-neutral-200/50 dark:shadow-neutral-900/50 border border-neutral-100 dark:border-neutral-700">
+          <h2 className="text-2xl md:text-3xl text-center uppercase tracking-wider font-bold text-neutral-800 dark:text-neutral-100">
             Quizzo
           </h2>
 
           <div className="relative flex items-center justify-center my-3">
-            <span className="absolute w-full border-t border-gray-300 dark:border-gray-600"></span>
-            <span className="relative px-4 py-1 text-sm bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+            <span className="absolute w-full border-t border-neutral-300 dark:border-neutral-600"></span>
+            <span className="relative px-4 py-1 text-sm bg-white dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400">
               Test Your Wit, Ace the Trivia!
             </span>
           </div>

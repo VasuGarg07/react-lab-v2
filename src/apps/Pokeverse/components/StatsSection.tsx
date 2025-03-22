@@ -35,10 +35,10 @@ const StatBar: React.FC<StatBarProps> = ({ stat, primaryType, index }) => {
             transition={{ delay: index * 0.1 }}
         >
             <div className="flex justify-between items-center mb-1">
-                <span className="text-xs font-medium capitalize text-gray-700 dark:text-gray-300">{formatStatName(stat.name)}</span>
-                <span className="text-xs font-bold text-gray-900 dark:text-gray-100">{stat.value}</span>
+                <span className="text-xs font-medium capitalize text-neutral-700 dark:text-neutral-300">{formatStatName(stat.name)}</span>
+                <span className="text-xs font-bold text-neutral-900 dark:text-neutral-100">{stat.value}</span>
             </div>
-            <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div className="h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
                 <motion.div
                     className="h-full rounded-full"
                     style={{ backgroundColor: TYPE_COLORS[primaryType] }}
@@ -62,8 +62,8 @@ const StatsSection: React.FC<StatsSectionProps> = ({ pokemon }) => {
     const totalBaseStats = pokemon.stats.reduce((sum, stat) => sum + stat.value, 0);
 
     return (
-        <div className="w-full text-gray-800 dark:text-gray-100">
-            <h3 className="text-lg font-bold mb-4 text-gray-900 dark:text-white">Base Stats</h3>
+        <div className="w-full text-neutral-800 dark:text-neutral-100">
+            <h3 className="text-lg font-bold mb-4 text-neutral-900 dark:text-white">Base Stats</h3>
 
             <div className="grid xs:grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Left Column: Stat Bars */}
@@ -78,12 +78,12 @@ const StatsSection: React.FC<StatsSectionProps> = ({ pokemon }) => {
                     ))}
 
                     <motion.div
-                        className="mt-4 pt-2 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center"
+                        className="mt-4 pt-2 border-t border-neutral-200 dark:border-neutral-700 flex justify-between items-center"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.7 }}
                     >
-                        <span className="font-medium text-gray-800 dark:text-gray-200">Total</span>
+                        <span className="font-medium text-neutral-800 dark:text-neutral-200">Total</span>
                         <span
                             className="font-bold text-lg"
                             style={{ color: TYPE_COLORS[primaryType] }}

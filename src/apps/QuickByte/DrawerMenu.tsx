@@ -62,7 +62,7 @@ const DrawerMenu = () => {
           {categories.map(category => (
             <button
               key={category}
-              className="px-3 py-1 text-xs bg-white dark:bg-gray-800 border border-blue-500 text-blue-600 dark:text-blue-400 rounded-md hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors"
+              className="px-3 py-1 text-xs bg-white dark:bg-neutral-800 border border-blue-500 text-blue-600 dark:text-blue-400 rounded-md hover:bg-blue-50 dark:hover:bg-neutral-700 transition-colors"
               onClick={() => handleRoute(TABS[0].path, category)}
             >
               {category}
@@ -84,7 +84,7 @@ const DrawerMenu = () => {
           {areas.map(area => (
             <button
               key={area}
-              className="px-3 py-1 text-xs bg-white dark:bg-gray-800 border border-red-500 text-red-600 dark:text-red-400 rounded-md hover:bg-red-50 dark:hover:bg-gray-700 transition-colors"
+              className="px-3 py-1 text-xs bg-white dark:bg-neutral-800 border border-red-500 text-red-600 dark:text-red-400 rounded-md hover:bg-red-50 dark:hover:bg-neutral-700 transition-colors"
               onClick={() => handleRoute(TABS[1].path, area)}
             >
               {area}
@@ -106,7 +106,7 @@ const DrawerMenu = () => {
           {ALPHABETS.map(char => (
             <button
               key={char}
-              className="px-3 py-1 text-xs bg-white dark:bg-gray-800 border border-green-500 text-green-600 dark:text-green-400 rounded-md hover:bg-green-50 dark:hover:bg-gray-700 transition-colors"
+              className="px-3 py-1 text-xs bg-white dark:bg-neutral-800 border border-green-500 text-green-600 dark:text-green-400 rounded-md hover:bg-green-50 dark:hover:bg-neutral-700 transition-colors"
               onClick={() => handleRoute(TABS[2].path, char)}
             >
               {char}
@@ -143,7 +143,7 @@ const DrawerMenu = () => {
               placeholder="Search..."
               value={term}
               onChange={(e) => setTerm(e.target.value)}
-              className="flex-grow px-3 py-2 text-sm text-neutral-800 dark:text-neutral-100 bg-gray-100 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-grow px-3 py-2 text-sm text-neutral-800 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800 rounded-md border border-neutral-200 dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               className="p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"

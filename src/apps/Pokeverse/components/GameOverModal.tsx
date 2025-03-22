@@ -101,12 +101,12 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({
                 </div>
 
                 {/* Action buttons */}
-                <div className="p-6 bg-white dark:bg-gray-800">
+                <div className="p-6 bg-white dark:bg-neutral-800">
                     <div className="flex flex-col gap-3">
                         {onRestart && (
                             <button
                                 onClick={onRestart}
-                                className="flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 rounded-lg font-medium transition-transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
+                                className="flex items-center justify-center gap-3 px-4 py-3 border-2 border-neutral-300 dark:border-neutral-600 text-neutral-800 dark:text-neutral-200 rounded-lg font-medium transition-transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-neutral-300 dark:focus:ring-neutral-600"
                             >
                                 <RotateCcw size={20} />
                                 Play Again

@@ -48,7 +48,7 @@ const ImageCard: FC<ImageCardProps> = ({ image }) => {
 
                     <button
                         onClick={() => navigateToExternalUrl(image.user.instagram_username)}
-                        className="px-3 py-1 bg-white/90 dark:bg-black/60 text-xs font-medium rounded-lg text-gray-800 dark:text-gray-200 hover:bg-white/100 dark:hover:bg-black/80 transition-colors"
+                        className="px-3 py-1 bg-white/90 dark:bg-black/60 text-xs font-medium rounded-lg text-neutral-800 dark:text-neutral-200 hover:bg-white/100 dark:hover:bg-black/80 transition-colors"
                     >
                         {image.user.name}
                     </button>

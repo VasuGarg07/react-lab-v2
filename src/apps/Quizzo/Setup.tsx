@@ -44,14 +44,14 @@ const Setup: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-4 space-y-5">
-      <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-6">
+      <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200 mb-6">
         Quiz Settings
       </h2>
 
       <div className="w-full max-w-sm">
         {/* Name Input */}
         <div className="relative mb-3">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-neutral-500 dark:text-neutral-400">
             <User size={18} />
           </div>
           <input
@@ -60,7 +60,7 @@ const Setup: React.FC = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             disabled={loading}
-            className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full pl-10 pr-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 border border-neutral-300 dark:border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 disabled:opacity-60 disabled:cursor-not-allowed"
           />
         </div>
 
@@ -71,7 +71,7 @@ const Setup: React.FC = () => {
             value={difficulty}
             onValueChange={setDifficulty}
             placeholder="Choose Difficulty Level"
-            icon={<Award size={18} className="text-gray-500 dark:text-gray-400" />}
+            icon={<Award size={18} className="text-neutral-500 dark:text-neutral-400" />}
             disabled={loading}
             required
           />
@@ -84,7 +84,7 @@ const Setup: React.FC = () => {
             value={category}
             onValueChange={setCategory}
             placeholder="Select the Category"
-            icon={<Grid3X3 size={18} className="text-gray-500 dark:text-gray-400" />}
+            icon={<Grid3X3 size={18} className="text-neutral-500 dark:text-neutral-400" />}
             disabled={loading}
             required
           />

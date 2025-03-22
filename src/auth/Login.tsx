@@ -34,17 +34,17 @@ const Login = () => {
 
     return (
         <motion.div
-            className="w-full max-w-md mx-auto bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg rounded-xl shadow-xl overflow-hidden"
+            className="w-full max-w-md mx-auto bg-white/80 dark:bg-neutral-900/80 backdrop-blur-lg rounded-xl shadow-xl overflow-hidden"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
         >
             <div className="p-5 sm:p-6 space-y-4">
                 <div className="mb-2">
-                    <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
+                    <h1 className="text-xl font-semibold text-neutral-900 dark:text-white mb-1">
                         Welcome Back
                     </h1>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">
                         Sign in to continue to your account
                     </p>
                 </div>
@@ -52,12 +52,12 @@ const Login = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     {/* Username/Email Field */}
                     <div className="h-[76px]">
-                        <Label.Root className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <Label.Root className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
                             Username or Email
                         </Label.Root>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <User size={18} className="text-gray-400" />
+                                <User size={18} className="text-neutral-400" />
                             </div>
                             <input
                                 {...register("username", { required: "Username is required" })}
@@ -66,7 +66,7 @@ const Login = () => {
                                 className={`w-full pl-10 pr-3 py-2.5 text-sm rounded-lg border transition-all 
                                 ${errors.username
                                         ? "border-red-500 ring-1 ring-red-500/30"
-                                        : "border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30"
+                                        : "border-neutral-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30"
                                     }`}
                             />
                         </div>
@@ -78,7 +78,7 @@ const Login = () => {
                     {/* Password Field */}
                     <div className="h-[76px]">
                         <div className="flex justify-between items-center mb-2">
-                            <Label.Root className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <Label.Root className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                 Password
                             </Label.Root>
                             <Link
@@ -90,7 +90,7 @@ const Login = () => {
                         </div>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Lock size={18} className="text-gray-400" />
+                                <Lock size={18} className="text-neutral-400" />
                             </div>
                             <input
                                 {...register("password", { required: "Password is required" })}
@@ -99,13 +99,13 @@ const Login = () => {
                                 className={`w-full pl-10 pr-10 py-2.5 text-sm rounded-lg border transition-all 
                                 ${errors.password
                                         ? "border-red-500 ring-1 ring-red-500/30"
-                                        : "border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30"
+                                        : "border-neutral-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30"
                                     }`}
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300"
                                 aria-label={showPassword ? "Hide password" : "Show password"}
                             >
                                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -130,11 +130,11 @@ const Login = () => {
 
                     {/* Divider */}
                     <div className="relative flex items-center py-1">
-                        <div className="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
-                        <span className="flex-shrink mx-3 text-[10px] text-gray-400 dark:text-gray-500">
+                        <div className="flex-grow border-t border-neutral-300 dark:border-neutral-700"></div>
+                        <span className="flex-shrink mx-3 text-[10px] text-neutral-400 dark:text-neutral-500">
                             New to our platform?
                         </span>
-                        <div className="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
+                        <div className="flex-grow border-t border-neutral-300 dark:border-neutral-700"></div>
                     </div>
 
                     {/* Create Account Button */}

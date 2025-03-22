@@ -4,10 +4,10 @@ import React from 'react';
 import { TemplateProps } from '@/apps/ResumeGen/helpers/interfaces';
 
 
-const SIDEBAR_BG = '#f0f0f0';  // Light gray background for sidebar
+const SIDEBAR_BG = '#f0f0f0';  // Light neutral background for sidebar
 const MAIN_BG = '#ffffff';     // White background for main content
-const TEXT_PRIMARY = '#333333';  // Dark gray for primary text
-const TEXT_SECONDARY = '#666666';  // Medium gray for secondary text
+const TEXT_PRIMARY = '#333333';  // Dark neutral for primary text
+const TEXT_SECONDARY = '#666666';  // Medium neutral for secondary text
 const ACCENT_COLOR = '#2c78d4';  // Bright blue for accents and highlights
 
 const Page = styled('div')({

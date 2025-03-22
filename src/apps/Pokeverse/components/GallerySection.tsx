@@ -54,7 +54,7 @@ const GallerySection = ({ id, primaryType }: GallerySectionProps) => {
                 <div key={category}>
                     <div className="flex items-center gap-4 mb-4">
                         <ImageIcon size={24} color={accentColor} />
-                        <h3 className="text-xl font-semibold dark:text-white text-gray-800">{category}</h3>
+                        <h3 className="text-xl font-semibold dark:text-white text-neutral-800">{category}</h3>
                     </div>
 
                     <div className="flex flex-wrap gap-6 justify-center">
@@ -82,7 +82,7 @@ const GallerySection = ({ id, primaryType }: GallerySectionProps) => {
                                     }}
                                 />
 
-                                <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400 relative z-10">
+                                <p className="mt-4 text-center text-sm text-neutral-600 dark:text-neutral-400 relative z-10">
                                     {image.label}
                                 </p>
                             </motion.div>

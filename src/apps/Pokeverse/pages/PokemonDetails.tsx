@@ -90,7 +90,7 @@ const PokemonDetails: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="min-h-[calc(100vh-52px)] flex items-center justify-center bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
+            <div className="min-h-[calc(100vh-52px)] flex items-center justify-center bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700">
                 <div className="animate-spin w-12 h-12 border-4 border-primary rounded-full border-t-transparent"></div>
             </div>
         );
@@ -98,15 +98,15 @@ const PokemonDetails: React.FC = () => {
 
     if (error || !pokemon) {
         return (
-            <div className="min-h-[calc(100vh-52px)] p-4 bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
+            <div className="min-h-[calc(100vh-52px)] p-4 bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700">
                 <button
                     onClick={() => navigate(-1)}
-                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white dark:bg-gray-800 shadow-sm mb-4"
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white dark:bg-neutral-800 shadow-sm mb-4"
                 >
                     <ArrowLeft size={16} />
                     Back
                 </button>
-                <h3 className="text-2xl font-bold text-gray-800 dark:text-white">Pokemon not found</h3>
+                <h3 className="text-2xl font-bold text-neutral-800 dark:text-white">Pokemon not found</h3>
             </div>
         );
     }
@@ -140,7 +140,7 @@ const PokemonDetails: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="min-h-[calc(100vh-52px)] bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 p-2 md:p-4 text-gray-900 dark:text-gray-100"
+                className="min-h-[calc(100vh-52px)] bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-200 dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-700 p-2 md:p-4 text-neutral-900 dark:text-neutral-100"
             >
                 {/* Top Navigation */}
                 <motion.div
@@ -200,7 +200,7 @@ const PokemonDetails: React.FC = () => {
                                             onClick={() => setActiveSection(section.id)}
                                             className={`w-full flex items-center justify-start gap-2 px-3 py-2 mb-1 rounded-lg transition-all duration-200 ${activeSection === section.id
                                                 ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
-                                                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                                                : 'hover:bg-neutral-100 dark:hover:bg-neutral-800'
                                                 }`}
                                         >
                                             <Icon size={18} />
@@ -220,7 +220,7 @@ const PokemonDetails: React.FC = () => {
                     >
                         <div className="rounded-xl bg-white/50 dark:bg-white/5 backdrop-blur-md overflow-hidden">
                             {/* Mobile Navigation */}
-                            <div className="flex lg:hidden gap-1 p-2 overflow-x-auto border-b border-gray-200 dark:border-gray-700">
+                            <div className="flex lg:hidden gap-1 p-2 overflow-x-auto border-b border-neutral-200 dark:border-neutral-700">
                                 {Sections.map((section) => {
                                     const Icon = section.icon;
                                     return (
@@ -230,7 +230,7 @@ const PokemonDetails: React.FC = () => {
                                             onClick={() => setActiveSection(section.id)}
                                             className={`flex items-center gap-1 px-2 py-1 rounded-lg whitespace-nowrap ${activeSection === section.id
                                                 ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
-                                                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                                                : 'hover:bg-neutral-100 dark:hover:bg-neutral-800'
                                                 }`}
                                         >
                                             <Icon size={18} />
@@ -251,7 +251,7 @@ const PokemonDetails: React.FC = () => {
                                         transition={{ duration: 0.2 }}
                                     >
                                         <div className="min-h-[400px]">
-                                            <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+                                            <h3 className="text-xl font-bold mb-4 text-neutral-900 dark:text-white">
                                                 {Sections.find(s => s.id === activeSection)?.label}
                                             </h3>
                                             {activeSectionComponent()}

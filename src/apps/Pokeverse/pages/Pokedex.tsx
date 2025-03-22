@@ -119,7 +119,7 @@ const Pokedex: React.FC = () => {
                 <h2 className="text-xl font-bold text-red-500">
                     Oops! Something went wrong
                 </h2>
-                <p className="text-gray-700 dark:text-gray-300">
+                <p className="text-neutral-700 dark:text-neutral-300">
                     Error loading Pokémon: {error.message}
                 </p>
             </div>
@@ -142,15 +142,15 @@ const Pokedex: React.FC = () => {
                             </h1>
                         </div>
 
-                        <div className="h-px bg-gray-200 dark:bg-gray-800 w-full"></div>
+                        <div className="h-px bg-neutral-200 dark:bg-neutral-800 w-full"></div>
 
                         <div className="flex justify-between items-center mt-4 flex-wrap gap-2">
-                            <p className="text-lg text-gray-800 dark:text-gray-200">
+                            <p className="text-lg text-neutral-800 dark:text-neutral-200">
                                 Displaying {allPokemon.length} Pokémon
                             </p>
                             <div className="flex items-center gap-1">
-                                <ChevronsDown size={16} className="text-gray-500 dark:text-gray-400" />
-                                <span className="text-sm text-gray-500 dark:text-gray-400">
+                                <ChevronsDown size={16} className="text-neutral-500 dark:text-neutral-400" />
+                                <span className="text-sm text-neutral-500 dark:text-neutral-400">
                                     Scroll to discover more
                                 </span>
                             </div>
@@ -206,7 +206,7 @@ const Pokedex: React.FC = () => {
                             transition={{ duration: 0.3 }}
                             className="my-6"
                         >
-                            <div className="w-12 h-12 border-4 border-gray-300 dark:border-gray-700 border-t-blue-500 rounded-full animate-spin"></div>
+                            <div className="w-12 h-12 border-4 border-neutral-300 dark:border-neutral-700 border-t-blue-500 rounded-full animate-spin"></div>
                         </motion.div>
                     )}
                 </div>
@@ -218,10 +218,10 @@ const Pokedex: React.FC = () => {
                         transition={{ duration: 0.5 }}
                     >
                         <div className="text-center py-6">
-                            <p className="text-lg font-medium text-gray-800 dark:text-gray-200">
+                            <p className="text-lg font-medium text-neutral-800 dark:text-neutral-200">
                                 You've caught 'em all! 🎉
                             </p>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                            <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
                                 No more Pokémon to load in {selectedRegion.name} Region
                             </p>
                         </div>

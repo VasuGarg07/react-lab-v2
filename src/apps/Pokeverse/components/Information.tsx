@@ -45,7 +45,7 @@ const InfoSection: React.FC<InfoSectionProps> = ({ pokemon }) => {
     ];
 
     return (
-        <motion.div layout className="text-gray-800 dark:text-gray-100">
+        <motion.div layout className="text-neutral-800 dark:text-neutral-100">
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2 my-1">
                 {statsCards.map(({ icon: Icon, label, value }) => (
@@ -54,12 +54,12 @@ const InfoSection: React.FC<InfoSectionProps> = ({ pokemon }) => {
                         initial={{ scale: 0.95, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         whileHover={{ scale: 1.02 }}
-                        className="p-2 rounded-lg flex flex-col items-center gap-1 text-center transition-all duration-200 bg-gray-100 dark:bg-gray-800/50"
+                        className="p-2 rounded-lg flex flex-col items-center gap-1 text-center transition-all duration-200 bg-neutral-100 dark:bg-neutral-800/50"
                         style={{ borderBottom: `2px solid ${accentColor}` }}
                     >
                         <Icon size={24} color={accentColor} />
                         <div>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                            <p className="text-xs text-neutral-500 dark:text-neutral-400">
                                 {label}
                             </p>
                             <p className="text-lg font-bold capitalize">
@@ -72,17 +72,17 @@ const InfoSection: React.FC<InfoSectionProps> = ({ pokemon }) => {
 
             {/* Generation & Genre */}
             <div
-                className="p-2 my-2 rounded-lg flex items-center gap-2 bg-gray-100 dark:bg-gray-800/50"
+                className="p-2 my-2 rounded-lg flex items-center gap-2 bg-neutral-100 dark:bg-neutral-800/50"
                 style={{ borderBottom: `2px solid ${accentColor}` }}
             >
                 <Crown size={24} color={accentColor} />
                 <div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Generation {pokemon.generation}</p>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">Generation {pokemon.generation}</p>
                     <p className="text-lg font-bold">
                         {REGION_DATA[pokemon.generation - 1].name}
                     </p>
                 </div>
-                <div className="h-6 w-px bg-gray-300 dark:bg-gray-600 mx-2" />
+                <div className="h-6 w-px bg-neutral-300 dark:bg-neutral-600 mx-2" />
                 <p className="text-lg capitalize">
                     {pokemon.genre}
                 </p>
@@ -90,7 +90,7 @@ const InfoSection: React.FC<InfoSectionProps> = ({ pokemon }) => {
 
             {/* Abilities */}
             <div
-                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800/50"
+                className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800/50"
                 style={{ borderBottom: `2px solid ${accentColor}` }}
             >
                 <p className="text-base font-medium mb-2">Abilities</p>

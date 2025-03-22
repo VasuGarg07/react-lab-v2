@@ -92,7 +92,7 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
 
       <div className="relative w-full max-w-4xl mx-auto z-10 flex flex-col p-4">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center mb-4 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <nav className="flex items-center mb-4 text-sm font-medium text-neutral-700 dark:text-neutral-300">
           {breadcrumbs.map((crumb, index) => (
             <div key={index} className="flex items-center">
               {index === 0 ? (
@@ -105,7 +105,7 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
                 </button>
               ) : (
                 <>
-                  <ChevronRight size={16} className="mx-2 text-gray-500 dark:text-gray-400" />
+                  <ChevronRight size={16} className="mx-2 text-neutral-500 dark:text-neutral-400" />
                   <span className={index === breadcrumbs.length - 1 ? "font-semibold text-blue-600 dark:text-blue-400" : "hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"}>
                     {crumb.label}
                   </span>

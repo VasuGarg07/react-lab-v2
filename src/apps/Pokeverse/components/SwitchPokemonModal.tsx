@@ -34,19 +34,19 @@ export const SwitchPokemonModal: React.FC<SwitchPokemonModalProps> = ({
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 relative w-full overflow-hidden text-gray-900 dark:text-gray-100"
+                className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-6 relative w-full overflow-hidden text-neutral-900 dark:text-neutral-100"
             >
                 <div className="flex items-center mb-1">
                     <h3 className="text-xl font-bold flex-1">Choose Pokemon</h3>
                     <button
                         onClick={onClose}
-                        className="ml-1 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        className="ml-1 p-1 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
                     >
                         <X className="w-5 h-5" />
                     </button>
                 </div>
 
-                <div className="h-px w-full bg-gray-200 dark:bg-gray-700 mb-4" />
+                <div className="h-px w-full bg-neutral-200 dark:bg-neutral-700 mb-4" />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
                     <AnimatePresence mode="popLayout">
@@ -67,14 +67,14 @@ export const SwitchPokemonModal: React.FC<SwitchPokemonModalProps> = ({
                                             ? 'hover:translate-y-[-8px] hover:shadow-md hover:border-blue-500'
                                             : ''
                                         } ${index === activePokemonIndex
-                                            ? 'bg-gray-100 dark:bg-gray-700'
-                                            : 'bg-white dark:bg-gray-800'
+                                            ? 'bg-neutral-100 dark:bg-neutral-700'
+                                            : 'bg-white dark:bg-neutral-800'
                                         }`}
                                 >
                                     <button
                                         disabled={index === activePokemonIndex || pokemon.currentHP <= 0}
                                         onClick={() => onSwitch(index)}
-                                        className="flex flex-col w-full h-full p-2 text-left disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700/50 disabled:hover:bg-transparent transition-colors"
+                                        className="flex flex-col w-full h-full p-2 text-left disabled:cursor-not-allowed hover:bg-neutral-50 dark:hover:bg-neutral-700/50 disabled:hover:bg-transparent transition-colors"
                                     >
                                         <div className="relative flex justify-center overflow-hidden rounded-sm">
                                             <img
@@ -108,8 +108,8 @@ export const SwitchPokemonModal: React.FC<SwitchPokemonModalProps> = ({
                                             ))}
                                             <Heart size={16} className="text-red-500 ml-1" />
                                             <span className={`text-sm ${pokemon.currentHP < pokemon.maxHP * 0.3
-                                                    ? 'text-red-500 dark:text-red-400'
-                                                    : ''
+                                                ? 'text-red-500 dark:text-red-400'
+                                                : ''
                                                 }`}>
                                                 {pokemon.currentHP}/{pokemon.maxHP}
                                             </span>

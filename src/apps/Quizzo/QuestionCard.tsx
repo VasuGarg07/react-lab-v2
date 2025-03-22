@@ -47,13 +47,13 @@ const QuestionCard = ({
   };
 
   return (
-    <div className="flex flex-col mt-4 p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex-grow">
-      <h3 className="text-xl font-semibold tracking-wide text-gray-800 dark:text-gray-200">
+    <div className="flex flex-col mt-4 p-5 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-sm flex-grow">
+      <h3 className="text-xl font-semibold tracking-wide text-neutral-800 dark:text-neutral-200">
         Question {currQues + 1}
       </h3>
 
       <div
-        className="text-base text-gray-700 dark:text-gray-300 my-3"
+        className="text-base text-neutral-700 dark:text-neutral-300 my-3"
         dangerouslySetInnerHTML={{ __html: questions[currQues].question }}
       />
 
@@ -65,9 +65,9 @@ const QuestionCard = ({
             disabled={!!selected}
             dangerouslySetInnerHTML={{ __html: val }}
             className={`
-              w-[calc(50%-0.5rem)] min-h-[3rem] p-3 rounded-lg border border-gray-300 dark:border-gray-600 
-              font-medium text-gray-700 dark:text-gray-300 transition-all duration-200
-              hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 
+              w-[calc(50%-0.5rem)] min-h-[3rem] p-3 rounded-lg border border-neutral-300 dark:border-neutral-600 
+              font-medium text-neutral-700 dark:text-neutral-300 transition-all duration-200
+              hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500 
               disabled:cursor-not-allowed 
               ${selected && handleSelect(val) === 'correct' ? 'bg-green-500 hover:bg-green-500 text-white border-transparent' : ''}
               ${selected && handleSelect(val) === 'wrong' ? 'bg-red-500 hover:bg-red-500 text-white border-transparent' : ''}
@@ -76,12 +76,12 @@ const QuestionCard = ({
         ))}
       </div>
 
-      <div className="h-px w-full bg-gray-200 dark:bg-gray-700 my-4"></div>
+      <div className="h-px w-full bg-neutral-200 dark:bg-neutral-700 my-4"></div>
 
       <div className="flex flex-row justify-center space-x-4">
         <button
           onClick={handleQuit}
-          className="flex items-center justify-center gap-2 px-4 py-2 w-1/2 bg-white dark:bg-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 
+          className="flex items-center justify-center gap-2 px-4 py-2 w-1/2 bg-white dark:bg-neutral-700 hover:bg-red-50 dark:hover:bg-red-900/20 
           text-red-500 dark:text-red-400 font-medium rounded-lg border border-red-200 dark:border-red-800 
           transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
         >

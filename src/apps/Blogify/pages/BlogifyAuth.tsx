@@ -12,12 +12,12 @@ const BlogifyAuth = ({ mode = 'light' }) => {
             primary: '#E9967A', // Coral pink
             secondary: '#B8860B', // Golden brown
             background: '#F5E6D3', // Cream
-            text: '#2D3748', // Dark gray
+            text: '#2D3748', // Dark neutral
         },
         dark: {
             primary: '#FFB6A3', // Lighter coral
             secondary: '#DAA520', // Golden
-            background: '#2D3748', // Dark blue-gray
+            background: '#2D3748', // Dark blue-neutral
             text: '#F5E6D3', // Cream
         }
     };

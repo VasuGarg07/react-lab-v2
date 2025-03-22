@@ -13,7 +13,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({ pokemon }) => {
     const primaryType = pokemon.types[0];
 
     return (
-        <div className="relative aspect-square mb-12 rounded-[30px] overflow-hidden bg-white/50 dark:bg-white/5 backdrop-blur-[10px] shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/30 dark:border-white/10 max-w-[400px] mx-auto text-gray-800 dark:text-gray-100">
+        <div className="relative aspect-square mb-12 rounded-[30px] overflow-hidden bg-white/50 dark:bg-white/5 backdrop-blur-[10px] shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/30 dark:border-white/10 max-w-[400px] mx-auto text-neutral-800 dark:text-neutral-100">
             {/* Background Gradient */}
             <div
                 className="absolute top-0 left-0 w-full h-full opacity-100 transition-opacity duration-300"
@@ -134,34 +134,34 @@ export const QuickStats: React.FC<QuickStatsProps> = ({ pokemon }) => {
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-2 rounded-xl bg-white/50 dark:bg-white/5 backdrop-blur-[10px] mt-2 text-gray-800 dark:text-gray-100"
+            className="p-2 rounded-xl bg-white/50 dark:bg-white/5 backdrop-blur-[10px] mt-2 text-neutral-800 dark:text-neutral-100"
         >
             <div className="grid grid-cols-2 gap-2">
                 <div className="flex items-center gap-1" style={{ color: TYPE_COLORS[primaryType] }}>
                     <Heart size={20} />
                     <div>
-                        <p className="text-xs text-gray-600 dark:text-gray-300">Base Happiness</p>
+                        <p className="text-xs text-neutral-600 dark:text-neutral-300">Base Happiness</p>
                         <p className="text-sm font-bold">{pokemon.baseHappiness}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-1" style={{ color: TYPE_COLORS[primaryType] }}>
                     <Scale size={20} />
                     <div>
-                        <p className="text-xs text-gray-600 dark:text-gray-300">Weight</p>
+                        <p className="text-xs text-neutral-600 dark:text-neutral-300">Weight</p>
                         <p className="text-sm font-bold">{pokemon.weight}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-1" style={{ color: TYPE_COLORS[primaryType] }}>
                     <Dumbbell size={20} />
                     <div>
-                        <p className="text-xs text-gray-600 dark:text-gray-300">Base Exp</p>
+                        <p className="text-xs text-neutral-600 dark:text-neutral-300">Base Exp</p>
                         <p className="text-sm font-bold">{pokemon.baseExp}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-1" style={{ color: TYPE_COLORS[primaryType] }}>
                     <TreePine size={20} />
                     <div>
-                        <p className="text-xs text-gray-600 dark:text-gray-300">Habitat</p>
+                        <p className="text-xs text-neutral-600 dark:text-neutral-300">Habitat</p>
                         <p className="text-sm font-bold capitalize">
                             {pokemon.habitat || 'Unknown'}
                         </p>
