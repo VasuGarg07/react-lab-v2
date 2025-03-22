@@ -1,20 +1,16 @@
+import { BarChart2, Feather, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
 import BattleSim from '/cover/battle-sim2.webp';
 import Blogger from '/cover/blogger.webp';
 import Budget from '/cover/budget.webp';
 import Byte from '/cover/byte.webp';
-import Glass from '/cover/glass.webp';
 import Snap from '/cover/image.webp';
 import Invoice from '/cover/invoice.png';
-import Jobscape from '/cover/jobscape2.webp';
 import Loan from '/cover/loan.webp';
 import Memory from '/cover/memory.webp';
 import Quiz from '/cover/quiz.webp';
-import Resume from '/cover/resume.webp';
 import Sudoku from '/cover/sudoku.webp';
 import TicTacToe from '/cover/tictactoe.webp';
 import Visualizer from '/cover/visualizer.webp';
-
-import { BarChart2, BriefcaseBusiness, Feather, FileText, Glasses, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
 
 export interface AppInfo {
   name: string;
@@ -28,16 +24,6 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
-  {
-    name: 'Jobscape',
-    path: '/jobscape',
-    tag: "Find your ideal job",
-    image: Jobscape,
-    visible: true,
-    description: "A dynamic portal connecting job seekers with top employers through seamless experience.",
-    techStack: ['Rich Text Editor', 'Dashboard Analytics', 'Profile Management'],
-    icon: BriefcaseBusiness,
-  },
   {
     name: 'Blogify',
     path: '/blogify',
@@ -67,16 +53,6 @@ export const Apps: AppInfo[] = [
     description: "Experience dynamic Pokemon battles with strategic gameplay mechanics",
     techStack: ['Game Logic', 'State Management', 'Real-time Updates'],
     icon: Swords
-  },
-  {
-    name: 'Resume Generator',
-    path: '/resume',
-    tag: "Craft Your Professional Story",
-    image: Resume,
-    visible: true,
-    description: "Create stunning, ATS-friendly resumes tailored to your career goals",
-    techStack: ['PDF Generation', 'Form Handling'],
-    icon: FileText
   },
   {
     name: 'InvoEase',
@@ -167,15 +143,5 @@ export const Apps: AppInfo[] = [
     description: "Calculate and visualize home loan scenarios to make informed financial decisions",
     techStack: ['Financial Calculations', 'Data Visualization'],
     icon: HandCoins
-  },
-  {
-    name: 'Glassmorphism',
-    path: '/glassmorphism',
-    tag: "Modern UI Magic",
-    image: Glass,
-    visible: false,
-    description: "Experiment with the trendy glassmorphism effect and generate CSS for your projects",
-    techStack: ['CSS Generation', 'Interactive UI'],
-    icon: Glasses
   },
 ];
