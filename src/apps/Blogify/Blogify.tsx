@@ -1,13 +1,11 @@
-import { Box } from '@mui/joy';
-import { motion } from 'framer-motion';
-import { Outlet, useLocation } from 'react-router';
 import BlogifyNav from '@/apps/Blogify/components/BlogifyNav';
 import { useAuth } from '@/auth/AuthProvider';
-import { useColorScheme } from '@mui/joy';
+import AppBackground from '@/components/AppBackground';
 import LoginPrompt from '@/components/LoginPrompt';
+import { motion } from 'framer-motion';
+import { Outlet, useLocation } from 'react-router';
 
 const Blogify = () => {
-    const { mode } = useColorScheme();
     const { isLoggedIn } = useAuth();
     const location = useLocation();
 
@@ -19,48 +17,27 @@ const Blogify = () => {
     }
 
     return (
-        <Box
-            sx={{
-                minHeight: 'calc(100vh - 54px)',
-                background: mode === 'light'
-                    ? `
-                        radial-gradient(circle at 30% 20%, rgba(233, 150, 122, 0.4), transparent 70%),
-                        radial-gradient(circle at 70% 80%, rgba(184, 134, 11, 0.4), transparent 70%),
-                        radial-gradient(circle at 50% 50%, rgba(245, 230, 211, 0.4), transparent 70%)
-                      `
-                    : `
-                        radial-gradient(circle at 30% 20%, rgba(255, 182, 163, 0.4), transparent 70%),
-                        radial-gradient(circle at 70% 80%, rgba(218, 165, 32, 0.4), transparent 70%),
-                        radial-gradient(circle at 50% 50%, rgba(45, 55, 72, 0.4), transparent 70%)
-                      `,
-                display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' }
-            }}
-        >
-            <BlogifyNav mode={mode} />
 
-            <Box
-                component="main"
-                sx={{
-                    flexGrow: 1,
-                    width: { md: 'calc(100% - 280px)' },
-                    minHeight: { xs: 'calc(100vh - 116px)', md: 'calc(100vh - 54px)' },
-                    height: { xs: 'auto', md: 'calc(100vh - 54px)' },
-                    overflow: 'auto',
-                    pb: { xs: '64px', md: 0 }  // Account for bottom nav on mobile
-                }}
-            >
-                <motion.div
-                    key={location.pathname}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                >
-                    <Outlet />
-                </motion.div>
-            </Box>
-        </Box>
+        <div className="relative h-[calc(100vh-54px)] overflow-hidden">
+            <AppBackground />
+            <div className="min-h-[calc(100vh-54px)] flex flex-col sm:flex-row relative">
+                {/* Navigation */}
+                <BlogifyNav />
+
+                {/* Main Content */}
+                <main className="flex-grow w-full sm:w-[calc(100%-280px)] min-h-[calc(100vh-116px)] md:min-h-[calc(100vh-54px)] h-auto md:h-[calc(100vh-54px)] overflow-auto pb-16 md:pb-0">
+                    <motion.div
+                        key={location.pathname}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <Outlet />
+                    </motion.div>
+                </main>
+            </div>
+        </div>
     );
 };
 

@@ -1,8 +1,7 @@
-import { Box, CircularProgress, Stack, Typography, Avatar, Card } from '@mui/joy';
-import { useLoaderData, useSearchParams, useNavigation } from 'react-router';
 import BlogGallery from '@/apps/Blogify/components/BlogGallery';
 import { BlogListResponse } from '@/apps/Blogify/helpers/blog.constants';
 import { useAuth } from '@/auth/AuthProvider';
+import { useLoaderData, useNavigation, useSearchParams } from 'react-router';
 
 const MyBlogs = () => {
     const response = useLoaderData() as BlogListResponse;
@@ -22,88 +21,71 @@ const MyBlogs = () => {
 
     if (navigation.state === 'loading') {
         return (
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                minHeight: '400px'
-            }}>
-                <CircularProgress />
-            </Box>
+            <div className="flex justify-center items-center min-h-[400px]">
+                <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
         );
     }
 
     return (
-        <Stack spacing={3} sx={{ p: { xs: 2, md: 4 } }}>
+        <div className="p-2 md:p-4 space-y-6">
             {/* Author Header */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    alignItems: { xs: 'flex-start', sm: 'center' },
-                    gap: 2
-                }}
-            >
-                <Avatar
-                    src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.username}`}
-                    size="lg"
-                >
-                    {user?.username.charAt(0)}
-                </Avatar>
-                <Box>
-                    <Typography level="h2" component="h1">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                <div className="h-14 w-14 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden flex items-center justify-center text-lg font-medium">
+                    <img
+                        src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.username}`}
+                        alt={user?.username}
+                        className="w-full h-full"
+                    />
+                </div>
+                <div>
+                    <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                         Your Stories
-                    </Typography>
-                    <Typography level="body-md" color="neutral">
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-400">
                         Welcome back, {user?.username}
-                    </Typography>
-                </Box>
-            </Box>
+                    </p>
+                </div>
+            </div>
 
             {/* Stats Cards */}
-            <Box
-                sx={{
-                    display: 'grid',
-                    gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
-                    gap: 2
-                }}
-            >
-                <Card variant="soft" sx={{ textAlign: 'center', p: 2 }}>
-                    <Typography level="h3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="bg-gray-50 dark:bg-zinc-800 rounded-lg p-3 text-center shadow-sm">
+                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                         {response.pagination.totalItems}
-                    </Typography>
-                    <Typography level="body-sm">
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                         Total Stories
-                    </Typography>
-                </Card>
+                    </p>
+                </div>
 
-                <Card variant="soft" sx={{ textAlign: 'center', p: 2 }}>
-                    <Typography level="h3">
+                <div className="bg-gray-50 dark:bg-zinc-800 rounded-lg p-3 text-center shadow-sm">
+                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                         {publishedCount}
-                    </Typography>
-                    <Typography level="body-sm">
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                         Published
-                    </Typography>
-                </Card>
+                    </p>
+                </div>
 
-                <Card variant="soft" sx={{ textAlign: 'center', p: 2 }}>
-                    <Typography level="h3">
+                <div className="bg-gray-50 dark:bg-zinc-800 rounded-lg p-3 text-center shadow-sm">
+                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                         {draftCount}
-                    </Typography>
-                    <Typography level="body-sm">
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                         Drafts
-                    </Typography>
-                </Card>
+                    </p>
+                </div>
 
-                <Card variant="soft" sx={{ textAlign: 'center', p: 2 }}>
-                    <Typography level="h3">
+                <div className="bg-gray-50 dark:bg-zinc-800 rounded-lg p-3 text-center shadow-sm">
+                    <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                         {response.data.reduce((acc, blog) => acc + blog.tags.length, 0)}
-                    </Typography>
-                    <Typography level="body-sm">
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                         Total Tags
-                    </Typography>
-                </Card>
-            </Box>
+                    </p>
+                </div>
+            </div>
 
             {/* Blog Gallery */}
             <BlogGallery
@@ -111,7 +93,7 @@ const MyBlogs = () => {
                 onPageChange={handlePageChange}
                 emptyMessage="Start writing your first blog!"
             />
-        </Stack>
+        </div>
     );
 };
 

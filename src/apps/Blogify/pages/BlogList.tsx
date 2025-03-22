@@ -1,7 +1,6 @@
-import { Box, CircularProgress } from '@mui/joy';
-import { useLoaderData, useSearchParams, useNavigation } from 'react-router';
 import BlogGallery from '@/apps/Blogify/components/BlogGallery';
 import { BlogListResponse } from '@/apps/Blogify/helpers/blog.constants';
+import { useLoaderData, useNavigation, useSearchParams } from 'react-router';
 
 const BlogListPage = () => {
     const response = useLoaderData() as BlogListResponse;
@@ -17,24 +16,19 @@ const BlogListPage = () => {
 
     if (navigation.state === 'loading') {
         return (
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                minHeight: '400px'
-            }}>
-                <CircularProgress />
-            </Box>
+            <div className="flex justify-center items-center min-h-[400px]">
+                <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
         );
     }
 
     return (
-        <Box sx={{ p: { xs: 2, md: 4 } }}>
+        <div className="p-2 md:p-4">
             <BlogGallery
                 blogListResponse={response}
                 onPageChange={handlePageChange}
             />
-        </Box>
+        </div>
     );
 };
 

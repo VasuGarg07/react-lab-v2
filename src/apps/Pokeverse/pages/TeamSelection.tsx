@@ -80,7 +80,7 @@ export const TeamSelectionScreen = () => {
     };
 
     const handlePokemonSelect = (id: number) => {
-        const [selected, setSelected] =
+        const [_, setSelected] =
             currentPlayer === 1
                 ? [selectedPokemon1, setSelectedPokemon1]
                 : [selectedPokemon2, setSelectedPokemon2];

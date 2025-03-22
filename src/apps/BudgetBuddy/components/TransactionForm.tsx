@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { ReceiptText } from 'lucide-react';
 import { EXPENSE_TYPES, INCOME_TYPES, Transaction } from '@/apps/BudgetBuddy/helpers/expense.constants';
 import { cn } from '@/shared/cn';
+import React, { useEffect, useState } from 'react';
 
 interface TransactionFormProps {
     mode: 'add' | 'edit';
@@ -84,17 +83,10 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         }
     };
 
-    const inputStyles = "w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 transition duration-200";
+    const inputStyles = "w-full px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 transition duration-200";
 
     return (
-        <div className="p-4">
-            <div className="flex items-center gap-2 mb-4">
-                <ReceiptText size={24} className="text-emerald-600 dark:text-emerald-400" />
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                    {mode === 'add' ? 'Add Transaction' : 'Edit Transaction'}
-                </h2>
-            </div>
-
+        <div className="p-4 w-md">
             <div className="h-px w-full bg-gray-200 dark:bg-gray-700 mb-4"></div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
