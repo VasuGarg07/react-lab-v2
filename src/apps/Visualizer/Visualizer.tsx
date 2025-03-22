@@ -1,119 +1,127 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Box, Divider, Sheet, Stack, useColorScheme } from '@mui/joy';
-import ControlPanel from '@/apps/Visualizer/ControlPanel';
-import Bar from '@/apps/Visualizer/Bar';
+import { Info } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import {
-    randomIntFromInterval,
     bubbleSort,
-    selectionSort,
     insertionSort,
     mergeSort,
     quickSort,
-    getMaxOfArray,
-    TimeDuration,
-    ArraySize
-} from '@/apps/Visualizer/algorithms';
+    selectionSort
+} from './algorithms';
 
-const SortingVisualizer: React.FC = () => {
-    const { mode } = useColorScheme();
+import AppBackground from '@/components/AppBackground';
+import Dialog from '@/ui/Dialog';
+import AboutVisualizer from './AboutVisualizer';
+import AlgorithmInfo from './AlgorithmInfo';
+import ControlPanel from './ControlPanel';
+import Visualization from './Visualization';
+
+const SortingVisualizer = () => {
     const [array, setArray] = useState<number[]>([]);
-    const [max, setMax] = useState<number>(0);
-    const [algorithm, setAlgorithm] = useState<string>('Bubble Sort');
-    const [arraySize, setArraySize] = useState<number>(ArraySize[0]);
-    const [animationSpeed, setAnimationSpeed] = useState<number>(TimeDuration[0]);
+    const [arraySize, setArraySize] = useState(30);
+    const [animationSpeed, setAnimationSpeed] = useState(500);
+    const [algorithm, setAlgorithm] = useState("bubbleSort");
+    const [sorting, setSorting] = useState(false);
+    const [infoOpen, setInfoOpen] = useState(false);
     const isSorting = useRef(false);
 
     useEffect(() => {
-        resetArray();
+        generateNewArray();
     }, [arraySize]);
 
-    const resetArray = () => {
-        if (isSorting.current) stopSorting();
-        const newArray: number[] = [];
-        for (let i = 0; i < arraySize; i++) {
-            newArray.push(randomIntFromInterval(5, 500));
-        }
+    const generateNewArray = () => {
+        const newArray = Array.from({ length: arraySize }, () =>
+            Math.floor(Math.random() * 100) + 5
+        );
         setArray(newArray);
-        setMax(getMaxOfArray(newArray));
     };
 
-    const stopSorting = () => {
-        isSorting.current = false;
-    };
+    const startSorting = async () => {
+        if (sorting) return;
 
-    const sortArray = async () => {
-        if (isSorting.current) return;
+        setSorting(true);
         isSorting.current = true;
+
         switch (algorithm) {
-            case 'Bubble Sort':
+            case "bubbleSort":
                 await bubbleSort(array, setArray, animationSpeed, isSorting);
                 break;
-            case 'Selection Sort':
+            case "selectionSort":
                 await selectionSort(array, setArray, animationSpeed, isSorting);
                 break;
-            case 'Insertion Sort':
+            case "insertionSort":
                 await insertionSort(array, setArray, animationSpeed, isSorting);
                 break;
-            case 'Merge Sort':
-                await mergeSort(array, setArray, animationSpeed, isSorting);
+            case "mergeSort":
+                await mergeSort([...array], setArray, animationSpeed, isSorting);
                 break;
-            case 'Quick Sort':
-                await quickSort(array, setArray, animationSpeed, isSorting);
+            case "quickSort":
+                await quickSort([...array], setArray, animationSpeed, isSorting);
                 break;
             default:
                 break;
         }
+
+        setSorting(false);
         isSorting.current = false;
     };
 
+    const stopSorting = () => {
+        isSorting.current = false;
+        setSorting(false);
+    };
+
     return (
-        <Box
-            sx={{
-                minHeight: 'calc(100dvh - 52px)',
-                background: mode === 'light'
-                    ? `
-                        radial-gradient(circle at 30% 20%, rgba(102, 84, 241, 0.4), transparent 70%),
-                        radial-gradient(circle at 70% 80%, rgba(105, 234, 203, 0.4), transparent 70%),
-                        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4), transparent 70%)
-                    `
-                    : `
-                        radial-gradient(circle at 30% 20%, rgba(0, 147, 130, 0.4), transparent 70%),
-                        radial-gradient(circle at 70% 80%, rgba(162, 0, 0, 0.4), transparent 70%),
-                        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4), transparent 70%)
-                    `,
-            }}>
-            <ControlPanel
-                algorithm={algorithm}
-                setAlgorithm={setAlgorithm}
-                arraySize={arraySize}
-                setArraySize={setArraySize}
-                animationSpeed={animationSpeed}
-                setAnimationSpeed={setAnimationSpeed}
-                resetArray={resetArray}
-                sortArray={sortArray}
-                stopSorting={stopSorting}
-            />
-            <Divider />
-            <Sheet sx={{
-                width: 'calc(100% - 32px)',
-                maxWidth: 800,
-                p: 2, my: 2, mx: 'auto',
-                borderRadius: 16,
-                boxShadow: 'xl',
-                height: (max + 32)
-            }}>
-                <Stack direction='row' justifyContent="center" height={1}>
-                    {array.map((value, idx) => (
-                        <Bar
-                            key={idx}
-                            width={`calc(100% / ${arraySize}) `}
-                            height={value}
-                            animationSpeed={animationSpeed}
-                        />
-                    ))}
-                </Stack>
-            </Sheet>
-        </Box>
+        <div className='relative min-h-screen overflow-hidden'>
+            <AppBackground />
+
+            {/* Main content */}
+            <div className="relative z-10 px-4 py-6 max-w-5xl mx-auto rounded-xl">
+                {/* Header */}
+                <header className="flex justify-between items-center mb-3 text-neutral-800 dark:text-neutral-100">
+                    <h1 className="text-2xl font-bold">Sorting Visualizer</h1>
+                    <div className="flex items-center space-x-3">
+                        <button
+                            onClick={() => setInfoOpen(true)}
+                            className='p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors'
+                            aria-label="Information"
+                        >
+                            <Info size={20} />
+                        </button>
+                    </div>
+                </header>
+
+                {/* Controls */}
+                <ControlPanel
+                    algorithm={algorithm}
+                    setAlgorithm={setAlgorithm}
+                    arraySize={arraySize}
+                    setArraySize={setArraySize}
+                    animationSpeed={animationSpeed}
+                    setAnimationSpeed={setAnimationSpeed}
+                    generateNewArray={generateNewArray}
+                    sorting={sorting}
+                    startSorting={startSorting}
+                    stopSorting={stopSorting}
+                />
+
+                {/* Visualization */}
+                <Visualization array={array} />
+
+                {/* Algorithm Info */}
+                <AlgorithmInfo algorithm={algorithm} />
+
+                {/* Info Dialog */}
+                <Dialog
+                    isOpen={infoOpen}
+                    onClose={() => setInfoOpen(false)}
+                    title="About Sorting Visualizer"
+                    position="center"
+                    size="md"
+                >
+                    <AboutVisualizer />
+                </Dialog>
+            </div>
+        </div>
     );
 };
 

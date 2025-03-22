@@ -1,7 +1,7 @@
 import Stack from '@mui/joy/Stack'
 import Typography from '@mui/joy/Typography'
 import React from 'react'
-import ThemeToggle from '@/components/ThemeToggle'
+import ThemeToggle from '@/styles/ThemeToggle'
 import Sheet from '@mui/joy/Sheet'
 import BrandLogo from '@/apps/Jobscape/components/BrandLogo'
 

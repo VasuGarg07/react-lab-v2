@@ -1,161 +1,86 @@
 import React from 'react';
-import { Box, Typography, Button, Stack, List, ListItem, useTheme } from '@mui/joy';
 import { Gamepad2 } from 'lucide-react';
+import { COLOR_O, COLOR_X, Instructions } from './tictactoe.helpers';
 
-interface SidebarComponentProps {
+interface SidebarProps {
     gameWinner: string | null;
     currentPlayer: 'X' | 'O';
     timer: number;
     handleRestartGame: () => void;
-    Instructions: string[];
-    COLOR_X: string;
-    COLOR_O: string;
 }
 
-const Sidebar: React.FC<SidebarComponentProps> = ({
+const Sidebar: React.FC<SidebarProps> = ({
     gameWinner,
     currentPlayer,
     timer,
-    handleRestartGame,
-    Instructions,
-    COLOR_X,
-    COLOR_O
+    handleRestartGame
 }) => {
-    const theme = useTheme();
-    const isDarkTheme = theme.palette.mode === 'dark';
-
     return (
-        <Stack
-            sx={{
-                height: 1,
-                p: 4,
-                borderRadius: 'lg',
-                bgcolor: 'background.surface',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                '& > *:not(:last-child)': {
-                    mb: 3
-                }
-            }}
-        >
-            <Typography
-                level="h2"
-                fontSize={32}
-                textAlign="center"
-                fontWeight="bold"
-                sx={{
-                    background: isDarkTheme
-                        ? 'linear-gradient(45deg, #bc4e9c, #f80759)'
-                        : 'linear-gradient(45deg, #4e54c8, #8f94fb)',
-                    backgroundClip: 'text',
-                    textFillColor: 'transparent',
-                }}
-            >
+        <div className="flex flex-col h-full p-6 rounded-lg bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm shadow-md border border-neutral-100 dark:border-neutral-700 space-y-5">
+            {/* Title */}
+            <h1 className="text-center text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-fuchsia-500 dark:to-pink-500 bg-clip-text text-transparent">
                 SUPER TIC TAC TOE
-            </Typography>
+            </h1>
 
-            <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                sx={{
-                    p: 2,
-                    borderRadius: 'md',
-                    bgcolor: isDarkTheme ? 'background.level1' : 'background.level2',
-                }}
-            >
-                <Box>
-                    <Typography level="body-sm" mb={1}>
+            {/* Game Status Panel */}
+            <div className="flex justify-between items-center p-3 rounded-lg bg-neutral-100/80 dark:bg-neutral-700/50">
+                <div>
+                    <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
                         Current Player
-                    </Typography>
-                    <Box
-                        sx={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: '50%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            color: currentPlayer === 'X' ? '#000' : '#fff',
-                            bgcolor: currentPlayer === 'X' ? COLOR_X : COLOR_O,
-                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-                            fontWeight: 'bold',
-                            fontSize: '1.2rem',
+                    </p>
+                    <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-sm"
+                        style={{
+                            backgroundColor: currentPlayer === 'X' ? COLOR_X : COLOR_O,
+                            color: currentPlayer === 'X' ? '#000' : '#fff'
                         }}
                     >
                         {currentPlayer}
-                    </Box>
-                </Box>
-                <Box>
-                    <Typography level="body-sm" mb={1}>
+                    </div>
+                </div>
+                <div>
+                    <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
                         Time Left
-                    </Typography>
-                    <Typography
-                        level="h4"
-                        sx={{
-                            color: timer <= 5 ? 'danger.500' : 'success.500',
-                        }}
-                    >
+                    </p>
+                    <p className={`text-xl font-semibold ${timer <= 5 ? 'text-red-500' : 'text-emerald-500'}`}>
                         {timer}s
-                    </Typography>
-                </Box>
-            </Stack>
+                    </p>
+                </div>
+            </div>
 
-            <Button
-                variant="soft"
-                color="primary"
-                startDecorator={<Gamepad2 />}
+            {/* Restart Button */}
+            <button
                 onClick={handleRestartGame}
-                sx={{
-                    width: '100%',
-                    py: 1.5,
-                    fontWeight: 'bold',
-                    transition: 'all 0.2s',
-                    '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-                    }
-                }}
+                className="flex items-center justify-center gap-2 w-full py-3 bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-600/30 dark:hover:bg-indigo-600/50 text-indigo-700 dark:text-indigo-300 font-medium rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-md"
             >
-                Restart Game
-            </Button>
+                <Gamepad2 size={18} />
+                <span>Restart Game</span>
+            </button>
 
+            {/* Winner Display */}
             {gameWinner && (
-                <Typography
-                    level="h4"
-                    textAlign="center"
-                    sx={{
-                        color: gameWinner === 'X' ? COLOR_X : COLOR_O,
-                        fontWeight: 'bold',
-                        p: 2,
-                        borderRadius: 'md',
-                        bgcolor: isDarkTheme ? 'background.level1' : 'background.level2',
-                    }}
+                <div
+                    className="text-center p-3 rounded-md font-bold text-lg bg-neutral-100/80 dark:bg-neutral-700/50"
+                    style={{ color: gameWinner === 'X' ? COLOR_X : COLOR_O }}
                 >
                     Player {gameWinner} wins the game!
-                </Typography>
+                </div>
             )}
 
-            <Typography level="title-lg" fontWeight="bold" mb={2}>
-                How to Play:
-            </Typography>
-            <List
-                component="ol"
-                marker="decimal"
-                sx={{
-                    pl: 2,
-                    '& li': {
-                        pl: 1,
-                        pb: 1,
-                    }
-                }}
-            >
-                {Instructions.map((str, i) => (
-                    <ListItem key={i}>
-                        <Typography level="body-sm">{str}</Typography>
-                    </ListItem>
-                ))}
-            </List>
-        </Stack>
+            {/* Instructions */}
+            <div>
+                <h3 className="font-bold text-neutral-800 dark:text-neutral-200 mb-2">
+                    How to Play:
+                </h3>
+                <ol className="list-decimal ml-5 space-y-2">
+                    {Instructions.map((instruction, i) => (
+                        <li key={i} className="text-sm text-neutral-700 dark:text-neutral-300 pl-1">
+                            {instruction}
+                        </li>
+                    ))}
+                </ol>
+            </div>
+        </div>
     );
 };
 

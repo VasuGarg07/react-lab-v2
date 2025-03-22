@@ -17,9 +17,6 @@ export const fetchQuiz = async (category = "", difficulty = ""): Promise<{ resul
   return response.data
 }
 
-export function shuffleArray(array: string[]): string[] {
-  return array.sort(() => Math.random() - 0.5);
-}
 
 export const QuizCategories = [
   { category: "General Knowledge", value: 9, },

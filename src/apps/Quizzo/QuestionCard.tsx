@@ -1,24 +1,14 @@
-import { GameState } from '@/apps/PokeMemory/pokememory.utils';
-import { useQuizContext } from '@/apps/Quizzo/Context';
-import { Question } from '@/apps/Quizzo/quiz.helper';
+import { useQuizContext } from '@/apps/Quizzo/Quiz.context';
 import { toastService } from '@/shared/toastr';
-import { Button, Divider, Sheet, Stack, Typography } from '@mui/joy';
+import { GameState } from '@/shared/utilities';
 import { ChevronRight, X } from 'lucide-react';
 import React, { useState } from 'react';
 
-interface ContextProps {
-  questions: Question[],
-  score: number,
-  setScore: React.Dispatch<React.SetStateAction<number>>,
-  setGameState: React.Dispatch<React.SetStateAction<GameState>>,
-  resetGame: () => void
-}
-
 interface QuestionProps {
-  currQues: number,
-  setCurrQues: React.Dispatch<React.SetStateAction<number>>
-  options: string[],
-  correct: string,
+  currQues: number;
+  setCurrQues: React.Dispatch<React.SetStateAction<number>>;
+  options: string[];
+  correct: string;
 }
 
 const QuestionCard = ({
@@ -27,16 +17,14 @@ const QuestionCard = ({
   options,
   correct,
 }: QuestionProps) => {
-
-  const { questions, score, setScore, setGameState, resetGame }: ContextProps = useQuizContext();
-
+  const { questions, score, setScore, setGameState, resetGame } = useQuizContext();
   const [selected, setSelected] = useState<string>();
 
   const handleSelect = (i: string) => {
-    if (selected === i && selected === correct) return "select";
+    if (selected === i && selected === correct) return "correct";
     else if (selected === i && selected !== correct) return "wrong";
-    else if (i === correct) return "select";
-    else return '_'
+    else if (i === correct) return "correct";
+    else return '';
   };
 
   const handleCheck = (i: string) => {
@@ -47,11 +35,9 @@ const QuestionCard = ({
   const handleNext = () => {
     if (currQues > questions.length - 2) {
       setGameState(GameState.Gameover);
-
     } else if (selected) {
       setCurrQues(currQues + 1);
       setSelected('');
-
     } else toastService.error("Please select an option first");
   };
 
@@ -61,77 +47,60 @@ const QuestionCard = ({
   };
 
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        mt: 1, p: 2, gap: 1,
-        borderRadius: 'md',
-        flexGrow: 1,
-        display: 'flex',
-        flexDirection: 'column',
-      }}>
+    <div className="flex flex-col mt-4 p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm flex-grow">
+      <h3 className="text-xl font-semibold tracking-wide text-gray-800 dark:text-gray-200">
+        Question {currQues + 1}
+      </h3>
 
-      <Typography level="h4" fontFamily={'Poiret One'} sx={{ letterSpacing: 1 }}>Question {currQues + 1}</Typography>
-      <h4 style={{ margin: 0 }} dangerouslySetInnerHTML={{ __html: questions[currQues].question }} />
+      <div
+        className="text-base text-gray-700 dark:text-gray-300 my-3"
+        dangerouslySetInnerHTML={{ __html: questions[currQues].question }}
+      />
 
-      <Stack
-        direction='row'
-        width={1}
-        justifyContent='center'
-        alignContent='center'
-        flexWrap='wrap'
-        sx={{ mt: '4px', gap: 1 }}>
+      <div className="flex flex-row flex-wrap justify-center items-center gap-2 mt-2 mb-4">
         {options.map((val) => (
-          <button key={val}
+          <button
+            key={val}
             onClick={() => handleCheck(val)}
             disabled={!!selected}
             dangerouslySetInnerHTML={{ __html: val }}
-            style={{
-              ...styles.option,
-              ...(selected && styles[handleSelect(val)])
-            }}
-          >
-          </button>
+            className={`
+              w-[calc(50%-0.5rem)] min-h-[3rem] p-3 rounded-lg border border-gray-300 dark:border-gray-600 
+              font-medium text-gray-700 dark:text-gray-300 transition-all duration-200
+              hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 
+              disabled:cursor-not-allowed 
+              ${selected && handleSelect(val) === 'correct' ? 'bg-green-500 hover:bg-green-500 text-white border-transparent' : ''}
+              ${selected && handleSelect(val) === 'wrong' ? 'bg-red-500 hover:bg-red-500 text-white border-transparent' : ''}
+            `}
+          />
         ))}
-      </Stack>
+      </div>
 
-      <Divider />
+      <div className="h-px w-full bg-gray-200 dark:bg-gray-700 my-4"></div>
 
-      <Stack direction='row' justifyContent='center' spacing={2}>
-        <Button variant='soft' color='danger' sx={{ width: 0.48 }}
-          startDecorator={<X />}
-          onClick={handleQuit}>Quit</Button>
+      <div className="flex flex-row justify-center space-x-4">
+        <button
+          onClick={handleQuit}
+          className="flex items-center justify-center gap-2 px-4 py-2 w-1/2 bg-white dark:bg-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 
+          text-red-500 dark:text-red-400 font-medium rounded-lg border border-red-200 dark:border-red-800 
+          transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+        >
+          <X size={18} />
+          <span>Quit</span>
+        </button>
 
-        <Button variant='soft' color='primary' sx={{ width: 0.48 }}
-          endDecorator={<ChevronRight />}
-          onClick={handleNext} >Next</Button>
-      </Stack>
-    </Sheet>
-  )
-}
-export default QuestionCard
+        <button
+          onClick={handleNext}
+          className="flex items-center justify-center gap-2 px-4 py-2 w-1/2 bg-blue-500 hover:bg-blue-600 
+          text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 
+          focus:ring-blue-500 focus:ring-opacity-50 dark:bg-blue-600 dark:hover:bg-blue-700"
+        >
+          <span>Next</span>
+          <ChevronRight size={18} />
+        </button>
+      </div>
+    </div>
+  );
+};
 
-const styles = {
-  option: {
-    width: `calc(50% - 4px)`,
-    outline: 'none',
-    borderRadius: '8px',
-    border: '1px solid',
-    padding: '16px 0',
-    backgroundColor: 'transparent',
-  },
-
-  select: {
-    backgroundColor: 'rgb(7, 207, 0)',
-    color: 'white',
-    border: 'none'
-  },
-
-  wrong: {
-    backgroundColor: 'rgb(233, 0, 0)',
-    color: 'white',
-    border: 'none'
-  },
-
-  _: {}
-}
+export default QuestionCard;

@@ -1,86 +1,60 @@
 import React from 'react';
-import { Box, Container, IconButton, Stack, Typography, useColorScheme } from '@mui/joy';
-import { Github, Linkedin, Moon, Sun } from 'lucide-react';
+import { Github, Linkedin } from 'lucide-react';
+import ThemeToggle from '@/styles/ThemeToggle';
 
 const Footer: React.FC = () => {
-    const { mode, setMode } = useColorScheme();
-
-    const toggleColorMode = () => {
-        setMode(mode === 'light' ? 'dark' : 'light');
-    };
-
     return (
-        <Box
-            component="footer"
-            sx={{
-                py: 2,
-                borderTop: '1px solid',
-                borderColor: 'divider',
-                backdropFilter: 'blur(10px)',
-                background: (_) =>
-                    mode === 'light'
-                        ? 'linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)'
-                        : 'linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 100%)',
-            }}
-        >
-            <Container>
-                <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    justifyContent="space-between"
-                    alignItems="center"
-                    spacing={2}
-                >
-                    <Typography level="body-md" sx={{ fontFamily: 'Overlock' }}>
+        <footer className="w-full border-t border-neutral-200 dark:border-neutral-800 backdrop-blur-lg bg-white/80 dark:bg-neutral-900/80">
+            <div className="container mx-auto px-4 py-4">
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    {/* Copyright */}
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400">
                         © {new Date().getFullYear()} React Lab • Made by Vasu Garg
-                    </Typography>
-                    <Stack direction="row" spacing={1} alignItems="center">
-                        <IconButton
-                            variant="outlined"
-                            color="neutral"
-                            onClick={toggleColorMode}
-                            size="sm"
-                            sx={{
-                                borderRadius: '50%',
-                                '&:hover': { transform: 'rotate(20deg)' },
-                                transition: 'transform 0.3s',
-                            }}
-                        >
-                            {mode === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-                        </IconButton>
-                        <IconButton
-                            variant="outlined"
-                            color="neutral"
-                            component="a"
+                    </p>
+
+                    {/* Social Links */}
+                    <div className="flex items-center space-x-3">
+                        {/* Theme Toggle */}
+                        <ThemeToggle size={18} />
+
+                        {/* GitHub Link */}
+                        <SocialButton
                             href="https://github.com/VasuGarg07"
-                            target="_blank"
-                            size="sm"
-                            sx={{
-                                borderRadius: '50%',
-                                '&:hover': { transform: 'scale(1.1)' },
-                                transition: 'transform 0.3s',
-                            }}
+                            aria-label="GitHub Profile"
                         >
                             <Github size={18} />
-                        </IconButton>
-                        <IconButton
-                            variant="outlined"
-                            color="neutral"
-                            component="a"
+                        </SocialButton>
+
+                        {/* LinkedIn Link */}
+                        <SocialButton
                             href="https://linkedin.com/in/vasu-garg-07"
-                            target="_blank"
-                            size="sm"
-                            sx={{
-                                borderRadius: '50%',
-                                '&:hover': { transform: 'scale(1.1)' },
-                                transition: 'transform 0.3s',
-                            }}
+                            aria-label="LinkedIn Profile"
                         >
                             <Linkedin size={18} />
-                        </IconButton>
-                    </Stack>
-                </Stack>
-            </Container>
-        </Box>
+                        </SocialButton>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    );
+};
+
+// Reusable Social Button Component
+const SocialButton: React.FC<{
+    href: string;
+    'aria-label': string;
+    children: React.ReactNode;
+}> = ({ href, 'aria-label': ariaLabel, children }) => {
+    return (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={ariaLabel}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800 transition-all duration-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:scale-105 focus:outline-none"
+        >
+            <span className="text-neutral-900 dark:text-neutral-50">{children}</span>
+        </a>
     );
 };
 

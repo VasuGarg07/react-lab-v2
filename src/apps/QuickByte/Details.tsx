@@ -1,4 +1,3 @@
-import { AspectRatio, Button, Card, Chip, Divider, Link, List, ListItem, ListItemDecorator, Stack, Typography } from '@mui/joy';
 import { useLoaderData, useNavigate } from 'react-router';
 import { MealDetails } from '@/apps/QuickByte/utils/recipe.helpers';
 import { Info, LoaderPinwheel, Play } from 'lucide-react';
@@ -42,9 +41,7 @@ const chipVariants = {
   }
 };
 
-
 const Details = () => {
-
   const navigate = useNavigate();
   const meal: MealDetails = useLoaderData() as MealDetails;
 
@@ -57,150 +54,135 @@ const Details = () => {
   }
 
   const handleExternalUrl = (url: string) => {
-    window.open(url, '_black');
+    window.open(url, '_blank');
   }
 
   return (
-    <Stack
-      spacing={2}
-      component={motion.div}
+    <motion.div
+      className="flex flex-col gap-2 text-gray-800 dark:text-gray-100"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       <motion.div variants={itemVariants}>
-        <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1} textTransform="capitalize" textAlign={'center'}>
+        <h2 className="text-2xl md:text-3xl font-semibold text-center capitalize tracking-wide font-['Poiret_One']">
           {meal.name}
-        </Typography>
+        </h2>
       </motion.div>
 
-      <motion.div variants={imageVariants}>
-        <AspectRatio
-          variant='plain'
-          objectFit="cover"
-          ratio={2}
-          sx={{
-            borderRadius: 'xl',
-            boxShadow: 'md',
-            width: 1,
-            overflow: 'hidden'
-          }}>
-          <img src={meal.image} alt={meal.name} />
-        </AspectRatio>
+      <motion.div variants={imageVariants} className='mb-3'>
+        <div className="relative w-full pt-[50%] rounded-xl shadow-md overflow-hidden">
+          <img
+            src={meal.image}
+            alt={meal.name}
+            className="absolute top-0 left-0 w-full h-full object-cover"
+          />
+        </div>
       </motion.div>
 
-      <Card
-        component={motion.div}
+      <motion.div
         variants={itemVariants}
-        sx={{
-          borderRadius: 'xl',
-          boxShadow: 'md'
-        }}
+        className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md mb-3"
       >
-        <Stack direction='row' spacing={1} justifyContent='center'>
-          <Typography level='body-lg' textTransform={'uppercase'} fontFamily={'Roboto'}>
-            Region: <Link color='danger' onClick={handleAreaNav}>
+        <div className="flex flex-row gap-4 justify-center">
+          <p className="text-lg uppercase font-['Roboto'] text-gray-800 dark:text-gray-100">
+            Region: <span
+              className="text-red-600 dark:text-red-400 cursor-pointer hover:underline"
+              onClick={handleAreaNav}
+            >
               {meal.area}
-            </Link>
-          </Typography>
-          <Typography level='body-lg' textTransform={'uppercase'} fontFamily={'Roboto'}>
-            Category: <Link color='danger' onClick={handleCategoryNav}>
+            </span>
+          </p>
+          <p className="text-lg uppercase font-['Roboto'] text-gray-800 dark:text-gray-100">
+            Category: <span
+              className="text-red-600 dark:text-red-400 cursor-pointer hover:underline"
+              onClick={handleCategoryNav}
+            >
               {meal.category}
-            </Link>
-          </Typography>
-        </Stack>
+            </span>
+          </p>
+        </div>
 
-        <Stack direction='row' spacing={1} justifyContent='center'>
+        <div className="flex flex-row gap-2 justify-center mt-3">
           {meal.source &&
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant='outlined' color='neutral'
-                startDecorator={<Info />}
-                onClick={() => handleExternalUrl(meal.source!)}>
+              <button
+                className="flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                onClick={() => handleExternalUrl(meal.source!)}
+              >
+                <Info className="mr-2" size={18} />
                 MORE INFO
-              </Button>
+              </button>
             </motion.div>
           }
           {meal.youtube &&
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant='solid' color='danger'
-                startDecorator={<Play />}
-                onClick={() => handleExternalUrl(meal.youtube!)}>
+              <button
+                className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                onClick={() => handleExternalUrl(meal.youtube!)}
+              >
+                <Play className="mr-2" size={18} />
                 YOUTUBE
-              </Button>
+              </button>
             </motion.div>
           }
-        </Stack>
+        </div>
 
-        <Stack direction='row' spacing={1} justifyContent='center'>
+        <div className="flex flex-row flex-wrap gap-2 justify-center mt-3">
           {meal.tags.map(tag =>
             <motion.div key={tag} variants={chipVariants}>
-              <Chip variant='soft' color='danger'>{tag}</Chip>
+              <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
+                {tag}
+              </span>
             </motion.div>
           )}
-        </Stack>
-      </Card>
-
-      <Divider sx={{ bgcolor: 'neutral.500', height: '1.5px' }} />
-
-      <motion.div variants={itemVariants}>
-        <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1}>
-          Ingredients
-        </Typography>
+        </div>
       </motion.div>
 
-      <Stack
-        direction='row'
-        flexWrap='wrap'
-        component={motion.div}
+      <div className="h-[1.5px] bg-gray-400 my-2"></div>
+
+      <motion.div variants={itemVariants}>
+        <h2 className="text-2xl font-semibold tracking-wide font-['Poiret_One'] text-gray-800 dark:text-gray-100">
+          Ingredients
+        </h2>
+      </motion.div>
+
+      <motion.div
+        className="flex flex-row flex-wrap gap-x-2 gap-y-4"
         variants={containerVariants}
-        sx={{ gap: 1 }}>
+      >
         {meal.ingredients.map(ingredient => (
           <motion.div key={ingredient} variants={chipVariants}>
-            <Chip
-              color="success"
-              variant='solid'
-              sx={{
-                fontFamily: 'Roboto',
-                fontWeight: 300,
-                cursor: 'default',
-                "--Chip-radius": "8px",
-                "--Chip-minHeight": "32px"
-              }}
-            >
+            <span className="px-3 py-2 bg-green-600 text-white rounded-md text-sm font-['Roboto'] font-light">
               {ingredient}
-            </Chip>
+            </span>
           </motion.div>
         ))}
-      </Stack>
-
-      <Divider sx={{ bgcolor: 'neutral.500', height: '1.5px' }} />
-
-      <motion.div variants={itemVariants}>
-        <Typography level='h2' fontFamily={'Poiret One'} letterSpacing={1}>
-          Instructions
-        </Typography>
       </motion.div>
 
-      <List component={motion.ul} variants={containerVariants}>
-        {meal.instructions.map(step => (step &&
-          <ListItem
-            key={step}
-            component={motion.li}
-            variants={itemVariants}
-          >
-            <ListItemDecorator sx={{
-              color: 'primary.solidBg'
-            }}>
-              <LoaderPinwheel />
-            </ListItemDecorator>
-            <Typography level='body-md'>{step}</Typography>
-          </ListItem>
-        ))}
-      </List>
+      <div className="h-[1.5px] bg-gray-400 my-2"></div>
 
-    </Stack>
+      <motion.div variants={itemVariants}>
+        <h2 className="text-2xl font-semibold tracking-wide font-['Poiret_One'] text-gray-800 dark:text-gray-100">
+          Instructions
+        </h2>
+      </motion.div>
+
+      <motion.ul variants={containerVariants} className="list-none">
+        {meal.instructions.map(step => (step &&
+          <motion.li
+            key={step}
+            variants={itemVariants}
+            className="flex items-start py-2"
+          >
+            <span className="text-blue-600 dark:text-blue-400 mt-1 mr-2">
+              <LoaderPinwheel size={20} />
+            </span>
+            <p className="text-gray-800 dark:text-gray-200">{step}</p>
+          </motion.li>
+        ))}
+      </motion.ul>
+    </motion.div>
   );
 }
 

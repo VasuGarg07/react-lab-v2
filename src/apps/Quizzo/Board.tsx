@@ -1,13 +1,13 @@
-import { Chip, Stack, Typography } from "@mui/joy";
-import { useEffect, useState } from "react";
-import { useQuizContext } from "@/apps/Quizzo/Context";
+import { useQuizContext } from "@/apps/Quizzo/Quiz.context";
 import QuestionCard from "@/apps/Quizzo/QuestionCard";
-import { Question, shuffleArray } from "@/apps/Quizzo/quiz.helper";
+import { shuffleArray } from "@/shared/utilities";
+import { useEffect, useState } from "react";
+import { Question } from "./quiz.helper";
 
 interface Props {
   name: string;
-  questions: Question[],
-  score: number,
+  questions: Question[];
+  score: number;
 }
 
 const Board = () => {
@@ -15,7 +15,6 @@ const Board = () => {
 
   const [options, setOptions] = useState<string[]>([]);
   const [currQues, setCurrQues] = useState(0);
-
 
   useEffect(() => {
     if (questions && questions.length) {
@@ -28,20 +27,28 @@ const Board = () => {
   }, [currQues, questions]);
 
   return (
-    <Stack justifyContent='center' alignContent='center' sx={{ height: 1, p: 2, gap: 1 }}>
-      <Typography level="title-lg" textTransform="capitalize" fontFamily={'Overlock'}>Welcome! {name}</Typography>
-      <Stack direction='row' spacing={1} justifyContent='center'>
-        <Chip color="primary">Score: {score}</Chip>
-        <Chip color="warning">{questions[currQues].category}</Chip>
-      </Stack>
+    <div className="flex flex-col justify-center items-center h-full p-4 space-y-4">
+      <h2 className="text-xl capitalize text-gray-800 dark:text-gray-100">
+        Welcome! {name}
+      </h2>
+
+      <div className="flex flex-row justify-center gap-2">
+        <span className="px-3 py-1 text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
+          Score: {score}
+        </span>
+        <span className="px-3 py-1 text-sm font-medium bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 rounded-full">
+          {questions[currQues].category}
+        </span>
+      </div>
+
       <QuestionCard
         currQues={currQues}
         setCurrQues={setCurrQues}
         options={options}
         correct={questions[currQues].correct_answer}
       />
-    </Stack>
-  )
-}
+    </div>
+  );
+};
 
-export default Board
+export default Board;

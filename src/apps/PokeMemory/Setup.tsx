@@ -1,42 +1,65 @@
-import { useGameContext } from '@/apps/PokeMemory/Context';
-import { CardType, GameMode, GameState, loadCards } from '@/apps/PokeMemory/pokememory.utils';
-import { toastService } from '@/shared/toastr';
-import { keyframes } from '@emotion/react';
-import { Box, Button, Card, Container, Divider, Input, Stack, Tooltip, Typography } from '@mui/joy';
-import { Gamepad2, Puzzle, Skull, UserRound, Zap } from 'lucide-react';
 import React from 'react';
-import Logo from '/game-logo.png';
+import { useGameContext } from '@/apps/PokeMemory/Context';
+import { loadCards } from '@/apps/PokeMemory/pokememory.utils';
+import { toastService } from '@/shared/toastr';
+import { GameMode, GameState } from '@/shared/utilities';
+import * as Form from '@radix-ui/react-form';
+import Tooltip from '@/ui/Tooltip';
+import { Gamepad2, Zap, Puzzle, Skull, UserRound } from 'lucide-react';
 
-interface Props {
-  name: string;
-  difficulty: GameMode | undefined;
-  setName: React.Dispatch<React.SetStateAction<string>>;
-  setDifficulty: React.Dispatch<React.SetStateAction<GameMode | undefined>>;
-  setCards: React.Dispatch<React.SetStateAction<CardType[]>>;
-  setGameState: React.Dispatch<React.SetStateAction<GameState>>;
-}
-
-const pulseAnimation = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
+type DifficultyOption = {
+  mode: GameMode;
+  icon: React.ElementType;
+  label: string;
+  colorClass: string;
+  hoverClass: string;
+  activeClass: string;
+};
 
 const Setup: React.FC = () => {
-  const { name, difficulty, setName, setDifficulty, setCards, setGameState }: Props = useGameContext();
+  const {
+    name,
+    difficulty,
+    setName,
+    setDifficulty,
+    setCards,
+    setGameState
+  } = useGameContext();
 
-  const handleSubmit = async () => {
+  const difficultyOptions: DifficultyOption[] = [
+    {
+      mode: GameMode.Easy,
+      icon: Zap,
+      label: 'Easy',
+      colorClass: 'bg-emerald-500 text-white dark:bg-emerald-600',
+      hoverClass: 'hover:bg-emerald-600 dark:hover:bg-emerald-700',
+      activeClass: 'ring-emerald-300 dark:ring-emerald-400'
+    },
+    {
+      mode: GameMode.Medium,
+      icon: Puzzle,
+      label: 'Medium',
+      colorClass: 'bg-amber-500 text-white dark:bg-amber-600',
+      hoverClass: 'hover:bg-amber-600 dark:hover:bg-amber-700',
+      activeClass: 'ring-amber-300 dark:ring-amber-400'
+    },
+    {
+      mode: GameMode.Difficult,
+      icon: Skull,
+      label: 'Hard',
+      colorClass: 'bg-rose-500 text-white dark:bg-rose-600',
+      hoverClass: 'hover:bg-rose-600 dark:hover:bg-rose-700',
+      activeClass: 'ring-rose-300 dark:ring-rose-400'
+    },
+  ];
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
     if (!difficulty || !name.trim()) {
       toastService.error("Please enter your name and select a difficulty level");
       return;
     }
-
 
     switch (difficulty) {
       case GameMode.Easy:
@@ -49,118 +72,101 @@ const Setup: React.FC = () => {
         setCards(loadCards(12));
         break;
     }
+
     setGameState(GameState.Playing);
   };
 
   return (
-    <Container maxWidth="sm" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Card
-        variant="outlined"
-        sx={{
-          width: '100%',
-          p: 4,
-          boxShadow: '0 2px 8px 2px #242424',
-          borderRadius: 'xl',
-          backdropFilter: 'blur(2px)',
-          border: '2px dashed white',
-          background: 'linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1))',
-        }}
-      >
-        <Stack spacing={2} alignItems="center">
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <img
-              src={Logo}
-              alt="Memory Game Logo"
-              style={{
-                width: 100,
-                height: 100,
-                objectFit: 'contain',
-                animation: `${pulseAnimation} 2s infinite`,
-              }}
-            />
-            <Typography
-              level="h1"
-              fontFamily="Overlock"
-              fontWeight="bold"
-              sx={{
-                background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              Memory Game
-            </Typography>
-          </Box>
+    <div className="flex items-center justify-center w-full px-4 py-6">
+      <div className="w-full max-w-md">
+        <div className="backdrop-blur-md bg-white/10 dark:bg-black/20 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-md">
+          <div className="flex flex-col items-center space-y-6">
+            {/* Header */}
+            <div className="flex items-center gap-3">
+              <div className="relative animate-pulse">
+                <img
+                  src="/game-logo.png"
+                  alt="Memory Game Logo"
+                  className="w-64 object-contain"
+                />
+              </div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                Memory Game
+              </h1>
+            </div>
 
-          <Typography level="body-md" textAlign="center" sx={{ maxWidth: '80%', color: 'white' }}>
-            Challenge your mind with our engaging Memory Game! Match pairs, reveal hidden images, and test your concentration. Are you ready to become a memory master?
-          </Typography>
+            {/* Description */}
+            <p className="text-center text-sm text-gray-700 dark:text-gray-300 max-w-xs">
+              Challenge your mind with our engaging Memory Game! Match pairs, reveal hidden images, and test your concentration.
+            </p>
 
-          <Divider sx={{ width: '100%' }} />
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent"></div>
 
-          <Input
-            placeholder="Enter Your Name"
-            variant="soft"
-            color="neutral"
-            startDecorator={<UserRound />}
-            onChange={(e) => setName(e.target.value)}
-            fullWidth
-            sx={{
-              '--Input-focusedThickness': '2px',
-              '--Input-focusedHighlight': 'rgba(13, 110, 253, 0.25)',
-              '&:focus-within': {
-                boxShadow: '0 0 0 var(--Input-focusedThickness) var(--Input-focusedHighlight)',
-              },
-            }}
-          />
+            {/* Form */}
+            <Form.Root className="w-full space-y-6" onSubmit={handleSubmit}>
+              <Form.Field name="playerName" className="w-full">
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <UserRound className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <Form.Control asChild>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Enter Your Name"
+                      className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-500 transition-all outline-none text-gray-900 dark:text-gray-100"
+                    />
+                  </Form.Control>
+                </div>
+                <Form.Message match="valueMissing" className="text-xs text-rose-500 mt-1">
+                  Please enter your name
+                </Form.Message>
+              </Form.Field>
 
-          <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap" justifyContent="center">
-            {[
-              { mode: GameMode.Easy, color: 'success', icon: Zap, label: 'Easy' },
-              { mode: GameMode.Medium, color: 'warning', icon: Puzzle, label: 'Medium' },
-              { mode: GameMode.Difficult, color: 'danger', icon: Skull, label: 'Hard' },
-            ].map(({ mode, color, icon: Icon, label }) => (
-              <Tooltip key={mode} title={`${label} difficulty`} arrow>
-                <Button
-                  variant={difficulty === mode ? 'solid' : 'soft'}
-                  color={color as 'success' | 'warning' | 'danger'}
-                  onClick={() => setDifficulty(mode)}
-                  startDecorator={<Icon />}
-                  sx={{
-                    transition: 'all 0.2s ease-in-out',
-                    '&:hover': {
-                      transform: 'translateY(-2px)',
-                    },
-                  }}
+              {/* Difficulty Selection */}
+              <div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Select Difficulty:</p>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {difficultyOptions.map(({ mode, icon: Icon, label, colorClass, hoverClass, activeClass }) => (
+                    <Tooltip
+                      key={mode}
+                      content={`${label} difficulty`}
+                      side="top"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setDifficulty(mode)}
+                        className={`
+                          relative px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 
+                          transition-all duration-200 transform hover:-translate-y-0.5
+                          ${difficulty === mode
+                            ? `${colorClass} ring-2 ${activeClass}`
+                            : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 ' + hoverClass}
+                        `}
+                      >
+                        <Icon className="h-4 w-4" />
+                        {label}
+                      </button>
+                    </Tooltip>
+                  ))}
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <Form.Submit asChild>
+                <button
+                  className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center gap-2"
                 >
-                  {label}
-                </Button>
-              </Tooltip>
-            ))}
-          </Stack>
-
-          <Button
-            variant="solid"
-            color="primary"
-            startDecorator={<Gamepad2 />}
-            onClick={handleSubmit}
-            fullWidth
-            sx={{
-              mt: 2,
-              py: 1.5,
-              fontSize: '1.1rem',
-              transition: 'all 0.2s ease-in-out',
-              '&:hover': {
-                transform: 'translateY(-2px)',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-              },
-            }}
-          >
-            Start Game
-          </Button>
-        </Stack>
-      </Card>
-    </Container>
+                  <Gamepad2 className="h-5 w-5" />
+                  <span>Start Game</span>
+                </button>
+              </Form.Submit>
+            </Form.Root>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

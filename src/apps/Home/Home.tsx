@@ -1,63 +1,40 @@
-import React from 'react';
-import { Box, Container, Grid, Typography, useTheme } from "@mui/joy";
-import { Apps } from "@/shared/apps";
 import { AppCard } from "@/apps/Home/AppCard";
 import Footer from "@/apps/Home/Footer";
 import Hero from '@/apps/Home/Hero';
+import AppBackground from "@/components/AppBackground";
+import { Apps } from "@/shared/apps";
+import { Separator } from 'radix-ui';
+import React from 'react';
 
 const Home = () => {
-  const theme = useTheme();
   const visibleApps = React.useMemo(() => Apps.filter(app => app.visible), []);
 
   return (
-    <>
-      <Box
-        sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          position: 'relative',
-          background: theme.palette.mode === 'light'
-            ? 'linear-gradient(to right, #DAE2F8, #fff7f7)'
-            : 'linear-gradient(to right, #0f2027, #203a43, #2c5364)',
-          zIndex: 0,
-        }}
-      >
-        <Container
-          sx={{
-            py: 4,
-            flexGrow: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 2,
-          }}
-        >
-          <Hero />
+    <div className="relative min-h-screen flex flex-col justify-between overflow-hidden">
+      <AppBackground />
 
-          <Typography
-            level="h2"
-            textAlign="center"
-            fontWeight="bold"
-            fontSize={{ xs: 16, md: 28 }}
-            sx={{ my: 3 }}
-          >
-            Explore My Projects
-          </Typography>
+      {/* Main content */}
+      <main className="container max-w-6xl mx-auto py-10 flex-grow flex flex-col items-center z-10 px-4 sm:px-6 lg:px-8 relative">
+        <Hero />
 
-          <Grid container spacing={2}>
+        <div className="w-full mx-auto my-10">
+          <div className="flex items-center justify-center mb-8">
+            <Separator.Root className="bg-neutral-200 dark:bg-neutral-800 h-px w-12" />
+            <h2 className="text-xl font-medium text-neutral-900 dark:text-white px-4">
+              Explore My Projects
+            </h2>
+            <Separator.Root className="bg-neutral-200 dark:bg-neutral-800 h-px w-12" />
+          </div>
+
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full">
             {visibleApps.map((app) => (
-              <Grid key={app.path} xs={12} sm={6} md={4}>
-                <AppCard {...app} />
-              </Grid>
+              <AppCard key={app.path} {...app} />
             ))}
-          </Grid>
-        </Container>
-        <Footer />
-      </Box>
-    </>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 };
 

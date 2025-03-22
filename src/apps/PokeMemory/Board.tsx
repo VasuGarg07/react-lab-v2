@@ -1,6 +1,5 @@
 import CardGrid from '@/apps/PokeMemory/CardGrid';
 import { useGameContext } from '@/apps/PokeMemory/Context';
-import { Button, Card, Typography } from '@mui/joy';
 import Logo from '/game-logo.png';
 
 interface Props {
@@ -14,33 +13,24 @@ const Board = () => {
 
   return (
     <>
-      <Card
-        variant="outlined"
-        sx={{
-          width: 1,
-          p: { md: 3, xs: 2 },
-          flexDirection: { xs: 'column', sm: 'row' },
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          boxShadow: '0 2px 8px 2px #242424',
-          borderRadius: 'xl',
-          backdropFilter: 'blur(2px)',
-          border: '2px dashed',
-        }}>
-        <img style={{ width: 120 }} src={Logo} alt="" />
-        <Typography level='title-lg'>Memory Game</Typography>
-        <span className='flex-grow' />
-        <div>
-          <Typography level='title-sm'>Player: {name} </Typography>
-          <Typography level="body-sm">Turns: {turns}</Typography>
+      <div className="w-full p-2 md:p-3 flex flex-col sm:flex-row items-center flex-wrap rounded-xl shadow-lg backdrop-blur-sm bg-gradient-to-b from-sky-300/80 to-teal-700/80">
+        <img className="w-28" src={Logo} alt="Game logo" />
+        <h2 className="text-xl font-semibold text-white">Memory Game</h2>
+        <div className="flex-grow"></div>
+        <div className="text-center sm:text-right my-2 sm:my-0 mr-4">
+          <p className="text-sm font-medium text-white">Player: {name}</p>
+          <p className="text-xs text-gray-300">Turns: {turns}</p>
         </div>
-        <Button onClick={resetGame} color='primary' size='sm'>Restart</Button>
-      </Card>
+        <button
+          onClick={resetGame}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm rounded-md transition-colors"
+        >
+          Restart
+        </button>
+      </div>
 
       <CardGrid />
     </>
-
-
   )
 }
 

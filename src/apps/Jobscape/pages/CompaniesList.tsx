@@ -6,7 +6,6 @@ import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import { Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import ReactPagination from 'react-responsive-pagination';
 import { useNavigate, useSearchParams } from 'react-router';
 import CompactFooter from '@/apps/Jobscape/components/CompactFooter';
 import { CompanyCard } from '@/apps/Jobscape/components/CompanyCard';
@@ -14,6 +13,7 @@ import JobNav from '@/apps/Jobscape/components/JobNav';
 import { CompaniesCardListResponse } from '@/apps/Jobscape/helpers/response.types';
 import { useJobscape } from '@/apps/Jobscape/JobscapeProvider';
 import { toastService } from '@/shared/toastr';
+import Pagination from '@/ui/Pagination';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -166,11 +166,10 @@ const CompaniesList: React.FC = () => {
                                 justifyContent: 'center',
                                 my: 4
                             }}>
-                                <ReactPagination
-                                    total={totalPages}
-                                    current={currentPage}
+                                <Pagination
+                                    totalPages={totalPages}
+                                    currentPage={currentPage}
                                     onPageChange={handlePageChange}
-                                    maxWidth={300}
                                 />
                             </Box>
                         )}

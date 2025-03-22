@@ -1,18 +1,5 @@
-import {
-    Alert,
-    Box,
-    Button,
-    Card,
-    CardContent,
-    Divider,
-    FormControl,
-    FormLabel,
-    Input,
-    Modal,
-    ModalClose,
-    ModalDialog,
-    Typography
-} from '@mui/joy';
+import { cn } from '@/shared/cn';
+import Dialog from '@/ui/Dialog';
 import { Calendar, Save, TrendingDown } from 'lucide-react';
 import React, { useState } from 'react';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
@@ -55,22 +42,22 @@ const LoanSummary: React.FC = () => {
 
     return (
         <>
-            <Card variant="outlined">
-                <CardContent>
-                    <Typography level="title-lg" sx={{ mb: 2 }}>
+            <div className="relative overflow-hidden rounded-2xl bg-white/90 dark:bg-neutral-900/80 backdrop-blur-sm shadow-sm dark:shadow-2xl border border-white/50 dark:border-neutral-800/50">
+                <div className="p-6">
+                    <h3 className="text-lg font-medium text-neutral-900 dark:text-white mb-4">
                         Loan Summary
-                    </Typography>
+                    </h3>
 
-                    <Box sx={{ textAlign: 'center', mb: 2 }}>
-                        <Typography level="h2" component="div">
+                    <div className="text-center mb-6">
+                        <div className="text-3xl font-semibold text-neutral-900 dark:text-white">
                             {formatCurrency(monthlyPayment)}
-                        </Typography>
-                        <Typography level="body-sm" color="neutral">
+                        </div>
+                        <div className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
                             Monthly Payment
-                        </Typography>
-                    </Box>
+                        </div>
+                    </div>
 
-                    <Box sx={{ height: 240, mb: 2 }}>
+                    <div className="h-60 mb-6">
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie
@@ -92,93 +79,117 @@ const LoanSummary: React.FC = () => {
                                 />
                             </PieChart>
                         </ResponsiveContainer>
-                    </Box>
+                    </div>
 
-                    <Divider sx={{ my: 2 }} />
+                    <hr className="border-neutral-200 dark:border-neutral-700 my-6" />
 
                     {extraPayment > 0 && (
-                        <Box sx={{ mb: 2 }}>
-                            <Button
-                                variant="soft"
-                                color="primary"
-                                fullWidth
-                                startDecorator={<Calendar />}
+                        <div className="mb-6">
+                            <button
+                                className="flex w-full items-center justify-center rounded-xl bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 py-2 px-4 text-sm font-medium transition-colors hover:bg-primary-100 dark:hover:bg-primary-900/50"
                                 onClick={() => setShowExtraPaymentInfo(!showExtraPaymentInfo)}
-                                sx={{ mb: 1 }}
                             >
+                                <Calendar className="mr-2 h-4 w-4" />
                                 View Extra Payment Impact
-                            </Button>
+                            </button>
 
                             {showExtraPaymentInfo && (
-                                <Alert
-                                    variant="soft"
-                                    color="success"
-                                    sx={{ mt: 1 }}
-                                    startDecorator={<TrendingDown />}
-                                >
-                                    <Box>
-                                        <Typography level="title-sm">
-                                            Loan Term Reduction
-                                        </Typography>
-                                        <Typography level="body-sm">
-                                            {extraPaymentImpact.timeShortened.years} years, {extraPaymentImpact.timeShortened.months} months
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ mt: 1 }}>
-                                        <Typography level="title-sm">
-                                            Interest Savings
-                                        </Typography>
-                                        <Typography level="body-sm">
-                                            {formatCurrency(extraPaymentImpact.interestSaved)}
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ mt: 1 }}>
-                                        <Typography level="title-sm">
-                                            New Payoff Date
-                                        </Typography>
-                                        <Typography level="body-sm">
-                                            {extraPaymentImpact.newPayoffDate.toLocaleDateString()}
-                                        </Typography>
-                                    </Box>
-                                </Alert>
+                                <div className="mt-4 rounded-xl bg-success-50 dark:bg-success-900/30 text-success-700 dark:text-success-300 p-4">
+                                    <div className="flex items-start">
+                                        <TrendingDown className="h-5 w-5 mr-3 mt-0.5" />
+                                        <div className="flex-1">
+                                            <div className="mb-3">
+                                                <h4 className="text-sm font-medium">
+                                                    Loan Term Reduction
+                                                </h4>
+                                                <p className="text-sm">
+                                                    {extraPaymentImpact.timeShortened.years} years, {extraPaymentImpact.timeShortened.months} months
+                                                </p>
+                                            </div>
+                                            <div className="mb-3">
+                                                <h4 className="text-sm font-medium">
+                                                    Interest Savings
+                                                </h4>
+                                                <p className="text-sm">
+                                                    {formatCurrency(extraPaymentImpact.interestSaved)}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-sm font-medium">
+                                                    New Payoff Date
+                                                </h4>
+                                                <p className="text-sm">
+                                                    {extraPaymentImpact.newPayoffDate.toLocaleDateString()}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             )}
-                        </Box>
+                        </div>
                     )}
 
-                    <Button
-                        variant="soft"
-                        color="primary"
-                        fullWidth
-                        startDecorator={<Save />}
+                    <button
+                        className="flex mx-auto items-center justify-center rounded-xl bg-secondary-500 dark:bg-secondary-700 text-white py-2.5 px-4 text-sm font-medium transition-colors hover:bg-primary-600 dark:hover:bg-primary-400"
                         onClick={() => setOpen(true)}
                     >
+                        <Save className="mr-2 h-4 w-4" />
                         Save Scenario for Comparison
-                    </Button>
-                </CardContent>
-            </Card>
+                    </button>
+                </div>
+            </div>
 
             {/* Save Scenario Modal */}
-            <Modal open={open} onClose={() => setOpen(false)}>
-                <ModalDialog>
-                    <ModalClose />
-                    <Typography level="title-md">Save Current Scenario</Typography>
-                    <Divider sx={{ my: 2 }} />
-                    <FormControl sx={{ mb: 2 }}>
-                        <FormLabel>Scenario Name</FormLabel>
-                        <Input
+            <Dialog
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                title="Save Current Scenario"
+                size="sm"
+                position="center"
+            >
+                <div className="p-6 pt-0">
+                    <div className="mb-4">
+                        <label
+                            htmlFor="scenario-name"
+                            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5"
+                        >
+                            Scenario Name
+                        </label>
+                        <input
+                            id="scenario-name"
+                            type="text"
                             value={scenarioName}
                             onChange={(e) => setScenarioName(e.target.value)}
                             placeholder="e.g., 10-year loan with 10% rate"
+                            className={cn(
+                                "w-full rounded-lg border border-neutral-300 dark:border-neutral-700",
+                                "bg-white dark:bg-neutral-800 px-3 py-2",
+                                "text-neutral-900 dark:text-white",
+                                "placeholder:text-neutral-400 dark:placeholder:text-neutral-500",
+                                "focus:border-primary-500 dark:focus:border-primary-400",
+                                "focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:focus:ring-primary-400/20"
+                            )}
                         />
-                    </FormControl>
-                    <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
-                        <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>
+                    </div>
+
+                    <div className="flex justify-end gap-3 mt-6">
+                        <button
+                            type="button"
+                            onClick={() => setOpen(false)}
+                            className="rounded-lg px-4 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                        >
                             Cancel
-                        </Button>
-                        <Button onClick={handleSaveScenario}>Save</Button>
-                    </Box>
-                </ModalDialog>
-            </Modal>
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleSaveScenario}
+                            className="rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600 dark:hover:bg-primary-400"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </Dialog>
         </>
     );
 };
