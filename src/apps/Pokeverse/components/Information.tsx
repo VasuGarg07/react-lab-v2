@@ -1,7 +1,6 @@
-import { Box, Sheet, Typography } from '@mui/joy';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Crown, Dumbbell, EyeOff, Heart, Ruler, Scale, Target, TreePine } from 'lucide-react';
-import React from 'react';
 import { REGION_DATA, TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
 import { Pokemon } from '@/apps/Pokeverse/helpers/model.types';
 import { formatString } from '@/shared/utilities';
@@ -9,45 +8,30 @@ import { formatString } from '@/shared/utilities';
 interface ChipProps {
     ability: string;
     color: string;
-    isHidden?: boolean
+    isHidden?: boolean;
 }
 
-const AbilitiyChip: React.FC<ChipProps> = ({ ability, color, isHidden }) => {
-
+const AbilityChip: React.FC<ChipProps> = ({ ability, color, isHidden }) => {
     return (
-        <Box
-            sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                px: 2,
-                py: 1,
-                boxShadow: 'sm',
-                borderRadius: 'lg',
-                background: `${color}24`,
-                '&:hover': { boxShadow: 'md' },
-            }}
+        <div
+            className="inline-flex items-center px-2 py-1 shadow-sm rounded-lg transition-shadow duration-200 hover:shadow-md"
+            style={{ background: `${color}24` }}
         >
-            <Typography level="body-sm" sx={{
-                mr: 1,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1
-            }}>
+            <div className="text-sm mr-1 flex items-center gap-1">
                 {formatString(ability)}
                 {isHidden && (
                     <EyeOff size={12} color={color} />
                 )}
-            </Typography>
-        </Box>
+            </div>
+        </div>
     );
-}
-
+};
 
 interface InfoSectionProps {
     pokemon: Pokemon;
 }
 
-const InfoSection = ({ pokemon }: InfoSectionProps) => {
+const InfoSection: React.FC<InfoSectionProps> = ({ pokemon }) => {
     const primaryType = pokemon.types[0];
     const accentColor = TYPE_COLORS[primaryType];
 
@@ -61,95 +45,62 @@ const InfoSection = ({ pokemon }: InfoSectionProps) => {
     ];
 
     return (
-        <Box component={motion.div} layout>
+        <motion.div layout className="text-neutral-800 dark:text-neutral-100">
             {/* Quick Stats Grid */}
-            <Box sx={{
-                display: 'grid',
-                gridTemplateColumns: {
-                    xs: 'repeat(2, 1fr)',
-                    sm: 'repeat(3, 1fr)',
-                    md: 'repeat(3, 1fr)',
-                },
-                gap: 2,
-                my: 1
-            }}>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2 my-1">
                 {statsCards.map(({ icon: Icon, label, value }) => (
-                    <Sheet
+                    <motion.div
                         key={label}
-                        component={motion.div}
                         initial={{ scale: 0.95, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         whileHover={{ scale: 1.02 }}
-                        variant="soft"
-                        sx={{
-                            p: 2,
-                            borderRadius: 'lg',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: 1,
-                            textAlign: 'center',
-                            transition: 'all 0.2s',
-                            borderBottom: '2px solid',
-                            borderColor: accentColor
-                        }}
+                        className="p-2 rounded-lg flex flex-col items-center gap-1 text-center transition-all duration-200 bg-neutral-100 dark:bg-neutral-800/50"
+                        style={{ borderBottom: `2px solid ${accentColor}` }}
                     >
                         <Icon size={24} color={accentColor} />
-                        <Box>
-                            <Typography level="body-xs" sx={{ color: 'text.secondary' }}>
+                        <div>
+                            <p className="text-xs text-neutral-500 dark:text-neutral-400">
                                 {label}
-                            </Typography>
-                            <Typography level="body-lg" fontWeight="bold" sx={{ textTransform: 'capitalize' }}>
+                            </p>
+                            <p className="text-lg font-bold capitalize">
                                 {value}
-                            </Typography>
-                        </Box>
-                    </Sheet>
+                            </p>
+                        </div>
+                    </motion.div>
                 ))}
-            </Box>
+            </div>
 
             {/* Generation & Genre */}
-            <Sheet
-                variant="soft"
-                sx={{
-                    p: 2,
-                    borderRadius: 'lg',
-                    mb: 3,
-                    display: 'flex',
-                    alignItems: 'center',
-                    borderBottom: `2px solid ${accentColor}`,
-                    gap: 2
-                }}
+            <div
+                className="p-2 my-2 rounded-lg flex items-center gap-2 bg-neutral-100 dark:bg-neutral-800/50"
+                style={{ borderBottom: `2px solid ${accentColor}` }}
             >
                 <Crown size={24} color={accentColor} />
-                <Box>
-                    <Typography level="body-xs" sx={{ color: 'text.secondary' }}>Generation {pokemon.generation}</Typography>
-                    <Typography level="body-lg" fontWeight="bold">
+                <div>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">Generation {pokemon.generation}</p>
+                    <p className="text-lg font-bold">
                         {REGION_DATA[pokemon.generation - 1].name}
-                    </Typography>
-                </Box>
-                <Box sx={{ height: '24px', width: '1px', bgcolor: 'divider', mx: 2 }} />
-                <Typography level="body-lg" sx={{ textTransform: 'capitalize' }}>
+                    </p>
+                </div>
+                <div className="h-6 w-px bg-neutral-300 dark:bg-neutral-600 mx-2" />
+                <p className="text-lg capitalize">
                     {pokemon.genre}
-                </Typography>
-            </Sheet>
+                </p>
+            </div>
 
             {/* Abilities */}
-            <Sheet
-                variant="soft"
-                sx={{
-                    p: 2,
-                    borderRadius: 'lg',
-                    borderBottom: `2px solid ${accentColor}`,
-                }}
+            <div
+                className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800/50"
+                style={{ borderBottom: `2px solid ${accentColor}` }}
             >
-                <Typography level="title-md" sx={{ mb: 2 }}>Abilities</Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                <p className="text-base font-medium mb-2">Abilities</p>
+                <div className="flex flex-wrap gap-1">
                     {pokemon.abilities.map((ability, index) => (
-                        <AbilitiyChip key={index} ability={ability.name} color={accentColor} isHidden={ability.isHidden} />
+                        <AbilityChip key={index} ability={ability.name} color={accentColor} isHidden={ability.isHidden} />
                     ))}
-                </Box>
-            </Sheet>
-        </Box>
+                </div>
+            </div>
+        </motion.div>
     );
 };
 

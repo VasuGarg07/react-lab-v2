@@ -1,14 +1,8 @@
-import {
-    IconButton,
-    Sheet,
-    styled,
-    Table,
-    Typography
-} from '@mui/joy';
-import { ArrowDownCircle, ArrowUpCircle, Edit2, Trash2 } from 'lucide-react';
 import React from 'react';
+import { ArrowDownCircle, ArrowUpCircle, Edit2, Trash2 } from 'lucide-react';
 import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
 import { formatDate, Transaction } from '@/apps/BudgetBuddy/helpers/expense.constants';
+import { cn } from '@/shared/cn';
 
 interface TransactionTableProps {
     transactions: Transaction[];
@@ -24,34 +18,7 @@ const columnConfig = {
     actions: { width: '11%', align: 'center' as const },
 };
 
-// Styled components
-const StyledTable = styled(Table)({
-    '& thead th': {
-        backgroundColor: 'var(--joy-palette-background-level2)',
-        fontWeight: 'bold',
-    },
-    '& tbody tr:nth-of-type(odd)': {
-        backgroundColor: 'var(--joy-palette-background-level1)',
-    },
-    '& tbody tr:hover': {
-        backgroundColor: 'var(--joy-palette-background-level2)',
-        transition: 'background-color 0.2s ease',
-    },
-    // Apply width and alignment to table cells
-    '& th, & td': {
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-    }
-});
-
-const AmountText = styled(Typography)<{ type: 'income' | 'expense' }>(({ type }) => ({
-    color: type === 'income' ? 'var(--joy-palette-success-500)' : 'var(--joy-palette-danger-500)',
-}));
-
-
 const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => {
-
     const { deleteTransaction, handleEditTransaction } = useBudget();
 
     const onDelete = (id?: string) => {
@@ -59,114 +26,84 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => 
         try {
             deleteTransaction(id);
         } catch (error) {
-
+            // Error handling
         }
-    }
+    };
 
     return (
-        <Sheet variant="outlined" sx={{ borderRadius: 'md', overflow: 'auto' }}>
-            <StyledTable
-                borderAxis="bothBetween"
-                stickyHeader
-                hoverRow
-                sx={{
-                    '--Table-headerUnderlineThickness': '1px',
-                    '--TableCell-paddingX': '12px',
-                    '--TableCell-paddingY': '8px',
-                    tableLayout: 'fixed',
-                    minWidth: '900px', // Prevent table from becoming too narrow
-                }}
-            >
-                <thead>
-                    <tr>
-                        <th style={{ width: columnConfig.title.width, textAlign: columnConfig.title.align }}>Title</th>
-                        <th style={{ width: columnConfig.amount.width, textAlign: columnConfig.amount.align }}>Amount</th>
-                        <th style={{ width: columnConfig.type.width, textAlign: columnConfig.type.align }}>Type</th>
-                        <th style={{ width: columnConfig.category.width, textAlign: columnConfig.category.align }}>Category</th>
-                        <th style={{ width: columnConfig.date.width, textAlign: columnConfig.date.align }}>Date</th>
-                        <th style={{ width: columnConfig.description.width, textAlign: columnConfig.description.align }}>Description</th>
-                        <th style={{ width: columnConfig.actions.width, textAlign: columnConfig.actions.align }}>Actions</th>
+        <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-auto bg-white dark:bg-zinc-900 shadow-sm">
+            <table className="w-full min-w-[900px] table-fixed">
+                <thead className="sticky top-0 bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300">
+                    <tr className="border-b border-gray-200 dark:border-gray-700">
+                        <th style={{ width: columnConfig.title.width }} className={`p-3 font-semibold text-left text-sm`}>Title</th>
+                        <th style={{ width: columnConfig.amount.width }} className={`p-3 font-semibold text-right text-sm`}>Amount</th>
+                        <th style={{ width: columnConfig.type.width }} className={`p-3 font-semibold text-center text-sm`}>Type</th>
+                        <th style={{ width: columnConfig.category.width }} className={`p-3 font-semibold text-left text-sm`}>Category</th>
+                        <th style={{ width: columnConfig.date.width }} className={`p-3 font-semibold text-center text-sm`}>Date</th>
+                        <th style={{ width: columnConfig.description.width }} className={`p-3 font-semibold text-left text-sm`}>Description</th>
+                        <th style={{ width: columnConfig.actions.width }} className={`p-3 font-semibold text-center text-sm`}>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {transactions.map((transaction) => (
-                        <tr key={transaction.id}>
-                            <td style={{ textAlign: columnConfig.title.align }}>
-                                <Typography
-                                    level="body-sm"
-                                    sx={{
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                    }}
-                                >
-                                    {transaction.title}
-                                </Typography>
+                        <tr
+                            key={transaction.id}
+                            className="hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors duration-150"
+                        >
+                            <td className="p-3 text-sm text-gray-800 dark:text-gray-200 truncate">
+                                {transaction.title}
                             </td>
-                            <td style={{ textAlign: columnConfig.amount.align }}>
-                                <AmountText level="body-sm" type={transaction.type}>
-                                    ₹ {Math.abs(transaction.amount).toFixed(2)}
-                                </AmountText>
+                            <td className={cn(
+                                "p-3 text-sm text-right whitespace-nowrap font-medium",
+                                transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                            )}>
+                                ₹ {Math.abs(transaction.amount).toFixed(2)}
                             </td>
-                            <td style={{ textAlign: columnConfig.type.align }}>
+                            <td className="p-3 text-center">
                                 {transaction.type === 'income' ? (
-                                    <ArrowUpCircle size={20} color="var(--joy-palette-success-500)" />
+                                    <ArrowUpCircle size={20} className="text-green-600 dark:text-green-400 inline" />
                                 ) : (
-                                    <ArrowDownCircle size={20} color="var(--joy-palette-danger-500)" />
+                                    <ArrowDownCircle size={20} className="text-red-600 dark:text-red-400 inline" />
                                 )}
                             </td>
-                            <td style={{ textAlign: columnConfig.category.align }}>
-                                <Typography
-                                    level="body-sm"
-                                    sx={{
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                    }}
-                                >
-                                    {transaction.category}
-                                </Typography>
+                            <td className="p-3 text-sm text-gray-800 dark:text-gray-200 truncate">
+                                {transaction.category}
                             </td>
-                            <td style={{ textAlign: columnConfig.date.align }}>
-                                <Typography level="body-sm">
-                                    {formatDate(transaction.date)}
-                                </Typography>
+                            <td className="p-3 text-sm text-center text-gray-800 dark:text-gray-200">
+                                {formatDate(transaction.date)}
                             </td>
-                            <td style={{ textAlign: columnConfig.description.align }}>
-                                <Typography
-                                    level="body-sm"
-                                    sx={{
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                    }}
-                                >
-                                    {transaction.description || '- NA -'}
-                                </Typography>
+                            <td className="p-3 text-sm text-gray-800 dark:text-gray-200 truncate">
+                                {transaction.description || '- NA -'}
                             </td>
-                            <td style={{ textAlign: columnConfig.actions.align }}>
-                                <IconButton
-                                    size="sm"
-                                    variant="plain"
-                                    color="neutral"
+                            <td className="p-3 text-center">
+                                <button
+                                    className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-300 transition-colors inline-flex items-center justify-center mr-1"
                                     onClick={() => handleEditTransaction(transaction)}
-                                    sx={{ mr: 1 }}
+                                    aria-label="Edit transaction"
                                 >
                                     <Edit2 size={18} />
-                                </IconButton>
-                                <IconButton
-                                    size="sm"
-                                    variant="plain"
-                                    color="danger"
+                                </button>
+                                <button
+                                    className="p-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors inline-flex items-center justify-center"
                                     onClick={() => onDelete(transaction.id)}
+                                    aria-label="Delete transaction"
                                 >
                                     <Trash2 size={18} />
-                                </IconButton>
+                                </button>
                             </td>
                         </tr>
                     ))}
+                    {transactions.length === 0 && (
+                        <tr>
+                            <td colSpan={7} className="p-4 text-center text-gray-500 dark:text-gray-400">
+                                No transactions found
+                            </td>
+                        </tr>
+                    )}
                 </tbody>
-            </StyledTable>
-        </Sheet>
+            </table>
+        </div>
     );
-
 };
 
 export default TransactionTable;

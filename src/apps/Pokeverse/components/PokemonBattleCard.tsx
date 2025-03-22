@@ -1,163 +1,103 @@
-import { Box, Card, Chip, LinearProgress, Stack, Typography, useColorScheme } from "@mui/joy";
-import { motion } from "framer-motion";
-import { BattlePokemon } from "@/apps/Pokeverse/helpers/battle.types";
-import { TYPE_COLORS } from "@/apps/Pokeverse/helpers/constant";
-import { getOfficialImage } from "@/apps/Pokeverse/helpers/utilities";
+import { motion } from 'framer-motion';
+import { BattlePokemon } from '@/apps/Pokeverse/helpers/battle.types';
+import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
+import { getOfficialImage } from '@/apps/Pokeverse/helpers/utilities';
+import { cn } from '@/shared/cn';
 
 interface PokemonBattleCardProps {
-    pokemon: BattlePokemon,
-    isOpponent?: boolean
+    pokemon: BattlePokemon;
+    isOpponent?: boolean;
 }
 
 const PokemonBattleCard = ({ pokemon, isOpponent = false }: PokemonBattleCardProps) => {
-    const { mode } = useColorScheme();
-    const isDark = mode === 'dark';
-
     const firstColor = TYPE_COLORS[pokemon.types[0]];
-    const secondColor = TYPE_COLORS[pokemon.types[1]];
+    const secondColor = pokemon.types[1] ? TYPE_COLORS[pokemon.types[1]] : firstColor;
+
+    const hpRatio = pokemon.currentHP / pokemon.maxHP;
+    const hpColor =
+        hpRatio > 0.5
+            ? ['#2ECC71', '#27AE60']
+            : hpRatio > 0.2
+                ? ['#F1C40F', '#F39C12']
+                : ['#E74C3C', '#C0392B'];
 
     return (
-        <Card
-            variant="outlined"
-            sx={{
-                p: 2,
-                borderRadius: 'lg',
-                position: 'relative',
-                overflow: 'hidden',
-                border: '2px solid',
-                borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)',
-                background: isDark ? '#000000' : '#ffffff',
-                boxShadow: 'md',
-                maxWidth: 500,
-                ...(isOpponent ? { marginLeft: 'auto' } : { marginRight: 'auto' })
-            }}
+        <div
+            className={cn(
+                'relative overflow-hidden border-2 rounded-xl shadow-md p-4 max-w-xl transition-colors',
+                'bg-white dark:bg-black border-black/10 dark:border-white/20',
+                isOpponent ? 'ml-auto' : 'mr-auto'
+            )}
         >
             {/* Background Gradient */}
-            <Box
-                sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: `
-                            radial-gradient(circle at ${isOpponent ? '0%' : '100%'} 50%, ${firstColor}66, transparent 70%)
-                        `,
+            <div
+                className="absolute inset-0 z-0"
+                style={{
+                    background: `radial-gradient(circle at ${isOpponent ? '0%' : '100%'} 50%, ${firstColor}66, transparent 70%)`,
                     opacity: 0.8,
-                    transition: 'opacity 0.3s ease',
                 }}
             />
 
-            <Stack
-                direction={isOpponent ? 'row-reverse' : 'row'}
-                spacing={3}
-                alignItems="center"
-                sx={{ position: 'relative' }}
-            >
-                <Box sx={{ flex: '1 1 60%' }}>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" mb={1}>
-                        <Typography
-                            level="h3"
-                            sx={{
-                                textTransform: 'uppercase',
-                                background: `linear-gradient(135deg, ${firstColor}, ${secondColor ? secondColor : firstColor})`,
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent'
+            <div className={cn('relative z-10 flex gap-6 items-center', isOpponent && 'flex-row-reverse')}>
+                {/* Text Area */}
+                <div className="flex-1 space-y-2">
+                    <div className="flex justify-between items-center">
+                        <h3
+                            className="text-xl font-bold uppercase bg-clip-text text-transparent"
+                            style={{
+                                backgroundImage: `linear-gradient(135deg, ${firstColor}, ${secondColor})`,
                             }}
                         >
                             {pokemon.name}
-                        </Typography>
-                        <Stack direction="row" spacing={0.5}>
-                            {pokemon.types.map(type => (
-                                <Chip
+                        </h3>
+
+                        <div className="flex gap-1">
+                            {pokemon.types.map((type) => (
+                                <span
                                     key={type}
-                                    size="sm"
-                                    sx={{
-                                        background: TYPE_COLORS[type],
-                                        textTransform: 'capitalize',
-                                        borderRadius: '4px'
-                                    }}
+                                    className="px-2 py-0.5 text-xs font-semibold rounded text-white capitalize"
+                                    style={{ backgroundColor: TYPE_COLORS[type] }}
                                 >
                                     {type}
-                                </Chip>
+                                </span>
                             ))}
-                        </Stack>
-                    </Stack>
+                        </div>
+                    </div>
 
-                    <Box sx={{ mb: 2, position: 'relative' }}>
-                        <LinearProgress
-                            determinate
-                            thickness={8}
-                            value={(pokemon.currentHP / pokemon.maxHP) * 100}
-                            sx={{
-                                '--LinearProgress-radius': '8px',
-                                '--LinearProgress-progressRadius': '6px',
-                                bgcolor: 'background.level2',
-                                borderRadius: '8px',
-                                '& .MuiLinearProgress-bar': {
-                                    transition: 'transform 0.3s ease-in-out',
-                                    background: `linear-gradient(90deg, 
-                                        ${pokemon.currentHP / pokemon.maxHP > 0.5 ? '#2ECC71' :
-                                            pokemon.currentHP / pokemon.maxHP > 0.2 ? '#F1C40F' : '#E74C3C'} 0%,
-                                        ${pokemon.currentHP / pokemon.maxHP > 0.5 ? '#27AE60' :
-                                            pokemon.currentHP / pokemon.maxHP > 0.2 ? '#F39C12' : '#C0392B'} 100%)`
-                                }
+                    {/* HP Bar */}
+                    <div className="relative h-4 rounded-full overflow-hidden bg-zinc-200 dark:bg-zinc-700">
+                        <div
+                            className="absolute inset-0 transition-all"
+                            style={{
+                                width: `${Math.max(hpRatio * 100, 0)}%`,
+                                background: `linear-gradient(90deg, ${hpColor[0]}, ${hpColor[1]})`,
                             }}
                         />
-                        <Typography
-                            level="body-sm"
-                            sx={{
-                                position: 'absolute',
-                                right: '8px',
-                                top: '50%',
-                                transform: 'translateY(-50%)',
-                                color: 'text.tertiary',
-                                fontWeight: 600,
-                                fontSize: '0.75rem'
-                            }}
-                        >
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2 text-[0.7rem] font-bold text-gray-800 dark:text-gray-300">
                             {pokemon.currentHP}/{pokemon.maxHP}
-                        </Typography>
-                    </Box>
-                </Box>
+                        </div>
+                    </div>
+                </div>
 
-                <Box
-                    sx={{
-                        flex: '0 0 auto',
-                        position: 'relative',
-                        '&::after': {
-                            content: '""',
-                            position: 'absolute',
-                            inset: '-20px',
+                {/* Pokémon Image */}
+                <div className="relative flex-shrink-0 w-[180px] h-[180px]">
+                    <div
+                        className="absolute inset-[-20px] z-0"
+                        style={{
                             background: `radial-gradient(circle, ${firstColor}20 0%, transparent 70%)`,
-                            zIndex: 0
-                        }
-                    }}
-                >
+                        }}
+                    />
                     <motion.img
                         src={getOfficialImage(pokemon.id)}
                         alt={pokemon.name}
-                        style={{
-                            width: 180,
-                            height: 180,
-                            objectFit: 'contain',
-                            position: 'relative',
-                            zIndex: 1,
-                            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))'
-                        }}
-                        animate={{
-                            y: [0, -10, 0],
-                        }}
-                        transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                        }}
+                        className="w-full h-full object-contain relative z-10"
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                     />
-                </Box>
-            </Stack>
-        </Card>
+                </div>
+            </div>
+        </div>
     );
-}
+};
 
 export default PokemonBattleCard;

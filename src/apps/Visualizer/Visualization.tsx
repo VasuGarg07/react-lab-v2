@@ -12,7 +12,7 @@ const Visualization: React.FC<VisualizationProps> = ({
 }) => {
     return (
         <div
-            className="p-6 mb-6 rounded-xl backdrop-blur-sm bg-white/50 dark:bg-gray-900/50 shadow-sm h-[400px]"
+            className="p-6 mb-6 rounded-xl backdrop-blur-sm bg-white dark:bg-neutral-900 shadow-sm h-[400px]"
         >
             <div className="flex items-end justify-center h-full gap-px">
                 {array.map((value, index) => (

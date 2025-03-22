@@ -82,7 +82,7 @@ const SortingVisualizer = () => {
                     <div className="flex items-center space-x-3">
                         <button
                             onClick={() => setInfoOpen(true)}
-                            className='p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors'
+                            className='p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors'
                             aria-label="Information"
                         >
                             <Info size={20} />

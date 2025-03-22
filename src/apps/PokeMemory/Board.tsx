@@ -19,7 +19,7 @@ const Board = () => {
         <div className="flex-grow"></div>
         <div className="text-center sm:text-right my-2 sm:my-0 mr-4">
           <p className="text-sm font-medium text-white">Player: {name}</p>
-          <p className="text-xs text-gray-300">Turns: {turns}</p>
+          <p className="text-xs text-neutral-300">Turns: {turns}</p>
         </div>
         <button
           onClick={resetGame}

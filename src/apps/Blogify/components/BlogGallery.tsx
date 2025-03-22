@@ -1,8 +1,7 @@
-import { Box, Grid, Stack, Typography } from '@mui/joy';
+import React from 'react';
 import Pagination from "@/ui/Pagination";
 import { BlogListResponse } from '@/apps/Blogify/helpers/blog.constants';
 import BlogCard from '@/apps/Blogify/components/BlogCard';
-
 
 interface BlogGalleryProps {
     blogListResponse: BlogListResponse;
@@ -11,53 +10,42 @@ interface BlogGalleryProps {
     emptyMessage?: string;
 }
 
-const BlogGallery = ({
+const BlogGallery: React.FC<BlogGalleryProps> = ({
     blogListResponse,
     isLoading = false,
     onPageChange,
     emptyMessage = 'No blogs found',
-}: BlogGalleryProps) => {
+}) => {
     const { data, pagination } = blogListResponse;
 
     // Empty state
     if (!isLoading && data.length === 0) {
         return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    minHeight: '200px'
-                }}
-            >
-                <Typography level="body-lg" color="neutral">
+            <div className="flex justify-center items-center min-h-[200px]">
+                <p className="text-gray-600 dark:text-gray-400 text-lg">
                     {emptyMessage}
-                </Typography>
-            </Box>
+                </p>
+            </div>
         );
     }
 
     return (
-        <Stack spacing={3}>
+        <div className="flex flex-col space-y-6">
             {/* Results Summary */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography level="body-sm">
+            <div className="flex justify-between items-center">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                     Showing {((pagination.currentPage - 1) * pagination.itemsPerPage) + 1} - {Math.min(pagination.currentPage * pagination.itemsPerPage, pagination.totalItems)} of {pagination.totalItems} blogs
-                </Typography>
-            </Box>
+                </p>
+            </div>
 
             {/* Blog Grid */}
-            <Grid
-                container
-                spacing={{ xs: 2, md: 3 }}
-                columns={{ xs: 1, md: 2, xl: 3 }}
-            >
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                 {data.map((blog) => (
-                    <Grid key={blog.id} xs={1}>
+                    <div key={blog.id}>
                         <BlogCard blog={blog} />
-                    </Grid>
+                    </div>
                 ))}
-            </Grid>
+            </div>
 
             {/* Pagination */}
             {pagination.totalPages > 1 && (
@@ -67,7 +55,7 @@ const BlogGallery = ({
                     onPageChange={onPageChange}
                 />
             )}
-        </Stack>
+        </div>
     );
 };
 

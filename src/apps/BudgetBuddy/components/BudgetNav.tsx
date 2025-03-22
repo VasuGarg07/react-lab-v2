@@ -1,9 +1,7 @@
 import React from 'react';
-import { Box, List, ListItem, ListItemButton, ListItemDecorator, Sheet, Typography } from '@mui/joy';
 import { BarChart3, History, LayoutGrid, PieChart } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router';
-
-const SIDEBAR_WIDTH = '280px';
+import { cn } from '@/shared/cn';
 
 const NAVIGATION_ITEMS = [
     { to: 'home', icon: <LayoutGrid size={18} />, label: 'Home' },
@@ -12,211 +10,95 @@ const NAVIGATION_ITEMS = [
     { to: 'timeline', icon: <BarChart3 size={18} />, label: 'Timeline' }
 ];
 
-
-const BudgetNav = ({ mode = 'light' }) => {
+const BudgetNav: React.FC = () => {
     const location = useLocation();
 
-    const colors = {
-        light: '#16CC87',
-        dark: '#01DEAB'
-    };
+    // Helper function to check if a nav item is active
+    const isActive = (path: string) => location.pathname.endsWith(path);
 
     // Desktop Sidebar Content
     const renderSideNav = () => (
-        <Box
-            component="nav"
-            sx={{
-                width: { sm: SIDEBAR_WIDTH },
-                flexShrink: { sm: 0 },
-                display: { xs: 'none', md: 'block' }
-            }}
+        <nav
+            className="hidden md:block w-[280px] flex-shrink-0"
+            aria-label="Main Navigation"
         >
-            <Sheet
-                sx={{
-                    width: SIDEBAR_WIDTH,
-                    height: 'calc(100vh - 52px)',
-                    bgcolor: 'background.surface',
-                    borderRight: '1px solid',
-                    borderColor: 'divider',
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    boxShadow: 'sm'
-                }}
-            >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2, pl: 2 }}>
+            <div className="w-[280px] h-[calc(100vh-54px)] bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-700 p-4 flex flex-col shadow-sm fixed">
+                {/* Logo and Title */}
+                <div className="flex items-center gap-3 mb-6 pl-2">
                     <img
                         src="/money.png"
                         alt="Budget Logo"
-                        style={{
-                            width: 40,
-                            height: 40,
-                        }}
+                        className="w-10 h-10"
                     />
-                    <Typography
-                        level="title-lg"
-                        sx={{
-                            background: mode === 'light' ? colors.light : colors.dark,
-                            backgroundClip: 'text',
-                            color: 'transparent',
-                        }}
-                    >
+                    <h1 className="text-xl font-semibold bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">
                         BudgetBuddy
-                    </Typography>
-                </Box>
+                    </h1>
+                </div>
 
-                <List
-                    size="sm"
-                    sx={{
-                        gap: 1,
-                        '--List-decoratorSize': '32px',
-                    }}
-                >
+                {/* Navigation List */}
+                <ul className="space-y-1">
                     {NAVIGATION_ITEMS.map((item) => (
-                        <ListItem key={item.to}>
-                            <ListItemButton
-                                component={NavLink}
+                        <li key={item.to}>
+                            <NavLink
                                 to={item.to}
-                                selected={location.pathname.endsWith(item.to)}
-                                sx={(theme) => ({
-                                    borderRadius: 'md',
-                                    gap: 1.5,
-                                    fontSize: 'sm',
-                                    fontWeight: 500,
-                                    py: 0.5,
-                                    transition: 'all 0.15s ease-in-out',
-
-                                    '&:hover': {
-                                        bgcolor: mode === 'light'
-                                            ? 'rgba(122, 233, 183, 0.1) !important'
-                                            : 'rgba(163, 255, 198, 0.1) !important',
-                                        color: mode === 'light' ? `${colors.light} !important` : `${colors.dark} !important`,
-                                        transform: 'translateX(4px)',
-                                        '& svg': {
-                                            transform: 'scale(1.1)',
-                                            color: mode === 'light' ? colors.light : colors.dark,
-                                        }
-                                    },
-
-                                    '&.active': {
-                                        bgcolor: mode === 'light'
-                                            ? 'rgba(122, 233, 183, 0.1) !important'
-                                            : 'rgba(163, 255, 198, 0.1) !important',
-                                        color: mode === 'light' ? `${colors.light} !important` : `${colors.dark} !important`,
-                                        '& svg': {
-                                            color: mode === 'light' ? colors.light : colors.dark,
-                                        }
-                                    },
-
-                                    '& svg': {
-                                        transition: 'all 0.2s ease',
-                                        color: location.pathname === item.to
-                                            ? (mode === 'light' ? colors.light : colors.dark)
-                                            : theme.vars.palette.neutral.solidBg
-                                    }
-                                })}
+                                className={({ isActive }) => cn(
+                                    "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200",
+                                    "hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:translate-x-1",
+                                    isActive
+                                        ? "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20"
+                                        : "text-zinc-700 dark:text-zinc-300"
+                                )}
                             >
-                                <ListItemDecorator
-                                    sx={{
-                                        borderRadius: 'sm',
-                                        width: 32,
-                                        height: 32,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}
-                                >
-                                    {item.icon}
-                                </ListItemDecorator>
+                                <span className="flex items-center justify-center w-8 h-8 transition-transform duration-200 group-hover:scale-110">
+                                    {React.cloneElement(item.icon, {
+                                        className: cn(
+                                            "transition-all duration-200",
+                                            isActive(item.to)
+                                                ? "text-emerald-600 dark:text-emerald-400"
+                                                : "text-zinc-500 dark:text-zinc-400"
+                                        )
+                                    })}
+                                </span>
                                 {item.label}
-                            </ListItemButton>
-                        </ListItem>
+                            </NavLink>
+                        </li>
                     ))}
-                </List>
-            </Sheet>
-        </Box>
+                </ul>
+            </div>
+        </nav>
     );
 
     // Mobile Bottom Navigation Content
     const renderBottomNav = () => (
-        <Sheet
-            sx={{
-                display: { xs: 'block', md: 'none' },
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                borderTop: '1px solid',
-                borderColor: 'divider',
-                bgcolor: 'background.surface',
-                zIndex: 1000,
-                borderRadius: '12px 12px 0 0'
-            }}
-        >
-            <List
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    gap: 1,
-                    px: 2,
-                    py: 1,
-                }}
-            >
+        <div className="md:hidden fixed bottom-0 left-0 right-0 border-t border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 z-50 rounded-t-xl shadow-[0_-4px_10px_rgba(0,0,0,0.05)] dark:shadow-[0_-4px_10px_rgba(0,0,0,0.2)]">
+            <ul className="flex items-center justify-around px-2 py-1">
                 {NAVIGATION_ITEMS.map((item) => (
-                    <ListItem key={item.to} sx={{ p: 0, flex: 1 }}>
-                        <ListItemButton
-                            component={NavLink}
+                    <li key={item.to} className="flex-1">
+                        <NavLink
                             to={item.to}
-                            selected={location.pathname.endsWith(item.to)}
-                            sx={{
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                borderRadius: 'sm',
-                                p: 1, gap: 0.5,
-                                '&:hover': {
-                                    bgcolor: 'transparent',
-                                    color: mode === 'light' ? `${colors.light} !important` : `${colors.dark} !important`,
-                                    '& svg': {
-                                        transform: 'translateY(-2px)',
-                                        color: mode === 'light' ? colors.light : colors.dark,
-                                    }
-
-                                },
-                                '&.active': {
-                                    bgcolor: 'transparent',
-                                    color: mode === 'light' ? `${colors.light} !important` : `${colors.dark} !important`,
-                                    '& svg, & Typography': {
-                                        color: mode === 'light' ? colors.light : colors.dark,
-                                    }
-                                }
-                            }}
+                            className={({ isActive }) => cn(
+                                "flex flex-col items-center py-2 px-1 transition-all duration-200",
+                                isActive
+                                    ? "text-emerald-600 dark:text-emerald-400"
+                                    : "text-zinc-500 dark:text-zinc-400"
+                            )}
                         >
                             {React.cloneElement(item.icon, {
-                                style: {
-                                    transition: 'all 0.2s ease',
-                                    color: location.pathname.endsWith(item.to)
-                                        ? (mode === 'light' ? colors.light : colors.dark)
-                                        : undefined
-                                }
+                                className: cn(
+                                    "transition-transform duration-200 hover:-translate-y-1",
+                                    isActive(item.to)
+                                        ? "text-emerald-600 dark:text-emerald-400"
+                                        : "text-zinc-500 dark:text-zinc-400"
+                                )
                             })}
-                            <Typography
-                                level="body-xs"
-                                sx={{
-                                    fontSize: '0.7rem',
-                                    transition: 'color 0.2s ease',
-                                    color: location.pathname.endsWith(item.to)
-                                        ? (mode === 'light' ? colors.light : colors.dark)
-                                        : undefined
-                                }}
-                            >
+                            <span className="text-[0.7rem] mt-1 font-medium">
                                 {item.label}
-                            </Typography>
-                        </ListItemButton>
-                    </ListItem>
+                            </span>
+                        </NavLink>
+                    </li>
                 ))}
-            </List>
-        </Sheet>
+            </ul>
+        </div>
     );
 
     return (

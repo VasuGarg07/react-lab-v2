@@ -1,10 +1,8 @@
-import { CssBaseline, CssVarsProvider } from "@mui/joy";
-import { RouterProvider } from "react-router/dom";
-import { Router } from "@/shared/Router";
 import { AuthProvider } from "@/auth/AuthProvider";
-import { ToastContainer } from 'react-toastify';
-import theme from "@/styles/theme";
+import { Router } from "@/shared/Router";
 import "@/styles/styles.css";
+import { RouterProvider } from "react-router/dom";
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ThemeProvider } from "./styles/ThemeProvider";
 
@@ -14,10 +12,7 @@ function App() {
     <>
       <ThemeProvider>
         <AuthProvider>
-          <CssVarsProvider theme={theme}>
-            <CssBaseline />
-            <RouterProvider router={Router} />
-          </CssVarsProvider>
+          <RouterProvider router={Router} />
         </AuthProvider>
         <ToastContainer stacked limit={5} />
       </ThemeProvider>

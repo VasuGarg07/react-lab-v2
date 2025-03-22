@@ -43,7 +43,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
         return (
             <div className="space-y-1">
                 {label && (
-                    <label htmlFor={id} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label htmlFor={id} className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                         {label} {required && <span className="text-red-500">*</span>}
                     </label>
                 )}
@@ -70,7 +70,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                                 "focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30",
                                 "py-2.5 pr-3",
                                 icon ? "pl-10" : "pl-3",
-                                error ? "border-red-500 ring-1 ring-red-500/30" : "border-gray-300",
+                                error ? "border-red-500 ring-1 ring-red-500/30" : "border-neutral-300",
                                 disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
                                 className
                             )}
@@ -85,7 +85,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
 
                         <SelectPrimitive.Portal>
                             <SelectPrimitive.Content
-                                className="overflow-hidden bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-50"
+                                className="overflow-hidden bg-white dark:bg-neutral-800 rounded-md shadow-lg border border-neutral-200 dark:border-neutral-700 z-50"
                                 position="popper"
                                 sideOffset={5}
                                 side="bottom"
@@ -94,7 +94,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                                 align="start"
                                 alignOffset={-5}
                             >
-                                <SelectPrimitive.ScrollUpButton className="flex items-center justify-center h-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-default sticky top-0 border-b border-gray-200 dark:border-gray-700 z-10">
+                                <SelectPrimitive.ScrollUpButton className="flex items-center justify-center h-6 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 cursor-default sticky top-0 border-b border-neutral-200 dark:border-neutral-700 z-10">
                                     <ChevronUp size={16} />
                                 </SelectPrimitive.ScrollUpButton>
 
@@ -103,7 +103,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                                         <SelectPrimitive.Item
                                             key={option.value}
                                             value={option.value}
-                                            className="relative flex items-center h-8 pl-6 pr-8 py-2 rounded text-sm text-gray-700 dark:text-gray-300 data-[highlighted]:bg-gray-100 dark:data-[highlighted]:bg-gray-700 cursor-pointer focus:outline-none select-none data-[state=checked]:font-medium data-[disabled]:opacity-50 data-[disabled]:pointer-events-none"
+                                            className="relative flex items-center h-8 pl-6 pr-8 py-2 rounded text-sm text-neutral-700 dark:text-neutral-300 data-[highlighted]:bg-neutral-100 dark:data-[highlighted]:bg-neutral-700 cursor-pointer focus:outline-none select-none data-[state=checked]:font-medium data-[disabled]:opacity-50 data-[disabled]:pointer-events-none"
                                         >
                                             <SelectPrimitive.ItemText>{option.label}</SelectPrimitive.ItemText>
                                             <SelectPrimitive.ItemIndicator className="absolute left-1 inline-flex items-center">
@@ -113,7 +113,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                                     ))}
                                 </SelectPrimitive.Viewport>
 
-                                <SelectPrimitive.ScrollDownButton className="flex items-center justify-center h-6 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-default sticky bottom-0 border-t border-gray-200 dark:border-gray-700 z-10">
+                                <SelectPrimitive.ScrollDownButton className="flex items-center justify-center h-6 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 cursor-default sticky bottom-0 border-t border-neutral-200 dark:border-neutral-700 z-10">
                                     <ChevronDown size={16} />
                                 </SelectPrimitive.ScrollDownButton>
                             </SelectPrimitive.Content>

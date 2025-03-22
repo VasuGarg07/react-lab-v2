@@ -12,10 +12,10 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ value, trigger, children 
     return (
         <RadixAccordion.Item
             value={value}
-            className="mb-2 rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden"
+            className="mb-2 rounded-lg border border-neutral-200 dark:border-neutral-800 overflow-hidden"
         >
             <RadixAccordion.Header className="w-full">
-                <RadixAccordion.Trigger className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                <RadixAccordion.Trigger className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-neutral-800 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                     {trigger}
                     <ChevronDown
                         size={16}
@@ -23,7 +23,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ value, trigger, children 
                     />
                 </RadixAccordion.Trigger>
             </RadixAccordion.Header>
-            <RadixAccordion.Content className="overflow-hidden bg-gray-50/50 dark:bg-gray-900/50 text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+            <RadixAccordion.Content className="overflow-hidden bg-neutral-50/50 dark:bg-neutral-900/50 text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
                 <div className="px-4 py-3">
                     {children}
                 </div>

@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Typography, Input, Select, Option, FormControl, FormLabel, FormHelperText, Grid } from '@mui/joy';
+import React, { useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
+import Select from '@/ui/Select';
 import { CurrencyOptions } from '@/apps/InvoEase/invoice.utils';
+
+interface FormValues {
+    dueDate: string;
+    currency: string;
+}
 
 interface DetailsProps {
     onValidStep: (isValid: boolean) => void;
@@ -9,96 +15,106 @@ interface DetailsProps {
 
 const Details: React.FC<DetailsProps> = ({ onValidStep }) => {
     const { currentDate, dueDate, setDueDate, invoiceNumber, currency, setCurrency } = useInvoice();
-    const [dueDateError, setDueDateError] = useState<string | null>(null);
-    const [dueDateTouched, setDueDateTouched] = useState(false);
-
-    useEffect(() => {
-        validateForm();
-    }, [dueDate, currency]);
-
-    const validateForm = () => {
-        let isValid = true;
-
-        // Validate Due Date
-        if (!dueDate) {
-            setDueDateError('Due date is required');
-            isValid = false;
-        } else {
-            const selectedDate = new Date(dueDate);
-            const currentDate = new Date();
-            currentDate.setHours(0, 0, 0, 0);  // Reset time to start of day
-
-            if (selectedDate <= currentDate) {
-                setDueDateError('Due date must be after today');
-                isValid = false;
-            } else if (selectedDate > maxDate) {
-                setDueDateError('Due date cannot be more than a year from now');
-                isValid = false;
-            } else {
-                setDueDateError(null);
-            }
-        }
-
-        onValidStep(isValid);
-    };
-
-    const handleDueDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDueDate(e.target.value);
-        setDueDateTouched(true);
-    };
 
     const today = new Date();
-    today.setDate(today.getDate() + 1);  // Set to tomorrow
+    today.setDate(today.getDate() + 1);
     const minDate = today.toISOString().split('T')[0];
 
     const maxDate = new Date();
-    maxDate.setFullYear(maxDate.getFullYear() + 1);  // Set to one year from now
-    const maxDateString = maxDate.toISOString().split('T')[0];
+    maxDate.setFullYear(maxDate.getFullYear() + 1);
+    const maxDateStr = maxDate.toISOString().split('T')[0];
+
+    const {
+        control,
+        formState: { errors, isValid },
+        watch,
+    } = useForm<FormValues>({
+        defaultValues: {
+            dueDate,
+            currency,
+        },
+        mode: 'onChange',
+    });
+
+    const watchedDueDate = watch('dueDate');
+    const watchedCurrency = watch('currency');
+
+    useEffect(() => {
+        setDueDate(watchedDueDate);
+    }, [watchedDueDate, setDueDate]);
+
+    useEffect(() => {
+        setCurrency(watchedCurrency);
+    }, [watchedCurrency, setCurrency]);
+
+    useEffect(() => {
+        onValidStep(isValid);
+    }, [isValid, onValidStep]);
 
     return (
-        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-            <Grid xs={12} sm={6}>
-                <Typography level="body-md">
+        <div className="flex flex-col gap-6 w-full">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-4">
+                <p className="text-sm text-neutral-700 dark:text-neutral-300">
                     <strong>Current Date:</strong> {currentDate}
-                </Typography>
-            </Grid>
-            <Grid xs={12} sm={6}>
-                <Typography level="body-md">
+                </p>
+                <p className="text-sm text-neutral-700 dark:text-neutral-300">
                     <strong>Invoice ID:</strong> {invoiceNumber}
-                </Typography>
-            </Grid>
-            <Grid xs={12} sm={6}>
-                <FormControl error={dueDateTouched && !!dueDateError}>
-                    <FormLabel>Due Date</FormLabel>
-                    <Input
-                        type="date"
-                        value={dueDate}
-                        onChange={handleDueDateChange}
-                        onBlur={() => setDueDateTouched(true)}
-                        slotProps={{
-                            input: {
-                                min: minDate,
-                                max: maxDateString,
+                </p>
+            </div>
+
+            <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
+                <div className="flex-1">
+                    <label className="block text-sm font-medium text-neutral-800 dark:text-neutral-200 mb-1">
+                        Due Date <span className="text-red-500">*</span>
+                    </label>
+                    <Controller
+                        control={control}
+                        name="dueDate"
+                        rules={{
+                            required: 'Due date is required',
+                            validate: (value) => {
+                                const selected = new Date(value);
+                                const now = new Date();
+                                now.setHours(0, 0, 0, 0);
+                                if (selected <= now) return 'Due date must be after today';
+                                if (selected > maxDate) return 'Due date cannot be more than a year from now';
+                                return true;
                             },
                         }}
+                        render={({ field }) => (
+                            <input
+                                type="date"
+                                {...field}
+                                min={minDate}
+                                max={maxDateStr}
+                                className={`w-full border rounded-md p-2 text-sm bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.dueDate ? 'border-red-500 ring-red-500/30' : 'border-neutral-300 dark:border-neutral-700'
+                                    }`}
+                            />
+                        )}
                     />
-                    {dueDateTouched && dueDateError && <FormHelperText>{dueDateError}</FormHelperText>}
-                </FormControl>
-            </Grid>
-            <Grid xs={12} sm={6}>
-                <FormControl>
-                    <FormLabel>Currency</FormLabel>
-                    <Select
-                        value={currency}
-                        onChange={(_, value) => setCurrency(value as string)}
-                    >
-                        {CurrencyOptions.map((option) => (
-                            <Option key={option.value} value={option.value}>{option.label}</Option>
-                        ))}
-                    </Select>
-                </FormControl>
-            </Grid>
-        </Grid>
+                    {errors.dueDate && (
+                        <p className="text-sm text-red-500 mt-1">{errors.dueDate.message}</p>
+                    )}
+                </div>
+
+                <div className="flex-1">
+                    <Controller
+                        control={control}
+                        name="currency"
+                        rules={{ required: 'Currency is required' }}
+                        render={({ field }) => (
+                            <Select
+                                {...field}
+                                label="Currency"
+                                options={CurrencyOptions}
+                                error={errors.currency?.message}
+                                required
+                            />
+                        )}
+                    />
+                </div>
+            </div>
+        </div>
     );
 };
 

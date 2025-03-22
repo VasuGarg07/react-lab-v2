@@ -1,4 +1,3 @@
-import { Box, Sheet, Typography } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router';
 import { TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
@@ -7,7 +6,7 @@ import { getOfficialImage } from '@/apps/Pokeverse/helpers/utilities';
 
 interface AltFormProps {
     varieties: AltForm[];
-    primaryType: string
+    primaryType: string;
 }
 
 const AltFormsSection = ({ varieties, primaryType }: AltFormProps) => {
@@ -19,22 +18,12 @@ const AltFormsSection = ({ varieties, primaryType }: AltFormProps) => {
     };
 
     return (
-        <Box>
-
+        <div>
             {/* Varieties Grid */}
-            <Box sx={{
-                display: 'grid',
-                gridTemplateColumns: {
-                    xs: 'repeat(2, 1fr)',
-                    sm: 'repeat(3, 1fr)',
-                    md: 'repeat(4, 1fr)',
-                },
-                gap: 2, mt: 2
-            }}>
+            <div className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
                 {varieties.map((variety, index) => (
-                    <Sheet
+                    <motion.div
                         key={variety.name}
-                        component={motion.div}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{
                             opacity: 1,
@@ -42,36 +31,14 @@ const AltFormsSection = ({ varieties, primaryType }: AltFormProps) => {
                             transition: { delay: index * 0.1 }
                         }}
                         whileHover={{ y: -5 }}
-                        variant="soft"
                         onClick={() => handleAltFormClick(variety.id)}
-                        sx={{
-                            p: 2,
-                            borderRadius: 'xl',
-                            cursor: 'pointer',
-                            overflow: 'hidden',
-                            position: 'relative',
-                            aspectRatio: '1',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'flex-end',
-                            transition: 'all 0.2s',
-                            boxShadow: 'sm',
-                            '&:hover': {
-                                bgcolor: `${accentColor}15`,
-                            }
-                        }}
+                        className={`relative flex flex-col items-center justify-end p-4 rounded-xl cursor-pointer overflow-hidden aspect-square shadow-sm transition-all duration-200 dark:bg-white/10 bg-black/5 hover:shadow-md hover:[${accentColor}15]`}
                     >
                         {/* Background Gradient */}
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                background: `radial-gradient(circle at center, ${accentColor}50 0%, transparent 70%)`,
-                                opacity: 0.5
+                        <div
+                            className="absolute inset-0 opacity-50"
+                            style={{
+                                background: `radial-gradient(circle at center, ${accentColor}50 0%, transparent 70%)`
                             }}
                         />
 
@@ -79,54 +46,28 @@ const AltFormsSection = ({ varieties, primaryType }: AltFormProps) => {
                         <motion.img
                             src={getOfficialImage(variety.id)}
                             alt={variety.name}
-                            style={{
-                                width: '80%',
-                                height: '80%',
-                                objectFit: 'contain',
-                                position: 'relative',
-                                display: 'block',
-                            }}
+                            className="relative w-4/5 h-4/5 object-contain block"
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ delay: index * 0.1 + 0.2 }}
                         />
 
                         {/* Alt Form Name */}
-                        <Typography
-                            level="body-sm"
-                            sx={{
-                                textTransform: 'capitalize',
-                                textAlign: 'center',
-                                position: 'relative',
-                                zIndex: 1,
-                                mb: 1,
-                                maxWidth: '100%',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap'
-                            }}
-                        >
+                        <p className="relative z-10 mb-1 text-sm capitalize text-center truncate w-full dark:text-neutral-200 text-neutral-800">
                             {variety.name}
-                        </Typography>
-                    </Sheet>
+                        </p>
+                    </motion.div>
                 ))}
-            </Box>
+            </div>
 
             {varieties.length === 0 && (
-                <Sheet
-                    variant="soft"
-                    sx={{
-                        p: 3,
-                        borderRadius: 'xl',
-                        textAlign: 'center'
-                    }}
-                >
-                    <Typography level="body-lg" sx={{ color: 'text.secondary' }}>
+                <div className="p-6 rounded-xl text-center bg-black/5 dark:bg-white/10">
+                    <p className="text-lg text-neutral-500 dark:text-neutral-400">
                         No alternate forms available for this Pokémon
-                    </Typography>
-                </Sheet>
+                    </p>
+                </div>
             )}
-        </Box>
+        </div>
     );
 };
 

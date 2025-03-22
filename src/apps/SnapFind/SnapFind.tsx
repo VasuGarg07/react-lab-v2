@@ -45,7 +45,7 @@ const SnapFind: React.FC = () => {
 
       {/* Main content */}
       <div className="container max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col items-center min-h-[calc(100dvh-54px)] z-10 relative">
-        <div className="w-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-gray-200/50 dark:border-gray-800/50 mb-8">
+        <div className="w-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-neutral-200/50 dark:border-neutral-800/50 mb-8">
           <h1 className="tracking-wider text-4xl sm:text-5xl md:text-6xl text-center text-violet-600 dark:text-violet-400 font-bold mb-6 drop-shadow-sm">
             SNAP FIND
           </h1>
@@ -84,7 +84,7 @@ const SnapFind: React.FC = () => {
 
         {/* Pagination */}
         {images?.length > 0 && totalPages > 1 && (
-          <div className="mt-8 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md rounded-xl p-4 shadow-md border border-gray-200/50 dark:border-gray-800/50">
+          <div className="mt-8 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md rounded-xl p-4 shadow-md border border-neutral-200/50 dark:border-neutral-800/50">
             <Pagination
               currentPage={page}
               totalPages={totalPages}

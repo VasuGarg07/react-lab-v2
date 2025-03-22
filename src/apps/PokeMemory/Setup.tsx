@@ -79,7 +79,7 @@ const Setup: React.FC = () => {
   return (
     <div className="flex items-center justify-center w-full px-4 py-6">
       <div className="w-full max-w-md">
-        <div className="backdrop-blur-md bg-white/10 dark:bg-black/20 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 shadow-md">
+        <div className="backdrop-blur-md bg-white/10 dark:bg-black/20 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 shadow-md">
           <div className="flex flex-col items-center space-y-6">
             {/* Header */}
             <div className="flex items-center gap-3">
@@ -96,18 +96,18 @@ const Setup: React.FC = () => {
             </div>
 
             {/* Description */}
-            <p className="text-center text-sm text-gray-700 dark:text-gray-300 max-w-xs">
+            <p className="text-center text-sm text-neutral-700 dark:text-neutral-300 max-w-xs">
               Challenge your mind with our engaging Memory Game! Match pairs, reveal hidden images, and test your concentration.
             </p>
 
-            <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent"></div>
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent"></div>
 
             {/* Form */}
             <Form.Root className="w-full space-y-6" onSubmit={handleSubmit}>
               <Form.Field name="playerName" className="w-full">
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <UserRound className="h-5 w-5 text-gray-400" />
+                    <UserRound className="h-5 w-5 text-neutral-400" />
                   </div>
                   <Form.Control asChild>
                     <input
@@ -115,7 +115,7 @@ const Setup: React.FC = () => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Enter Your Name"
-                      className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-500 transition-all outline-none text-gray-900 dark:text-gray-100"
+                      className="w-full pl-10 pr-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-500 transition-all outline-none text-neutral-900 dark:text-neutral-100"
                     />
                   </Form.Control>
                 </div>
@@ -126,7 +126,7 @@ const Setup: React.FC = () => {
 
               {/* Difficulty Selection */}
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Select Difficulty:</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-2">Select Difficulty:</p>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {difficultyOptions.map(({ mode, icon: Icon, label, colorClass, hoverClass, activeClass }) => (
                     <Tooltip
@@ -142,7 +142,7 @@ const Setup: React.FC = () => {
                           transition-all duration-200 transform hover:-translate-y-0.5
                           ${difficulty === mode
                             ? `${colorClass} ring-2 ${activeClass}`
-                            : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 ' + hoverClass}
+                            : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 ' + hoverClass}
                         `}
                       >
                         <Icon className="h-4 w-4" />

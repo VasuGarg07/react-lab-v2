@@ -1,25 +1,9 @@
-import {
-    AspectRatio,
-    Avatar,
-    Box,
-    Card,
-    CardContent,
-    CardOverflow,
-    Chip,
-    Stack,
-    Typography,
-    IconButton,
-    Menu,
-    MenuItem,
-    Dropdown,
-    MenuButton,
-    Divider,
-} from '@mui/joy';
-import { MoreVertical, Pencil, Archive } from 'lucide-react';
-import { Link, useNavigate } from 'react-router';
 import { Blog } from '@/apps/Blogify/helpers/blog.constants';
 import { archiveBlog } from '@/apps/Blogify/helpers/blog.service';
 import { useAuth } from '@/auth/AuthProvider';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { Archive, MoreVertical, Pencil } from 'lucide-react';
+import { Link, useNavigate } from 'react-router';
 
 interface BlogCardProps {
     blog: Blog;
@@ -55,143 +39,109 @@ const BlogCard = ({ blog }: BlogCardProps) => {
     };
 
     return (
-        <Card
-            variant="outlined"
-            sx={{
-                width: '100%',
-                height: '100%',
-                '--Card-radius': '8px',
-                transition: 'transform 0.2s',
-                '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: 'md',
-                }
-            }}
-        >
+        <div className="w-full h-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-zinc-800 overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
             {/* Cover Image */}
-            <CardOverflow>
-                <AspectRatio ratio="2">
-                    <img
-                        src={blog.coverImageUrl}
-                        alt={blog.title}
-                        loading="lazy"
-                        style={{ objectFit: 'cover' }}
-                    />
-                </AspectRatio>
-            </CardOverflow>
+            <div className="w-full aspect-[2/1] overflow-hidden">
+                <img
+                    src={blog.coverImageUrl}
+                    alt={blog.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                />
+            </div>
 
-            <CardContent>
+            <div className="p-4">
                 {/* Header */}
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                        <Avatar
-                            size="sm"
-                            variant="soft"
-                            src={`https://api.dicebear.com/7.x/initials/svg?seed=${blog.author}`}
-                        >
-                            {blog.author.charAt(0)}
-                        </Avatar>
-                        <Box>
-                            <Typography level="title-sm">
+                <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2">
+                        <div className="h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden flex items-center justify-center text-sm font-medium">
+                            <img
+                                src={`https://api.dicebear.com/7.x/initials/svg?seed=${blog.author}`}
+                                alt={blog.author}
+                                className="w-full h-full"
+                            />
+                        </div>
+                        <div>
+                            <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
                                 {blog.author}
-                            </Typography>
-                            <Typography level="body-xs">
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
                                 {formatDate(blog.createdAt)}
-                            </Typography>
-                        </Box>
-                    </Stack>
+                            </p>
+                        </div>
+                    </div>
 
                     {isOwner && (
-                        <Dropdown>
-                            <MenuButton
-                                slots={{ root: IconButton }}
-                                slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm' } }}
-                            >
-                                <MoreVertical size={16} />
-                            </MenuButton>
-                            <Menu
-                                placement="bottom-end"
-                                size="sm"
-                                sx={{
-                                    minWidth: 120,
-                                    '--ListItemDecorator-size': '24px'
-                                }}
-                            >
-                                <MenuItem onClick={handleEdit}>
-                                    <Pencil size={14} />
-                                    <Typography level="body-sm" sx={{ ml: 1 }}>Edit</Typography>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={handleArchive}
-                                    sx={{ color: 'warning.plainColor' }}
+                        <DropdownMenu.Root>
+                            <DropdownMenu.Trigger asChild>
+                                <button
+                                    className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                                    aria-label="More options"
                                 >
-                                    <Archive size={14} />
-                                    <Typography level="body-sm" sx={{ ml: 1 }}>
-                                        {blog.isArchived ? 'Unarchive' : 'Archive'}
-                                    </Typography>
-                                </MenuItem>
-                            </Menu>
-                        </Dropdown>
+                                    <MoreVertical size={16} />
+                                </button>
+                            </DropdownMenu.Trigger>
+
+                            <DropdownMenu.Portal>
+                                <DropdownMenu.Content
+                                    className="min-w-[160px] bg-white dark:bg-zinc-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50"
+                                    sideOffset={5}
+                                    align="end"
+                                    alignOffset={-5}
+                                >
+                                    <DropdownMenu.Item
+                                        className="flex items-center px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer outline-none"
+                                        onSelect={handleEdit}
+                                    >
+                                        <Pencil size={14} />
+                                        <span className="ml-2">Edit</span>
+                                    </DropdownMenu.Item>
+
+                                    <DropdownMenu.Item
+                                        className="flex items-center px-3 py-2 text-sm text-amber-600 dark:text-amber-400 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer outline-none"
+                                        onSelect={handleArchive}
+                                    >
+                                        <Archive size={14} />
+                                        <span className="ml-2">
+                                            {blog.isArchived ? 'Unarchive' : 'Archive'}
+                                        </span>
+                                    </DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Portal>
+                        </DropdownMenu.Root>
                     )}
-                </Box>
-                <Divider sx={{ mb: 1 }} />
+                </div>
+
+                <div className="h-px w-full bg-gray-200 dark:bg-gray-700 mb-3"></div>
 
                 {/* Content */}
-                <Box
-                    component={Link}
+                <Link
                     to={`/blogify/blog/${blog.id}`}
-                    sx={{
-                        textDecoration: 'none',
-                        color: 'inherit',
-                        display: 'block'
-                    }}
+                    className="block no-underline text-inherit"
                 >
-                    <Typography
-                        level="h4"
-                        sx={{
-                            mb: 1,
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                            overflow: 'hidden',
-                        }}
-                    >
+                    <h3 className="text-xl font-bold mb-2 text-gray-800 dark:text-gray-100 line-clamp-2">
                         {blog.title}
-                    </Typography>
-                </Box>
+                    </h3>
+                </Link>
 
                 {/* Tags */}
-                <Stack
-                    direction="row"
-                    spacing={1}
-                    flexWrap="wrap"
-                    useFlexGap
-                    sx={{ mt: 'auto' }}
-                >
+                <div className="flex flex-wrap gap-1 mt-3">
                     {blog.tags.map((tag) => (
-                        <Chip
+                        <span
                             key={tag}
-                            size="sm"
-                            variant="soft"
-                            color="neutral"
-                            sx={{ '--Chip-radius': '4px' }}
+                            className="px-2 py-1 text-xs rounded bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                         >
                             {tag}
-                        </Chip>
+                        </span>
                     ))}
                     {blog.isArchived && (
-                        <Chip
-                            size="sm"
-                            variant="soft"
-                            color="warning"
-                            sx={{ '--Chip-radius': '4px' }}
-                        >
+                        <span className="px-2 py-1 text-xs rounded bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400">
                             Draft
-                        </Chip>
+                        </span>
                     )}
-                </Stack>
-            </CardContent>
-        </Card>
+                </div>
+            </div>
+        </div>
     );
 };
 

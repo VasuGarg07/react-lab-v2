@@ -50,12 +50,12 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
                 {(label || valueLabel) && (
                     <div className="flex justify-between mb-2">
                         {label && (
-                            <label htmlFor={id} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <label htmlFor={id} className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                                 {label}
                             </label>
                         )}
                         {valueLabel && (
-                            <span className="text-sm text-gray-500 dark:text-gray-400">{valueLabel}</span>
+                            <span className="text-sm text-neutral-500 dark:text-neutral-400">{valueLabel}</span>
                         )}
                     </div>
                 )}
@@ -78,7 +78,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
                     )}
                 >
                     <SliderPrimitive.Track
-                        className="relative h-1 w-full rounded-full bg-gray-200 dark:bg-gray-700"
+                        className="relative h-1 w-full rounded-full bg-neutral-200 dark:bg-neutral-700"
                     >
                         <SliderPrimitive.Range className="absolute h-full rounded-full bg-blue-500" />
                     </SliderPrimitive.Track>

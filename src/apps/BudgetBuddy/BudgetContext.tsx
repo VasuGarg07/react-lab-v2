@@ -1,5 +1,4 @@
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
-import { Modal, ModalDialog } from '@mui/joy';
 import {
     addTransaction as addTransactionAPI,
     deleteTransaction as deleteTransactionAPI,
@@ -10,6 +9,7 @@ import {
 import { Transaction } from '@/apps/BudgetBuddy/helpers/expense.constants';
 import { budgetReducer, BudgetState, initialState } from '@/apps/BudgetBuddy/helpers/expense.reducer';
 import TransactionForm from '@/apps/BudgetBuddy/components/TransactionForm';
+import Dialog from '@/ui/Dialog';
 
 interface ModalState {
     isOpen: boolean;
@@ -149,26 +149,22 @@ const BudgetProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
                 remainingBalance,
             }}>
             {children}
-            <Modal
-                open={modalState.isOpen}
+
+            <Dialog
+                isOpen={modalState.isOpen}
                 onClose={handleCloseModal}
+                position="center"
+                size="lg"
+                title={modalState.mode === 'add' ? 'Add Transaction' : 'Edit Transaction'}
             >
-                <ModalDialog
-                    layout="center"
-                    sx={{
-                        minWidth: 400,
-                        maxWidth: 500,
-                    }}
-                >
-                    <TransactionForm
-                        mode={modalState.mode}
-                        transaction={modalState.transaction}
-                        onClose={handleCloseModal}
-                        onAdd={addTransaction}
-                        onEdit={updateTransaction}
-                    />
-                </ModalDialog>
-            </Modal>
+                <TransactionForm
+                    mode={modalState.mode}
+                    transaction={modalState.transaction}
+                    onClose={handleCloseModal}
+                    onAdd={addTransaction}
+                    onEdit={updateTransaction}
+                />
+            </Dialog>
         </BudgetContext.Provider>
     );
 };

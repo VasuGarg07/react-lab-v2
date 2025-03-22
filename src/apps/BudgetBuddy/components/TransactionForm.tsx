@@ -1,26 +1,13 @@
-import {
-    Button,
-    Divider,
-    FormControl,
-    FormLabel,
-    Input,
-    Option,
-    Radio,
-    RadioGroup,
-    Select,
-    Stack,
-    Typography
-} from '@mui/joy';
-import { ReceiptText } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
 import { EXPENSE_TYPES, INCOME_TYPES, Transaction } from '@/apps/BudgetBuddy/helpers/expense.constants';
+import { cn } from '@/shared/cn';
+import React, { useEffect, useState } from 'react';
 
 interface TransactionFormProps {
     mode: 'add' | 'edit';
     onClose: () => void;
     transaction?: Transaction;
-    onAdd: ((transaction: Transaction) => Promise<boolean>)
-    onEdit: ((id: string, transaction: Transaction) => Promise<boolean>)
+    onAdd: ((transaction: Transaction) => Promise<boolean>);
+    onEdit: ((id: string, transaction: Transaction) => Promise<boolean>);
 }
 
 const TransactionForm: React.FC<TransactionFormProps> = ({
@@ -54,7 +41,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
     }, [mode, transaction]);
 
     const handleChange = (field: keyof typeof formData) => (
-        e: React.ChangeEvent<HTMLInputElement> | { target: { value: string } }
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
     ) => {
         setFormData(prev => ({
             ...prev,
@@ -62,7 +49,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         }));
     };
 
-    const handleDateChange = (value: string | null) => {
+    const handleDateChange = (value: string) => {
         if (value) {
             setFormData(prev => ({
                 ...prev,
@@ -82,7 +69,10 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
                 date: formData.date / 1000
             };
 
-            const success = mode === 'add' ? await onAdd(transactionData) : await onEdit(transaction!.id!, transactionData);
+            const success = mode === 'add'
+                ? await onAdd(transactionData)
+                : await onEdit(transaction!.id!, transactionData);
+
             if (success) {
                 onClose();
             }
@@ -93,129 +83,153 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         }
     };
 
+    const inputStyles = "w-full px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 transition duration-200";
+
     return (
-        <>
-            <Stack direction="row" spacing={1} alignItems="center" mb={1}>
-                <ReceiptText size={24} />
-                <Typography level="h4" component="h2">
-                    {mode === 'add' ? 'Add Transaction' : 'Edit Transaction'}
-                </Typography>
-            </Stack>
+        <div className="p-4 w-md">
+            <div className="h-px w-full bg-gray-200 dark:bg-gray-700 mb-4"></div>
 
-            <Divider sx={{ mb: 1 }} />
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Title <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        className={inputStyles}
+                        value={formData.title}
+                        onChange={handleChange('title')}
+                        placeholder="Enter title"
+                        required
+                    />
+                </div>
 
-            <form onSubmit={handleSubmit}>
-                <Stack spacing={2}>
-                    <FormControl required>
-                        <FormLabel>Title</FormLabel>
-                        <Input
-                            value={formData.title}
-                            onChange={handleChange('title')}
-                            placeholder="Enter title"
-                        />
-                    </FormControl>
-
-                    <Stack direction="row" spacing={2}>
-                        <FormControl required sx={{ flex: 1 }}>
-                            <FormLabel>Amount</FormLabel>
-                            <Input
-                                type="number"
-                                value={formData.amount}
-                                onChange={handleChange('amount')}
-                                placeholder="Enter amount"
-                                slotProps={{
-                                    input: {
-                                        step: '0.01',
-                                        min: '0',
-                                        max: '999999999'
-                                    }
-                                }}
-                            />
-                        </FormControl>
-
-                        <FormControl required sx={{ flex: 1 }}>
-                            <FormLabel>Date</FormLabel>
-                            <Input
-                                type="date"
-                                value={new Date(formData.date).toISOString().split('T')[0]}
-                                onChange={e => handleDateChange(e.target.value)}
-                                slotProps={{
-                                    input: {
-                                        max: new Date().toISOString().split('T')[0]
-                                    }
-                                }}
-                            />
-                        </FormControl>
-                    </Stack>
-
-                    <FormControl required>
-                        <FormLabel>Type</FormLabel>
-                        <RadioGroup
-                            orientation="horizontal"
-                            value={formData.type}
-                            onChange={(e) => {
-                                setFormData(prev => ({
-                                    ...prev,
-                                    type: e.target.value as 'income' | 'expense',
-                                    category: ''
-                                }));
-                            }}
-                        >
-                            <Radio value="expense" label="Expense" />
-                            <Radio value="income" label="Income" />
-                        </RadioGroup>
-                    </FormControl>
-
-                    <FormControl required>
-                        <FormLabel>Category</FormLabel>
-                        <Select
-                            value={formData.category}
-                            placeholder="Select Cateogory"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Amount <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="number"
+                            className={inputStyles}
+                            value={formData.amount}
+                            onChange={handleChange('amount')}
+                            placeholder="Enter amount"
+                            step="0.01"
+                            min="0"
+                            max="999999999"
                             required
-                            onChange={(_, value) => {
-                                if (value) {
-                                    setFormData(prev => ({ ...prev, category: value }));
-                                }
-                            }}
-                        >
-                            {(formData.type === 'expense' ? EXPENSE_TYPES : INCOME_TYPES).map(category => (
-                                <Option key={category.name} value={category.name}>
-                                    {category.name}
-                                </Option>
-                            ))}
-                        </Select>
-                    </FormControl>
-
-                    <FormControl>
-                        <FormLabel>Description</FormLabel>
-                        <Input
-                            value={formData.description}
-                            onChange={handleChange('description')}
-                            placeholder="Enter description (optional)"
                         />
-                    </FormControl>
+                    </div>
 
-                    <Stack direction="row" spacing={2} justifyContent="flex-end">
-                        <Button
-                            variant="outlined"
-                            color="neutral"
-                            onClick={onClose}
-                            disabled={isLoading}
-                            sx={{ flex: 1, maxWidth: 120 }}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            type="submit"
-                            loading={isLoading}
-                            sx={{ flex: 1, maxWidth: 120 }}
-                        >
-                            {mode === 'add' ? 'Add' : 'Update'}
-                        </Button>
-                    </Stack>
-                </Stack>
+                    <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Date <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="date"
+                            className={inputStyles}
+                            value={new Date(formData.date).toISOString().split('T')[0]}
+                            onChange={(e) => handleDateChange(e.target.value)}
+                            max={new Date().toISOString().split('T')[0]}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Type <span className="text-red-500">*</span>
+                    </label>
+                    <div className="flex gap-4">
+                        <label className="inline-flex items-center cursor-pointer">
+                            <input
+                                type="radio"
+                                className="form-radio h-5 w-5 text-emerald-600 dark:text-emerald-500 border-gray-300 dark:border-gray-600 focus:ring-emerald-500"
+                                name="type"
+                                value="expense"
+                                checked={formData.type === 'expense'}
+                                onChange={() => setFormData(prev => ({ ...prev, type: 'expense', category: '' }))}
+                            />
+                            <span className="ml-2 text-gray-700 dark:text-gray-300">Expense</span>
+                        </label>
+                        <label className="inline-flex items-center cursor-pointer">
+                            <input
+                                type="radio"
+                                className="form-radio h-5 w-5 text-emerald-600 dark:text-emerald-500 border-gray-300 dark:border-gray-600 focus:ring-emerald-500"
+                                name="type"
+                                value="income"
+                                checked={formData.type === 'income'}
+                                onChange={() => setFormData(prev => ({ ...prev, type: 'income', category: '' }))}
+                            />
+                            <span className="ml-2 text-gray-700 dark:text-gray-300">Income</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Category <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                        className={inputStyles}
+                        value={formData.category}
+                        onChange={handleChange('category')}
+                        required
+                    >
+                        <option value="" disabled>Select Category</option>
+                        {(formData.type === 'expense' ? EXPENSE_TYPES : INCOME_TYPES).map(category => (
+                            <option key={category.name} value={category.name}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Description
+                    </label>
+                    <input
+                        type="text"
+                        className={inputStyles}
+                        value={formData.description}
+                        onChange={handleChange('description')}
+                        placeholder="Enter description (optional)"
+                    />
+                </div>
+
+                <div className="flex justify-end gap-3 pt-2">
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        disabled={isLoading}
+                        className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-50 transition duration-200 w-24"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className={cn(
+                            "px-4 py-2 rounded-md bg-emerald-600 text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 transition duration-200 w-24",
+                            isLoading && "relative"
+                        )}
+                    >
+                        {isLoading ? (
+                            <span className="absolute inset-0 flex items-center justify-center">
+                                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </span>
+                        ) : (
+                            mode === 'add' ? 'Add' : 'Update'
+                        )}
+                    </button>
+                </div>
             </form>
-        </>
+        </div>
     );
 };
 

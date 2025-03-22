@@ -37,7 +37,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
     ];
 
     return (
-        <div className="mb-6 p-6 rounded-xl backdrop-blur-sm bg-white/50 dark:bg-gray-900/50 shadow-sm">
+        <div className="mb-6 p-6 rounded-xl backdrop-blur-sm bg-white dark:bg-neutral-900 shadow-sm">
             <div className="flex flex-col space-y-6">
                 {/* Algorithm Select - First */}
                 <div className="w-full">
@@ -87,12 +87,12 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                         className={`flex items-center justify-center h-10 px-4 rounded-md transition-colors
                             ${sorting
                                 ? 'opacity-50 cursor-not-allowed'
-                                : 'text-gray-800 dark:text-white bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600'
+                                : 'text-neutral-800 dark:text-white bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600'
                             }
                         `}
                     >
                         <RefreshCw size={16} className="mr-2" />
-                        <span className="text-gray-800 dark:text-white">New Array</span>
+                        <span className="text-neutral-800 dark:text-white">New Array</span>
                     </button>
                     <button
                         onClick={sorting ? stopSorting : startSorting}

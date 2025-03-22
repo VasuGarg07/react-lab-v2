@@ -1,57 +1,38 @@
-import { Box, useColorScheme } from '@mui/joy';
 import React from 'react';
 import { Outlet } from 'react-router';
 import { useAuth } from '@/auth/AuthProvider';
 import BudgetProvider from '@/apps/BudgetBuddy/BudgetContext';
-import AuthPrompt from '@/apps/BudgetBuddy/components/AuthPrompt';
 import BudgetNav from '@/apps/BudgetBuddy/components/BudgetNav';
+import LoginPrompt from '@/components/LoginPrompt';
+import AppBackground from '@/components/AppBackground';
 
 const BudgetBuddy: React.FC = () => {
-
-    const { mode } = useColorScheme();
     const { isLoggedIn } = useAuth();
 
     if (!isLoggedIn) {
-        return <AuthPrompt mode={mode} />
+        return <LoginPrompt
+            title='Welcome to Budget Buddy'
+            caption='Take control of your finances with smart expense tracking and budgeting tools. Start your journey to financial freedom today.'
+            image='/expenses.png'
+        />;
     }
 
     return (
-        <Box
-            sx={{
-                minHeight: 'calc(100vh - 52px)',
-                background: mode === 'light'
-                    ? `
-                        radial-gradient(circle at 30% 20%, rgba(0, 255, 179, 0.2), transparent 70%),
-                        radial-gradient(circle at 70% 80%, rgba(30, 255, 0, 0.2), transparent 70%),
-                        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4), transparent 70%)
-                      `
-                    : `
-                        radial-gradient(circle at 30% 20%, rgba(0, 70, 29, 0.4), transparent 70%),
-                        radial-gradient(circle at 70% 80%, rgba(3, 100, 93, 0.4), transparent 70%),
-                        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4), transparent 70%)
-                      `,
-                display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' }
-            }}>
-            <BudgetNav mode={mode} />
+        <div className="relative h-[calc(100vh-54px)] overflow-hidden">
+            <AppBackground />
+            <div className="min-h-[calc(100vh-54px)] flex flex-col sm:flex-row relative">
+                {/* Navigation */}
+                <BudgetNav />
 
-            <Box
-                component="main"
-                sx={{
-                    flexGrow: 1,
-                    width: { sm: 'calc(100% - 280px)' },
-                    minHeight: { xs: 'calc(100vh - 116px)', md: 'calc(100vh - 52px)' },
-                    height: { xs: 'auto', md: 'calc(100vh - 52px)' },
-                    overflow: 'auto',
-                    pb: { xs: '64px', md: 0 }  // Account for bottom nav on mobile
-                }}
-            >
-                <BudgetProvider>
-                    <Outlet />
-                </BudgetProvider>
-            </Box>
-        </Box>
-    )
-}
+                {/* Main Content */}
+                <main className="flex-grow w-full sm:w-[calc(100%-280px)] min-h-[calc(100vh-116px)] md:min-h-[calc(100vh-54px)] h-auto md:h-[calc(100vh-54px)] overflow-auto pb-16 md:pb-0">
+                    <BudgetProvider>
+                        <Outlet />
+                    </BudgetProvider>
+                </main>
+            </div>
+        </div>
+    );
+};
 
 export default BudgetBuddy;

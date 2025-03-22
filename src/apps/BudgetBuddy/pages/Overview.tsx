@@ -1,6 +1,5 @@
-import { Alert, Box, Button, CircularProgress, Divider, Modal, ModalDialog, Stack, Typography } from '@mui/joy';
-import { AlertTriangle, Download, History, Plus, Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
+import { AlertTriangle, Download, History, Plus, Trash2 } from 'lucide-react';
 import { CSVDownloader } from '@/shared/CSVDownloader';
 import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
 import TransactionTable from '@/apps/BudgetBuddy/components/TransactionTable';
@@ -28,180 +27,111 @@ const Overview: React.FC = () => {
 
     if (loading) {
         return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 'calc(100vh - 52px)',
-                    p: 3
-                }}
-            >
-                <CircularProgress
-                    size="lg"
-                    variant="soft"
-                    sx={{
-                        '--CircularProgress-trackColor': 'rgba(132, 204, 22, 0.1)',
-                        '--CircularProgress-progressColor': '#84cc16',
-                    }}
-                />
-            </Box>
+            <div className="flex justify-center items-center h-[calc(100vh-54px)] p-3">
+                <div className="w-12 h-12 relative">
+                    <div className="absolute inset-0 border-4 border-lime-500/20 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-lime-500 rounded-full animate-spin border-t-transparent"></div>
+                </div>
+            </div>
         );
     }
 
     if (error && !transactions.length) {
         return (
-            <Box sx={{ p: 3 }}>
-                <Alert
-                    variant="soft"
-                    color="danger"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 2,
-                        boxShadow: 'sm'
-                    }}
-                >
+            <div className="p-3">
+                <div className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg shadow-sm">
                     {error}
-                </Alert>
-            </Box>
+                </div>
+            </div>
         );
     }
 
     if (!transactions.length) {
         return (
-            <Box sx={{ p: 3 }}>
-                <Alert
-                    variant="soft"
-                    color="neutral"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 2,
-                        boxShadow: 'sm'
-                    }}
-                >
+            <div className="p-3">
+                <div className="flex items-center gap-2 p-4 bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-sm">
                     No transactions found. Add some transactions to see your balance timeline.
-                </Alert>
-            </Box>
+                </div>
+            </div>
         );
     }
 
     return (
         <>
-            <Box sx={{ p: 3 }}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 1.5,
-                        borderBottom: '2px solid',
-                        borderColor: '#84cc16',
-                        pb: 2,
-                        mb: 3
-                    }}
-                >
-                    <History size={28} color="#84cc16" />
-                    <Typography
-                        level="h2"
-                        sx={{
-                            fontSize: '1.5rem',
-                            fontWeight: 600,
-                            fontFamily: 'Montserrat',
-                            letterSpacing: 1,
-                            textTransform: 'uppercase'
-                        }}
-                    >
+            <div className="p-3">
+                {/* Header */}
+                <div className="flex items-center gap-1.5 border-b-2 border-lime-500 pb-2 mb-3">
+                    <History size={28} className="text-lime-500" />
+                    <h2 className="text-2xl font-semibold font-['Montserrat',sans-serif] tracking-wide uppercase text-gray-800 dark:text-gray-100">
                         Overview
-                    </Typography>
-                </Box>
+                    </h2>
+                </div>
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        gap: 2,
-                        mb: 3
-                    }}
-                >
-                    <Button
-                        variant="outlined"
-                        color="neutral"
+                {/* Action Buttons */}
+                <div className="flex justify-end gap-2 mb-3">
+                    <button
                         onClick={handleDownload}
-                        startDecorator={<Download size={16} />}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/70 dark:bg-white/10 backdrop-blur border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:bg-white/90 dark:hover:bg-white/20 transition-all shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
                     >
+                        <Download size={16} />
                         Download CSV
-                    </Button>
-                    <Button
+                    </button>
+
+                    <button
                         onClick={handleAddTransaction}
-                        startDecorator={<Plus size={18} />}
-                        sx={{
-                            bgcolor: '#683de6',
-                            '&:hover': {
-                                bgcolor: '#5330b9'
-                            }
-                        }}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white hover:from-purple-600 hover:to-purple-700 transition-all shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
                     >
+                        <Plus size={18} />
                         Add Transaction
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        color="danger"
-                        startDecorator={<Trash2 size={18} />}
+                    </button>
+
+                    <button
                         onClick={() => setShowConfirmDialog(true)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/70 dark:bg-white/10 backdrop-blur border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                     >
+                        <Trash2 size={18} />
                         Clear All
-                    </Button>
-                </Box>
+                    </button>
 
+                </div>
+
+                {/* Transaction Table */}
                 <TransactionTable transactions={transactions} />
-            </Box>
+            </div>
 
-            <Modal open={showConfirmDialog} onClose={() => setShowConfirmDialog(false)}>
-                <ModalDialog
-                    variant="outlined"
-                    role="alertdialog"
-                    aria-labelledby="alert-dialog-modal-title"
-                    aria-describedby="alert-dialog-modal-description"
-                    sx={{ maxWidth: 400 }}
-                >
-                    <Typography
-                        id="alert-dialog-modal-title"
-                        component="h2"
-                        level="h4"
-                        startDecorator={<AlertTriangle color="#dc2626" />}
-                        sx={{ mb: 1 }}
-                    >
-                        Warning!
-                    </Typography>
-                    <Divider />
-                    <Typography
-                        id="alert-dialog-modal-description"
-                        textColor="text.tertiary"
-                        sx={{ mt: 1, mb: 2 }}
-                    >
-                        Are you sure you want to clear all transactions? This action cannot be undone.
-                    </Typography>
-                    <Stack direction='row' spacing={2} justifyContent='flex-end'>
-                        <Button
-                            variant="plain"
-                            color="neutral"
-                            onClick={() => setShowConfirmDialog(false)}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            variant="solid"
-                            color="danger"
-                            onClick={handleClearAll}
-                        >
-                            Clear All
-                        </Button>
-                    </Stack>
-                </ModalDialog>
-            </Modal>
+            {/* Confirmation Modal */}
+            {showConfirmDialog && (
+                <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 max-w-md w-full overflow-hidden animate-fade-in">
+                        <div className="p-4">
+                            <div className="flex items-center gap-2 mb-2">
+                                <AlertTriangle className="text-red-600 dark:text-red-400" />
+                                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Warning!</h3>
+                            </div>
+                            <div className="h-px w-full bg-gray-200 dark:bg-gray-700 my-2"></div>
+                            <p className="text-gray-600 dark:text-gray-300 my-3">
+                                Are you sure you want to clear all transactions? This action cannot be undone.
+                            </p>
+                            <div className="flex justify-end gap-2 mt-4">
+                                <button
+                                    onClick={() => setShowConfirmDialog(false)}
+                                    className="px-3 py-1.5 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleClearAll}
+                                    className="px-3 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white transition-colors"
+                                >
+                                    Clear All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
-}
+};
 
 export default Overview;

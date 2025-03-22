@@ -1,9 +1,5 @@
-import Box from "@mui/joy/Box";
-import Card from "@mui/joy/Card";
-import Typography from "@mui/joy/Typography";
-import { PieChart, Cell, Pie, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { EXPENSE_TYPES, INCOME_TYPES, Transaction } from "@/apps/BudgetBuddy/helpers/expense.constants";
-import { useColorScheme } from "@mui/joy/styles";
 
 interface CategoryData {
     name: string;
@@ -14,184 +10,121 @@ interface CategoryData {
 
 interface AggregateViewProps {
     transactions: Transaction[];
-    type: 'income' | 'expense';
+    type: "income" | "expense";
     total: number;
     title: string;
 }
 
 const getChartColors = (color: string) => ({
     border: color,
-    fill: `${color}40` // 50% opacity
+    fill: `${color}40`, // 25% opacity
 });
 
-const AggregateView: React.FC<AggregateViewProps> = ({ transactions, type, total, title }) => {
-    const CATEGORIES = type === 'income' ? INCOME_TYPES : EXPENSE_TYPES;
-    const { mode } = useColorScheme();
+export const AggregateView: React.FC<AggregateViewProps> = ({
+    transactions,
+    type,
+    total,
+    title,
+}) => {
+    const CATEGORIES = type === "income" ? INCOME_TYPES : EXPENSE_TYPES;
 
-    const categoryData: CategoryData[] = CATEGORIES.map(category => {
+    const categoryData: CategoryData[] = CATEGORIES.map((category) => {
         const categoryTotal = transactions
-            .filter(t => t.type === type && t.category === category.name)
+            .filter((t) => t.type === type && t.category === category.name)
             .reduce((sum, t) => sum + t.amount, 0);
 
         return {
             name: category.name,
             value: categoryTotal,
             color: category.color,
-            percentage: (categoryTotal / total) * 100
+            percentage: (categoryTotal / total) * 100,
         };
-    }).filter(category => category.value > 0)
-        .sort((a, b) => b.value - a.value); // Sort by value descending
+    })
+        .filter((category) => category.value > 0)
+        .sort((a, b) => b.value - a.value);
 
     return (
-        <Card
-            variant="solid"
-            sx={{
-                background: mode === 'light'
-                    ? `
-                        radial-gradient(circle at 30% 0%, rgba(0, 94, 255, 0.2), transparent 70%),
-                        radial-gradient(circle at 70% 100%, rgba(255, 0, 0, 0.2), transparent 70%),
-                        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4), transparent 70%)
-                      `
-                    : `
-                        radial-gradient(circle at 30% 0%, rgba(47, 19, 235, 0.2), transparent 70%),
-                        radial-gradient(circle at 70% 100%, rgba(189, 22, 3, 0.4), transparent 70%),
-                        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4), transparent 70%)
-                      `,
-                boxShadow: 'md',
-                overflow: 'hidden'
+        <div
+            className={`
+                rounded-2xl shadow-xl overflow-hidden p-4 sm:p-6
+                bg-white/60 dark:bg-zinc-900/60 
+                backdrop-blur-md border border-zinc-200 dark:border-zinc-700
+                transition-colors duration-300
+            `}
+            style={{
+                boxShadow: `
+                0 4px 20px rgba(0,0,0,0.05),
+                0 0 30px rgba(0, 94, 255, 0.05),
+                inset 0 1px 0 rgba(255,255,255,0.3)
+                `,
             }}
         >
             {/* Title */}
-            <Typography
-                level="h3"
-                sx={{
-                    fontSize: '1.5rem',
-                    textAlign: 'center',
-                    pt: 1,
-                    fontFamily: 'Noto Sans',
-                    fontWeight: 400
-                }}
-            >
+            <h3 className="text-center text-xl font-medium font-sans text-zinc-800 dark:text-zinc-200 mb-4">
                 {title}
-            </Typography>
+            </h3>
 
-            <Box sx={{ px: 2, pb: 2 }}>
-                {/* Chart Section */}
-                <Box
-                    sx={{
-                        height: 300,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        userSelect: 'none'
-                    }}
-                >
-                    <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                            <Pie
-                                data={categoryData}
-                                cx="50%"
-                                cy="50%"
-                                innerRadius={60}
-                                outerRadius={100}
-                                dataKey="value"
-                                strokeWidth={1}
-                            >
-                                {categoryData.map((entry, index) => {
-                                    const colors = getChartColors(entry.color);
-                                    return (
-                                        <Cell
-                                            key={index}
-                                            fill={colors.fill}
-                                            stroke={colors.border}
-                                        />
-                                    );
-                                })}
-                            </Pie>
-                        </PieChart>
-                    </ResponsiveContainer>
-                </Box>
-
-                {/* List Section */}
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 1,
-                        maxHeight: '300px',
-                        overflowY: 'auto',
-                        pr: 1,
-                        '&::-webkit-scrollbar': {
-                            width: '4px',
-                        },
-                        '&::-webkit-scrollbar-track': {
-                            background: 'transparent',
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                            background: mode == 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255,255,255,0.2)',
-                            borderRadius: '4px',
-                        },
-                    }}
-                >
-                    {categoryData.map((category, index) => (
-                        <Box
-                            key={index}
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1.5
-                            }}
+            {/* Chart Section */}
+            <div className="h-64 flex items-center justify-center mb-6">
+                <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                        <Pie
+                            data={categoryData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={60}
+                            outerRadius={100}
+                            dataKey="value"
+                            strokeWidth={1}
                         >
-                            {/* Color Block */}
-                            <Box
-                                sx={{
-                                    width: '12px',
-                                    height: '12px',
-                                    background: `linear-gradient(135deg, ${category.color} 0%, ${category.color}80 100%)`,
-                                    borderRadius: '3px',
-                                    boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
-                                }}
-                            />
+                            {categoryData.map((entry, index) => {
+                                const colors = getChartColors(entry.color);
+                                return (
+                                    <Cell
+                                        key={index}
+                                        fill={colors.fill}
+                                        stroke={colors.border}
+                                    />
+                                );
+                            })}
+                        </Pie>
+                    </PieChart>
+                </ResponsiveContainer>
+            </div>
 
-                            {/* Category Name */}
-                            <Typography
-                                level="body-md"
-                                sx={{
-                                    flex: 1,
-                                    fontWeight: 500
-                                }}
-                            >
-                                {category.name}
-                            </Typography>
+            {/* List Section */}
+            <div className="flex flex-col gap-2 max-h-72 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-zinc-300 scrollbar-thumb-rounded dark:scrollbar-thumb-zinc-600">
+                {categoryData.map((category, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                        {/* Color Block */}
+                        <div
+                            className="w-3 h-3 rounded-sm shadow-sm"
+                            style={{
+                                background: `linear-gradient(135deg, ${category.color} 0%, ${category.color}80 100%)`,
+                            }}
+                        />
 
-                            {/* Percentage */}
-                            <Typography
-                                level="body-md"
-                                sx={{
-                                    fontWeight: 600,
-                                }}
-                            >
-                                {category.percentage.toFixed(1)}%
-                            </Typography>
+                        {/* Category Name */}
+                        <span className="flex-1 font-medium text-sm text-zinc-700 dark:text-zinc-200">
+                            {category.name}
+                        </span>
 
-                            {/* Value */}
-                            <Typography
-                                level="body-sm"
-                                sx={{
-                                    minWidth: '120px',
-                                    textAlign: 'right'
-                                }}
-                            >
-                                (₹{category.value.toLocaleString('en-IN', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
-                                })})
-                            </Typography>
-                        </Box>
-                    ))}
-                </Box>
-            </Box>
-        </Card>
+                        {/* Percentage */}
+                        <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">
+                            {category.percentage.toFixed(1)}%
+                        </span>
+
+                        {/* Value */}
+                        <span className="text-xs tabular-nums text-right min-w-[100px] text-zinc-600 dark:text-zinc-400">
+                            (₹{category.value.toLocaleString("en-IN", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })})
+                        </span>
+                    </div>
+                ))}
+            </div>
+        </div>
     );
 };
 

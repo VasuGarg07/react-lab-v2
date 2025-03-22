@@ -1,15 +1,15 @@
-import { Box, Button, CircularProgress, Container, Divider, Grid, Typography, useTheme } from '@mui/joy';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertCircle, ArrowUp, ChevronsDown, PawPrint } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import PokemonCard from '@/apps/Pokeverse/components/PokemonCard';
-import { BASE_API, END_POINT, REGION_DATA, TYPE_COLORS } from '@/apps/Pokeverse/helpers/constant';
-import { PokemonDetail, PokemonListResponse } from '@/apps/Pokeverse/helpers/response.types';
-import useCacheApi from '@/apps/Pokeverse/hooks/useCacheApi';
-import { DexUtils, getIdFromUrl, scrollToTop } from '@/apps/Pokeverse/helpers/utilities';
-import { usePokedex } from "@/apps/Pokeverse/context/PokedexContext";
-import { Pokemon } from '@/apps/Pokeverse/helpers/model.types';
+import PokemonCard from '../components/PokemonCard';
+import { BASE_API, END_POINT, REGION_DATA, TYPE_COLORS } from '../helpers/constant';
+import { PokemonDetail, PokemonListResponse } from '../helpers/response.types';
+import useCacheApi from '../hooks/useCacheApi';
+import { DexUtils, getIdFromUrl } from '../helpers/utilities';
+import { usePokedex } from "../context/PokedexContext";
+import { Pokemon } from '../helpers/model.types';
+import { scrollToTop } from '@/shared/utilities';
 
 const LIMIT = 20;
 const CACHE_TIME = 15 * 60 * 1000;
@@ -25,8 +25,6 @@ const Pokedex: React.FC = () => {
     const observerTarget = useRef<HTMLDivElement>(null);
 
     const { addPokemon, getPokemonById } = usePokedex();
-    const theme = useTheme();
-    const isDarkMode = theme.palette.mode === 'dark';
 
     const { data, loading, error } = useCacheApi<PokemonListResponse>(
         `${BASE_API}pokemon?limit=${offset + LIMIT > selectedRegion.endId
@@ -72,7 +70,6 @@ const Pokedex: React.FC = () => {
         }
     }, [data]);
 
-
     useEffect(() => {
         const observer = new IntersectionObserver(
             entries => {
@@ -81,7 +78,6 @@ const Pokedex: React.FC = () => {
                     if (nextOffset <= selectedRegion.endId) {
                         setOffset(nextOffset);
                     }
-
                 }
             },
             { threshold: 0.5 }
@@ -112,157 +108,108 @@ const Pokedex: React.FC = () => {
 
     if (error) {
         return (
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 2,
-                    minHeight: 'calc(100vh - 52px)',
-                    background: isDarkMode
-                        ? 'linear-gradient(135deg, #13151a 0%, #1a1d24 50%, #22252d 100%)'
-                        : 'linear-gradient(135deg, #f8f9fc 0%, #eef1f8 50%, #e4e8f4 100%)',
-                    p: 4
-                }}
-            >
+            <div className="flex flex-col items-center justify-center gap-4 min-h-[calc(100vh-54px)] p-4 bg-gradient-to-br dark:from-[#13151a] dark:via-[#1a1d24] dark:to-[#22252d] from-[#f8f9fc] via-[#eef1f8] to-[#e4e8f4]">
                 <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: 'spring', stiffness: 200 }}
                 >
-                    <AlertCircle size={48} color="var(--joy-palette-danger-400)" />
+                    <AlertCircle size={48} className="text-red-500" />
                 </motion.div>
-                <Typography level="h4" color="danger">
+                <h2 className="text-xl font-bold text-red-500">
                     Oops! Something went wrong
-                </Typography>
-                <Typography color="neutral">
+                </h2>
+                <p className="text-neutral-700 dark:text-neutral-300">
                     Error loading Pokémon: {error.message}
-                </Typography>
-            </Box>
+                </p>
+            </div>
         );
     }
 
     return (
-        <Box sx={{
-            minHeight: 'calc(100vh - 52px)',
-            background: isDarkMode
-                ? 'linear-gradient(135deg, #13151a 0%, #1a1d24 50%, #22252d 100%)'
-                : 'linear-gradient(135deg, #f8f9fc 0%, #eef1f8 50%, #e4e8f4 100%)',
-            position: 'relative'
-        }}>
-            <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
-                <Box sx={{ mb: { xs: 3, md: 4 } }}>
+        <div className="min-h-[calc(100vh-54px)] bg-gradient-to-br dark:from-[#13151a] dark:via-[#1a1d24] dark:to-[#22252d] from-[#f8f9fc] via-[#eef1f8] to-[#e4e8f4] relative">
+            <div className="max-w-6xl mx-auto px-4 py-4 md:py-8">
+                <div className="mb-6 md:mb-8">
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 2,
-                                mb: 2
-                            }}
-                        >
+                        <div className="flex items-center gap-4 mb-4">
                             <PawPrint color={TYPE_COLORS.dragon} size={32} />
-                            <Typography
-                                level="h1"
-                                sx={{
-                                    fontSize: { xs: '2rem', md: '2.5rem' },
-                                    fontWeight: 800,
-                                    background: isDarkMode
-                                        ? 'linear-gradient(45deg, #e3eeff 30%, #ffffff 90%)'
-                                        : 'linear-gradient(45deg, #1a1d24 30%, #22252d 90%)',
-                                    WebkitBackgroundClip: 'text',
-                                    WebkitTextFillColor: 'transparent',
-                                }}
-                            >
+                            <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r dark:from-[#e3eeff] dark:to-white from-[#1a1d24] to-[#22252d] bg-clip-text text-transparent">
                                 Pokédex
-                            </Typography>
-                        </Box>
+                            </h1>
+                        </div>
 
-                        <Divider />
+                        <div className="h-px bg-neutral-200 dark:bg-neutral-800 w-full"></div>
 
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                mt: 2,
-                                flexWrap: 'wrap',
-                                gap: 1
-                            }}
-                        >
-                            <Typography level="body-lg">
+                        <div className="flex justify-between items-center mt-4 flex-wrap gap-2">
+                            <p className="text-lg text-neutral-800 dark:text-neutral-200">
                                 Displaying {allPokemon.length} Pokémon
-                            </Typography>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <ChevronsDown size={16} />
-                                <Typography level="body-sm">
+                            </p>
+                            <div className="flex items-center gap-1">
+                                <ChevronsDown size={16} className="text-neutral-500 dark:text-neutral-400" />
+                                <span className="text-sm text-neutral-500 dark:text-neutral-400">
                                     Scroll to discover more
-                                </Typography>
-                            </Box>
-                        </Box>
+                                </span>
+                            </div>
+                        </div>
                     </motion.div>
-                </Box>
+                </div>
 
-                <Box sx={{ mb: 3, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                <div className="mb-6 flex gap-2 flex-wrap">
                     {REGION_DATA.map((region) => (
-                        <Button
+                        <button
                             key={region.name}
-                            variant={selectedRegion.name === region.name ? "solid" : "soft"}
                             onClick={() => handleRegionChange(region)}
-                            size="sm"
-                            color='danger'
+                            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${selectedRegion.name === region.name
+                                ? 'bg-red-600 text-white'
+                                : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800/50'
+                                }`}
                         >
                             {region.name}
-                        </Button>
+                        </button>
                     ))}
-                </Box>
+                </div>
 
-                <Grid container spacing={{ xs: 2, md: 3 }}>
+                <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                     <AnimatePresence>
                         {allPokemon.map((pokemon, index) => (
-                            <Grid xs={12} sm={6} md={4} lg={3} key={pokemon.id}>
-                                <Link
-                                    to={`${pokemon.id}`}
-                                    style={{ textDecoration: 'none' }}
+                            <Link
+                                to={`${pokemon.id}`}
+                                key={pokemon.id}
+                                className="text-decoration-none"
+                            >
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: (index % LIMIT) * 0.1 }}
+                                    whileHover={{ scale: 1.03 }}
+                                    whileTap={{ scale: 0.98 }}
                                 >
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: (index % LIMIT) * 0.1 }}
-                                        whileHover={{ scale: 1.03 }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        <PokemonCard pokemon={pokemon} />
-                                    </motion.div>
-                                </Link>
-                            </Grid>
+                                    <PokemonCard pokemon={pokemon} />
+                                </motion.div>
+                            </Link>
                         ))}
                     </AnimatePresence>
-                </Grid>
+                </div>
 
-                <Box
+                <div
                     ref={observerTarget}
-                    sx={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                    }}
+                    className="w-full flex justify-center"
                 >
                     {(loading || isLoadingDetails) && (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.3 }}
+                            className="my-6"
                         >
-                            <CircularProgress size="lg" sx={{ m: 3 }} />
+                            <div className="w-12 h-12 border-4 border-neutral-300 dark:border-neutral-700 border-t-blue-500 rounded-full animate-spin"></div>
                         </motion.div>
                     )}
-                </Box>
+                </div>
 
                 {!hasMore && (
                     <motion.div
@@ -270,22 +217,17 @@ const Pokedex: React.FC = () => {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <Box
-                            sx={{
-                                textAlign: 'center',
-                                p: 3,
-                            }}
-                        >
-                            <Typography level="body-lg">
+                        <div className="text-center py-6">
+                            <p className="text-lg font-medium text-neutral-800 dark:text-neutral-200">
                                 You've caught 'em all! 🎉
-                            </Typography>
-                            <Typography level="body-sm" sx={{ mt: 1 }}>
+                            </p>
+                            <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
                                 No more Pokémon to load in {selectedRegion.name} Region
-                            </Typography>
-                        </Box>
+                            </p>
+                        </div>
                     </motion.div>
                 )}
-            </Container>
+            </div>
 
             <AnimatePresence>
                 {showScrollTop && (
@@ -294,38 +236,18 @@ const Pokedex: React.FC = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0 }}
                         transition={{ duration: 0.2 }}
-                        style={{
-                            position: 'fixed',
-                            bottom: '20px',
-                            right: '20px',
-                            zIndex: 10
-                        }}
+                        className="fixed bottom-5 right-5 z-10"
                     >
-                        <Box
+                        <button
                             onClick={scrollToTop}
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                width: '40px',
-                                height: '40px',
-                                borderRadius: '50%',
-                                bgcolor: 'primary.500',
-                                cursor: 'pointer',
-                                boxShadow: 'md',
-                                '&:hover': {
-                                    bgcolor: 'primary.600',
-                                    transform: 'scale(1.1)',
-                                },
-                                transition: 'all 0.2s ease'
-                            }}
+                            className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none"
                         >
-                            <ArrowUp size={20} color="white" />
-                        </Box>
+                            <ArrowUp size={20} className="text-white" />
+                        </button>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </Box>
+        </div>
     );
 };
 

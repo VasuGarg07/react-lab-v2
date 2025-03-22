@@ -49,7 +49,7 @@ const Pagination: React.FC<PaginationProps> = ({
             <button
                 onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="px-3 py-2 rounded-lg bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-2 rounded-lg bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 hover:bg-white dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Previous page"
             >
                 &laquo;
@@ -63,8 +63,8 @@ const Pagination: React.FC<PaginationProps> = ({
                         key={pageNumber}
                         onClick={() => onPageChange(pageNumber)}
                         className={`px-3 py-2 rounded-lg border transition-colors ${currentPage === pageNumber
-                                ? 'bg-blue-500 text-white border-blue-500 dark:bg-blue-600 dark:border-blue-600'
-                                : 'bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-zinc-700'
+                            ? 'bg-blue-500 text-white border-blue-500 dark:bg-blue-600 dark:border-blue-600'
+                            : 'bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border-neutral-200 dark:border-neutral-700 hover:bg-white dark:hover:bg-zinc-700'
                             }`}
                         aria-current={currentPage === pageNumber ? 'page' : undefined}
                     >
@@ -76,7 +76,7 @@ const Pagination: React.FC<PaginationProps> = ({
             <button
                 onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="px-3 py-2 rounded-lg bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:bg-white dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-2 rounded-lg bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 hover:bg-white dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Next page"
             >
                 &raquo;

@@ -23,15 +23,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 <input
                     type="text"
                     placeholder="Search images from Unsplash"
-                    className="w-full h-10 pl-10 pr-4 bg-white/90 dark:bg-zinc-800/90 text-black/90 dark:text-white/90 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/50 rounded-xl focus:outline-none focus:ring-1 focus:ring--300 dark:focus:ring--700 shadow-sm transition-all disabled:opacity-60"
+                    className="w-full h-10 pl-10 pr-4 bg-white/90 dark:bg-zinc-800/90 text-black/90 dark:text-white/90 backdrop-blur-md border border-neutral-200/50 dark:border-neutral-700/50 rounded-xl focus:outline-none focus:ring-1 focus:ring--300 dark:focus:ring--700 shadow-sm transition-all disabled:opacity-60"
                     onChange={(e) => onSearchInput(e.target.value)}
                     disabled={loading}
                 />
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 dark:text-neutral-500" />
             </div>
 
             <ToggleGroup.Root
-                className="inline-flex bg-white/90 dark:bg-zinc-800/90 backdrop-blur-md rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 p-0.5"
+                className="inline-flex bg-white/90 dark:bg-zinc-800/90 backdrop-blur-md rounded-xl shadow-sm border border-neutral-200/50 dark:border-neutral-700/50 p-0.5"
                 type="single"
                 value={value || ''}
                 onValueChange={(newValue) => {
@@ -40,28 +40,28 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 aria-label="Image orientation"
             >
                 <ToggleGroup.Item
-                    className="px-3 h-9 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg data-[state=on]:bg-gray-100 dark:data-[state=on]:bg-gray-700 data-[state=on]:text-amber-600 dark:data-[state=on]:text-amber-400 transition-all"
+                    className="px-3 h-9 text-sm font-medium text-neutral-700 dark:text-neutral-300 rounded-lg data-[state=on]:bg-neutral-100 dark:data-[state=on]:bg-neutral-700 data-[state=on]:text-amber-600 dark:data-[state=on]:text-amber-400 transition-all"
                     value=""
                     aria-label="All orientations"
                 >
                     All
                 </ToggleGroup.Item>
                 <ToggleGroup.Item
-                    className="h-9 w-9 flex items-center justify-center text-gray-700 dark:text-gray-300 rounded-lg data-[state=on]:bg-gray-100 dark:data-[state=on]:bg-gray-700 data-[state=on]:text-amber-600 dark:data-[state=on]:text-amber-400 transition-all"
+                    className="h-9 w-9 flex items-center justify-center text-neutral-700 dark:text-neutral-300 rounded-lg data-[state=on]:bg-neutral-100 dark:data-[state=on]:bg-neutral-700 data-[state=on]:text-amber-600 dark:data-[state=on]:text-amber-400 transition-all"
                     value="landscape"
                     aria-label="Landscape orientation"
                 >
                     <RectangleHorizontal className="h-4 w-4" />
                 </ToggleGroup.Item>
                 <ToggleGroup.Item
-                    className="h-9 w-9 flex items-center justify-center text-gray-700 dark:text-gray-300 rounded-lg data-[state=on]:bg-gray-100 dark:data-[state=on]:bg-gray-700 data-[state=on]:text-amber-600 dark:data-[state=on]:text-amber-400 transition-all"
+                    className="h-9 w-9 flex items-center justify-center text-neutral-700 dark:text-neutral-300 rounded-lg data-[state=on]:bg-neutral-100 dark:data-[state=on]:bg-neutral-700 data-[state=on]:text-amber-600 dark:data-[state=on]:text-amber-400 transition-all"
                     value="portrait"
                     aria-label="Portrait orientation"
                 >
                     <RectangleVertical className="h-4 w-4" />
                 </ToggleGroup.Item>
                 <ToggleGroup.Item
-                    className="h-9 w-9 flex items-center justify-center text-gray-700 dark:text-gray-300 rounded-lg data-[state=on]:bg-gray-100 dark:data-[state=on]:bg-gray-700 data-[state=on]:text-amber-600 dark:data-[state=on]:text-amber-400 transition-all"
+                    className="h-9 w-9 flex items-center justify-center text-neutral-700 dark:text-neutral-300 rounded-lg data-[state=on]:bg-neutral-100 dark:data-[state=on]:bg-neutral-700 data-[state=on]:text-amber-600 dark:data-[state=on]:text-amber-400 transition-all"
                     value="squarish"
                     aria-label="Square orientation"
                 >

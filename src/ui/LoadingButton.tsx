@@ -32,9 +32,9 @@ const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
         // Handle variant styles
         const variantStyles = {
             primary: 'bg-primary-600 hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600 text-white shadow-md hover:shadow-lg',
-            secondary: 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200',
+            secondary: 'bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 text-neutral-800 dark:text-neutral-200',
             outline: 'bg-transparent border border-primary-600 hover:bg-primary-50 text-primary-600 dark:border-primary-500 dark:text-primary-500 dark:hover:bg-primary-900/20',
-            ghost: 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300',
+            ghost: 'bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-700 dark:text-neutral-300',
         };
 
         // Handle size styles

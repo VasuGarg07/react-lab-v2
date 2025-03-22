@@ -10,31 +10,10 @@ import HomePage from "@/apps/BudgetBuddy/pages/Homepage";
 import Overview from "@/apps/BudgetBuddy/pages/Overview";
 import Statistics from "@/apps/BudgetBuddy/pages/Statistics";
 import Timeline from "@/apps/BudgetBuddy/pages/Timeline";
-import NotFound from "@/apps/Errors/NotFound";
 import Home from "@/apps/Home/Home";
 import HomeloanWizard from "@/apps/HomeloanWizard/HomeloanWizard";
 import { LoanProvider } from "@/apps/HomeloanWizard/LoanContext";
 import { InvoiceProvider } from "@/apps/InvoEase/InvoiceContext";
-import AppliedJobs from "@/apps/Jobscape/dashboard/AppliedJobs";
-import MyJobs from "@/apps/Jobscape/dashboard/MyJobs";
-import EmployerOverview from '@/apps/Jobscape/dashboard/Overview';
-import PostJob from "@/apps/Jobscape/dashboard/PostJob";
-import { ApplicantProfile, EmployerProfile } from '@/apps/Jobscape/dashboard/Profile';
-import Recommendations from "@/apps/Jobscape/dashboard/Recommendations";
-import SavedJobs from "@/apps/Jobscape/dashboard/SavedJobs";
-import Settings from "@/apps/Jobscape/dashboard/Settings";
-import AuthGuard from "@/apps/Jobscape/guards/AuthGuard";
-import RoleGuard from "@/apps/Jobscape/guards/RoleGuard";
-import Jobscape from "@/apps/Jobscape/Jobscape";
-import CompaniesList from "@/apps/Jobscape/pages/CompaniesList";
-import CompanyDetails from "@/apps/Jobscape/pages/CompanyDetails";
-import JobDetails from "@/apps/Jobscape/pages/JobDetails";
-import JobHome from "@/apps/Jobscape/pages/JobHome";
-import JobsList from "@/apps/Jobscape/pages/JobsList";
-import RegisterApplicant from "@/apps/Jobscape/pages/RegisterApplicant";
-import RegisterEmployer from "@/apps/Jobscape/pages/RegisterEmployer";
-import RegisterHero from "@/apps/Jobscape/pages/RegisterHero";
-import UserDashboard from "@/apps/Jobscape/pages/UserDashboard";
 import PokeMemory from "@/apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "@/apps/Pokeverse/context/BattleSimContext";
 import { PokedexProvider } from "@/apps/Pokeverse/context/PokedexContext";
@@ -50,13 +29,6 @@ import RecipeHaven from "@/apps/QuickByte/RecipeHaven";
 import { alphabetMeals, categoryMeals, mealDetails, regionalMeals, searchMeals } from "@/apps/QuickByte/utils/recipe.api";
 import Wrapper from "@/apps/QuickByte/Wrapper";
 import Quizzo from "@/apps/Quizzo/Quizzo";
-import { ResumeProvider } from "@/apps/ResumeGen/context/ResumeContext";
-import { sampleResume } from "@/apps/ResumeGen/helpers/sample";
-import ResumeEdge from "@/apps/ResumeGen/pages/ResumeEdge";
-import ResumeForm from "@/apps/ResumeGen/pages/ResumeForm";
-import ResumePreview from "@/apps/ResumeGen/pages/ResumePreview";
-import ResumeTemplates from "@/apps/ResumeGen/pages/ResumeTemplates";
-import TwoColumnResume from "@/apps/ResumeGen/templates/TwoColumn";
 import SnapFind from "@/apps/SnapFind/SnapFind";
 import Sudoku from "@/apps/Sudoku/Sudoku";
 import SuperTicTacToe from "@/apps/SuperTicTacToe/SuperTicTacToe";
@@ -91,63 +63,6 @@ const routes = [
           { path: 'login', element: <Login /> },
           { path: 'forgot-password', element: <ForgotPassword /> },
           { path: '*', element: <Navigate to='/auth/login' replace /> }, // Catch invalid auth paths
-        ]
-      },
-      {
-        path: 'jobscape',
-        element: <Jobscape />,
-        children: [
-          { index: true, element: <JobHome /> },
-          {
-            path: 'register',
-            element: <AuthGuard />,
-            children: [
-              { index: true, element: <RegisterHero /> },
-              { path: 'employer', element: <RegisterEmployer /> },
-              { path: 'applicant', element: <RegisterApplicant /> },
-            ]
-          },
-          {
-            path: 'employer',
-            element: <RoleGuard guardRole="employer" />,
-            children: [
-              {
-                element: <UserDashboard />,
-                children: [
-                  { path: 'overview', element: <EmployerOverview /> },
-                  { path: 'profile', element: <EmployerProfile /> },
-                  { path: 'post-job', element: <PostJob /> },
-                  { path: 'jobs', element: <MyJobs /> },
-                  // { path: 'candidates', element: <>Saved Candidates</> },
-                  { path: 'settings', element: <Settings /> },
-                  { path: 'edit/:jobId', element: <PostJob /> },
-                  { path: '', element: <Navigate to='overview' replace /> },
-                ]
-              }
-            ]
-          },
-          {
-            path: 'applicant',
-            element: <RoleGuard guardRole="applicant" />,
-            children: [
-              {
-                element: <UserDashboard />,
-                children: [
-                  { path: 'recommendations', element: <Recommendations /> },
-                  { path: 'applications', element: <AppliedJobs /> },
-                  { path: 'profile', element: <ApplicantProfile /> },
-                  { path: 'saved-jobs', element: <SavedJobs /> },
-                  { path: 'settings', element: <Settings /> },
-                  { path: '', element: <Navigate to='recommendations' replace /> },
-                ]
-              }
-            ]
-          },
-          { path: 'companies', element: <CompaniesList /> },
-          { path: 'companies/:companyId', element: <CompanyDetails /> },
-          { path: 'jobs', element: <JobsList /> },
-          { path: 'jobs/:jobId', element: <JobDetails /> },
-          { path: '*', element: <Navigate to='home' replace /> },
         ]
       },
       {
@@ -196,17 +111,6 @@ const routes = [
         ]
       },
       {
-        path: 'resume',
-        element: <ResumeProvider><Outlet /></ResumeProvider>,
-        children: [
-          { index: true, element: <ResumeEdge /> },
-          { path: 'form', element: <ResumeForm /> },
-          { path: 'select-template', element: <ResumeTemplates /> },
-          { path: 'preview', element: <ResumePreview /> },
-          { path: 'test', element: <TwoColumnResume resume={sampleResume} /> },
-        ]
-      },
-      {
         path: 'recipe-haven',
         element: <><Outlet /><ScrollRestoration /></>, // Handles Outlet + ScrollRestoration
         children: [
@@ -227,7 +131,7 @@ const routes = [
       { path: 'poke-memory', element: <PokeMemory /> },
       { path: 'snapfind', element: <SnapFind /> },
       { path: 'quizzo', element: <Quizzo /> },
-      { path: '*', element: <NotFound /> },
+      { path: '*', redirect: '' },
     ]
   }
 ];

@@ -1,17 +1,7 @@
-import {
-    AspectRatio,
-    Avatar,
-    Box,
-    Button,
-    Chip,
-    Grid,
-    Stack,
-    Typography
-} from '@mui/joy';
-import { ArrowRight } from 'lucide-react';
-import { Link, useLoaderData } from 'react-router';
 import BlogCard from '@/apps/Blogify/components/BlogCard';
 import { Blog } from '@/apps/Blogify/helpers/blog.constants';
+import { ArrowRight } from 'lucide-react';
+import { Link, useLoaderData } from 'react-router';
 
 interface LoaderData {
     recentBlogs: Blog[];
@@ -36,170 +26,118 @@ const HomePage = () => {
     };
 
     return (
-        <Box sx={{ p: { xs: 2, md: 4 } }}>
-            <Stack spacing={4}>
+        <div className="p-2 md:p-4">
+            <div className="space-y-8">
                 {/* Featured Blog */}
                 {featuredBlog && (
-                    <Box>
-                        <Typography level="h2" sx={{ mb: 3 }}>
+                    <div>
+                        <h2 className="text-2xl font-bold mb-3 text-gray-800 dark:text-gray-100">
                             Featured Post
-                        </Typography>
-                        <Box sx={{
-                            position: 'relative',
-                            '&::after': {
-                                content: '""',
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)',
-                                zIndex: 1,
-                            }
-                        }}>
-                            <AspectRatio ratio="21/9">
+                        </h2>
+                        <div className="relative">
+                            {/* Gradient Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 z-10"></div>
+
+                            {/* Featured Image */}
+                            <div className="aspect-[21/9] w-full overflow-hidden">
                                 <img
                                     src={featuredBlog.coverImageUrl}
                                     alt={featuredBlog.title}
-                                    style={{
-                                        objectFit: 'cover',
-                                        width: '100%',
-                                        height: '100%',
-                                    }}
+                                    className="w-full h-full object-cover"
                                 />
-                            </AspectRatio>
-                            <Box
-                                sx={{
-                                    position: 'absolute',
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    p: { xs: 2, md: 4 },
-                                    color: 'white',
-                                    zIndex: 2,
-                                }}
-                            >
-                                <Stack spacing={2} sx={{ maxWidth: 'md' }}>
+                            </div>
+
+                            {/* Content Overlay */}
+                            <div className="absolute bottom-0 left-0 right-0 p-2 md:p-4 text-white z-20">
+                                <div className="max-w-3xl space-y-2">
+                                    {/* Tags */}
                                     {featuredBlog.tags.length > 0 && (
-                                        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+                                        <div className="flex flex-wrap gap-1">
                                             {featuredBlog.tags.slice(0, 3).map((tag) => (
-                                                <Chip
+                                                <span
                                                     key={tag}
-                                                    size="sm"
-                                                    variant="soft"
-                                                    sx={{
-                                                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                                                        color: 'white'
-                                                    }}
+                                                    className="px-2 py-1 text-xs bg-white/20 rounded-md"
                                                 >
                                                     {tag}
-                                                </Chip>
+                                                </span>
                                             ))}
-                                        </Stack>
+                                        </div>
                                     )}
-                                    <Typography
-                                        level="h2"
-                                        sx={{
-                                            color: 'white',
-                                            textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                                        }}
-                                    >
+
+                                    {/* Title */}
+                                    <h3 className="text-xl md:text-3xl font-bold text-white drop-shadow-md">
                                         {featuredBlog.title}
-                                    </Typography>
-                                    <Typography
-                                        level="body-md"
-                                        sx={{
-                                            display: { xs: 'none', sm: 'block' },
-                                            color: 'white',
-                                            textShadow: '0 1px 2px rgba(0,0,0,0.2)'
-                                        }}
-                                    >
+                                    </h3>
+
+                                    {/* Excerpt */}
+                                    <p className="hidden sm:block text-white/90 drop-shadow-sm">
                                         {truncateContent(featuredBlog.blogContent, 200)}
-                                    </Typography>
-                                    <Stack
-                                        direction="row"
-                                        spacing={2}
-                                        alignItems="center"
-                                        sx={{ mt: 1 }}
-                                    >
-                                        <Avatar
-                                            src={`https://api.dicebear.com/7.x/initials/svg?seed=${featuredBlog.author}`}
-                                            size="sm"
-                                        />
-                                        <Stack spacing={0.5}>
-                                            <Typography
-                                                level="body-sm"
-                                                component={Link}
+                                    </p>
+
+                                    {/* Footer with author and CTA */}
+                                    <div className="flex items-center gap-2 mt-2">
+                                        {/* Author Avatar */}
+                                        <div className="h-8 w-8 rounded-full bg-gray-100 overflow-hidden">
+                                            <img
+                                                src={`https://api.dicebear.com/7.x/initials/svg?seed=${featuredBlog.author}`}
+                                                alt={featuredBlog.author}
+                                                className="w-full h-full"
+                                            />
+                                        </div>
+
+                                        {/* Author Info */}
+                                        <div>
+                                            <Link
                                                 to={`/blogify/list/${featuredBlog.author}`}
-                                                sx={{
-                                                    color: 'white',
-                                                    textDecoration: 'none',
-                                                    '&:hover': {
-                                                        textDecoration: 'underline'
-                                                    }
-                                                }}
+                                                className="text-sm text-white hover:underline"
                                             >
                                                 {featuredBlog.author}
-                                            </Typography>
-                                            <Typography level="body-xs" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                                            </Link>
+                                            <p className="text-xs text-white/80">
                                                 {formatDate(featuredBlog.createdAt)}
-                                            </Typography>
-                                        </Stack>
-                                        <Button
-                                            component={Link}
+                                            </p>
+                                        </div>
+
+                                        {/* Read More Button */}
+                                        <Link
                                             to={`/blogify/blog/${featuredBlog.id}`}
-                                            variant="solid"
-                                            size="sm"
-                                            endDecorator={<ArrowRight />}
-                                            sx={{
-                                                ml: 'auto',
-                                                bgcolor: 'rgba(255,255,255,0.2)',
-                                                color: 'white',
-                                                '&:hover': {
-                                                    bgcolor: 'rgba(255,255,255,0.3)'
-                                                }
-                                            }}
+                                            className="ml-auto inline-flex items-center px-3 py-1.5 bg-white/20 hover:bg-white/30 transition-colors rounded-md text-sm text-white"
                                         >
                                             Read More
-                                        </Button>
-                                    </Stack>
-                                </Stack>
-                            </Box>
-                        </Box>
-                    </Box>
+                                            <ArrowRight size={16} className="ml-1" />
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 )}
 
                 {/* Recent Posts */}
-                <Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4, mb: 2 }}>
-                        <Typography level="h3">
+                <div>
+                    <div className="flex justify-between items-center mt-6 mb-4">
+                        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">
                             Recent Posts
-                        </Typography>
-                        <Button
-                            component={Link}
+                        </h3>
+                        <Link
                             to="/blogify/list"
-                            color='neutral'
-                            endDecorator={<ArrowRight />}
-                            size='sm'
-                            variant='soft'
+                            className="inline-flex items-center px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors rounded-md text-sm text-gray-700 dark:text-gray-200"
                         >
                             View All Posts
-                        </Button>
-                    </Box>
-                    <Grid
-                        container
-                        spacing={{ xs: 2, md: 3 }}
-                        columns={{ xs: 1, sm: 2, md: 3 }}
-                    >
+                            <ArrowRight size={16} className="ml-1" />
+                        </Link>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                         {otherBlogs.map((blog) => (
-                            <Grid key={blog.id} xs={1}>
+                            <div key={blog.id}>
                                 <BlogCard blog={blog} />
-                            </Grid>
+                            </div>
                         ))}
-                    </Grid>
-                </Box>
-            </Stack>
-        </Box>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

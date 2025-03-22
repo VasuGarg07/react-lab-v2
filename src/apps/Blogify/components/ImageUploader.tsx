@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Box, Button, CircularProgress, Typography, IconButton, Stack } from "@mui/joy";
 import { Upload, X } from "lucide-react";
 import { CONFIG } from "@/shared/config";
 
@@ -64,128 +63,68 @@ const UploadImage = ({ onUpload, existingUrl }: UploadImageProps) => {
     };
 
     return (
-        <Stack direction="row" spacing={2} alignItems="flex-start">
-            <Box sx={{ flex: 1, position: "relative" }}>
+        <div className="flex flex-row items-start gap-2">
+            <div className="flex-1 relative">
                 {!previewUrl && !uploading ? (
-                    <Button
-                        component="label"
-                        variant="outlined"
-                        color="neutral"
-                        startDecorator={<Upload size={18} />}
-                        sx={{
-                            width: "100%",
-                            height: "120px",
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 1,
-                            border: "2px dashed",
-                            borderRadius: "md",
-                            "--Button-gap": "1rem",
-                        }}
-                    >
+                    <label className="w-full h-[120px] flex flex-col items-center justify-center gap-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md cursor-pointer hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
                         <input
                             type="file"
                             accept="image/*"
                             onChange={handleImageSelect}
-                            style={{ display: "none" }}
+                            className="hidden"
                         />
-                        <Typography level="body-sm">
-                            Drop an image here or click to upload
-                        </Typography>
-                        <Typography level="body-xs" color="neutral">
-                            Supported formats: JPG, PNG, GIF
-                        </Typography>
-                    </Button>
+                        <Upload size={18} className="text-gray-500 dark:text-gray-400" />
+                        <div className="text-center">
+                            <p className="text-sm text-gray-700 dark:text-gray-300">
+                                Drop an image here or click to upload
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                Supported formats: JPG, PNG, GIF
+                            </p>
+                        </div>
+                    </label>
                 ) : (
-                    <Box
-                        sx={{
-                            width: "100%",
-                            height: "120px",
-                            position: "relative",
-                            borderRadius: "md",
-                            overflow: "hidden",
-                        }}
-                    >
+                    <div className="w-full h-[120px] relative rounded-md overflow-hidden">
                         {previewUrl && (
                             <>
                                 <img
                                     src={previewUrl}
                                     alt="Preview"
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        objectFit: "cover",
-                                    }}
+                                    className="w-full h-full object-cover"
                                 />
-                                <IconButton
-                                    size="sm"
-                                    variant="solid"
-                                    color="danger"
-                                    sx={{
-                                        position: "absolute",
-                                        top: 8,
-                                        right: 8,
-                                    }}
+                                <button
+                                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
                                     onClick={handleClearImage}
                                 >
                                     <X size={14} />
-                                </IconButton>
+                                </button>
                             </>
                         )}
                         {uploading && (
-                            <Box
-                                sx={{
-                                    position: "absolute",
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    bottom: 0,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    bgcolor: "rgba(0, 0, 0, 0.3)",
-                                }}
-                            >
-                                <CircularProgress size="sm" color="primary" />
-                            </Box>
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                                <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                            </div>
                         )}
-                    </Box>
+                    </div>
                 )}
                 {error && (
-                    <Typography
-                        level="body-sm"
-                        color="danger"
-                        sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}
-                    >
+                    <p className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
                         {error}
-                    </Typography>
+                    </p>
                 )}
-            </Box>
+            </div>
 
             {/* Existing image preview */}
             {existingUrl && !previewUrl && !uploading && (
-                <Box
-                    sx={{
-                        width: "120px",
-                        height: "120px",
-                        borderRadius: "md",
-                        overflow: "hidden",
-                        border: "1px solid",
-                        borderColor: "divider",
-                    }}
-                >
+                <div className="w-[120px] h-[120px] rounded-md overflow-hidden border border-gray-200 dark:border-gray-700">
                     <img
                         src={existingUrl}
                         alt="Current cover"
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                        }}
+                        className="w-full h-full object-cover"
                     />
-                </Box>
+                </div>
             )}
-        </Stack>
+        </div>
     );
 };
 

@@ -115,7 +115,7 @@ const SudokuBoard: React.FC = () => {
         return (
             <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
                 {/* Background elements */}
-                <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-black z-0" />
+                <div className="absolute inset-0 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-950 dark:to-black z-0" />
                 <div className="absolute -top-20 -right-20 w-96 h-96 bg-blue-400/30 dark:bg-blue-600/20 rounded-full blur-3xl z-0" />
                 <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-400/30 dark:bg-purple-600/20 rounded-full blur-3xl z-0" />
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Card, Typography, useTheme } from '@mui/joy';
 import { motion } from 'framer-motion';
 import { GRADIENTS } from '@/apps/Pokeverse/helpers/constant';
 import { getOfficialImage } from '@/apps/Pokeverse/helpers/utilities';
+import { cn } from '@/shared/cn';
 
 interface PokemonSelectionCardProps {
     id: number;
@@ -19,67 +19,42 @@ export const PokemonSelectionCard: React.FC<PokemonSelectionCardProps> = ({
     isPlayer1,
     onClick,
 }) => {
-    const theme = useTheme();
-    const isDark = theme.palette.mode === 'dark';
-
     const selectedGradient = isPlayer1 ? GRADIENTS.blue : GRADIENTS.ruby;
+    const gradientBg = `linear-gradient(145deg, ${selectedGradient.from}, ${selectedGradient.to})`;
 
     return (
-        <Card
-            component={motion.div}
+        <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onClick}
-            sx={{
-                cursor: 'pointer',
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
-                borderRadius: '12px',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-                background: isSelected
-                    ? `linear-gradient(145deg, ${selectedGradient.from}, ${selectedGradient.to})`
-                    : isDark
-                        ? 'rgba(40, 40, 40, 0.8)'
-                        : 'rgba(255, 255, 255, 0.8)',
-                transition: 'all 0.3s ease-in-out',
-                '&:hover': {
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.2)',
-                },
+            className={cn(
+                'cursor-pointer flex flex-col items-center justify-center text-center rounded-xl shadow-sm transition-all duration-300 overflow-hidden',
+                isSelected
+                    ? 'text-white'
+                    : 'bg-neutral-100 dark:bg-zinc-800 text-gray-800 dark:text-gray-100',
+                'hover:shadow-md'
+            )}
+            style={{
+                background: isSelected ? gradientBg : undefined,
             }}
         >
-            <Box
-                component="img"
+            <img
                 src={getOfficialImage(id)}
                 alt={name}
                 loading="lazy"
-                sx={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                    filter: isSelected ? 'brightness(1.2)' : 'none',
-                    transition: 'filter 0.3s ease-in-out',
-                }}
+                className={cn(
+                    'w-full h-full object-contain transition duration-300 p-4',
+                    isSelected ? 'brightness-110' : ''
+                )}
             />
-            <Typography
-                level="body-lg"
-                sx={{
-                    textTransform: 'capitalize',
-                    fontWeight: isSelected ? 'bold' : 'normal',
-                    color: isSelected ? '#fff' : isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.8)',
-                    textShadow: isSelected ? '0px 0px 5px rgba(0,0,0,0.5)' : 'none',
-                    transition: 'color 0.3s ease-in-out, text-shadow 0.3s ease-in-out',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    width: 'calc(100% - 16px)'
-                }}
+            <p
+                className={cn(
+                    'text-lg font-medium capitalize px-2 pt-2 py-4 w-full truncate transition-all',
+                    isSelected ? 'text-white drop-shadow-md font-bold' : 'dark:text-gray-200 text-gray-800'
+                )}
             >
                 {name}
-            </Typography>
-        </Card>
+            </p>
+        </motion.div>
     );
 };
