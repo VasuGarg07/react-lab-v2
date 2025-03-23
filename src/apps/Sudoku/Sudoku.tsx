@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import { deepCopy, fetchInitialBoard, isValid, solveBoard } from '@/apps/Sudoku/sudoku.utils';
 import SudokuHeader from '@/apps/Sudoku/SudokuHeader';
 import { toastService } from '@/shared/toastr';
-import AppBackground from '@/components/AppBackground';
+import React, { useCallback, useEffect, useState } from 'react';
 
 interface CellProps {
     cell: number,
@@ -127,38 +126,34 @@ const SudokuBoard: React.FC = () => {
     }
 
     return (
-        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
-            <AppBackground />
-            {/* Game content */}
-            <div className="relative z-10 w-full max-w-lg mx-auto p-4">
-                <SudokuHeader
-                    onNewGame={fetchBoard}
-                    onHint={giveHint}
-                    onSolve={handleSolve}
-                />
+        <div className="relative w-full max-w-lg mx-auto p-4 flex items-center justify-center">
+            <SudokuHeader
+                onNewGame={fetchBoard}
+                onHint={giveHint}
+                onSolve={handleSolve}
+            />
 
-                <div className="w-fit mx-auto bg-white/90 dark:bg-neutral-800/90 backdrop-blur-md rounded-xl p-4 shadow-md border border-neutral-100 dark:border-neutral-700">
-                    <div className="flex flex-col items-center gap-1">
-                        {board.map((row, rowIndex) => (
-                            <div key={rowIndex} className="flex gap-1">
-                                {row.map((_, colIndex) => (
-                                    <div
-                                        key={`${rowIndex}-${colIndex}`}
-                                        className={`
+            <div className="w-fit mx-auto bg-white/90 dark:bg-neutral-800/90 backdrop-blur-md rounded-xl p-4 shadow-md border border-neutral-100 dark:border-neutral-700">
+                <div className="flex flex-col items-center gap-1">
+                    {board.map((row, rowIndex) => (
+                        <div key={rowIndex} className="flex gap-1">
+                            {row.map((_, colIndex) => (
+                                <div
+                                    key={`${rowIndex}-${colIndex}`}
+                                    className={`
                       ${rowIndex % 3 === 2 && rowIndex < 8 ? 'mb-1' : ''}
                       ${colIndex % 3 === 2 && colIndex < 8 ? 'mr-1' : ''}
                     `}
-                                    >
-                                        <GridCell
-                                            cell={board[rowIndex][colIndex]}
-                                            onChange={(value) => handleChange(rowIndex, colIndex, value)}
-                                            editable={!initialBoard[rowIndex][colIndex]}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
+                                >
+                                    <GridCell
+                                        cell={board[rowIndex][colIndex]}
+                                        onChange={(value) => handleChange(rowIndex, colIndex, value)}
+                                        editable={!initialBoard[rowIndex][colIndex]}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

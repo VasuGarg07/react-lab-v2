@@ -1,7 +1,6 @@
 import { AppCard } from "@/apps/Home/AppCard";
 import Footer from "@/apps/Home/Footer";
 import Hero from '@/apps/Home/Hero';
-import AppBackground from "@/components/AppBackground";
 import { Apps } from "@/shared/apps";
 import { Separator } from 'radix-ui';
 import React from 'react';
@@ -10,11 +9,9 @@ const Home = () => {
   const visibleApps = React.useMemo(() => Apps.filter(app => app.visible), []);
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-between overflow-hidden">
-      <AppBackground />
-
+    <>
       {/* Main content */}
-      <main className="container max-w-6xl mx-auto py-10 flex-grow flex flex-col items-center z-10 px-4 sm:px-6 lg:px-8 relative">
+      <main className="container max-w-6xl mx-auto py-10 flex-grow flex flex-col items-center justify-between px-4 sm:px-6 lg:px-8 relative">
         <Hero />
 
         <div className="w-full mx-auto my-10">
@@ -34,7 +31,7 @@ const Home = () => {
         </div>
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -8,7 +8,6 @@ import {
     selectionSort
 } from './algorithms';
 
-import AppBackground from '@/components/AppBackground';
 import Dialog from '@/ui/Dialog';
 import AboutVisualizer from './AboutVisualizer';
 import AlgorithmInfo from './AlgorithmInfo';
@@ -71,56 +70,51 @@ const SortingVisualizer = () => {
     };
 
     return (
-        <div className='relative min-h-screen overflow-hidden'>
-            <AppBackground />
+        <div className="relative px-4 py-6 max-w-5xl mx-auto rounded-xl">
+            {/* Header */}
+            <header className="flex justify-between items-center mb-3 text-neutral-800 dark:text-neutral-100">
+                <h1 className="text-2xl font-bold">Sorting Visualizer</h1>
+                <div className="flex items-center space-x-3">
+                    <button
+                        onClick={() => setInfoOpen(true)}
+                        className='p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors'
+                        aria-label="Information"
+                    >
+                        <Info size={20} />
+                    </button>
+                </div>
+            </header>
 
-            {/* Main content */}
-            <div className="relative z-10 px-4 py-6 max-w-5xl mx-auto rounded-xl">
-                {/* Header */}
-                <header className="flex justify-between items-center mb-3 text-neutral-800 dark:text-neutral-100">
-                    <h1 className="text-2xl font-bold">Sorting Visualizer</h1>
-                    <div className="flex items-center space-x-3">
-                        <button
-                            onClick={() => setInfoOpen(true)}
-                            className='p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors'
-                            aria-label="Information"
-                        >
-                            <Info size={20} />
-                        </button>
-                    </div>
-                </header>
+            {/* Controls */}
+            <ControlPanel
+                algorithm={algorithm}
+                setAlgorithm={setAlgorithm}
+                arraySize={arraySize}
+                setArraySize={setArraySize}
+                animationSpeed={animationSpeed}
+                setAnimationSpeed={setAnimationSpeed}
+                generateNewArray={generateNewArray}
+                sorting={sorting}
+                startSorting={startSorting}
+                stopSorting={stopSorting}
+            />
 
-                {/* Controls */}
-                <ControlPanel
-                    algorithm={algorithm}
-                    setAlgorithm={setAlgorithm}
-                    arraySize={arraySize}
-                    setArraySize={setArraySize}
-                    animationSpeed={animationSpeed}
-                    setAnimationSpeed={setAnimationSpeed}
-                    generateNewArray={generateNewArray}
-                    sorting={sorting}
-                    startSorting={startSorting}
-                    stopSorting={stopSorting}
-                />
+            {/* Visualization */}
+            <Visualization array={array} />
 
-                {/* Visualization */}
-                <Visualization array={array} />
+            {/* Algorithm Info */}
+            <AlgorithmInfo algorithm={algorithm} />
 
-                {/* Algorithm Info */}
-                <AlgorithmInfo algorithm={algorithm} />
-
-                {/* Info Dialog */}
-                <Dialog
-                    isOpen={infoOpen}
-                    onClose={() => setInfoOpen(false)}
-                    title="About Sorting Visualizer"
-                    position="center"
-                    size="md"
-                >
-                    <AboutVisualizer />
-                </Dialog>
-            </div>
+            {/* Info Dialog */}
+            <Dialog
+                isOpen={infoOpen}
+                onClose={() => setInfoOpen(false)}
+                title="About Sorting Visualizer"
+                position="center"
+                size="md"
+            >
+                <AboutVisualizer />
+            </Dialog>
         </div>
     );
 };

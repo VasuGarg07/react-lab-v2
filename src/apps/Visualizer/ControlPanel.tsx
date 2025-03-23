@@ -37,7 +37,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
     ];
 
     return (
-        <div className="mb-6 p-6 rounded-xl backdrop-blur-sm bg-white dark:bg-neutral-900 shadow-sm">
+        <div className="mb-6 p-6 rounded-xl backdrop-blur-sm bg-white dark:bg-neutral-800 shadow-sm">
             <div className="flex flex-col space-y-6">
                 {/* Algorithm Select - First */}
                 <div className="w-full">

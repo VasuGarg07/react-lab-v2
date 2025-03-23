@@ -10,7 +10,6 @@ import {
     makeRandomMove,
     TIMEOUT
 } from '@/apps/SuperTicTacToe/tictactoe.helpers';
-import AppBackground from '@/components/AppBackground';
 import React, { useEffect, useRef, useState } from 'react';
 
 const SuperTicTacToe: React.FC = () => {
@@ -136,38 +135,33 @@ const SuperTicTacToe: React.FC = () => {
     };
 
     return (
-        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
-            <AppBackground />
+        <div className="relative w-full max-w-7xl mx-auto p-4 md:p-6 flex items-center justify-center">
+            <StartGamePopup isOpen={!gameStarted} onStart={handleStartGame} />
 
-            {/* Game content */}
-            <div className="relative z-10 w-full max-w-7xl mx-auto p-4 md:p-6">
-                <StartGamePopup isOpen={!gameStarted} onStart={handleStartGame} />
+            <div className="flex flex-col lg:flex-row gap-6 justify-center items-center lg:items-start">
+                {/* Game board */}
+                <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl">
+                    <div className="bg-gradient-to-br from-emarald-300 via-green-200 to-lime-100 dark:from-blue-950/70 dark:via-indigo-950/70 dark:to-purple-950/70 backdrop-blur-md rounded-3xl p-5 shadow-lg border border-indigo-100/50 dark:border-indigo-800/30">
+                        <div className="grid grid-cols-3 gap-2 w-full aspect-square relative">
+                            {/* Subtle decorative elements */}
+                            <div className="absolute -z-10 top-1/4 -left-6 w-12 h-12 bg-blue-300/20 dark:bg-blue-500/10 rounded-full blur-xl"></div>
+                            <div className="absolute -z-10 bottom-1/3 -right-6 w-16 h-16 bg-violet-300/30 dark:bg-violet-500/20 rounded-full blur-xl"></div>
 
-                <div className="flex flex-col lg:flex-row gap-6 justify-center items-center lg:items-start">
-                    {/* Game board */}
-                    <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl">
-                        <div className="bg-gradient-to-br from-emarald-300 via-green-200 to-lime-100 dark:from-blue-950/70 dark:via-indigo-950/70 dark:to-purple-950/70 backdrop-blur-md rounded-3xl p-5 shadow-lg border border-indigo-100/50 dark:border-indigo-800/30">
-                            <div className="grid grid-cols-3 gap-2 w-full aspect-square relative">
-                                {/* Subtle decorative elements */}
-                                <div className="absolute -z-10 top-1/4 -left-6 w-12 h-12 bg-blue-300/20 dark:bg-blue-500/10 rounded-full blur-xl"></div>
-                                <div className="absolute -z-10 bottom-1/3 -right-6 w-16 h-16 bg-violet-300/30 dark:bg-violet-500/20 rounded-full blur-xl"></div>
-
-                                {Array(3).fill(null).map((_, i) =>
-                                    Array(3).fill(null).map((_, j) => renderBoard(i, j))
-                                )}
-                            </div>
+                            {Array(3).fill(null).map((_, i) =>
+                                Array(3).fill(null).map((_, j) => renderBoard(i, j))
+                            )}
                         </div>
                     </div>
+                </div>
 
-                    {/* Sidebar */}
-                    <div className="w-full max-w-sm">
-                        <Sidebar
-                            gameWinner={gameWinner}
-                            currentPlayer={currentPlayer}
-                            timer={timer}
-                            handleRestartGame={handleRestartGame}
-                        />
-                    </div>
+                {/* Sidebar */}
+                <div className="w-full max-w-sm">
+                    <Sidebar
+                        gameWinner={gameWinner}
+                        currentPlayer={currentPlayer}
+                        timer={timer}
+                        handleRestartGame={handleRestartGame}
+                    />
                 </div>
             </div>
         </div>

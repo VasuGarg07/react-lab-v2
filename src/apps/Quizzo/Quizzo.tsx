@@ -2,7 +2,6 @@ import Board from "@/apps/Quizzo/Board";
 import QuizProvider, { useQuizContext } from "@/apps/Quizzo/Quiz.context";
 import Result from "@/apps/Quizzo/Result";
 import Setup from "@/apps/Quizzo/Setup";
-import AppBackground from "@/components/AppBackground";
 import { GameState } from "@/shared/utilities";
 import QuizFg from '/quiz-fg.png';
 
@@ -10,8 +9,6 @@ const Quizzo = () => {
   return (
     <QuizProvider>
       <div className="relative min-h-[calc(100vh-54px)] w-full flex items-center justify-center p-4 overflow-hidden">
-        <AppBackground />
-
         {/* Main content card */}
         <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 w-full max-w-5xl shadow-xl z-10 
           shadow-neutral-200/50 dark:shadow-neutral-900/50 border border-neutral-100 dark:border-neutral-700">

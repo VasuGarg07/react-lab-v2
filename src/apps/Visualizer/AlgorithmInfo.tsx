@@ -10,7 +10,7 @@ const AlgorithmInfo: React.FC<AlgorithmInfoProps> = ({ algorithm }) => {
     const info = Algorithms[algorithm as keyof typeof Algorithms];
 
     return (
-        <div className='p-6 rounded-xl backdrop-blur-sm bg-white dark:bg-neutral-900 shadow-sm'>
+        <div className='p-6 rounded-xl backdrop-blur-sm bg-white dark:bg-neutral-800 shadow-sm'>
             <div className="border-b border-neutral-200 dark:border-neutral-700 pb-4 mb-5">
                 <h2 className="text-xl font-bold text-neutral-900 dark:text-white">{info.name}</h2>
                 <p className="mt-2 text-neutral-700 dark:text-neutral-300">{info.description}</p>

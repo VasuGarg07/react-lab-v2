@@ -1,8 +1,6 @@
-import AppBackground from '@/components/AppBackground';
-import { ReactNode, useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router';
 import { ChevronRight, Home } from 'lucide-react';
-import { useLoaderData } from 'react-router';
+import { ReactNode, useEffect, useState } from 'react';
+import { useLoaderData, useLocation, useNavigate, useParams } from 'react-router';
 
 interface WrapperProps {
   children: ReactNode;
@@ -87,37 +85,33 @@ const Wrapper: React.FC<WrapperProps> = ({ children }) => {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-54px)] w-full overflow-hidden">
-      <AppBackground />
-
-      <div className="relative w-full max-w-4xl mx-auto z-10 flex flex-col p-4">
-        {/* Breadcrumb Navigation */}
-        <nav className="flex items-center mb-4 text-sm font-medium text-neutral-700 dark:text-neutral-300">
-          {breadcrumbs.map((crumb, index) => (
-            <div key={index} className="flex items-center">
-              {index === 0 ? (
-                <button
-                  onClick={() => handleNavigate(crumb.path)}
-                  className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                >
-                  <Home size={16} className="mr-1" />
+    <div className="relative w-full max-w-4xl mx-auto z-10 flex flex-col p-4">
+      {/* Breadcrumb Navigation */}
+      <nav className="flex items-center mb-4 text-sm font-medium text-neutral-700 dark:text-neutral-300">
+        {breadcrumbs.map((crumb, index) => (
+          <div key={index} className="flex items-center">
+            {index === 0 ? (
+              <button
+                onClick={() => handleNavigate(crumb.path)}
+                className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                <Home size={16} className="mr-1" />
+                {crumb.label}
+              </button>
+            ) : (
+              <>
+                <ChevronRight size={16} className="mx-2 text-neutral-500 dark:text-neutral-400" />
+                <span className={index === breadcrumbs.length - 1 ? "font-semibold text-blue-600 dark:text-blue-400" : "hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"}>
                   {crumb.label}
-                </button>
-              ) : (
-                <>
-                  <ChevronRight size={16} className="mx-2 text-neutral-500 dark:text-neutral-400" />
-                  <span className={index === breadcrumbs.length - 1 ? "font-semibold text-blue-600 dark:text-blue-400" : "hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"}>
-                    {crumb.label}
-                  </span>
-                </>
-              )}
-            </div>
-          ))}
-        </nav>
+                </span>
+              </>
+            )}
+          </div>
+        ))}
+      </nav>
 
-        {/* Main Content */}
-        {children}
-      </div>
+      {/* Main Content */}
+      {children}
     </div>
   );
 };

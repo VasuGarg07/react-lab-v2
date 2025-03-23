@@ -6,7 +6,6 @@ import InvoiceItems from '@/apps/InvoEase/stepComponents/InvoiceItems';
 import Preview from '@/apps/InvoEase/stepComponents/Preview';
 import Summary from '@/apps/InvoEase/stepComponents/Summary';
 import { useAuth } from '@/auth/AuthProvider';
-import AppBackground from '@/components/AppBackground';
 import LoginPrompt from '@/components/LoginPrompt';
 import { toastService } from '@/shared/toastr';
 import Stepper from '@/ui/Stepper';
@@ -86,71 +85,68 @@ const InvoEase: React.FC = () => {
     const StepComponent = steps[activeStep].component;
 
     return (
-        <div className="relative h-[calc(100vh-54px)] overflow-hidden">
-            <AppBackground />
-            <div className="p-6 relative w-full max-w-6xl mx-auto">
-                <h1 className="text-3xl font-bold mb-6 font-['SF Pro Display', 'Montserrat', 'sans-serif'] text-blue-800 dark:text-blue-200">
-                    InvoEase
-                </h1>
+        <div className="p-6 relative w-full max-w-6xl mx-auto">
+            <h1 className="text-3xl font-bold mb-6 font-['SF Pro Display', 'Montserrat', 'sans-serif'] text-blue-800 dark:text-blue-200">
+                InvoEase
+            </h1>
 
-                <Stepper
-                    steps={steps}
-                    activeStep={activeStep}
-                />
+            <Stepper
+                steps={steps}
+                activeStep={activeStep}
+            />
 
-                <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-zinc-700 transition-all duration-200">
-                    <h2 className="text-xl font-semibold text-center mb-4 text-gray-800 dark:text-gray-100">
-                        {steps[activeStep].label}
-                    </h2>
+            <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-zinc-700 transition-all duration-200">
+                <h2 className="text-xl font-semibold text-center mb-4 text-gray-800 dark:text-gray-100">
+                    {steps[activeStep].label}
+                </h2>
 
-                    <div className="h-px w-full bg-gray-200 dark:bg-zinc-700 mb-6"></div>
+                <div className="h-px w-full bg-gray-200 dark:bg-zinc-700 mb-6"></div>
 
-                    <div className="mb-6">
-                        <StepComponent onValidStep={(isValid: boolean) => setIsStepValid(isValid)} />
-                    </div>
+                <div className="mb-6">
+                    <StepComponent onValidStep={(isValid: boolean) => setIsStepValid(isValid)} />
+                </div>
 
-                    <div className="h-px w-full bg-gray-200 dark:bg-zinc-700 mb-4"></div>
+                <div className="h-px w-full bg-gray-200 dark:bg-zinc-700 mb-4"></div>
 
-                    <div className="flex justify-end gap-3">
-                        {activeStep > 0 && (
-                            <button
-                                className="px-4 py-2 rounded-lg border border-gray-300 dark:border-zinc-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors"
-                                onClick={handleBack}
-                            >
-                                Back
-                            </button>
-                        )}
-                        {activeStep === steps.length - 1 ? (
-                            <button
-                                onClick={handleDownload}
-                                disabled={isGenerating}
-                                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 disabled:opacity-50 transition-colors"
-                            >
-                                {isGenerating ? (
-                                    <>
-                                        <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                        Processing...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Download size={18} />
-                                        Generate PDF
-                                    </>
-                                )}
-                            </button>
-                        ) : (
-                            <button
-                                onClick={handleNext}
-                                disabled={!isStepValid}
-                                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                            >
-                                Next
-                            </button>
-                        )}
-                    </div>
+                <div className="flex justify-end gap-3">
+                    {activeStep > 0 && (
+                        <button
+                            className="px-4 py-2 rounded-lg border border-gray-300 dark:border-zinc-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors"
+                            onClick={handleBack}
+                        >
+                            Back
+                        </button>
+                    )}
+                    {activeStep === steps.length - 1 ? (
+                        <button
+                            onClick={handleDownload}
+                            disabled={isGenerating}
+                            className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 disabled:opacity-50 transition-colors"
+                        >
+                            {isGenerating ? (
+                                <>
+                                    <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Processing...
+                                </>
+                            ) : (
+                                <>
+                                    <Download size={18} />
+                                    Generate PDF
+                                </>
+                            )}
+                        </button>
+                    ) : (
+                        <button
+                            onClick={handleNext}
+                            disabled={!isStepValid}
+                            className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        >
+                            Next
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

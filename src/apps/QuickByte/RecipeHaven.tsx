@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { Book, Search, Utensils } from 'lucide-react';
-import { useNavigate } from 'react-router';
 import DrawerMenu from '@/apps/QuickByte/DrawerMenu';
-import AppBackground from '@/components/AppBackground';
+import { Book, Search, Utensils } from 'lucide-react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -35,51 +34,47 @@ const RecipeHaven: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-54px)] flex flex-col items-center overflow-hidden px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
-      <AppBackground />
+    <div className="relative w-full flex flex-col items-center space-y-6 px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-neutral-800 dark:text-white drop-shadow-md">
+        Recipe Haven
+      </h1>
 
-      <div className="relative z-10 w-full flex flex-col items-center space-y-6">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-neutral-800 dark:text-white drop-shadow-md">
-          Recipe Haven
-        </h1>
+      <h2 className="text-lg sm:text-xl md:text-2xl text-center text-neutral-700 dark:text-neutral-200 drop-shadow">
+        Easy Eats, Big Treats!
+      </h2>
 
-        <h2 className="text-lg sm:text-xl md:text-2xl text-center text-neutral-700 dark:text-neutral-200 drop-shadow">
-          Easy Eats, Big Treats!
-        </h2>
+      <div className="w-full max-w-md flex flex-row space-x-1 p-1 bg-white/90 dark:bg-neutral-800/90 rounded-lg shadow-md">
+        <input
+          type="text"
+          placeholder="Search recipes..."
+          value={term}
+          onChange={(e) => setTerm(e.target.value)}
+          className="flex-grow px-3 py-2 bg-transparent outline-none text-neutral-800 dark:text-neutral-200"
+        />
+        <button
+          onClick={handleSearch}
+          className="p-2 rounded-md border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
+        >
+          <Search size={20} />
+        </button>
+      </div>
 
-        <div className="w-full max-w-md flex flex-row space-x-1 p-1 bg-white/90 dark:bg-neutral-800/90 rounded-lg shadow-md">
-          <input
-            type="text"
-            placeholder="Search recipes..."
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
-            className="flex-grow px-3 py-2 bg-transparent outline-none text-neutral-800 dark:text-neutral-200"
+      <DrawerMenu />
+
+      <div className="w-full flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="w-full sm:w-1/2 max-w-sm">
+          <FeatureCard
+            icon={<Utensils size={32} className="text-red-600 dark:text-red-500" />}
+            title="Easy Recipes"
+            description="Find simple, delicious recipes for every skill level"
           />
-          <button
-            onClick={handleSearch}
-            className="p-2 rounded-md border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
-          >
-            <Search size={20} />
-          </button>
         </div>
-
-        <DrawerMenu />
-
-        <div className="w-full flex flex-col sm:flex-row gap-4 justify-center">
-          <div className="w-full sm:w-1/2 max-w-sm">
-            <FeatureCard
-              icon={<Utensils size={32} className="text-red-600 dark:text-red-500" />}
-              title="Easy Recipes"
-              description="Find simple, delicious recipes for every skill level"
-            />
-          </div>
-          <div className="w-full sm:w-1/2 max-w-sm">
-            <FeatureCard
-              icon={<Book size={32} className="text-red-600 dark:text-red-500" />}
-              title="Diverse Cuisine"
-              description="Explore dishes from around the world"
-            />
-          </div>
+        <div className="w-full sm:w-1/2 max-w-sm">
+          <FeatureCard
+            icon={<Book size={32} className="text-red-600 dark:text-red-500" />}
+            title="Diverse Cuisine"
+            description="Explore dishes from around the world"
+          />
         </div>
       </div>
     </div>
