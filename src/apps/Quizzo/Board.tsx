@@ -32,7 +32,7 @@ const Board = () => {
         Welcome! {name}
       </h2>
 
-      <div className="flex flex-row justify-center gap-2">
+      <div className="flex flex-row flex-wrap justify-center gap-2">
         <span className="px-3 py-1 text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
           Score: {score}
         </span>

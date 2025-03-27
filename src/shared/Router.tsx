@@ -14,6 +14,7 @@ import Home from "@/apps/Home/Home";
 import HomeloanWizard from "@/apps/HomeloanWizard/HomeloanWizard";
 import { LoanProvider } from "@/apps/HomeloanWizard/LoanContext";
 import { InvoiceProvider } from "@/apps/InvoEase/InvoiceContext";
+import JsonTreeViewer from "@/apps/JsonViewer/JsonViewer";
 import PokeMemory from "@/apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "@/apps/Pokeverse/context/BattleSimContext";
 import { PokedexProvider } from "@/apps/Pokeverse/context/PokedexContext";
@@ -131,6 +132,7 @@ const routes = [
       { path: 'poke-memory', element: <PokeMemory /> },
       { path: 'snapfind', element: <SnapFind /> },
       { path: 'quizzo', element: <Quizzo /> },
+      { path: 'json', element: <JsonTreeViewer /> },
       { path: '*', redirect: '' },
     ]
   }

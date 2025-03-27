@@ -1,103 +1,128 @@
+import React, { useState, useCallback, memo } from 'react';
+import { Slider as RadixSlider } from 'radix-ui';
 import { cn } from '@/shared/cn';
-import { Slider as SliderPrimitive } from 'radix-ui';
-import { forwardRef } from 'react';
 
-interface SliderProps {
-    value?: number;
-    defaultValue?: number;
-    min?: number;
-    max?: number;
-    step?: number;
-    onValueChange?: (value: number) => void;
-    name?: string;
-    id?: string;
-    label?: string;
-    valueLabel?: string;
-    error?: string;
-    disabled?: boolean;
-    className?: string;
+// Interface for slider marks
+export interface SliderMark {
+    value: number;
+    label: string;
 }
 
-const Slider = forwardRef<HTMLDivElement, SliderProps>(
-    ({
-        value,
-        defaultValue,
-        min = 0,
-        max = 100,
-        step = 1,
-        onValueChange,
-        name,
-        id,
-        label,
-        valueLabel,
-        error,
-        disabled = false,
-        className = '',
-    }, ref) => {
+// Interface for slider props
+export interface CustomSliderProps {
+    id: string;
+    label: string;
+    value: number;
+    min: number;
+    max: number;
+    step: number;
+    format: (value: number) => string;
+    marks: SliderMark[];
+    onChange: (value: number) => void;
+    primaryColor?: string;
+    secondaryColor?: string;
+}
 
-        // Handle value as array for the primitive but expose it as a single number in the API
-        const sliderValue = value !== undefined ? [value] : undefined;
-        const sliderDefaultValue = defaultValue !== undefined ? [defaultValue] : undefined;
+const Slider: React.FC<CustomSliderProps> = memo(({
+    id,
+    label,
+    value,
+    min,
+    max,
+    step,
+    format,
+    marks,
+    onChange,
+    primaryColor = 'bg-primary-500',
+    secondaryColor = 'bg-neutral-200 dark:bg-neutral-700',
+}) => {
+    const [showTooltip, setShowTooltip] = useState(false);
+    const [hoveredMark, setHoveredMark] = useState<string | null>(null);
+    const percentage = ((value - min) / (max - min)) * 100;
 
-        const handleValueChange = (newValue: number[]) => {
-            if (onValueChange) {
-                onValueChange(newValue[0]);
-            }
-        };
+    // Use useCallback to memoize the handler function
+    const handleChange = useCallback((newValue: number[]) => {
+        onChange(newValue[0]);
+    }, [onChange]);
 
-        return (
-            <div className="space-y-1">
-                {(label || valueLabel) && (
-                    <div className="flex justify-between mb-2">
-                        {label && (
-                            <label htmlFor={id} className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                                {label}
-                            </label>
-                        )}
-                        {valueLabel && (
-                            <span className="text-sm text-neutral-500 dark:text-neutral-400">{valueLabel}</span>
-                        )}
-                    </div>
-                )}
+    // Convert bg-color class to text-color class for the hovered mark
+    const getTextColorClass = (bgColor: string) => {
+        return bgColor
+            .replace('bg-', 'text-')
+            .replace('-500', '-600');
+    };
 
-                <SliderPrimitive.Root
-                    ref={ref}
-                    name={name}
-                    id={id}
-                    value={sliderValue}
-                    defaultValue={sliderDefaultValue}
+    const getDarkTextColorClass = (bgColor: string) => {
+        return bgColor
+            .replace('bg-', 'text-')
+            .replace('-500', '-400');
+    };
+
+    return (
+        <div className="py-2 px-3 relative">
+            {/* Slider component */}
+            <div
+                className="relative"
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+                onTouchStart={() => setShowTooltip(true)}
+                onTouchEnd={() => setTimeout(() => setShowTooltip(false), 1000)}
+            >
+                <RadixSlider.Root
+                    value={[value]}
                     min={min}
                     max={max}
                     step={step}
-                    onValueChange={handleValueChange}
-                    disabled={disabled}
-                    className={cn(
-                        "relative flex items-center w-full h-5",
-                        disabled ? "opacity-50 cursor-not-allowed" : "",
-                        className
-                    )}
+                    onValueChange={handleChange}
+                    className="relative flex items-center select-none touch-none w-full h-5"
                 >
-                    <SliderPrimitive.Track
-                        className="relative h-1 w-full rounded-full bg-neutral-200 dark:bg-neutral-700"
-                    >
-                        <SliderPrimitive.Range className="absolute h-full rounded-full bg-blue-500" />
-                    </SliderPrimitive.Track>
-                    <SliderPrimitive.Thumb
-                        className={cn(
-                            "block w-5 h-5 rounded-full bg-blue-500 dark:bg-white shadow-md focus:outline-none",
-                            "focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-                            "transition-colors"
-                        )}
+                    <RadixSlider.SliderTrack className={`${secondaryColor} relative grow rounded-full h-[3px]`}>
+                        <RadixSlider.SliderRange className={`absolute ${primaryColor} rounded-full h-full`} />
+                    </RadixSlider.SliderTrack>
+                    <RadixSlider.SliderThumb
+                        className="block w-5 h-5 bg-white dark:bg-neutral-100 shadow-md rounded-full border border-neutral-200 dark:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-transform hover:scale-110 active:scale-105"
+                        aria-label={label}
                     />
-                </SliderPrimitive.Root>
 
-                {error && (
-                    <p className="h-5 text-xs text-red-500 mt-1">{error}</p>
-                )}
+                    {/* Tooltip */}
+                    {showTooltip && (
+                        <div
+                            className={`absolute bottom-full mb-2 left-0 transform -translate-x-1/2 ${primaryColor} text-white rounded-md px-2 py-1 text-xs font-medium min-w-max pointer-events-none`}
+                            style={{ left: `${percentage}%` }}
+                        >
+                            {format(value)}
+                            <div className={`absolute w-2 h-2 ${primaryColor} transform rotate-45 left-1/2 -ml-1 -bottom-1`}></div>
+                        </div>
+                    )}
+                </RadixSlider.Root>
             </div>
-        );
-    }
-);
 
+            {/* Mark labels */}
+            <div className="flex justify-between mt-3 px-2.5">
+                {marks.map((mark, index) => (
+                    <div
+                        key={index}
+                        className="relative"
+                        onMouseEnter={() => setHoveredMark(`${id}-${index}`)}
+                        onMouseLeave={() => setHoveredMark(null)}
+                    >
+                        <span
+                            className={cn(
+                                "text-xs font-medium transition-colors",
+                                hoveredMark === `${id}-${index}`
+                                    ? `${getTextColorClass(primaryColor)} dark:${getDarkTextColorClass(primaryColor)}`
+                                    : "text-neutral-500 dark:text-neutral-400"
+                            )}
+                        >
+                            {mark.label}
+                        </span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+});
+
+Slider.displayName = 'Slider';
 
 export default Slider;

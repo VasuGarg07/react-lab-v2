@@ -28,6 +28,7 @@ const Details: React.FC<DetailsProps> = ({ onValidStep }) => {
         control,
         formState: { errors, isValid },
         watch,
+        setValue,
     } = useForm<FormValues>({
         defaultValues: {
             dueDate,
@@ -36,17 +37,25 @@ const Details: React.FC<DetailsProps> = ({ onValidStep }) => {
         mode: 'onChange',
     });
 
+    // Initialize the form with the current context values
+    useEffect(() => {
+        if (dueDate) setValue('dueDate', dueDate);
+        if (currency) setValue('currency', currency);
+    }, []);
+
     const watchedDueDate = watch('dueDate');
     const watchedCurrency = watch('currency');
 
+    // Update context when form values change
     useEffect(() => {
-        setDueDate(watchedDueDate);
+        if (watchedDueDate) setDueDate(watchedDueDate);
     }, [watchedDueDate, setDueDate]);
 
     useEffect(() => {
-        setCurrency(watchedCurrency);
+        if (watchedCurrency) setCurrency(watchedCurrency);
     }, [watchedCurrency, setCurrency]);
 
+    // Report form validity to parent
     useEffect(() => {
         onValidStep(isValid);
     }, [isValid, onValidStep]);
@@ -102,11 +111,17 @@ const Details: React.FC<DetailsProps> = ({ onValidStep }) => {
                         control={control}
                         name="currency"
                         rules={{ required: 'Currency is required' }}
-                        render={({ field }) => (
+                        render={({ field: { onChange, value, name, ref } }) => (
                             <Select
-                                {...field}
+                                ref={ref}
+                                name={name}
                                 label="Currency"
                                 options={CurrencyOptions}
+                                value={value}
+                                onValueChange={(val) => {
+                                    onChange(val);
+                                    setCurrency(val);
+                                }}
                                 error={errors.currency?.message}
                                 required
                             />

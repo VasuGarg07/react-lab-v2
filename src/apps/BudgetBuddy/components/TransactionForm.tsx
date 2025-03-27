@@ -86,7 +86,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
     const inputStyles = "w-full px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white dark:bg-zinc-800 text-gray-900 dark:text-gray-100 transition duration-200";
 
     return (
-        <div className="p-4 w-md">
+        <div className="pb-4 px-6 w-full">
             <div className="h-px w-full bg-gray-200 dark:bg-gray-700 mb-4"></div>
 
             <form onSubmit={handleSubmit} className="space-y-4">

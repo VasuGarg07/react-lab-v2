@@ -89,7 +89,7 @@ const BlogDetail = () => {
                 <div className="h-px w-full bg-gray-200 dark:bg-gray-700 my-6"></div>
 
                 {/* Blog Content */}
-                <div className="prose dark:prose-invert prose-img:rounded-lg max-w-none">
+                <div className="prose prose-neutral max-w-none prose-img:rounded-lg prose-headings:font-medium prose-a:text-primary-500 dark:prose-invert dark:prose-a:text-primary-400 dark:prose-pre:bg-neutral-800 dark:prose-code:text-neutral-300">
                     <StyledHtmlContent htmlContent={blog.blogContent} />
                 </div>
             </div>

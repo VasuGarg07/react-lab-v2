@@ -61,7 +61,7 @@ const RecipeHaven: React.FC = () => {
 
       <DrawerMenu />
 
-      <div className="w-full flex flex-col sm:flex-row gap-4 justify-center">
+      <div className="w-full flex flex-col sm:flex-row gap-4 justify-center items-center">
         <div className="w-full sm:w-1/2 max-w-sm">
           <FeatureCard
             icon={<Utensils size={32} className="text-red-600 dark:text-red-500" />}

@@ -6,10 +6,7 @@ interface StyledBlogContentProps {
 
 const StyledHtmlContent: React.FC<StyledBlogContentProps> = ({ htmlContent }) => {
     return (
-        <div
-            className="styled-content prose prose-slate max-w-none"
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
     );
 };
 

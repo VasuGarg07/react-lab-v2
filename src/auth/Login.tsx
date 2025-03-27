@@ -63,7 +63,7 @@ const Login = () => {
                                 {...register("username", { required: "Username is required" })}
                                 type="text"
                                 placeholder="Enter username or email"
-                                className={`w-full pl-10 pr-3 py-2.5 text-sm rounded-lg border transition-all 
+                                className={`w-full pl-10 pr-3 py-2.5 text-sm rounded-lg border transition-all dark:text-white
                                 ${errors.username
                                         ? "border-red-500 ring-1 ring-red-500/30"
                                         : "border-neutral-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30"
@@ -96,7 +96,7 @@ const Login = () => {
                                 {...register("password", { required: "Password is required" })}
                                 type={showPassword ? "text" : "password"}
                                 placeholder="••••••••"
-                                className={`w-full pl-10 pr-10 py-2.5 text-sm rounded-lg border transition-all 
+                                className={`w-full pl-10 pr-10 py-2.5 text-sm rounded-lg border transition-all dark:text-white
                                 ${errors.password
                                         ? "border-red-500 ring-1 ring-red-500/30"
                                         : "border-neutral-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30"

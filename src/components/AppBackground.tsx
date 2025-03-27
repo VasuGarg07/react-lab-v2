@@ -7,7 +7,7 @@ interface Props {
 
 const AppBackground: React.FC<Props> = ({ children }) => {
     return (
-        <div className="relative min-h-[calc(100vh-54px)] w-full overflow-hidden">
+        <div className="relative min-h-screen w-full overflow-hidden">
             <>
                 <div className="absolute inset-0 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-950 dark:to-black z-0" />
 

@@ -154,7 +154,7 @@ const BudgetProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
                 isOpen={modalState.isOpen}
                 onClose={handleCloseModal}
                 position="center"
-                size="lg"
+                size="md"
                 title={modalState.mode === 'add' ? 'Add Transaction' : 'Edit Transaction'}
             >
                 <TransactionForm

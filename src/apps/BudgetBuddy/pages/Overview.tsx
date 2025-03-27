@@ -68,31 +68,30 @@ const Overview: React.FC = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex justify-end gap-2 mb-3">
+                <div className="flex flex-col sm:flex-row justify-end gap-2 mb-3">
                     <button
                         onClick={handleDownload}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/70 dark:bg-white/10 backdrop-blur border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:bg-white/90 dark:hover:bg-white/20 transition-all shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                        className="flex items-center justify-center sm:justify-start gap-1 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg bg-white/70 dark:bg-white/10 backdrop-blur border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-white hover:bg-white/90 dark:hover:bg-white/20 transition-all shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 text-sm sm:text-base w-full sm:w-auto"
                     >
                         <Download size={16} />
-                        Download CSV
+                        <span>Download</span>
                     </button>
 
                     <button
                         onClick={handleAddTransaction}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white hover:from-purple-600 hover:to-purple-700 transition-all shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+                        className="flex items-center justify-center sm:justify-start gap-1 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white hover:from-purple-600 hover:to-purple-700 transition-all shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 text-sm sm:text-base w-full sm:w-auto order-first sm:order-none mb-2 sm:mb-0"
                     >
-                        <Plus size={18} />
-                        Add Transaction
+                        <Plus size={16} />
+                        <span>Add Transaction</span>
                     </button>
 
                     <button
                         onClick={() => setShowConfirmDialog(true)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/70 dark:bg-white/10 backdrop-blur border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+                        className="flex items-center justify-center sm:justify-start gap-1 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg bg-white/70 dark:bg-white/10 backdrop-blur border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 text-sm sm:text-base w-full sm:w-auto"
                     >
-                        <Trash2 size={18} />
-                        Clear All
+                        <Trash2 size={16} />
+                        <span>Clear All</span>
                     </button>
-
                 </div>
 
                 {/* Transaction Table */}

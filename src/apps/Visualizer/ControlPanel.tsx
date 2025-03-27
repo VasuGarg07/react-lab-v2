@@ -36,6 +36,28 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
         { value: 'quickSort', label: 'Quick Sort' },
     ];
 
+    // Array size slider marks
+    const arraySizeMarks = [
+        { value: 10, label: '10' },
+        { value: 25, label: '25' },
+        { value: 50, label: '50' },
+        { value: 75, label: '75' },
+        { value: 100, label: '100' }
+    ];
+
+    // Animation speed slider marks
+    const speedMarks = [
+        { value: 10, label: 'Fast' },
+        { value: 250, label: '' },
+        { value: 500, label: '' },
+        { value: 750, label: '' },
+        { value: 1000, label: 'Slow' }
+    ];
+
+    // Format functions for sliders
+    const formatArraySize = (value: number) => `${value} elements`;
+    const formatSpeed = (value: number) => `${value}ms`;
+
     return (
         <div className="mb-6 p-6 rounded-xl backdrop-blur-sm bg-white dark:bg-neutral-800 shadow-sm">
             <div className="flex flex-col space-y-6">
@@ -54,27 +76,33 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
                 <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
                     <div className="flex-1">
                         <Slider
+                            id="array-size-slider"
+                            label="Array Size"
                             value={arraySize}
-                            onValueChange={setArraySize}
                             min={10}
                             max={100}
                             step={1}
-                            label="Array Size"
-                            valueLabel={arraySize.toString()}
-                            disabled={sorting}
+                            format={formatArraySize}
+                            marks={arraySizeMarks}
+                            onChange={setArraySize}
+                            primaryColor="bg-blue-500"
+                            secondaryColor="bg-neutral-200 dark:bg-neutral-700"
                         />
                     </div>
 
                     <div className="flex-1">
                         <Slider
+                            id="animation-speed-slider"
+                            label="Animation Speed"
                             value={animationSpeed}
-                            onValueChange={setAnimationSpeed}
                             min={10}
                             max={1000}
                             step={10}
-                            label="Animation Speed"
-                            valueLabel={`${animationSpeed}ms`}
-                            disabled={sorting}
+                            format={formatSpeed}
+                            marks={speedMarks}
+                            onChange={setAnimationSpeed}
+                            primaryColor="bg-green-500"
+                            secondaryColor="bg-neutral-200 dark:bg-neutral-700"
                         />
                     </div>
                 </div>

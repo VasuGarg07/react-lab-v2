@@ -40,6 +40,36 @@ const AffordabilityCalculator: React.FC = () => {
         return 'bg-red-500';
     };
 
+    // Get status badge based on affordability status
+    const getStatusBadge = () => {
+        if (!affordabilityMetrics) return null;
+
+        const { affordabilityStatus } = affordabilityMetrics;
+
+        switch (affordabilityStatus) {
+            case 'good':
+                return (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300">
+                        <CheckCircle className="w-3 h-3 mr-1" /> Good
+                    </span>
+                );
+            case 'caution':
+                return (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300">
+                        <AlertCircle className="w-3 h-3 mr-1" /> Caution
+                    </span>
+                );
+            case 'warning':
+                return (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300">
+                        <AlertTriangle className="w-3 h-3 mr-1" /> Warning
+                    </span>
+                );
+            default:
+                return null;
+        }
+    };
+
     // Get alert component based on affordability status
     const getAffordabilityAlert = () => {
         if (!affordabilityMetrics) return null;
@@ -49,8 +79,8 @@ const AffordabilityCalculator: React.FC = () => {
         switch (affordabilityStatus) {
             case 'good':
                 return (
-                    <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-start gap-3">
-                        <CheckCircle className="h-5 w-5 text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                    <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-start gap-2 sm:gap-3">
+                        <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0" />
                         <div>
                             <h4 className="text-sm font-medium text-green-800 dark:text-green-300">Good affordability</h4>
                             <p className="text-xs text-green-700 dark:text-green-400 mt-1">
@@ -63,8 +93,8 @@ const AffordabilityCalculator: React.FC = () => {
 
             case 'caution':
                 return (
-                    <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg flex items-start gap-3">
-                        <AlertCircle className="h-5 w-5 text-amber-500 dark:text-amber-400 mt-0.5 flex-shrink-0" />
+                    <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg flex items-start gap-2 sm:gap-3">
+                        <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500 dark:text-amber-400 mt-0.5 flex-shrink-0" />
                         <div>
                             <h4 className="text-sm font-medium text-amber-800 dark:text-amber-300">Proceed with caution</h4>
                             <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">
@@ -77,8 +107,8 @@ const AffordabilityCalculator: React.FC = () => {
 
             case 'warning':
                 return (
-                    <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3">
-                        <AlertTriangle className="h-5 w-5 text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0" />
+                    <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-2 sm:gap-3">
+                        <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-red-500 dark:text-red-400 mt-0.5 flex-shrink-0" />
                         <div>
                             <h4 className="text-sm font-medium text-red-800 dark:text-red-300">Affordability concern</h4>
                             <p className="text-xs text-red-700 dark:text-red-400 mt-1">
@@ -96,14 +126,14 @@ const AffordabilityCalculator: React.FC = () => {
 
     return (
         <div className="relative overflow-hidden rounded-2xl bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm shadow-sm dark:shadow-2xl border border-white/20 dark:border-neutral-800/20">
-            <div className="px-5 py-4">
-                <h3 className="text-lg font-medium text-neutral-900 dark:text-white mb-3">
+            <div className="px-3 sm:px-5 py-3 sm:py-4">
+                <h3 className="text-lg font-medium text-neutral-900 dark:text-white mb-2 sm:mb-3">
                     Affordability Calculator
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-4">
                     <div>
-                        <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                        <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Monthly Income (After Tax)
                         </label>
                         <div className="relative">
@@ -112,14 +142,15 @@ const AffordabilityCalculator: React.FC = () => {
                             </span>
                             <input
                                 type="number"
+                                inputMode="decimal"
                                 value={monthlyIncome || ''}
                                 onChange={handleIncomeChange}
-                                placeholder="Enter your monthly income"
+                                placeholder="Enter monthly income"
                                 min={0}
                                 step={1000}
                                 className={cn(
                                     "w-full rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800",
-                                    "text-neutral-900 dark:text-white pl-8 pr-3 py-2.5 text-sm",
+                                    "text-neutral-900 dark:text-white pl-8 pr-3 py-2 sm:py-2.5 text-sm",
                                     "focus:outline-none focus:ring-1 focus:ring-blue-500/30 focus:border-blue-500",
                                     "transition-colors"
                                 )}
@@ -128,7 +159,7 @@ const AffordabilityCalculator: React.FC = () => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">
+                        <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
                             Monthly Expenses (Excluding Housing)
                         </label>
                         <div className="relative">
@@ -137,15 +168,16 @@ const AffordabilityCalculator: React.FC = () => {
                             </span>
                             <input
                                 type="number"
+                                inputMode="decimal"
                                 value={monthlyExpenses || ''}
                                 onChange={handleExpensesChange}
-                                placeholder="Enter your monthly expenses"
+                                placeholder="Enter monthly expenses"
                                 min={0}
                                 max={monthlyIncome}
                                 step={1000}
                                 className={cn(
                                     "w-full rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800",
-                                    "text-neutral-900 dark:text-white pl-8 pr-3 py-2.5 text-sm",
+                                    "text-neutral-900 dark:text-white pl-8 pr-3 py-2 sm:py-2.5 text-sm",
                                     "focus:outline-none focus:ring-1 focus:ring-blue-500/30 focus:border-blue-500",
                                     "transition-colors"
                                 )}
@@ -160,31 +192,37 @@ const AffordabilityCalculator: React.FC = () => {
                     </div>
                 ) : (
                     <div>
-                        <div className="p-4 border border-neutral-200 dark:border-neutral-700 rounded-lg bg-neutral-50/80 dark:bg-neutral-800/60 backdrop-blur-sm">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <h4 className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Monthly Payment</h4>
-                                    <p className="text-2xl font-semibold text-neutral-900 dark:text-white mt-1">
+                        <div className="p-3 sm:p-4 border border-neutral-200 dark:border-neutral-700 rounded-lg bg-neutral-50/80 dark:bg-neutral-800/60 backdrop-blur-sm">
+                            {/* Responsive header with status badge on mobile */}
+                            <div className="sm:hidden flex justify-between items-center mb-3">
+                                <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Affordability Status</h4>
+                                {getStatusBadge()}
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                                <div className="col-span-2 sm:col-span-1">
+                                    <h4 className="text-xs sm:text-sm font-medium text-neutral-600 dark:text-neutral-400">Monthly Payment</h4>
+                                    <p className="text-lg sm:text-2xl font-semibold text-neutral-900 dark:text-white mt-0.5 sm:mt-1">
                                         {formatCurrency(monthlyPayment)}
                                     </p>
                                 </div>
 
-                                <div>
-                                    <h4 className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Available Income (After Expenses)</h4>
-                                    <p className="text-2xl font-semibold text-neutral-900 dark:text-white mt-1">
+                                <div className="col-span-2 sm:col-span-1">
+                                    <h4 className="text-xs sm:text-sm font-medium text-neutral-600 dark:text-neutral-400">Available Income (After Expenses)</h4>
+                                    <p className="text-lg sm:text-2xl font-semibold text-neutral-900 dark:text-white mt-0.5 sm:mt-1">
                                         {formatCurrency(monthlyIncome - monthlyExpenses)}
                                     </p>
                                 </div>
 
                                 {affordabilityMetrics && (
                                     <>
-                                        <div className="col-span-1 md:col-span-2">
+                                        <div className="col-span-2">
                                             <div className="h-px bg-neutral-200 dark:bg-neutral-700 my-2"></div>
                                         </div>
 
-                                        <div>
-                                            <h4 className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Maximum Recommended Payment</h4>
-                                            <p className="text-2xl font-semibold text-neutral-900 dark:text-white mt-1">
+                                        <div className="col-span-2 sm:col-span-1">
+                                            <h4 className="text-xs sm:text-sm font-medium text-neutral-600 dark:text-neutral-400">Maximum Recommended Payment</h4>
+                                            <p className="text-lg sm:text-2xl font-semibold text-neutral-900 dark:text-white mt-0.5 sm:mt-1">
                                                 {formatCurrency(affordabilityMetrics.maxRecommendedPayment)}
                                             </p>
                                             <p className="text-xs text-neutral-500 dark:text-neutral-500 mt-0.5">
@@ -192,10 +230,10 @@ const AffordabilityCalculator: React.FC = () => {
                                             </p>
                                         </div>
 
-                                        <div>
-                                            <h4 className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Debt-to-Income Ratio</h4>
-                                            <div className="flex items-center gap-2 mt-2">
-                                                <div className="flex-1 bg-neutral-200 dark:bg-neutral-700 rounded-full h-2 overflow-hidden">
+                                        <div className="col-span-2 sm:col-span-1">
+                                            <h4 className="text-xs sm:text-sm font-medium text-neutral-600 dark:text-neutral-400">Debt-to-Income Ratio</h4>
+                                            <div className="flex items-center gap-2 mt-1 sm:mt-2">
+                                                <div className="flex-1 bg-neutral-200 dark:bg-neutral-700 rounded-full h-1.5 sm:h-2 overflow-hidden">
                                                     <div
                                                         className={`h-full rounded-full ${getDTIProgressColor()}`}
                                                         style={{ width: `${Math.min(affordabilityMetrics.debtToIncomeRatio, 100)}%` }}
@@ -205,7 +243,7 @@ const AffordabilityCalculator: React.FC = () => {
                                                     {affordabilityMetrics.debtToIncomeRatio}%
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-neutral-500 dark:text-neutral-500 mt-1.5">
+                                            <p className="text-xs text-neutral-500 dark:text-neutral-500 mt-1 sm:mt-1.5">
                                                 (Housing + Expenses) ÷ Income
                                             </p>
                                         </div>
@@ -216,10 +254,10 @@ const AffordabilityCalculator: React.FC = () => {
 
                         {getAffordabilityAlert()}
 
-                        <div className="h-px bg-neutral-200 dark:bg-neutral-800 my-4"></div>
+                        <div className="h-px bg-neutral-200 dark:bg-neutral-800 my-3 sm:my-4"></div>
 
                         <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                            General guideline: Your total debt payments (including this loan) should ideally be below 36% of your gross income, and most lenders set a maximum limit of 43%.
+                            General guideline: Your total debt payments (including this loan) should ideally be below 36% of your gross income, with most lenders setting a maximum limit of 43%.
                         </p>
                     </div>
                 )}

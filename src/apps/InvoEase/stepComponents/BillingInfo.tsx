@@ -16,11 +16,11 @@ interface BillingSectionProps {
 }
 
 const BillingSection: React.FC<BillingSectionProps> = ({ title, control, errors, fieldPrefix }) => (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 dark:text-neutral-50">
         <h2 className="text-lg font-semibold text-primary mb-2">{title}</h2>
 
         <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-800 dark:text-neutral-50">Full Name</label>
+            <label className="block text-sm font-medium mb-1 text-neutral-800">Full Name</label>
             <Controller
                 name={`${fieldPrefix}.name`}
                 control={control}
@@ -38,7 +38,7 @@ const BillingSection: React.FC<BillingSectionProps> = ({ title, control, errors,
         </div>
 
         <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-800 dark:text-neutral-50">Email Address</label>
+            <label className="block text-sm font-medium mb-1 text-neutral-800">Email Address</label>
             <Controller
                 name={`${fieldPrefix}.email`}
                 control={control}
@@ -56,7 +56,7 @@ const BillingSection: React.FC<BillingSectionProps> = ({ title, control, errors,
         </div>
 
         <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-800 dark:text-neutral-50">Billing Address (Optional)</label>
+            <label className="block text-sm font-medium mb-1 text-neutral-800">Billing Address (Optional)</label>
             <Controller
                 name={`${fieldPrefix}.address`}
                 control={control}

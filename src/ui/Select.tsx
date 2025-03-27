@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react';
-import * as SelectPrimitive from '@radix-ui/react-select';
-import { Check, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { cn } from '@/shared/cn';
 
 export interface SelectOption {
@@ -24,7 +23,7 @@ interface SelectProps {
     className?: string;
 }
 
-const Select = forwardRef<HTMLButtonElement, SelectProps>(
+const Select = forwardRef<HTMLSelectElement, SelectProps>(
     ({
         options,
         value,
@@ -55,70 +54,45 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                         </div>
                     )}
 
-                    <SelectPrimitive.Root
+                    {/* Custom chevron icon that will overlay the native select */}
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <ChevronDown size={16} className="opacity-60" />
+                    </div>
+
+                    <select
+                        ref={ref}
+                        id={id}
+                        name={name}
                         value={value}
                         defaultValue={defaultValue}
-                        onValueChange={onValueChange}
+                        onChange={(e) => onValueChange?.(e.target.value)}
                         disabled={disabled}
-                        name={name}
+                        required={required}
+                        className={cn(
+                            "w-full rounded-lg border transition-all outline-none text-sm text-neutral-800 dark:text-neutral-100",
+                            "focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30",
+                            "py-2.5 pr-8", // Added extra padding for the custom chevron
+                            icon ? "pl-10" : "pl-3",
+                            error ? "border-red-500 ring-1 ring-red-500/30" : "border-neutral-300 dark:border-neutral-700",
+                            disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
+                            "bg-white dark:bg-neutral-900",
+                            "appearance-none", // Remove default select styling
+                            className
+                        )}
                     >
-                        <SelectPrimitive.Trigger
-                            ref={ref}
-                            id={id}
-                            className={cn(
-                                "w-full rounded-lg border transition-all outline-none text-sm text-neutral-800 dark:text-neutral-100",
-                                "focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30",
-                                "py-2.5 pr-3",
-                                icon ? "pl-10" : "pl-3",
-                                error ? "border-red-500 ring-1 ring-red-500/30" : "border-neutral-300",
-                                disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
-                                className
-                            )}
-                        >
-                            <div className="flex items-center justify-between gap-1">
-                                <SelectPrimitive.Value placeholder={placeholder} />
-                                <SelectPrimitive.Icon>
-                                    <ChevronDown size={16} className="opacity-60" />
-                                </SelectPrimitive.Icon>
-                            </div>
-                        </SelectPrimitive.Trigger>
-
-                        <SelectPrimitive.Portal>
-                            <SelectPrimitive.Content
-                                className="overflow-hidden bg-white dark:bg-neutral-800 rounded-md shadow-lg border border-neutral-200 dark:border-neutral-700 z-50"
-                                position="popper"
-                                sideOffset={5}
-                                side="bottom"
-                                avoidCollisions
-                                collisionPadding={8}
-                                align="start"
-                                alignOffset={-5}
+                        <option value="" disabled={required} hidden={!placeholder}>
+                            {placeholder}
+                        </option>
+                        {options.map((option) => (
+                            <option
+                                key={option.value}
+                                value={option.value}
+                                className="bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300"
                             >
-                                <SelectPrimitive.ScrollUpButton className="flex items-center justify-center h-6 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 cursor-default sticky top-0 border-b border-neutral-200 dark:border-neutral-700 z-10">
-                                    <ChevronUp size={16} />
-                                </SelectPrimitive.ScrollUpButton>
-
-                                <SelectPrimitive.Viewport className="p-1 max-h-60 overflow-y-auto">
-                                    {options.map((option) => (
-                                        <SelectPrimitive.Item
-                                            key={option.value}
-                                            value={option.value}
-                                            className="relative flex items-center h-8 pl-6 pr-8 py-2 rounded text-sm text-neutral-700 dark:text-neutral-300 data-[highlighted]:bg-neutral-100 dark:data-[highlighted]:bg-neutral-700 cursor-pointer focus:outline-none select-none data-[state=checked]:font-medium data-[disabled]:opacity-50 data-[disabled]:pointer-events-none"
-                                        >
-                                            <SelectPrimitive.ItemText>{option.label}</SelectPrimitive.ItemText>
-                                            <SelectPrimitive.ItemIndicator className="absolute left-1 inline-flex items-center">
-                                                <Check size={16} className="text-blue-500" />
-                                            </SelectPrimitive.ItemIndicator>
-                                        </SelectPrimitive.Item>
-                                    ))}
-                                </SelectPrimitive.Viewport>
-
-                                <SelectPrimitive.ScrollDownButton className="flex items-center justify-center h-6 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 cursor-default sticky bottom-0 border-t border-neutral-200 dark:border-neutral-700 z-10">
-                                    <ChevronDown size={16} />
-                                </SelectPrimitive.ScrollDownButton>
-                            </SelectPrimitive.Content>
-                        </SelectPrimitive.Portal>
-                    </SelectPrimitive.Root>
+                                {option.label}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 {error && (
@@ -128,6 +102,5 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
         );
     }
 );
-
 
 export default Select;

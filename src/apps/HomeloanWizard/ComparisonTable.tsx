@@ -1,10 +1,11 @@
-import { Trash2 } from 'lucide-react';
-import React from 'react';
+import { ChevronDown, ChevronRight, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
 import { useLoan } from './LoanContext';
 import { calculateTotalInterest, formatCurrency } from './loan.utils';
 
 const ComparisonTable: React.FC = () => {
     const { savedScenarios, removeScenario, loanParams, monthlyPayment } = useLoan();
+    const [expandedScenario, setExpandedScenario] = useState<string | null>(null);
 
     // Add current scenario to comparison
     const allScenarios = [
@@ -51,9 +52,90 @@ const ComparisonTable: React.FC = () => {
 
     const bestScenario = getBestScenario();
 
+    // Toggle expanded state for mobile card view
+    const toggleExpand = (id: string) => {
+        setExpandedScenario(expandedScenario === id ? null : id);
+    };
+
+    // Mobile card view for each scenario
+    const renderMobileCard = (scenario: any) => {
+        const isExpanded = expandedScenario === scenario.id;
+        const isBest = bestScenario && scenario.id === bestScenario.id;
+        const isCurrent = scenario.id === 'current';
+
+        return (
+            <div key={scenario.id} className="mb-3 border border-neutral-200 dark:border-neutral-800 rounded-lg overflow-hidden shadow-sm">
+                <div
+                    className={`px-4 py-3 flex justify-between items-center ${isBest && !isCurrent ? 'bg-green-50 dark:bg-green-900/20' : 'bg-white dark:bg-neutral-900'
+                        }`}
+                    onClick={() => toggleExpand(scenario.id)}
+                >
+                    <div className="flex flex-col">
+                        <div className="flex items-center">
+                            <span className="font-medium text-neutral-800 dark:text-neutral-200">
+                                {scenario.name}
+                            </span>
+                            {isCurrent && (
+                                <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full">
+                                    Current
+                                </span>
+                            )}
+                            {isBest && !isCurrent && (
+                                <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full">
+                                    Best
+                                </span>
+                            )}
+                        </div>
+                        <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                            {formatCurrency(scenario.params.loanAmount)} • {formatInterestRate(scenario.params.interestRate)}
+                        </div>
+                    </div>
+                    <div className="flex items-center">
+                        {!isCurrent && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    removeScenario(scenario.id);
+                                }}
+                                className="p-1.5 mr-1 rounded-md text-neutral-500 hover:text-red-600 dark:text-neutral-400 dark:hover:text-red-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                                aria-label="Remove scenario"
+                            >
+                                <Trash2 size={16} />
+                            </button>
+                        )}
+                        {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                    </div>
+                </div>
+
+                {isExpanded && (
+                    <div className="px-4 py-3 bg-neutral-50 dark:bg-neutral-800/50 border-t border-neutral-200 dark:border-neutral-800">
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div className="flex flex-col">
+                                <span className="text-xs text-neutral-500 dark:text-neutral-400">Term</span>
+                                <span className="text-neutral-800 dark:text-neutral-200">{formatTenure(scenario.params.loanTenure)}</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-xs text-neutral-500 dark:text-neutral-400">Monthly Payment</span>
+                                <span className="font-medium text-neutral-800 dark:text-neutral-200">{formatCurrency(scenario.monthlyPayment)}</span>
+                            </div>
+                            <div className="flex flex-col mt-2">
+                                <span className="text-xs text-neutral-500 dark:text-neutral-400">Total Interest</span>
+                                <span className="text-neutral-800 dark:text-neutral-200">{formatCurrency(getTotalInterest(scenario.params))}</span>
+                            </div>
+                            <div className="flex flex-col mt-2">
+                                <span className="text-xs text-neutral-500 dark:text-neutral-400">Total Cost</span>
+                                <span className="font-medium text-neutral-800 dark:text-neutral-200">{formatCurrency(getTotalPaid(scenario.params))}</span>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    };
+
     return (
         <div className="relative overflow-hidden rounded-2xl bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm shadow-sm dark:shadow-2xl border border-white/20 dark:border-neutral-800/20">
-            <div className="px-5 py-4">
+            <div className="px-3 sm:px-5 py-3 sm:py-4">
                 <h3 className="text-lg font-medium text-neutral-900 dark:text-white mb-3">
                     Loan Options Comparison
                 </h3>
@@ -75,7 +157,13 @@ const ComparisonTable: React.FC = () => {
                     )
                 )}
 
-                <div className="border border-neutral-200 dark:border-neutral-800 rounded-lg overflow-hidden mb-4 shadow-sm">
+                {/* Mobile View - Cards */}
+                <div className="block sm:hidden">
+                    {allScenarios.map(scenario => renderMobileCard(scenario))}
+                </div>
+
+                {/* Desktop View - Table */}
+                <div className="hidden sm:block border border-neutral-200 dark:border-neutral-800 rounded-lg overflow-hidden mb-4 shadow-sm">
                     <div className="overflow-x-auto">
                         <table className="w-full border-collapse">
                             <thead className="bg-neutral-50 dark:bg-neutral-800 text-xs uppercase border-b border-neutral-200 dark:border-neutral-700 shadow-sm z-10">

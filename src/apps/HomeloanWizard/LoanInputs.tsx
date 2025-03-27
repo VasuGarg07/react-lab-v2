@@ -4,7 +4,7 @@ import { useLoan } from './LoanContext';
 import { formatCurrency } from './loan.utils';
 import Tooltip from '@/ui/Tooltip';
 import { cn } from '@/shared/cn';
-import CustomSlider from '@/apps/HomeloanWizard/CustomSlider';
+import Slider from '@/ui/Slider';
 
 // Define color schemes for different sliders
 const sliderColors = {
@@ -126,7 +126,7 @@ const LoanInputs: React.FC = () => {
                                     {field.format(field.value)}
                                 </div>
                             </div>
-                            <CustomSlider
+                            <Slider
                                 id={field.id}
                                 label={field.label}
                                 value={field.value}
