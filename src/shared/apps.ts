@@ -1,10 +1,11 @@
-import { BarChart2, Feather, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
+import { BarChart2, Feather, FileJson, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
 import BattleSim from '/cover/battle-sim2.webp';
 import Blogger from '/cover/blogger.webp';
 import Budget from '/cover/budget.webp';
 import Byte from '/cover/byte.webp';
 import Snap from '/cover/image.webp';
 import Invoice from '/cover/invoice.png';
+import Json from '/cover/json.png';
 import Loan from '/cover/loan.webp';
 import Memory from '/cover/memory.webp';
 import Quiz from '/cover/quiz.webp';
@@ -24,6 +25,16 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  {
+    name: 'JSON Visualizer',
+    path: '/json',
+    tag: "Decode Structured Data",
+    image: Json,
+    visible: true,
+    description: "A powerful utility to parse, visualize, and navigate deeply nested JSON data with ease.",
+    techStack: ['Web Worker Parsing', 'Dynamic Tree View', 'Breadcrumb Navigation'],
+    icon: FileJson
+  },
   {
     name: 'Blogify',
     path: '/blogify',
