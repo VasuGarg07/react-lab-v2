@@ -4,7 +4,7 @@ import { AppInfo } from '@/shared/apps';
 import { ArrowRight, Info } from 'lucide-react';
 import { AspectRatio } from 'radix-ui';
 
-export const AppCard: React.FC<AppInfo> = ({ name, tag, path, image, description, techStack, icon: Icon }) => {
+export const AppCard: React.FC<AppInfo> = ({ name, caption, path, image, description, tags, icon: Icon }) => {
   const navigate = useNavigate();
 
   return (
@@ -33,7 +33,7 @@ export const AppCard: React.FC<AppInfo> = ({ name, tag, path, image, description
           </div>
         </div>
         <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
-          {tag}
+          {caption}
         </span>
       </div>
 
@@ -46,12 +46,12 @@ export const AppCard: React.FC<AppInfo> = ({ name, tag, path, image, description
           {description}
         </p>
         <div className="flex flex-wrap gap-1.5 justify-center">
-          {techStack.map((tech, index) => (
+          {tags.map((tag, index) => (
             <span
               key={index}
               className="px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-300 dark:bg-cyan-600 text-neutral-800 dark:text-neutral-200"
             >
-              {tech}
+              {tag}
             </span>
           ))}
         </div>

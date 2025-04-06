@@ -15,6 +15,7 @@ import HomeloanWizard from "@/apps/HomeloanWizard/HomeloanWizard";
 import { LoanProvider } from "@/apps/HomeloanWizard/LoanContext";
 import { InvoiceProvider } from "@/apps/InvoEase/InvoiceContext";
 import JsonTreeViewer from "@/apps/JsonViewer/JsonViewer";
+import Archivra from "@/apps/Notebook/Archivra";
 import PokeMemory from "@/apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "@/apps/Pokeverse/context/BattleSimContext";
 import { PokedexProvider } from "@/apps/Pokeverse/context/PokedexContext";
@@ -65,6 +66,11 @@ const routes = [
           { path: 'forgot-password', element: <ForgotPassword /> },
           { path: '*', element: <Navigate to='/auth/login' replace /> }, // Catch invalid auth paths
         ]
+      },
+      {
+        path: 'archivra',
+        element: <Archivra />,
+        children: []
       },
       {
         path: 'blogify',
