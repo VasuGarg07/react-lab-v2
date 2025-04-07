@@ -21,9 +21,11 @@ export interface Notebook {
     visibility: Visibility;
     createdAt: number;
     updatedAt: number;
+    chapterCount?: number;
+    author?: Author
 }
 
-export interface NotebookPage {
+export interface Chapter {
     id: string;
     notebookId: string;
     title: string;
@@ -31,6 +33,12 @@ export interface NotebookPage {
     order: number;
     createdAt: number;
     updatedAt: number;
+}
+
+export interface Author {
+    userId: string;
+    name: string;
+    avatar: string; // compressed base64 or external URL
 }
 
 // ─── Request Types ───

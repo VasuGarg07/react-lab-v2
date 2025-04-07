@@ -16,6 +16,9 @@ import { LoanProvider } from "@/apps/HomeloanWizard/LoanContext";
 import { InvoiceProvider } from "@/apps/InvoEase/InvoiceContext";
 import JsonTreeViewer from "@/apps/JsonViewer/JsonViewer";
 import Archivra from "@/apps/Notebook/Archivra";
+import Landing from "@/apps/Notebook/pages/Landing";
+import MyNotebooks from "@/apps/Notebook/pages/MyNotebooks";
+import PublicNotebooks from "@/apps/Notebook/pages/PublicNotebooks";
 import PokeMemory from "@/apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "@/apps/Pokeverse/context/BattleSimContext";
 import { PokedexProvider } from "@/apps/Pokeverse/context/PokedexContext";
@@ -70,7 +73,12 @@ const routes = [
       {
         path: 'archivra',
         element: <Archivra />,
-        children: []
+        children: [
+          { index: true, element: <Landing /> },
+          { path: "my", element: <MyNotebooks /> },
+          { path: "public", element: <PublicNotebooks /> },
+
+        ]
       },
       {
         path: 'blogify',

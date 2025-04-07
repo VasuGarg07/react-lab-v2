@@ -40,7 +40,7 @@ export const Apps: AppInfo[] = [
     path: "/archivra",
     caption: "Structure Your Thoughts",
     image: Archivra,
-    visible: false,
+    visible: true,
     description: "Turn scattered notes into organized notebooks and structured chapters. Archivra helps you think clearly, write freely, and never lose a good idea again.",
     tags: ["Multi-Notebook System", "Chapter Organization", "Private & Public Sharing"],
     icon: BookOpen,

@@ -12,7 +12,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="flex items-center justify-between w-full py-2 px-4 shadow-md backdrop-blur-md bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
+    <nav className="flex items-center justify-between w-full py-2 px-4 shadow-md backdrop-blur-md bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700 relative z-[2]">
       <SideNav />
       <h1
         className="text-xl font-semibold cursor-pointer text-neutral-900 dark:text-neutral-100 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"

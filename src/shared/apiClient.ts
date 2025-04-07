@@ -4,7 +4,7 @@ import { CONFIG } from "@/shared/config";
 
 
 const apiClient = axios.create({
-    baseURL: CONFIG.API_URL,
+    baseURL: "http://localhost:3000/api",
 });
 
 // Intercept requests to add Authorization header
