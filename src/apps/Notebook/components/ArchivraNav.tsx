@@ -1,5 +1,5 @@
 import { cn } from '@/shared/cn';
-import { BookOpen, Globe, Plus, Search, User } from 'lucide-react';
+import { Bookmark, BookOpen, Globe, Plus, Search, User } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
 import CreateNotebook from './CreateNotebook';
@@ -12,16 +12,11 @@ const ArchivraNav = () => {
 
     const linkActive = (path: string) => location.pathname.endsWith(path);
 
-    const SIDENAV_ITEMS = [
-        { to: '/archivra/public', icon: <Globe size={18} />, label: 'Public Diaries' },
-        { to: '/archivra/my', icon: <BookOpen size={18} />, label: 'My Diaries' },
-        { to: 'profile', icon: <User size={18} />, label: 'User Profile' }
-    ];
-
-    const BOTTOM_NAV_ITEWS = [
+    const NAV_ITEMS = [
         { to: '/archivra/public', icon: <Globe size={18} />, label: 'Public' },
-        { to: '/archivra/my', icon: <BookOpen size={18} />, label: 'Personal' },
-        { to: 'profile', icon: <User size={18} />, label: 'Profile' }
+        { to: '/archivra/bookmarks', icon: <Bookmark size={18} />, label: 'Bookmarks' },
+        { to: '/archivra/my', icon: <BookOpen size={18} />, label: 'Owned' },
+        { to: '/archivra/profile', icon: <User size={18} />, label: 'Profile' }
     ];
 
     const renderSideNav = () => (
@@ -33,7 +28,7 @@ const ArchivraNav = () => {
                 </div>
 
                 <ul className="space-y-1">
-                    {SIDENAV_ITEMS.map((item) => (
+                    {NAV_ITEMS.map((item) => (
                         <li key={item.to}>
                             <NavLink
                                 to={item.to}
@@ -76,46 +71,8 @@ const ArchivraNav = () => {
     const renderBottomNav = () => (
         <div className="md:hidden fixed bottom-0 left-0 right-0 border-t border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 z-50 shadow-lg rounded-t-xl">
             <ul className="flex items-center justify-around px-2 py-1">
-                <li>
-                    <NavLink
-                        to={BOTTOM_NAV_ITEWS[0].to}
-                        className={({ isActive }) =>
-                            cn(
-                                "flex flex-col items-center py-2 px-1 transition-all",
-                                isActive || linkActive(BOTTOM_NAV_ITEWS[0].to)
-                                    ? "text-indigo-600 dark:text-fuchsia-400"
-                                    : "text-zinc-500 dark:text-zinc-400"
-                            )
-                        }
-                    >
-                        {BOTTOM_NAV_ITEWS[0].icon}
-                        <span className="text-[0.7rem] mt-1 font-medium">{BOTTOM_NAV_ITEWS[0].label}</span>
-                    </NavLink>
-                </li>
-
-                <li>
-                    <button
-                        onClick={() => setShowSearch(true)}
-                        className="flex flex-col items-center text-zinc-500 dark:text-zinc-400"
-                    >
-                        <Search size={18} />
-                        <span className="text-[0.7rem] mt-1 font-medium">Search</span>
-                    </button>
-                </li>
-
-
-                <li>
-                    <button
-                        onClick={() => setShowCreate(true)}
-                        className="flex flex-col items-center text-indigo-600 dark:text-fuchsia-400"
-                    >
-                        <Plus size={18} />
-                        <span className="text-[0.7rem] mt-1 font-medium">New</span>
-                    </button>
-                </li>
-
-                {BOTTOM_NAV_ITEWS.slice(1).map((item) => (
-                    <li key={item.to}>
+                {NAV_ITEMS.map((item) => (
+                    <li key={item.to} className="flex-1">
                         <NavLink
                             to={item.to}
                             className={({ isActive }) =>
@@ -132,6 +89,29 @@ const ArchivraNav = () => {
                         </NavLink>
                     </li>
                 ))}
+
+                <div className="w-px h-8 bg-zinc-300 dark:bg-zinc-700 mx-2" />
+
+                <li className="flex-1 flex justify-center py-2">
+                    <button
+                        onClick={() => setShowSearch(true)}
+                        className="flex flex-col items-center text-zinc-500 dark:text-zinc-400"
+                    >
+                        <Search size={18} />
+                        <span className="text-[0.7rem] mt-1 font-medium">Search</span>
+                    </button>
+                </li>
+
+                <li className="flex-1 flex justify-center py-2">
+                    <button
+                        onClick={() => setShowCreate(true)}
+                        className="flex flex-col items-center text-indigo-600 dark:text-fuchsia-400"
+                    >
+                        <Plus size={18} />
+                        <span className="text-[0.7rem] mt-1 font-medium">Create</span>
+                    </button>
+                </li>
+
             </ul>
         </div>
     );

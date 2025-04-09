@@ -16,8 +16,11 @@ import { LoanProvider } from "@/apps/HomeloanWizard/LoanContext";
 import { InvoiceProvider } from "@/apps/InvoEase/InvoiceContext";
 import JsonTreeViewer from "@/apps/JsonViewer/JsonViewer";
 import Archivra from "@/apps/Notebook/Archivra";
+import { notebookDetails } from "@/apps/Notebook/helpers/useNotebookData";
+import BookmarkedNotebooks from "@/apps/Notebook/pages/Bookmarks";
 import Landing from "@/apps/Notebook/pages/Landing";
 import MyNotebooks from "@/apps/Notebook/pages/MyNotebooks";
+import NotebookDetail from "@/apps/Notebook/pages/NotebookDetail";
 import PublicNotebooks from "@/apps/Notebook/pages/PublicNotebooks";
 import PokeMemory from "@/apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "@/apps/Pokeverse/context/BattleSimContext";
@@ -77,7 +80,8 @@ const routes = [
           { index: true, element: <Landing /> },
           { path: "my", element: <MyNotebooks /> },
           { path: "public", element: <PublicNotebooks /> },
-
+          { path: "bookmarks", element: <BookmarkedNotebooks /> },
+          { path: "notebook/:id", element: <NotebookDetail />, loader: notebookDetails },
         ]
       },
       {

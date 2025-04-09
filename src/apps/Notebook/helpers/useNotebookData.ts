@@ -1,10 +1,13 @@
 import { useState, useCallback } from "react";
 import { Notebook } from "./notebook.constants";
 import {
+    getBookmarks,
     getMyNotebooks,
+    getNotebookById,
     getPublicNotebooks,
     searchMyNotebooks,
 } from "./notebookApi";
+import { LoaderFunctionArgs } from "react-router";
 
 export const useNotebookData = () => {
     const [notebooks, setNotebooks] = useState<Notebook[] | null>(null);
@@ -51,6 +54,19 @@ export const useNotebookData = () => {
         }
     }, []);
 
+    const getBookmarkedNotebooks = useCallback(async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await getBookmarks();
+            setNotebooks(response.data || []);
+        } catch (err: any) {
+            setError(err?.response?.data?.error || "Search failed.");
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
     return {
         notebooks,
         loading,
@@ -58,5 +74,17 @@ export const useNotebookData = () => {
         fetchMyNotebooks,
         fetchPublicNotebooks,
         searchNotebooks,
+        getBookmarkedNotebooks
     };
 };
+
+
+export const notebookDetails = async ({ params }: LoaderFunctionArgs) => {
+    try {
+        const { data } = await getNotebookById(params.id!);
+        return data;
+    } catch (error) {
+        console.error('Error loading blog:', error);
+        throw error;
+    }
+}

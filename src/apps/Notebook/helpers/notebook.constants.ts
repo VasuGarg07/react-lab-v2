@@ -17,7 +17,8 @@ export type Visibility = "public" | "private";
 export interface Notebook {
     id: string;
     title: string;
-    coverImage?: string;
+    userId: string;
+    coverImageUrl?: string;
     visibility: Visibility;
     createdAt: number;
     updatedAt: number;
@@ -36,7 +37,7 @@ export interface Chapter {
 }
 
 export interface Author {
-    userId: string;
+    id: string;
     name: string;
     avatar: string; // compressed base64 or external URL
 }
