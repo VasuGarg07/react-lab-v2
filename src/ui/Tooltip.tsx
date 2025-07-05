@@ -1,5 +1,5 @@
 import { cn } from '@/shared/cn';
-import { Tooltip as RadixTooltip } from 'radix-ui';
+import { Tooltip as BaseTooltip } from '@base-ui-components/react/tooltip';
 import { ReactNode } from 'react';
 
 interface TooltipProps {
@@ -16,7 +16,7 @@ interface TooltipProps {
 }
 
 /**
- * A reusable tooltip component built on Radix UI's Tooltip primitive.
+ * A reusable tooltip component built on Base UI's Tooltip primitive.
  * Automatically provides the TooltipProvider context.
  */
 const Tooltip = ({
@@ -24,7 +24,7 @@ const Tooltip = ({
     content,
     side = "top",
     align = "center",
-    sideOffset = 5,
+    sideOffset = 8,
     className,
     contentClassName,
     open,
@@ -32,40 +32,34 @@ const Tooltip = ({
     onOpenChange
 }: TooltipProps) => {
     return (
-        <RadixTooltip.Provider delayDuration={300}>
-            <RadixTooltip.Root
+        <BaseTooltip.Provider delay={700}>
+            <BaseTooltip.Root
                 open={open}
                 defaultOpen={defaultOpen}
                 onOpenChange={onOpenChange}
             >
-                <RadixTooltip.Trigger asChild className={className}>
+                <BaseTooltip.Trigger className={className}>
                     {children}
-                </RadixTooltip.Trigger>
-                <RadixTooltip.Portal>
-                    <RadixTooltip.Content
+                </BaseTooltip.Trigger>
+                <BaseTooltip.Portal>
+                    <BaseTooltip.Positioner
                         side={side}
                         align={align}
                         sideOffset={sideOffset}
-                        className={cn(
-                            "z-50 overflow-hidden",
-                            "max-w-xs rounded-lg",
-                            "bg-white/95 dark:bg-neutral-800/95",
-                            "text-neutral-900 dark:text-neutral-100",
-                            "p-3 text-xs",
-                            "shadow-lg",
-                            "border border-neutral-200 dark:border-neutral-700",
-                            "backdrop-blur-sm",
-                            "animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-                            "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-                            contentClassName
-                        )}
                     >
-                        {content}
-                        <RadixTooltip.Arrow className="fill-white/95 dark:fill-neutral-800/95" />
-                    </RadixTooltip.Content>
-                </RadixTooltip.Portal>
-            </RadixTooltip.Root>
-        </RadixTooltip.Provider>
+                        <BaseTooltip.Popup
+                            className={cn(
+                                "z-50 max-w-xs rounded bg-neutral-700 px-3 py-2 text-xs text-white shadow-lg backdrop-blur-sm animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1",
+                                contentClassName
+                            )}
+                        >
+                            {content}
+                            <BaseTooltip.Arrow className="fill-neutral-700" />
+                        </BaseTooltip.Popup>
+                    </BaseTooltip.Positioner>
+                </BaseTooltip.Portal>
+            </BaseTooltip.Root>
+        </BaseTooltip.Provider>
     );
 };
 

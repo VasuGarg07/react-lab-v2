@@ -23,14 +23,14 @@ const AppBackground: React.FC<Props> = ({ children }) => {
                     style={{
                         background: 'linear-gradient(120deg, rgba(99, 102, 241, 0.3) 0%, rgba(168, 85, 247, 0.3) 50%, rgba(236, 72, 153, 0.3) 100%)',
                     }}
-                    animate={{
-                        backgroundPosition: ['0% 0%', '100% 100%'],
-                    }}
-                    transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        repeatType: 'reverse',
-                    }}
+                // animate={{
+                //     backgroundPosition: ['0% 0%', '100% 100%'],
+                // }}
+                // transition={{
+                //     duration: 20,
+                //     repeat: Infinity,
+                //     repeatType: 'reverse',
+                // }}
                 />
             </>
 

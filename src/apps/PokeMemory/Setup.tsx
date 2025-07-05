@@ -3,7 +3,8 @@ import { useGameContext } from '@/apps/PokeMemory/Context';
 import { loadCards } from '@/apps/PokeMemory/pokememory.utils';
 import { toastService } from '@/shared/toastr';
 import { GameMode, GameState } from '@/shared/utilities';
-import * as Form from '@radix-ui/react-form';
+import { Form as BaseForm } from '@base-ui-components/react/form';
+import { Field as BaseField } from '@base-ui-components/react/field';
 import Tooltip from '@/ui/Tooltip';
 import { Gamepad2, Zap, Puzzle, Skull, UserRound } from 'lucide-react';
 
@@ -77,9 +78,9 @@ const Setup: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full px-4 py-6">
+    <div className="flex items-center justify-center w-full px-3 py-2">
       <div className="w-full max-w-md">
-        <div className="backdrop-blur-md bg-white/10 dark:bg-black/20 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-6 shadow-md">
+        <div className="backdrop-blur-md bg-white/10 dark:bg-black/20 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-4 shadow-md">
           <div className="flex flex-col items-center space-y-6">
             {/* Header */}
             <div className="flex items-center gap-3">
@@ -103,26 +104,24 @@ const Setup: React.FC = () => {
             <div className="h-px w-full bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent"></div>
 
             {/* Form */}
-            <Form.Root className="w-full space-y-6" onSubmit={handleSubmit}>
-              <Form.Field name="playerName" className="w-full">
+            <BaseForm className="w-full space-y-6" onSubmit={handleSubmit}>
+              <BaseField.Root name="playerName" className="w-full">
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <UserRound className="h-5 w-5 text-neutral-400" />
                   </div>
-                  <Form.Control asChild>
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Enter Your Name"
-                      className="w-full pl-10 pr-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-500 transition-all outline-none text-neutral-900 dark:text-neutral-100"
-                    />
-                  </Form.Control>
+                  <BaseField.Control
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter Your Name"
+                    className="w-full pl-10 pr-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-500 transition-all outline-none text-neutral-900 dark:text-neutral-100"
+                  />
                 </div>
-                <Form.Message match="valueMissing" className="text-xs text-rose-500 mt-1">
+                <BaseField.Error className="text-xs text-rose-500 mt-1">
                   Please enter your name
-                </Form.Message>
-              </Form.Field>
+                </BaseField.Error>
+              </BaseField.Root>
 
               {/* Difficulty Selection */}
               <div>
@@ -154,15 +153,14 @@ const Setup: React.FC = () => {
               </div>
 
               {/* Submit Button */}
-              <Form.Submit asChild>
-                <button
-                  className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:shadow-lg transform transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center gap-2"
-                >
-                  <Gamepad2 className="h-5 w-5" />
-                  <span>Start Game</span>
-                </button>
-              </Form.Submit>
-            </Form.Root>
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium py-3 px-4 rounded-lg shadow-sm hover:shadow-md transform transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center gap-2"
+              >
+                <Gamepad2 className="h-5 w-5" />
+                <span>Start Game</span>
+              </button>
+            </BaseForm>
           </div>
         </div>
       </div>

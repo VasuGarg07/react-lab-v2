@@ -1,4 +1,3 @@
-import { Label } from '@radix-ui/react-label';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Sparkles, Swords, Trophy } from 'lucide-react';
 import React, { useState } from 'react';
@@ -55,17 +54,14 @@ export const PlayerSetupScreen: React.FC = () => {
 
                             <form onSubmit={handleSubmit} className="w-full space-y-6">
                                 <div className="space-y-2">
-                                    <Label
-                                        htmlFor="player1"
-                                        className={cn(
-                                            'block text-sm font-medium transition-colors',
-                                            focusedPlayer === 1
-                                                ? 'text-blue-600 dark:text-blue-400'
-                                                : 'text-gray-600 dark:text-gray-300'
-                                        )}
-                                    >
+                                    <div className={cn(
+                                        'block text-sm font-medium transition-colors',
+                                        focusedPlayer === 1
+                                            ? 'text-blue-600 dark:text-blue-400'
+                                            : 'text-gray-600 dark:text-gray-300'
+                                    )}>
                                         Player 1
-                                    </Label>
+                                    </div>
                                     <div className="relative">
                                         <input
                                             id="player1"
@@ -89,17 +85,14 @@ export const PlayerSetupScreen: React.FC = () => {
                                 <div className="text-center text-sm text-gray-500 dark:text-gray-400">VS</div>
 
                                 <div className="space-y-2">
-                                    <Label
-                                        htmlFor="player2"
-                                        className={cn(
-                                            'block text-sm font-medium transition-colors',
-                                            focusedPlayer === 2
-                                                ? 'text-red-600 dark:text-red-400'
-                                                : 'text-gray-600 dark:text-gray-300'
-                                        )}
-                                    >
+                                    <div className={cn(
+                                        'block text-sm font-medium transition-colors',
+                                        focusedPlayer === 2
+                                            ? 'text-red-600 dark:text-red-400'
+                                            : 'text-gray-600 dark:text-gray-300'
+                                    )}>
                                         Player 2
-                                    </Label>
+                                    </div>
                                     <div className="relative">
                                         <input
                                             id="player2"

@@ -45,26 +45,26 @@ const Pagination: React.FC<PaginationProps> = ({
     const pageNumbers = getPageNumbers();
 
     return (
-        <nav className="flex justify-center items-center space-x-2" aria-label="Pagination">
+        <nav className="flex justify-center items-center space-x-1" aria-label="Pagination">
             <button
                 onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="px-3 py-2 rounded-lg bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 hover:bg-white dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-2 rounded-md text-slate-800 dark:text-white bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                 aria-label="Previous page"
             >
-                &laquo;
+                ‹
             </button>
 
             {pageNumbers.map((pageNumber, index) => (
                 pageNumber < 0 ? (
-                    <span key={`ellipsis-${index}`} className="px-3 py-2">...</span>
+                    <span key={`ellipsis-${index}`} className="px-3 py-2 text-sm text-slate-500">...</span>
                 ) : (
                     <button
                         key={pageNumber}
                         onClick={() => onPageChange(pageNumber)}
-                        className={`px-3 py-2 rounded-lg border transition-colors ${currentPage === pageNumber
+                        className={`px-3 py-2 rounded-md border transition-colors text-sm ${currentPage === pageNumber
                             ? 'bg-blue-500 text-white border-blue-500 dark:bg-blue-600 dark:border-blue-600'
-                            : 'bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border-neutral-200 dark:border-neutral-700 hover:bg-white dark:hover:bg-zinc-700'
+                            : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
                             }`}
                         aria-current={currentPage === pageNumber ? 'page' : undefined}
                     >
@@ -76,10 +76,10 @@ const Pagination: React.FC<PaginationProps> = ({
             <button
                 onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="px-3 py-2 rounded-lg bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 hover:bg-white dark:hover:bg-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-2 rounded-md text-slate-800 dark:text-white bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                 aria-label="Next page"
             >
-                &raquo;
+                ›
             </button>
         </nav>
     );

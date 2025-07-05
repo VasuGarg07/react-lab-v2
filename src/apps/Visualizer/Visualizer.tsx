@@ -107,10 +107,9 @@ const SortingVisualizer = () => {
 
             {/* Info Dialog */}
             <Dialog
-                isOpen={infoOpen}
+                open={infoOpen}
                 onClose={() => setInfoOpen(false)}
                 title="About Sorting Visualizer"
-                position="center"
                 size="md"
             >
                 <AboutVisualizer />

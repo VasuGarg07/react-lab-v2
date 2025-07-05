@@ -141,11 +141,10 @@ const LoanSummary: React.FC = () => {
 
             {/* Save Scenario Modal */}
             <Dialog
-                isOpen={open}
-                onClose={() => setOpen(false)}
+                open={open}
+                onClose={(open) => !open && setOpen(false)}
                 title="Save Current Scenario"
                 size="sm"
-                position="center"
             >
                 <div className="p-6 pt-0">
                     <div className="mb-4">

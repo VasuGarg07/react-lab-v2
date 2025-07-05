@@ -1,8 +1,9 @@
 import { Apps } from '@/shared/apps';
 import { navigate } from '@/shared/Router';
-import { Menu, Home, ChevronRight } from 'lucide-react';
+import { Menu, Home, ChevronRight, X } from 'lucide-react';
 import { useState } from 'react';
-import Dialog from '@/ui/Dialog';
+import { Dialog as BaseDialog } from '@base-ui-components/react/dialog';
+import { cn } from '@/shared/cn';
 
 const SideNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,63 +19,98 @@ const SideNav = () => {
       {/* Menu Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="p-2 rounded-md text-neutral-700 hover:bg-black/5 dark:text-neutral-200 dark:hover:bg-white/10 transition-colors"
-        aria-label="Menu"
+        className={cn(
+          "p-2 rounded-md transition-colors",
+          "text-slate-700 dark:text-slate-300",
+          "hover:bg-slate-100 dark:hover:bg-slate-800",
+          "focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+        )}
+        aria-label="Open menu"
       >
         <Menu size={20} />
       </button>
 
-      {/* Sidebar Dialog */}
-      <Dialog
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        position="left"
-        size="lg"
-        title="React Lab"
-        contentClassName="w-72 h-full"
-      >
-        <div className="flex flex-col h-full border-t border-neutral-200 dark:border-neutral-800">
-          {/* Navigation List */}
-          <nav className="flex-1 overflow-y-auto py-2 scrollbar-hide min-h-0">
-            <ul className="px-2 space-y-1">
-              <li>
-                <button
-                  onClick={() => handleRouting('/')}
-                  className="w-full px-3 py-2 flex items-center justify-between rounded-md group transition-colors hover:bg-black/5 dark:hover:bg-white/10"
-                >
-                  <div className="flex items-center gap-3">
-                    <Home size={16} className="text-neutral-700 dark:text-white" />
-                    <span className="font-medium text-sm text-neutral-800 dark:text-white">Dashboard</span>
-                  </div>
-                  <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors" />
-                </button>
-              </li>
+      {/* Sidebar Drawer */}
+      <BaseDialog.Root open={isOpen} onOpenChange={setIsOpen}>
+        <BaseDialog.Portal>
+          <BaseDialog.Backdrop className="fixed inset-0 z-40 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
 
-              {Apps.filter(app => app.visible).map((app, index) => (
-                <li key={index}>
+          <BaseDialog.Popup
+            className={cn(
+              "fixed left-0 top-0 z-50 h-full w-80 flex flex-col",
+              "bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700",
+              "data-[state=open]:animate-in data-[state=closed]:animate-out",
+              "data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
+              "duration-300"
+            )}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-3 border-b border-slate-200 dark:border-slate-700">
+              <BaseDialog.Title className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                React Lab
+              </BaseDialog.Title>
+              <BaseDialog.Close
+                className={cn(
+                  "p-1.5 rounded-md transition-colors",
+                  "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200",
+                  "hover:bg-slate-100 dark:hover:bg-slate-800"
+                )}
+                aria-label="Close menu"
+              >
+                <X size={16} />
+              </BaseDialog.Close>
+            </div>
+
+            {/* Navigation */}
+            <nav className="flex-1 overflow-y-auto p-3 min-h-0">
+              <ul className="space-y-1">
+                {/* Dashboard */}
+                <li>
                   <button
-                    onClick={() => handleRouting(app.path)}
-                    className="w-full px-3 py-2 flex items-center justify-between rounded-md group transition-colors hover:bg-black/5 dark:hover:bg-white/10"
+                    onClick={() => handleRouting('/')}
+                    className={cn(
+                      "w-full flex items-center gap-2 p-2 rounded-md text-sm font-medium transition-colors",
+                      "text-slate-700 dark:text-slate-300",
+                      "hover:bg-slate-100 dark:hover:bg-slate-800",
+                      "focus:outline-none focus:bg-slate-100 dark:focus:bg-slate-800"
+                    )}
                   >
-                    <div className="flex items-center gap-3">
-                      <app.icon size={16} className="text-neutral-700 dark:text-white" />
-                      <span className="font-medium text-sm text-neutral-800 dark:text-white">{app.name}</span>
-                    </div>
-                    <ChevronRight size={14} className="text-neutral-400 dark:text-neutral-500 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors" />
+                    <Home size={16} className="text-slate-500 dark:text-slate-400" />
+                    <span className="flex-1 text-left">Dashboard</span>
+                    <ChevronRight size={14} className="text-slate-400 dark:text-slate-500" />
                   </button>
                 </li>
-              ))}
-            </ul>
-          </nav>
 
-          {/* Footer */}
-          <div className="px-4 py-3 mt-auto border-t border-neutral-200 dark:border-neutral-800">
-            <p className="text-xs text-center text-neutral-500 dark:text-neutral-400">
-              © {currentYear} React Lab
-            </p>
-          </div>
-        </div>
-      </Dialog>
+                {/* Apps */}
+                {Apps.filter(app => app.visible).map((app, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => handleRouting(app.path)}
+                      className={cn(
+                        "w-full flex items-center gap-2 p-2 rounded-md text-sm font-medium transition-colors",
+                        "text-slate-700 dark:text-slate-300",
+                        "hover:bg-slate-100 dark:hover:bg-slate-800",
+                        "focus:outline-none focus:bg-slate-100 dark:focus:bg-slate-800"
+                      )}
+                    >
+                      <app.icon size={16} className="text-slate-500 dark:text-slate-400" />
+                      <span className="flex-1 text-left">{app.name}</span>
+                      <ChevronRight size={14} className="text-slate-400 dark:text-slate-500" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Footer */}
+            <div className="p-3 border-t border-slate-200 dark:border-slate-700 mt-auto">
+              <p className="text-xs text-center text-slate-500 dark:text-slate-400">
+                © {currentYear} React Lab
+              </p>
+            </div>
+          </BaseDialog.Popup>
+        </BaseDialog.Portal>
+      </BaseDialog.Root>
     </>
   );
 };
