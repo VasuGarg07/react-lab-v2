@@ -1,10 +1,11 @@
 import { areaList, categoryList, random as surpriseMeal } from '@/apps/QuickByte/utils/recipe.api';
 import { ALPHABETS, TABS } from '@/apps/QuickByte/utils/recipe.helpers';
-import { Accordion } from '@/ui/Accordion'; // Import our Accordion component
-import Dialog from '@/ui/Dialog'; // Import the Dialog component
-import { BookA, HandPlatter, Salad, Search, Sparkle, TreePalm } from 'lucide-react';
+import { Accordion } from '@/ui/Accordion';
+import { Dialog as BaseDialog } from '@base-ui-components/react/dialog';
+import { BookA, HandPlatter, Salad, Search, Sparkle, TreePalm, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { cn } from '@/shared/cn';
 
 const DrawerMenu = () => {
   const navigate = useNavigate();
@@ -14,26 +15,23 @@ const DrawerMenu = () => {
   const [areas, setAreas] = useState<string[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
 
-  const openDrawer = () => setOpen(true);
-  const closeDrawer = () => setOpen(false);
-
   const handleRandomRoute = () => {
     surpriseMeal().then(id => {
       navigate(`/recipe-haven/meal/${id}`);
-      closeDrawer();
+      setOpen(false);
     });
   };
 
   const handleSearch = () => {
     if (term) {
       navigate(`/recipe-haven/search/${term}`);
-      closeDrawer();
+      setOpen(false);
     }
   };
 
   const handleRoute = (path: string, key: string) => {
     navigate(`/recipe-haven/${path}/${key.toLowerCase()}`);
-    closeDrawer();
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -58,11 +56,11 @@ const DrawerMenu = () => {
         </div>
       ),
       content: (
-        <div className="flex flex-wrap gap-2 mt-1">
+        <div className="flex flex-wrap gap-2 mt-2">
           {categories.map(category => (
             <button
               key={category}
-              className="px-3 py-1 text-xs bg-white dark:bg-neutral-800 border border-blue-500 text-blue-600 dark:text-blue-400 rounded-md hover:bg-blue-50 dark:hover:bg-neutral-700 transition-colors"
+              className="px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-blue-300 text-blue-600 dark:text-blue-400 rounded-md hover:bg-blue-50 dark:hover:bg-slate-700 transition-colors"
               onClick={() => handleRoute(TABS[0].path, category)}
             >
               {category}
@@ -80,11 +78,11 @@ const DrawerMenu = () => {
         </div>
       ),
       content: (
-        <div className="flex flex-wrap gap-2 mt-1">
+        <div className="flex flex-wrap gap-2 mt-2">
           {areas.map(area => (
             <button
               key={area}
-              className="px-3 py-1 text-xs bg-white dark:bg-neutral-800 border border-red-500 text-red-600 dark:text-red-400 rounded-md hover:bg-red-50 dark:hover:bg-neutral-700 transition-colors"
+              className="px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-red-300 text-red-600 dark:text-red-400 rounded-md hover:bg-red-50 dark:hover:bg-slate-700 transition-colors"
               onClick={() => handleRoute(TABS[1].path, area)}
             >
               {area}
@@ -102,11 +100,11 @@ const DrawerMenu = () => {
         </div>
       ),
       content: (
-        <div className="grid grid-cols-4 gap-2 mt-1">
+        <div className="grid grid-cols-4 gap-2 mt-2">
           {ALPHABETS.map(char => (
             <button
               key={char}
-              className="px-3 py-1 text-xs bg-white dark:bg-neutral-800 border border-green-500 text-green-600 dark:text-green-400 rounded-md hover:bg-green-50 dark:hover:bg-neutral-700 transition-colors"
+              className="px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border border-green-300 text-green-600 dark:text-green-400 rounded-md hover:bg-green-50 dark:hover:bg-slate-700 transition-colors"
               onClick={() => handleRoute(TABS[2].path, char)}
             >
               {char}
@@ -120,59 +118,104 @@ const DrawerMenu = () => {
   return (
     <>
       <button
-        className="flex items-center gap-2 px-4 py-2 mb-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
-        onClick={openDrawer}
+        className={cn(
+          "flex items-center gap-2 px-4 py-2 mb-4 rounded-md transition-colors",
+          "bg-blue-600 hover:bg-blue-700 text-white",
+          "focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+        )}
+        onClick={() => setOpen(true)}
       >
         <HandPlatter size={18} />
         Explore Recipes
       </button>
 
-      <Dialog
-        isOpen={open}
-        onClose={closeDrawer}
-        position="center"
-        size="md"
-        title="Quick Byte"
-        contentClassName="overflow-auto max-w-[400px] max-h-[96vh]"
-      >
-        <div className="flex flex-col p-4 space-y-4">
-          {/* Search Bar */}
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={term}
-              onChange={(e) => setTerm(e.target.value)}
-              className="flex-grow px-3 py-2 text-sm text-neutral-800 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800 rounded-md border border-neutral-200 dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              className="p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-              onClick={handleSearch}
-            >
-              <Search size={18} />
-            </button>
-          </div>
+      <BaseDialog.Root open={open} onOpenChange={setOpen}>
+        <BaseDialog.Portal>
+          <BaseDialog.Backdrop className="fixed inset-0 z-40 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
 
-          {/* Accordions */}
-          <div className="flex-1 overflow-auto">
-            <Accordion
-              items={accordionItems}
-              type="single"
-              defaultValue="categories"
-              collapsible={true}
-            />
-          </div>
-
-          {/* Surprise Me Button */}
-          <button
-            className="flex items-center justify-center gap-2 w-full py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-md transition-colors"
-            onClick={handleRandomRoute}
+          <BaseDialog.Popup
+            className={cn(
+              "fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
+              "w-full max-w-md max-h-[90vh] flex flex-col rounded-lg border",
+              "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-lg",
+              "data-[state=open]:animate-in data-[state=closed]:animate-out",
+              "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+              "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+              "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
+              "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+              "duration-200 mx-4 sm:mx-0"
+            )}
           >
-            <Sparkle size={18} />
-            Surprise Me!
-          </button>
-        </div>
-      </Dialog>
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700 flex-shrink-0">
+              <BaseDialog.Title className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                Quick Byte
+              </BaseDialog.Title>
+              <BaseDialog.Close
+                className="rounded-md p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors"
+                aria-label="Close"
+              >
+                <X size={16} />
+              </BaseDialog.Close>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-auto p-4 min-h-0">
+              <div className="space-y-4">
+                {/* Search Bar */}
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Search recipes..."
+                    value={term}
+                    onChange={(e) => setTerm(e.target.value)}
+                    className={cn(
+                      "flex-1 px-3 py-2 text-sm rounded-md border transition-colors",
+                      "bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100",
+                      "border-slate-300 dark:border-slate-600",
+                      "focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    )}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  />
+                  <button
+                    className={cn(
+                      "p-2 rounded-md transition-colors",
+                      "bg-blue-600 hover:bg-blue-700 text-white",
+                      "focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    )}
+                    onClick={handleSearch}
+                  >
+                    <Search size={16} />
+                  </button>
+                </div>
+
+                {/* Accordions */}
+                <div className="space-y-2">
+                  <Accordion
+                    items={accordionItems}
+                    type="single"
+                    defaultValue="categories"
+                    collapsible={true}
+                  />
+                </div>
+
+                {/* Surprise Me Button */}
+                <button
+                  className={cn(
+                    "flex items-center justify-center gap-2 w-full py-2.5 rounded-md transition-colors",
+                    "bg-amber-500 hover:bg-amber-600 text-white",
+                    "focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                  )}
+                  onClick={handleRandomRoute}
+                >
+                  <Sparkle size={16} />
+                  Surprise Me!
+                </button>
+              </div>
+            </div>
+          </BaseDialog.Popup>
+        </BaseDialog.Portal>
+      </BaseDialog.Root>
     </>
   );
 };

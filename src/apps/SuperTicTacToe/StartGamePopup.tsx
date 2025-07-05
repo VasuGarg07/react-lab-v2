@@ -10,12 +10,11 @@ interface StartGamePopupProps {
 const StartGamePopup: React.FC<StartGamePopupProps> = ({ isOpen, onStart }) => {
     return (
         <Dialog
-            isOpen={isOpen}
+            open={isOpen}
             onClose={onStart}
             title="Game Instructions"
             size="md"
-            position="center"
-            contentClassName="p-0 overflow-hidden"
+            className="p-0 overflow-hidden"
         >
 
             {/* Description */}

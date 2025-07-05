@@ -10,11 +10,19 @@ interface StepperProps {
 
 const Stepper: React.FC<StepperProps> = ({ steps, activeStep, onStepClick }) => {
     return (
-        <div className="flex items-center justify-between mb-6 overflow-x-auto pb-2">
+        <div
+            className="flex items-center justify-between mb-6 overflow-x-auto pb-2"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={steps.length - 1}
+            aria-valuenow={activeStep}
+            aria-label={`Step ${activeStep + 1} of ${steps.length}: ${steps[activeStep]?.label}`}
+        >
             {steps.map((step, index) => {
                 // Determine step status
                 const isActive = index === activeStep;
                 const isCompleted = index < activeStep;
+                const isClickable = onStepClick && (isCompleted || index <= activeStep + 1);
 
                 // Conditionally add the connector line between steps
                 const hasConnector = index < steps.length - 1;
@@ -24,9 +32,19 @@ const Stepper: React.FC<StepperProps> = ({ steps, activeStep, onStepClick }) => 
                         <div
                             className={cn(
                                 "flex flex-col items-center flex-shrink-0 mt-2",
-                                onStepClick ? "cursor-pointer" : ""
+                                isClickable ? "cursor-pointer" : ""
                             )}
-                            onClick={() => onStepClick?.(index)}
+                            onClick={() => isClickable && onStepClick?.(index)}
+                            role="button"
+                            tabIndex={isClickable ? 0 : -1}
+                            aria-current={isActive ? "step" : undefined}
+                            aria-label={`${isCompleted ? 'Completed' : isActive ? 'Current' : 'Upcoming'} step ${index + 1}: ${step.label}`}
+                            onKeyDown={(e) => {
+                                if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+                                    e.preventDefault();
+                                    onStepClick?.(index);
+                                }
+                            }}
                         >
                             {/* Step indicator */}
                             <div
@@ -36,7 +54,8 @@ const Stepper: React.FC<StepperProps> = ({ steps, activeStep, onStepClick }) => 
                                         ? "border-blue-500 bg-blue-500 text-white scale-110 shadow-md"
                                         : isCompleted
                                             ? "border-green-500 bg-green-500 text-white"
-                                            : "border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800"
+                                            : "border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800",
+                                    isClickable && "hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                 )}
                             >
                                 {isCompleted ? <Check className="w-4 h-4" /> : <span className="text-sm">{index + 1}</span>}
@@ -61,11 +80,12 @@ const Stepper: React.FC<StepperProps> = ({ steps, activeStep, onStepClick }) => 
                         {hasConnector && (
                             <div
                                 className={cn(
-                                    "flex-grow h-px mx-1",
+                                    "flex-grow h-px mx-1 transition-colors duration-300",
                                     index < activeStep
                                         ? "bg-green-500 dark:bg-green-500"
                                         : "bg-gray-300 dark:bg-gray-600"
                                 )}
+                                aria-hidden="true"
                             />
                         )}
                     </React.Fragment>

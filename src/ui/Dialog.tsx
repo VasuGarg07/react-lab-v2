@@ -1,188 +1,100 @@
-import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
-import { Dialog as RadixDialog } from 'radix-ui';
+import { Dialog as BaseDialog } from '@base-ui-components/react/dialog';
 import React, { ReactNode } from 'react';
+import { cn } from '@/shared/cn';
 
-type DialogPosition =
-    | 'left'
-    | 'right'
-    | 'center'
-    | 'top'
-    | 'bottom'
-    | 'top-left'
-    | 'top-right'
-    | 'bottom-left'
-    | 'bottom-right';
-
-type DialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+type DialogSize = 'sm' | 'md' | 'lg' | 'xl';
 
 interface DialogProps {
-    isOpen: boolean;
-    onClose: () => void;
+    open: boolean;
+    onClose: (open: boolean) => void;
     children: ReactNode;
-    position?: DialogPosition;
     size?: DialogSize;
-    showCloseButton?: boolean;
     title?: string;
-    overlayClassName?: string;
-    contentClassName?: string;
-    hideBackdrop?: boolean;
-    closeOnClickOutside?: boolean;
+    showCloseButton?: boolean;
+    className?: string;
 }
 
 export const Dialog: React.FC<DialogProps> = ({
-    isOpen,
+    open,
     onClose,
     children,
-    position = 'center',
     size = 'md',
-    showCloseButton = true,
     title,
-    overlayClassName = '',
-    contentClassName = '',
-    hideBackdrop = false,
-    closeOnClickOutside = true,
+    showCloseButton = true,
+    className,
 }) => {
-    // Size classes mapping
+    // Simplified size classes
     const sizeClasses = {
-        xs: 'max-w-xs',
         sm: 'max-w-sm',
         md: 'max-w-md',
         lg: 'max-w-lg',
         xl: 'max-w-xl',
-        full: 'w-full h-full',
     };
-
-    // Position classes and animations mapping
-    const positionConfig: Record<DialogPosition, {
-        containerClass: string,
-        initial: any,
-        animate: any,
-        exit: any,
-        transition: any
-    }> = {
-        left: {
-            containerClass: 'fixed inset-y-0 left-0 p-4 flex items-center justify-start',
-            initial: { x: -320, opacity: 0 },
-            animate: { x: 0, opacity: 1 },
-            exit: { x: -320, opacity: 0 },
-            transition: { type: 'spring', damping: 26, stiffness: 300 }
-        },
-        right: {
-            containerClass: 'fixed inset-y-0 right-0 p-4 flex items-center justify-end',
-            initial: { x: 320, opacity: 0 },
-            animate: { x: 0, opacity: 1 },
-            exit: { x: 320, opacity: 0 },
-            transition: { type: 'spring', damping: 26, stiffness: 300 }
-        },
-        center: {
-            containerClass: 'fixed inset-0 p-4 flex items-center justify-center',
-            initial: { scale: 0.95, opacity: 0 },
-            animate: { scale: 1, opacity: 1 },
-            exit: { scale: 0.95, opacity: 0 },
-            transition: { type: 'spring', damping: 30, stiffness: 400 }
-        },
-        top: {
-            containerClass: 'fixed inset-x-0 top-0 p-4 flex items-start justify-center',
-            initial: { y: -100, opacity: 0 },
-            animate: { y: 0, opacity: 1 },
-            exit: { y: -100, opacity: 0 },
-            transition: { type: 'spring', damping: 26, stiffness: 300 }
-        },
-        bottom: {
-            containerClass: 'fixed inset-x-0 bottom-0 p-4 flex items-end justify-center',
-            initial: { y: 100, opacity: 0 },
-            animate: { y: 0, opacity: 1 },
-            exit: { y: 100, opacity: 0 },
-            transition: { type: 'spring', damping: 26, stiffness: 300 }
-        },
-        'top-left': {
-            containerClass: 'fixed top-0 left-0 p-4 flex items-start justify-start',
-            initial: { x: -100, y: -100, opacity: 0 },
-            animate: { x: 0, y: 0, opacity: 1 },
-            exit: { x: -100, y: -100, opacity: 0 },
-            transition: { type: 'spring', damping: 26, stiffness: 300 }
-        },
-        'top-right': {
-            containerClass: 'fixed top-0 right-0 p-4 flex items-start justify-end',
-            initial: { x: 100, y: -100, opacity: 0 },
-            animate: { x: 0, y: 0, opacity: 1 },
-            exit: { x: 100, y: -100, opacity: 0 },
-            transition: { type: 'spring', damping: 26, stiffness: 300 }
-        },
-        'bottom-left': {
-            containerClass: 'fixed bottom-0 left-0 p-4 flex items-end justify-start',
-            initial: { x: -100, y: 100, opacity: 0 },
-            animate: { x: 0, y: 0, opacity: 1 },
-            exit: { x: -100, y: 100, opacity: 0 },
-            transition: { type: 'spring', damping: 26, stiffness: 300 }
-        },
-        'bottom-right': {
-            containerClass: 'fixed bottom-0 right-0 p-4 flex items-end justify-end',
-            initial: { x: 100, y: 100, opacity: 0 },
-            animate: { x: 0, y: 0, opacity: 1 },
-            exit: { x: 100, y: 100, opacity: 0 },
-            transition: { type: 'spring', damping: 26, stiffness: 300 }
-        }
-    };
-
-    // Get position configuration
-    const { containerClass, initial, animate, exit, transition } = positionConfig[position];
 
     return (
-        <RadixDialog.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <RadixDialog.Portal>
-                {!hideBackdrop && (
-                    <RadixDialog.Overlay asChild>
-                        <motion.div
-                            className={`fixed inset-0 z-40 bg-black/20 backdrop-blur-sm dark:bg-black/40 ${overlayClassName}`}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            onClick={closeOnClickOutside ? onClose : undefined}
-                        />
-                    </RadixDialog.Overlay>
-                )}
+        <BaseDialog.Root open={open} onOpenChange={onClose}>
+            <BaseDialog.Portal>
+                <BaseDialog.Backdrop
+                    className="fixed inset-0 z-40 bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+                />
 
-                <RadixDialog.Content asChild>
-                    <motion.div
-                        className={`z-50 ${containerClass}`}
-                        initial={initial}
-                        animate={animate}
-                        exit={exit}
-                        transition={transition}
-                    >
-                        <div className={`bg-white/90 dark:bg-[#111827]/95 backdrop-blur-xl rounded-xl border border-neutral-200/50 dark:border-neutral-800/50 shadow-[0_0_15px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col ${sizeClasses[size]} ${contentClassName}`}>
-                            {(title || showCloseButton) && (
-                                <div className="px-4 py-3 flex items-center justify-between shrink-0">
-                                    {title && (
-                                        <RadixDialog.Title className="text-base font-semibold text-neutral-900 dark:text-white">
-                                            {title}
-                                        </RadixDialog.Title>
-                                    )}
-                                    {showCloseButton && (
-                                        <RadixDialog.Close asChild>
-                                            <button
-                                                className="p-1 rounded-md text-neutral-500 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800/70 transition-colors"
-                                                aria-label="Close"
-                                            >
-                                                <X size={16} />
-                                            </button>
-                                        </RadixDialog.Close>
-                                    )}
-                                </div>
+                <BaseDialog.Popup
+                    className={cn(
+                        // Base positioning and z-index
+                        "fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
+
+                        // Size and layout - flex column for proper height distribution
+                        "w-full max-h-[85vh] flex flex-col rounded-lg border",
+                        sizeClasses[size],
+
+                        // Colors and styling
+                        "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm",
+
+                        // Animations
+                        "data-[state=open]:animate-in data-[state=closed]:animate-out",
+                        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+                        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+                        "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
+                        "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+                        "duration-200",
+
+                        // Mobile responsive
+                        "mx-4 sm:mx-0",
+
+                        className
+                    )}
+                >
+                    {/* Header */}
+                    {(title || showCloseButton) && (
+                        <div className="flex items-center justify-between p-2 border-b border-slate-200 dark:border-slate-700 flex-shrink-0">
+                            {title && (
+                                <BaseDialog.Title className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                                    {title}
+                                </BaseDialog.Title>
                             )}
-
-                            <div className="flex-1 overflow-auto scrollbar-thin flex flex-col min-h-0">
-                                {children}
-                            </div>
+                            {showCloseButton && (
+                                <BaseDialog.Close
+                                    className="rounded-md p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-colors"
+                                    aria-label="Close"
+                                >
+                                    <X size={16} />
+                                </BaseDialog.Close>
+                            )}
                         </div>
-                    </motion.div>
-                </RadixDialog.Content>
-            </RadixDialog.Portal>
-        </RadixDialog.Root>
+                    )}
+
+                    {/* Content */}
+                    <div className="flex-1 overflow-auto min-h-0">
+                        {children}
+                    </div>
+                </BaseDialog.Popup>
+            </BaseDialog.Portal>
+        </BaseDialog.Root>
     );
 };
+
+// Trigger component for external use
+export const DialogTrigger = BaseDialog.Trigger;
 
 export default Dialog;

@@ -29,31 +29,30 @@ const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
         },
         ref
     ) => {
-        // Handle variant styles
+        // Handle variant styles - minimal approach
         const variantStyles = {
-            primary: 'bg-primary-600 hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600 text-white shadow-md hover:shadow-lg',
-            secondary: 'bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600 text-neutral-800 dark:text-neutral-200',
-            outline: 'bg-transparent border border-primary-600 hover:bg-primary-50 text-primary-600 dark:border-primary-500 dark:text-primary-500 dark:hover:bg-primary-900/20',
-            ghost: 'bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-700 dark:text-neutral-300',
+            primary: 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white',
+            secondary: 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-slate-100',
+            outline: 'bg-transparent border border-slate-300 hover:bg-slate-50 text-slate-700 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800',
+            ghost: 'bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300',
         };
 
-        // Handle size styles
+        // Handle size styles - simplified
         const sizeStyles = {
-            xs: 'py-1 px-2 text-xs',
-            sm: 'py-1.5 px-3 text-xs',
-            md: 'py-2 px-4 text-sm',
-            lg: 'py-2.5 px-5 text-base',
+            xs: 'h-7 px-2 text-xs',
+            sm: 'h-8 px-3 text-xs',
+            md: 'h-9 px-4 text-sm',
+            lg: 'h-10 px-5 text-sm',
         };
 
-        // Loading spinner
+        // Loading spinner - simplified
         const LoadingSpinner = () => (
             <svg
                 className={cn(
                     'animate-spin',
-                    size === 'xs' || size === 'sm' ? 'h-3.5 w-3.5' : 'h-4 w-4',
+                    size === 'xs' ? 'h-3 w-3' : size === 'sm' ? 'h-3.5 w-3.5' : 'h-4 w-4',
                     iconPosition === 'left' ? 'mr-2' : 'ml-2'
                 )}
-                xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
             >
@@ -64,12 +63,12 @@ const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
                     r="10"
                     stroke="currentColor"
                     strokeWidth="4"
-                ></circle>
+                />
                 <path
                     className="opacity-75"
                     fill="currentColor"
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
+                />
             </svg>
         );
 
@@ -79,11 +78,12 @@ const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
                 type={type}
                 disabled={disabled || isLoading}
                 className={cn(
-                    'font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 flex items-center justify-center',
+                    // Base styles - minimal
+                    'font-medium rounded-md transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500/20 flex items-center justify-center',
                     variantStyles[variant],
                     sizeStyles[size],
                     fullWidth ? 'w-full' : '',
-                    (disabled || isLoading) && 'opacity-60 cursor-not-allowed',
+                    (disabled || isLoading) && 'opacity-50 cursor-not-allowed',
                     className
                 )}
                 {...props}

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, memo } from 'react';
-import { Slider as RadixSlider } from 'radix-ui';
+import { Slider as BaseSlider } from '@base-ui-components/react/slider';
 import { cn } from '@/shared/cn';
 
 // Interface for slider marks
@@ -41,8 +41,9 @@ const Slider: React.FC<CustomSliderProps> = memo(({
     const percentage = ((value - min) / (max - min)) * 100;
 
     // Use useCallback to memoize the handler function
-    const handleChange = useCallback((newValue: number[]) => {
-        onChange(newValue[0]);
+    const handleChange = useCallback((newValue: number | number[]) => {
+        const val = Array.isArray(newValue) ? newValue[0] : newValue;
+        onChange(val);
     }, [onChange]);
 
     // Convert bg-color class to text-color class for the hovered mark
@@ -68,33 +69,36 @@ const Slider: React.FC<CustomSliderProps> = memo(({
                 onTouchStart={() => setShowTooltip(true)}
                 onTouchEnd={() => setTimeout(() => setShowTooltip(false), 1000)}
             >
-                <RadixSlider.Root
-                    value={[value]}
+                <BaseSlider.Root
+                    value={value}
                     min={min}
                     max={max}
                     step={step}
                     onValueChange={handleChange}
                     className="relative flex items-center select-none touch-none w-full h-5"
+                    aria-label={label}
                 >
-                    <RadixSlider.SliderTrack className={`${secondaryColor} relative grow rounded-full h-[3px]`}>
-                        <RadixSlider.SliderRange className={`absolute ${primaryColor} rounded-full h-full`} />
-                    </RadixSlider.SliderTrack>
-                    <RadixSlider.SliderThumb
-                        className="block w-5 h-5 bg-white dark:bg-neutral-100 shadow-md rounded-full border border-neutral-200 dark:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-transform hover:scale-110 active:scale-105"
-                        aria-label={label}
-                    />
+                    <BaseSlider.Control className="relative flex items-center w-full h-5">
+                        <BaseSlider.Track className={`${secondaryColor} relative grow rounded-full h-[3px]`}>
+                            <BaseSlider.Indicator className={`absolute ${primaryColor} rounded-full h-full`} />
+                            <BaseSlider.Thumb
+                                className="block w-5 h-5 bg-white dark:bg-neutral-100 shadow-md rounded-full border border-neutral-200 dark:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-transform hover:scale-110 active:scale-105 data-[dragging]:scale-105"
+                                aria-label={label}
+                            />
+                        </BaseSlider.Track>
+                    </BaseSlider.Control>
 
                     {/* Tooltip */}
                     {showTooltip && (
                         <div
-                            className={`absolute bottom-full mb-2 left-0 transform -translate-x-1/2 ${primaryColor} text-white rounded-md px-2 py-1 text-xs font-medium min-w-max pointer-events-none`}
+                            className={`absolute bottom-full mb-2 left-0 transform -translate-x-1/2 ${primaryColor} text-white rounded-md px-2 py-1 text-xs font-medium min-w-max pointer-events-none z-10`}
                             style={{ left: `${percentage}%` }}
                         >
                             {format(value)}
                             <div className={`absolute w-2 h-2 ${primaryColor} transform rotate-45 left-1/2 -ml-1 -bottom-1`}></div>
                         </div>
                     )}
-                </RadixSlider.Root>
+                </BaseSlider.Root>
             </div>
 
             {/* Mark labels */}
