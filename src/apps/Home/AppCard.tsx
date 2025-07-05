@@ -36,7 +36,7 @@ export const AppCard: React.FC<AppInfo> = ({ name, tag, path, image, description
           className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-colors duration-300" />
+        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50" />
       </div>
 
       {/* Content Overlay */}

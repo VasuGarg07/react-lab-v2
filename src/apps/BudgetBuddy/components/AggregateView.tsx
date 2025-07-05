@@ -49,7 +49,7 @@ export const AggregateView: React.FC<AggregateViewProps> = ({
                 rounded-2xl shadow-xl overflow-hidden p-4 sm:p-6
                 bg-white/60 dark:bg-zinc-900/60 
                 backdrop-blur-md border border-zinc-200 dark:border-zinc-700
-                transition-colors duration-300
+               
             `}
             style={{
                 boxShadow: `

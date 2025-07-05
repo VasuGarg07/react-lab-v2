@@ -12,7 +12,7 @@ function ToastList() {
   const { toasts } = Toast.useToastManager();
 
   const getToastClassName = (type: ToastType) => {
-    const baseClasses = "flex items-center px-3 py-2 rounded-md shadow-sm min-w-[320px] max-w-sm";
+    const baseClasses = "flex items-center px-4 py-3 rounded-md shadow-sm min-w-[320px] max-w-sm";
     switch (type) {
       case 'success':
         return `${baseClasses} bg-green-500 text-white`;

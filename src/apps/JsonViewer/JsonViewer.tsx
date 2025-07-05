@@ -4,7 +4,6 @@ import Breadcrumb from './BreadCrumb';
 import { JsonValue } from './json.helper';
 import TreeNode from './TreeNode';
 
-const JsonParserWorker = new URL('./jsonParser.worker.ts', import.meta.url);
 const MAX_FILE_SIZE_MB = 2; // Limit to 2MB
 
 
@@ -59,33 +58,19 @@ const JsonTreeViewer: React.FC = () => {
 
         setIsLoading(true);
 
-        const worker = new Worker(JsonParserWorker, { type: 'module' });
-        console.time("json-parse-worker");
-        worker.postMessage(input);
-
-        worker.onmessage = (e) => {
-            console.timeEnd("json-parse-worker");
-            const { success, data, error } = e.data;
-            if (success) {
-                setParsedJson(data);
-                setCurrentPath([]);
-                setError(null);
-                setActiveView('view');
-            } else {
-                setParsedJson(null);
-                setError(error);
-            }
-            setIsLoading(false);
-            worker.terminate(); // Clean up
-        };
-
-        worker.onerror = () => {
-            console.timeEnd("json-parse-worker"); // ⏱️ Stop even on error
+        try {
+            const data = JSON.parse(input);
+            setParsedJson(data);
+            setCurrentPath([]);
+            setError(null);
+            setActiveView('view');
+        } catch (error) {
             setParsedJson(null);
-            setError('Worker error');
+            console.error(error)
+            setError("Something Went Wrong!");
+        } finally {
             setIsLoading(false);
-            worker.terminate();
-        };
+        }
     };
 
     const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {

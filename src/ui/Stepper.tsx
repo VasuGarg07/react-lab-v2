@@ -64,7 +64,7 @@ const Stepper: React.FC<StepperProps> = ({ steps, activeStep, onStepClick }) => 
                             {/* Step label */}
                             <span
                                 className={cn(
-                                    "text-xs mt-2 text-center font-medium transition-colors duration-300",
+                                    "text-xs mt-2 text-center font-medium",
                                     isActive
                                         ? "text-blue-600 dark:text-blue-400"
                                         : isCompleted
@@ -80,7 +80,7 @@ const Stepper: React.FC<StepperProps> = ({ steps, activeStep, onStepClick }) => 
                         {hasConnector && (
                             <div
                                 className={cn(
-                                    "flex-grow h-px mx-1 transition-colors duration-300",
+                                    "flex-grow h-px mx-1",
                                     index < activeStep
                                         ? "bg-green-500 dark:bg-green-500"
                                         : "bg-gray-300 dark:bg-gray-600"

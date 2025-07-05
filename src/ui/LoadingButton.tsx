@@ -79,7 +79,7 @@ const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(
                 disabled={disabled || isLoading}
                 className={cn(
                     // Base styles - minimal
-                    'font-medium rounded-md transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500/20 flex items-center justify-center',
+                    'font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500/20 flex items-center justify-center',
                     variantStyles[variant],
                     sizeStyles[size],
                     fullWidth ? 'w-full' : '',

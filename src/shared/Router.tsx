@@ -10,6 +10,11 @@ import HomePage from "@/apps/BudgetBuddy/pages/Homepage";
 import Overview from "@/apps/BudgetBuddy/pages/Overview";
 import Statistics from "@/apps/BudgetBuddy/pages/Statistics";
 import Timeline from "@/apps/BudgetBuddy/pages/Timeline";
+import FormReview from "@/apps/FormBuilder/pages/FormReview";
+import Formlyst from "@/apps/FormBuilder/Formlyst";
+import FormBuilder from "@/apps/FormBuilder/pages/FormBuilder";
+import FormDashboard from "@/apps/FormBuilder/pages/FormDashboard";
+import FormPublic from "@/apps/FormBuilder/pages/FormPublic";
 import Home from "@/apps/Home/Home";
 import HomeloanWizard from "@/apps/HomeloanWizard/HomeloanWizard";
 import { LoanProvider } from "@/apps/HomeloanWizard/LoanContext";
@@ -40,6 +45,7 @@ import Login from "@/auth/Login";
 import Register from "@/auth/Register";
 import Navbar from "@/components/Navbar";
 import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from "react-router";
+import FormResponses from "@/apps/FormBuilder/pages/FormResponses";
 
 const Layout: React.FC = () => (
   <>
@@ -55,6 +61,18 @@ const routes = [
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
+      {
+        path: 'formlyst',
+        element: <Formlyst />,
+        children: [
+          { index: true, element: <FormDashboard /> },
+          { path: 'builder', element: <FormBuilder /> },
+          { path: 'builder/:formId', element: <FormBuilder /> },
+          { path: ':formId/responses', element: <FormResponses /> }
+        ]
+      },
+      { path: 'formlyst-public/:shareUrl', element: <FormPublic /> },
+      { path: 'formlyst-public/:shareUrl/review', element: <FormReview /> },
       {
         path: 'auth',
         element: <AuthWrapper />,

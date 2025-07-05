@@ -1,4 +1,4 @@
-import { BarChart2, Feather, FileJson, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
+import { BarChart2, Feather, FileJson, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, StickyNote, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
 import BattleSim from '/cover/battle-sim2.webp';
 import Blogger from '/cover/blogger.webp';
 import Budget from '/cover/budget.webp';
@@ -12,6 +12,7 @@ import Quiz from '/cover/quiz.webp';
 import Sudoku from '/cover/sudoku.webp';
 import TicTacToe from '/cover/tictactoe.webp';
 import Visualizer from '/cover/visualizer.webp';
+import Form from '/cover/formlyst.png';
 
 export interface AppInfo {
   name: string;
@@ -25,6 +26,16 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  {
+    name: 'Formlyst',
+    path: '/formlyst',
+    tag: "Craft Structured Forms",
+    image: Form,
+    visible: true,
+    description: "Visually build structured, multi-step forms with nested sections, smart fields, and real-time validation — all shareable via a single link.",
+    techStack: ['Multi-Step Builder', 'Live Validation', 'Dynamic-Driven UI'],
+    icon: StickyNote
+  },
   {
     name: 'JSON Visualizer',
     path: '/json',
