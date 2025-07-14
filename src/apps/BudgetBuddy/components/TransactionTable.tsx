@@ -48,7 +48,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => 
                     {transactions.map((transaction) => (
                         <tr
                             key={transaction.id}
-                            className="hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors duration-150"
+                            className="hover:bg-gray-50 dark:hover:bg-zinc-800"
                         >
                             <td className="p-3 text-sm text-gray-800 dark:text-gray-200 truncate">
                                 {transaction.title}

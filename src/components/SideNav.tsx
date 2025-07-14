@@ -20,7 +20,7 @@ const SideNav = () => {
       <button
         onClick={() => setIsOpen(true)}
         className={cn(
-          "p-2 rounded-md transition-colors",
+          "p-2 rounded-md",
           "text-slate-700 dark:text-slate-300",
           "hover:bg-slate-100 dark:hover:bg-slate-800",
           "focus:outline-none focus:ring-2 focus:ring-blue-500/20"
@@ -51,7 +51,7 @@ const SideNav = () => {
               </BaseDialog.Title>
               <BaseDialog.Close
                 className={cn(
-                  "p-1.5 rounded-md transition-colors",
+                  "p-1.5 rounded-md",
                   "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200",
                   "hover:bg-slate-100 dark:hover:bg-slate-800"
                 )}
@@ -69,7 +69,7 @@ const SideNav = () => {
                   <button
                     onClick={() => handleRouting('/')}
                     className={cn(
-                      "w-full flex items-center gap-2 p-2 rounded-md text-sm font-medium transition-colors",
+                      "w-full flex items-center gap-2 p-2 rounded-md text-sm font-medium",
                       "text-slate-700 dark:text-slate-300",
                       "hover:bg-slate-100 dark:hover:bg-slate-800",
                       "focus:outline-none focus:bg-slate-100 dark:focus:bg-slate-800"
@@ -87,7 +87,7 @@ const SideNav = () => {
                     <button
                       onClick={() => handleRouting(app.path)}
                       className={cn(
-                        "w-full flex items-center gap-2 p-2 rounded-md text-sm font-medium transition-colors",
+                        "w-full flex items-center gap-2 p-2 rounded-md text-sm font-medium",
                         "text-slate-700 dark:text-slate-300",
                         "hover:bg-slate-100 dark:hover:bg-slate-800",
                         "focus:outline-none focus:bg-slate-100 dark:focus:bg-slate-800"

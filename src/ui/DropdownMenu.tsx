@@ -56,7 +56,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
                                     "focus:bg-slate-100 dark:focus:bg-slate-700",
                                     "data-[disabled]:opacity-50 data-[disabled]:cursor-not-allowed",
                                     // Variant styles
-                                    item.variant === 'default' && "text-slate-700 dark:text-slate-200",
+                                    "text-slate-700 dark:text-slate-200",
                                     item.variant === 'warning' && "text-amber-600 dark:text-amber-400",
                                     item.variant === 'danger' && "text-red-600 dark:text-red-400"
                                 )}

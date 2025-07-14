@@ -54,7 +54,7 @@ const FormField = forwardRef<HTMLInputElement, FormFieldProps & React.InputHTMLA
                             placeholder={placeholder}
                             required={required}
                             className={cn(
-                                "w-full py-2.5 text-sm rounded-md border transition-colors",
+                                "w-full py-2.5 text-sm rounded-md border",
                                 "bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100",
                                 "placeholder:text-slate-400",
                                 "focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500",

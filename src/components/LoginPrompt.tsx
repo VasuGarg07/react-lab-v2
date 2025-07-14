@@ -20,7 +20,7 @@ const LoginPrompt = ({ title, caption, image }: LoginPromptProps) => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-indigo-500 via-purple-400 to-blue-300 dark:from-indigo-800 dark:via-violet-600 dark:to-pink-400 text-transparent bg-clip-text"
+                        className="text-4xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-indigo-500 via-purple-400 to-blue-300 dark:from-indigo-800 dark:via-violet-600 dark:to-pink-400 text-transparent bg-clip-text"
                     >
                         {title}
                     </motion.h1>
