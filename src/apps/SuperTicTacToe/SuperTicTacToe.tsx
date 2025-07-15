@@ -10,6 +10,7 @@ import {
     makeRandomMove,
     TIMEOUT
 } from '@/apps/SuperTicTacToe/tictactoe.helpers';
+import SmallScreenBanner from '@/components/SmallScreenBanner';
 import React, { useEffect, useRef, useState } from 'react';
 
 const SuperTicTacToe: React.FC = () => {
@@ -135,10 +136,11 @@ const SuperTicTacToe: React.FC = () => {
     };
 
     return (
-        <div className="relative w-full max-w-7xl mx-auto p-4 md:p-6 flex items-center justify-center">
+        <div className="relative w-full max-w-7xl mx-auto p-4 md:p-6">
             <StartGamePopup isOpen={!gameStarted} onStart={handleStartGame} />
 
             <div className="flex flex-col lg:flex-row gap-6 justify-center items-center lg:items-start">
+                <SmallScreenBanner />
                 {/* Game board */}
                 <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl">
                     <div className="bg-gradient-to-br from-emarald-300 via-green-200 to-lime-100 dark:from-blue-950/70 dark:via-indigo-950/70 dark:to-purple-950/70 backdrop-blur-md rounded-3xl p-5 shadow-lg border border-indigo-100/50 dark:border-indigo-800/30">

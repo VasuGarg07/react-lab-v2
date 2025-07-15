@@ -47,7 +47,7 @@ const QuestionCard = ({
   };
 
   return (
-    <div className="flex flex-col mt-4 p-5 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-sm flex-grow">
+    <div className="flex flex-col p-5 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-sm flex-grow">
       <h3 className="text-xl font-semibold tracking-wide text-neutral-800 dark:text-neutral-200">
         Question {currQues + 1}
       </h3>

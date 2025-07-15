@@ -43,7 +43,7 @@ const Setup: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full p-4 space-y-5">
+    <div className="flex flex-col items-center justify-center h-full space-y-5">
       <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200 mb-6">
         Quiz Settings
       </h2>

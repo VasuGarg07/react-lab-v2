@@ -1,21 +1,21 @@
-import React from 'react';
+import { cn } from '@/shared/cn';
+import DropdownMenu from '@/ui/DropdownMenu';
 import {
     Calendar,
     Copy,
     Download,
     Edit3,
     Eye,
-    MoreHorizontal,
+    MoreVertical,
     Share2,
     ToggleLeft,
     ToggleRight,
     Trash2,
     Users
 } from 'lucide-react';
+import React from 'react';
 import { Form } from '../../helpers/fb.types';
 import { FileUtils } from '../../helpers/fb.utils';
-import { cn } from '@/shared/cn';
-import DropdownMenu from '@/ui/DropdownMenu';
 
 interface FormCardProps {
     form: Form;
@@ -97,8 +97,8 @@ const FormCard: React.FC<FormCardProps> = ({
 
                 <DropdownMenu
                     trigger={
-                        <button className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
-                            <MoreHorizontal className="w-4 h-4" />
+                        <button className="p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                            <MoreVertical className="w-4 h-4" />
                         </button>
                     }
                     items={dropdownItems}
