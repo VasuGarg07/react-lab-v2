@@ -27,23 +27,21 @@ const JsonTreeViewer: React.FC = () => {
         }
     };
 
-    // Navigate through the JSON based on current path
     const getCurrentJson = (): JsonValue | null => {
         if (!parsedJson) return null;
 
         let current: JsonValue = parsedJson;
         for (const segment of currentPath) {
             if (typeof current === 'object' && current !== null) {
-                // Handle array indices
                 if (Array.isArray(current) && !isNaN(Number(segment))) {
                     current = current[Number(segment)];
                 } else if (!Array.isArray(current) && segment in current) {
                     current = current[segment];
                 } else {
-                    return null; // Path not found
+                    return null;
                 }
             } else {
-                return null; // Can't navigate further
+                return null;
             }
         }
         return current;
@@ -77,7 +75,6 @@ const JsonTreeViewer: React.FC = () => {
         const file = event.target.files?.[0];
         if (!file) return;
 
-        // 1. File size validation
         const fileSizeMB = file.size / (1024 * 1024);
         if (fileSizeMB > MAX_FILE_SIZE_MB) {
             setError(`File too large. Max allowed size is ${MAX_FILE_SIZE_MB}MB. Your file is ${fileSizeMB.toFixed(2)}MB.`);
@@ -103,9 +100,10 @@ const JsonTreeViewer: React.FC = () => {
     const currentJson = getCurrentJson();
 
     return (
-        <div className="w-full h-full flex flex-col relative p-6 min-h-[calc(100vh-54px)]">
-            <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-lg font-semibold text-gray-800 dark:text-white">JSON Tree Viewer</h2>
+        <div className="w-full h-full flex flex-col relative p-3 sm:p-6 min-h-screen max-w-7xl mx-auto">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 border-b border-gray-200 dark:border-gray-700 gap-3">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white">JSON Tree Viewer</h2>
                 <div className="flex items-center space-x-2">
                     <button
                         onClick={() => setActiveView('input')}
@@ -122,25 +120,30 @@ const JsonTreeViewer: React.FC = () => {
                             ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
                             : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                             }`}
-                        disabled={!jsonString.trim() || isLoading}>
+                        disabled={!jsonString.trim() || isLoading}
+                    >
                         View
                     </button>
                 </div>
             </div>
 
+            {/* Error Message */}
             {error && (
-                <div className="bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-800 text-sm text-red-700 dark:text-red-400 px-4 py-2 rounded-xl my-2 mx-auto">
+                <div className="bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-800 text-sm text-red-700 dark:text-red-400 px-4 py-2 rounded-xl my-2">
                     {error}
                 </div>
             )}
 
+            {/* Main Content */}
             {activeView === 'input' ? (
-                <div className="p-4 flex flex-col flex-1">
-                    <div className="flex flex-1 gap-4 mb-4">
-                        <div className="flex-1">
+                <div className="p-2 sm:p-4 flex flex-col flex-1 gap-4">
+                    {/* Input Section - Stack on mobile, side-by-side on desktop */}
+                    <div className="flex flex-col lg:flex-row flex-1 gap-4">
+                        {/* JSON Input */}
+                        <div className="flex-1 flex flex-col min-h-0">
                             <label className="block mb-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">Paste JSON</label>
                             <textarea
-                                className="w-full h-full p-3 border border-gray-300 dark:border-gray-700 rounded-md font-mono text-sm bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent"
+                                className="w-full flex-1 min-h-[200px] lg:min-h-0 p-3 border border-gray-300 dark:border-gray-700 rounded-md font-mono text-sm bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent resize-none"
                                 value={jsonString}
                                 onChange={(e) => setJsonString(e.target.value)}
                                 placeholder='{
@@ -152,13 +155,15 @@ const JsonTreeViewer: React.FC = () => {
                             />
                         </div>
 
-                        <div className="flex items-center justify-center">
-                            <span className="text-gray-500 dark:text-gray-400">OR</span>
+                        {/* OR Divider */}
+                        <div className="flex lg:flex-col items-center justify-center py-2 lg:py-0">
+                            <span className="text-gray-500 dark:text-gray-400 text-sm">OR</span>
                         </div>
 
-                        <div className="flex-1">
+                        {/* File Upload */}
+                        <div className="flex-1 flex flex-col min-h-0">
                             <label className="block mb-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">Upload JSON File</label>
-                            <div className="h-full border border-gray-300 dark:border-gray-700 border-dashed rounded-md flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800">
+                            <div className="flex-1 min-h-[200px] lg:min-h-0 border border-gray-300 dark:border-gray-700 border-dashed rounded-md flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-800">
                                 <UploadCloud size={36} className="text-gray-400 dark:text-gray-500 mb-2" />
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 text-center">Drag & drop a JSON file or click to browse</p>
                                 <label className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-2 px-4 rounded-md cursor-pointer transition-colors text-sm font-medium">
@@ -174,8 +179,9 @@ const JsonTreeViewer: React.FC = () => {
                         </div>
                     </div>
 
+                    {/* Action Button */}
                     {parsedJson && (
-                        <div className="mt-4 pt-2 flex justify-end">
+                        <div className="flex justify-end pt-2">
                             <button
                                 onClick={() => {
                                     if (isLoading) return;
@@ -197,25 +203,28 @@ const JsonTreeViewer: React.FC = () => {
                     )}
                 </div>
             ) : (
-                <div className="flex flex-col flex-1 p-4">
+                <div className="flex flex-col flex-1 p-2 sm:p-4 min-h-0">
                     <Breadcrumb path={currentPath} onNavigate={handleBreadcrumbNavigation} />
 
-                    <div className="bg-white dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700 flex-1 overflow-hidden shadow-sm">
+                    <div className="bg-white dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700 flex-1 overflow-hidden shadow-sm min-h-0">
+                        {/* Tree Header */}
                         <div className="p-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                            <h3 className="font-medium text-gray-800 dark:text-gray-200">
+                            <h3 className="font-medium text-gray-800 dark:text-gray-200 truncate">
                                 {currentPath.length > 0 ? currentPath[currentPath.length - 1] : 'Root'}
                             </h3>
                             {currentPath.length > 0 && (
                                 <button
                                     onClick={() => setCurrentPath(currentPath.slice(0, -1))}
-                                    className="text-blue-600 dark:text-blue-400 flex items-center text-sm"
+                                    className="text-blue-600 dark:text-blue-400 flex items-center text-sm hover:text-blue-800 dark:hover:text-blue-200 transition-colors flex-shrink-0"
                                 >
                                     <ChevronLeft size={14} className="mr-1" />
                                     Back
                                 </button>
                             )}
                         </div>
-                        <div className="overflow-auto h-[calc(100%-3rem)]">
+
+                        {/* Tree Content */}
+                        <div className="overflow-auto flex-1 min-h-0">
                             {isLoading ? (
                                 <div className="flex flex-col items-center justify-center h-full p-4">
                                     <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500 dark:border-blue-400 mb-3"></div>
@@ -245,6 +254,7 @@ const JsonTreeViewer: React.FC = () => {
                         </div>
                     </div>
 
+                    {/* Bottom Action */}
                     <div className="mt-4 flex justify-end">
                         <button
                             onClick={() => setActiveView('input')}

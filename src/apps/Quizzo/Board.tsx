@@ -27,7 +27,7 @@ const Board = () => {
   }, [currQues, questions]);
 
   return (
-    <div className="flex flex-col justify-center items-center h-full p-4 space-y-4">
+    <div className="flex flex-col justify-center items-center h-full space-y-4">
       <h2 className="text-xl capitalize text-neutral-800 dark:text-neutral-100">
         Welcome! {name}
       </h2>

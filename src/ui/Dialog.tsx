@@ -45,7 +45,7 @@ export const Dialog: React.FC<DialogProps> = ({
                         "fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
 
                         // Size and layout - flex column for proper height distribution
-                        "w-full max-h-[85vh] flex flex-col rounded-lg border",
+                        "w-[calc(100%-32px)] max-h-[85vh] flex flex-col rounded-lg border",
                         sizeClasses[size],
 
                         // Colors and styling
@@ -58,9 +58,6 @@ export const Dialog: React.FC<DialogProps> = ({
                         "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
                         "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
                         "duration-200",
-
-                        // Mobile responsive
-                        "mx-4 sm:mx-0",
 
                         className
                     )}
