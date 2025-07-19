@@ -1,4 +1,3 @@
-import BudgetProvider from '@/apps/BudgetBuddy/BudgetContext';
 import BudgetNav from '@/apps/BudgetBuddy/components/BudgetNav';
 import { useAuth } from '@/auth/AuthProvider';
 import LoginPrompt from '@/components/LoginPrompt';
@@ -23,9 +22,7 @@ const BudgetBuddy: React.FC = () => {
 
             {/* Main Content */}
             <main className="flex-grow w-full sm:w-[calc(100%-280px)] min-h-[calc(100vh-116px)] md:min-h-[calc(100vh-54px)] h-auto md:h-[calc(100vh-54px)] overflow-auto pb-16 md:pb-0">
-                <BudgetProvider>
-                    <Outlet />
-                </BudgetProvider>
+                <Outlet />
             </main>
         </div>
     );

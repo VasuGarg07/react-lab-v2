@@ -17,8 +17,7 @@ import FormPublic from "@/apps/FormBuilder/pages/FormPublic";
 import FormResponses from "@/apps/FormBuilder/pages/FormResponses";
 import FormReview from "@/apps/FormBuilder/pages/FormReview";
 import Home from "@/apps/Home/Home";
-import HomeloanWizard from "@/apps/HomeloanWizard/HomeloanWizard";
-import { LoanProvider } from "@/apps/HomeloanWizard/LoanContext";
+import LoanCalculator from "@/apps/HomeloanWizard/LoanCalculator";
 import InvoEase from "@/apps/InvoEase/InvoEase";
 import JsonTreeViewer from "@/apps/JsonViewer/JsonViewer";
 import PokeMemory from "@/apps/PokeMemory/PokeMemory";
@@ -142,7 +141,7 @@ const routes = [
           { path: 'meal/:mealId', element: <Wrapper children={<Details />} />, loader: mealDetails },
         ]
       },
-      { path: 'homeloan-wizard', element: <LoanProvider><HomeloanWizard /></LoanProvider> },
+      { path: 'homeloan-wizard', element: <LoanCalculator /> },
       { path: 'invoease', element: <InvoEase /> },
       { path: 'sorting-visualizer', element: <SortingVisualizer /> },
       { path: 'super-tic-tac-toe', element: <SuperTicTacToe /> },

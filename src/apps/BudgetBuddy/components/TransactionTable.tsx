@@ -1,8 +1,10 @@
-import React from 'react';
-import { ArrowDownCircle, ArrowUpCircle, Edit2, Trash2 } from 'lucide-react';
-import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
+import TransactionForm from '@/apps/BudgetBuddy/components/TransactionForm';
 import { formatDate, Transaction } from '@/apps/BudgetBuddy/helpers/expense.constants';
+import { useDeleteTransaction, useUpdateTransaction } from '@/apps/BudgetBuddy/helpers/expense.service';
 import { cn } from '@/shared/cn';
+import Dialog from '@/ui/Dialog';
+import { ArrowDownCircle, ArrowUpCircle, Edit2, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface TransactionTableProps {
     transactions: Transaction[];
@@ -19,90 +21,196 @@ const columnConfig = {
 };
 
 const TransactionTable: React.FC<TransactionTableProps> = ({ transactions }) => {
-    const { deleteTransaction, handleEditTransaction } = useBudget();
+    const deleteMutation = useDeleteTransaction();
+    const updateMutation = useUpdateTransaction();
 
-    const onDelete = (id?: string) => {
-        if (!id) return;
+    // Local modal state for edit dialog
+    const [editModal, setEditModal] = useState<{
+        isOpen: boolean;
+        transaction?: Transaction;
+    }>({
+        isOpen: false,
+        transaction: undefined,
+    });
+
+    // State for delete confirmation
+    const [deleteModal, setDeleteModal] = useState<{
+        isOpen: boolean;
+        transaction?: Transaction;
+    }>({
+        isOpen: false,
+        transaction: undefined,
+    });
+
+    const handleEdit = (transaction: Transaction) => {
+        setEditModal({
+            isOpen: true,
+            transaction,
+        });
+    };
+
+    const handleCloseEditModal = () => {
+        setEditModal({
+            isOpen: false,
+            transaction: undefined,
+        });
+    };
+
+    const handleDeleteClick = (transaction: Transaction) => {
+        setDeleteModal({
+            isOpen: true,
+            transaction,
+        });
+    };
+
+    const handleConfirmDelete = () => {
+        if (deleteModal.transaction?.id) {
+            deleteMutation.mutate(deleteModal.transaction.id);
+        }
+        setDeleteModal({ isOpen: false, transaction: undefined });
+    };
+
+    const handleCancelDelete = () => {
+        setDeleteModal({ isOpen: false, transaction: undefined });
+    };
+
+    const handleUpdateTransaction = async (id: string, transaction: any) => {
         try {
-            deleteTransaction(id);
+            await updateMutation.mutateAsync({ id, transaction });
+            handleCloseEditModal();
+            return true;
         } catch (error) {
-            // Error handling
+            return false;
         }
     };
 
     return (
-        <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-auto bg-white dark:bg-zinc-900 shadow-sm">
-            <table className="w-full min-w-[900px] table-fixed">
-                <thead className="sticky top-0 bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300">
-                    <tr className="border-b border-gray-200 dark:border-gray-700">
-                        <th style={{ width: columnConfig.title.width }} className={`p-3 font-semibold text-left text-sm`}>Title</th>
-                        <th style={{ width: columnConfig.amount.width }} className={`p-3 font-semibold text-right text-sm`}>Amount</th>
-                        <th style={{ width: columnConfig.type.width }} className={`p-3 font-semibold text-center text-sm`}>Type</th>
-                        <th style={{ width: columnConfig.category.width }} className={`p-3 font-semibold text-left text-sm`}>Category</th>
-                        <th style={{ width: columnConfig.date.width }} className={`p-3 font-semibold text-center text-sm`}>Date</th>
-                        <th style={{ width: columnConfig.description.width }} className={`p-3 font-semibold text-left text-sm`}>Description</th>
-                        <th style={{ width: columnConfig.actions.width }} className={`p-3 font-semibold text-center text-sm`}>Actions</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {transactions.map((transaction) => (
-                        <tr
-                            key={transaction.id}
-                            className="hover:bg-gray-50 dark:hover:bg-zinc-800"
-                        >
-                            <td className="p-3 text-sm text-gray-800 dark:text-gray-200 truncate">
-                                {transaction.title}
-                            </td>
-                            <td className={cn(
-                                "p-3 text-sm text-right whitespace-nowrap font-medium",
-                                transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-                            )}>
-                                ₹ {Math.abs(transaction.amount).toFixed(2)}
-                            </td>
-                            <td className="p-3 text-center">
-                                {transaction.type === 'income' ? (
-                                    <ArrowUpCircle size={20} className="text-green-600 dark:text-green-400 inline" />
-                                ) : (
-                                    <ArrowDownCircle size={20} className="text-red-600 dark:text-red-400 inline" />
-                                )}
-                            </td>
-                            <td className="p-3 text-sm text-gray-800 dark:text-gray-200 truncate">
-                                {transaction.category}
-                            </td>
-                            <td className="p-3 text-sm text-center text-gray-800 dark:text-gray-200">
-                                {formatDate(transaction.date)}
-                            </td>
-                            <td className="p-3 text-sm text-gray-800 dark:text-gray-200 truncate">
-                                {transaction.description || '- NA -'}
-                            </td>
-                            <td className="p-3 text-center">
+        <>
+            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-auto bg-white dark:bg-zinc-900 shadow-sm">
+                <table className="w-full min-w-[900px] table-fixed">
+                    <thead className="sticky top-0 bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300">
+                        <tr className="border-b border-gray-200 dark:border-gray-700">
+                            <th style={{ width: columnConfig.title.width }} className={`p-3 font-semibold text-left text-sm`}>Title</th>
+                            <th style={{ width: columnConfig.amount.width }} className={`p-3 font-semibold text-right text-sm`}>Amount</th>
+                            <th style={{ width: columnConfig.type.width }} className={`p-3 font-semibold text-center text-sm`}>Type</th>
+                            <th style={{ width: columnConfig.category.width }} className={`p-3 font-semibold text-left text-sm`}>Category</th>
+                            <th style={{ width: columnConfig.date.width }} className={`p-3 font-semibold text-center text-sm`}>Date</th>
+                            <th style={{ width: columnConfig.description.width }} className={`p-3 font-semibold text-left text-sm`}>Description</th>
+                            <th style={{ width: columnConfig.actions.width }} className={`p-3 font-semibold text-center text-sm`}>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                        {transactions.map((transaction) => (
+                            <tr
+                                key={transaction.id}
+                                className="hover:bg-gray-50 dark:hover:bg-zinc-800"
+                            >
+                                <td className="p-3 text-sm text-gray-800 dark:text-gray-200 truncate">
+                                    {transaction.title}
+                                </td>
+                                <td className={cn(
+                                    "p-3 text-sm text-right whitespace-nowrap font-medium",
+                                    transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                                )}>
+                                    ₹ {Math.abs(transaction.amount).toFixed(2)}
+                                </td>
+                                <td className="p-3 text-center">
+                                    {transaction.type === 'income' ? (
+                                        <ArrowUpCircle size={20} className="text-green-600 dark:text-green-400 inline" />
+                                    ) : (
+                                        <ArrowDownCircle size={20} className="text-red-600 dark:text-red-400 inline" />
+                                    )}
+                                </td>
+                                <td className="p-3 text-sm text-gray-800 dark:text-gray-200 truncate">
+                                    {transaction.category}
+                                </td>
+                                <td className="p-3 text-sm text-center text-gray-800 dark:text-gray-200">
+                                    {formatDate(transaction.date)}
+                                </td>
+                                <td className="p-3 text-sm text-gray-800 dark:text-gray-200 truncate">
+                                    {transaction.description || '- NA -'}
+                                </td>
+                                <td className="p-3 text-center">
+                                    <button
+                                        className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-300 transition-colors inline-flex items-center justify-center mr-1"
+                                        onClick={() => handleEdit(transaction)}
+                                        aria-label="Edit transaction"
+                                    >
+                                        <Edit2 size={18} />
+                                    </button>
+
+                                    <button
+                                        className="p-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors inline-flex items-center justify-center"
+                                        onClick={() => handleDeleteClick(transaction)}
+                                        aria-label="Delete transaction"
+                                        disabled={deleteMutation.isPending}
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                        {transactions.length === 0 && (
+                            <tr>
+                                <td colSpan={7} className="p-4 text-center text-gray-500 dark:text-gray-400">
+                                    No transactions found
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+
+            {/* Edit Transaction Dialog */}
+            <Dialog
+                open={editModal.isOpen}
+                onClose={(open) => !open && handleCloseEditModal()}
+                size="md"
+                title="Edit Transaction"
+            >
+                <TransactionForm
+                    mode="edit"
+                    transaction={editModal.transaction}
+                    onClose={handleCloseEditModal}
+                    onAdd={async () => false} // Not used in edit mode
+                    onEdit={handleUpdateTransaction}
+                />
+            </Dialog>
+
+            {/* Delete Confirmation Dialog */}
+            {deleteModal.isOpen && deleteModal.transaction && (
+                <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 max-w-md w-full overflow-hidden animate-fade-in">
+                        <div className="p-4">
+                            <div className="flex items-center gap-2 mb-2">
+                                <Trash2 className="text-red-600 dark:text-red-400" />
+                                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Delete Transaction</h3>
+                            </div>
+                            <div className="h-px w-full bg-gray-200 dark:bg-gray-700 my-2"></div>
+                            <p className="text-gray-600 dark:text-gray-300 my-3">
+                                Are you sure you want to delete "{deleteModal.transaction.title}"? This action cannot be undone.
+                            </p>
+                            <div className="flex justify-end gap-2 mt-4">
                                 <button
-                                    className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-zinc-700 text-gray-600 dark:text-gray-300 transition-colors inline-flex items-center justify-center mr-1"
-                                    onClick={() => handleEditTransaction(transaction)}
-                                    aria-label="Edit transaction"
+                                    onClick={handleCancelDelete}
+                                    className="px-3 py-1.5 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors"
+                                    disabled={deleteMutation.isPending}
                                 >
-                                    <Edit2 size={18} />
+                                    Cancel
                                 </button>
                                 <button
-                                    className="p-1 rounded-full hover:bg-red-100 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors inline-flex items-center justify-center"
-                                    onClick={() => onDelete(transaction.id)}
-                                    aria-label="Delete transaction"
+                                    onClick={handleConfirmDelete}
+                                    className="px-3 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white transition-colors"
+                                    disabled={deleteMutation.isPending}
                                 >
-                                    <Trash2 size={18} />
+                                    {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
                                 </button>
-                            </td>
-                        </tr>
-                    ))}
-                    {transactions.length === 0 && (
-                        <tr>
-                            <td colSpan={7} className="p-4 text-center text-gray-500 dark:text-gray-400">
-                                No transactions found
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 
