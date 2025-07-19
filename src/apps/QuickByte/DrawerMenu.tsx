@@ -1,51 +1,64 @@
-import { areaList, categoryList, random as surpriseMeal } from '@/apps/QuickByte/utils/recipe.api';
 import { ALPHABETS, TABS } from '@/apps/QuickByte/utils/recipe.helpers';
 import { Accordion } from '@/ui/Accordion';
 import { Dialog as BaseDialog } from '@base-ui-components/react/dialog';
-import { BookA, HandPlatter, Salad, Search, Sparkle, TreePalm, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { BookA, HandPlatter, Salad, Search, Sparkle, TreePalm, X, Loader2, AlertCircle } from 'lucide-react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { cn } from '@/shared/cn';
+import { useCategories, useAreas, useRandomMeal } from './utils/useRecipeQueries';
+import { toastService } from '@/shared/toastr';
 
 const DrawerMenu = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [term, setTerm] = useState('');
+  const [isGettingRandom, setIsGettingRandom] = useState(false);
 
-  const [areas, setAreas] = useState<string[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+  // Use Tanstack Query for categories and areas (huge improvement here)
+  const {
+    data: categories = [],
+    isLoading: categoriesLoading,
+    error: categoriesError
+  } = useCategories();
 
-  const handleRandomRoute = () => {
-    surpriseMeal().then(id => {
-      navigate(`/recipe-haven/meal/${id}`);
+  const {
+    data: areas = [],
+    isLoading: areasLoading,
+    error: areasError
+  } = useAreas();
+
+  const { getRandomMeal } = useRandomMeal();
+
+  const handleRandomRoute = useCallback(async () => {
+    setIsGettingRandom(true);
+    try {
+      const randomId = await getRandomMeal();
+      navigate(`/recipe-haven/meal/${randomId}`);
       setOpen(false);
-    });
-  };
-
-  const handleSearch = () => {
-    if (term) {
-      navigate(`/recipe-haven/search/${term}`);
-      setOpen(false);
+    } catch (error) {
+      toastService.error('Failed to get random recipe. Please try again.');
+    } finally {
+      setIsGettingRandom(false);
     }
-  };
+  }, [getRandomMeal, navigate]);
 
-  const handleRoute = (path: string, key: string) => {
+  const handleSearch = useCallback(() => {
+    if (!term.trim()) {
+      toastService.error('Please enter a search term');
+      return;
+    }
+
+    navigate(`/recipe-haven/search/${term.trim()}`);
+    setOpen(false);
+  }, [term, navigate]);
+
+  const handleRoute = useCallback((path: string, key: string) => {
     navigate(`/recipe-haven/${path}/${key.toLowerCase()}`);
     setOpen(false);
-  };
+  }, [navigate]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setCategories(await categoryList());
-        setAreas(await areaList());
-      } catch (_) { }
-    };
+  const hasErrors = categoriesError || areasError;
 
-    fetchData();
-  }, []);
-
-  // Create accordion items
   const accordionItems = [
     {
       value: 'categories',
@@ -53,9 +66,13 @@ const DrawerMenu = () => {
         <div className="flex items-center gap-2">
           <Salad size={16} />
           <span>Categories</span>
+          {categoriesLoading && <Loader2 size={12} className="animate-spin" />}
+          {categoriesError && <AlertCircle size={12} className="text-red-500" />}
         </div>
       ),
-      content: (
+      content: categoriesError ? (
+        <div className="text-red-500 text-sm mt-2">Failed to load categories</div>
+      ) : (
         <div className="flex flex-wrap gap-2 mt-2">
           {categories.map(category => (
             <button
@@ -75,9 +92,13 @@ const DrawerMenu = () => {
         <div className="flex items-center gap-2">
           <TreePalm size={16} />
           <span>Regionals</span>
+          {areasLoading && <Loader2 size={12} className="animate-spin" />}
+          {areasError && <AlertCircle size={12} className="text-red-500" />}
         </div>
       ),
-      content: (
+      content: areasError ? (
+        <div className="text-red-500 text-sm mt-2">Failed to load regions</div>
+      ) : (
         <div className="flex flex-wrap gap-2 mt-2">
           {areas.map(area => (
             <button
@@ -189,6 +210,13 @@ const DrawerMenu = () => {
                   </button>
                 </div>
 
+                {/* Error message for failed API calls */}
+                {hasErrors && (
+                  <div className="text-amber-600 dark:text-amber-400 text-sm p-2 bg-amber-50 dark:bg-amber-900/20 rounded-md">
+                    Some data failed to load. Search and Dictionary still work!
+                  </div>
+                )}
+
                 {/* Accordions */}
                 <div className="space-y-2">
                   <Accordion
@@ -204,12 +232,23 @@ const DrawerMenu = () => {
                   className={cn(
                     "flex items-center justify-center gap-2 w-full py-2.5 rounded-md transition-colors",
                     "bg-amber-500 hover:bg-amber-600 text-white",
-                    "focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                    "focus:outline-none focus:ring-2 focus:ring-amber-500/20",
+                    "disabled:opacity-50 disabled:cursor-not-allowed"
                   )}
                   onClick={handleRandomRoute}
+                  disabled={isGettingRandom}
                 >
-                  <Sparkle size={16} />
-                  Surprise Me!
+                  {isGettingRandom ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      Getting recipe...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkle size={16} />
+                      Surprise Me!
+                    </>
+                  )}
                 </button>
               </div>
             </div>

@@ -1,26 +1,29 @@
 import { AuthProvider } from "@/auth/AuthProvider";
 import { Router } from "@/shared/Router";
-import "@/styles/styles.css";
 import { RouterProvider } from "react-router/dom";
-import { ToastProvider } from "./shared/ToastProvider";
 import { ThemeProvider } from "./styles/ThemeProvider";
 import AppBackground from "./components/AppBackground";
+import { ToastContainer } from 'react-toastify';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import "@/styles/styles.css";
+import 'react-toastify/dist/ReactToastify.css';
 
-function App() {
+const queryClient = new QueryClient()
+
+export default function App() {
 
   return (
     <>
-      <ThemeProvider>
-        <ToastProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
           <AuthProvider>
             <AppBackground>
               <RouterProvider router={Router} />
             </AppBackground>
           </AuthProvider>
-        </ToastProvider>
-      </ThemeProvider>
+          <ToastContainer stacked limit={5} position="bottom-right" />
+        </ThemeProvider>
+      </QueryClientProvider>
     </>
   );
 }
-
-export default App;

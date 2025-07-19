@@ -1,20 +1,26 @@
-import { deepCopy, fetchInitialBoard, isValid, solveBoard } from '@/apps/Sudoku/sudoku.utils';
-import SudokuHeader from '@/apps/Sudoku/SudokuHeader';
-import { toastService } from '@/shared/toastr';
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useSudokuBoard } from './useSudokuBoard';
+import SudokuHeader from './SudokuHeader';
 
 interface CellProps {
-    cell: number,
-    onChange: (value: string) => void,
-    editable: boolean,
-    selected: boolean,
-    onSelect: () => void,
-    row: number,
-    col: number
+    cell: number;
+    onChange: (value: string) => void;
+    editable: boolean;
+    selected: boolean;
+    onSelect: () => void;
+    row: number;
+    col: number;
 }
 
-// Memoized cell component to optimize rendering
-const GridCell = React.memo<CellProps>(({ cell, onChange, editable, selected, onSelect, row, col }) => {
+const GridCell = React.memo<CellProps>(({
+    cell,
+    onChange,
+    editable,
+    selected,
+    onSelect,
+    row,
+    col
+}) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -23,7 +29,6 @@ const GridCell = React.memo<CellProps>(({ cell, onChange, editable, selected, on
         }
     }, [selected]);
 
-    // Determine color classes based on position for better visual grouping
     const getBgClass = () => {
         const isEvenBlock = Math.floor(row / 3) % 2 === Math.floor(col / 3) % 2;
         if (!editable) {
@@ -40,15 +45,15 @@ const GridCell = React.memo<CellProps>(({ cell, onChange, editable, selected, on
         <div
             onClick={onSelect}
             className={`
-                w-full h-full flex items-center justify-center
-                ${getBgClass()}
-                ${selected ? 'ring-2 ring-indigo-500 dark:ring-indigo-400 z-10' : ''}
-                ${editable
+        w-full h-full flex items-center justify-center
+        ${getBgClass()}
+        ${selected ? 'ring-2 ring-indigo-500 dark:ring-indigo-400 z-10' : ''}
+        ${editable
                     ? 'border border-neutral-200 dark:border-neutral-700'
                     : 'border border-neutral-300 dark:border-neutral-600 font-medium'}
-                rounded-md text-center transition-all
-                ${editable && selected ? 'scale-105' : ''}
-            `}
+        rounded-md text-center transition-all
+        ${editable && selected ? 'scale-105' : ''}
+      `}
         >
             {editable ? (
                 <input
@@ -71,101 +76,43 @@ const GridCell = React.memo<CellProps>(({ cell, onChange, editable, selected, on
     );
 });
 
-
 const SudokuBoard: React.FC = () => {
-    const [board, setBoard] = useState<number[][]>([]);
-    const [initialBoard, setInitialBoard] = useState<number[][]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [selectedCell, setSelectedCell] = useState<{ row: number, col: number } | null>(null);
+    const {
+        board,
+        selectedCell,
+        isComplete,
+        isLoading,
+        error,
+        updateCell,
+        selectCell,
+        giveHint,
+        solvePuzzle,
+        newGame,
+        isEditable,
+    } = useSudokuBoard();
 
-
-    const fetchBoard = useCallback(async () => {
-        setLoading(true);
-        try {
-            const initialBoard = await fetchInitialBoard();
-            setBoard(deepCopy(initialBoard));
-            setInitialBoard(initialBoard);
-            setSelectedCell(null);
-        } catch (error) {
-            console.error('Error fetching the board:', error);
-        } finally {
-            setLoading(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        fetchBoard();
-    }, [fetchBoard]);
-
-    const giveHint = useCallback(() => {
-        if (board.length === 0) return;
-
-        let emptyCellCount = 0;
-        let selectedCell = null;
-
-        // Loop through the board to find and randomly select an empty cell
-        for (let row = 0; row < 9; row++) {
-            for (let col = 0; col < 9; col++) {
-                if (board[row][col] === 0) {
-                    emptyCellCount++;
-                    // Randomly select this cell with probability 1/emptyCellCount
-                    if (Math.random() < 1 / emptyCellCount) {
-                        selectedCell = { row, col };
-                    }
-                }
-            }
-        }
-
-        if (!selectedCell) return; // No empty cells to give a hint
-
-        // Solve the board to get the solution only after selecting the cell
-        const solvedBoard = solveBoard(initialBoard);
-
-        // Update the board with the hint
-        const newBoard = deepCopy(board);
-        newBoard[selectedCell.row][selectedCell.col] = solvedBoard[selectedCell.row][selectedCell.col];
-        setBoard(newBoard);
-    }, [board, initialBoard]);
-
-    const handleChange = useCallback((row: number, col: number, value: string) => {
-        const number = Number(value) || 0;
-
-        if (number >= 1 && number <= 9) {
-            if (!isValid(board, row, col, number)) {
-                toastService.error("Invalid move");
-            } else {
-                setBoard(prevBoard => {
-                    const newBoard = [...prevBoard];
-                    newBoard[row][col] = number;
-                    return newBoard;
-                });
-            }
-        } else if (value === '') {
-            // Allow clearing the cell
-            setBoard(prevBoard => {
-                const newBoard = [...prevBoard];
-                newBoard[row][col] = 0;
-                return newBoard;
-            });
-        } else {
-            toastService.error("Value out of bounds");
-        }
-    }, [board]);
-
-    const handleSolve = () => {
-        const solvedBoard = solveBoard(initialBoard);
-        setBoard(solvedBoard);
-        setInitialBoard(solvedBoard);
-    };
-
-    const handleCellSelect = (row: number, col: number) => {
-        setSelectedCell({ row, col });
-    };
-
-    if (loading) {
+    if (error) {
         return (
-            <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
-                {/* Background elements */}
+            <div className="relative h-[calc(100vh-54px)] w-full flex items-center justify-center overflow-hidden">
+                <div className="text-center p-8">
+                    <h2 className="text-xl font-bold text-red-600 mb-4">
+                        Failed to load Sudoku puzzle
+                    </h2>
+                    <p className="text-gray-600 mb-4">{error.message}</p>
+                    <button
+                        onClick={newGame}
+                        className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <div className="relative h-[calc(100vh-54px)] w-full flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-950 dark:to-black z-0" />
                 <div className="absolute -top-20 -right-20 w-96 h-96 bg-blue-400/30 dark:bg-blue-600/20 rounded-full blur-3xl z-0" />
                 <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-purple-400/30 dark:bg-purple-600/20 rounded-full blur-3xl z-0" />
@@ -180,36 +127,42 @@ const SudokuBoard: React.FC = () => {
     return (
         <div className="relative w-full max-w-lg mx-auto px-2 sm:px-4 py-4 sm:py-6 flex flex-col items-center justify-center">
             <SudokuHeader
-                onNewGame={fetchBoard}
+                onNewGame={newGame}
                 onHint={giveHint}
-                onSolve={handleSolve}
+                onSolve={solvePuzzle}
             />
+
+            {isComplete && (
+                <div className="mb-4 p-3 bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                    <p className="text-green-800 dark:text-green-200 font-medium text-center">
+                        🎉 Congratulations! Puzzle completed!
+                    </p>
+                </div>
+            )}
 
             <div className="w-full sm:w-fit mx-auto bg-white/90 dark:bg-neutral-800/90 backdrop-blur-md rounded-xl p-2 sm:p-4 shadow-md border border-neutral-100 dark:border-neutral-700">
                 <div className="grid grid-cols-9 gap-[2px] sm:gap-1 aspect-square">
                     {board.map((row, rowIndex) => (
-                        <>
-                            {row.map((_, colIndex) => (
-                                <div
-                                    key={`${rowIndex}-${colIndex}`}
-                                    className={`
-                                        aspect-square
-                                        ${rowIndex % 3 === 2 && rowIndex < 8 ? 'border-b border-neutral-400 dark:border-neutral-500' : ''}
-                                        ${colIndex % 3 === 2 && colIndex < 8 ? 'border-r border-neutral-400 dark:border-neutral-500' : ''}
-                                    `}
-                                >
-                                    <GridCell
-                                        cell={board[rowIndex][colIndex]}
-                                        onChange={(value) => handleChange(rowIndex, colIndex, value)}
-                                        editable={!initialBoard[rowIndex][colIndex]}
-                                        selected={selectedCell?.row === rowIndex && selectedCell?.col === colIndex}
-                                        onSelect={() => handleCellSelect(rowIndex, colIndex)}
-                                        row={rowIndex}
-                                        col={colIndex}
-                                    />
-                                </div>
-                            ))}
-                        </>
+                        row.map((_, colIndex) => (
+                            <div
+                                key={`${rowIndex}-${colIndex}`}
+                                className={`
+                  aspect-square
+                  ${rowIndex % 3 === 2 && rowIndex < 8 ? 'border-b border-neutral-400 dark:border-neutral-500' : ''}
+                  ${colIndex % 3 === 2 && colIndex < 8 ? 'border-r border-neutral-400 dark:border-neutral-500' : ''}
+                `}
+                            >
+                                <GridCell
+                                    cell={board[rowIndex][colIndex]}
+                                    onChange={(value) => updateCell(rowIndex, colIndex, value)}
+                                    editable={isEditable(rowIndex, colIndex)}
+                                    selected={selectedCell?.row === rowIndex && selectedCell?.col === colIndex}
+                                    onSelect={() => selectCell(rowIndex, colIndex)}
+                                    row={rowIndex}
+                                    col={colIndex}
+                                />
+                            </div>
+                        ))
                     ))}
                 </div>
             </div>

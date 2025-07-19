@@ -10,15 +10,15 @@ import HomePage from "@/apps/BudgetBuddy/pages/Homepage";
 import Overview from "@/apps/BudgetBuddy/pages/Overview";
 import Statistics from "@/apps/BudgetBuddy/pages/Statistics";
 import Timeline from "@/apps/BudgetBuddy/pages/Timeline";
-import FormReview from "@/apps/FormBuilder/pages/FormReview";
 import Formlyst from "@/apps/FormBuilder/Formlyst";
 import FormBuilder from "@/apps/FormBuilder/pages/FormBuilder";
 import FormDashboard from "@/apps/FormBuilder/pages/FormDashboard";
 import FormPublic from "@/apps/FormBuilder/pages/FormPublic";
+import FormResponses from "@/apps/FormBuilder/pages/FormResponses";
+import FormReview from "@/apps/FormBuilder/pages/FormReview";
 import Home from "@/apps/Home/Home";
-import HomeloanWizard from "@/apps/HomeloanWizard/HomeloanWizard";
-import { LoanProvider } from "@/apps/HomeloanWizard/LoanContext";
-import { InvoiceProvider } from "@/apps/InvoEase/InvoiceContext";
+import LoanCalculator from "@/apps/HomeloanWizard/LoanCalculator";
+import InvoEase from "@/apps/InvoEase/InvoEase";
 import JsonTreeViewer from "@/apps/JsonViewer/JsonViewer";
 import PokeMemory from "@/apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "@/apps/Pokeverse/context/BattleSimContext";
@@ -45,7 +45,6 @@ import Login from "@/auth/Login";
 import Register from "@/auth/Register";
 import Navbar from "@/components/Navbar";
 import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from "react-router";
-import FormResponses from "@/apps/FormBuilder/pages/FormResponses";
 
 const Layout: React.FC = () => (
   <>
@@ -142,8 +141,8 @@ const routes = [
           { path: 'meal/:mealId', element: <Wrapper children={<Details />} />, loader: mealDetails },
         ]
       },
-      { path: 'homeloan-wizard', element: <LoanProvider><HomeloanWizard /></LoanProvider> },
-      { path: 'invoease', element: <InvoiceProvider /> },
+      { path: 'homeloan-wizard', element: <LoanCalculator /> },
+      { path: 'invoease', element: <InvoEase /> },
       { path: 'sorting-visualizer', element: <SortingVisualizer /> },
       { path: 'super-tic-tac-toe', element: <SuperTicTacToe /> },
       { path: 'sudoku', element: <Sudoku /> },

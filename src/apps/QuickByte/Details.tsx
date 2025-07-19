@@ -2,6 +2,9 @@ import { useLoaderData, useNavigate } from 'react-router';
 import { MealDetails } from '@/apps/QuickByte/utils/recipe.helpers';
 import { Info, LoaderPinwheel, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useMealDetailsCache } from './utils/useRecipeQueries';
+import { useCallback } from 'react';
+import { toastService } from '@/shared/toastr';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -43,19 +46,41 @@ const chipVariants = {
 
 const Details = () => {
   const navigate = useNavigate();
-  const meal: MealDetails = useLoaderData() as MealDetails;
+  const loaderData = useLoaderData() as MealDetails;
 
-  const handleAreaNav = () => {
-    navigate(`/recipe-haven/area/${meal.area?.toLocaleLowerCase()}`);
+  const { data: meal } = useMealDetailsCache(loaderData.id, loaderData);
+
+  if (!meal) {
+    return (
+      <div className="relative h-[calc(100vh-54px)] w-full flex items-center justify-center overflow-hidden">
+        <div className="text-center p-8">
+          <h2 className="text-xl font-bold text-red-600 mb-4">
+            Failed to load Recipe
+          </h2>
+        </div>
+      </div>
+    );
   }
 
-  const handleCategoryNav = () => {
-    navigate(`/recipe-haven/category/${meal.category?.toLocaleLowerCase()}`);
-  }
+  const handleAreaNav = useCallback(() => {
+    if (meal.area) {
+      navigate(`/recipe-haven/area/${meal.area.toLowerCase()}`);
+    }
+  }, [meal.area, navigate]);
 
-  const handleExternalUrl = (url: string) => {
-    window.open(url, '_blank');
-  }
+  const handleCategoryNav = useCallback(() => {
+    if (meal.category) {
+      navigate(`/recipe-haven/category/${meal.category.toLowerCase()}`);
+    }
+  }, [meal.category, navigate]);
+
+  const handleExternalUrl = useCallback((url: string) => {
+    try {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      toastService.error('Failed to open external link');
+    }
+  }, []);
 
   return (
     <motion.div
@@ -76,6 +101,7 @@ const Details = () => {
             src={meal.image}
             alt={meal.name}
             className="absolute top-0 left-0 w-full h-full object-cover"
+            loading="eager"
           />
         </div>
       </motion.div>
@@ -85,26 +111,30 @@ const Details = () => {
         className="bg-white dark:bg-neutral-800 p-4 rounded-xl shadow-md mb-3"
       >
         <div className="flex flex-row gap-4 justify-center">
-          <p className="text-lg uppercase font-['Roboto'] text-neutral-800 dark:text-neutral-100">
-            Region: <span
-              className="text-red-600 dark:text-red-400 cursor-pointer hover:underline"
-              onClick={handleAreaNav}
-            >
-              {meal.area}
-            </span>
-          </p>
-          <p className="text-lg uppercase font-['Roboto'] text-neutral-800 dark:text-neutral-100">
-            Category: <span
-              className="text-red-600 dark:text-red-400 cursor-pointer hover:underline"
-              onClick={handleCategoryNav}
-            >
-              {meal.category}
-            </span>
-          </p>
+          {meal.area && (
+            <p className="text-lg uppercase font-['Roboto'] text-neutral-800 dark:text-neutral-100">
+              Region: <span
+                className="text-red-600 dark:text-red-400 cursor-pointer hover:underline"
+                onClick={handleAreaNav}
+              >
+                {meal.area}
+              </span>
+            </p>
+          )}
+          {meal.category && (
+            <p className="text-lg uppercase font-['Roboto'] text-neutral-800 dark:text-neutral-100">
+              Category: <span
+                className="text-red-600 dark:text-red-400 cursor-pointer hover:underline"
+                onClick={handleCategoryNav}
+              >
+                {meal.category}
+              </span>
+            </p>
+          )}
         </div>
 
         <div className="flex flex-row gap-2 justify-center mt-3">
-          {meal.source &&
+          {meal.source && (
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <button
                 className="flex items-center px-4 py-2 border border-neutral-300 rounded-md text-neutral-700 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-700"
@@ -114,8 +144,8 @@ const Details = () => {
                 MORE INFO
               </button>
             </motion.div>
-          }
-          {meal.youtube &&
+          )}
+          {meal.youtube && (
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <button
                 className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
@@ -125,18 +155,20 @@ const Details = () => {
                 YOUTUBE
               </button>
             </motion.div>
-          }
-        </div>
-
-        <div className="flex flex-row flex-wrap gap-2 justify-center mt-3">
-          {meal.tags.map(tag =>
-            <motion.div key={tag} variants={chipVariants}>
-              <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
-                {tag}
-              </span>
-            </motion.div>
           )}
         </div>
+
+        {meal.tags.length > 0 && (
+          <div className="flex flex-row flex-wrap gap-2 justify-center mt-3">
+            {meal.tags.map(tag => (
+              <motion.div key={tag} variants={chipVariants}>
+                <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
+                  {tag}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </motion.div>
 
       <div className="h-[1.5px] bg-neutral-400 my-2"></div>
@@ -151,8 +183,8 @@ const Details = () => {
         className="flex flex-row flex-wrap gap-x-2 gap-y-4"
         variants={containerVariants}
       >
-        {meal.ingredients.map(ingredient => (
-          <motion.div key={ingredient} variants={chipVariants}>
+        {meal.ingredients.map((ingredient, index) => (
+          <motion.div key={`${ingredient}-${index}`} variants={chipVariants}>
             <span className="px-3 py-2 bg-green-600 text-white rounded-md text-sm font-['Roboto'] font-light">
               {ingredient}
             </span>
@@ -169,21 +201,21 @@ const Details = () => {
       </motion.div>
 
       <motion.ul variants={containerVariants} className="list-none">
-        {meal.instructions.map(step => (step &&
+        {meal.instructions.map((step, index) => (step.trim() && (
           <motion.li
-            key={step}
+            key={`${step}-${index}`}
             variants={itemVariants}
             className="flex items-start py-2"
           >
             <span className="text-blue-600 dark:text-blue-400 mt-1 mr-2">
               <LoaderPinwheel size={20} />
             </span>
-            <p className="text-neutral-800 dark:text-neutral-200">{step}</p>
+            <p className="text-neutral-800 dark:text-neutral-200">{step.trim()}</p>
           </motion.li>
-        ))}
+        )))}
       </motion.ul>
     </motion.div>
   );
-}
+};
 
 export default Details;

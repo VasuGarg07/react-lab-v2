@@ -10,7 +10,7 @@ export interface SelectOption {
 
 interface SelectProps {
     options: SelectOption[];
-    value?: string;
+    value?: string | number;
     defaultValue?: string;
     onValueChange?: (value: any) => void;
     placeholder?: string;

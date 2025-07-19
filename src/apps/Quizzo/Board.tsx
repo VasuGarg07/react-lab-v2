@@ -1,30 +1,48 @@
-import { useQuizContext } from "@/apps/Quizzo/Quiz.context";
 import QuestionCard from "@/apps/Quizzo/QuestionCard";
 import { shuffleArray } from "@/shared/utilities";
-import { useEffect, useState } from "react";
-import { Question } from "./quiz.helper";
-
-interface Props {
-  name: string;
-  questions: Question[];
-  score: number;
-}
+import { useMemo } from "react";
+import { useQuizStore } from './quizStore';
 
 const Board = () => {
-  const { name, questions, score }: Props = useQuizContext();
+  const { name, score, currentQuestion, quizConfig } = useQuizStore();
 
-  const [options, setOptions] = useState<string[]>([]);
-  const [currQues, setCurrQues] = useState(0);
+  const questions = quizConfig?.questions || [];
+  const currentQuestionData = questions[currentQuestion];
 
-  useEffect(() => {
-    if (questions && questions.length) {
-      const options = shuffleArray([
-        questions[currQues].correct_answer,
-        ...questions[currQues].incorrect_answers,
-      ]);
-      setOptions(options);
-    }
-  }, [currQues, questions]);
+  // Memoize shuffled options to prevent re-shuffling on every render
+  const shuffledOptions = useMemo(() => {
+    if (!currentQuestionData) return [];
+
+    return shuffleArray([
+      currentQuestionData.correct_answer,
+      ...currentQuestionData.incorrect_answers,
+    ]);
+  }, [currentQuestionData]);
+
+  // Handle case where no questions are available
+  if (!questions.length) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <div className="text-center">
+          <p className="text-neutral-600 dark:text-neutral-400">
+            No questions available. Please start a new quiz.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle case where current question index is out of bounds
+  if (!currentQuestionData) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <div className="text-center">
+          <div className="h-8 w-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+          <p className="text-neutral-600 dark:text-neutral-400">Loading question...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col justify-center items-center h-full space-y-4">
@@ -37,15 +55,18 @@ const Board = () => {
           Score: {score}
         </span>
         <span className="px-3 py-1 text-sm font-medium bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 rounded-full">
-          {questions[currQues].category}
+          {currentQuestionData.category}
+        </span>
+        <span className="px-3 py-1 text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full">
+          {currentQuestion + 1} of {questions.length}
         </span>
       </div>
 
       <QuestionCard
-        currQues={currQues}
-        setCurrQues={setCurrQues}
-        options={options}
-        correct={questions[currQues].correct_answer}
+        question={currentQuestionData}
+        options={shuffledOptions}
+        questionNumber={currentQuestion + 1}
+        totalQuestions={questions.length}
       />
     </div>
   );

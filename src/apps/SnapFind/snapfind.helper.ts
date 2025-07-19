@@ -35,12 +35,6 @@ export interface Image {
   }
 }
 
-export enum Orientation {
-  Landscape = 'landscape',
-  Portrait = 'portrait',
-  Squarish = 'squarish'
-}
-
 const unsplash = Axios.create(
   {
     baseURL: 'https://api.unsplash.com',
