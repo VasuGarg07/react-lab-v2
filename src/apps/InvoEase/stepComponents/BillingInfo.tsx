@@ -1,116 +1,117 @@
-import React, { useEffect } from 'react';
-import { useForm, Controller, useWatch } from 'react-hook-form';
-import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
+import { FC } from 'react';
+import { useBillingInfo } from '../invoiceStore';
 
-interface BillingData {
-    name: string;
-    email: string;
-    address: string;
-}
-
-interface BillingSectionProps {
+interface BillingFormProps {
     title: string;
-    control: any;
-    errors: any;
-    fieldPrefix: 'billTo' | 'billFrom';
+    data: {
+        name: string;
+        email: string;
+        address: string;
+    };
+    onUpdate: (info: Partial<{ name: string; email: string; address: string }>) => void;
 }
 
-const BillingSection: React.FC<BillingSectionProps> = ({ title, control, errors, fieldPrefix }) => (
-    <div className="w-full space-y-4 dark:text-neutral-50">
-        <h2 className="text-lg font-semibold text-primary mb-2">{title}</h2>
+const BillingForm: FC<BillingFormProps> = ({ title, data, onUpdate }) => {
+    const validateEmail = (email: string) => {
+        if (!email) return 'Email is required';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) return 'Invalid email format';
+        return true;
+    };
 
-        <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-800">Full Name</label>
-            <Controller
-                name={`${fieldPrefix}.name`}
-                control={control}
-                render={({ field }) => (
-                    <input
-                        {...field}
-                        className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary text-neutral-800 dark:text-neutral-50 bg-white dark:bg-neutral-700"
-                        placeholder="Enter full name"
-                    />
-                )}
-            />
-            {errors?.[fieldPrefix]?.name && (
-                <p className="text-sm text-red-500 mt-1">{errors[fieldPrefix].name.message}</p>
-            )}
-        </div>
-
-        <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-800">Email Address</label>
-            <Controller
-                name={`${fieldPrefix}.email`}
-                control={control}
-                render={({ field }) => (
-                    <input
-                        {...field}
-                        className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary text-neutral-800 dark:text-neutral-50 bg-white dark:bg-neutral-700"
-                        placeholder="Enter email address"
-                    />
-                )}
-            />
-            {errors?.[fieldPrefix]?.email && (
-                <p className="text-sm text-red-500 mt-1">{errors[fieldPrefix].email.message}</p>
-            )}
-        </div>
-
-        <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-800">Billing Address (Optional)</label>
-            <Controller
-                name={`${fieldPrefix}.address`}
-                control={control}
-                render={({ field }) => (
-                    <textarea
-                        {...field}
-                        className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-primary text-neutral-800 dark:text-neutral-50 bg-white dark:bg-neutral-700"
-                        placeholder="Enter billing address (optional)"
-                        rows={3}
-                    />
-                )}
-            />
-        </div>
-    </div>
-);
-
-const BillingInfo: React.FC<{ onValidStep: (isValid: boolean) => void }> = ({ onValidStep }) => {
-    const { billTo, setBillTo, billFrom, setBillFrom } = useInvoice();
-
-    const {
-        control,
-        handleSubmit,
-        formState: { errors, isValid },
-    } = useForm<{ billTo: BillingData; billFrom: BillingData }>({
-        defaultValues: { billTo, billFrom },
-        mode: 'onChange',
-    });
-
-    // Watch for live changes to push updates
-    const watchedBillTo = useWatch({ control, name: 'billTo' });
-    const watchedBillFrom = useWatch({ control, name: 'billFrom' });
-
-    useEffect(() => {
-        setBillTo(watchedBillTo);
-        setBillFrom(watchedBillFrom);
-    }, [watchedBillTo, watchedBillFrom, setBillTo, setBillFrom]);
-
-    useEffect(() => {
-        onValidStep(isValid);
-    }, [isValid, onValidStep]);
+    const emailError = typeof validateEmail(data.email) === 'string' ? validateEmail(data.email) : null;
+    const nameError = !data.name.trim() ? 'Name is required' : null;
 
     return (
-        <form
-            onSubmit={handleSubmit(() => { })}
-            className="w-full flex flex-col md:flex-row gap-6 justify-between"
-        >
-            <div className="w-full md:w-1/2">
-                <BillingSection title="Bill to:" control={control} errors={errors} fieldPrefix="billTo" />
+        <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-blue-600 dark:text-blue-400 border-b border-gray-200 dark:border-gray-700 pb-2">
+                {title}
+            </h3>
+
+            {/* Name Field */}
+            <div>
+                <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                    Full Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                    type="text"
+                    value={data.name}
+                    onChange={(e) => onUpdate({ name: e.target.value })}
+                    placeholder="Enter full name"
+                    className={`w-full border rounded-md p-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${nameError ? 'border-red-500 ring-red-500/30' : 'border-gray-300 dark:border-gray-700'
+                        }`}
+                />
+                {nameError && (
+                    <p className="text-sm text-red-500 mt-1">{nameError}</p>
+                )}
             </div>
-            <div className="w-full md:w-1/2">
-                <BillingSection title="Bill from:" control={control} errors={errors} fieldPrefix="billFrom" />
+
+            {/* Email Field */}
+            <div>
+                <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                    Email Address <span className="text-red-500">*</span>
+                </label>
+                <input
+                    type="email"
+                    value={data.email}
+                    onChange={(e) => onUpdate({ email: e.target.value })}
+                    placeholder="Enter email address"
+                    className={`w-full border rounded-md p-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${emailError ? 'border-red-500 ring-red-500/30' : 'border-gray-300 dark:border-gray-700'
+                        }`}
+                />
+                {emailError && (
+                    <p className="text-sm text-red-500 mt-1">{emailError}</p>
+                )}
             </div>
-        </form>
+
+            {/* Address Field */}
+            <div>
+                <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                    Address <span className="text-gray-500">(Optional)</span>
+                </label>
+                <textarea
+                    value={data.address}
+                    onChange={(e) => onUpdate({ address: e.target.value })}
+                    placeholder="Enter billing address (optional)"
+                    rows={3}
+                    className="w-full border rounded-md p-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-vertical"
+                />
+            </div>
+        </div>
     );
 };
 
-export default BillingInfo;
+const BillingSection: React.FC = () => {
+    const { billTo, billFrom, setBillTo, setBillFrom } = useBillingInfo();
+
+    return (
+        <div className="space-y-4">
+            {/* Help Text */}
+            <div className="text-xs text-gray-500 dark:text-gray-400 p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded border border-yellow-200 dark:border-yellow-800">
+                ⚠️ <strong>Required:</strong> Both "Bill To" and "Bill From" sections need valid names and email addresses.
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {/* Bill To */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50/50 dark:bg-gray-800/50">
+                    <BillingForm
+                        title="Bill To:"
+                        data={billTo}
+                        onUpdate={setBillTo}
+                    />
+                </div>
+
+                {/* Bill From */}
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50/50 dark:bg-gray-800/50">
+                    <BillingForm
+                        title="Bill From:"
+                        data={billFrom}
+                        onUpdate={setBillFrom}
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default BillingSection;

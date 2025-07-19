@@ -1,136 +1,109 @@
-import React, { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
-import Select from '@/ui/Select';
-import { CurrencyOptions } from '@/apps/InvoEase/invoice.utils';
+import { useInvoiceDetails } from '../invoiceStore';
+import { CurrencyOptions } from '../invoice.utils';
 
-interface FormValues {
-    dueDate: string;
-    currency: string;
-}
+const DetailsSection = () => {
+    const {
+        currentDate,
+        dueDate,
+        invoiceNumber,
+        currency,
+        setDueDate,
+        setInvoiceNumber,
+        setCurrency,
+    } = useInvoiceDetails();
 
-interface DetailsProps {
-    onValidStep: (isValid: boolean) => void;
-}
-
-const Details: React.FC<DetailsProps> = ({ onValidStep }) => {
-    const { currentDate, dueDate, setDueDate, invoiceNumber, currency, setCurrency } = useInvoice();
-
+    // Date validation
     const today = new Date();
     today.setDate(today.getDate() + 1);
     const minDate = today.toISOString().split('T')[0];
 
-    const maxDate = new Date();
-    maxDate.setFullYear(maxDate.getFullYear() + 1);
-    const maxDateStr = maxDate.toISOString().split('T')[0];
+    today.setFullYear(today.getFullYear() + 1);
+    const maxDateStr = today.toISOString().split('T')[0];
 
-    const {
-        control,
-        formState: { errors, isValid },
-        watch,
-        setValue,
-    } = useForm<FormValues>({
-        defaultValues: {
-            dueDate,
-            currency,
-        },
-        mode: 'onChange',
-    });
+    const validateDueDate = (value: string) => {
+        if (!value) return 'Due date is required';
+        const selected = new Date(value);
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        if (selected <= now) return 'Due date must be after today';
+        if (selected > today) return 'Due date cannot be more than a year from now';
+        return true;
+    };
 
-    // Initialize the form with the current context values
-    useEffect(() => {
-        if (dueDate) setValue('dueDate', dueDate);
-        if (currency) setValue('currency', currency);
-    }, []);
-
-    const watchedDueDate = watch('dueDate');
-    const watchedCurrency = watch('currency');
-
-    // Update context when form values change
-    useEffect(() => {
-        if (watchedDueDate) setDueDate(watchedDueDate);
-    }, [watchedDueDate, setDueDate]);
-
-    useEffect(() => {
-        if (watchedCurrency) setCurrency(watchedCurrency);
-    }, [watchedCurrency, setCurrency]);
-
-    // Report form validity to parent
-    useEffect(() => {
-        onValidStep(isValid);
-    }, [isValid, onValidStep]);
+    const dueDateError = typeof validateDueDate(dueDate) === 'string' ? validateDueDate(dueDate) : null;
 
     return (
-        <div className="flex flex-col gap-6 w-full">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-4">
-                <p className="text-sm text-neutral-700 dark:text-neutral-300">
+        <div className="space-y-4">
+            {/* Current Info Display */}
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div className="text-sm text-gray-600 dark:text-gray-300">
                     <strong>Current Date:</strong> {currentDate}
-                </p>
-                <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
                     <strong>Invoice ID:</strong> {invoiceNumber}
-                </p>
+                </div>
             </div>
 
-            <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
-                <div className="flex-1">
-                    <label className="block text-sm font-medium text-neutral-800 dark:text-neutral-200 mb-1">
-                        Due Date <span className="text-red-500">*</span>
+            {/* Form Fields */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Invoice Number */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                        Invoice Number
                     </label>
-                    <Controller
-                        control={control}
-                        name="dueDate"
-                        rules={{
-                            required: 'Due date is required',
-                            validate: (value) => {
-                                const selected = new Date(value);
-                                const now = new Date();
-                                now.setHours(0, 0, 0, 0);
-                                if (selected <= now) return 'Due date must be after today';
-                                if (selected > maxDate) return 'Due date cannot be more than a year from now';
-                                return true;
-                            },
-                        }}
-                        render={({ field }) => (
-                            <input
-                                type="date"
-                                {...field}
-                                min={minDate}
-                                max={maxDateStr}
-                                className={`w-full border rounded-md p-2 text-sm bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.dueDate ? 'border-red-500 ring-red-500/30' : 'border-neutral-300 dark:border-neutral-700'
-                                    }`}
-                            />
-                        )}
+                    <input
+                        type="text"
+                        value={invoiceNumber}
+                        onChange={(e) => setInvoiceNumber(e.target.value)}
+                        className="w-full border rounded-md p-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Invoice number"
                     />
-                    {errors.dueDate && (
-                        <p className="text-sm text-red-500 mt-1">{errors.dueDate.message}</p>
-                    )}
                 </div>
 
-                <div className="flex-1">
-                    <Controller
-                        control={control}
-                        name="currency"
-                        rules={{ required: 'Currency is required' }}
-                        render={({ field: { onChange, value, name, ref } }) => (
-                            <Select
-                                ref={ref}
-                                name={name}
-                                label="Currency"
-                                options={CurrencyOptions}
-                                value={value}
-                                onValueChange={(val) => {
-                                    onChange(val);
-                                    setCurrency(val);
-                                }}
-                                error={errors.currency?.message}
-                                required
-                            />
-                        )}
-                    />
+                {/* Currency */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                        Currency <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                        value={currency}
+                        onChange={(e) => setCurrency(e.target.value)}
+                        className="w-full border rounded-md p-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        {CurrencyOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
+                    </select>
                 </div>
+            </div>
+
+            {/* Due Date */}
+            <div>
+                <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+                    Due Date <span className="text-red-500">*</span>
+                </label>
+                <input
+                    type="date"
+                    value={dueDate}
+                    onChange={(e) => setDueDate(e.target.value)}
+                    min={minDate}
+                    max={maxDateStr}
+                    className={`w-full border rounded-md p-2 text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 ${dueDateError ? 'border-red-500 ring-red-500/30' : 'border-gray-300 dark:border-gray-700'
+                        }`}
+                />
+                {dueDateError && (
+                    <p className="text-sm text-red-500 mt-1">{dueDateError}</p>
+                )}
+            </div>
+
+            {/* Help Text */}
+            <div className="text-xs text-gray-500 dark:text-gray-400 p-2 bg-blue-50 dark:bg-blue-900/20 rounded border border-blue-200 dark:border-blue-800">
+                💡 <strong>Tip:</strong> Invoice number is auto-generated but you can customize it. Due date must be between tomorrow and one year from now.
             </div>
         </div>
     );
 };
 
-export default Details;
+export default DetailsSection;

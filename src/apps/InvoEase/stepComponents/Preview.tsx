@@ -1,132 +1,174 @@
-import React, { useMemo } from 'react';
-import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
+import useInvoiceStore, { useInvoiceCalculations } from '../invoiceStore';
 
-const Preview: React.FC = () => {
-    const {
-        currentDate,
-        dueDate,
-        invoiceNumber,
-        currency,
-        billTo,
-        billFrom,
-        items,
-        taxRate,
-        discountRate,
-        notes,
-        currencySymbol,
-    } = useInvoice();
+const PreviewSection = () => {
+    // Use individual selectors to avoid creating new objects on every render
+    const currentDate = useInvoiceStore((state) => state.currentDate);
+    const dueDate = useInvoiceStore((state) => state.dueDate);
+    const invoiceNumber = useInvoiceStore((state) => state.invoiceNumber);
+    const currency = useInvoiceStore((state) => state.currency);
+    const billTo = useInvoiceStore((state) => state.billTo);
+    const billFrom = useInvoiceStore((state) => state.billFrom);
+    const items = useInvoiceStore((state) => state.items);
+    const taxRate = useInvoiceStore((state) => state.taxRate);
+    const discountRate = useInvoiceStore((state) => state.discountRate);
+    const notes = useInvoiceStore((state) => state.notes);
 
-    const { subtotal, taxAmount, discountAmount, total } = useMemo(() => {
-        const subtotal = items.reduce((sum, item) => sum + Number(item.quantity) * item.price, 0);
-        const taxAmount = subtotal * (taxRate / 100);
-        const discountAmount = subtotal * (discountRate / 100);
-        const total = subtotal + taxAmount - discountAmount;
-        return { subtotal, taxAmount, discountAmount, total };
-    }, [items, taxRate, discountRate]);
-
-    const formatCurrency = (amount: number) => `${currencySymbol}${amount.toFixed(2)}`;
+    const { subtotal, taxAmount, discountAmount, total, formatCurrency } = useInvoiceCalculations();
 
     return (
-        <div className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 rounded-md border border-neutral-200 dark:border-neutral-700 shadow-md p-4 sm:p-6 text-sm">
-            <h2 className="text-xl font-semibold mb-4 text-neutral-800 dark:text-neutral-100">Invoice</h2>
-
-            {/* Invoice Header - Stack on mobile, side by side on larger screens */}
-            <div className="flex flex-col sm:flex-row justify-between gap-4 mb-6">
-                <div className="mb-4 sm:mb-0">
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">Date: {currentDate}</p>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">Due: {dueDate}</p>
-                </div>
-                <div className="sm:text-right">
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">Invoice #: {invoiceNumber}</p>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">Currency: {currency}</p>
-                </div>
+        <div className="space-y-4">
+            {/* Help Text */}
+            <div className="text-xs text-gray-500 dark:text-gray-400 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded border border-indigo-200 dark:border-indigo-800">
+                👀 <strong>Preview:</strong> This is how your invoice will look. All changes update in real-time.
             </div>
 
-            {/* Bill To/From - Stack on mobile, side by side on larger screens */}
-            <div className="flex flex-col sm:flex-row justify-between gap-6 mb-6">
-                <div className="mb-4 sm:mb-0">
-                    <p className="font-semibold mb-1">Bill To:</p>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">{billTo.name}</p>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">{billTo.email}</p>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">{billTo.address}</p>
+            {/* Invoice Preview */}
+            <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                {/* Preview Header */}
+                <div className="bg-gray-100 dark:bg-gray-700 px-4 py-2 border-b border-gray-200 dark:border-gray-600">
+                    <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                        Invoice Preview
+                    </h3>
                 </div>
-                <div className="sm:text-right">
-                    <p className="font-semibold mb-1">Bill From:</p>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">{billFrom.name}</p>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">{billFrom.email}</p>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">{billFrom.address}</p>
-                </div>
-            </div>
 
-            {/* Responsive Table Container */}
-            <div className="overflow-x-auto mb-6">
-                <table className="w-full text-sm border border-neutral-200 dark:border-neutral-700 min-w-[640px]">
-                    <thead>
-                        <tr className="bg-neutral-100 dark:bg-neutral-800 text-left">
-                            <th className="p-2 font-semibold border border-neutral-200 dark:border-neutral-700">Item</th>
-                            <th className="p-2 font-semibold border border-neutral-200 dark:border-neutral-700">Description</th>
-                            <th className="p-2 font-semibold border border-neutral-200 dark:border-neutral-700 w-16">Qty</th>
-                            <th className="p-2 font-semibold border border-neutral-200 dark:border-neutral-700 w-24">Price</th>
-                            <th className="p-2 font-semibold border border-neutral-200 dark:border-neutral-700 w-24">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {items.map((item, idx) => (
-                            <tr key={idx} className={idx % 2 === 0 ? 'bg-white dark:bg-neutral-900' : 'bg-neutral-50 dark:bg-neutral-800'}>
-                                <td className="p-2 border border-neutral-200 dark:border-neutral-700">{item.name}</td>
-                                <td className="p-2 border border-neutral-200 dark:border-neutral-700">{item.description}</td>
-                                <td className="p-2 border border-neutral-200 dark:border-neutral-700 text-center">{item.quantity}</td>
-                                <td className="p-2 border border-neutral-200 dark:border-neutral-700 text-right">{formatCurrency(item.price)}</td>
-                                <td className="p-2 border border-neutral-200 dark:border-neutral-700 text-right">
-                                    {formatCurrency(Number(item.quantity) * item.price)}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            {/* Mobile-friendly Card View for Items (Visible on small screens only) */}
-            <div className="sm:hidden space-y-4 mb-6">
-                {items.map((item, idx) => (
-                    <div key={idx} className="border border-neutral-200 dark:border-neutral-700 rounded-md p-3 bg-neutral-50 dark:bg-neutral-800">
-                        <div className="flex justify-between font-semibold mb-2">
-                            <span>{item.name}</span>
-                            <span>{formatCurrency(Number(item.quantity) * item.price)}</span>
+                {/* Invoice Content */}
+                <div className="p-4 bg-white dark:bg-gray-800">
+                    <div className="max-w-2xl mx-auto">
+                        {/* Invoice Header */}
+                        <div className="text-center mb-4">
+                            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200">INVOICE</h1>
                         </div>
-                        <div className="text-neutral-600 dark:text-neutral-400 mb-2">{item.description}</div>
-                        <div className="flex justify-between text-sm">
-                            <span>Qty: {item.quantity}</span>
-                            <span>Price: {formatCurrency(item.price)}</span>
+
+                        {/* Invoice Details */}
+                        <div className="flex justify-between mb-4 text-sm">
+                            <div>
+                                <div className="text-gray-600 dark:text-gray-400">
+                                    <strong>Date:</strong> {currentDate}
+                                </div>
+                                <div className="text-gray-600 dark:text-gray-400">
+                                    <strong>Due:</strong> {dueDate || 'Not set'}
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <div className="text-gray-600 dark:text-gray-400">
+                                    <strong>Invoice #:</strong> {invoiceNumber}
+                                </div>
+                                <div className="text-gray-600 dark:text-gray-400">
+                                    <strong>Currency:</strong> {currency}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Billing Information */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Bill To:</h3>
+                                <div className="text-sm text-gray-600 dark:text-gray-400">
+                                    <div>{billTo.name || 'Name not provided'}</div>
+                                    <div>{billTo.email || 'Email not provided'}</div>
+                                    {billTo.address && (
+                                        <div className="whitespace-pre-line">{billTo.address}</div>
+                                    )}
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Bill From:</h3>
+                                <div className="text-sm text-gray-600 dark:text-gray-400">
+                                    <div>{billFrom.name || 'Name not provided'}</div>
+                                    <div>{billFrom.email || 'Email not provided'}</div>
+                                    {billFrom.address && (
+                                        <div className="whitespace-pre-line">{billFrom.address}</div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Items Table */}
+                        <div className="mb-4">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm border-collapse">
+                                    <thead>
+                                        <tr className="bg-gray-50 dark:bg-gray-700">
+                                            <th className="text-left p-2 border border-gray-300 dark:border-gray-600 font-semibold">Item</th>
+                                            <th className="text-left p-2 border border-gray-300 dark:border-gray-600 font-semibold">Description</th>
+                                            <th className="text-center p-2 border border-gray-300 dark:border-gray-600 font-semibold">Qty</th>
+                                            <th className="text-right p-2 border border-gray-300 dark:border-gray-600 font-semibold">Price</th>
+                                            <th className="text-right p-2 border border-gray-300 dark:border-gray-600 font-semibold">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {items.map((item, idx) => (
+                                            <tr key={idx} className={idx % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700/50'}>
+                                                <td className="p-2 border border-gray-300 dark:border-gray-600">
+                                                    {item.name || 'Unnamed item'}
+                                                </td>
+                                                <td className="p-2 border border-gray-300 dark:border-gray-600">
+                                                    {item.description || '-'}
+                                                </td>
+                                                <td className="p-2 border border-gray-300 dark:border-gray-600 text-center">
+                                                    {item.quantity}
+                                                </td>
+                                                <td className="p-2 border border-gray-300 dark:border-gray-600 text-right">
+                                                    {formatCurrency(item.price)}
+                                                </td>
+                                                <td className="p-2 border border-gray-300 dark:border-gray-600 text-right font-medium">
+                                                    {formatCurrency(item.quantity * item.price)}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        {/* Totals */}
+                        <div className="flex justify-end mb-4">
+                            <div className="w-64">
+                                <div className="space-y-1 text-sm">
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-600 dark:text-gray-400">Subtotal:</span>
+                                        <span>{formatCurrency(subtotal)}</span>
+                                    </div>
+                                    {taxRate > 0 && (
+                                        <div className="flex justify-between">
+                                            <span className="text-gray-600 dark:text-gray-400">Tax ({taxRate}%):</span>
+                                            <span>{formatCurrency(taxAmount)}</span>
+                                        </div>
+                                    )}
+                                    {discountRate > 0 && (
+                                        <div className="flex justify-between">
+                                            <span className="text-gray-600 dark:text-gray-400">Discount ({discountRate}%):</span>
+                                            <span>-{formatCurrency(discountAmount)}</span>
+                                        </div>
+                                    )}
+                                    <hr className="border-gray-300 dark:border-gray-600 my-1" />
+                                    <div className="flex justify-between font-bold text-base">
+                                        <span>Total:</span>
+                                        <span className="text-blue-600 dark:text-blue-400">{formatCurrency(total)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Notes */}
+                        <div>
+                            <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">Notes:</h3>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-line">
+                                {notes || 'Thank you for your business!'}
+                            </div>
                         </div>
                     </div>
-                ))}
-            </div>
-
-            {/* Totals Section */}
-            <div className="flex justify-end mb-6">
-                <div className="w-full sm:w-auto sm:min-w-[200px]">
-                    <div className="grid grid-cols-2 gap-x-4 text-right text-sm">
-                        <span className="text-neutral-600 dark:text-neutral-400">Subtotal:</span>
-                        <span>{formatCurrency(subtotal)}</span>
-                        <span className="text-neutral-600 dark:text-neutral-400">Tax ({taxRate}%):</span>
-                        <span>{formatCurrency(taxAmount)}</span>
-                        <span className="text-neutral-600 dark:text-neutral-400">Discount ({discountRate}%):</span>
-                        <span>{formatCurrency(discountAmount)}</span>
-                        <hr className="col-span-2 border-t border-neutral-300 dark:border-neutral-700 my-1" />
-                        <span className="font-semibold">Total:</span>
-                        <span className="font-semibold">{formatCurrency(total)}</span>
-                    </div>
                 </div>
             </div>
 
-            {/* Notes Section */}
-            <div>
-                <p className="font-semibold mb-1">Notes:</p>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400 whitespace-pre-wrap">{notes || 'Thank you for your business!'}</p>
+            {/* Preview Actions */}
+            <div className="flex gap-2 text-xs">
+                <div className="px-3 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded border border-blue-200 dark:border-blue-800">
+                    💡 This preview updates automatically as you make changes above
+                </div>
             </div>
         </div>
     );
 };
 
-export default Preview;
+export default PreviewSection;

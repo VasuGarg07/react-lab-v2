@@ -1,79 +1,70 @@
-import { generateAndDownloadPDF } from '@/apps/InvoEase/invoice.utils';
-import { useInvoice } from '@/apps/InvoEase/InvoiceContext';
-import BillingInfo from '@/apps/InvoEase/stepComponents/BillingInfo';
-import Details from '@/apps/InvoEase/stepComponents/Details';
-import InvoiceItems from '@/apps/InvoEase/stepComponents/InvoiceItems';
-import Preview from '@/apps/InvoEase/stepComponents/Preview';
-import Summary from '@/apps/InvoEase/stepComponents/Summary';
+import { useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Accordion } from '@/ui/Accordion';
 import { useAuth } from '@/auth/AuthProvider';
 import LoginPrompt from '@/components/LoginPrompt';
+import { generateAndDownloadPDF } from '@/apps/InvoEase/invoice.utils';
+import useInvoiceStore, { useFormValidation } from './invoiceStore';
 import { toastService } from '@/shared/toastr';
-import Stepper from '@/ui/Stepper';
-import { Download } from 'lucide-react';
-import React, { useState } from 'react';
+import {
+    Download,
+    FileText,
+    Users,
+    Package,
+    Calculator,
+    Eye,
+    RotateCcw
+} from 'lucide-react';
+import DetailsSection from './stepComponents/Details';
+import BillingSection from './stepComponents/BillingInfo';
+import ItemsSection from './stepComponents/InvoiceItems';
+import SummarySection from './stepComponents/Summary';
+import PreviewSection from './stepComponents/Preview';
 
-const steps = [
-    { label: 'Invoice Details', component: Details },
-    { label: 'Billing Information', component: BillingInfo },
-    { label: 'Invoice Items', component: InvoiceItems },
-    { label: 'Summary', component: Summary },
-    { label: 'Preview', component: Preview },
-];
+const invoiceSchema = z.object({
+    _formValidation: z.boolean().default(true),
+});
 
-const InvoEase: React.FC = () => {
-    const [activeStep, setActiveStep] = useState(0);
-    const [isStepValid, setIsStepValid] = useState(false);
+type InvoiceFormData = z.infer<typeof invoiceSchema>;
+
+const InvoEase = () => {
     const [isGenerating, setIsGenerating] = useState(false);
+
     const { isLoggedIn } = useAuth();
-    const {
-        currentDate,
-        dueDate,
-        invoiceNumber,
-        currency,
-        currencySymbol,
-        billTo,
-        billFrom,
-        items,
-        taxRate,
-        discountRate,
-        notes
-    } = useInvoice();
+    const getInvoiceData = useInvoiceStore((state) => state.getInvoiceData);
+    const resetForm = useInvoiceStore((state) => state.resetForm);
+    const { isValid } = useFormValidation();
+
+    const methods = useForm<InvoiceFormData>({
+        resolver: zodResolver(invoiceSchema),
+        defaultValues: {
+            _formValidation: true,
+        },
+    });
 
     if (!isLoggedIn) {
-        return <LoginPrompt
-            title='Welcome to InvoEase'
-            caption='Create professional invoices effortlessly. Streamline your billing process with our intuitive invoice generation tools.'
-            image='/invoice-hero.png' />;
+        return (
+            <LoginPrompt
+                title='Welcome to InvoEase'
+                caption='Create professional invoices effortlessly. Streamline your billing process with our intuitive invoice generation tools.'
+                image='/invoice-hero.png'
+            />
+        );
     }
 
-    const handleNext = () => {
-        if (isStepValid) {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            setIsStepValid(false);
-        }
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-        setIsStepValid(true);
-    };
-
     const handleDownload = async () => {
+        if (!isValid) {
+            toastService.error('Please complete all required fields before generating the invoice.');
+            return;
+        }
+
         setIsGenerating(true);
         try {
-            await generateAndDownloadPDF({
-                currentDate,
-                dueDate,
-                invoiceNumber,
-                currency,
-                currencySymbol,
-                billTo,
-                billFrom,
-                items,
-                taxRate,
-                discountRate,
-                notes
-            });
+            const invoiceData = getInvoiceData();
+            await generateAndDownloadPDF(invoiceData);
+            toastService.success('Invoice generated successfully!');
         } catch (error) {
             console.error('Error generating PDF:', error);
             toastService.error('Failed to generate PDF. Please try again.');
@@ -82,71 +73,128 @@ const InvoEase: React.FC = () => {
         }
     };
 
-    const StepComponent = steps[activeStep].component;
+    const handleReset = () => {
+        resetForm();
+        toastService.info('Form reset successfully!');
+    };
+
+    const accordionItems = [
+        {
+            value: 'details',
+            trigger: (
+                <div className="flex items-center gap-3 w-full">
+                    <FileText size={18} className="text-blue-600 dark:text-blue-400" />
+                    <span className="text-left">Invoice Details</span>
+                </div>
+            ),
+            content: <DetailsSection />,
+        },
+        {
+            value: 'billing',
+            trigger: (
+                <div className="flex items-center gap-3 w-full">
+                    <Users size={18} className="text-purple-600 dark:text-purple-400" />
+                    <span className="text-left">Billing Information</span>
+                </div>
+            ),
+            content: <BillingSection />,
+        },
+        {
+            value: 'items',
+            trigger: (
+                <div className="flex items-center gap-3 w-full">
+                    <Package size={18} className="text-green-600 dark:text-green-400" />
+                    <span className="text-left">Invoice Items</span>
+                </div>
+            ),
+            content: <ItemsSection />,
+        },
+        {
+            value: 'summary',
+            trigger: (
+                <div className="flex items-center gap-3 w-full">
+                    <Calculator size={18} className="text-orange-600 dark:text-orange-400" />
+                    <span className="text-left">Summary & Notes</span>
+                </div>
+            ),
+            content: <SummarySection />,
+        },
+        {
+            value: 'preview',
+            trigger: (
+                <div className="flex items-center gap-3 w-full">
+                    <Eye size={18} className="text-indigo-600 dark:text-indigo-400" />
+                    <span className="text-left">Preview</span>
+                </div>
+            ),
+            content: <PreviewSection />,
+        },
+    ];
 
     return (
-        <div className="p-6 relative w-full max-w-6xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6 font-['SF Pro Display', 'Montserrat', 'sans-serif'] text-blue-800 dark:text-blue-200">
+        <div className="relative p-4 max-w-4xl mx-auto">
+            {/* Header */}
+            <h1 className="text-4xl font-bold text-blue-800 dark:text-blue-200 mb-2">
                 InvoEase
             </h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+                Create professional invoices with ease
+            </p>
 
-            <Stepper
-                steps={steps}
-                activeStep={activeStep}
-            />
+            {/* Form Section */}
+            <div className="lg:col-span-2 mb-4">
+                <FormProvider {...methods}>
+                    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+                        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+                            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                                Invoice Details
+                            </h2>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                Fill in the sections below. You can work on any section in any order.
+                            </p>
+                        </div>
 
-            <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-zinc-700 transition-all duration-200">
-                <h2 className="text-xl font-semibold text-center mb-4 text-gray-800 dark:text-gray-100">
-                    {steps[activeStep].label}
-                </h2>
+                        <div className="p-4">
+                            <Accordion
+                                items={accordionItems}
+                                type="single"
+                                defaultValue="details"
+                                collapsible={true}
+                                className="space-y-4"
+                            />
+                        </div>
+                    </div>
+                </FormProvider>
+            </div>
 
-                <div className="h-px w-full bg-gray-200 dark:bg-zinc-700 mb-6"></div>
+            {/* Actions */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-3">
+                <div className="flex gap-2">
+                    <button
+                        onClick={handleDownload}
+                        disabled={!isValid || isGenerating}
+                        className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-md text-sm font-medium transition-colors"
+                    >
+                        {isGenerating ? (
+                            <>
+                                <div className="animate-spin h-3 w-3 border-2 border-white border-t-transparent rounded-full" />
+                                <span>Generating...</span>
+                            </>
+                        ) : (
+                            <>
+                                <Download size={14} />
+                                <span>Generate PDF</span>
+                            </>
+                        )}
+                    </button>
 
-                <div className="mb-6">
-                    <StepComponent onValidStep={(isValid: boolean) => setIsStepValid(isValid)} />
-                </div>
-
-                <div className="h-px w-full bg-gray-200 dark:bg-zinc-700 mb-4"></div>
-
-                <div className="flex justify-end gap-3">
-                    {activeStep > 0 && (
-                        <button
-                            className="px-4 py-2 rounded-lg border border-gray-300 dark:border-zinc-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors"
-                            onClick={handleBack}
-                        >
-                            Back
-                        </button>
-                    )}
-                    {activeStep === steps.length - 1 ? (
-                        <button
-                            onClick={handleDownload}
-                            disabled={isGenerating}
-                            className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-2 disabled:opacity-50 transition-colors"
-                        >
-                            {isGenerating ? (
-                                <>
-                                    <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Processing...
-                                </>
-                            ) : (
-                                <>
-                                    <Download size={18} />
-                                    Generate PDF
-                                </>
-                            )}
-                        </button>
-                    ) : (
-                        <button
-                            onClick={handleNext}
-                            disabled={!isStepValid}
-                            className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                            Next
-                        </button>
-                    )}
+                    <button
+                        onClick={handleReset}
+                        className="w-full flex items-center justify-center gap-2 px-3 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md text-sm transition-colors"
+                    >
+                        <RotateCcw size={14} />
+                        <span>Reset</span>
+                    </button>
                 </div>
             </div>
         </div>
