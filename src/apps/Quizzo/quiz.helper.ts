@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export interface Question {
   category: string,
   type: string,
@@ -8,15 +6,6 @@ export interface Question {
   correct_answer: string,
   incorrect_answers: string[]
 }
-
-export const QuizAPi = 'https://opentdb.com/api.php?amount=10';
-
-export const fetchQuiz = async (category = "", difficulty = ""): Promise<{ results: Question[] }> => {
-  const apiUrl = `${QuizAPi}${category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}`
-  const response = await axios.get(apiUrl)
-  return response.data
-}
-
 
 export const QuizCategories = [
   { category: "General Knowledge", value: 9, },

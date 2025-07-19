@@ -2,7 +2,7 @@ import { Lightbulb, PlayCircle, RotateCcw } from 'lucide-react';
 import React from 'react';
 
 interface SudokuHeaderProps {
-    onNewGame: () => Promise<void>;
+    onNewGame: () => void;
     onHint: () => void;
     onSolve: () => void;
 }

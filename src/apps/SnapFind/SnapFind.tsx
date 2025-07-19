@@ -1,42 +1,31 @@
 import ImageGallery from "@/apps/SnapFind/ImageGallery";
 import SearchBar from "@/apps/SnapFind/SearchBar";
-import { Image, unsplashImages } from "@/apps/SnapFind/snapfind.helper";
 import { toastService } from "@/shared/toastr";
 import Pagination from "@/ui/Pagination";
 import React, { useEffect, useState } from "react";
+import { useUnsplashImages } from "./useUnsplashImages";
 
 const SnapFind: React.FC = () => {
   const [query, setQuery] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [images, setImages] = useState<Image[]>([]);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
   const [value, setValue] = useState<string | null>(null);
+  const { images, totalPages, isLoading, error, refetch } = useUnsplashImages({ query, page, value });
 
+  // Handle search submission
   const handleSubmit = async (reset: boolean = false) => {
-    if (!query) {
+    if (!query.trim()) {
       toastService.error('Please input your query');
       return;
     }
 
-    try {
-      setLoading(true);
-      setImages([]);
-      reset && setPage(1);
-      const data = await unsplashImages(query, page, value);
-
-      setTotalPages(data.total_pages);
-      setImages(data.results);
-    } catch (error) {
-      toastService.error('Unable to load images. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
+    reset ? setPage(1) : refetch();
   };
 
   useEffect(() => {
-    if (query) handleSubmit();
-  }, [page]);
+    if (error) {
+      toastService.error('Unable to load images. Please try again later.');
+    }
+  }, [error]);
 
   return (
     <div className="container max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col items-center relative">
@@ -46,7 +35,7 @@ const SnapFind: React.FC = () => {
         </h1>
 
         <SearchBar
-          loading={loading}
+          loading={isLoading}
           value={value}
           onSearchInput={setQuery}
           onSubmit={handleSubmit}
@@ -65,7 +54,7 @@ const SnapFind: React.FC = () => {
       )}
 
       {/* Loading Indicator */}
-      {loading && (
+      {isLoading && (
         <div className="flex justify-center my-8">
           <div className="relative w-24 h-24">
             <div className="absolute inset-0 rounded-full border-t-4 border-b-4 border-blue-500 animate-spin"></div>
