@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
-import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
 import { BarChart4 } from 'lucide-react';
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { useTransactions } from '@/apps/BudgetBuddy/helpers/expense.service';
 
 const Timeline: React.FC = () => {
-    const { transactions, loading, error } = useBudget();
+    const { data: transactions, isLoading, isError } = useTransactions();
+
     const timelineData = useMemo(() => {
         if (!transactions.length) return [];
 
@@ -25,7 +26,7 @@ const Timeline: React.FC = () => {
         });
     }, [transactions]);
 
-    if (loading) {
+    if (isLoading) {
         return (
             <div className="flex justify-center items-center h-[calc(100vh-52px)] p-3">
                 <div className="w-12 h-12 relative">
@@ -36,22 +37,18 @@ const Timeline: React.FC = () => {
         );
     }
 
-    if (error) {
+    if (isError) {
         return (
-            <div className="p-3">
-                <div className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg shadow-sm">
-                    {error}
-                </div>
+            <div className="flex items-center gap-2 p-7 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg shadow-sm">
+                Failed to load transactions. Please try again.
             </div>
         );
     }
 
     if (!transactions.length) {
         return (
-            <div className="p-3">
-                <div className="flex items-center gap-2 p-4 bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-sm">
-                    No transactions found. Add some transactions to see your balance timeline.
-                </div>
+            <div className="flex items-center gap-2 p-7 bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-sm">
+                No transactions found. Add some transactions to see your balance timeline.
             </div>
         );
     }

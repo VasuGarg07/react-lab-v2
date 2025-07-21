@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
-import { AlertTriangle, Download, History, Plus, Trash2 } from 'lucide-react';
-import { CSVDownloader } from '@/shared/CSVDownloader';
-import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
+import TransactionForm from '@/apps/BudgetBuddy/components/TransactionForm';
 import TransactionTable from '@/apps/BudgetBuddy/components/TransactionTable';
+import { useAddTransaction, useClearAllTransactions, useTransactions } from '@/apps/BudgetBuddy/helpers/expense.service';
+import { CSVDownloader } from '@/shared/CSVDownloader';
+import AlertDialog from '@/ui/AlertDialog';
+import Dialog from '@/ui/Dialog';
+import { Download, History, Plus, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
 
 const Overview: React.FC = () => {
-    const { transactions, loading, error, handleAddTransaction, clearAllTransactions } = useBudget();
-    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const { data: transactions, isLoading, isError } = useTransactions();
+    const addMutation = useAddTransaction();
+    const clearMutation = useClearAllTransactions();
 
-    const handleClearAll = async () => {
-        await clearAllTransactions();
-        setShowConfirmDialog(false);
+    const [showAddDialog, setShowAddDialog] = useState(false);
+
+    const handleClearAll = () => {
+        clearMutation.mutate();
     };
 
     const handleDownload = () => {
@@ -21,11 +26,20 @@ const Overview: React.FC = () => {
             downloader.download(fileName);
         } catch (error) {
             console.error('Failed to download CSV:', error);
-            // TODO: You might want to add proper error handling/notification here
         }
     };
 
-    if (loading) {
+    const handleAddTransaction = async (transaction: any) => {
+        try {
+            await addMutation.mutateAsync(transaction);
+            setShowAddDialog(false);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    };
+
+    if (isLoading) {
         return (
             <div className="flex justify-center items-center h-[calc(100vh-54px)] p-3">
                 <div className="w-12 h-12 relative">
@@ -36,11 +50,11 @@ const Overview: React.FC = () => {
         );
     }
 
-    if (error && !transactions.length) {
+    if (isError && !transactions.length) {
         return (
             <div className="p-3">
                 <div className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg shadow-sm">
-                    {error}
+                    Failed to load transactions. Please try again.
                 </div>
             </div>
         );
@@ -50,7 +64,7 @@ const Overview: React.FC = () => {
         return (
             <div className="p-3">
                 <div className="flex items-center gap-2 p-4 bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-sm">
-                    No transactions found. Add some transactions to see your balance timeline.
+                    No transactions found. Add some transactions to see your overview.
                 </div>
             </div>
         );
@@ -78,57 +92,49 @@ const Overview: React.FC = () => {
                     </button>
 
                     <button
-                        onClick={handleAddTransaction}
+                        onClick={() => setShowAddDialog(true)}
                         className="flex items-center justify-center sm:justify-start gap-1 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white hover:from-purple-600 hover:to-purple-700 transition-all shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 text-sm sm:text-base w-full sm:w-auto order-first sm:order-none mb-2 sm:mb-0"
                     >
                         <Plus size={16} />
                         <span>Add Transaction</span>
                     </button>
 
-                    <button
-                        onClick={() => setShowConfirmDialog(true)}
-                        className="flex items-center justify-center sm:justify-start gap-1 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg bg-white/70 dark:bg-white/10 backdrop-blur border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 text-sm sm:text-base w-full sm:w-auto"
-                    >
-                        <Trash2 size={16} />
-                        <span>Clear All</span>
-                    </button>
+                    <AlertDialog
+                        trigger={
+                            <button
+                                className="flex items-center justify-center sm:justify-start gap-1 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg bg-white/70 dark:bg-white/10 backdrop-blur border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all shadow-sm hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 text-sm sm:text-base w-full sm:w-auto"
+                                disabled={clearMutation.isPending}
+                            >
+                                <Trash2 size={16} />
+                                <span>{clearMutation.isPending ? 'Clearing...' : 'Clear All'}</span>
+                            </button>
+                        }
+                        title="Clear All Transactions"
+                        message="Are you sure you want to clear all transactions? This action cannot be undone."
+                        onConfirm={handleClearAll}
+                        confirmLabel="Clear All"
+                        cancelLabel="Cancel"
+                    />
                 </div>
 
                 {/* Transaction Table */}
                 <TransactionTable transactions={transactions} />
             </div>
 
-            {/* Confirmation Modal */}
-            {showConfirmDialog && (
-                <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center p-4 z-50">
-                    <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 max-w-md w-full overflow-hidden animate-fade-in">
-                        <div className="p-4">
-                            <div className="flex items-center gap-2 mb-2">
-                                <AlertTriangle className="text-red-600 dark:text-red-400" />
-                                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Warning!</h3>
-                            </div>
-                            <div className="h-px w-full bg-gray-200 dark:bg-gray-700 my-2"></div>
-                            <p className="text-gray-600 dark:text-gray-300 my-3">
-                                Are you sure you want to clear all transactions? This action cannot be undone.
-                            </p>
-                            <div className="flex justify-end gap-2 mt-4">
-                                <button
-                                    onClick={() => setShowConfirmDialog(false)}
-                                    className="px-3 py-1.5 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={handleClearAll}
-                                    className="px-3 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white transition-colors"
-                                >
-                                    Clear All
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* Add Transaction Dialog */}
+            <Dialog
+                open={showAddDialog}
+                onClose={(open) => !open && setShowAddDialog(false)}
+                size="md"
+                title="Add Transaction"
+            >
+                <TransactionForm
+                    mode="add"
+                    onClose={() => setShowAddDialog(false)}
+                    onAdd={handleAddTransaction}
+                    onEdit={async () => false} // Not used in add mode
+                />
+            </Dialog>
         </>
     );
 };

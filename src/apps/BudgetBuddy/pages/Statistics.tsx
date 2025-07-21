@@ -1,20 +1,15 @@
 import React from 'react';
 import { PieChart, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
-import { useBudget } from '@/apps/BudgetBuddy/BudgetContext';
+import { useTransactions } from '@/apps/BudgetBuddy/helpers/expense.service';
 import AggregateView from '@/apps/BudgetBuddy/components/AggregateView';
 import BalanceCard from '@/apps/BudgetBuddy/components/BalanceCard';
+import { useBudgetCalculations } from '../helpers/budgetStore';
 
 const Statistics: React.FC = () => {
-    const {
-        transactions,
-        loading,
-        error,
-        totalIncome,
-        totalExpenses,
-        remainingBalance
-    } = useBudget();
+    const { data: transactions, isLoading, isError } = useTransactions();
+    const { totalIncome, totalExpenses, remainingBalance } = useBudgetCalculations(transactions);
 
-    if (loading) {
+    if (isLoading) {
         return (
             <div className="flex justify-center items-center h-[calc(100vh-54px)] p-3">
                 <div className="w-12 h-12 relative">
@@ -25,12 +20,10 @@ const Statistics: React.FC = () => {
         );
     }
 
-    if (error) {
+    if (isError) {
         return (
-            <div className="p-3">
-                <div className="flex items-center gap-2 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg shadow-sm">
-                    {error}
-                </div>
+            <div className="flex items-center gap-2 p-7 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg shadow-sm">
+                Failed to load transactions. Please try again.
             </div>
         );
     }
