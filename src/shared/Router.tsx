@@ -20,6 +20,7 @@ import Home from "@/apps/Home/Home";
 import LoanCalculator from "@/apps/HomeloanWizard/LoanCalculator";
 import InvoEase from "@/apps/InvoEase/InvoEase";
 import JsonTreeViewer from "@/apps/JsonViewer/JsonViewer";
+import MarkdownPreviewer from "@/apps/Markdown/MarkdownLive";
 import PokeMemory from "@/apps/PokeMemory/PokeMemory";
 import { BattleProvider } from "@/apps/Pokeverse/context/BattleSimContext";
 import { PokedexProvider } from "@/apps/Pokeverse/context/PokedexContext";
@@ -61,6 +62,18 @@ const routes = [
     children: [
       { index: true, element: <Home /> },
       {
+        path: 'auth',
+        element: <AuthWrapper />,
+        children: [
+          { index: true, element: <Navigate to='login' replace /> },
+          { path: 'register', element: <Register /> },
+          { path: 'login', element: <Login /> },
+          { path: 'forgot-password', element: <ForgotPassword /> },
+          { path: '*', element: <Navigate to='/auth/login' replace /> }, // Catch invalid auth paths
+        ]
+      },
+
+      {
         path: 'formlyst',
         element: <Formlyst />,
         children: [
@@ -72,17 +85,6 @@ const routes = [
       },
       { path: 'formlyst-public/:shareUrl', element: <FormPublic /> },
       { path: 'formlyst-public/:shareUrl/review', element: <FormReview /> },
-      {
-        path: 'auth',
-        element: <AuthWrapper />,
-        children: [
-          { index: true, element: <Navigate to='login' replace /> },
-          { path: 'register', element: <Register /> },
-          { path: 'login', element: <Login /> },
-          { path: 'forgot-password', element: <ForgotPassword /> },
-          { path: '*', element: <Navigate to='/auth/login' replace /> }, // Catch invalid auth paths
-        ]
-      },
       {
         path: 'blogify',
         element: <Blogify />,
@@ -150,6 +152,7 @@ const routes = [
       { path: 'snapfind', element: <SnapFind /> },
       { path: 'quizzo', element: <Quizzo /> },
       { path: 'json', element: <JsonTreeViewer /> },
+      { path: 'markdown', element: <MarkdownPreviewer /> },
       { path: '*', redirect: '' },
     ]
   }
