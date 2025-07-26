@@ -1,4 +1,4 @@
-import { BarChart2, Feather, FileJson, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, StickyNote, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
+import { BarChart2, Code2, Feather, FileJson, Grid, HandCoins, HelpCircle, LayoutGrid, LucideIcon, MemoryStick, ReceiptText, Search, StickyNote, Swords, UtensilsCrossed, Wallet2 } from 'lucide-react';
 import BattleSim from '/cover/battle-sim2.webp';
 import Blogger from '/cover/blogger.webp';
 import Budget from '/cover/budget.webp';
@@ -13,6 +13,7 @@ import Sudoku from '/cover/sudoku.webp';
 import TicTacToe from '/cover/tictactoe.webp';
 import Visualizer from '/cover/visualizer.webp';
 import Form from '/cover/formlyst.png';
+import Markdown from '/cover/markdown.png'
 
 export interface AppInfo {
   name: string;
@@ -26,6 +27,16 @@ export interface AppInfo {
 }
 
 export const Apps: AppInfo[] = [
+  {
+    name: 'Markdown Live',
+    path: '/markdown-live',
+    tag: 'Live Markdown Preview',
+    image: Markdown,
+    visible: true,
+    description: 'Edit and preview Markdown in real-time with syntax highlighting, dark mode, clipboard integration, and styled previews using Tailwind.',
+    techStack: ['Live Preview', 'Tailwind Typography', 'Clipboard API'],
+    icon: Code2
+  },
   {
     name: 'Formlyst',
     path: '/formlyst',
