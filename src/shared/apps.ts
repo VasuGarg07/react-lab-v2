@@ -29,7 +29,7 @@ export interface AppInfo {
 export const Apps: AppInfo[] = [
   {
     name: 'Markdown Live',
-    path: '/markdown-live',
+    path: '/markdown',
     tag: 'Live Markdown Preview',
     image: Markdown,
     visible: true,
