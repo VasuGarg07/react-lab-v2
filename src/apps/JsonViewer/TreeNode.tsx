@@ -1,114 +1,132 @@
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Collapsible as BaseCollapsible } from '@base-ui-components/react/collapsible';
-import React, { useState } from "react";
-import { JsonValue } from "./json.helper";
+import { memo, useState } from "react";
 import { cn } from "@/shared/cn";
+import { getMetadata, JsonValue } from "./json.utilities";
+import { useJsonViewerStore } from "./json.store";
 
 interface TreeNodeProps {
     label: string;
     value: JsonValue;
     depth: number;
     path: string[];
-    onPathChange: (path: string[]) => void;
 }
 
-const TreeNode: React.FC<TreeNodeProps> = ({ label, value, depth, path, onPathChange }) => {
+const TreeNode: React.FC<TreeNodeProps> = ({ label, value, depth, path }) => {
     const [isOpen, setIsOpen] = useState(depth < 2);
-    const indent = depth * 0.5; // Reduced indentation - 2 spaces per level
+    const navigateToPath = useJsonViewerStore(state => state.navigateToPath);
 
-    // Format based on value type
-    const getValueDisplay = (val: JsonValue): { display: React.ReactNode, type: string } => {
-        if (val === null) return { display: <span className="text-slate-500 dark:text-slate-400">null</span>, type: 'null' };
+    const indent = depth * 0.5;
+    const isExpandable = value !== null && (typeof value === 'object');
+    const isArray = Array.isArray(value);
+    const isEmpty = isExpandable && Object.keys(value).length === 0;
+    const metadata = getMetadata(value);
+
+    // Value display with updated color scheme
+    const renderValue = (val: JsonValue) => {
+        if (val === null) {
+            return (
+                <span className="text-red-500 dark:text-red-400">
+                    null
+                </span>
+            );
+        }
 
         const type = typeof val;
 
         switch (type) {
             case 'string':
-                return {
-                    display: <span className="text-emerald-600 dark:text-emerald-400">"{val.toString()}"</span>,
-                    type
-                };
+                return (
+                    <span className="text-emerald-600 dark:text-emerald-400">
+                        "{val.toString()}"
+                    </span>
+                );
             case 'number':
-                return {
-                    display: <span className="text-blue-600 dark:text-blue-400">{val.toString()}</span>,
-                    type
-                };
+                return (
+                    <span className="text-cyan-600 dark:text-cyan-400">
+                        {val.toString()}
+                    </span>
+                );
             case 'boolean':
-                return {
-                    display: <span className="text-purple-600 dark:text-purple-400">{val.toString()}</span>,
-                    type
-                };
+                return (
+                    <span className="text-amber-600 dark:text-amber-400">
+                        {val.toString()}
+                    </span>
+                );
             default:
-                return { display: null, type };
+                return null;
         }
     };
 
-    // Determine if the value is expandable (object or array)
-    const isExpandable = value !== null && (typeof value === 'object');
-    const isArray = Array.isArray(value);
-    const isEmpty = isExpandable && Object.keys(value).length === 0;
-
-    // Get display values for primitive types
-    const { display } = getValueDisplay(value);
-
-    // Handle navigation into this node
     const handleNodeClick = () => {
-        if (isExpandable) {
-            const newPath = [...path, label];
-            onPathChange(newPath);
+        if (isExpandable && !isEmpty) {
+            navigateToPath([...path, label]);
         }
     };
 
-    return (
-        <div className="font-mono text-sm">
-            {isExpandable ? (
-                <BaseCollapsible.Root open={isOpen} onOpenChange={setIsOpen}>
-                    <div className="flex items-start group py-1 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-md transition-colors">
-                        <BaseCollapsible.Trigger
-                            className={cn(
-                                "p-1 focus:outline-none transition-colors",
-                                "text-slate-500 dark:text-slate-400",
-                                "hover:text-slate-700 dark:hover:text-slate-200",
-                                "focus:ring-2 focus:ring-blue-500/20 rounded"
-                            )}
-                            style={{ marginLeft: `${indent}rem` }}
-                        >
-                            {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-                        </BaseCollapsible.Trigger>
+    if (isExpandable) {
+        return (
+            <BaseCollapsible.Root open={isOpen} onOpenChange={setIsOpen} className="font-mono text-sm">
+                <div className="flex items-start group py-1  rounded-md">
+                    <BaseCollapsible.Trigger
+                        className={cn(
+                            "p-1 focus:outline-none",
+                            "text-slate-500 dark:text-slate-400",
+                            "hover:text-slate-700 dark:hover:text-slate-200",
+                            "focus:ring-2 focus:ring-blue-500/20 rounded",
+                            isEmpty && "cursor-default opacity-50"
+                        )}
+                        style={{ marginLeft: `${indent}rem` }}
+                        disabled={isEmpty}
+                    >
+                        {isEmpty ? (
+                            <div className="w-3.5 h-3.5" />
+                        ) : (
+                            isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />
+                        )}
+                    </BaseCollapsible.Trigger>
 
-                        <div className="flex-1">
-                            <div className="flex items-center">
-                                <span
-                                    className="font-medium text-slate-800 dark:text-slate-200 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                                    onClick={handleNodeClick}
-                                >
-                                    {label}:
-                                </span>
-                                <span className="text-slate-500 dark:text-slate-400 ml-1.5">
-                                    {isArray ? '(Array) [' : '(Object) {'}{isEmpty ? isArray ? ']' : '}' : ''}
-                                </span>
-                                {!isEmpty && (
-                                    <button
-                                        onClick={handleNodeClick}
-                                        className={cn(
-                                            "ml-2 text-xs text-blue-500 dark:text-blue-400 transition-opacity",
-                                            "opacity-0 group-hover:opacity-100",
-                                            "hover:text-blue-600 dark:hover:text-blue-300",
-                                            "focus:outline-none focus:opacity-100"
-                                        )}
-                                    >
-                                        Navigate
-                                    </button>
+                    <div className="flex-1 min-w-0">
+                        <div className="flex items-center flex-wrap gap-1">
+                            <span
+                                className={cn(
+                                    "font-medium text-violet-600 dark:text-violet-400 transition-colors",
+                                    !isEmpty && "cursor-pointer hover:text-violet-800 dark:hover:text-violet-300"
                                 )}
-                            </div>
+                                onClick={handleNodeClick}
+                            >
+                                {label}:
+                            </span>
+
+                            <span className="text-slate-500 dark:text-slate-400">
+                                {metadata} {isEmpty ? (isArray ? '[]' : '{}') : (isArray ? '[' : '{')}
+                            </span>
 
                             {!isEmpty && (
-                                <BaseCollapsible.Panel
+                                <button
+                                    onClick={handleNodeClick}
                                     className={cn(
-                                        "data-[state=open]:animate-in data-[state=closed]:animate-out",
-                                        "data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top"
+                                        "text-xs text-blue-500 dark:text-blue-400 transition-all",
+                                        "opacity-0 group-hover:opacity-100",
+                                        "hover:text-blue-600 dark:hover:text-blue-300",
+                                        "focus:outline-none focus:opacity-100",
+                                        "px-1 py-0.5 rounded hover:bg-blue-50 dark:hover:bg-blue-900/20"
                                     )}
                                 >
+                                    Navigate →
+                                </button>
+                            )}
+                        </div>
+
+                        {!isEmpty && (
+                            <BaseCollapsible.Panel
+                                className={cn(
+                                    "data-[state=open]:animate-in data-[state=closed]:animate-out",
+                                    "data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
+                                    "duration-200"
+                                )}
+                            >
+                                <div className="mt-1">
                                     {Object.entries(value).map(([key, val], index) => (
                                         <TreeNode
                                             key={isArray ? `${key}-${index}` : key}
@@ -116,26 +134,34 @@ const TreeNode: React.FC<TreeNodeProps> = ({ label, value, depth, path, onPathCh
                                             value={val}
                                             depth={depth + 1}
                                             path={[...path, label]}
-                                            onPathChange={onPathChange}
                                         />
                                     ))}
                                     <div style={{ marginLeft: `${indent + 0.5}rem` }}>
                                         <span className="text-slate-500 dark:text-slate-400">{isArray ? ']' : '}'}</span>
                                     </div>
-                                </BaseCollapsible.Panel>
-                            )}
-                        </div>
+                                </div>
+                            </BaseCollapsible.Panel>
+                        )}
                     </div>
-                </BaseCollapsible.Root>
-            ) : (
-                <div className="flex py-1 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-md transition-colors">
-                    <div style={{ marginLeft: `${indent + 0.75}rem` }}></div>
-                    <span className="font-medium text-slate-800 dark:text-slate-200">{label}:</span>
-                    <span className="ml-1.5">{display}</span>
                 </div>
-            )}
+            </BaseCollapsible.Root>
+        );
+    }
+
+    // Primitive value rendering
+    return (
+        <div className="flex items-center py-1 font-mono text-sm hover:bg-slate-50 dark:hover:bg-slate-800 rounded-md transition-colors">
+            <div style={{ marginLeft: `${indent + 0.75}rem` }}></div>
+            <div className="flex items-center min-w-0 flex-1">
+                <span className="font-medium text-violet-600 dark:text-violet-400 mr-2 flex-shrink-0">
+                    {label}:
+                </span>
+                <div className="min-w-0 flex-1">
+                    {renderValue(value)}
+                </div>
+            </div>
         </div>
     );
 };
 
-export default React.memo(TreeNode);
+export default memo(TreeNode);

@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react';
-import { Calculator, RotateCcw, TrendingUp } from 'lucide-react';
-import { LoanParams, calculateLoanResults, validateLoanParams } from './loanUtils';
+import { Calculator, TrendingUp } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import AffordabilityCheck from './AffordabilityCheck';
 import LoanInputs from './LoanInputs';
 import LoanResults from './LoanResults';
-import AffordabilityCheck from './AffordabilityCheck';
+import { LoanParams, calculateLoanResults, validateLoanParams } from './loanUtils';
 
 const LoanCalculator: React.FC = () => {
     // Simple state management - no complex context needed
@@ -26,15 +26,6 @@ const LoanCalculator: React.FC = () => {
     // Handle parameter changes from inputs
     const handleParamsChange = (newParams: Partial<LoanParams>) => {
         setLoanParams(prev => ({ ...prev, ...newParams }));
-    };
-
-    // Reset to default values
-    const handleReset = () => {
-        setLoanParams({
-            loanAmount: 2500000,
-            interestRate: 8.5,
-            tenure: 20
-        });
     };
 
     // Quick preset scenarios
@@ -80,28 +71,21 @@ const LoanCalculator: React.FC = () => {
             <div className="flex justify-center gap-2 mb-4">
                 <button
                     onClick={() => handlePreset('starter')}
-                    className="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    className="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-neutral-800 dark:text-white"
                 >
                     🏠 Starter (₹15L)
                 </button>
                 <button
                     onClick={() => handlePreset('premium')}
-                    className="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    className="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-neutral-800 dark:text-white"
                 >
                     🏡 Premium (₹50L)
                 </button>
                 <button
                     onClick={() => handlePreset('luxury')}
-                    className="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    className="px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-neutral-800 dark:text-white"
                 >
                     🏰 Luxury (₹1Cr)
-                </button>
-                <button
-                    onClick={handleReset}
-                    className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors flex items-center gap-1"
-                >
-                    <RotateCcw size={14} />
-                    Reset
                 </button>
             </div>
 
