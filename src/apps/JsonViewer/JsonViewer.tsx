@@ -164,7 +164,7 @@ const JsonTreeViewer: React.FC = () => {
             )}
 
             {/* Main Content - Side by Side Layout */}
-            <div className="flex-1 flex min-h-0">
+            <div className="flex h-[calc(100vh-124px)]">
                 {/* Left Panel - JSON Input */}
                 <div className="w-1/2 flex flex-col border-r border-gray-300 dark:border-gray-700 lg:w-1/2 md:w-full">
                     {/* Input Controls */}
@@ -183,12 +183,11 @@ const JsonTreeViewer: React.FC = () => {
                     </div>
 
                     {/* JSON Textarea */}
-                    <div className="flex-1 p-4">
-                        <textarea
-                            className="w-full h-full min-h-[400px] p-3 border border-gray-300 dark:border-gray-600 rounded-md font-mono text-sm bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600 focus:border-transparent resize-none"
-                            value={jsonString}
-                            onChange={(e) => handleJsonStringChange(e.target.value)}
-                            placeholder={`{
+                    <textarea
+                        className="w-full h-full min-h-[400px] p-3 font-mono text-sm bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 resize-none"
+                        value={jsonString}
+                        onChange={(e) => handleJsonStringChange(e.target.value)}
+                        placeholder={`{
   "name": "John Doe",
   "age": 30,
   "city": "New York",
@@ -198,9 +197,8 @@ const JsonTreeViewer: React.FC = () => {
     "zipCode": "10001"
   }
 }`}
-                            spellCheck={false}
-                        />
-                    </div>
+                        spellCheck={false}
+                    />
                 </div>
 
                 {/* Right Panel - Tree View */}
@@ -211,14 +209,14 @@ const JsonTreeViewer: React.FC = () => {
                             <Breadcrumb />
 
                             {/* Tree Content */}
-                            <div className="flex-1 overflow-auto p-4">
+                            <div className="overflow-auto text-sm bg-white dark:bg-gray-900 h-[calc(100%-44px)]">
                                 {isLoading ? (
-                                    <div className="flex flex-col items-center justify-center h-full">
+                                    <div className="flex flex-col items-center justify-center h-full p-4">
                                         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500 dark:border-blue-400 mb-3"></div>
                                         <p className="text-gray-600 dark:text-gray-400">Processing JSON...</p>
                                     </div>
                                 ) : (
-                                    <div className="space-y-1 w-full h-full min-h-[400px] p-2 border border-gray-300 dark:border-gray-600 rounded-md font-mono text-sm bg-white dark:bg-gray-900 overflow-auto">
+                                    <div className="space-y-1 w-full h-full p-3 rounded-md font-mono overflow-auto">
                                         {typeof currentJson === 'object' && currentJson !== null ? (
                                             Object.entries(currentJson).map(([key, value], index) => {
                                                 const label = Array.isArray(currentJson) ? `${index}` : key;

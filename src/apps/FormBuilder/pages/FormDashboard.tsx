@@ -84,7 +84,7 @@ const FormDashboard: React.FC = () => {
         try {
             setIsCreating(true);
             createForm('Untitled Form', '');
-            navigate('/builder');
+            navigate('builder');
         } catch (err) {
             console.error('Error creating form:', err);
             toastService.error('Failed to create form');

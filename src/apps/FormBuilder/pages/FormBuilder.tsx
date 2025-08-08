@@ -20,6 +20,8 @@ const FormBuilder: React.FC = () => {
         goBack
     } = useFormLoader();
 
+    console.log("I am here")
+
     // Loading state
     if (isLoading) {
         return (
