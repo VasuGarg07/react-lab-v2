@@ -2,11 +2,10 @@ import { Edit2, Trash2, TrendingUp, TrendingDown } from 'lucide-react';
 import CategoryBadge from './CategoryBadge';
 import { openTransactionForm } from './TransactionForm';
 import { useDeleteTransaction } from '../hooks/useTransactionMutations';
-import { formatCurrency } from '../helpers/expense.utils';
 import type { Transaction } from '../helpers/expense.constants';
 import { useModal } from '../../../components/ModalContext';
 import { openAlertDialog } from '../../../ui/AlertDialog';
-import { formatDate } from '../../../shared/utilities';
+import { formatCurrency, formatDate } from '../../../shared/utilities';
 
 interface TransactionListProps {
     transactions: Transaction[];
@@ -120,8 +119,8 @@ export default function TransactionList({
                                         )}
                                         <span
                                             className={`text-sm font-semibold ${transaction.type === 'income'
-                                                    ? 'text-emerald-600 dark:text-emerald-400'
-                                                    : 'text-red-600 dark:text-red-400'
+                                                ? 'text-emerald-600 dark:text-emerald-400'
+                                                : 'text-red-600 dark:text-red-400'
                                                 }`}
                                         >
                                             {transaction.type === 'income' ? '+' : '-'}
@@ -183,8 +182,8 @@ export default function TransactionList({
                                 </div>
                                 <p
                                     className={`text-lg font-bold ${transaction.type === 'income'
-                                            ? 'text-emerald-600 dark:text-emerald-400'
-                                            : 'text-red-600 dark:text-red-400'
+                                        ? 'text-emerald-600 dark:text-emerald-400'
+                                        : 'text-red-600 dark:text-red-400'
                                         }`}
                                 >
                                     {transaction.type === 'income' ? '+' : '-'}

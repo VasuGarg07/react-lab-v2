@@ -1,23 +1,6 @@
 import type { Transaction } from './expense.constants';
 
 /**
- * Format currency in Indian Rupees
- */
-export const formatCurrency = (
-    amount: number,
-    showDecimals: boolean = false
-): string => {
-    const formatted = new Intl.NumberFormat('en-IN', {
-        style: 'currency',
-        currency: 'INR',
-        minimumFractionDigits: showDecimals ? 2 : 0,
-        maximumFractionDigits: showDecimals ? 2 : 0,
-    }).format(amount);
-
-    return formatted;
-};
-
-/**
  * Format large numbers with K, L, Cr suffixes
  */
 export const formatCompactCurrency = (amount: number): string => {
@@ -190,29 +173,6 @@ export const sortByAmount = (
     return [...transactions].sort((a, b) => {
         return order === 'desc' ? b.amount - a.amount : a.amount - b.amount;
     });
-};
-
-/**
- * Get transaction statistics
- */
-export const getTransactionStats = (transactions: Transaction[]) => {
-    const income = calculateTotalIncome(transactions);
-    const expense = calculateTotalExpense(transactions);
-    const balance = income - expense;
-    const savingsRate = calculateSavingsRate(transactions);
-    const transactionCount = transactions.length;
-    const incomeCount = transactions.filter(t => t.type === 'income').length;
-    const expenseCount = transactions.filter(t => t.type === 'expense').length;
-
-    return {
-        income,
-        expense,
-        balance,
-        savingsRate,
-        transactionCount,
-        incomeCount,
-        expenseCount,
-    };
 };
 
 /**

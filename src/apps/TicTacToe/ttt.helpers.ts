@@ -71,7 +71,7 @@ export const makeRandomMove = (
 };
 
 // Get Playable Boards Based on Game Rules
-export const getPlayableBoards = (
+const getPlayableBoards = (
     winners: (string | null)[][],
     nextBoard: string | null
 ): [number, number][] => {

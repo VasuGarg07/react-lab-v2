@@ -8,10 +8,10 @@ import {
     groupByCategory,
     getTopSpendingCategories,
     filterByType,
-    formatCurrency,
     getCurrentMonthYear,
 } from '../helpers/expense.utils';
 import { CATEGORY_COLORS, TYPE_COLORS } from '../helpers/expense.constants';
+import { formatCurrency } from '../../../shared/utilities';
 
 export default function Statistics() {
     const { data: transactions = [], isLoading } = useTransactions();

@@ -53,3 +53,21 @@ export const formatRelativeTime = (date: Date | number): string => {
 
     return formatDate(targetDate, 'short');
 };
+
+
+/**
+ * Format currency in Indian Rupees
+ */
+export const formatCurrency = (
+    amount: number,
+    showDecimals: boolean = false
+): string => {
+    const formatted = new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: showDecimals ? 2 : 0,
+        maximumFractionDigits: showDecimals ? 2 : 0,
+    }).format(amount);
+
+    return formatted;
+};

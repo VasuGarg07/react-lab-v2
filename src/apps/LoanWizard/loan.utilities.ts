@@ -1,22 +1,24 @@
+import { formatCurrency } from "../../shared/utilities";
+
 export interface LoanParams {
     loanAmount: number;
     interestRate: number; // Annual percentage
     tenure: number; // In years
 }
 
-export interface LoanResults {
+interface LoanResults {
     monthlyEMI: number;
     totalInterest: number;
     totalPayment: number;
 }
 
-export interface AffordabilityResult {
+interface AffordabilityResult {
     ratio: number; // Percentage of income
     status: 'good' | 'moderate' | 'high';
     maxRecommended: number; // Max recommended EMI based on income
 }
 
-export interface ChartDataPoint {
+interface ChartDataPoint {
     name: string;
     value: number;
     [key: string]: string | number; // Index signature for Recharts compatibility
@@ -100,15 +102,6 @@ export const prepareChartData = (params: LoanParams): ChartDataPoint[] => {
             value: results.totalInterest,
         },
     ];
-};
-
-// Format amount as Indian currency
-export const formatCurrency = (amount: number): string => {
-    return new Intl.NumberFormat('en-IN', {
-        style: 'currency',
-        currency: 'INR',
-        maximumFractionDigits: 0,
-    }).format(amount);
 };
 
 // Format in Indian numbering system (Lakhs/Crores)

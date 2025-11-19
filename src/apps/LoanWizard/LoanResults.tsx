@@ -1,6 +1,7 @@
 import { TrendingUp, Wallet } from 'lucide-react';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
-import { type LoanParams, calculateLoanResults, formatCurrency, prepareChartData } from './loan.utilities';
+import { type LoanParams, calculateLoanResults, prepareChartData } from './loan.utilities';
+import { formatCurrency } from '../../shared/utilities';
 
 interface LoanResultsProps {
     loanParams: LoanParams;

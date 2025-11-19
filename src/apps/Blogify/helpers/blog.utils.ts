@@ -1,7 +1,7 @@
 /**
  * Strip HTML tags from content
  */
-export const stripHtml = (html: string): string => {
+const stripHtml = (html: string): string => {
     return html.replace(/<[^>]*>/g, '');
 };
 
@@ -39,31 +39,4 @@ export const calculateReadTime = (
  */
 export const generateAvatarUrl = (seed: string): string => {
     return `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed)}`;
-};
-
-/**
- * Validate image URL
- */
-export const isValidImageUrl = (url: string): boolean => {
-    try {
-        const urlObj = new URL(url);
-        return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(urlObj.pathname);
-    } catch {
-        return false;
-    }
-};
-
-/**
- * Get first paragraph from HTML content
- */
-export const getExcerpt = (html: string, maxLength: number = 200): string => {
-    // Try to find first paragraph
-    const pMatch = html.match(/<p[^>]*>(.*?)<\/p>/i);
-
-    if (pMatch && pMatch[1]) {
-        const text = stripHtml(pMatch[1]);
-        return truncateContent(text, maxLength, false);
-    }
-
-    return truncateContent(html, maxLength, true);
 };
