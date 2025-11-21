@@ -1,3 +1,5 @@
+import { Activity, BookText, GitBranch, Images, Info, Shuffle, Zap } from "lucide-react";
+
 export const BASE_API = 'https://pokeapi.co/api/v2/';
 
 export const ITEMS_PER_PAGE = 20;
@@ -59,14 +61,16 @@ export const STAT_LABELS: Record<string, string> = {
     speed: 'Speed',
 };
 
+export const MAX_STAT_VALUE = 255;
+
 export const DETAIL_TABS = [
-    { id: 'info', label: 'Information' },
-    { id: 'entries', label: 'Pokédex Entries' },
-    { id: 'moves', label: 'Moves' },
-    { id: 'stats', label: 'Base Stats' },
-    { id: 'evolution', label: 'Evolution' },
-    { id: 'varieties', label: 'Forms' },
-    { id: 'gallery', label: 'Gallery' },
+    { id: 'info', label: 'Information', icon: Info },
+    { id: 'entries', label: 'Pokédex Entries', icon: BookText },
+    { id: 'moves', label: 'Moves', icon: Zap },
+    { id: 'stats', label: 'Base Stats', icon: Activity },
+    { id: 'evolution', label: 'Evolution', icon: GitBranch },
+    { id: 'varieties', label: 'Forms', icon: Shuffle },
+    { id: 'gallery', label: 'Gallery', icon: Images },
 ] as const;
 
 export const GRADIENTS = {

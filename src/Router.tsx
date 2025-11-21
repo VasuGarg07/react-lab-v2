@@ -30,7 +30,9 @@ import BudgetLayout from "./apps/BudgetBuddy/components/BudgetLayout";
 import BudgetHome from "./apps/BudgetBuddy/pages/BudgetHome";
 import Overview from "./apps/BudgetBuddy/pages/Overview";
 import Statistics from "./apps/BudgetBuddy/pages/Statistics";
-import Pokeverse from "./apps/Pokeverse/pages/Pokeverse";
+import Pokeverse from "./apps/Pokeverse/Pokeverse";
+import Pokedex from "./apps/Pokeverse/Pokedex/Pokedex";
+import PokemonDetails from "./apps/Pokeverse/PokemonDetails/PokemonDetails";
 
 const router = createBrowserRouter([
     {
@@ -96,8 +98,8 @@ const router = createBrowserRouter([
                 element: <Outlet />,
                 children: [
                     { index: true, element: <Pokeverse /> },
-                    //   { path: 'pokedex', element: <Pokedex /> },
-                    //   { path: 'pokedex/:id', element: <PokemonDetails /> },
+                    { path: 'pokedex', element: <Pokedex /> },
+                    { path: 'pokedex/:id', element: <PokemonDetails /> },
                     {
                         path: 'battle-sim',
                         element: <Outlet />,
