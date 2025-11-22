@@ -76,7 +76,7 @@ export default function BattleSetup() {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-blue-100 via-neutal-100 to-purple-200 dark:from-neutral-900 dark:via-blue-950 dark:to-purple-950 py-8 px-4">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 via-neutal-50 to-purple-100 dark:from-neutral-900 dark:via-blue-950 dark:to-purple-950 py-8 px-4">
             <div className="max-w-3xl mx-auto">
                 {/* Animated Header */}
                 <div className="text-center mb-8 relative">

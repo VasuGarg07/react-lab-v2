@@ -1,4 +1,5 @@
-import { DAMAGE_MULTIPLIERS } from './constants';
+import { shuffleArray } from '../../../shared/utilities';
+import { DAMAGE_MULTIPLIERS, REGIONS } from './constants';
 import type {
     Pokemon,
     PokemonDetail,
@@ -127,6 +128,48 @@ export const transformEvolutionChain = (pokemon: Pokemon, chain: EvolutionChainL
     ...pokemon,
     evolutionChain: parseEvolutionChain(chain),
 });
+
+// Team Selection Utilities
+export const getIdsFromRegions = (regionNames: string[]): number[] => {
+    const ids: number[] = [];
+
+    REGIONS.forEach(region => {
+        if (regionNames.includes(region.name.toLowerCase())) {
+            for (let id = region.startId; id <= region.endId; id++) {
+                ids.push(id);
+            }
+        }
+    });
+
+    return ids;
+};
+
+export const generateRandomTeams = (
+    teamSize: number,
+    regionNames: string[],
+    count: number = 5
+): number[][] => {
+    const availableIds = getIdsFromRegions(regionNames);
+    const teams: number[][] = [];
+
+    // Shuffle once to ensure randomness
+    const shuffled = shuffleArray(availableIds);
+
+    for (let i = 0; i < count; i++) {
+        // Get different slice for each team
+        const startIndex = (i * teamSize) % shuffled.length;
+        const team: number[] = [];
+
+        for (let j = 0; j < teamSize; j++) {
+            const index = (startIndex + j) % shuffled.length;
+            team.push(shuffled[index]);
+        }
+
+        teams.push(team);
+    }
+
+    return teams;
+};
 
 // Battle Stats (used in battle simulator)
 export const calculateStat = (

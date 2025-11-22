@@ -99,14 +99,6 @@ export const DAMAGE_MULTIPLIERS: Record<string, Record<string, number>> = {
     fairy: { fire: 0.5, fighting: 2, poison: 0.5, dragon: 2, dark: 2, steel: 0.5 },
 };
 
-export const BATTLE_CONFIG = {
-    minTeamSize: 1,
-    maxTeamSize: 15,
-    defaultTeamSize: 6,
-    randomTeamsCount: 5,
-    movesPerPokemon: 4,
-} as const;
-
 export const DIFFICULTY_LEVELS = [
     { id: 'beginner', label: 'Beginner', level: 20 },
     { id: 'intermediate', label: 'Intermediate', level: 40 },
