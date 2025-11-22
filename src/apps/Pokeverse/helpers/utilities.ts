@@ -131,9 +131,9 @@ export const transformEvolutionChain = (pokemon: Pokemon, chain: EvolutionChainL
 // Battle Stats (used in battle simulator)
 export const calculateStat = (
     baseStat: number,
-    ev: number = 0,
-    level: number = 50,
+    level: number,      // ← Now dynamic based on difficulty
     isHP: boolean = false,
+    ev: number = 0,
     iv: number = 15
 ): number => {
     if (isHP) {
@@ -162,20 +162,25 @@ export const calculateDamage = (
     return Math.max(1, finalDamage);
 };
 
-export const formatPokemonForBattle = (pokemon: Pokemon, selectedMoves: BattleMove[]): BattlePokemon => {
+export const formatPokemonForBattle = (
+    pokemon: Pokemon,
+    selectedMoves: BattleMove[],
+    level: number = 50
+): BattlePokemon => {
     const stats = {
-        hp: calculateStat(pokemon.stats[0].value, 0, 50, true),
-        attack: calculateStat(pokemon.stats[1].value),
-        defense: calculateStat(pokemon.stats[2].value),
-        specialAttack: calculateStat(pokemon.stats[3].value),
-        specialDefense: calculateStat(pokemon.stats[4].value),
-        speed: calculateStat(pokemon.stats[5].value),
+        hp: calculateStat(pokemon.stats[0].value, level, true),
+        attack: calculateStat(pokemon.stats[1].value, level),
+        defense: calculateStat(pokemon.stats[2].value, level),
+        specialAttack: calculateStat(pokemon.stats[3].value, level),
+        specialDefense: calculateStat(pokemon.stats[4].value, level),
+        speed: calculateStat(pokemon.stats[5].value, level),
     };
 
     return {
         id: pokemon.id,
         name: pokemon.name,
         types: pokemon.types,
+        level,
         currentHP: stats.hp,
         maxHP: stats.hp,
         selectedMoves,

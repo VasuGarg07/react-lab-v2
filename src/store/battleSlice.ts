@@ -1,139 +1,302 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { BattlePokemon, BattleState } from '../apps/Pokeverse/helpers/types';
+import type { BattlePokemon, DifficultyId } from '../apps/Pokeverse/helpers/types';
 import { calculateDamage, getNextAlivePokemon } from '../apps/Pokeverse/helpers/utilities';
+import { DIFFICULTY_LEVELS } from '../apps/Pokeverse/helpers/constants';
+
+// Battle Phase Types
+type BattlePhase = 'SETUP' | 'TEAM_SELECTION' | 'LOADING' | 'BATTLE' | 'ENDED';
+
+// Player State
+interface Player {
+    name: string;
+    team: BattlePokemon[];
+    selectedTeamIds: number[];
+    activePokemon: number;
+    hasActed: boolean;
+}
+
+// Battle State
+interface BattleState {
+    phase: BattlePhase;
+
+    // Setup Configuration (saved during SETUP)
+    teamSize: number; // 1-15
+    selectedRegions: string[];
+    difficulty: DifficultyId;
+    level: number;
+
+    // Players
+    players: [Player, Player];
+    currentPlayerTurn: 0 | 1;
+
+    // Battle Tracking
+    turn: number;
+    battleLog: string[];
+    winner: string | null;
+}
 
 const initialState: BattleState = {
     phase: 'SETUP',
-    turn: 1,
+
+    // Setup defaults
+    teamSize: 6,
+    selectedRegions: [],
+    difficulty: 'intermediate',
+    level: 40,
+
+    // Players
     players: [
-        { name: '', team: [], activePokemon: 0, hasActed: false },
-        { name: '', team: [], activePokemon: 0, hasActed: false },
+        { name: '', team: [], selectedTeamIds: [], activePokemon: 0, hasActed: false },
+        { name: '', team: [], selectedTeamIds: [], activePokemon: 0, hasActed: false },
     ],
     currentPlayerTurn: 0,
-    maxTeamSize: 6,
+
+    // Battle
+    turn: 1,
+    battleLog: [],
+    winner: null,
 };
 
 const battleSlice = createSlice({
     name: 'battle',
     initialState,
     reducers: {
-        setPlayerName: (state, action: PayloadAction<{ playerId: number; name: string }>) => {
-            const { playerId, name } = action.payload;
-            state.players[playerId].name = name;
+        // ==================== SETUP PHASE ====================
 
-            const bothNamed = state.players.every(p => p.name !== '');
-            if (bothNamed && state.phase === 'SETUP') {
+        setPlayerNames: (state, action: PayloadAction<{ player1: string; player2: string }>) => {
+            state.players[0].name = action.payload.player1;
+            state.players[1].name = action.payload.player2;
+        },
+
+        setTeamSize: (state, action: PayloadAction<number>) => {
+            // Validate: 1-15
+            const size = Math.max(1, Math.min(15, action.payload));
+            state.teamSize = size;
+        },
+
+        setSelectedRegions: (state, action: PayloadAction<string[]>) => {
+            state.selectedRegions = action.payload;
+        },
+
+        setBattleDifficulty: (state, action: PayloadAction<DifficultyId>) => {
+            state.difficulty = action.payload;
+            const diffLevel = DIFFICULTY_LEVELS.find(d => d.id === action.payload);
+            if (diffLevel) {
+                state.difficulty = action.payload;
+                state.level = diffLevel.level;
+            }
+        },
+
+        proceedToTeamSelection: (state) => {
+            // Validate: names and regions set
+            const valid =
+                state.players[0].name.trim() !== '' &&
+                state.players[1].name.trim() !== '' &&
+                state.selectedRegions.length > 0;
+
+            if (valid) {
                 state.phase = 'TEAM_SELECTION';
             }
         },
 
-        addPokemonToTeam: (state, action: PayloadAction<{ playerId: number; pokemon: BattlePokemon }>) => {
-            const { playerId, pokemon } = action.payload;
-            const player = state.players[playerId];
+        // ==================== TEAM SELECTION PHASE ====================
+        // Random teams generated locally in TeamSelection component
+        // Only save the selected team IDs here
 
-            if (player.team.length < state.maxTeamSize) {
-                player.team.push(pokemon);
+        selectTeam: (state, action: PayloadAction<{ playerId: 0 | 1; teamIds: number[] }>) => {
+            const { playerId, teamIds } = action.payload;
+            state.players[playerId].selectedTeamIds = teamIds;
+        },
+
+        proceedToLoading: (state) => {
+            // Both players selected teams
+            const bothSelected = state.players.every(p => p.selectedTeamIds.length > 0);
+
+            if (bothSelected) {
+                state.phase = 'LOADING';
             }
         },
 
-        removePokemonFromTeam: (state, action: PayloadAction<{ playerId: number; index: number }>) => {
-            const { playerId, index } = action.payload;
-            state.players[playerId].team.splice(index, 1);
+        // ==================== LOADING PHASE ====================
+
+        setPlayerTeam: (state, action: PayloadAction<{ playerId: 0 | 1; team: BattlePokemon[] }>) => {
+            const { playerId, team } = action.payload;
+            state.players[playerId].team = team;
         },
 
         startBattle: (state) => {
-            const teamsValid = state.players.every(p => p.team.length > 0 && p.team.length <= state.maxTeamSize);
-            if (teamsValid) {
+            // Validate: both teams loaded
+            const teamsLoaded = state.players.every(p => p.team.length > 0);
+
+            if (teamsLoaded) {
                 state.phase = 'BATTLE';
+                state.battleLog.push(`Battle started between ${state.players[0].name} and ${state.players[1].name}!`);
+                state.battleLog.push(`${state.players[0].name} sent out ${state.players[0].team[0].name}!`);
+                state.battleLog.push(`${state.players[1].name} sent out ${state.players[1].team[0].name}!`);
             }
         },
 
-        selectMove: (state, action: PayloadAction<{ playerId: number; moveIndex: number }>) => {
+        // ==================== BATTLE PHASE ====================
+
+        selectMove: (state, action: PayloadAction<{ playerId: 0 | 1; moveIndex: number }>) => {
             const { playerId, moveIndex } = action.payload;
 
+            // Validate turn and action
             if (state.currentPlayerTurn !== playerId || state.players[playerId].hasActed) {
                 return;
             }
 
             const attacker = state.players[playerId];
             const defender = state.players[1 - playerId];
-            const move = attacker.team[attacker.activePokemon].selectedMoves[moveIndex];
 
+            const attackingPokemon = attacker.team[attacker.activePokemon];
+            const defendingPokemon = defender.team[defender.activePokemon];
+
+            const move = attackingPokemon.selectedMoves[moveIndex];
+
+            // Calculate damage
             const damage = calculateDamage(
-                defender.team[defender.activePokemon].types[0],
+                defendingPokemon.types[0],
                 move.power,
-                attacker.team[attacker.activePokemon].calculatedStats.attack,
-                defender.team[defender.activePokemon].calculatedStats.defense,
+                attackingPokemon.calculatedStats.attack,
+                defendingPokemon.calculatedStats.defense,
                 move.type,
-                attacker.team[attacker.activePokemon].types
+                attackingPokemon.types
             );
 
-            defender.team[defender.activePokemon].currentHP = Math.max(
-                defender.team[defender.activePokemon].currentHP - damage,
-                0
+            // Apply damage
+            defendingPokemon.currentHP = Math.max(defendingPokemon.currentHP - damage, 0);
+
+            // Battle log
+            state.battleLog.push(
+                `${attacker.name}'s ${attackingPokemon.name} used ${move.name}! (${damage} damage)`
             );
 
             attacker.hasActed = true;
 
-            if (defender.team[defender.activePokemon].currentHP <= 0) {
+            // Check if defender fainted
+            if (defendingPokemon.currentHP <= 0) {
+                state.battleLog.push(`${defender.name}'s ${defendingPokemon.name} fainted!`);
+
                 const nextIndex = getNextAlivePokemon(defender.team);
 
                 if (nextIndex === undefined) {
+                    // Battle over
                     state.phase = 'ENDED';
                     state.winner = attacker.name;
+                    state.battleLog.push(`${attacker.name} wins the battle!`);
                 } else {
+                    // Auto-switch to next Pokemon
                     defender.activePokemon = nextIndex;
+                    state.battleLog.push(`${defender.name} sent out ${defender.team[nextIndex].name}!`);
                 }
             }
         },
 
-        switchPokemon: (state, action: PayloadAction<{ playerId: number; index: number }>) => {
+        switchPokemon: (state, action: PayloadAction<{ playerId: 0 | 1; index: number }>) => {
             const { playerId, index } = action.payload;
 
+            // Validate turn and action
             if (state.currentPlayerTurn !== playerId || state.players[playerId].hasActed) {
                 return;
             }
 
             const player = state.players[playerId];
-            if (index >= 0 && index < player.team.length && player.team[index].currentHP > 0) {
+            const newPokemon = player.team[index];
+
+            // Validate: pokemon exists and is alive
+            if (index >= 0 && index < player.team.length && newPokemon.currentHP > 0) {
+                const oldPokemon = player.team[player.activePokemon];
+
                 player.activePokemon = index;
                 player.hasActed = true;
+
+                state.battleLog.push(
+                    `${player.name} withdrew ${oldPokemon.name} and sent out ${newPokemon.name}!`
+                );
             }
         },
 
         endTurn: (state) => {
+            // Validate: current player acted
             if (!state.players[state.currentPlayerTurn].hasActed) {
                 return;
             }
 
+            // Reset action flag
             state.players[state.currentPlayerTurn].hasActed = false;
-            state.currentPlayerTurn = 1 - state.currentPlayerTurn;
 
+            // Switch turns
+            state.currentPlayerTurn = (1 - state.currentPlayerTurn) as 0 | 1;
+
+            // Increment turn counter when back to player 1
             if (state.currentPlayerTurn === 0) {
                 state.turn += 1;
             }
         },
 
-        forfeit: (state, action: PayloadAction<number>) => {
+        addBattleLog: (state, action: PayloadAction<string>) => {
+            state.battleLog.push(action.payload);
+        },
+
+        // ==================== END PHASE ====================
+
+        forfeit: (state, action: PayloadAction<0 | 1>) => {
             const playerId = action.payload;
             state.phase = 'ENDED';
             state.winner = state.players[1 - playerId].name;
+            state.battleLog.push(`${state.players[playerId].name} forfeited!`);
+            state.battleLog.push(`${state.winner} wins!`);
         },
 
+        // ==================== RESET ====================
+
         resetBattle: () => initialState,
+
+        resetToSetup: (state) => {
+            // Keep player names, reset everything else
+            const player1Name = state.players[0].name;
+            const player2Name = state.players[1].name;
+
+            return {
+                ...initialState,
+                players: [
+                    { ...initialState.players[0], name: player1Name },
+                    { ...initialState.players[1], name: player2Name },
+                ],
+            };
+        },
     },
 });
 
 export const {
-    setPlayerName,
-    addPokemonToTeam,
-    removePokemonFromTeam,
+    // Setup
+    setPlayerNames,
+    setTeamSize,
+    setSelectedRegions,
+    setBattleDifficulty,
+    proceedToTeamSelection,
+
+    // Team Selection
+    selectTeam,
+    proceedToLoading,
+
+    // Loading
+    setPlayerTeam,
     startBattle,
+
+    // Battle
     selectMove,
     switchPokemon,
     endTurn,
+    addBattleLog,
+
+    // End
     forfeit,
+
+    // Reset
     resetBattle,
+    resetToSetup,
 } = battleSlice.actions;
 
 export default battleSlice.reducer;

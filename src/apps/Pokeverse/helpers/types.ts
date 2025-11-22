@@ -19,6 +19,9 @@ export type DetailSection =
     | 'info' | 'entries' | 'moves' | 'stats'
     | 'evolution' | 'varieties' | 'gallery';
 
+export type DifficultyId =
+    | 'beginner' | 'intermediate' | 'advanced' | 'master';
+
 // ==================== API Response Types ====================
 
 export interface PokemonListResponse {
@@ -207,6 +210,7 @@ export interface BattlePokemon {
     id: number;
     name: string;
     types: string[];
+    level: number;
     currentHP: number;
     maxHP: number;
     selectedMoves: BattleMove[];

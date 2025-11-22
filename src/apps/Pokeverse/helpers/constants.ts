@@ -20,15 +20,15 @@ export const getHomeSpriteShiny = (id: number) =>
     `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${id}.png`;
 
 export const REGIONS = [
-    { name: 'Kanto', startId: 1, endId: 151 },
-    { name: 'Johto', startId: 152, endId: 251 },
-    { name: 'Hoenn', startId: 252, endId: 386 },
-    { name: 'Sinnoh', startId: 387, endId: 493 },
-    { name: 'Unova', startId: 494, endId: 649 },
-    { name: 'Kalos', startId: 650, endId: 721 },
-    { name: 'Alola', startId: 722, endId: 809 },
-    { name: 'Galar', startId: 810, endId: 905 },
-    { name: 'Paldea', startId: 906, endId: 1015 },
+    { name: 'Kanto', startId: 1, endId: 151, generation: 'I' },
+    { name: 'Johto', startId: 152, endId: 251, generation: 'II' },
+    { name: 'Hoenn', startId: 252, endId: 386, generation: 'III' },
+    { name: 'Sinnoh', startId: 387, endId: 493, generation: 'IV' },
+    { name: 'Unova', startId: 494, endId: 649, generation: 'V' },
+    { name: 'Kalos', startId: 650, endId: 721, generation: 'VI' },
+    { name: 'Alola', startId: 722, endId: 809, generation: 'VII' },
+    { name: 'Galar', startId: 810, endId: 905, generation: 'VIII' },
+    { name: 'Paldea', startId: 906, endId: 1015, generation: 'IX' },
 ] as const;
 
 export const TYPE_COLORS: Record<string, string> = {
@@ -98,3 +98,18 @@ export const DAMAGE_MULTIPLIERS: Record<string, Record<string, number>> = {
     steel: { fire: 0.5, water: 0.5, electric: 0.5, ice: 2, rock: 2, steel: 0.5, fairy: 2 },
     fairy: { fire: 0.5, fighting: 2, poison: 0.5, dragon: 2, dark: 2, steel: 0.5 },
 };
+
+export const BATTLE_CONFIG = {
+    minTeamSize: 1,
+    maxTeamSize: 15,
+    defaultTeamSize: 6,
+    randomTeamsCount: 5,
+    movesPerPokemon: 4,
+} as const;
+
+export const DIFFICULTY_LEVELS = [
+    { id: 'beginner', label: 'Beginner', level: 20 },
+    { id: 'intermediate', label: 'Intermediate', level: 40 },
+    { id: 'advanced', label: 'Advanced', level: 70 },
+    { id: 'master', label: 'Master', level: 100 },
+] as const;

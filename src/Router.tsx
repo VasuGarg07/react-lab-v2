@@ -33,6 +33,7 @@ import Statistics from "./apps/BudgetBuddy/pages/Statistics";
 import Pokeverse from "./apps/Pokeverse/Pokeverse";
 import Pokedex from "./apps/Pokeverse/Pokedex/Pokedex";
 import PokemonDetails from "./apps/Pokeverse/PokemonDetails/PokemonDetails";
+import BattleSetup from "./apps/Pokeverse/BattleSetup/BattleSetup";
 
 const router = createBrowserRouter([
     {
@@ -104,7 +105,7 @@ const router = createBrowserRouter([
                         path: 'battle-sim',
                         element: <Outlet />,
                         children: [
-                            //   { index: true, element: <PlayerSetupScreen /> },
+                            { index: true, element: <BattleSetup /> },
                             //   { path: 'team-selection', element: <TeamSelectionScreen /> },
                             //   { path: 'battle', element: <BattleScreen /> },
                         ]
