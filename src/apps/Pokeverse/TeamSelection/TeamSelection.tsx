@@ -1,38 +1,16 @@
-import { useState, useEffect } from 'react';
+import { Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useAppSelector, useAppDispatch } from '../../../store/useRedux';
-import { selectTeam, proceedToLoading, saveBattleState, isInitialBattleState, loadBattleState } from '../../../store/battleSlice';
+import { proceedToLoading, saveBattleState, selectTeam } from '../../../store/battleSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
 import { generateRandomTeams } from '../helpers/utilities';
 import TeamCard from './TeamCard';
-import { Sparkles } from 'lucide-react';
 
 export default function TeamSelection() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const { players, teamSize, selectedRegions, phase } = useAppSelector(state => state.battle);
 
-    // Get battle config from Redux
-    // Get battle config from Redux
-    const battleState = useAppSelector(state => state.battle);
-    const { players, teamSize, selectedRegions, phase } = battleState;
-
-    const [hasLoaded, setHasLoaded] = useState(false);
-
-    // Load from localStorage if Redux is empty
-    useEffect(() => {
-        if (!hasLoaded && isInitialBattleState(battleState)) {
-            dispatch(loadBattleState());
-            setHasLoaded(true);
-        }
-    }, [hasLoaded, battleState, dispatch]);
-
-    // Redirect if no setup data after load attempt
-    useEffect(() => {
-        if (hasLoaded && (!teamSize || selectedRegions.length === 0)) {
-            navigate('/pokeverse/battle-sim', { replace: true });
-        }
-    }, [hasLoaded, teamSize, selectedRegions, navigate]);
-
-    // Local state
     const [player1Teams, setPlayer1Teams] = useState<number[][]>([]);
     const [player2Teams, setPlayer2Teams] = useState<number[][]>([]);
     const [selectedP1Team, setSelectedP1Team] = useState<number | null>(null);

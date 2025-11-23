@@ -23,7 +23,7 @@ export default function ContinueBattleDialog({ onContinue }: ContinueBattleDialo
             case 'BATTLE':
                 return '/pokeverse/battle-sim/battle';
             case 'ENDED':
-                return '/pokeverse/battle-sim/battle';
+                return '/pokeverse/battle-sim';
             default:
                 return '/pokeverse/battle-sim';
         }
@@ -52,8 +52,8 @@ export default function ContinueBattleDialog({ onContinue }: ContinueBattleDialo
 
     const handleNewBattle = () => {
         close();
-        // Show confirmation before resetting
         dispatch(resetBattle());
+        onContinue('/pokeverse/battle-sim')
     };
 
     // Battle info message

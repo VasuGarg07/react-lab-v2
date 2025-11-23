@@ -1,23 +1,19 @@
-import { useState, useEffect } from 'react';
+import { Crown, Flame, Swords, Trophy, Users, Zap } from 'lucide-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Users, Swords, Trophy, Zap, Flame, Crown } from 'lucide-react';
-import type { DifficultyId } from '../helpers/types';
-import { DIFFICULTY_LEVELS, REGIONS } from '../helpers/constants';
 import {
     proceedToTeamSelection,
+    saveBattleState,
     setBattleDifficulty,
     setPlayerNames,
     setSelectedRegions,
-    setTeamSize,
-    isInitialBattleState,
-    loadBattleState,
-    saveBattleState,
+    setTeamSize
 } from '../../../store/battleSlice';
-import { useModal } from '../../../components/ModalContext';
+import { useAppDispatch } from '../../../store/useRedux';
 import Slider from '../../../ui/Slider';
 import TextInput from '../../../ui/TextInput';
-import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
-import ContinueBattleDialog from './ContinueBattleDialog';
+import { DIFFICULTY_LEVELS, REGIONS } from '../helpers/constants';
+import type { DifficultyId } from '../helpers/types';
 
 // Difficulty icons mapping
 const difficultyIcons = {
@@ -30,8 +26,6 @@ const difficultyIcons = {
 export default function BattleSetup() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const battleState = useAppSelector(state => state.battle);
-    const modal = useModal();
 
     const [player1Name, setPlayer1Name] = useState('');
     const [player2Name, setPlayer2Name] = useState('');
@@ -39,29 +33,6 @@ export default function BattleSetup() {
     const [selectedRegions, setSelectedRegionsLocal] = useState<string[]>([]);
     const [difficulty, setDifficultyLocal] = useState<DifficultyId>('intermediate');
     const [errors, setErrors] = useState<Record<string, string>>({});
-
-    const [hasCheckedSavedBattle, setHasCheckedSavedBattle] = useState(false);
-    const [hasShownDialog, setHasShownDialog] = useState(false);
-
-    // Check for saved battle on mount
-    useEffect(() => {
-        if (!hasCheckedSavedBattle && isInitialBattleState(battleState)) {
-            dispatch(loadBattleState());
-            setHasCheckedSavedBattle(true);
-        }
-    }, [hasCheckedSavedBattle, battleState]);
-
-    // Show dialog if loaded state is not in SETUP phase
-    useEffect(() => {
-        if (hasCheckedSavedBattle && !hasShownDialog && !isInitialBattleState(battleState) && battleState.phase !== 'SETUP') {
-            modal.open(
-                <ContinueBattleDialog
-                    onContinue={(path) => navigate(path)}
-                />
-            );
-            setHasShownDialog(true);
-        }
-    }, [hasCheckedSavedBattle, battleState.phase, modal, navigate]);
 
     const toggleRegion = (regionName: string) => {
         setSelectedRegionsLocal(prev => {
@@ -113,7 +84,7 @@ export default function BattleSetup() {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-blue-50 via-neutal-50 to-purple-100 dark:from-neutral-900 dark:via-blue-950 dark:to-purple-950 py-8 px-4">
+        <div className="min-h-screen bg-linear-to-br from-sky-100 via-green-50 to-purple-100 dark:from-neutral-900 dark:via-blue-950 dark:to-purple-950 py-8 px-4">
             <div className="max-w-3xl mx-auto">
                 {/* Animated Header */}
                 <div className="text-center mb-8 relative">

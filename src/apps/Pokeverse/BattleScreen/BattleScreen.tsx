@@ -1,35 +1,41 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import { endTurn, forfeit, resetToSetup, selectMove, switchPokemon } from '../../../store/battleSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
-import ActionPanel from './ActionPanel';
-import BattleEndDialog from './BattleEndDialog';
-import BattleLog from './BattleLog';
-import MovePanel from './MovePanel';
+import { endTurn, forfeit, resetToSetup, selectMove, switchPokemon } from '../../../store/battleSlice';
 import PokemonDisplay from './PokemonDisplay';
-import SwitchPanel from './SwitchPanel';
 import TeamPartyStatus from './TeamPartyStatus';
+import BattleLog from './BattleLog';
+import ActionPanel from './ActionPanel';
+import MovePanel from './MovePanel';
+import SwitchPanel from './SwitchPanel';
 import WaitingPanel from './WaitingPanel';
+import BattleEndDialog from './BattleEndDialog';
+import { useModal } from '../../../components/ModalContext';
 
 export default function BattleScreen() {
     const dispatch = useAppDispatch();
     const battle = useAppSelector(state => state.battle);
-    const navigate = useNavigate();
-
+    const modal = useModal();
     const [selectedAction, setSelectedAction] = useState<'fight' | 'switch' | null>(null);
-    const [showEndDialog, setShowEndDialog] = useState(false);
-
 
     const currentPlayer = battle.players[battle.currentPlayerTurn];
     const opponent = battle.players[1 - battle.currentPlayerTurn];
     const activePokemon = currentPlayer.team[currentPlayer.activePokemon];
     const opponentPokemon = opponent.team[opponent.activePokemon];
 
+    // Show dialog when battle ends
     useEffect(() => {
         if (battle.phase === 'ENDED') {
-            setShowEndDialog(true);
+            modal.open(
+                <BattleEndDialog
+                    winner={battle.winner!}
+                    onPlayAgain={() => {
+                        dispatch(resetToSetup());
+                        modal.close();
+                    }}
+                />
+            );
         }
-    }, [battle.phase]);
+    }, [battle.phase, battle.winner, dispatch, modal]);
 
     const handleMoveSelect = (moveIndex: number) => {
         dispatch(selectMove({ playerId: battle.currentPlayerTurn, moveIndex }));
@@ -47,22 +53,8 @@ export default function BattleScreen() {
         dispatch(forfeit(battle.currentPlayerTurn));
     };
 
-    const handlePlayAgain = () => {
-        dispatch(resetToSetup());
-        navigate('/pokeverse/battle-sim');
-    };
-
-    if (battle.phase === 'ENDED' && showEndDialog) {
-        return (
-            <BattleEndDialog
-                winner={battle.winner!}
-                onPlayAgain={handlePlayAgain}
-            />
-        );
-    }
-
     return (
-        <div className="min-h-screen bg-linear-to-b from-sky-300 to-green-200 dark:from-neutral-900 dark:via-blue-950 dark:to-purple-950">
+        <div className="min-h-screen bg-linear-to-b from-sky-300 to-green-200 dark:from-neutral-900 dark:to-neutral-800">
             <div className="max-w-6xl mx-auto p-4 pt-20">
                 <div className="space-y-4">
 

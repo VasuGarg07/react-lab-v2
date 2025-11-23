@@ -1,34 +1,14 @@
-import { useEffect, useState } from 'react';
+import { CheckCircle2, Loader2, Swords } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { setPlayerTeam, startBattle } from '../../../store/battleSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
-import { useBattlePokemon } from '../hooks/useBattlePokemon';
-import { Loader2, CheckCircle2, Swords } from 'lucide-react';
-import { isInitialBattleState, loadBattleState, setPlayerTeam, startBattle } from '../../../store/battleSlice';
 import { getOfficialSprite } from '../helpers/constants';
+import { useBattlePokemon } from '../hooks/useBattlePokemon';
 
 export default function PrepareBattle() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const battleState = useAppSelector(state => state.battle);
-  const { teamSize, selectedRegions, players, level } = battleState;
-
-  const [hasLoaded, setHasLoaded] = useState(false);
-
-  // Load from localStorage if Redux is empty
-  useEffect(() => {
-    if (!hasLoaded && isInitialBattleState(battleState)) {
-      dispatch(loadBattleState());
-      setHasLoaded(true);
-    }
-  }, [hasLoaded, battleState, dispatch]);
-
-  // Redirect if no setup data after load attempt
-  useEffect(() => {
-    if (hasLoaded && (!teamSize || selectedRegions.length === 0)) {
-      navigate('/pokeverse/battle-sim', { replace: true });
-    }
-  }, [hasLoaded, teamSize, selectedRegions, navigate]);
+  const { teamSize, selectedRegions, players, level } = useAppSelector(state => state.battle);
 
   const player1Ids = players[0].selectedTeamIds;
   const player2Ids = players[1].selectedTeamIds;

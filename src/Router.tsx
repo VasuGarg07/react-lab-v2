@@ -37,6 +37,7 @@ import BattleSetup from "./apps/Pokeverse/BattleSetup/BattleSetup";
 import TeamSelection from "./apps/Pokeverse/TeamSelection/TeamSelection";
 import PrepareBattle from "./apps/Pokeverse/PrepareBattle/PrepareBattle";
 import BattleScreen from "./apps/Pokeverse/BattleScreen/BattleScreen";
+import BattleSimLayout from "./apps/Pokeverse/BattleSimLayout/BattleSimLayout";
 
 const router = createBrowserRouter([
     {
@@ -106,7 +107,7 @@ const router = createBrowserRouter([
                     { path: 'pokedex/:id', element: <PokemonDetails /> },
                     {
                         path: 'battle-sim',
-                        element: <Outlet />,
+                        element: <BattleSimLayout />,
                         children: [
                             { index: true, element: <BattleSetup /> },
                             { path: 'team-selection', element: <TeamSelection /> },
