@@ -19,8 +19,8 @@ interface Player {
 interface BattleState {
     phase: BattlePhase;
 
-    // Setup Configuration (saved during SETUP)
-    teamSize: number; // 1-15
+    // Setup Configuration
+    teamSize: number;
     selectedRegions: string[];
     difficulty: DifficultyId;
     level: number;
@@ -35,7 +35,65 @@ interface BattleState {
     winner: string | null;
 }
 
-const initialState: BattleState = {
+// ==================== localStorage Helpers ====================
+
+const BATTLE_STORAGE_KEY = 'battleState';
+
+/**
+ * Check if battle state is still in initial/default state
+ * Use this to determine if we need to hydrate from localStorage
+ */
+export const isInitialBattleState = (state: BattleState): boolean => {
+    return (
+        state.phase === 'SETUP' &&
+        state.players[0].name === '' &&
+        state.players[1].name === '' &&
+        state.selectedRegions.length === 0 &&
+        state.players[0].selectedTeamIds.length === 0 &&
+        state.players[1].selectedTeamIds.length === 0
+    );
+};
+
+/**
+ * Save current battle state to localStorage
+ * Call this on navigation events
+ */
+const saveToLocalStorage = (state: BattleState) => {
+    try {
+        localStorage.setItem(BATTLE_STORAGE_KEY, JSON.stringify(state));
+    } catch (error) {
+        console.error('Failed to save battle state:', error);
+    }
+};
+
+/**
+ * Load battle state from localStorage
+ * Call this on component mount if Redux is in initial state
+ */
+const loadFromLocalStorage = (): BattleState | null => {
+    try {
+        const saved = localStorage.getItem(BATTLE_STORAGE_KEY);
+        return saved ? JSON.parse(saved) : null;
+    } catch (error) {
+        console.error('Failed to load battle state:', error);
+        return null;
+    }
+};
+
+/**
+ * Clear localStorage (internal helper)
+ */
+export const clearBattleState = () => {
+    try {
+        localStorage.removeItem(BATTLE_STORAGE_KEY);
+    } catch (error) {
+        console.error('Failed to clear battle state:', error);
+    }
+};
+
+// ==================== Initial State ====================
+
+const defaultInitialState: BattleState = {
     phase: 'SETUP',
 
     // Setup defaults
@@ -57,10 +115,44 @@ const initialState: BattleState = {
     winner: null,
 };
 
+const initialState: BattleState = defaultInitialState;
+
+// ==================== Battle Slice ====================
+
 const battleSlice = createSlice({
     name: 'battle',
     initialState,
     reducers: {
+        // ==================== HYDRATION & PERSISTENCE ====================
+
+        /**
+         * Load battle state from localStorage
+         * Call this on component mount if Redux is in initial state
+         */
+        loadBattleState: (state) => {
+            const saved = loadFromLocalStorage();
+            if (saved) {
+                return saved;
+            }
+            return state;
+        },
+
+        /**
+         * Save current battle state to localStorage
+         * Call this before navigation
+         */
+        saveBattleState: (state) => {
+            saveToLocalStorage(state);
+        },
+
+        /**
+         * Hydrate Redux state from a provided state object
+         * Used when we already have the loaded state
+         */
+        hydrateBattleState: (_, action: PayloadAction<BattleState>) => {
+            return action.payload;
+        },
+
         // ==================== SETUP PHASE ====================
 
         setPlayerNames: (state, action: PayloadAction<{ player1: string; player2: string }>) => {
@@ -100,8 +192,6 @@ const battleSlice = createSlice({
         },
 
         // ==================== TEAM SELECTION PHASE ====================
-        // Random teams generated locally in TeamSelection component
-        // Only save the selected team IDs here
 
         selectTeam: (state, action: PayloadAction<{ playerId: 0 | 1; teamIds: number[] }>) => {
             const { playerId, teamIds } = action.payload;
@@ -130,6 +220,8 @@ const battleSlice = createSlice({
 
             if (teamsLoaded) {
                 state.phase = 'BATTLE';
+                state.turn = 1;
+                state.currentPlayerTurn = 0;
                 state.battleLog.push(`Battle started between ${state.players[0].name} and ${state.players[1].name}!`);
                 state.battleLog.push(`${state.players[0].name} sent out ${state.players[0].team[0].name}!`);
                 state.battleLog.push(`${state.players[1].name} sent out ${state.players[1].team[0].name}!`);
@@ -249,20 +341,23 @@ const battleSlice = createSlice({
             state.battleLog.push(`${state.winner} wins!`);
         },
 
-        // ==================== RESET ====================
-
-        resetBattle: () => initialState,
+        resetBattle: () => {
+            clearBattleState();
+            return defaultInitialState;
+        },
 
         resetToSetup: (state) => {
             // Keep player names, reset everything else
             const player1Name = state.players[0].name;
             const player2Name = state.players[1].name;
 
+            clearBattleState();
+
             return {
-                ...initialState,
+                ...defaultInitialState,
                 players: [
-                    { ...initialState.players[0], name: player1Name },
-                    { ...initialState.players[1], name: player2Name },
+                    { ...defaultInitialState.players[0], name: player1Name },
+                    { ...defaultInitialState.players[1], name: player2Name },
                 ],
             };
         },
@@ -270,6 +365,10 @@ const battleSlice = createSlice({
 });
 
 export const {
+    hydrateBattleState,
+    loadBattleState,
+    saveBattleState,
+
     // Setup
     setPlayerNames,
     setTeamSize,

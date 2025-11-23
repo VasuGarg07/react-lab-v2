@@ -80,3 +80,14 @@ html {
   from { transform: scale(0); }
   to { transform: scale(1); }
 }
+
+.pokemon-loading {
+  filter: grayscale(100%) brightness(0.7);
+  opacity: 0.5;
+}
+
+.pokemon-ready {
+  filter: grayscale(0%);
+  opacity: 1;
+  transition: all 0.5s ease;
+}

@@ -233,15 +233,6 @@ export interface BattlePlayer {
     hasActed: boolean;
 }
 
-export interface BattleState {
-    phase: GamePhase;
-    turn: number;
-    players: [BattlePlayer, BattlePlayer];
-    currentPlayerTurn: number;
-    maxTeamSize: number;
-    winner?: string;
-}
-
 export type BattleAction =
     | { type: 'SET_PLAYER_NAME'; playerId: number; name: string }
     | { type: 'ADD_POKEMON_TO_TEAM'; playerId: number; pokemon: BattlePokemon }

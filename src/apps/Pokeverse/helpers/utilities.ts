@@ -206,23 +206,23 @@ export const calculateDamage = (
 };
 
 export const formatPokemonForBattle = (
-    pokemon: Pokemon,
+    pokemon: PokemonDetail,
     selectedMoves: BattleMove[],
     level: number = 50
 ): BattlePokemon => {
     const stats = {
-        hp: calculateStat(pokemon.stats[0].value, level, true),
-        attack: calculateStat(pokemon.stats[1].value, level),
-        defense: calculateStat(pokemon.stats[2].value, level),
-        specialAttack: calculateStat(pokemon.stats[3].value, level),
-        specialDefense: calculateStat(pokemon.stats[4].value, level),
-        speed: calculateStat(pokemon.stats[5].value, level),
+        hp: calculateStat(pokemon.stats[0].base_stat, level, true),
+        attack: calculateStat(pokemon.stats[1].base_stat, level),
+        defense: calculateStat(pokemon.stats[2].base_stat, level),
+        specialAttack: calculateStat(pokemon.stats[3].base_stat, level),
+        specialDefense: calculateStat(pokemon.stats[4].base_stat, level),
+        speed: calculateStat(pokemon.stats[5].base_stat, level),
     };
 
     return {
         id: pokemon.id,
         name: pokemon.name,
-        types: pokemon.types,
+        types: pokemon.types.map(t => t.type.name),
         level,
         currentHP: stats.hp,
         maxHP: stats.hp,

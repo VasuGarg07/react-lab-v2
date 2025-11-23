@@ -1,12 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Users, Swords, Trophy, Zap, Flame, Crown } from 'lucide-react';
-import { useAppDispatch } from '../../../store/useRedux';
 import type { DifficultyId } from '../helpers/types';
 import { DIFFICULTY_LEVELS, REGIONS } from '../helpers/constants';
-import { proceedToTeamSelection, setBattleDifficulty, setPlayerNames, setSelectedRegions, setTeamSize } from '../../../store/battleSlice';
+import {
+    proceedToTeamSelection,
+    setBattleDifficulty,
+    setPlayerNames,
+    setSelectedRegions,
+    setTeamSize,
+    isInitialBattleState,
+    loadBattleState,
+    saveBattleState,
+} from '../../../store/battleSlice';
+import { useModal } from '../../../components/ModalContext';
 import Slider from '../../../ui/Slider';
 import TextInput from '../../../ui/TextInput';
+import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
+import ContinueBattleDialog from './ContinueBattleDialog';
 
 // Difficulty icons mapping
 const difficultyIcons = {
@@ -19,6 +30,8 @@ const difficultyIcons = {
 export default function BattleSetup() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const battleState = useAppSelector(state => state.battle);
+    const modal = useModal();
 
     const [player1Name, setPlayer1Name] = useState('');
     const [player2Name, setPlayer2Name] = useState('');
@@ -26,6 +39,27 @@ export default function BattleSetup() {
     const [selectedRegions, setSelectedRegionsLocal] = useState<string[]>([]);
     const [difficulty, setDifficultyLocal] = useState<DifficultyId>('intermediate');
     const [errors, setErrors] = useState<Record<string, string>>({});
+
+    const [hasCheckedSavedBattle, setHasCheckedSavedBattle] = useState(false);
+
+    // Check for saved battle on mount
+    useEffect(() => {
+        if (!hasCheckedSavedBattle && isInitialBattleState(battleState)) {
+            dispatch(loadBattleState());
+            setHasCheckedSavedBattle(true);
+        }
+    }, [hasCheckedSavedBattle, battleState, dispatch]);
+
+    // Show dialog if loaded state is not in SETUP phase
+    useEffect(() => {
+        if (hasCheckedSavedBattle && !isInitialBattleState(battleState) && battleState.phase !== 'SETUP') {
+            modal.open(
+                <ContinueBattleDialog
+                    onContinue={(path) => navigate(path)}
+                />
+            );
+        }
+    }, [hasCheckedSavedBattle, battleState.phase, modal, navigate]);
 
     const toggleRegion = (regionName: string) => {
         setSelectedRegionsLocal(prev => {
@@ -72,6 +106,7 @@ export default function BattleSetup() {
         dispatch(setBattleDifficulty(difficulty));
         dispatch(proceedToTeamSelection());
 
+        dispatch(saveBattleState());
         navigate('/pokeverse/battle-sim/team-selection');
     };
 
@@ -131,7 +166,6 @@ export default function BattleSetup() {
                                 />
                             </div>
                         </div>
-
                     </div>
 
                     {/* Team Size */}
