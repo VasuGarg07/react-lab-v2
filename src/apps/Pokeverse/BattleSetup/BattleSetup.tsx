@@ -41,6 +41,7 @@ export default function BattleSetup() {
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const [hasCheckedSavedBattle, setHasCheckedSavedBattle] = useState(false);
+    const [hasShownDialog, setHasShownDialog] = useState(false);
 
     // Check for saved battle on mount
     useEffect(() => {
@@ -48,16 +49,17 @@ export default function BattleSetup() {
             dispatch(loadBattleState());
             setHasCheckedSavedBattle(true);
         }
-    }, [hasCheckedSavedBattle, battleState, dispatch]);
+    }, [hasCheckedSavedBattle, battleState]);
 
     // Show dialog if loaded state is not in SETUP phase
     useEffect(() => {
-        if (hasCheckedSavedBattle && !isInitialBattleState(battleState) && battleState.phase !== 'SETUP') {
+        if (hasCheckedSavedBattle && !hasShownDialog && !isInitialBattleState(battleState) && battleState.phase !== 'SETUP') {
             modal.open(
                 <ContinueBattleDialog
                     onContinue={(path) => navigate(path)}
                 />
             );
+            setHasShownDialog(true);
         }
     }, [hasCheckedSavedBattle, battleState.phase, modal, navigate]);
 

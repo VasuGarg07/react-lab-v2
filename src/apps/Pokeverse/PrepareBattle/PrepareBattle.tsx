@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
 import { useBattlePokemon } from '../hooks/useBattlePokemon';
 import { Loader2, CheckCircle2, Swords } from 'lucide-react';
-import { isInitialBattleState, loadBattleState, saveBattleState, setPlayerTeam, startBattle } from '../../../store/battleSlice';
+import { isInitialBattleState, loadBattleState, setPlayerTeam, startBattle } from '../../../store/battleSlice';
 import { getOfficialSprite } from '../helpers/constants';
 
 export default function PrepareBattle() {
@@ -57,7 +57,6 @@ export default function PrepareBattle() {
       playerId: 1,
       team: player2Team.map(state => state.pokemon!)
     }));
-    dispatch(saveBattleState());
     dispatch(startBattle());
 
     // Navigate to battle screen

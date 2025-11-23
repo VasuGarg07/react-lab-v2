@@ -7,7 +7,7 @@ import { DIFFICULTY_LEVELS } from '../apps/Pokeverse/helpers/constants';
 type BattlePhase = 'SETUP' | 'TEAM_SELECTION' | 'LOADING' | 'BATTLE' | 'ENDED';
 
 // Player State
-interface Player {
+export interface Player {
     name: string;
     team: BattlePokemon[];
     selectedTeamIds: number[];

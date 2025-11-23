@@ -1,7 +1,6 @@
 import { useModal } from '../../../components/ModalContext';
 import { resetBattle } from '../../../store/battleSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
-import AlertDialog from '../../../ui/AlertDialog';
 
 interface ContinueBattleDialogProps {
     onContinue: (path: string) => void;
@@ -9,7 +8,7 @@ interface ContinueBattleDialogProps {
 
 export default function ContinueBattleDialog({ onContinue }: ContinueBattleDialogProps) {
     const dispatch = useAppDispatch();
-    const { close, open } = useModal();
+    const { close } = useModal();
 
     const battleState = useAppSelector(state => state.battle);
     const { phase, players } = battleState;
@@ -54,18 +53,7 @@ export default function ContinueBattleDialog({ onContinue }: ContinueBattleDialo
     const handleNewBattle = () => {
         close();
         // Show confirmation before resetting
-        open(
-            <AlertDialog
-                title="Start New Battle?"
-                message="This will discard your current battle progress. Are you sure?"
-                cancelText="Go Back"
-                confirmText="Start New"
-                onConfirm={() => {
-                    dispatch(resetBattle());
-                    // User stays on BattleSetup page with clean state
-                }}
-            />
-        );
+        dispatch(resetBattle());
     };
 
     // Battle info message
