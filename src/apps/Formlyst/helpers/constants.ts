@@ -56,3 +56,14 @@ export const ENTITY_COLORS: Record<EntityType, { bg: string; text: string; borde
         border: 'border-amber-200 dark:border-amber-800',
     },
 };
+
+// ============================================
+// FORM QUERY KEYS
+// ============================================
+
+export const formQueryKeys = {
+    forms: ['forms'] as const,
+    form: (id: string) => ['forms', id] as const,
+    publicForm: (shareUrl: string) => ['publicForm', shareUrl] as const,
+    responses: (formId: string) => ['responses', formId] as const,
+};

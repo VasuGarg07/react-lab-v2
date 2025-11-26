@@ -45,7 +45,7 @@
 }
 
 .markdown pre {
-  @apply bg-neutral-900 text-neutral-100 p-4 rounded-md overflow-auto text-sm my-4;
+  @apply bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 p-4 rounded-md overflow-auto text-sm my-4;
 }
 
 .markdown code {

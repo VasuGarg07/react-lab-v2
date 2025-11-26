@@ -123,7 +123,7 @@ const SuperTicTacToe = () => {
                     rounded-lg p-2 sm:p-3 h-full
                     transition-all duration-200
                     ${isPlayable
-                        ? 'bg-blue-50 dark:bg-blue-950/30 border-2 border-blue-300 dark:border-blue-800 shadow-sm'
+                        ? 'bg-violet-50 dark:bg-neutral-900 border-2 border-violet-300 dark:border-violet-800 shadow-sm'
                         : 'bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700'
                     }
                 `}>

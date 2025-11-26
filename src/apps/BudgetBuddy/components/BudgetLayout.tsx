@@ -11,7 +11,7 @@ export default function BudgetLayout() {
     // Redirect to login if not authenticated
     useEffect(() => {
         if (!initializing && !isLoggedIn) {
-            navigate('/login');
+            navigate('/auth/login');
         }
     }, [isLoggedIn, initializing, navigate]);
 

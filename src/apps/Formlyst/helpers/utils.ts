@@ -35,6 +35,24 @@ export function generateKey(label: string, type: EntityType, existingKeys: strin
     return `${base}_${counter}`;
 }
 
+export function getAllKeys(config: FormConfig, type: EntityType): string[] {
+    const keys: string[] = [];
+    for (const step of config.steps) {
+        if (type === 'step') {
+            keys.push(step.key);
+        } else {
+            for (const section of step.sections) {
+                if (type === 'section') {
+                    keys.push(section.key);
+                } else if (type === 'field') {
+                    keys.push(...section.fields.map((f) => f.key));
+                }
+            }
+        }
+    }
+    return keys;
+}
+
 // ============================================
 // FACTORY FUNCTIONS
 // ============================================
