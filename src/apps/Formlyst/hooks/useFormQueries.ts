@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getForms, getFormById, getPublicForm, getResponses } from '../helpers/services';
+import { getForms, getFormById, getPublicForm, getResponses, getResponseById } from '../helpers/services';
 import { formQueryKeys } from '../helpers/constants';
 
 
@@ -32,5 +32,13 @@ export function useResponses(formId: string | undefined) {
         queryKey: formQueryKeys.responses(formId!),
         queryFn: () => getResponses(formId!),
         enabled: !!formId,
+    });
+}
+
+export function useResponseById(responseId: string | undefined) {
+    return useQuery({
+        queryKey: formQueryKeys.response(responseId!),
+        queryFn: () => getResponseById(responseId!),
+        enabled: !!responseId,
     });
 }

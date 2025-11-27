@@ -8,6 +8,7 @@ import type {
     FormField,
     BreadcrumbItem,
     TreeNode,
+    FormResponse,
 } from './types';
 
 // ============================================
@@ -185,25 +186,60 @@ export function downloadJson(filename: string, data: unknown): void {
     URL.revokeObjectURL(url);
 }
 
-export function downloadCsv(filename: string, rows: Record<string, unknown>[], headers: string[]): void {
-    const escape = (val: unknown): string => {
+// Add this function to utils.ts (alongside existing downloadJson)
+
+export function downloadXml(filename: string, responses: FormResponse[], formConfig: FormConfig): void {
+    const escapeXml = (val: unknown): string => {
         if (val == null) return '';
-        if (Array.isArray(val)) return val.join('; ');
-        if (typeof val === 'boolean') return val ? 'Yes' : 'No';
         const str = String(val);
-        return /[,"\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&apos;');
     };
 
-    const csv = [
-        headers.join(','),
-        ...rows.map((row) => headers.map((h) => escape(row[h])).join(',')),
-    ].join('\n');
+    const formatValue = (val: unknown): string => {
+        if (val == null) return '';
+        if (Array.isArray(val)) return val.join(', ');
+        if (typeof val === 'boolean') return val ? 'Yes' : 'No';
+        return String(val);
+    };
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += `<responses form="${escapeXml(formConfig.title)}" count="${responses.length}">\n`;
+
+    for (const response of responses) {
+        xml += `  <response id="${escapeXml(response.id)}" submittedAt="${escapeXml(response.submittedAt)}" ip="${escapeXml(response.ipAddress)}">\n`;
+
+        for (const step of formConfig.steps) {
+            xml += `    <step key="${escapeXml(step.key)}" title="${escapeXml(step.title)}">\n`;
+
+            for (const section of step.sections) {
+                xml += `      <section key="${escapeXml(section.key)}" title="${escapeXml(section.title)}">\n`;
+
+                for (const field of section.fields) {
+                    const value = response.responses[field.key];
+                    xml += `        <field key="${escapeXml(field.key)}" label="${escapeXml(field.label)}" type="${field.type}">${escapeXml(formatValue(value))}</field>\n`;
+                }
+
+                xml += `      </section>\n`;
+            }
+
+            xml += `    </step>\n`;
+        }
+
+        xml += `  </response>\n`;
+    }
+
+    xml += '</responses>';
+
+    const blob = new Blob([xml], { type: 'application/xml;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${filename}.csv`;
+    a.download = `${filename}.xml`;
     a.click();
     URL.revokeObjectURL(url);
 }

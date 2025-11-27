@@ -38,6 +38,10 @@ import TeamSelection from "./apps/Pokeverse/TeamSelection/TeamSelection";
 import PrepareBattle from "./apps/Pokeverse/PrepareBattle/PrepareBattle";
 import BattleScreen from "./apps/Pokeverse/BattleScreen/BattleScreen";
 import BattleSimLayout from "./apps/Pokeverse/BattleSimLayout/BattleSimLayout";
+import FormDashboard from "./apps/Formlyst/Dashboard/Dashboard";
+import FormLayout from "./apps/Formlyst/FormLayout";
+import Responses from "./apps/Formlyst/Responses/Responses";
+import ResponseDetail from "./apps/Formlyst/ResponseDetail/ResponseDetail";
 
 const router = createBrowserRouter([
     {
@@ -117,6 +121,19 @@ const router = createBrowserRouter([
                     }
                 ]
             },
+            {
+                path: 'formlyst',
+                element: <FormLayout />,
+                children: [
+                    { index: true, element: <FormDashboard /> },
+                    // { path: 'new', element: <Builder /> },
+                    // { path: ':id/edit', element: <Builder /> },
+                    { path: ':id/responses', element: <Responses /> },
+                    { path: ':id/responses/:responseId', element: <ResponseDetail /> },
+                ],
+            },
+            // { path: 'formlyst/fill/:shareUrl', element: <Public /> },
+            // { path: 'formlyst/fill/:shareUrl/review', element: <Review /> },
         ]
     },
     {

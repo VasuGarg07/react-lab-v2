@@ -64,6 +64,11 @@ export async function getResponses(formId: string): Promise<FormResponse[]> {
     return data.responses;
 }
 
+export async function getResponseById(responseId: string): Promise<FormResponse> {
+    const { data } = await apiClient.get<{ response: FormResponse }>(`${BASE}/responses/${responseId}`);
+    return data.response;
+}
+
 export async function deleteResponse(id: string): Promise<void> {
     await apiClient.delete(`${BASE}/responses/${id}`);
 }

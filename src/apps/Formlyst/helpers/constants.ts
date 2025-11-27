@@ -66,4 +66,5 @@ export const formQueryKeys = {
     form: (id: string) => ['forms', id] as const,
     publicForm: (shareUrl: string) => ['publicForm', shareUrl] as const,
     responses: (formId: string) => ['responses', formId] as const,
+    response: (responseId: string) => ['response', responseId] as const,
 };
