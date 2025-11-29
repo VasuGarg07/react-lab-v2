@@ -42,6 +42,8 @@ import FormDashboard from "./apps/Formlyst/Dashboard/Dashboard";
 import FormLayout from "./apps/Formlyst/FormLayout";
 import Responses from "./apps/Formlyst/Responses/Responses";
 import ResponseDetail from "./apps/Formlyst/ResponseDetail/ResponseDetail";
+import Public from "./apps/Formlyst/FormPublic/Public";
+import Review from "./apps/Formlyst/FormReview/Review";
 
 const router = createBrowserRouter([
     {
@@ -132,8 +134,8 @@ const router = createBrowserRouter([
                     { path: ':id/responses/:responseId', element: <ResponseDetail /> },
                 ],
             },
-            // { path: 'formlyst/fill/:shareUrl', element: <Public /> },
-            // { path: 'formlyst/fill/:shareUrl/review', element: <Review /> },
+            { path: 'formlyst/fill/:shareUrl', element: <Public /> },
+            { path: 'formlyst/fill/:shareUrl/review', element: <Review /> },
         ]
     },
     {

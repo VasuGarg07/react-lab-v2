@@ -12,7 +12,8 @@ export const usePageTitle = () => {
 
     const currentApp = Apps.find(app => currentPath.includes(app.path));
     if (currentApp) {
-        return `React Lab • ${currentApp.name}`;
+        // return `React Lab • ${currentApp.name}`;
+        return `${currentApp.name}`;
     }
 
     return 'React Lab';

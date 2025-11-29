@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router';
-import { MoreVertical, Edit, Copy, Trash2, BarChart3, ToggleLeft, ToggleRight } from 'lucide-react';
+import { MoreVertical, Edit, Copy, Trash2, BarChart3, ToggleLeft, ToggleRight, Share2 } from 'lucide-react';
 import { useState } from 'react';
 import type { Form } from '../helpers/types';
 import { formatDate } from '../helpers/utils';
+import { useModal } from '../../../components/ModalContext';
+import ShareDialog from './ShareDialog';
 
 interface FormCardProps {
     form: Form;
@@ -13,6 +15,7 @@ interface FormCardProps {
 
 export default function FormCard({ form, onDuplicate, onDelete, onToggleStatus }: FormCardProps) {
     const navigate = useNavigate();
+    const modal = useModal();
     const [menuOpen, setMenuOpen] = useState(false);
 
     const stepCount = form.steps.length;
@@ -20,6 +23,10 @@ export default function FormCard({ form, onDuplicate, onDelete, onToggleStatus }
         (sum, step) => sum + step.sections.reduce((sSum, sec) => sSum + sec.fields.length, 0),
         0
     );
+
+    const handleShare = () => {
+        modal.open(<ShareDialog formTitle={form.title} shareUrl={form.shareUrl} />);
+    };
 
     return (
         <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
@@ -73,6 +80,14 @@ export default function FormCard({ form, onDuplicate, onDelete, onToggleStatus }
                         title="Edit"
                     >
                         <Edit className="w-4 h-4" />
+                    </button>
+
+                    <button
+                        onClick={handleShare}
+                        className="p-2 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors"
+                        title="Share"
+                    >
+                        <Share2 className="w-4 h-4" />
                     </button>
 
                     <button
