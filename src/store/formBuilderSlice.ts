@@ -116,6 +116,29 @@ const formBuilderSlice = createSlice({
             if (state.path[2] === payload.fieldKey) state.path = [payload.stepKey, payload.sectionKey];
             state.isDirty = true;
         },
+
+        reorderSteps(state, { payload }: PayloadAction<{ fromIndex: number; toIndex: number }>) {
+            const [moved] = state.formConfig.steps.splice(payload.fromIndex, 1);
+            state.formConfig.steps.splice(payload.toIndex, 0, moved);
+            state.isDirty = true;
+        },
+
+        reorderSections(state, { payload }: PayloadAction<{ stepKey: string; fromIndex: number; toIndex: number }>) {
+            const step = state.formConfig.steps.find(s => s.key === payload.stepKey);
+            if (!step) return;
+            const [moved] = step.sections.splice(payload.fromIndex, 1);
+            step.sections.splice(payload.toIndex, 0, moved);
+            state.isDirty = true;
+        },
+
+        reorderFields(state, { payload }: PayloadAction<{ stepKey: string; sectionKey: string; fromIndex: number; toIndex: number }>) {
+            const step = state.formConfig.steps.find(s => s.key === payload.stepKey);
+            const section = step?.sections.find(s => s.key === payload.sectionKey);
+            if (!section) return;
+            const [moved] = section.fields.splice(payload.fromIndex, 1);
+            section.fields.splice(payload.toIndex, 0, moved);
+            state.isDirty = true;
+        },
     },
 });
 
@@ -134,6 +157,9 @@ export const {
     addField,
     updateField,
     removeField,
+    reorderFields,
+    reorderSections,
+    reorderSteps
 } = formBuilderSlice.actions;
 
 export default formBuilderSlice.reducer;
