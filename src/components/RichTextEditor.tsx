@@ -1,7 +1,5 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import TurndownService from 'turndown';
-import { marked } from 'marked';
 import {
     Bold,
     Italic,
@@ -23,29 +21,20 @@ interface RichTextEditorProps {
     disabled?: boolean;
 }
 
-// Initialize Turndown service for HTML → Markdown conversion
-const turndownService = new TurndownService({
-    headingStyle: 'atx',
-    codeBlockStyle: 'fenced',
-});
-
 const RichTextEditor = ({
     value,
     onChange,
     disabled = false,
 }: RichTextEditorProps) => {
     // Convert markdown to HTML for initial content
-    const initialHtml = value ? marked(value) as string : '';
+    const initialHtml = value || '';
 
     const editor = useEditor({
         extensions: [StarterKit],
         content: initialHtml,
         editable: !disabled,
         onUpdate: ({ editor }) => {
-            // Convert HTML to Markdown before sending to parent
-            const html = editor.getHTML();
-            const markdown = turndownService.turndown(html);
-            onChange(markdown);
+            onChange(editor.getHTML());
         },
         editorProps: {
             attributes: {

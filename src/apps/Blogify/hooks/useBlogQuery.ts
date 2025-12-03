@@ -1,83 +1,96 @@
 import { useQuery } from '@tanstack/react-query';
 import {
+    getNotebooks,
+    getUserNotebooks,
+    getNotebooksByAuthor,
+    getNotebookById,
     getBlogs,
     getUserBlogs,
-    getBlogsOfAuthor,
+    getBlogsByAuthor,
+    getBlogsByNotebook,
     getBlogById,
     getRelatedBlogs,
-    getRecentBlogs,
 } from '../helpers/blog.service';
-import { BLOG_QUERY_KEYS, BLOG_CONSTANTS } from '../helpers/blog.constants';
+import { NOTEBOOK_QUERY_KEYS, BLOG_QUERY_KEYS, BLOG_CONSTANTS, STALE_TIME } from '../helpers/blog.constants';
 
-/**
- * Fetch paginated list of all blogs
- */
-export const useBlogs = (page: number = 1, pageSize: number = BLOG_CONSTANTS.DEFAULT_PAGE_SIZE) => {
-    return useQuery({
-        queryKey: BLOG_QUERY_KEYS.LIST(page),
-        queryFn: () => getBlogs(page, pageSize),
-        staleTime: 1000 * 60 * 5, // 5 minutes
-    });
-};
+const DEFAULT_LIMIT = BLOG_CONSTANTS.DEFAULT_PAGE_SIZE;
 
-/**
- * Fetch paginated list of current user's blogs
- */
-export const useUserBlogs = (page: number = 1, pageSize: number = BLOG_CONSTANTS.DEFAULT_PAGE_SIZE) => {
-    return useQuery({
-        queryKey: BLOG_QUERY_KEYS.USER_BLOGS(page),
-        queryFn: () => getUserBlogs(page, pageSize),
-        staleTime: 1000 * 60 * 5, // 5 minutes
-    });
-};
+// ============ Notebook Queries ============
 
-/**
- * Fetch paginated list of blogs by specific author
- */
-export const useBlogsByAuthor = (
-    author: string,
-    page: number = 1,
-    pageSize: number = BLOG_CONSTANTS.DEFAULT_PAGE_SIZE
-) => {
-    return useQuery({
-        queryKey: BLOG_QUERY_KEYS.AUTHOR(author, page),
-        queryFn: () => getBlogsOfAuthor(author, page, pageSize),
-        enabled: !!author, // Only run if author is provided
-        staleTime: 1000 * 60 * 5, // 5 minutes
-    });
-};
+/** Fetch paginated list of all public notebooks */
+export const useNotebooks = (page = 1, limit: number = DEFAULT_LIMIT) => useQuery({
+    queryKey: NOTEBOOK_QUERY_KEYS.LIST(page),
+    queryFn: () => getNotebooks(page, limit),
+    staleTime: STALE_TIME.DEFAULT,
+});
 
-/**
- * Fetch single blog by ID
- */
-export const useBlogDetail = (id: string) => {
-    return useQuery({
-        queryKey: BLOG_QUERY_KEYS.DETAIL(id),
-        queryFn: () => getBlogById(id),
-        enabled: !!id, // Only run if id is provided
-        staleTime: 1000 * 60 * 10, // 10 minutes
-    });
-};
+/** Fetch paginated list of current user's notebooks */
+export const useUserNotebooks = (page = 1, limit: number = DEFAULT_LIMIT) => useQuery({
+    queryKey: NOTEBOOK_QUERY_KEYS.USER(page),
+    queryFn: () => getUserNotebooks(page, limit),
+    staleTime: STALE_TIME.DEFAULT,
+});
 
-/**
- * Fetch related blogs for a specific blog
- */
-export const useRelatedBlogs = (id: string) => {
-    return useQuery({
-        queryKey: BLOG_QUERY_KEYS.RELATED(id),
-        queryFn: () => getRelatedBlogs(id),
-        enabled: !!id, // Only run if id is provided
-        staleTime: 1000 * 60 * 10, // 10 minutes
-    });
-};
+/** Fetch paginated list of notebooks by author */
+export const useNotebooksByAuthor = (author: string, page = 1, limit: number = DEFAULT_LIMIT) => useQuery({
+    queryKey: NOTEBOOK_QUERY_KEYS.AUTHOR(author, page),
+    queryFn: () => getNotebooksByAuthor(author, page, limit),
+    enabled: !!author,
+    staleTime: STALE_TIME.DEFAULT,
+});
 
-/**
- * Fetch recent blogs for home page
- */
-export const useRecentBlogs = () => {
-    return useQuery({
-        queryKey: BLOG_QUERY_KEYS.RECENT,
-        queryFn: getRecentBlogs,
-        staleTime: 1000 * 60 * 2, // 2 minutes
-    });
-};
+/** Fetch single notebook by ID */
+export const useNotebook = (id: string) => useQuery({
+    queryKey: NOTEBOOK_QUERY_KEYS.DETAIL(id),
+    queryFn: () => getNotebookById(id),
+    enabled: !!id,
+    staleTime: STALE_TIME.LONG,
+});
+
+// ============ Blog Queries ============
+
+/** Fetch paginated list of all public blogs */
+export const useBlogs = (page = 1, limit: number = DEFAULT_LIMIT) => useQuery({
+    queryKey: BLOG_QUERY_KEYS.LIST(page),
+    queryFn: () => getBlogs(page, limit),
+    staleTime: STALE_TIME.DEFAULT,
+});
+
+/** Fetch paginated list of current user's blogs */
+export const useUserBlogs = (page = 1, limit: number = DEFAULT_LIMIT) => useQuery({
+    queryKey: BLOG_QUERY_KEYS.USER(page),
+    queryFn: () => getUserBlogs(page, limit),
+    staleTime: STALE_TIME.DEFAULT,
+});
+
+/** Fetch paginated list of blogs by author */
+export const useBlogsByAuthor = (author: string, page = 1, limit: number = DEFAULT_LIMIT) => useQuery({
+    queryKey: BLOG_QUERY_KEYS.AUTHOR(author, page),
+    queryFn: () => getBlogsByAuthor(author, page, limit),
+    enabled: !!author,
+    staleTime: STALE_TIME.DEFAULT,
+});
+
+/** Fetch paginated list of blogs in a notebook */
+export const useBlogsByNotebook = (notebookId: string, page = 1, limit: number = DEFAULT_LIMIT) => useQuery({
+    queryKey: BLOG_QUERY_KEYS.NOTEBOOK(notebookId, page),
+    queryFn: () => getBlogsByNotebook(notebookId, page, limit),
+    enabled: !!notebookId,
+    staleTime: STALE_TIME.DEFAULT,
+});
+
+/** Fetch single blog by ID */
+export const useBlog = (id: string) => useQuery({
+    queryKey: BLOG_QUERY_KEYS.DETAIL(id),
+    queryFn: () => getBlogById(id),
+    enabled: !!id,
+    staleTime: STALE_TIME.LONG,
+});
+
+/** Fetch related blogs */
+export const useRelatedBlogs = (id: string) => useQuery({
+    queryKey: BLOG_QUERY_KEYS.RELATED(id),
+    queryFn: () => getRelatedBlogs(id),
+    enabled: !!id,
+    staleTime: STALE_TIME.LONG,
+});

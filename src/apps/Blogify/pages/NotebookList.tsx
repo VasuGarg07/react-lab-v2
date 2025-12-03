@@ -2,18 +2,18 @@ import { useParams, Link } from 'react-router';
 import { ChevronLeft } from 'lucide-react';
 import { BLOGIFY_ROUTES } from '../helpers/blog.constants';
 import { generateAvatarUrl } from '../helpers/blog.utils';
-import { useBlogsByAuthor } from '../hooks/useBlogQuery';
+import { useNotebooksByAuthor } from '../hooks/useBlogQuery';
 import { usePagination } from '../hooks/usePagination';
-import BlogGallery from '../components/BlogGallery';
+import NotebookGallery from '../components/NotebookGallery';
 
-export default function BlogList() {
+export default function NotebookList() {
     const { author } = useParams<{ author: string }>();
     const { currentPage, setPage } = usePagination();
 
-    const { data: blogsData, isLoading } = useBlogsByAuthor(author!, currentPage, 10);
+    const { data: notebooksData, isLoading } = useNotebooksByAuthor(author!, currentPage, 12);
 
-    const blogs = blogsData?.data ?? [];
-    const totalPages = blogsData?.pagination.totalPages ?? 1;
+    const notebooks = notebooksData?.data ?? [];
+    const totalPages = notebooksData?.pagination.totalPages ?? 1;
 
     return (
         <div className="space-y-6">
@@ -41,20 +41,20 @@ export default function BlogList() {
                             {author}
                         </h1>
                         <p className="text-neutral-600 dark:text-neutral-400">
-                            {blogsData?.pagination.totalItems ?? 0} blogs
+                            {notebooksData?.pagination.totalItems ?? 0} notebooks
                         </p>
                     </div>
                 </div>
             </header>
 
-            {/* Blogs Gallery */}
-            <BlogGallery
-                blogs={blogs}
+            {/* Notebooks Gallery */}
+            <NotebookGallery
+                notebooks={notebooks}
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={setPage}
                 isLoading={isLoading}
-                emptyMessage={`${author} hasn't published any blogs yet`}
+                emptyMessage={`${author} hasn't created any notebooks yet`}
                 emptyDescription="Check back later"
             />
         </div>
