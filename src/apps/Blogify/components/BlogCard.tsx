@@ -1,105 +1,229 @@
-import { Link } from 'react-router';
-import { Clock, Pencil } from 'lucide-react';
-import { calculateReadTime, generateAvatarUrl } from '../helpers/blog.utils';
+import { Clock, Edit, Trash2, Archive, FolderInput } from 'lucide-react';
+import { Link, useNavigate } from 'react-router';
+import { useState } from 'react';
+import { BLOGIFY_ROUTES, type Blog } from '../helpers/blog.constants';
+import { calculateReadTime, truncateContent } from '../helpers/blog.utils';
+import { formatRelativeTime } from '../../../shared/utilities';
 import { useAppSelector } from '../../../store/useRedux';
-import { BLOG_ROUTES, type Blog } from '../helpers/blog.constants';
-import { formatDate } from '../../../shared/utilities';
+import OptionsMenu, { type MenuAction } from './OptionsMenu';
+import { useModal } from '../../../components/ModalContext';
+import { openAlertDialog } from '../../../ui/AlertDialog';
+import { useDeleteBlog, useArchiveBlog, useMoveBlog } from '../hooks/useBlogMutations';
+import { useUserNotebooks } from '../hooks/useBlogQuery';
+import Select from '../../../ui/Select';
 
 interface BlogCardProps {
     blog: Blog;
+    variant?: 'default' | 'featured';
+    notebookCover?: string;
 }
 
-const BlogCard = ({ blog }: BlogCardProps) => {
+export default function BlogCard({ blog, variant = 'default', notebookCover }: BlogCardProps) {
     const user = useAppSelector(state => state.auth.user);
+    const navigate = useNavigate();
+    const modal = useModal();
+    const deleteMutation = useDeleteBlog();
+    const archiveMutation = useArchiveBlog();
+    const moveMutation = useMoveBlog();
+    const [moveTargetNotebook, setMoveTargetNotebook] = useState('');
+
+    const { data: notebooksData } = useUserNotebooks(1, 100);
 
     const isOwner = user?.id === blog.userId;
     const readTime = calculateReadTime(blog.blogContent);
+    const coverImage = notebookCover || 'https://placehold.co/400x400/e5e5e5/737373?text=Blog';
+    const notebooks = notebooksData?.data ?? [];
 
-    return (
-        <div className="group bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden hover:shadow-md transition-all duration-200">
-            {/* Cover Image */}
-            <div className="block relative">
-                <div className="aspect-video w-full overflow-hidden bg-neutral-100 dark:bg-neutral-700">
-                    <img
-                        src={blog.coverImageUrl}
-                        alt={blog.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                </div>
+    const handleEdit = () => {
+        navigate(BLOGIFY_ROUTES.BLOG_EDIT(blog.id));
+    };
 
-                {/* Edit badge overlay for owners */}
-                {isOwner && (
-                    <Link
-                        to={BLOG_ROUTES.EDIT(blog.id)}
-                        className="absolute top-2 right-2 p-2 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm rounded-lg hover:bg-white dark:hover:bg-neutral-900 transition-colors shadow-sm"
-                        onClick={(e) => e.stopPropagation()}
+    const handleDelete = () => {
+        openAlertDialog(modal, {
+            title: 'Delete Blog',
+            message: `Are you sure you want to delete "${blog.title}"? This action cannot be undone.`,
+            confirmText: 'Delete',
+            onConfirm: () => deleteMutation.mutate(blog.id),
+        });
+    };
+
+    const handleArchive = () => {
+        archiveMutation.mutate(blog.id);
+    };
+
+    const handleMoveClick = () => {
+        modal.open(
+            <div className="py-2">
+                <h3 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+                    Move Blog
+                </h3>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+                    Select a notebook to move this blog to
+                </p>
+                <Select
+                    label="Target Notebook"
+                    options={notebooks
+                        .filter(n => n.id !== blog.notebookId)
+                        .map(n => ({ label: n.title, value: n.id }))}
+                    value={moveTargetNotebook}
+                    onChange={setMoveTargetNotebook}
+                    placeholder="Choose notebook..."
+                />
+                <div className="flex gap-3 mt-6">
+                    <button
+                        type="button"
+                        onClick={modal.close}
+                        className="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-750 transition-all duration-200"
                     >
-                        <Pencil className="w-4 h-4 text-neutral-700 dark:text-neutral-300" />
-                    </Link>
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            if (moveTargetNotebook) {
+                                moveMutation.mutate(
+                                    { blogId: blog.id, notebookId: moveTargetNotebook },
+                                    {
+                                        onSuccess: () => {
+                                            modal.close();
+                                            setMoveTargetNotebook('');
+                                        },
+                                    }
+                                );
+                            }
+                        }}
+                        disabled={!moveTargetNotebook}
+                        className="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Move
+                    </button>
+                </div>
+            </div>
+        );
+    };
+
+    const actions: MenuAction[] = [
+        {
+            label: 'Edit',
+            icon: <Edit className="w-4 h-4" />,
+            onClick: handleEdit,
+        },
+        {
+            label: 'Move to...',
+            icon: <FolderInput className="w-4 h-4" />,
+            onClick: handleMoveClick,
+        },
+        {
+            label: blog.isArchived ? 'Unarchive' : 'Archive',
+            icon: <Archive className="w-4 h-4" />,
+            onClick: handleArchive,
+        },
+        {
+            label: 'Delete',
+            icon: <Trash2 className="w-4 h-4" />,
+            onClick: handleDelete,
+            variant: 'danger' as const,
+        },
+    ];
+
+    // Featured variant - large card with overlay
+    if (variant === 'featured') {
+        return (
+            <div className="w-80 shrink-0 relative group">
+                <Link to={BLOGIFY_ROUTES.BLOG_DETAIL(blog.id)}>
+                    <div className="aspect-4/3 rounded-xl overflow-hidden bg-neutral-200 dark:bg-neutral-700 relative">
+                        <img
+                            src={coverImage}
+                            alt=""
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
+
+                        <div className="absolute bottom-4 left-4 right-4 text-white">
+                            {blog.tags[0] && (
+                                <span className="text-xs font-medium bg-white/20 backdrop-blur-sm px-2 py-1 rounded-md">
+                                    {blog.tags[0]}
+                                </span>
+                            )}
+                            <h3 className="font-semibold mt-2 line-clamp-2">{blog.title}</h3>
+                            <div className="flex items-center gap-2 mt-2 text-sm text-white/80">
+                                <span>{blog.author}</span>
+                                <span>·</span>
+                                <span>{readTime} min</span>
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+
+                {/* Options Menu */}
+                {isOwner && (
+                    <div className="absolute top-2 right-2 z-10">
+                        <OptionsMenu actions={actions} />
+                    </div>
                 )}
             </div>
+        );
+    }
 
-            <div className="p-4">
-                {/* Author Info */}
-                <Link
-                    to={`/blogify/list/${blog.author}`}
-                    className="flex items-center gap-2 mb-3 hover:opacity-80 transition-opacity"
-                >
-                    <div className="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-700 overflow-hidden shrink-0">
-                        <img
-                            src={generateAvatarUrl(blog.author)}
-                            alt={blog.author}
-                            className="w-full h-full"
-                        />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-neutral-800 dark:text-neutral-200 truncate">
+    // Default variant - horizontal card
+    return (
+        <div className="flex gap-4 p-4 rounded-xl bg-white dark:bg-neutral-800 border border-neutral-200/60 dark:border-neutral-700/60 hover:border-neutral-300 dark:hover:border-neutral-600 hover:shadow-sm transition-all duration-200 group relative">
+            <Link to={BLOGIFY_ROUTES.BLOG_DETAIL(blog.id)} className="flex gap-4 flex-1 min-w-0">
+                <div className="flex-1 min-w-0">
+                    {/* Author & Date */}
+                    <div className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+                        <span className="font-medium text-neutral-700 dark:text-neutral-300">
                             {blog.author}
-                        </p>
-                        <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                            {formatDate(blog.createdAt, 'short')}
-                        </p>
+                        </span>
+                        <span>·</span>
+                        <span>{formatRelativeTime(blog.createdAt)}</span>
                     </div>
-                </Link>
 
-                {/* Title */}
-                <Link to={BLOG_ROUTES.DETAIL(blog.id)} className="block mb-3">
-                    <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 line-clamp-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    {/* Title */}
+                    <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 line-clamp-2 group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">
                         {blog.title}
                     </h3>
-                </Link>
 
-                {/* Tags */}
-                <div className="flex items-center gap-2 flex-wrap mb-3">
-                    {blog.tags.slice(0, 3).map((tag) => (
-                        <span
-                            key={tag}
-                            className="px-2 py-1 text-xs font-medium rounded-md bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300"
-                        >
-                            {tag}
+                    {/* Excerpt */}
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 mt-1.5">
+                        {truncateContent(blog.blogContent, 120)}
+                    </p>
+
+                    {/* Meta */}
+                    <div className="flex items-center gap-3 mt-3">
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400 flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {readTime} min
                         </span>
-                    ))}
-                    {blog.tags.length > 3 && (
-                        <span className="text-xs text-neutral-500 dark:text-neutral-400">
-                            +{blog.tags.length - 3}
-                        </span>
-                    )}
-                    {blog.isArchived && (
-                        <span className="px-2 py-1 text-xs font-medium rounded-md bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400">
-                            Draft
-                        </span>
-                    )}
+                        {blog.tags[0] && (
+                            <span className="px-2 py-0.5 text-xs bg-neutral-100 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300 rounded-md">
+                                {blog.tags[0]}
+                            </span>
+                        )}
+                        {blog.isArchived && (
+                            <span className="px-2 py-0.5 text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-md">
+                                Draft
+                            </span>
+                        )}
+                    </div>
                 </div>
 
-                {/* Read Time */}
-                <div className="flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400">
-                    <Clock className="w-3 h-3" />
-                    <span>{readTime} min read</span>
+                {/* Thumbnail */}
+                <div className="w-28 h-28 rounded-lg bg-neutral-100 dark:bg-neutral-700 overflow-hidden shrink-0">
+                    <img
+                        src={coverImage}
+                        alt=""
+                        className="w-full h-full object-cover"
+                    />
                 </div>
-            </div>
+            </Link>
+
+            {/* Options Menu */}
+            {isOwner && (
+                <div className="absolute top-2 right-2">
+                    <OptionsMenu actions={actions} />
+                </div>
+            )}
         </div>
     );
-};
-
-export default BlogCard;
+}

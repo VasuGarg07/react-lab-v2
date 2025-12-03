@@ -20,12 +20,6 @@ import RecipeHaven from "./apps/RecipeHaven/RecipeHaven";
 import MealWrapper from "./apps/RecipeHaven/MealWrapper";
 import MealGallery from "./apps/RecipeHaven/MealGallery";
 import MealDetails from "./apps/RecipeHaven/MealDetails";
-import BlogLayout from "./apps/Blogify/components/BlogLayout";
-import BlogHome from "./apps/Blogify/pages/BlogHome";
-import BlogList from "./apps/Blogify/pages/BlogList";
-import MyBlogs from "./apps/Blogify/pages/MyBlogs";
-import BlogDetail from "./apps/Blogify/pages/BlogDetail";
-import PublishBlog from "./apps/Blogify/pages/PublishBlog";
 import BudgetLayout from "./apps/BudgetBuddy/components/BudgetLayout";
 import BudgetHome from "./apps/BudgetBuddy/pages/BudgetHome";
 import Overview from "./apps/BudgetBuddy/pages/Overview";
@@ -45,6 +39,16 @@ import ResponseDetail from "./apps/Formlyst/ResponseDetail/ResponseDetail";
 import FormPublic from "./apps/Formlyst/FormPublic/Public";
 import FormReview from "./apps/Formlyst/FormReview/Review";
 import FormBuilder from "./apps/Formlyst/Builder/Builder";
+import Discover from "./apps/Blogify/pages/Discover";
+import BlogLayout from "./apps/Blogify/pages/BlogLayout";
+import BlogHome from "./apps/Blogify/pages/BlogHome";
+import MyLibrary from "./apps/Blogify/pages/MyLibrary";
+import WriteBlog from "./apps/Blogify/pages/WriteBlog";
+import NotebookForm from "./apps/Blogify/pages/NotebookForm";
+import NotebookList from "./apps/Blogify/pages/NotebookList";
+import NotebookDetail from "./apps/Blogify/pages/NotebookDetail";
+import BlogList from "./apps/Blogify/pages/BlogList";
+import BlogDetails from "./apps/Blogify/pages/BlogDetails";
 
 const router = createBrowserRouter([
     {
@@ -73,7 +77,7 @@ const router = createBrowserRouter([
                 path: 'recipe-haven',
                 element: <Outlet />,
                 children: [
-                    { path: '', element: <RecipeHaven /> },
+                    { index: true, element: <RecipeHaven /> },
                     { path: 'search/:searchTerm', element: <MealWrapper><MealGallery /></MealWrapper> },
                     { path: 'category/:categoryId', element: <MealWrapper><MealGallery /></MealWrapper> },
                     { path: 'alphabet/:letter', element: <MealWrapper><MealGallery /></MealWrapper> },
@@ -85,14 +89,25 @@ const router = createBrowserRouter([
                 path: '/blogify',
                 element: <BlogLayout />,
                 children: [
+                    // Main Nav Tabs
                     { path: 'home', element: <BlogHome /> },
-                    { path: 'list', element: <BlogList /> },
-                    { path: 'list/:author', element: <BlogList /> },
-                    { path: 'me', element: <MyBlogs /> },
-                    { path: 'blog/:blogId', element: <BlogDetail /> },
-                    { path: 'publish', element: <PublishBlog /> },
-                    { path: 'edit/:blogId', element: <PublishBlog /> },
-                    { path: '', element: <Navigate to="home" replace /> },
+                    { path: 'discover', element: <Discover /> },
+                    { path: 'library', element: <MyLibrary /> },
+                    { path: 'write', element: <WriteBlog /> },
+
+                    // Notebooks
+                    { path: 'notebooks/create', element: <NotebookForm /> },
+                    { path: 'notebooks/edit/:notebookId', element: <NotebookForm /> },
+                    { path: 'notebooks/author/:author', element: <NotebookList /> },
+                    { path: 'notebooks/:notebookId', element: <NotebookDetail /> },
+
+                    // Blogs
+                    { path: 'blogs/author/:author', element: <BlogList /> },
+                    { path: 'blogs/edit/:blogId', element: <WriteBlog /> },
+                    { path: 'blogs/:blogId', element: <BlogDetails /> },
+
+                    { index: true, element: <Navigate to='home' replace /> },
+                    { path: '*', element: <Navigate to='home' replace /> }
                 ]
             },
             {
@@ -102,7 +117,7 @@ const router = createBrowserRouter([
                     { path: 'home', element: <BudgetHome /> },
                     { path: 'overview', element: <Overview /> },
                     { path: 'statistics', element: <Statistics /> },
-                    { path: '', element: <Navigate to="home" replace /> },
+                    { index: true, element: <Navigate to="home" replace /> },
                 ]
             },
             {
