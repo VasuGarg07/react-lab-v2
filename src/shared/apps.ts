@@ -26,16 +26,6 @@ export interface AppInfo {
 
 export const Apps: AppInfo[] = [
   {
-    name: 'Markdown Live',
-    path: '/markdown',
-    tag: 'Live Markdown Preview',
-    image: Markdown,
-    visible: true,
-    description: 'Edit and preview Markdown in real-time with syntax highlighting, dark mode, clipboard integration, and styled previews using Tailwind.',
-    techStack: ['Live Preview', 'Tailwind Typography', 'Clipboard API'],
-    icon: Code2
-  },
-  {
     name: 'Formlyst',
     path: '/formlyst',
     tag: "Craft Structured Forms",
@@ -46,14 +36,24 @@ export const Apps: AppInfo[] = [
     icon: StickyNote
   },
   {
-    name: 'JSON Visualizer',
-    path: '/json',
-    tag: "Decode Structured Data",
-    image: Json,
+    name: 'Pokeverse',
+    path: '/pokeverse',
+    tag: "Become the Ultimate Trainer",
+    image: BattleSim,
     visible: true,
-    description: "A powerful utility to parse, visualize, and navigate deeply nested JSON data with ease.",
-    techStack: ['Web Worker Parsing', 'Dynamic Tree View', 'Breadcrumb Navigation'],
-    icon: FileJson
+    description: "Experience dynamic Pokemon battles with strategic gameplay mechanics",
+    techStack: ['Game Logic', 'State Management', 'Real-time Updates'],
+    icon: Swords
+  },
+  {
+    name: 'Super Tic-Tac-Toe',
+    path: '/super-tic-tac-toe',
+    tag: "Strategic Mind Bender",
+    image: TicTacToe,
+    visible: true,
+    description: "Experience the classic game with a twist - play on a 3x3 grid of Tic-Tac-Toe boards",
+    techStack: ['Game Logic', 'State Management'],
+    icon: Grid
   },
   {
     name: 'Blogify',
@@ -76,16 +76,6 @@ export const Apps: AppInfo[] = [
     icon: Wallet2,
   },
   {
-    name: 'Pokeverse',
-    path: '/pokeverse',
-    tag: "Become the Ultimate Trainer",
-    image: BattleSim,
-    visible: true,
-    description: "Experience dynamic Pokemon battles with strategic gameplay mechanics",
-    techStack: ['Game Logic', 'State Management', 'Real-time Updates'],
-    icon: Swords
-  },
-  {
     name: 'Sorting Visualizer',
     path: '/sorting-visualizer',
     tag: "Algorithms in Action",
@@ -96,14 +86,44 @@ export const Apps: AppInfo[] = [
     icon: BarChart2
   },
   {
-    name: 'Super Tic-Tac-Toe',
-    path: '/super-tic-tac-toe',
-    tag: "Strategic Mind Bender",
-    image: TicTacToe,
+    name: 'Poke-Memory',
+    path: '/poke-memory',
+    tag: "Catch 'Em All in Your Mind",
+    image: Memory,
     visible: true,
-    description: "Experience the classic game with a twist - play on a 3x3 grid of Tic-Tac-Toe boards",
-    techStack: ['Game Logic', 'State Management'],
-    icon: Grid
+    description: "Test your memory with this Pokémon-themed card matching game",
+    techStack: ['Game Logic', 'Animation'],
+    icon: MemoryStick
+  },
+  {
+    name: 'Loan Wizard',
+    path: '/loan-wizard',
+    tag: "Loan Mastery",
+    image: Loan,
+    visible: true,
+    description: "Calculate and visualize loan scenarios to make informed financial decisions",
+    techStack: ['Financial Calculations', 'Data Visualization'],
+    icon: HandCoins
+  },
+  {
+    name: 'JSON Visualizer',
+    path: '/json',
+    tag: "Decode Structured Data",
+    image: Json,
+    visible: true,
+    description: "A powerful utility to parse, visualize, and navigate deeply nested JSON data with ease.",
+    techStack: ['Web Worker Parsing', 'Dynamic Tree View', 'Breadcrumb Navigation'],
+    icon: FileJson
+  },
+  {
+    name: 'Markdown Live',
+    path: '/markdown',
+    tag: 'Live Markdown Preview',
+    image: Markdown,
+    visible: true,
+    description: 'Edit and preview Markdown in real-time with syntax highlighting, dark mode, clipboard integration, and styled previews using Tailwind.',
+    techStack: ['Live Preview', 'Tailwind Typography', 'Clipboard API'],
+    icon: Code2,
   },
   {
     name: 'Sudoku',
@@ -126,16 +146,6 @@ export const Apps: AppInfo[] = [
     icon: HelpCircle
   },
   {
-    name: 'Poke-Memory',
-    path: '/poke-memory',
-    tag: "Catch 'Em All in Your Mind",
-    image: Memory,
-    visible: true,
-    description: "Test your memory with this Pokémon-themed card matching game",
-    techStack: ['Game Logic', 'Animation'],
-    icon: MemoryStick
-  },
-  {
     name: 'Recipe Haven',
     path: '/recipe-haven',
     tag: "Your Digital Cookbook",
@@ -144,15 +154,5 @@ export const Apps: AppInfo[] = [
     description: "Discover, save, and share your favorite recipes in this culinary companion app",
     techStack: ['API Integration', 'State Management'],
     icon: UtensilsCrossed
-  },
-  {
-    name: 'Loan Wizard',
-    path: '/loan-wizard',
-    tag: "Loan Mastery",
-    image: Loan,
-    visible: true,
-    description: "Calculate and visualize loan scenarios to make informed financial decisions",
-    techStack: ['Financial Calculations', 'Data Visualization'],
-    icon: HandCoins
   },
 ];
