@@ -49,6 +49,7 @@ import NotebookList from "./apps/Blogify/pages/NotebookList";
 import NotebookDetail from "./apps/Blogify/pages/NotebookDetail";
 import BlogList from "./apps/Blogify/pages/BlogList";
 import BlogDetails from "./apps/Blogify/pages/BlogDetails";
+import TypingMaster from "./apps/TypingMaster/TypingMaster";
 
 const router = createBrowserRouter([
     {
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
             { path: 'super-tic-tac-toe', element: <SuperTicTacToe /> },
             { path: 'poke-memory', element: <PokeMemory /> },
             { path: 'loan-wizard', element: <LoanWizard /> },
+            { path: 'type-master', element: <TypingMaster /> },
             {
                 path: 'quizzo',
                 element: <QuizWrapper />,

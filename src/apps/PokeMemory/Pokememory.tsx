@@ -17,7 +17,7 @@ export default function PokeMemory() {
     };
 
     return (
-        <div className="min-h-screen w-full bg-neutral-50 dark:bg-neutral-950 flex items-center justify-center p-4">
+        <div className="min-h-screen w-full bg-linear-to-br from-sky-100 via-green-50 to-purple-100 dark:from-neutral-900 dark:via-blue-950 dark:to-purple-950 flex items-center justify-center p-4">
             {renderScreen()}
         </div>
     );
