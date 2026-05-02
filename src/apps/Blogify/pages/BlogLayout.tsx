@@ -1,17 +1,8 @@
 import { Compass, Home, Library, PenLine } from 'lucide-react';
-import { Navigate, Outlet } from 'react-router';
-import { useAppSelector } from '../../../store/useRedux';
+import { Outlet } from 'react-router';
 import BlogNav from '../components/BlogNav';
 
 export default function BlogLayout() {
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
-
-    // Redirect to login if not authenticated
-    if (!isLoggedIn) {
-        return <Navigate to="/auth/login" replace />;
-    }
-
-    // Navigation items for Blogify
     const navItems = [
         { to: '/blogify/home', icon: <Home className="w-4 h-4" />, label: 'Home' },
         { to: '/blogify/discover', icon: <Compass className="w-4 h-4" />, label: 'Discover' },
@@ -28,4 +19,4 @@ export default function BlogLayout() {
             <BlogNav navItems={navItems} />
         </div>
     );
-};
+}
