@@ -4,6 +4,13 @@ export interface Meal {
     image: string;
 }
 
+export interface Category {
+    id: string;
+    name: string;
+    image: string;
+    description: string;
+}
+
 export interface MealDetails extends Meal {
     category: string;
     area: string;

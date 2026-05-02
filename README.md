@@ -24,7 +24,7 @@ The backend lives in a sibling repo: [`express-ts`](https://github.com/VasuGarg0
 
 - 🏦 **Loan Wizard** — An EMI calculator that flips into an affordability check. Enter loan inputs and see amortization broken down visually, or work backward from your income to see what you can actually afford.
 
-- 🌳 **JSON Visualizer** — Paste, upload, or fetch JSON and explore it as a collapsible tree. Web-worker parsing keeps the UI responsive on huge payloads, breadcrumb navigation tracks where you are deep in the structure.
+- 🌳 **JSON Visualizer** — Paste, upload, or fetch JSON and explore it as a collapsible tree; breadcrumb navigation tracks where you are deep in the structure.
 
 - 📝 **Markdown Live** — A two-pane Markdown editor with live preview, syntax highlighting, dark mode, and clipboard integration. GFM via `marked`, styled previews via Tailwind typography.
 

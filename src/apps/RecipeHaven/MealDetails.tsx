@@ -1,204 +1,158 @@
-import { useParams, useNavigate } from 'react-router';
-import { Loader2, AlertCircle, ExternalLink, Play } from 'lucide-react';
-import { useMealDetails } from './utils/useRecipeQueries';
+import { AlertCircle, ExternalLink, Loader2, Play } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router';
 import { toastService } from '../../shared/toastr';
+import { useMealDetails } from './utils/useRecipeQueries';
 
 export default function MealDetails() {
     const { mealId } = useParams();
     const navigate = useNavigate();
     const { data: meal, isLoading, error } = useMealDetails(mealId);
 
-    const handleAreaNav = () => {
-        if (meal?.area) {
-            navigate(`/recipe-haven/area/${meal.area.toLowerCase()}`);
-        }
-    };
-
-    const handleCategoryNav = () => {
-        if (meal?.category) {
-            navigate(`/recipe-haven/category/${meal.category.toLowerCase()}`);
-        }
-    };
-
     const handleExternalUrl = (url: string) => {
         try {
             window.open(url, '_blank', 'noopener,noreferrer');
-        } catch (error) {
-            toastService.error('Failed to open external link');
+        } catch {
+            toastService.error('Failed to open link');
         }
     };
 
-    // Loading state
     if (isLoading) {
         return (
-            <div className="flex flex-col items-center justify-center py-16">
-                <Loader2 size={48} className="animate-spin text-blue-500 mb-4" />
-                <p className="text-neutral-600 dark:text-neutral-400">Loading recipe...</p>
+            <div className="flex flex-col items-center justify-center py-20">
+                <Loader2 size={32} className="animate-spin text-amber-600 dark:text-amber-500 mb-3" />
+                <p className="text-sm text-stone-600 dark:text-stone-400">Loading recipe…</p>
             </div>
         );
     }
 
-    // Error state
     if (error || !meal) {
         return (
-            <div className="flex flex-col items-center justify-center py-16">
-                <AlertCircle size={48} className="text-red-500 mb-4" />
-                <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-                    Failed to load recipe
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+                <AlertCircle size={36} className="text-red-600 dark:text-red-400 mb-4" />
+                <h2 className="font-serif text-2xl text-stone-900 dark:text-stone-100 mb-1">
+                    Couldn't load recipe
                 </h2>
-                <p className="text-neutral-600 dark:text-neutral-400">
-                    Please try again later
+                <p className="text-sm text-stone-600 dark:text-stone-400">
+                    The recipe may have been removed. Try another from the gallery.
                 </p>
             </div>
         );
     }
 
     return (
-        <div className="space-y-5 sm:space-y-6">
-            {/* Title */}
-            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-neutral-100">
-                {meal.name}
-            </h1>
-
-            {/* Top Layout: Image + Meta */}
-            <div className="grid gap-4 sm:gap-5 md:grid-cols-[minmax(0,2fr)_minmax(0,1.4fr)]">
-                {/* Image */}
-                <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-sm bg-neutral-100 dark:bg-neutral-900">
-                    <img
-                        src={meal.image}
-                        alt={meal.name}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        loading="eager"
-                    />
-                </div>
-
-                {/* Meta Info */}
-                <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm p-4 space-y-4">
-                    <h2 className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
-                        Meal Details
-                    </h2>
-
-                    {/* Category & Region */}
-                    {(meal.category || meal.area) && (
-                        <div className="space-y-2 text-sm">
-                            {meal.category && (
-                                <div className="flex items-center gap-2">
-                                    <span className="text-neutral-500 dark:text-neutral-400">
-                                        Category:
-                                    </span>
-                                    <button
-                                        onClick={handleCategoryNav}
-                                        className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
-                                    >
-                                        {meal.category}
-                                    </button>
-                                </div>
-                            )}
-                            {meal.area && (
-                                <div className="flex items-center gap-2">
-                                    <span className="text-neutral-500 dark:text-neutral-400">
-                                        Region:
-                                    </span>
-                                    <button
-                                        onClick={handleAreaNav}
-                                        className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
-                                    >
-                                        {meal.area}
-                                    </button>
-                                </div>
-                            )}
-                        </div>
+        <article className="space-y-10 sm:space-y-12 pb-12">
+            <header className="space-y-3">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs uppercase tracking-[0.2em] font-medium">
+                    {meal.category && (
+                        <button
+                            onClick={() => navigate(`/recipe-haven/category/${meal.category.toLowerCase()}`)}
+                            className="text-amber-700 dark:text-amber-500 hover:underline underline-offset-4"
+                        >
+                            {meal.category}
+                        </button>
                     )}
-
-                    {/* External Links */}
-                    {(meal.source || meal.youtube) && (
-                        <div className="flex flex-wrap gap-2 pt-1 text-sm">
-                            {meal.source && (
-                                <button
-                                    onClick={() => handleExternalUrl(meal.source!)}
-                                    className="inline-flex items-center gap-2 rounded-md border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 px-3 py-1.5 font-medium text-neutral-900 dark:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
-                                >
-                                    <ExternalLink size={16} />
-                                    <span>Source</span>
-                                </button>
-                            )}
-                            {meal.youtube && (
-                                <button
-                                    onClick={() => handleExternalUrl(meal.youtube!)}
-                                    className="inline-flex items-center gap-2 rounded-md bg-red-600 dark:bg-red-500 px-3 py-1.5 font-medium text-white hover:bg-red-700 dark:hover:bg-red-600 transition-colors"
-                                >
-                                    <Play size={16} />
-                                    <span>Watch Video</span>
-                                </button>
-                            )}
-                        </div>
+                    {meal.category && meal.area && (
+                        <span className="text-stone-300 dark:text-stone-700">·</span>
                     )}
-
-                    {/* Tags */}
-                    {meal.tags.length > 0 && (
-                        <div className="space-y-2 pt-1">
-                            <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
-                                Tags
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                {meal.tags.map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className="px-3 py-1 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900"
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
+                    {meal.area && (
+                        <button
+                            onClick={() => navigate(`/recipe-haven/area/${meal.area.toLowerCase()}`)}
+                            className="text-stone-600 dark:text-stone-400 hover:text-amber-700 dark:hover:text-amber-500 transition-colors"
+                        >
+                            {meal.area} cuisine
+                        </button>
                     )}
                 </div>
+                <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-stone-900 dark:text-stone-100 leading-[1.1] tracking-tight">
+                    {meal.name}
+                </h1>
+            </header>
+
+            <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-stone-100 dark:bg-neutral-800">
+                <img
+                    src={meal.image}
+                    alt={meal.name}
+                    loading="eager"
+                    className="absolute inset-0 w-full h-full object-cover"
+                />
             </div>
 
-            {/* Ingredients */}
-            <section className="space-y-3">
-                <h2 className="text-xl sm:text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
-                    Ingredients
-                </h2>
-                <div className="bg-white dark:bg-neutral-900 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800 shadow-sm">
-                    <div className="flex flex-wrap gap-2">
-                        {meal.ingredients.map((ingredient, index) => (
-                            <span
-                                key={`${ingredient}-${index}`}
-                                className="px-3 py-1.5 bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-400 rounded-lg text-sm font-medium border border-green-200 dark:border-green-800"
-                            >
-                                {ingredient}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Instructions */}
-            <section className="space-y-3">
-                <h2 className="text-xl sm:text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
-                    Instructions
-                </h2>
-                <div className="bg-white dark:bg-neutral-900 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800 shadow-sm">
-                    <ol className="space-y-3">
-                        {meal.instructions.map((step, index) =>
-                            step.trim() && (
-                                <li
-                                    key={`${step}-${index}`}
-                                    className="flex gap-3"
+            {(meal.source || meal.youtube || meal.tags.length > 0) && (
+                <div className="flex flex-wrap items-center gap-3 pb-2 border-b border-stone-200 dark:border-neutral-800">
+                    {meal.source && (
+                        <button
+                            onClick={() => handleExternalUrl(meal.source!)}
+                            className="inline-flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 hover:text-amber-700 dark:hover:text-amber-500 transition"
+                        >
+                            <ExternalLink size={15} />
+                            <span>Original source</span>
+                        </button>
+                    )}
+                    {meal.youtube && (
+                        <button
+                            onClick={() => handleExternalUrl(meal.youtube!)}
+                            className="inline-flex items-center gap-2 text-sm text-stone-700 dark:text-stone-300 hover:text-amber-700 dark:hover:text-amber-500 transition"
+                        >
+                            <Play size={15} />
+                            <span>Watch video</span>
+                        </button>
+                    )}
+                    {meal.tags.length > 0 && (
+                        <div className="ml-auto flex flex-wrap gap-2">
+                            {meal.tags.map((tag) => (
+                                <span
+                                    key={tag}
+                                    className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-stone-100 dark:bg-neutral-800 text-stone-600 dark:text-stone-400"
                                 >
-                                    <span className="shrink-0 w-6 h-6 flex items-center justify-center bg-blue-600 dark:bg-blue-500 text-white rounded-full text-xs font-semibold">
-                                        {index + 1}
-                                    </span>
-                                    <p className="text-sm text-neutral-800 dark:text-neutral-200 leading-relaxed">
-                                        {step.trim()}
-                                    </p>
-                                </li>
-                            )
-                        )}
-                    </ol>
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    )}
                 </div>
-            </section>
-        </div>
+            )}
+
+            <div className="grid gap-10 md:gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+                {/* Ingredients */}
+                <section>
+                    <h2 className="font-serif text-2xl text-stone-900 dark:text-stone-100 mb-4 pb-3 border-b border-stone-200 dark:border-neutral-800">
+                        Ingredients
+                    </h2>
+                    <ul className="space-y-2.5 text-sm">
+                        {meal.ingredients.map((ingredient, index) => (
+                            <li
+                                key={`${ingredient}-${index}`}
+                                className="flex gap-3 text-stone-700 dark:text-stone-300"
+                            >
+                                <span className="mt-2 shrink-0 w-1 h-1 rounded-full bg-amber-600 dark:bg-amber-500" aria-hidden />
+                                <span>{ingredient}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+
+                {/* Instructions */}
+                <section>
+                    <h2 className="font-serif text-2xl text-stone-900 dark:text-stone-100 mb-4 pb-3 border-b border-stone-200 dark:border-neutral-800">
+                        Method
+                    </h2>
+                    <ol className="space-y-6">
+                        {meal.instructions.filter((step) => step.trim()).map((step, index) => (
+                            <li
+                                key={`${step}-${index}`}
+                                className="flex gap-4"
+                            >
+                                <span className="font-serif shrink-0 text-2xl text-amber-700 dark:text-amber-500 leading-none mt-1">
+                                    {index + 1}
+                                </span>
+                                <p className="text-base text-stone-700 dark:text-stone-300 leading-relaxed">
+                                    {step.trim()}.
+                                </p>
+                            </li>
+                        ))}
+                    </ol>
+                </section>
+            </div>
+        </article>
     );
-};
+}

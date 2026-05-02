@@ -1,20 +1,31 @@
 import axios from "axios";
-import type { Meal, MealDetails } from "./recipe.helpers";
+import type { Category, Meal, MealDetails } from "./recipe.helpers";
 
 const mealDbClient = axios.create({
     baseURL: 'https://www.themealdb.com/api/json/v1/1'
 });
 
-// Get list of all categories
-export const categoryList = async (): Promise<string[]> => {
-    const { data } = await mealDbClient.get('/list.php?c=list');
-    return data.meals.map((item: { strCategory: string }) => item.strCategory);
+// Get list of categories with images and descriptions.
+export const categoryDetails = async (): Promise<Category[]> => {
+    const { data } = await mealDbClient.get('/categories.php');
+    return data.categories.map((c: {
+        idCategory: string;
+        strCategory: string;
+        strCategoryThumb: string;
+        strCategoryDescription: string;
+    }) => ({
+        id: c.idCategory,
+        name: c.strCategory,
+        image: c.strCategoryThumb,
+        description: c.strCategoryDescription,
+    }));
 };
 
-// Get list of all areas/regions
+// Get list of all areas/regions.
 export const areaList = async (): Promise<string[]> => {
     const { data } = await mealDbClient.get('/list.php?a=list');
-    return data.meals.map((item: { strArea: string }) => item.strArea);
+    const names = data.meals.map((item: { strArea: string }) => item.strArea);
+    return [...new Set<string>(names)];
 };
 
 // Generic function to get meals from any endpoint

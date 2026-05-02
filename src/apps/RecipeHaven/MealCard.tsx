@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
-import { usePrefetchMeal } from './utils/useRecipeQueries';
 import type { Meal } from './utils/recipe.helpers';
+import { usePrefetchMeal } from './utils/useRecipeQueries';
 
 interface MealCardProps {
     meal: Meal;
@@ -10,38 +10,27 @@ const MealCard = ({ meal }: MealCardProps) => {
     const navigate = useNavigate();
     const { prefetchMeal } = usePrefetchMeal();
 
-    const handleClick = () => {
-        navigate(`/recipe-haven/meal/${meal.id}`);
-    };
-
-    const handleMouseEnter = () => {
-        // Prefetch meal details on hover for instant navigation
-        prefetchMeal(meal.id);
-    };
-
     return (
-        <div
-            onClick={handleClick}
-            onMouseEnter={handleMouseEnter}
-            className="group bg-white dark:bg-neutral-800 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-700 shadow-sm hover:shadow-md cursor-pointer transition-all duration-200 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-blue-500/30 focus-within:ring-offset-0"
+        <button
+            type="button"
+            onClick={() => navigate(`/recipe-haven/meal/${meal.id}`)}
+            onMouseEnter={() => prefetchMeal(meal.id)}
+            className="group text-left bg-white dark:bg-neutral-900 rounded-lg overflow-hidden border border-stone-200 dark:border-neutral-800 hover:border-amber-600 dark:hover:border-amber-500 transition focus:outline-none focus:ring-2 focus:ring-amber-500/40"
         >
-            {/* Image */}
-            <div className="relative aspect-4/3 overflow-hidden bg-neutral-100 dark:bg-neutral-900">
+            <div className="relative aspect-4/3 overflow-hidden bg-stone-100 dark:bg-neutral-800">
                 <img
                     src={meal.image}
                     alt={meal.name}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
             </div>
-
-            {/* Content */}
-            <div className="p-3">
-                <h3 className="text-base text-center font-medium text-neutral-900 dark:text-neutral-100 line-clamp-2 leading-snug">
+            <div className="p-4">
+                <h3 className="font-serif text-lg leading-snug text-stone-900 dark:text-stone-100 line-clamp-2 group-hover:text-amber-700 dark:group-hover:text-amber-500 transition-colors">
                     {meal.name}
                 </h3>
             </div>
-        </div>
+        </button>
     );
 };
 

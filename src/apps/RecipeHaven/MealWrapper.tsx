@@ -64,7 +64,7 @@ const MealWrapper = ({ children }: WrapperProps) => {
     const isLastItem = (index: number) => index === breadcrumbs.length - 1;
 
     return (
-        <div className="w-full max-w-5xl mx-auto px-4 py-6">
+        <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
             {/* Breadcrumb Navigation */}
             <nav className="flex items-center gap-2 mb-6 text-sm">
                 {breadcrumbs.map((crumb, index) => (
@@ -72,22 +72,22 @@ const MealWrapper = ({ children }: WrapperProps) => {
                         {index === 0 ? (
                             <button
                                 onClick={() => navigate(crumb.path)}
-                                className="flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                                className="flex items-center gap-1.5 text-stone-600 dark:text-stone-400 hover:text-amber-700 dark:hover:text-amber-500 transition-colors"
                             >
                                 <Home size={16} />
                                 <span>{crumb.label}</span>
                             </button>
                         ) : (
                             <>
-                                <ChevronRight size={16} className="text-neutral-400 dark:text-neutral-600" />
+                                <ChevronRight size={16} className="text-stone-400 dark:text-stone-600" />
                                 {isLastItem(index) ? (
-                                    <span className="font-medium text-neutral-900 dark:text-neutral-100">
+                                    <span className="font-medium text-stone-900 dark:text-stone-100">
                                         {crumb.label}
                                     </span>
                                 ) : (
                                     <button
                                         onClick={() => navigate(crumb.path)}
-                                        className="text-neutral-600 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                                        className="text-stone-600 dark:text-stone-400 hover:text-amber-700 dark:hover:text-amber-500 transition-colors"
                                     >
                                         {crumb.label}
                                     </button>
@@ -98,7 +98,6 @@ const MealWrapper = ({ children }: WrapperProps) => {
                 ))}
             </nav>
 
-            {/* Main Content */}
             {children}
         </div>
     );
