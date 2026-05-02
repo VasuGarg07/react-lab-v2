@@ -28,7 +28,7 @@ The backend lives in a sibling repo: [`express-ts`](https://github.com/VasuGarg0
 
 - 📝 **Markdown Live** — A two-pane Markdown editor with live preview, syntax highlighting, dark mode, and clipboard integration. GFM via `marked`, styled previews via Tailwind typography.
 
-- 🔢 **Sudoku** — Generated puzzles across three difficulty levels, with cell validation, a virtual numpad for mobile, and a custom hook driving the game state.
+- 🔢 **Sudoku** — Generated puzzles with conflict highlighting, peer-cell guides, keyboard navigation, and an animated backtracking solver. A custom hook drives the game state and a generator drives the solver animation.
 
 - ❓ **Quizzo** — A quiz engine with a setup → play → result flow. Configure topic and length, answer timed questions, get a scored breakdown at the end.
 

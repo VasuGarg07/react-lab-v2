@@ -1,85 +1,109 @@
-import { useEffect, useRef } from 'react';
-
 interface SudokuCellProps {
     value: number;
-    onChange: (value: string) => void;
     editable: boolean;
     selected: boolean;
+    isPeer: boolean;
+    isSameNumber: boolean;
+    hasConflict: boolean;
+    solveStep: 'try' | 'backtrack' | null;
     onSelect: () => void;
     row: number;
     col: number;
-    useNumpad: boolean;
 }
+
+const isInEvenBlock = (row: number, col: number): boolean => {
+    const blockRow = Math.floor(row / 3);
+    const blockCol = Math.floor(col / 3);
+    return (blockRow + blockCol) % 2 === 0;
+};
+
+interface CellStyleInputs {
+    selected: boolean;
+    isPeer: boolean;
+    isSameNumber: boolean;
+    solveStep: 'try' | 'backtrack' | null;
+    inEvenBlock: boolean;
+}
+
+const getCellBackground = (inputs: CellStyleInputs): string => {
+    if (inputs.solveStep === 'backtrack') {
+        return 'bg-red-200 dark:bg-red-900/60';
+    }
+    if (inputs.solveStep === 'try') {
+        return 'bg-amber-200 dark:bg-amber-900/60';
+    }
+    if (inputs.selected) {
+        return 'bg-blue-200 dark:bg-blue-900/70';
+    }
+    if (inputs.isPeer) {
+        return 'bg-stone-100 dark:bg-neutral-800/80';
+    }
+    if (inputs.isSameNumber) {
+        return 'bg-blue-100 dark:bg-blue-900/40';
+    }
+    if (inputs.inEvenBlock) {
+        return 'bg-white dark:bg-neutral-900';
+    }
+    return 'bg-stone-50 dark:bg-neutral-800';
+};
+
+const getTextColor = (hasConflict: boolean, editable: boolean): string => {
+    if (hasConflict) {
+        return 'text-red-600 dark:text-red-400';
+    }
+    if (editable) {
+        return 'text-blue-700 dark:text-blue-400';
+    }
+    return 'text-stone-900 dark:text-stone-100';
+};
 
 export default function SudokuCell({
     value,
-    onChange,
     editable,
     selected,
+    isPeer,
+    isSameNumber,
+    hasConflict,
+    solveStep,
     onSelect,
     row,
     col,
-    useNumpad,
 }: SudokuCellProps) {
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inEvenBlock = isInEvenBlock(row, col);
+    const backgroundClass = getCellBackground({
+        selected,
+        isPeer,
+        isSameNumber,
+        solveStep,
+        inEvenBlock,
+    });
+    const textClass = getTextColor(hasConflict, editable);
 
-    useEffect(() => {
-        if (selected && !useNumpad && inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, [selected, useNumpad]);
+    const selectionRing = selected
+        ? 'ring-2 ring-inset ring-blue-600 dark:ring-blue-400 z-10'
+        : '';
 
-    const getBgClass = () => {
-        const isEvenBlock = Math.floor(row / 3) % 2 === Math.floor(col / 3) % 2;
-
-        if (!editable) {
-            return isEvenBlock
-                ? 'bg-neutral-200 dark:bg-neutral-700'
-                : 'bg-neutral-300 dark:bg-neutral-600';
-        }
-
-        return isEvenBlock
-            ? 'bg-white dark:bg-neutral-800'
-            : 'bg-neutral-50 dark:bg-neutral-700';
-    };
-
-    const handleChange = (val: string) => {
-        // Only allow single digits 1-9 or empty
-        if (val === '' || (val.length === 1 && /^[1-9]$/.test(val))) {
-            onChange(val);
-        }
-    };
+    const ariaLabel =
+        value !== 0
+            ? `Row ${row + 1}, Column ${col + 1}, value ${value}`
+            : `Row ${row + 1}, Column ${col + 1}, empty`;
 
     return (
         <button
             type="button"
             onClick={onSelect}
+            aria-label={ariaLabel}
             className={`
-        aspect-square w-full flex items-center justify-center
-        ${getBgClass()}
-        ${selected ? 'ring-2 ring-inset ring-blue-500 dark:ring-blue-400' : ''}
-        ${editable ? 'border border-neutral-300 dark:border-neutral-600' : 'border border-neutral-400 dark:border-neutral-500'}
-        transition-all duration-200
-        ${editable && selected ? 'scale-105' : 'scale-100'}
-        focus:outline-none
-      `}
+                aspect-square w-full flex items-center justify-center
+                ${backgroundClass}
+                ${selectionRing}
+                transition-colors duration-150
+                focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-600 dark:focus:ring-blue-400
+            `}
         >
-            {editable && !useNumpad ? (
-                <input
-                    ref={inputRef}
-                    type="text"
-                    value={value === 0 ? '' : value}
-                    onChange={(e) => handleChange(e.target.value)}
-                    className="w-full h-full text-center bg-transparent outline-none text-blue-600 dark:text-blue-400 text-lg font-semibold pointer-events-none"
-                    maxLength={1}
-                    inputMode="numeric"
-                    aria-label={`Row ${row + 1}, Column ${col + 1}`}
-                />
-            ) : (
-                <span className={`text-lg font-semibold ${editable ? 'text-blue-600 dark:text-blue-400' : 'text-neutral-900 dark:text-neutral-100'}`}>
-                    {value !== 0 ? value : ''}
-                </span>
-            )}
+            <span className={`text-base sm:text-lg font-semibold ${textClass}`}>
+                {value !== 0 ? value : ''}
+            </span>
         </button>
     );
 }

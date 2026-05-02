@@ -11,10 +11,8 @@ import {
 } from './recipe.api';
 import type { Category, Meal, MealDetails } from './recipe.helpers';
 
-// Common stale time for static data (1 hour)
 const STATIC_STALE_TIME = 1000 * 60 * 60;
 
-/** Categories with thumbnails and descriptions. */
 export const useCategories = () => useQuery<Category[]>({
     queryKey: ['recipe-categories'],
     queryFn: categoryDetails,
@@ -22,7 +20,6 @@ export const useCategories = () => useQuery<Category[]>({
     retry: 2,
 });
 
-/** Region/cuisine names. */
 export const useAreas = () => useQuery<string[]>({
     queryKey: ['recipe-areas'],
     queryFn: areaList,
@@ -30,12 +27,6 @@ export const useAreas = () => useQuery<string[]>({
     retry: 2,
 });
 
-/**
- * Unified gallery query — picks the right endpoint based on which param is
- * set. Replaces four parallel `useXMeals` hooks, which the old MealGallery
- * was calling conditionally (rules-of-hooks violation). This hook is always
- * called once; only the query key and fetcher change.
- */
 export type GalleryParams = {
     searchTerm?: string;
     letter?: string;
@@ -53,15 +44,12 @@ export const useGalleryMeals = ({ searchTerm, letter, categoryId, areaId }: Gall
             if (areaId) return regionalMeals(areaId);
             return Promise.resolve([]);
         },
-        // Don't fire if no param is set — but the hook is still mounted,
-        // which is the whole point of this refactor.
         enabled: Boolean(searchTerm || letter || categoryId || areaId),
         staleTime: STATIC_STALE_TIME,
         retry: 2,
     });
 };
 
-/** Single meal by ID. */
 export const useMealDetails = (mealId?: string) => useQuery<MealDetails>({
     queryKey: ['meal', 'details', mealId],
     queryFn: () => mealDetails(mealId!),
@@ -70,7 +58,6 @@ export const useMealDetails = (mealId?: string) => useQuery<MealDetails>({
     retry: 2,
 });
 
-/** Fetch a random meal ID and prefetch its details. Returns the ID for navigation. */
 export const useRandomMeal = () => {
     const queryClient = useQueryClient();
 
@@ -87,7 +74,6 @@ export const useRandomMeal = () => {
     return { getRandomMeal };
 };
 
-/** Prefetch a meal's details — wire this to MealCard hover for instant nav. */
 export const usePrefetchMeal = () => {
     const queryClient = useQueryClient();
 

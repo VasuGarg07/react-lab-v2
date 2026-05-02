@@ -88,7 +88,7 @@ export const Apps: AppInfo[] = [
   {
     name: 'Poke-Memory',
     path: '/poke-memory',
-    tag: 'Match the pairs, catch \'em all',
+    tag: "Match the pairs, catch 'em all",
     image: Memory,
     visible: true,
     description: 'A Pokémon-themed memory matching game — pick a difficulty, flip cards, find pairs, and chase your best time.',
@@ -128,12 +128,12 @@ export const Apps: AppInfo[] = [
   {
     name: 'Sudoku',
     path: '/sudoku',
-    tag: 'Generated puzzles, three difficulties',
+    tag: 'Generated puzzles with animated solver',
     image: Sudoku,
     visible: true,
-    description: 'Procedurally generated puzzles with cell validation, conflict highlighting, and a virtual numpad for filling in clues on mobile.',
-    techStack: ['Puzzle Generation', 'Custom Hooks', 'TypeScript'],
-    icon: LayoutGrid,
+    description: 'Solve a fresh puzzle with conflict highlighting, peer-cell guides, and keyboard navigation — or hit Solve to watch a backtracking algorithm work through it step by step.',
+    techStack: ['Backtracking', 'Generators', 'Custom Hooks'],
+    icon: LayoutGrid
   },
   {
     name: 'Quizzo',
