@@ -1,7 +1,7 @@
 import { LogIn, LogOut, Settings } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { logout } from "../store/authSlice";
+import { logoutThunk } from "../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../store/useRedux";
 
 const UserMenu: React.FC = () => {
@@ -14,7 +14,7 @@ const UserMenu: React.FC = () => {
     const { isLoggedIn, user } = useAppSelector((state) => state.auth);
 
     const handleLogout = () => {
-        dispatch(logout());
+        dispatch(logoutThunk());
         navigate("/");
         setOpen(false);
     };

@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ModalProvider } from './components/ModalContext';
 import router from './Router';
 import { queryClient } from './shared/queryClient';
-import { initializeAuthThunk } from './store/authSlice';
+import { forceLogout, initializeAuthThunk } from './store/authSlice';
 import { store } from './store/store';
 import { useAppDispatch } from './store/useRedux';
 import { ThemeProvider } from './styles/ThemeContext';
@@ -17,6 +17,15 @@ function AppInitializer() {
 
   useEffect(() => {
     dispatch(initializeAuthThunk());
+
+    const handleForcedLogout = () => {
+      dispatch(forceLogout());
+    };
+    window.addEventListener('auth:logout', handleForcedLogout);
+
+    return () => {
+      window.removeEventListener('auth:logout', handleForcedLogout);
+    };
   }, [dispatch]);
 
   return <RouterProvider router={router} />;
