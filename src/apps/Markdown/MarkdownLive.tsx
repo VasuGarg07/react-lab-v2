@@ -34,7 +34,6 @@ function MarkdownLive() {
             <div className="flex flex-col lg:flex-row h-full">
                 {/* Editor Pane */}
                 <div className="relative w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-neutral-200 dark:border-neutral-700 h-1/2 lg:h-full bg-white dark:bg-neutral-900">
-                    {/* Floating Header with Actions */}
                     <div className="absolute top-4 left-4 right-8 z-10 flex items-center justify-between">
                         <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-700">
                             Editor
@@ -69,7 +68,6 @@ function MarkdownLive() {
 
                 {/* Preview Pane */}
                 <div className="relative w-full lg:w-1/2 h-1/2 lg:h-full bg-white dark:bg-neutral-900">
-                    {/* Floating Header */}
                     <div className="absolute top-4 left-4 z-10">
                         <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-700">
                             Preview

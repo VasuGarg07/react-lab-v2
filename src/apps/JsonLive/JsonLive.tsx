@@ -136,9 +136,9 @@ export default function JsonTreeViewer() {
             )}
 
             {/* Main Content - Side by Side Layout */}
-            <div className="flex flex-1 min-h-0">
+            <div className="flex flex-col md:flex-row flex-1 min-h-0">
                 {/* Left Panel - JSON Input */}
-                <div className="relative w-1/2 flex flex-col border-r border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900">
+                <div className="relative w-full md:w-1/2 h-1/2 md:h-auto flex flex-col border-b md:border-b-0 md:border-r border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900">
                     {/* Floating Header with Actions */}
                     <div className="absolute top-4 left-4 right-8 z-10 flex items-center justify-between">
                         <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-700">
@@ -203,7 +203,7 @@ export default function JsonTreeViewer() {
                     />
                 </div>
                 {/* Right Panel - Tree View */}
-                <div className="w-1/2 flex flex-col bg-white dark:bg-neutral-900">
+                <div className="w-full md:w-1/2 h-1/2 md:h-auto flex flex-col bg-white dark:bg-neutral-900">
                     {isValidJson && currentJson !== null ? (
                         <>
                             {/* Unified Header with Breadcrumb */}
