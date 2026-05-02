@@ -1,9 +1,9 @@
+import { Loader2, Search, Shuffle } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Search, Sparkles, Loader2, ChefHat } from 'lucide-react';
-import { useCategories, useAreas, useRandomMeal } from './utils/useRecipeQueries';
-import { ALPHABETS } from './utils/recipe.helpers';
 import { toastService } from '../../shared/toastr';
+import { ALPHABETS } from './utils/recipe.helpers';
+import { useAreas, useCategories, useRandomMeal } from './utils/useRecipeQueries';
 
 export default function RecipeHaven() {
     const navigate = useNavigate();
@@ -15,11 +15,12 @@ export default function RecipeHaven() {
     const { getRandomMeal } = useRandomMeal();
 
     const handleSearch = () => {
-        if (!searchTerm.trim()) {
+        const trimmed = searchTerm.trim();
+        if (!trimmed) {
             toastService.error('Please enter a search term');
             return;
         }
-        navigate(`/recipe-haven/search/${searchTerm.trim()}`);
+        navigate(`/recipe-haven/search/${trimmed}`);
     };
 
     const handleRandomMeal = async () => {
@@ -27,151 +28,168 @@ export default function RecipeHaven() {
         try {
             const randomId = await getRandomMeal();
             navigate(`/recipe-haven/meal/${randomId}`);
-        } catch (error) {
+        } catch {
             toastService.error('Failed to get random recipe');
         } finally {
             setIsGettingRandom(false);
         }
     };
 
-    const handleCategory = (category: string) => {
-        navigate(`/recipe-haven/category/${category.toLowerCase()}`);
-    };
-
-    const handleArea = (area: string) => {
-        navigate(`/recipe-haven/area/${area.toLowerCase()}`);
-    };
-
-    const handleLetter = (letter: string) => {
-        navigate(`/recipe-haven/alphabet/${letter.toLowerCase()}`);
-    };
-
-    // Show top 12 categories and areas
-    const topCategories = categories.slice(0, 12);
-    const topAreas = areas.slice(0, 12);
-
     return (
-        <div className="w-full max-w-6xl mx-auto px-4 py-6 sm:py-8 space-y-8">
+        <div className="min-h-screen bg-stone-50 dark:bg-neutral-950">
+            {/* Hero — serif, big, editorial */}
+            <section className="border-b border-stone-200 dark:border-neutral-800">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+                    <div className="max-w-2xl">
+                        <p className="text-xs uppercase tracking-[0.2em] text-amber-700 dark:text-amber-500 font-medium mb-4">
+                            Recipe Haven
+                        </p>
+                        <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl font-normal text-stone-900 dark:text-stone-100 leading-[1.05] tracking-tight">
+                            Cook something <em className="text-amber-700 dark:text-amber-500">good</em> tonight.
+                        </h1>
+                        <p className="mt-6 text-base sm:text-lg text-stone-600 dark:text-stone-400 leading-relaxed">
+                            Browse thousands of recipes from around the world — by category, region, or just the first letter of whatever's in your head.
+                        </p>
 
-            {/* Header */}
-            <div className="text-center space-y-3">
-                <div className="flex items-center justify-center gap-3">
-                    <ChefHat size={40} className="text-red-500" />
-                    <h1 className="text-4xl sm:text-5xl font-bold text-neutral-900 dark:text-neutral-100">
-                        Recipe Haven
-                    </h1>
-                </div>
-                <p className="text-lg text-neutral-600 dark:text-neutral-400">
-                    Easy Eats, Big Treats!
-                </p>
-            </div>
-
-            {/* Search Bar */}
-            <div className="max-w-2xl mx-auto">
-                <div className="flex gap-2">
-                    <input
-                        type="text"
-                        placeholder="Search recipes..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                        className="flex-1 px-4 py-3 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-200"
-                    />
-                    <button
-                        onClick={handleSearch}
-                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0"
-                    >
-                        <Search size={20} />
-                    </button>
-                </div>
-            </div>
-
-            {/* Surprise Me Button */}
-            <div className="flex justify-center">
-                <button
-                    onClick={handleRandomMeal}
-                    disabled={isGettingRandom}
-                    className="flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 text-white rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:ring-offset-0"
-                >
-                    {isGettingRandom ? (
-                        <>
-                            <Loader2 size={18} className="animate-spin" />
-                            Getting recipe...
-                        </>
-                    ) : (
-                        <>
-                            <Sparkles size={18} />
-                            Surprise Me!
-                        </>
-                    )}
-                </button>
-            </div>
-
-            {/* Categories Section */}
-            <div className="space-y-4">
-                <h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
-                    Browse by Category
-                </h2>
-                {categoriesLoading ? (
-                    <div className="flex items-center justify-center py-8">
-                        <Loader2 size={32} className="animate-spin text-neutral-400" />
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                        {topCategories.map((category) => (
+                        <div className="mt-8 flex flex-col sm:flex-row gap-2">
+                            <div className="relative flex-1">
+                                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 dark:text-stone-500" />
+                                <input
+                                    type="text"
+                                    placeholder="Search by name…"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                    className="w-full pl-11 pr-4 py-3 rounded-md border border-stone-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition"
+                                />
+                            </div>
                             <button
-                                key={category}
-                                onClick={() => handleCategory(category)}
-                                className="px-4 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm font-medium text-neutral-900 dark:text-neutral-100 hover:bg-blue-50 dark:hover:bg-blue-950/30 hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0"
+                                onClick={handleSearch}
+                                className="px-5 py-3 bg-stone-900 hover:bg-stone-800 dark:bg-amber-600 dark:hover:bg-amber-500 text-white rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                             >
-                                {category}
+                                Search
+                            </button>
+                            <button
+                                onClick={handleRandomMeal}
+                                disabled={isGettingRandom}
+                                className="inline-flex items-center justify-center gap-2 px-5 py-3 border border-stone-300 dark:border-neutral-700 hover:border-amber-600 dark:hover:border-amber-500 text-stone-900 dark:text-stone-100 hover:text-amber-700 dark:hover:text-amber-500 bg-white dark:bg-neutral-900 rounded-md font-medium transition disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                            >
+                                {isGettingRandom ? (
+                                    <Loader2 size={18} className="animate-spin" />
+                                ) : (
+                                    <Shuffle size={18} />
+                                )}
+                                Surprise me
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+                <SectionHeader
+                    kicker="Browse"
+                    title="By category"
+                    blurb="Pick the kind of meal you're in the mood for."
+                />
+
+                {categoriesLoading ? (
+                    <CenteredSpinner />
+                ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {categories.map((category) => (
+                            <button
+                                key={category.id}
+                                onClick={() => navigate(`/recipe-haven/category/${category.name.toLowerCase()}`)}
+                                className="group text-left bg-white dark:bg-neutral-900 border border-stone-200 dark:border-neutral-800 rounded-lg overflow-hidden hover:border-amber-600 dark:hover:border-amber-500 transition focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                            >
+                                <div className="aspect-square overflow-hidden bg-stone-100 dark:bg-neutral-800">
+                                    <img
+                                        src={category.image}
+                                        alt={category.name}
+                                        loading="lazy"
+                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                </div>
+                                <div className="p-3">
+                                    <h3 className="font-serif text-lg text-stone-900 dark:text-stone-100">
+                                        {category.name}
+                                    </h3>
+                                </div>
                             </button>
                         ))}
                     </div>
                 )}
-            </div>
+            </section>
 
-            {/* Regions Section */}
-            <div className="space-y-4">
-                <h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
-                    Browse by Region
-                </h2>
+            <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16">
+                <SectionHeader
+                    kicker="Or explore"
+                    title="By region"
+                    blurb="Cuisines from across the world, alphabetically."
+                />
+
                 {areasLoading ? (
-                    <div className="flex items-center justify-center py-8">
-                        <Loader2 size={32} className="animate-spin text-neutral-400" />
-                    </div>
+                    <CenteredSpinner />
                 ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                        {topAreas.map((area) => (
+                    <div className="flex flex-wrap gap-2">
+                        {areas.map((area) => (
                             <button
                                 key={area}
-                                onClick={() => handleArea(area)}
-                                className="px-4 py-3 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm font-medium text-neutral-900 dark:text-neutral-100 hover:bg-red-50 dark:hover:bg-red-950/30 hover:border-red-300 dark:hover:border-red-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:ring-offset-0"
+                                onClick={() => navigate(`/recipe-haven/area/${area.toLowerCase()}`)}
+                                className="px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-neutral-900 border border-stone-200 dark:border-neutral-800 text-stone-700 dark:text-stone-300 hover:border-amber-600 dark:hover:border-amber-500 hover:text-amber-700 dark:hover:text-amber-500 transition focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                             >
                                 {area}
                             </button>
                         ))}
                     </div>
                 )}
-            </div>
+            </section>
 
-            {/* Alphabet Section */}
-            <div className="space-y-4">
-                <h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
-                    Browse Alphabetically
-                </h2>
-                <div className="grid grid-cols-7 sm:grid-cols-13 gap-2">
+            <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-20">
+                <SectionHeader
+                    kicker="Looking for something specific?"
+                    title="By first letter"
+                />
+
+                <div className="grid grid-cols-9 sm:grid-cols-13 gap-1.5">
                     {ALPHABETS.map((letter) => (
                         <button
                             key={letter}
-                            onClick={() => handleLetter(letter)}
-                            className="aspect-square flex items-center justify-center bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm font-medium text-neutral-900 dark:text-neutral-100 hover:bg-green-50 dark:hover:bg-green-950/30 hover:border-green-300 dark:hover:border-green-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:ring-offset-0"
+                            onClick={() => navigate(`/recipe-haven/alphabet/${letter.toLowerCase()}`)}
+                            className="aspect-square flex items-center justify-center text-sm font-medium bg-white dark:bg-neutral-900 border border-stone-200 dark:border-neutral-800 text-stone-600 dark:text-stone-400 hover:border-amber-600 dark:hover:border-amber-500 hover:text-amber-700 dark:hover:text-amber-500 rounded-md transition focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                         >
                             {letter}
                         </button>
                     ))}
                 </div>
-            </div>
+            </section>
         </div>
     );
-};
+}
+
+function SectionHeader({ kicker, title, blurb }: { kicker: string; title: string; blurb?: string }) {
+    return (
+        <div className="mb-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-amber-700 dark:text-amber-500 font-medium">
+                {kicker}
+            </p>
+            <h2 className="font-serif text-3xl sm:text-4xl text-stone-900 dark:text-stone-100 mt-1">
+                {title}
+            </h2>
+            {blurb && (
+                <p className="mt-2 text-stone-600 dark:text-stone-400 max-w-xl">
+                    {blurb}
+                </p>
+            )}
+        </div>
+    );
+}
+
+function CenteredSpinner() {
+    return (
+        <div className="flex items-center justify-center py-12">
+            <Loader2 size={28} className="animate-spin text-amber-600 dark:text-amber-500" />
+        </div>
+    );
+}

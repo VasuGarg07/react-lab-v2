@@ -1,23 +1,31 @@
 import axios from "axios";
-import type { Meal, MealDetails } from "./recipe.helpers";
+import type { Category, Meal, MealDetails } from "./recipe.helpers";
 
 const mealDbClient = axios.create({
     baseURL: 'https://www.themealdb.com/api/json/v1/1'
 });
 
-// Get list of all categories
-export const categoryList = async (): Promise<string[]> => {
-    const { data } = await mealDbClient.get('/list.php?c=list');
-    return data.meals.map((item: { strCategory: string }) => item.strCategory);
+export const categoryDetails = async (): Promise<Category[]> => {
+    const { data } = await mealDbClient.get('/categories.php');
+    return data.categories.map((c: {
+        idCategory: string;
+        strCategory: string;
+        strCategoryThumb: string;
+        strCategoryDescription: string;
+    }) => ({
+        id: c.idCategory,
+        name: c.strCategory,
+        image: c.strCategoryThumb,
+        description: c.strCategoryDescription,
+    }));
 };
 
-// Get list of all areas/regions
 export const areaList = async (): Promise<string[]> => {
     const { data } = await mealDbClient.get('/list.php?a=list');
-    return data.meals.map((item: { strArea: string }) => item.strArea);
+    const names = data.meals.map((item: { strArea: string }) => item.strArea);
+    return [...new Set<string>(names)];
 };
 
-// Generic function to get meals from any endpoint
 const getMeals = async (url: string): Promise<Meal[]> => {
     const { data } = await mealDbClient.get(url);
 
@@ -30,33 +38,27 @@ const getMeals = async (url: string): Promise<Meal[]> => {
     }));
 };
 
-// Search meals by name
 export const searchMeals = async (searchTerm: string): Promise<Meal[]> => {
     return getMeals(`/search.php?s=${searchTerm}`);
 };
 
-// Get meals by first letter
 export const alphabetMeals = async (letter: string): Promise<Meal[]> => {
     return getMeals(`/search.php?f=${letter}`);
 };
 
-// Get meals by category
 export const categoryMeals = async (categoryId: string): Promise<Meal[]> => {
     return getMeals(`/filter.php?c=${categoryId}`);
 };
 
-// Get meals by region/area
 export const regionalMeals = async (areaId: string): Promise<Meal[]> => {
     return getMeals(`/filter.php?a=${areaId}`);
 };
 
-// Get random meal ID
 export const randomMealId = async (): Promise<string> => {
     const meals = await getMeals('/random.php');
     return meals[0].id;
 };
 
-// Get meal details by ID
 export const mealDetails = async (mealId: string): Promise<MealDetails> => {
     const url = `/lookup.php?i=${mealId}`;
     const { data } = await mealDbClient.get(url);
@@ -85,7 +87,6 @@ export const mealDetails = async (mealId: string): Promise<MealDetails> => {
         ingredients: [],
     };
 
-    // Extract ingredients and measurements
     for (let i = 1; i <= 20; i++) {
         const ingredient = mealData[`strIngredient${i}`];
         const measure = mealData[`strMeasure${i}`];

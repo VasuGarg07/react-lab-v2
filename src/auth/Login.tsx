@@ -1,7 +1,7 @@
 import { Lock, User } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { loginThunk } from "../store/authSlice";
 import { useAppDispatch } from "../store/useRedux";
 import LoadingButton from "../ui/LoadingButton";
@@ -12,6 +12,8 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const redirectTo = searchParams.get("redirect") || "/";
 
     const {
         register,
@@ -25,7 +27,7 @@ const Login = () => {
         setLoading(true);
         try {
             await dispatch(loginThunk(data)).unwrap();
-            navigate("/");
+            navigate(redirectTo, { replace: true });
         } catch (error) {
             console.error(error);
         } finally {
@@ -41,7 +43,7 @@ const Login = () => {
                     Welcome Back
                 </h1>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                    Sign in to continue to React Lab
+                    Sign in to continue to Code Garage
                 </p>
             </div>
 

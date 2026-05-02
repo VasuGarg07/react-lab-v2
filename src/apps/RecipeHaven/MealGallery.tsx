@@ -1,97 +1,101 @@
+import { AlertCircle, Loader2 } from 'lucide-react';
 import { useParams } from 'react-router';
-import { Loader2, AlertCircle } from 'lucide-react';
 import MealCard from './MealCard';
-import {
-    useSearchMeals,
-    useAlphabetMeals,
-    useCategoryMeals,
-    useRegionalMeals
-} from './utils/useRecipeQueries';
+import { useGalleryMeals } from './utils/useRecipeQueries';
 
 export default function MealGallery() {
     const { searchTerm, letter, categoryId, areaId } = useParams();
+    const { data: meals = [], isLoading, error } = useGalleryMeals({
+        searchTerm,
+        letter,
+        categoryId,
+        areaId,
+    });
 
-    // Determine which query to use based on route params
-    let query;
-    if (searchTerm) {
-        query = useSearchMeals(searchTerm);
-    } else if (letter) {
-        query = useAlphabetMeals(letter);
-    } else if (categoryId) {
-        query = useCategoryMeals(categoryId);
-    } else {
-        query = useRegionalMeals(areaId);
-    }
+    const getKicker = () => {
+        if (searchTerm) return 'Search results';
+        if (letter) return 'By letter';
+        if (categoryId) return 'Category';
+        if (areaId) return 'Region';
+        return '';
+    };
 
-    const { data: meals = [], isLoading, error } = query;
-
-    // Generate title based on query type
     const getTitle = () => {
-        if (searchTerm) return `Search results for "${searchTerm}"`;
-        if (letter) return `Recipes starting with "${letter.toUpperCase()}"`;
-        if (categoryId) return `${categoryId.charAt(0).toUpperCase() + categoryId.slice(1)} recipes`;
-        if (areaId) return `${areaId.charAt(0).toUpperCase() + areaId.slice(1)} cuisine`;
+        if (searchTerm) return `“${searchTerm}”`;
+        if (letter) return `Recipes starting with ${letter.toUpperCase()}`;
+        if (categoryId) return capitalize(categoryId);
+        if (areaId) return `${capitalize(areaId)} cuisine`;
         return 'Recipes';
     };
 
-    // Loading state
     if (isLoading) {
         return (
-            <div className="flex flex-col items-center justify-center py-16">
-                <Loader2 size={48} className="animate-spin text-blue-500 mb-4" />
-                <p className="text-neutral-600 dark:text-neutral-400">Loading recipes...</p>
+            <div className="flex flex-col items-center justify-center py-20">
+                <Loader2 size={32} className="animate-spin text-amber-600 dark:text-amber-500 mb-3" />
+                <p className="text-sm text-stone-600 dark:text-stone-400">Loading recipes…</p>
             </div>
         );
     }
 
-    // Error state
     if (error) {
         return (
-            <div className="flex flex-col items-center justify-center py-16">
-                <AlertCircle size={48} className="text-red-500 mb-4" />
-                <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-                    Failed to load recipes
-                </h2>
-                <p className="text-neutral-600 dark:text-neutral-400">
-                    Please try again later
-                </p>
-            </div>
+            <EmptyState
+                icon={<AlertCircle size={36} className="text-red-600 dark:text-red-400" />}
+                title="Couldn't load recipes"
+                blurb="Something went wrong on our end. Try again in a moment."
+            />
         );
     }
 
-    // Empty state
     if (meals.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-16">
-                <AlertCircle size={48} className="text-neutral-400 mb-4" />
-                <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-                    No recipes found
-                </h2>
-                <p className="text-neutral-600 dark:text-neutral-400">
-                    Try a different search term or category
-                </p>
-            </div>
+            <EmptyState
+                icon={<AlertCircle size={36} className="text-stone-400 dark:text-stone-500" />}
+                title="No recipes found"
+                blurb="Try a different search term or browse a category."
+            />
         );
     }
 
     return (
-        <div className="space-y-6">
-            {/* Title */}
-            <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
-                    {getTitle()}
-                </h2>
-                <span className="text-sm text-neutral-600 dark:text-neutral-400">
-                    {meals.length} {meals.length === 1 ? 'recipe' : 'recipes'}
-                </span>
+        <div className="space-y-8">
+            <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-amber-700 dark:text-amber-500 font-medium">
+                    {getKicker()}
+                </p>
+                <div className="mt-1 flex items-baseline justify-between gap-4">
+                    <h2 className="font-serif text-3xl sm:text-4xl text-stone-900 dark:text-stone-100">
+                        {getTitle()}
+                    </h2>
+                    <span className="shrink-0 text-sm text-stone-500 dark:text-stone-400">
+                        {meals.length} {meals.length === 1 ? 'recipe' : 'recipes'}
+                    </span>
+                </div>
             </div>
 
-            {/* Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 {meals.map((meal) => (
                     <MealCard key={meal.id} meal={meal} />
                 ))}
             </div>
         </div>
     );
-};
+}
+
+function EmptyState({ icon, title, blurb }: { icon: React.ReactNode; title: string; blurb: string }) {
+    return (
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="mb-4">{icon}</div>
+            <h2 className="font-serif text-2xl text-stone-900 dark:text-stone-100 mb-1">
+                {title}
+            </h2>
+            <p className="text-sm text-stone-600 dark:text-stone-400 max-w-sm">
+                {blurb}
+            </p>
+        </div>
+    );
+}
+
+function capitalize(s: string) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+}

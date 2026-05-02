@@ -1,16 +1,14 @@
-
-import {
-    login as loginService,
-    register as registerService,
-    changePassword as changePasswordService,
-    refreshAccessToken,
-    saveAuthData,
-} from "../auth/auth.service";
-import { jwtDecode } from "jwt-decode";
-import type { User, LoginData, RegisterData, ChangePasswordData } from "../auth/auth.types";
-import { toastService } from "../shared/toastr";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { clearAuth } from "../shared/apiClient";
+import { jwtDecode } from "jwt-decode";
+import {
+    changePassword as changePasswordService,
+    login as loginService,
+    logout as logoutService,
+    register as registerService,
+} from "../auth/auth.service";
+import type { ChangePasswordData, LoginData, RegisterData, User } from "../auth/auth.types";
+import { clearAuth, saveAuthTokens } from "../shared/apiClient";
+import { toastService } from "../shared/toastr";
 
 interface AuthState {
     user: User | null;
@@ -33,7 +31,7 @@ export const loginThunk = createAsyncThunk(
     async (credentials: LoginData, { rejectWithValue }) => {
         try {
             const { accessToken, refreshToken } = await loginService(credentials);
-            saveAuthData(accessToken, refreshToken);
+            saveAuthTokens(accessToken, refreshToken);
 
             const decoded = jwtDecode<DecodedToken>(accessToken);
             return { user: decoded };
@@ -67,44 +65,32 @@ export const changePasswordThunk = createAsyncThunk(
     }
 );
 
+export const logoutThunk = createAsyncThunk(
+    "auth/logout",
+    async () => {
+        const refreshToken = localStorage.getItem("refreshToken");
+        if (refreshToken) {
+            logoutService(refreshToken).catch((err) => {
+                console.error("Backend logout failed:", err);
+            });
+        }
+
+        clearAuth();
+    }
+);
+
 export const initializeAuthThunk = createAsyncThunk(
     "auth/initialize",
-    async (_) => {
+    async () => {
         const token = localStorage.getItem("accessToken");
         if (!token) return null;
 
         try {
             const decoded = jwtDecode<DecodedToken>(token);
-            const now = Math.floor(Date.now() / 1000);
-
-            // Refresh early if expired
-            if (decoded.exp <= now) {
-                const newToken = await refreshAccessToken();
-                if (!newToken) return null;
-
-                const newUser = jwtDecode<DecodedToken>(newToken);
-                return { user: newUser };
-            }
-
-            return { user: decoded };
-        } catch (err) {
-            clearAuth();
-            return null;
-        }
-    }
-);
-
-export const refreshTokenThunk = createAsyncThunk(
-    "auth/refresh",
-    async (_, { rejectWithValue }) => {
-        try {
-            const newToken = await refreshAccessToken();
-            if (!newToken) return rejectWithValue("Refresh failed");
-
-            const decoded = jwtDecode<DecodedToken>(newToken);
             return { user: decoded };
         } catch {
-            return rejectWithValue("Refresh failed");
+            clearAuth();
+            return null;
         }
     }
 );
@@ -113,11 +99,10 @@ export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        logout(state) {
+        forceLogout(state) {
             clearAuth();
             state.isLoggedIn = false;
             state.user = null;
-            toastService.info("Logged out");
         },
     },
     extraReducers: (builder) => {
@@ -149,6 +134,13 @@ export const authSlice = createSlice({
                 toastService.error(String(action.payload));
             })
 
+            // Logout
+            .addCase(logoutThunk.fulfilled, (state) => {
+                state.isLoggedIn = false;
+                state.user = null;
+                toastService.info("Logged out");
+            })
+
             // Register
             .addCase(registerThunk.fulfilled, () => {
                 toastService.success("Registration successful");
@@ -163,19 +155,9 @@ export const authSlice = createSlice({
             })
             .addCase(changePasswordThunk.rejected, (_, action) => {
                 toastService.error(String(action.payload));
-            })
-
-            // Token Refresh
-            .addCase(refreshTokenThunk.fulfilled, (state, action) => {
-                state.user = action.payload.user;
-            })
-            .addCase(refreshTokenThunk.rejected, (state) => {
-                clearAuth();
-                state.isLoggedIn = false;
-                state.user = null;
             });
     },
 });
 
-export const { logout } = authSlice.actions;
+export const { forceLogout } = authSlice.actions;
 export default authSlice.reducer;
