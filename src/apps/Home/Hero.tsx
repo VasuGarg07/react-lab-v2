@@ -12,7 +12,7 @@ const Hero = () => {
                     <div className="w-full max-w-sm">
                         <img
                             src={HeroImage}
-                            alt="React Lab Logo"
+                            alt="Hero Illustration"
                             className="w-full h-auto object-contain"
                         />
                     </div>
@@ -23,19 +23,19 @@ const Hero = () => {
                     <div className="space-y-3">
                         <div>
                             <h1 className="text-3xl md:text-4xl font-bold bg-linear-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent mb-2">
-                                REACT LAB
+                                CODE GARAGE
                             </h1>
                             <div className="h-1 w-16 bg-linear-to-r from-blue-600 to-violet-500 rounded-full" />
                         </div>
 
                         <p className="text-neutral-700 dark:text-neutral-300 text-base leading-relaxed">
-                            Welcome to React Lab! 🚀 This is where my React experiments hang out.
+                            Welcome to Code Garage! 🚀 This is where my experiments hang out.
                             Dive into a mix of quirky, cool, and maybe even a bit wild projects that I've thrown together.
                         </p>
 
                         <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
-                            Whether you're here for inspiration or just to see what happens when you combine React
-                            with a dash of creativity, you're in the right place. Let's dive in and see what kind of React magic we can brew up! 🎉✨
+                            Whether you're here for inspiration or just to see what happens when you combine code
+                            with a dash of creativity, you're in the right place. Let's dive in and see what kind of magic we can brew up! 🎉✨
                         </p>
                     </div>
                 </div>
