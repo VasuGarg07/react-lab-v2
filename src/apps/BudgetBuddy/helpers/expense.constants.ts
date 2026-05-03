@@ -1,14 +1,14 @@
 export type TransactionType = 'income' | 'expense';
 
 export interface Transaction {
-    id: string;  // Changed from _id to id
+    id: string;
     amount: number;
     category: string;
     type: TransactionType;
-    date: string | Date | number;  // Added number for timestamp
+    date: string | Date | number;
     description?: string;
-    title?: string;  // Added title field
-    userId?: string;  // Added userId field
+    title?: string;
+    userId?: string;
     createdAt?: string | Date;
     updatedAt?: string | Date;
 }
@@ -19,64 +19,42 @@ export interface TransactionsResponse {
 }
 
 export const INCOME_CATEGORIES = [
-    'Salary',
-    'Freelance',
-    'Business',
-    'Investments',
-    'Rental',
-    'Pension',
-    'Grants',
-    'Other Income',
-];
+    'Salary', 'Freelance', 'Business', 'Investments',
+    'Rental', 'Pension', 'Grants', 'Other Income',
+] as const;
 
 export const EXPENSE_CATEGORIES = [
-    'Food',
-    'Transport',
-    'Shopping',
-    'Entertainment',
-    'Bills',
-    'Healthcare',
-    'Education',
-    'Rent',
-    'Utilities',
-    'Insurance',
-    'Debt',
-    'Travel',
-    'Others',
-    'Other Expense',
-];
+    'Food', 'Transport', 'Shopping', 'Entertainment',
+    'Bills', 'Healthcare', 'Education', 'Rent',
+    'Utilities', 'Insurance', 'Debt', 'Travel',
+    'Others', 'Other Expense',
+] as const;
 
-export const ALL_CATEGORIES = [
-    ...INCOME_CATEGORIES,
-    ...EXPENSE_CATEGORIES,
-];
+export const ALL_CATEGORIES = [...INCOME_CATEGORIES, ...EXPENSE_CATEGORIES];
 
 export const CATEGORY_COLORS: Record<string, string> = {
-    // Income categories - Green shades
     'Salary': '#10b981',
-    'Freelance': '#34d399',
-    'Business': '#6ee7b7',
-    'Investments': '#a7f3d0',
-    'Rental': '#5eead4',
-    'Pension': '#2dd4bf',
-    'Grants': '#14b8a6',
-    'Gift': '#d1fae5',
+    'Freelance': '#06b6d4',
+    'Business': '#3b82f6',
+    'Investments': '#8b5cf6',
+    'Rental': '#14b8a6',
+    'Pension': '#22c55e',
+    'Grants': '#84cc16',
     'Other Income': '#6ee7b7',
 
-    // Expense categories - Red to Orange shades
     'Food': '#ef4444',
     'Transport': '#f97316',
     'Shopping': '#f59e0b',
     'Entertainment': '#eab308',
-    'Bills': '#fb923c',
-    'Healthcare': '#dc2626',
-    'Education': '#fbbf24',
-    'Rent': '#f87171',
-    'Utilities': '#fb7185',
-    'Insurance': '#e11d48',
-    'Debt': '#be123c',
-    'Travel': '#fdba74',
-    'Others': '#fca5a5',
+    'Bills': '#84cc16',
+    'Healthcare': '#ec4899',
+    'Education': '#06b6d4',
+    'Rent': '#dc2626',
+    'Utilities': '#3b82f6',
+    'Insurance': '#8b5cf6',
+    'Debt': '#991b1b',
+    'Travel': '#14b8a6',
+    'Others': '#94a3b8',
     'Other Expense': '#f87171',
 };
 
@@ -91,14 +69,13 @@ export const QUERY_KEYS = {
 } as const;
 
 export const API_ENDPOINTS = {
-    transactions: '/transactions/list',              // GET - List all
-    addTransaction: '/transactions/add',             // POST - Add new
-    updateTransaction: (id: string) => `/transactions/update/${id}`,  // PUT - Update
-    deleteTransaction: (id: string) => `/transactions/${id}`,         // DELETE - Delete one
-    clearAllTransactions: '/transactions/clear',     // DELETE - Clear all
-    importTransactions: '/transactions/import',      // POST - Import (for future use)
+    transactions: '/transactions/list',
+    addTransaction: '/transactions/add',
+    updateTransaction: (id: string) => `/transactions/update/${id}`,
+    deleteTransaction: (id: string) => `/transactions/${id}`,
+    clearAllTransactions: '/transactions/clear',
+    importTransactions: '/transactions/import',
 } as const;
-
 
 export const DATE_FILTERS = [
     { label: 'Today', value: 'today' },

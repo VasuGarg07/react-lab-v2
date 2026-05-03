@@ -1,3 +1,49 @@
-node_modules/
-dist/
-.env
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies and build output
+node_modules
+dist
+dist-ssr
+build
+*.local
+
+# Editor / OS
+.vscode
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Env files
+.env*
+
+# Firebase (host-side config, not needed in image)
+.firebaserc
+firebase.json
+.firebase/
+
+# Git
+.git
+.gitignore
+
+# Docker (no point copying these into the image)
+Dockerfile
+.dockerignore
+docker-compose.yml
+docker-compose.*.yml
+
+# Docs / misc
+README.md
+*.md
+coverage
+.nyc_output

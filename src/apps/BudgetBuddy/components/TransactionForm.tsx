@@ -2,10 +2,8 @@ import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { DollarSign, Calendar, FileText } from 'lucide-react';
 import {
-    INCOME_CATEGORIES,
-    EXPENSE_CATEGORIES,
-    type Transaction,
-    type TransactionType,
+    INCOME_CATEGORIES, EXPENSE_CATEGORIES,
+    type Transaction, type TransactionType,
 } from '../helpers/expense.constants';
 import { formatDateForInput } from '../helpers/expense.utils';
 import { useAddTransaction, useUpdateTransaction } from '../hooks/useTransactionMutations';
@@ -30,20 +28,10 @@ interface TransactionFormProps {
 
 export default function TransactionForm({ transaction, mode, defaultType }: TransactionFormProps) {
     const { close } = useModal();
-
-    // Mutations
     const { mutate: addTransaction, isPending: isAdding } = useAddTransaction();
     const { mutate: updateTransaction, isPending: isUpdating } = useUpdateTransaction();
 
-    // React Hook Form
-    const {
-        control,
-        handleSubmit,
-        watch,
-        setValue,
-        reset,
-        formState: { errors },
-    } = useForm<TransactionFormData>({
+    const { control, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm<TransactionFormData>({
         defaultValues: {
             amount: transaction?.amount.toString() || '',
             category: transaction?.category || '',
@@ -55,23 +43,15 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
 
     const transactionType = watch('type');
     const selectedCategory = watch('category');
-
-    // Get categories based on type
     const categories = transactionType === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
+    const isPending = isAdding || isUpdating;
 
-    // Reset category when type changes if current category is invalid
     useEffect(() => {
-        if (selectedCategory && !categories.includes(selectedCategory as any)) {
+        if (selectedCategory && !(categories as readonly string[]).includes(selectedCategory)) {
             setValue('category', '');
         }
     }, [transactionType, selectedCategory, categories, setValue]);
 
-    // Handle type toggle
-    const handleTypeChange = (type: TransactionType) => {
-        setValue('type', type);
-    };
-
-    // Handle submit
     const onSubmit = (data: TransactionFormData) => {
         const payload = {
             amount: parseFloat(data.amount),
@@ -81,87 +61,60 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
             description: data.description,
         };
 
+        const onSuccess = () => { close(); reset(); };
+
         if (mode === 'edit' && transaction) {
-            updateTransaction(
-                { id: transaction.id, data: payload },
-                {
-                    onSuccess: () => {
-                        close();
-                        reset();
-                    },
-                }
-            );
+            updateTransaction({ id: transaction.id, data: payload }, { onSuccess });
         } else {
-            addTransaction(payload, {
-                onSuccess: () => {
-                    close();
-                    reset();
-                },
-            });
+            addTransaction(payload, { onSuccess });
         }
     };
 
-    const isPending = isAdding || isUpdating;
-
     return (
         <div>
-            {/* Header */}
-            <div className="mb-4">
-                <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
+            <div className="mb-5">
+                <h2 className="text-lg font-medium tracking-tight text-neutral-900 dark:text-neutral-100">
                     {mode === 'edit' ? 'Edit Transaction' : 'Add Transaction'}
                 </h2>
-                <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
-                    {mode === 'edit'
-                        ? 'Update transaction details below'
-                        : 'Fill in the details to add a new transaction'}
+                <p className="text-sm text-neutral-400 dark:text-neutral-500 mt-0.5">
+                    {mode === 'edit' ? 'Update the details below' : 'Fill in the details to record a transaction'}
                 </p>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-                {/* Type Toggle */}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+                    <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-widest mb-2">
                         Type
                     </label>
-                    <div className="grid grid-cols-2 gap-3">
-                        <button
-                            type="button"
-                            onClick={() => handleTypeChange('income')}
-                            disabled={isPending}
-                            className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 border ${transactionType === 'income'
-                                ? 'bg-emerald-600 dark:bg-emerald-500 text-white border-emerald-600 dark:border-emerald-500'
-                                : 'bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border-neutral-300 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-750'
-                                } disabled:opacity-50`}
-                        >
-                            Income
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => handleTypeChange('expense')}
-                            disabled={isPending}
-                            className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all duration-200 border ${transactionType === 'expense'
-                                ? 'bg-red-600 dark:bg-red-500 text-white border-red-600 dark:border-red-500'
-                                : 'bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border-neutral-300 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-750'
-                                } disabled:opacity-50`}
-                        >
-                            Expense
-                        </button>
+                    <div className="grid grid-cols-2 gap-2">
+                        {(['income', 'expense'] as TransactionType[]).map(type => (
+                            <button
+                                key={type}
+                                type="button"
+                                onClick={() => setValue('type', type)}
+                                disabled={isPending}
+                                className={`py-2.5 px-4 rounded-full text-sm font-medium transition-all border ${
+                                    transactionType === type
+                                        ? type === 'income'
+                                            ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-700'
+                                            : 'bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-400 border-red-300 dark:border-red-700'
+                                        : 'bg-white dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600'
+                                } disabled:opacity-50 capitalize`}
+                            >
+                                {type}
+                            </button>
+                        ))}
                     </div>
                 </div>
 
-                {/* Amount */}
                 <Controller
                     name="amount"
                     control={control}
                     rules={{
                         required: 'Amount is required',
-                        validate: (value) => {
+                        validate: value => {
                             const num = parseFloat(value);
-                            if (isNaN(num) || num <= 0) {
-                                return 'Amount must be greater than 0';
-                            }
-                            return true;
+                            return (!isNaN(num) && num > 0) || 'Amount must be greater than 0';
                         },
                     }}
                     render={({ field }) => (
@@ -178,7 +131,6 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                     )}
                 />
 
-                {/* Category */}
                 <Controller
                     name="category"
                     control={control}
@@ -187,7 +139,7 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                         <Select
                             {...field}
                             label="Category"
-                            options={categories.map((cat) => ({ label: cat, value: cat }))}
+                            options={categories.map(cat => ({ label: cat, value: cat }))}
                             error={errors.category?.message}
                             placeholder="Select a category"
                             disabled={isPending}
@@ -196,7 +148,6 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                     )}
                 />
 
-                {/* Date */}
                 <Controller
                     name="date"
                     control={control}
@@ -213,17 +164,16 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                     )}
                 />
 
-                {/* Description (Optional) */}
                 <Controller
                     name="description"
                     control={control}
                     render={({ field }) => (
                         <div className="space-y-1.5">
-                            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                                Description <span className="text-neutral-400">(Optional)</span>
+                            <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">
+                                Description <span className="text-neutral-300 dark:text-neutral-600 normal-case">(optional)</span>
                             </label>
                             <div className="relative">
-                                <span className="absolute inset-y-0 left-0 flex items-start pt-3 pl-3 text-neutral-400 dark:text-neutral-500 pointer-events-none">
+                                <span className="absolute top-3 left-3 text-neutral-300 dark:text-neutral-600 pointer-events-none">
                                     <FileText className="w-4 h-4" />
                                 </span>
                                 <textarea
@@ -231,23 +181,19 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                                     placeholder="Add a note..."
                                     rows={3}
                                     disabled={isPending}
-                                    className="w-full pl-10 pr-3 py-2.5 text-sm rounded-lg border transition-all duration-200 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 border-neutral-300 dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed resize-none"
+                                    className="w-full pl-10 pr-3 py-2.5 text-sm rounded-sm border bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-300 dark:placeholder:text-neutral-600 border-neutral-200 dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 dark:focus:ring-neutral-100/10 focus:border-neutral-400 dark:focus:border-neutral-500 disabled:opacity-50 resize-none transition-colors"
                                 />
                             </div>
                         </div>
                     )}
                 />
 
-                {/* Actions */}
-                <div className="flex gap-3">
+                <div className="flex gap-3 pt-1">
                     <button
                         type="button"
-                        onClick={() => {
-                            close();
-                            reset();
-                        }}
+                        onClick={() => { close(); reset(); }}
                         disabled={isPending}
-                        className="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-750 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 px-4 py-2.5 text-sm font-medium rounded-full border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors disabled:opacity-50"
                     >
                         Cancel
                     </button>
@@ -266,20 +212,11 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
     );
 }
 
-/**
- * Helper function to open transaction form in modal
- */
 export const openTransactionForm = (
     modal: ReturnType<typeof useModal>,
     mode: 'add' | 'edit',
     transaction?: Transaction | null,
     defaultType?: TransactionType
 ) => {
-    modal.open(
-        <TransactionForm
-            mode={mode}
-            transaction={transaction}
-            defaultType={defaultType}
-        />
-    );
+    modal.open(<TransactionForm mode={mode} transaction={transaction} defaultType={defaultType} />);
 };
