@@ -10,7 +10,6 @@ export default function Result() {
         <div className="w-full max-w-2xl mx-auto">
             <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden shadow-xl">
                 <div className="flex flex-col md:flex-row">
-                    {/* Image */}
                     <div className="md:w-1/2 p-6 flex justify-center items-center bg-neutral-50 dark:bg-neutral-800">
                         <img
                             src="/pikachu.png"
@@ -19,7 +18,6 @@ export default function Result() {
                         />
                     </div>
 
-                    {/* Content */}
                     <div className="md:w-1/2 p-6 flex flex-col justify-center items-center">
                         <div className="mb-4">
                             <Trophy size={48} className="text-amber-500 mx-auto" />

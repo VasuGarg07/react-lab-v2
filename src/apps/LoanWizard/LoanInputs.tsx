@@ -17,7 +17,6 @@ const LoanInputs = ({
 
     return (
         <div className={`space-y-4 ${className}`}>
-            {/* Header */}
             <div className="mb-4">
                 <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                     Loan Details
@@ -27,7 +26,6 @@ const LoanInputs = ({
                 </p>
             </div>
 
-            {/* Input Card */}
             <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 sm:p-5 border border-neutral-200 dark:border-neutral-700 shadow-sm space-y-6">
 
                 {/* Loan Amount */}
