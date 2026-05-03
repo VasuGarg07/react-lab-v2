@@ -20,7 +20,6 @@ const AffordabilityCheck = ({
         ? checkAffordability(monthlyEMI, incomeValue)
         : null;
 
-    // Get status styling based on affordability
     const getStatusStyling = () => {
         if (!affordabilityResult) return null;
 
@@ -65,7 +64,6 @@ const AffordabilityCheck = ({
 
     return (
         <div className={`space-y-4 ${className}`}>
-            {/* Header */}
             <div className="mb-4">
                 <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                     Affordability Check
@@ -75,7 +73,6 @@ const AffordabilityCheck = ({
                 </p>
             </div>
 
-            {/* Income Input */}
             <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 sm:p-5 border border-neutral-200 dark:border-neutral-700 shadow-sm">
                 <TextInput
                     label="Monthly Take-Home Income"
@@ -87,10 +84,8 @@ const AffordabilityCheck = ({
                 />
             </div>
 
-            {/* Affordability Result */}
             {affordabilityResult && statusStyling && (
                 <>
-                    {/* Status Card */}
                     <div className={`rounded-lg p-4 border ${statusStyling.bgColor} ${statusStyling.borderColor}`}>
                         <div className="flex items-center gap-3 mb-3">
                             {StatusIcon && <StatusIcon size={20} className={statusStyling.iconColor} />}
@@ -100,7 +95,6 @@ const AffordabilityCheck = ({
                             </h4>
                         </div>
 
-                        {/* EMI to Income Ratio */}
                         <div className="mb-3">
                             <div className="flex justify-between items-center mb-2">
                                 <span className="text-sm text-neutral-700 dark:text-neutral-300">
@@ -111,7 +105,6 @@ const AffordabilityCheck = ({
                                 </span>
                             </div>
 
-                            {/* Progress Bar */}
                             <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
                                 <div
                                     className={`h-2 rounded-full ${statusStyling.progressColor} transition-all duration-300`}
@@ -126,13 +119,11 @@ const AffordabilityCheck = ({
                             </div>
                         </div>
 
-                        {/* Message */}
                         <p className={`text-sm ${statusStyling.textColor}`}>
                             {statusStyling.message}
                         </p>
                     </div>
 
-                    {/* Breakdown */}
                     <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 border border-neutral-200 dark:border-neutral-700 shadow-sm">
                         <div className="grid grid-cols-2 gap-4">
                             <div>
@@ -154,20 +145,6 @@ const AffordabilityCheck = ({
                         </div>
                     </div>
                 </>
-            )}
-
-            {/* Guidelines - Show when no income entered */}
-            {!affordabilityResult && (
-                <div className="bg-blue-50 dark:bg-blue-950/30 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-                    <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2">
-                        Guidelines
-                    </h4>
-                    <ul className="text-sm text-blue-800 dark:text-blue-400 space-y-1.5">
-                        <li>• EMI should be ≤30% of monthly income (ideal)</li>
-                        <li>• EMI should not exceed 40% of income (maximum)</li>
-                        <li>• Keep emergency funds for unexpected expenses</li>
-                    </ul>
-                </div>
             )}
         </div>
     );

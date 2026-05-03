@@ -8,13 +8,11 @@ interface LoanResultsProps {
     className?: string;
 }
 
-// Color palette
 const COLORS = {
-    principal: '#3b82f6', // blue-500
-    interest: '#ef4444',  // red-500
+    principal: '#3b82f6',
+    interest: '#ef4444',
 };
 
-// Custom tooltip for chart
 const ChartTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         const { name, value } = payload[0];
@@ -38,13 +36,11 @@ const LoanResults = ({ loanParams, className = '' }: LoanResultsProps) => {
     const { monthlyEMI, totalInterest, totalPayment } = results;
     const chartData = prepareChartData(loanParams);
 
-    // Calculate percentages
     const principalPercentage = ((loanParams.loanAmount / totalPayment) * 100).toFixed(1);
     const interestPercentage = ((totalInterest / totalPayment) * 100).toFixed(1);
 
     return (
         <div className={`space-y-4 ${className}`}>
-            {/* Header */}
             <div className="mb-4">
                 <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
                     Loan Summary
@@ -68,7 +64,6 @@ const LoanResults = ({ loanParams, className = '' }: LoanResultsProps) => {
                 </div>
             </div>
 
-            {/* Chart Card */}
             <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 sm:p-5 border border-neutral-200 dark:border-neutral-700 shadow-sm">
                 <h4 className="text-sm font-medium text-neutral-900 dark:text-neutral-100 mb-4">
                     Payment Breakdown
@@ -104,7 +99,6 @@ const LoanResults = ({ loanParams, className = '' }: LoanResultsProps) => {
                     </ResponsiveContainer>
                 </div>
 
-                {/* Breakdown Stats */}
                 <div className="grid grid-cols-2 gap-4 pt-4 border-t border-neutral-200 dark:border-neutral-700">
                     <div className="text-center">
                         <div className="flex items-center justify-center gap-2 mb-1">
@@ -133,7 +127,6 @@ const LoanResults = ({ loanParams, className = '' }: LoanResultsProps) => {
                 </div>
             </div>
 
-            {/* Total Payment Card */}
             <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 border border-neutral-200 dark:border-neutral-700 shadow-sm">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">

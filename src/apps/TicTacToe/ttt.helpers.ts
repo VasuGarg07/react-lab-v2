@@ -40,7 +40,7 @@ export const checkWinner = (board: string[][]): string | null => {
     return null;
 };
 
-// AI: Make a Random Move
+// Make a Random Move
 export const makeRandomMove = (
     boards: string[][][][],
     winners: (string | null)[][],

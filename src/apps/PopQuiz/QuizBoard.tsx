@@ -10,7 +10,6 @@ export default function QuizBoard() {
     const questions = quizConfig?.questions || [];
     const currentQuestionData = questions[currentQuestion];
 
-    // Shuffle options when question changes
     useEffect(() => {
         if (currentQuestionData) {
             const options = shuffleArray([
@@ -21,7 +20,6 @@ export default function QuizBoard() {
         }
     }, [currentQuestionData]);
 
-    // Handle case where no questions are available
     if (!questions.length) {
         return (
             <div className="flex justify-center items-center h-full">
@@ -34,7 +32,6 @@ export default function QuizBoard() {
         );
     }
 
-    // Handle case where current question index is out of bounds
     if (!currentQuestionData) {
         return (
             <div className="flex justify-center items-center h-full">

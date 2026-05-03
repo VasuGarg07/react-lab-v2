@@ -30,7 +30,6 @@ function MarkdownLive() {
 
     return (
         <div className="relative w-full h-[calc(100vh-120px)]">
-            {/* Main Content - Split View */}
             <div className="flex flex-col lg:flex-row h-full">
                 {/* Editor Pane */}
                 <div className="relative w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-neutral-200 dark:border-neutral-700 h-1/2 lg:h-full bg-white dark:bg-neutral-900">
