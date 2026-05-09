@@ -1,4 +1,4 @@
-import HeroImage from '/illustrations/homepage.svg';
+import HeroImage from '/homepage.svg';
 
 const Hero = () => {
     return (
@@ -12,7 +12,7 @@ const Hero = () => {
                     <div className="w-full max-w-sm">
                         <img
                             src={HeroImage}
-                            alt="Hero Illustration"
+                            alt="Hero Image"
                             className="w-full h-auto object-contain"
                         />
                     </div>

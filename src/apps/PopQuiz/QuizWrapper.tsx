@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router';
-import QuizImage from '/illustrations/quiz.png';
+import QuizImage from '/quiz.svg';
 
 export default function QuizWrapper() {
     return (
@@ -27,7 +27,7 @@ export default function QuizWrapper() {
                         <div className="w-full h-full flex items-center justify-center">
                             <img
                                 src={QuizImage}
-                                alt="Quiz illustration"
+                                alt="Quiz Hero"
                                 className="w-full max-w-sm object-contain opacity-90"
                             />
                         </div>
