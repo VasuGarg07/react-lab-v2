@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router';
 import Footer from '../components/Footer';
 import { useEffect } from 'react';
 import Header from '../components/Header';
+import { Suspense } from "react";
 
 export default function Layout() {
     const { pathname } = useLocation();
@@ -13,7 +14,9 @@ export default function Layout() {
         <div className="min-h-screen flex flex-col bg-neutral-50 dark:bg-neutral-900">
             <Header />
             <main className="flex-1">
-                <Outlet /> {/* Route content will render here */}
+                <Suspense fallback={<div>Loading...</div>}>
+                    <Outlet />
+                </Suspense>
             </main>
             <Footer />
         </div>

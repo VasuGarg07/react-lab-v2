@@ -1,54 +1,73 @@
+import { lazy } from "react";
 import { createBrowserRouter, Navigate, Outlet } from "react-router";
 import AuthWrapper from "./auth/AuthWrapper";
 import { protectedLoader, publicOnlyLoader } from "./auth/auth.guards";
-import ForgotPassword from "./auth/ForgotPassword";
-import Login from "./auth/Login";
-import Register from "./auth/Register";
-import Discover from "./apps/Blogify/pages/Discover";
-import BlogDetails from "./apps/Blogify/pages/BlogDetails";
-import BlogHome from "./apps/Blogify/pages/BlogHome";
-import BlogLayout from "./apps/Blogify/pages/BlogLayout";
-import BlogList from "./apps/Blogify/pages/BlogList";
-import MyLibrary from "./apps/Blogify/pages/MyLibrary";
-import NotebookDetail from "./apps/Blogify/pages/NotebookDetail";
-import NotebookForm from "./apps/Blogify/pages/NotebookForm";
-import NotebookList from "./apps/Blogify/pages/NotebookList";
-import WriteBlog from "./apps/Blogify/pages/WriteBlog";
-import BudgetLayout from "./apps/BudgetBuddy/components/BudgetLayout";
-import BudgetHome from "./apps/BudgetBuddy/pages/BudgetHome";
-import Overview from "./apps/BudgetBuddy/pages/Overview";
-import Statistics from "./apps/BudgetBuddy/pages/Statistics";
-import FormBuilder from "./apps/Formlyst/Builder/Builder";
-import FormDashboard from "./apps/Formlyst/Dashboard/Dashboard";
-import FormPublic from "./apps/Formlyst/FormPublic/Public";
-import FormReview from "./apps/Formlyst/FormReview/Review";
-import ResponseDetail from "./apps/Formlyst/ResponseDetail/ResponseDetail";
-import Responses from "./apps/Formlyst/Responses/Responses";
-import Homepage from "./apps/Home/Homepage";
-import JsonLive from "./apps/JsonLive/JsonLive";
-import LoanWizard from "./apps/LoanWizard/LoanWizard";
-import MarkdownLive from "./apps/Markdown/MarkdownLive";
-import PokeMemory from "./apps/PokeMemory/Pokememory";
-import BattleScreen from "./apps/Pokeverse/BattleScreen/BattleScreen";
-import BattleSetup from "./apps/Pokeverse/BattleSetup/BattleSetup";
-import BattleSimLayout from "./apps/Pokeverse/BattleSimLayout/BattleSimLayout";
-import Pokedex from "./apps/Pokeverse/Pokedex/Pokedex";
-import PokemonDetails from "./apps/Pokeverse/PokemonDetails/PokemonDetails";
-import Pokeverse from "./apps/Pokeverse/Pokeverse";
-import PrepareBattle from "./apps/Pokeverse/PrepareBattle/PrepareBattle";
-import TeamSelection from "./apps/Pokeverse/TeamSelection/TeamSelection";
-import QuizBoard from "./apps/PopQuiz/QuizBoard";
-import QuizResult from "./apps/PopQuiz/QuizResult";
-import QuizSetup from "./apps/PopQuiz/QuizSetup";
-import QuizWrapper from "./apps/PopQuiz/QuizWrapper";
-import MealDetails from "./apps/RecipeHaven/MealDetails";
-import MealGallery from "./apps/RecipeHaven/MealGallery";
-import MealWrapper from "./apps/RecipeHaven/MealWrapper";
-import RecipeHaven from "./apps/RecipeHaven/RecipeHaven";
-import Sudoku from "./apps/Sudoku/Sudoku";
-import SuperTicTacToe from "./apps/TicTacToe/SuperTicTacToe";
-import SortingVisualizer from "./apps/Visualizer/Visualizer";
 import Layout from "./components/Layout";
+
+// Auth
+const Login = lazy(() => import("./auth/Login"));
+const Register = lazy(() => import("./auth/Register"));
+const ForgotPassword = lazy(() => import("./auth/ForgotPassword"));
+
+// Home
+const Homepage = lazy(() => import("./apps/Home/Homepage"));
+
+// Mini-apps
+const JsonLive = lazy(() => import("./apps/JsonLive/JsonLive"));
+const MarkdownLive = lazy(() => import("./apps/Markdown/MarkdownLive"));
+const Sudoku = lazy(() => import("./apps/Sudoku/Sudoku"));
+const SortingVisualizer = lazy(() => import("./apps/Visualizer/Visualizer"));
+const SuperTicTacToe = lazy(() => import("./apps/TicTacToe/SuperTicTacToe"));
+const PokeMemory = lazy(() => import("./apps/PokeMemory/Pokememory"));
+const LoanWizard = lazy(() => import("./apps/LoanWizard/LoanWizard"));
+
+// Pop Quiz
+const QuizWrapper = lazy(() => import("./apps/PopQuiz/QuizWrapper"));
+const QuizSetup = lazy(() => import("./apps/PopQuiz/QuizSetup"));
+const QuizBoard = lazy(() => import("./apps/PopQuiz/QuizBoard"));
+const QuizResult = lazy(() => import("./apps/PopQuiz/QuizResult"));
+
+// Recipe Haven
+const RecipeHaven = lazy(() => import("./apps/RecipeHaven/RecipeHaven"));
+const MealWrapper = lazy(() => import("./apps/RecipeHaven/MealWrapper"));
+const MealGallery = lazy(() => import("./apps/RecipeHaven/MealGallery"));
+const MealDetails = lazy(() => import("./apps/RecipeHaven/MealDetails"));
+
+// Pokeverse
+const Pokeverse = lazy(() => import("./apps/Pokeverse/Pokeverse"));
+const Pokedex = lazy(() => import("./apps/Pokeverse/Pokedex/Pokedex"));
+const PokemonDetails = lazy(() => import("./apps/Pokeverse/PokemonDetails/PokemonDetails"));
+const BattleSimLayout = lazy(() => import("./apps/Pokeverse/BattleSimLayout/BattleSimLayout"));
+const BattleSetup = lazy(() => import("./apps/Pokeverse/BattleSetup/BattleSetup"));
+const BattleScreen = lazy(() => import("./apps/Pokeverse/BattleScreen/BattleScreen"));
+const TeamSelection = lazy(() => import("./apps/Pokeverse/TeamSelection/TeamSelection"));
+const PrepareBattle = lazy(() => import("./apps/Pokeverse/PrepareBattle/PrepareBattle"));
+
+// Blogify
+const BlogLayout = lazy(() => import("./apps/Blogify/pages/BlogLayout"));
+const BlogHome = lazy(() => import("./apps/Blogify/pages/BlogHome"));
+const Discover = lazy(() => import("./apps/Blogify/pages/Discover"));
+const MyLibrary = lazy(() => import("./apps/Blogify/pages/MyLibrary"));
+const WriteBlog = lazy(() => import("./apps/Blogify/pages/WriteBlog"));
+const BlogDetails = lazy(() => import("./apps/Blogify/pages/BlogDetails"));
+const BlogList = lazy(() => import("./apps/Blogify/pages/BlogList"));
+const NotebookDetail = lazy(() => import("./apps/Blogify/pages/NotebookDetail"));
+const NotebookForm = lazy(() => import("./apps/Blogify/pages/NotebookForm"));
+const NotebookList = lazy(() => import("./apps/Blogify/pages/NotebookList"));
+
+// BudgetBuddy
+const BudgetLayout = lazy(() => import("./apps/BudgetBuddy/components/BudgetLayout"));
+const BudgetHome = lazy(() => import("./apps/BudgetBuddy/pages/BudgetHome"));
+const Overview = lazy(() => import("./apps/BudgetBuddy/pages/Overview"));
+const Statistics = lazy(() => import("./apps/BudgetBuddy/pages/Statistics"));
+
+// Formlyst
+const FormDashboard = lazy(() => import("./apps/Formlyst/Dashboard/Dashboard"));
+const FormBuilder = lazy(() => import("./apps/Formlyst/Builder/Builder"));
+const FormPublic = lazy(() => import("./apps/Formlyst/FormPublic/Public"));
+const FormReview = lazy(() => import("./apps/Formlyst/FormReview/Review"));
+const Responses = lazy(() => import("./apps/Formlyst/Responses/Responses"));
+const ResponseDetail = lazy(() => import("./apps/Formlyst/ResponseDetail/ResponseDetail"));
 
 const router = createBrowserRouter([
     {
