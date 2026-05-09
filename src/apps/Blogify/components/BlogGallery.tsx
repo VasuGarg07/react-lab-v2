@@ -19,13 +19,13 @@ export default function BlogGallery({
     totalPages,
     onPageChange,
     isLoading = false,
-    emptyMessage = 'No blogs found',
+    emptyMessage = 'No blogs yet',
     emptyDescription = 'Check back later for new content',
 }: BlogGalleryProps) {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-[300px]">
-                <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
+                <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
             </div>
         );
     }
@@ -33,13 +33,13 @@ export default function BlogGallery({
     if (blogs.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[300px] text-center px-4">
-                <div className="w-14 h-14 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center mb-4">
-                    <FileText className="w-7 h-7 text-neutral-400 dark:text-neutral-500" />
+                <div className="w-12 h-12 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center mb-4">
+                    <FileText className="w-5 h-5 text-stone-400 dark:text-stone-500" strokeWidth={1.5} />
                 </div>
-                <p className="text-base font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                <p className="font-serif text-base text-stone-700 dark:text-stone-300 mb-1">
                     {emptyMessage}
                 </p>
-                <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                <p className="text-sm text-stone-400 dark:text-stone-500">
                     {emptyDescription}
                 </p>
             </div>
@@ -47,13 +47,8 @@ export default function BlogGallery({
     }
 
     return (
-        <div className="space-y-4">
-            <div className="space-y-3">
-                {blogs.map(blog => (
-                    <BlogCard key={blog.id} blog={blog} />
-                ))}
-            </div>
-
+        <div className="space-y-3">
+            {blogs.map(blog => <BlogCard key={blog.id} blog={blog} />)}
             {totalPages > 1 && (
                 <Pagination
                     currentPage={currentPage}

@@ -9,11 +9,6 @@ interface UsePaginationReturn {
     resetPage: () => void;
 }
 
-/**
- * Hook to manage pagination state with URL sync
- * @param defaultPage - Default page number (default: 1)
- * @returns Pagination state and controls
- */
 export const usePagination = (defaultPage: number = 1): UsePaginationReturn => {
     const [searchParams, setSearchParams] = useSearchParams();
     const pageFromUrl = parseInt(searchParams.get('page') || String(defaultPage));

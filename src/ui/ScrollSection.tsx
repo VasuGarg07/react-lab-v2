@@ -8,6 +8,7 @@ interface ScrollSectionProps {
     actionLabel?: string;
     actionHref?: string;
     children: ReactNode;
+    itemWidth?: string;
 }
 
 export default function ScrollSection({
@@ -16,16 +17,17 @@ export default function ScrollSection({
     actionLabel,
     actionHref,
     children,
+    itemWidth = 'w-40',
 }: ScrollSectionProps) {
     return (
         <section className="space-y-4">
             <div className="flex items-end justify-between gap-4">
                 <div>
-                    <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+                    <h2 className="text-lg text-stone-900 dark:text-stone-100">
                         {title}
                     </h2>
                     {subtitle && (
-                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">
+                        <p className="text-xs text-stone-400 dark:text-stone-500 mt-0.5">
                             {subtitle}
                         </p>
                     )}
@@ -33,16 +35,23 @@ export default function ScrollSection({
                 {actionLabel && actionHref && (
                     <Link
                         to={actionHref}
-                        className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 flex items-center gap-1 shrink-0 transition-colors"
+                        className="text-xs text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 flex items-center gap-0.5 shrink-0 transition-colors"
                     >
                         {actionLabel}
-                        <ChevronRight className="w-4 h-4" />
+                        <ChevronRight className="w-3.5 h-3.5" />
                     </Link>
                 )}
             </div>
 
-            <div className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 scrollbar-hide">
-                {children}
+            <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+                {Array.isArray(children)
+                    ? children.map((child, i) => (
+                        <div key={i} className={`${itemWidth} shrink-0`}>
+                            {child}
+                        </div>
+                    ))
+                    : <div className={`${itemWidth} shrink-0`}>{children}</div>
+                }
             </div>
         </section>
     );

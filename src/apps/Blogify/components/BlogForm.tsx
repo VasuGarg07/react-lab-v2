@@ -51,33 +51,21 @@ export default function BlogForm({
         onSaveDraft({ ...blogData, isArchived: true }, notebookId);
     };
 
-    // Tag management
     const addTag = () => {
         const trimmed = tagInput.trim();
-        if (!trimmed) return;
-        if (tags.length >= BLOG_CONSTANTS.MAX_TAGS) return;
-        if (tags.includes(trimmed)) return;
-
+        if (!trimmed || tags.length >= BLOG_CONSTANTS.MAX_TAGS || tags.includes(trimmed)) return;
         setValue('tags', [...tags, trimmed]);
         setTagInput('');
     };
 
-    const removeTag = (tag: string) => {
-        setValue('tags', tags.filter(t => t !== tag));
-    };
+    const removeTag = (tag: string) => setValue('tags', tags.filter(t => t !== tag));
 
     const handleTagKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            addTag();
-        }
+        if (e.key === 'Enter') { e.preventDefault(); addTag(); }
     };
 
-    const notebookOptions = notebooks.map(n => ({ label: n.title, value: n.id }));
-
     return (
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-            {/* Notebook Selection */}
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-7">
             {!isEditMode && (
                 <Controller
                     name="notebookId"
@@ -87,7 +75,7 @@ export default function BlogForm({
                         <Select
                             label="Notebook"
                             placeholder="Select a notebook"
-                            options={notebookOptions}
+                            options={notebooks.map(n => ({ label: n.title, value: n.id }))}
                             value={field.value}
                             onChange={field.onChange}
                             error={errors.notebookId?.message}
@@ -97,7 +85,6 @@ export default function BlogForm({
                 />
             )}
 
-            {/* Title */}
             <Controller
                 name="title"
                 control={control}
@@ -116,7 +103,6 @@ export default function BlogForm({
                 )}
             />
 
-            {/* Author */}
             <Controller
                 name="author"
                 control={control}
@@ -131,9 +117,8 @@ export default function BlogForm({
                 )}
             />
 
-            {/* Content */}
-            <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-stone-600 dark:text-stone-400">
                     Content
                 </label>
                 <Controller
@@ -156,24 +141,22 @@ export default function BlogForm({
                 )}
             </div>
 
-            {/* Tags */}
-            <div className="space-y-2">
-                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                    Tags
-                    {tags.length > 0 && (
-                        <span className="text-neutral-500 dark:text-neutral-400 font-normal ml-1">
-                            ({tags.length}/{BLOG_CONSTANTS.MAX_TAGS})
-                        </span>
-                    )}
-                </label>
+            <div className="space-y-3">
+                <div className="flex items-baseline justify-between">
+                    <label className="text-sm font-medium text-stone-600 dark:text-stone-400">
+                        Tags
+                    </label>
+                    <span className="text-xs text-stone-400 dark:text-stone-500">
+                        {tags.length}/{BLOG_CONSTANTS.MAX_TAGS}
+                    </span>
+                </div>
 
-                {/* Tag List */}
                 {tags.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                         {tags.map(tag => (
                             <span
                                 key={tag}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300"
+                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400"
                             >
                                 {tag}
                                 <button
@@ -181,54 +164,52 @@ export default function BlogForm({
                                     onClick={() => removeTag(tag)}
                                     className="hover:text-red-500 transition-colors"
                                 >
-                                    <X className="w-3.5 h-3.5" />
+                                    <X className="w-3 h-3" />
                                 </button>
                             </span>
                         ))}
                     </div>
                 )}
 
-                {/* Tag Input */}
                 <div className="flex gap-2">
                     <input
                         type="text"
                         value={tagInput}
-                        onChange={(e) => setTagInput(e.target.value)}
+                        onChange={e => setTagInput(e.target.value)}
                         onKeyDown={handleTagKeyDown}
                         placeholder="Add a tag..."
                         disabled={tags.length >= BLOG_CONSTANTS.MAX_TAGS}
-                        className="flex-1 px-3 py-2.5 text-sm rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                        className="flex-1 px-3 py-2 text-sm rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-600 focus:outline-none focus:border-stone-400 dark:focus:border-stone-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                     />
                     <button
                         type="button"
                         onClick={addTag}
                         disabled={tags.length >= BLOG_CONSTANTS.MAX_TAGS || !tagInput.trim()}
-                        className="px-3 py-2.5 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                     >
-                        <Plus className="w-5 h-5" />
+                        <Plus className="w-4 h-4" />
                     </button>
                 </div>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                    Press Enter or click + to add (max {BLOG_CONSTANTS.MAX_TAGS})
+                <p className="text-xs text-stone-400 dark:text-stone-500">
+                    Press Enter or + to add
                 </p>
             </div>
 
-            {/* Actions */}
-            <div className="flex items-center justify-end gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
                 <button
                     type="button"
                     onClick={handleDraftSubmit}
                     disabled={isLoading || !notebookId}
-                    className="px-4 py-2.5 text-sm font-medium rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="px-4 py-2.5 text-sm font-medium rounded-xl text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
-                    Save as Draft
+                    Save draft
                 </button>
                 <LoadingButton
                     type="submit"
                     isLoading={isLoading}
                     disabled={isLoading || !notebookId}
                 >
-                    {isEditMode ? 'Update Blog' : 'Publish Blog'}
+                    {isEditMode ? 'Update' : 'Publish'}
                 </LoadingButton>
             </div>
         </form>

@@ -22,7 +22,6 @@ export default function Discover() {
     const notebooks = notebooksData?.data ?? [];
     const blogs = blogsData?.data ?? [];
 
-    // Client-side filtering by title or author
     const filterByQuery = <T extends { title: string; author: string }>(items: T[]): T[] => {
         if (!searchQuery.trim()) return items;
         const query = searchQuery.toLowerCase();
@@ -31,13 +30,8 @@ export default function Discover() {
         );
     };
 
-    const filteredNotebooks = (searchScope === 'all' || searchScope === 'notebooks')
-        ? filterByQuery(notebooks)
-        : notebooks;
-
-    const filteredBlogs = (searchScope === 'all' || searchScope === 'blogs')
-        ? filterByQuery(blogs)
-        : blogs;
+    const filteredNotebooks = (searchScope === 'all' || searchScope === 'notebooks') ? filterByQuery(notebooks) : notebooks;
+    const filteredBlogs = (searchScope === 'all' || searchScope === 'blogs') ? filterByQuery(blogs) : blogs;
 
     const tabs: { id: Tab; label: string; count: number }[] = [
         { id: 'notebooks', label: 'Notebooks', count: filteredNotebooks.length },
@@ -51,35 +45,33 @@ export default function Discover() {
     ];
 
     return (
-        <div className="space-y-6">
-            {/* Header */}
-            <header>
-                <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+        <div className="max-w-4xl mx-auto space-y-6">
+            <header className="space-y-4 pt-2">
+                <h1 className="font-serif text-3xl text-stone-900 dark:text-stone-100">
                     Discover
                 </h1>
 
-                {/* Search Input */}
-                <div className="relative mb-3">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                <div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
                     <input
                         type="text"
                         value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={e => setSearchQuery(e.target.value)}
                         placeholder="Search by title or author..."
-                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 focus:border-neutral-400 dark:focus:border-neutral-500 focus:outline-none transition-colors text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
+                        className="w-full pl-11 pr-4 py-3 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 focus:border-stone-400 dark:focus:border-stone-600 focus:outline-none transition-colors text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-600 text-sm"
                     />
                 </div>
 
-                {/* Search Scope Toggle */}
-                <div className="flex items-center gap-1 p-1 bg-neutral-100 dark:bg-neutral-800 rounded-lg w-fit">
+                <div className="flex items-center gap-1 p-1 bg-stone-100 dark:bg-stone-800/60 rounded-xl w-fit">
                     {scopes.map(scope => (
                         <button
                             key={scope.id}
                             onClick={() => setSearchScope(scope.id)}
-                            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 ${searchScope === scope.id
-                                    ? 'bg-white dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 shadow-sm'
-                                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100'
-                                }`}
+                            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 ${
+                                searchScope === scope.id
+                                    ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-stone-100 shadow-sm'
+                                    : 'text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200'
+                            }`}
                         >
                             {scope.label}
                         </button>
@@ -87,29 +79,29 @@ export default function Discover() {
                 </div>
             </header>
 
-            {/* Tabs */}
-            <div className="flex gap-1 border-b border-neutral-200 dark:border-neutral-700">
+            <div className="flex gap-0 border-b border-stone-200 dark:border-stone-800">
                 {tabs.map(tab => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`px-4 py-3 text-sm font-medium border-b-2 -mb-px transition-colors ${activeTab === tab.id
-                                ? 'border-neutral-900 dark:border-neutral-100 text-neutral-900 dark:text-neutral-100'
-                                : 'border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300'
-                            }`}
+                        className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 -mb-px transition-colors ${
+                            activeTab === tab.id
+                                ? 'border-stone-900 dark:border-stone-100 text-stone-900 dark:text-stone-100'
+                                : 'border-transparent text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300'
+                        }`}
                     >
                         {tab.label}
-                        <span className={`ml-2 px-1.5 py-0.5 text-xs rounded-md ${activeTab === tab.id
-                                ? 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900'
-                                : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400'
-                            }`}>
+                        <span className={`px-1.5 py-0.5 text-xs rounded-full ${
+                            activeTab === tab.id
+                                ? 'bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900'
+                                : 'bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400'
+                        }`}>
                             {tab.count}
                         </span>
                     </button>
                 ))}
             </div>
 
-            {/* Content */}
             {activeTab === 'notebooks' && (
                 <NotebookGallery
                     notebooks={filteredNotebooks}

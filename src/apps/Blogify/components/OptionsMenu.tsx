@@ -1,4 +1,4 @@
-import { MoreVertical } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 export interface MenuAction {
@@ -9,12 +9,7 @@ export interface MenuAction {
     disabled?: boolean;
 }
 
-interface OptionsMenuProps {
-    actions: MenuAction[];
-    className?: string;
-}
-
-export default function OptionsMenu({ actions, className = '' }: OptionsMenuProps) {
+export default function OptionsMenu({ actions, className = '' }: { actions: MenuAction[]; className?: string }) {
     const [open, setOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -24,54 +19,63 @@ export default function OptionsMenu({ actions, className = '' }: OptionsMenuProp
                 setOpen(false);
             }
         };
-
         if (open) {
             document.addEventListener('mousedown', handleClickOutside);
             return () => document.removeEventListener('mousedown', handleClickOutside);
         }
     }, [open]);
 
+    const defaultActions = actions.filter(a => a.variant !== 'danger');
+    const dangerActions = actions.filter(a => a.variant === 'danger');
+
     return (
         <div className={`relative ${className}`} ref={menuRef}>
             <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setOpen((prev) => !prev);
-                }}
-                className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                onClick={e => { e.preventDefault(); e.stopPropagation(); setOpen(p => !p); }}
+                className={`p-1.5 rounded-lg transition-colors ${
+                    open
+                        ? 'bg-stone-200 dark:bg-stone-700 text-stone-700 dark:text-stone-200'
+                        : 'text-stone-400 dark:text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 hover:text-stone-600 dark:hover:text-stone-300'
+                }`}
                 aria-haspopup="true"
                 aria-expanded={open}
                 aria-label="Options"
             >
-                <MoreVertical className="w-5 h-5" />
+                <MoreHorizontal className="w-4 h-4" />
             </button>
 
             {open && (
-                <div className="absolute right-0 mt-2 min-w-48 bg-white dark:bg-neutral-900 rounded-lg shadow-xl border border-neutral-200 dark:border-neutral-800 py-1 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    {actions.map((action, index) => {
-                        const isDanger = action.variant === 'danger';
+                <div className="absolute right-0 mt-1.5 min-w-44 bg-white dark:bg-stone-900 rounded-xl shadow-lg shadow-stone-900/10 dark:shadow-black/40 border border-stone-100 dark:border-stone-800 py-1.5 z-50">
+                    {defaultActions.map((action, i) => (
+                        <button
+                            key={i}
+                            onClick={e => { e.preventDefault(); e.stopPropagation(); action.onClick(); setOpen(false); }}
+                            disabled={action.disabled}
+                            className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 hover:text-stone-900 dark:hover:text-stone-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                        >
+                            <span className="w-4 h-4 shrink-0">{action.icon}</span>
+                            {action.label}
+                        </button>
+                    ))}
 
-                        return (
-                            <button
-                                key={index}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    action.onClick();
-                                    setOpen(false);
-                                }}
-                                disabled={action.disabled}
-                                className={`w-full flex items-center gap-3 px-3 py-2 text-sm transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${isDanger
-                                        ? 'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20'
-                                        : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
-                                    }`}
-                            >
-                                <span className="w-4 h-4">{action.icon}</span>
-                                <span>{action.label}</span>
-                            </button>
-                        );
-                    })}
+                    {dangerActions.length > 0 && (
+                        <>
+                            {defaultActions.length > 0 && (
+                                <div className="my-1 border-t border-stone-100 dark:border-stone-800" />
+                            )}
+                            {dangerActions.map((action, i) => (
+                                <button
+                                    key={i}
+                                    onClick={e => { e.preventDefault(); e.stopPropagation(); action.onClick(); setOpen(false); }}
+                                    disabled={action.disabled}
+                                    className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    <span className="w-4 h-4 shrink-0">{action.icon}</span>
+                                    {action.label}
+                                </button>
+                            ))}
+                        </>
+                    )}
                 </div>
             )}
         </div>

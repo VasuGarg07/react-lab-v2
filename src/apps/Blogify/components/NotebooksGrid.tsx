@@ -1,8 +1,8 @@
-import { Link } from "react-router";
-import { BLOGIFY_ROUTES, type Notebook } from "../helpers/blog.constants";
-import { Plus } from "lucide-react";
-import NotebookCard from "../components/NotebookCard";
-import Pagination from "../../../ui/Pagination";
+import { Link } from 'react-router';
+import { BLOGIFY_ROUTES, type Notebook } from '../helpers/blog.constants';
+import { Plus } from 'lucide-react';
+import NotebookCard from '../components/NotebookCard';
+import Pagination from '../../../ui/Pagination';
 
 interface NotebooksGridProps {
     notebooks: Notebook[];
@@ -16,7 +16,7 @@ export default function NotebooksGrid({ notebooks, currentPage, totalPages, onPa
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-[300px]">
-                <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
+                <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
             </div>
         );
     }
@@ -24,35 +24,29 @@ export default function NotebooksGrid({ notebooks, currentPage, totalPages, onPa
     return (
         <div className="space-y-6">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {/* Create New Card */}
                 <Link
                     to={BLOGIFY_ROUTES.NOTEBOOK_CREATE}
-                    className="aspect-square rounded-lg border-2 border-dashed border-neutral-300 dark:border-neutral-600 flex flex-col items-center justify-center gap-2 text-neutral-500 dark:text-neutral-400 hover:border-neutral-400 dark:hover:border-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-all"
+                    className="aspect-3/4 rounded-2xl border border-dashed border-stone-200 dark:border-stone-700 flex flex-col items-center justify-center gap-2 text-stone-400 dark:text-stone-600 hover:border-stone-400 dark:hover:border-stone-500 hover:text-stone-600 dark:hover:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-900/50 transition-all group"
                 >
-                    <Plus className="w-8 h-8" />
-                    <span className="text-sm font-medium">Create</span>
+                    <div className="w-10 h-10 rounded-full border border-dashed border-stone-300 dark:border-stone-600 flex items-center justify-center group-hover:border-stone-400 dark:group-hover:border-stone-500 transition-colors">
+                        <Plus className="w-4 h-4" />
+                    </div>
+                    <span className="text-xs font-medium">New notebook</span>
                 </Link>
 
-                {/* Notebook Cards */}
                 {notebooks.map(notebook => (
                     <NotebookCard key={notebook.id} notebook={notebook} showAuthor={false} />
                 ))}
             </div>
 
-            {totalPages > 1 && (
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={onPageChange}
-                />
+            {notebooks.length === 0 && (
+                <p className="text-center text-sm text-stone-400 dark:text-stone-500 py-4">
+                    Create your first notebook to get started
+                </p>
             )}
 
-            {notebooks.length === 0 && (
-                <div className="text-center py-8">
-                    <p className="text-neutral-500 dark:text-neutral-400">
-                        Create your first notebook to get started
-                    </p>
-                </div>
+            {totalPages > 1 && (
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
             )}
         </div>
     );

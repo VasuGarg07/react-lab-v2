@@ -8,16 +8,10 @@ import type {
     NotebookRequest,
 } from "./blog.constants";
 
-// ============ API URLs ============
-
 const NOTEBOOK_URL = "/blogify/notebooks";
 const BLOG_URL = "/blogify/blogs";
 
-// ============ Helpers ============
-
 const buildQuery = (page = 1, limit = 10) => new URLSearchParams({ page: String(page), limit: String(limit) });
-
-// ============ Notebooks ============
 
 export const getNotebooks = async (page = 1, limit = 10): Promise<NotebookListResponse> => {
     const query = buildQuery(page, limit);

@@ -1,27 +1,83 @@
-import { ArrowRight, type LucideIcon } from 'lucide-react';
-import { Link } from 'react-router';
+import { MoreHorizontal } from 'lucide-react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
-interface QuickActionProps {
-    icon: LucideIcon;
+export interface MenuAction {
     label: string;
-    sublabel: string;
-    to: string;
+    icon: ReactNode;
+    onClick: () => void;
+    variant?: 'default' | 'danger';
+    disabled?: boolean;
 }
 
-export default function QuickAction({ icon: Icon, label, sublabel, to }: QuickActionProps) {
+export default function OptionsMenu({ actions, className = '' }: { actions: MenuAction[]; className?: string }) {
+    const [open, setOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+                setOpen(false);
+            }
+        };
+        if (open) {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => document.removeEventListener('mousedown', handleClickOutside);
+        }
+    }, [open]);
+
+    const defaultActions = actions.filter(a => a.variant !== 'danger');
+    const dangerActions = actions.filter(a => a.variant === 'danger');
+
     return (
-        <Link
-            to={to}
-            className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-neutral-800 border border-neutral-200/60 dark:border-neutral-700/60 hover:border-neutral-300 dark:hover:border-neutral-600 hover:shadow-sm transition-all duration-200 group"
-        >
-            <div className="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center shrink-0">
-                <Icon className="w-5 h-5 text-neutral-700 dark:text-neutral-300" />
-            </div>
-            <div className="flex-1 min-w-0">
-                <p className="font-medium text-neutral-900 dark:text-neutral-100">{label}</p>
-                <p className="text-sm text-neutral-500 dark:text-neutral-400">{sublabel}</p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-neutral-400 dark:text-neutral-500 group-hover:translate-x-1 transition-transform" />
-        </Link>
+        <div className={`relative ${className}`} ref={menuRef}>
+            <button
+                onClick={e => { e.preventDefault(); e.stopPropagation(); setOpen(p => !p); }}
+                className={`p-1.5 rounded-lg transition-colors ${
+                    open
+                        ? 'bg-stone-200 dark:bg-stone-700 text-stone-700 dark:text-stone-200'
+                        : 'text-stone-400 dark:text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 hover:text-stone-600 dark:hover:text-stone-300'
+                }`}
+                aria-haspopup="true"
+                aria-expanded={open}
+                aria-label="Options"
+            >
+                <MoreHorizontal className="w-4 h-4" />
+            </button>
+
+            {open && (
+                <div className="absolute right-0 mt-1.5 min-w-44 bg-white dark:bg-stone-900 rounded-xl shadow-lg shadow-stone-900/10 dark:shadow-black/40 border border-stone-100 dark:border-stone-800 py-1.5 z-50">
+                    {defaultActions.map((action, i) => (
+                        <button
+                            key={i}
+                            onClick={e => { e.preventDefault(); e.stopPropagation(); action.onClick(); setOpen(false); }}
+                            disabled={action.disabled}
+                            className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 hover:text-stone-900 dark:hover:text-stone-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                        >
+                            <span className="w-4 h-4 shrink-0">{action.icon}</span>
+                            {action.label}
+                        </button>
+                    ))}
+
+                    {dangerActions.length > 0 && (
+                        <>
+                            {defaultActions.length > 0 && (
+                                <div className="my-1 border-t border-stone-100 dark:border-stone-800" />
+                            )}
+                            {dangerActions.map((action, i) => (
+                                <button
+                                    key={i}
+                                    onClick={e => { e.preventDefault(); e.stopPropagation(); action.onClick(); setOpen(false); }}
+                                    disabled={action.disabled}
+                                    className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                                >
+                                    <span className="w-4 h-4 shrink-0">{action.icon}</span>
+                                    {action.label}
+                                </button>
+                            ))}
+                        </>
+                    )}
+                </div>
+            )}
+        </div>
     );
 }

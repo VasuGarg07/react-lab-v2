@@ -27,7 +27,6 @@ const onError = (error: any, fallback: string) => {
 
 // ============ Notebook Mutations ============
 
-/** Create a new notebook */
 export const useCreateNotebook = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -43,7 +42,6 @@ export const useCreateNotebook = () => {
     });
 };
 
-/** Update an existing notebook */
 export const useUpdateNotebook = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -60,7 +58,6 @@ export const useUpdateNotebook = () => {
     });
 };
 
-/** Delete a notebook (cascades blogs) */
 export const useDeleteNotebook = () => {
     const queryClient = useQueryClient();
 
@@ -77,7 +74,6 @@ export const useDeleteNotebook = () => {
 
 // ============ Blog Mutations ============
 
-/** Publish a new blog to a notebook */
 export const usePublishBlog = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -94,7 +90,6 @@ export const usePublishBlog = () => {
     });
 };
 
-/** Update an existing blog */
 export const useUpdateBlog = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -111,7 +106,6 @@ export const useUpdateBlog = () => {
     });
 };
 
-/** Move a blog to another notebook */
 export const useMoveBlog = () => {
     const queryClient = useQueryClient();
 
@@ -125,7 +119,6 @@ export const useMoveBlog = () => {
     });
 };
 
-/** Archive a blog */
 export const useArchiveBlog = () => {
     const queryClient = useQueryClient();
 
@@ -139,7 +132,6 @@ export const useArchiveBlog = () => {
     });
 };
 
-/** Delete a single blog */
 export const useDeleteBlog = () => {
     const queryClient = useQueryClient();
 
@@ -153,7 +145,6 @@ export const useDeleteBlog = () => {
     });
 };
 
-/** Delete all user's blogs */
 export const useDeleteAllBlogs = () => {
     const queryClient = useQueryClient();
 
@@ -167,7 +158,6 @@ export const useDeleteAllBlogs = () => {
     });
 };
 
-/** Delete all archived blogs */
 export const useDeleteArchivedBlogs = () => {
     const queryClient = useQueryClient();
 

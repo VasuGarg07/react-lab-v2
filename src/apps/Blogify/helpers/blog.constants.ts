@@ -1,13 +1,9 @@
-// ============ Pagination ============
-
 export interface Pagination {
     currentPage: number;
     totalPages: number;
     totalItems: number;
     itemsPerPage: number;
 }
-
-// ============ Notebook Types ============
 
 export interface NotebookRequest {
     author: string;
@@ -29,8 +25,6 @@ export interface NotebookListResponse {
     data: Notebook[];
     pagination: Pagination;
 }
-
-// ============ Blog Types ============
 
 export interface BlogRequest {
     author: string;
@@ -55,8 +49,6 @@ export interface BlogListResponse {
     pagination: Pagination;
 }
 
-// ============ UI Constants ============
-
 export const BLOG_CONSTANTS = {
     MAX_TAGS: 5,
     MIN_TAGS: 1,
@@ -69,28 +61,21 @@ export const BLOG_CONSTANTS = {
     MAX_DESCRIPTION_LENGTH: 500,
 } as const;
 
-// ============ Route Paths ============
-
 export const BLOGIFY_ROUTES = {
-    // Main Nav
     HOME: '/blogify/home',
     DISCOVER: '/blogify/discover',
     LIBRARY: '/blogify/library',
     WRITE: '/blogify/write',
 
-    // Notebooks
     NOTEBOOK_CREATE: '/blogify/notebooks/create',
     NOTEBOOK_EDIT: (id: string) => `/blogify/notebooks/edit/${id}`,
     NOTEBOOK_DETAIL: (id: string) => `/blogify/notebooks/${id}`,
     NOTEBOOK_AUTHOR: (author: string) => `/blogify/notebooks/author/${author}`,
 
-    // Blogs
     BLOG_EDIT: (id: string) => `/blogify/blogs/edit/${id}`,
     BLOG_DETAIL: (id: string) => `/blogify/blogs/${id}`,
     BLOG_AUTHOR: (author: string) => `/blogify/blogs/author/${author}`,
 } as const;
-
-// ============ Query Keys ============
 
 export const NOTEBOOK_QUERY_KEYS = {
     ALL: ['notebooks'] as const,

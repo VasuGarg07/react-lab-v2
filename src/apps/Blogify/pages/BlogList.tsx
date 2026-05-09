@@ -9,52 +9,43 @@ import BlogGallery from '../components/BlogGallery';
 export default function BlogList() {
     const { author } = useParams<{ author: string }>();
     const { currentPage, setPage } = usePagination();
-
     const { data: blogsData, isLoading } = useBlogsByAuthor(author!, currentPage, 10);
 
     const blogs = blogsData?.data ?? [];
     const totalPages = blogsData?.pagination.totalPages ?? 1;
+    const totalItems = blogsData?.pagination.totalItems ?? 0;
 
     return (
-        <div className="space-y-6">
-            {/* Header */}
-            <header>
-                <Link
-                    to={BLOGIFY_ROUTES.DISCOVER}
-                    className="inline-flex items-center gap-1 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors mb-4"
-                >
-                    <ChevronLeft className="w-4 h-4" />
-                    Back to Discover
-                </Link>
+        <div className="max-w-3xl mx-auto space-y-8">
+            <Link
+                to={BLOGIFY_ROUTES.DISCOVER}
+                className="inline-flex items-center gap-1 text-sm text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors"
+            >
+                <ChevronLeft className="w-4 h-4" />
+                Back to discover
+            </Link>
 
-                {/* Author Info */}
-                <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-full bg-neutral-200 dark:bg-neutral-700 overflow-hidden">
-                        <img
-                            src={generateAvatarUrl(author!)}
-                            alt={author}
-                            className="w-full h-full"
-                        />
-                    </div>
-                    <div>
-                        <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
-                            {author}
-                        </h1>
-                        <p className="text-neutral-600 dark:text-neutral-400">
-                            {blogsData?.pagination.totalItems ?? 0} blogs
-                        </p>
-                    </div>
+            <header className="flex items-center gap-4 pb-6 border-b border-stone-100 dark:border-stone-800">
+                <div className="w-14 h-14 rounded-full bg-stone-200 dark:bg-stone-700 overflow-hidden ring-2 ring-stone-100 dark:ring-stone-800 shrink-0">
+                    <img src={generateAvatarUrl(author!)} alt={author} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                    <h1 className="font-serif text-2xl text-stone-900 dark:text-stone-100">
+                        {author}
+                    </h1>
+                    <p className="text-sm text-stone-400 dark:text-stone-500 mt-0.5">
+                        {totalItems} {totalItems === 1 ? 'blog' : 'blogs'}
+                    </p>
                 </div>
             </header>
 
-            {/* Blogs Gallery */}
             <BlogGallery
                 blogs={blogs}
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={setPage}
                 isLoading={isLoading}
-                emptyMessage={`${author} hasn't published any blogs yet`}
+                emptyMessage={`${author} hasn't published anything yet`}
                 emptyDescription="Check back later"
             />
         </div>

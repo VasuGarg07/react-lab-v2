@@ -36,12 +36,6 @@ export default function MyLibrary() {
     const blogCount = blogsData?.pagination.totalItems ?? 0;
     const draftCount = blogs.filter(b => b.isArchived).length;
 
-    const stats = [
-        { label: 'Notebooks', value: notebookCount, icon: BookOpen },
-        { label: 'Published', value: blogCount - draftCount, icon: FileText },
-        { label: 'Drafts', value: draftCount, icon: FilePen },
-    ];
-
     const tabs: { id: Tab; label: string; count: number }[] = [
         { id: 'notebooks', label: 'Notebooks', count: notebookCount },
         { id: 'blogs', label: 'Blogs', count: blogCount },
@@ -49,164 +43,156 @@ export default function MyLibrary() {
 
     const handleDeleteAll = () => {
         openAlertDialog(modal, {
-            title: 'Delete All Blogs',
+            title: 'Delete all blogs',
             message: (
                 <div className="space-y-2">
                     <p>Are you sure you want to delete ALL your blogs?</p>
                     <p className="text-red-600 dark:text-red-400 font-medium">
-                        This will permanently delete {blogCount} {blogCount === 1 ? 'blog' : 'blogs'}!
+                        This will permanently delete {blogCount} {blogCount === 1 ? 'blog' : 'blogs'}.
                     </p>
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                    <p className="text-sm text-stone-500 dark:text-stone-400">
                         This action cannot be undone.
                     </p>
                 </div>
             ),
-            confirmText: 'Delete All',
-            onConfirm: () => {
-                deleteAllMutation.mutate();
-                setShowSettings(false);
-            },
+            confirmText: 'Delete all',
+            onConfirm: () => { deleteAllMutation.mutate(); setShowSettings(false); },
         });
     };
 
     const handleDeleteArchived = () => {
         openAlertDialog(modal, {
-            title: 'Delete Archived Blogs',
+            title: 'Delete archived blogs',
             message: (
                 <div className="space-y-2">
                     <p>Delete all your archived/draft blogs?</p>
-                    <p className="text-neutral-600 dark:text-neutral-400">
+                    <p className="text-stone-600 dark:text-stone-400">
                         This will delete {draftCount} {draftCount === 1 ? 'draft' : 'drafts'}.
                     </p>
                 </div>
             ),
-            confirmText: 'Delete Drafts',
-            onConfirm: () => {
-                deleteArchivedMutation.mutate();
-                setShowSettings(false);
-            },
+            confirmText: 'Delete drafts',
+            onConfirm: () => { deleteArchivedMutation.mutate(); setShowSettings(false); },
         });
     };
 
     return (
-        <div className="space-y-8">
-            {/* Header */}
-            <header className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-full bg-neutral-200 dark:bg-neutral-700 overflow-hidden">
+        <div className="max-w-4xl mx-auto space-y-8">
+            <header className="flex items-center justify-between pt-2">
+                <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-stone-200 dark:bg-stone-700 overflow-hidden ring-2 ring-stone-100 dark:ring-stone-800">
                         <img
                             src={generateAvatarUrl(user?.username || 'User')}
                             alt={user?.username}
-                            className="w-full h-full"
+                            className="w-full h-full object-cover"
                         />
                     </div>
                     <div>
-                        <h1 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-                            Your Library
-                        </h1>
-                        <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                        <p className="text-xs text-stone-400 dark:text-stone-500 mb-0.5">Your library</p>
+                        <h1 className="font-serif text-xl text-stone-900 dark:text-stone-100 leading-tight">
                             {user?.username}
-                        </p>
+                        </h1>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
                     <button
                         onClick={() => setShowSettings(!showSettings)}
-                        className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                        className={`p-2 rounded-xl transition-colors ${
+                            showSettings
+                                ? 'bg-stone-200 dark:bg-stone-700 text-stone-900 dark:text-stone-100'
+                                : 'bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700'
+                        }`}
                     >
-                        <Settings className="w-5 h-5" />
+                        <Settings className="w-4 h-4" />
                     </button>
                     <Link
                         to={BLOGIFY_ROUTES.NOTEBOOK_CREATE}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-sm font-medium hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 text-xs font-medium hover:bg-stone-700 dark:hover:bg-stone-300 transition-colors"
                     >
-                        <Plus className="w-4 h-4" />
-                        <span className="hidden sm:inline">New Notebook</span>
+                        <Plus className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline">New notebook</span>
                     </Link>
                 </div>
             </header>
 
-            {/* Settings Panel */}
             {showSettings && (
-                <div className="p-4 rounded-xl bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 space-y-3">
-                    <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-                        Bulk Actions
-                    </h3>
+                <div className="p-4 rounded-2xl bg-white dark:bg-stone-900 border border-stone-100 dark:border-stone-800 space-y-2">
+                    <p className="text-xs font-medium text-stone-400 dark:text-stone-500 uppercase tracking-wide mb-3">
+                        Bulk actions
+                    </p>
                     <button
                         onClick={handleDeleteArchived}
                         disabled={draftCount === 0}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-left"
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-stone-50 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed text-left"
                     >
-                        <Trash2 className="w-4 h-4" />
-                        <div className="flex-1">
-                            <p className="text-sm font-medium">Delete Archived Blogs</p>
-                            <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                                Remove {draftCount} draft{draftCount !== 1 ? 's' : ''}
+                        <Trash2 className="w-4 h-4 shrink-0" />
+                        <div>
+                            <p className="text-sm font-medium">Delete archived blogs</p>
+                            <p className="text-xs text-stone-400 dark:text-stone-500 mt-0.5">
+                                Remove {draftCount} {draftCount === 1 ? 'draft' : 'drafts'}
                             </p>
                         </div>
                     </button>
                     <button
                         onClick={handleDeleteAll}
                         disabled={blogCount === 0}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-left"
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-950/50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed text-left"
                     >
-                        <Trash2 className="w-4 h-4" />
-                        <div className="flex-1">
-                            <p className="text-sm font-medium">Delete All Blogs</p>
-                            <p className="text-xs text-red-500 dark:text-red-400/80">
-                                Permanently delete all {blogCount} blog{blogCount !== 1 ? 's' : ''}
+                        <Trash2 className="w-4 h-4 shrink-0" />
+                        <div>
+                            <p className="text-sm font-medium">Delete all blogs</p>
+                            <p className="text-xs text-red-400 dark:text-red-500 mt-0.5">
+                                Permanently remove all {blogCount} {blogCount === 1 ? 'blog' : 'blogs'}
                             </p>
                         </div>
                     </button>
                 </div>
             )}
 
-            {/* Stats */}
             <div className="grid grid-cols-3 gap-3">
-                {stats.map(stat => {
-                    const Icon = stat.icon;
-                    return (
-                        <div
-                            key={stat.label}
-                            className="p-4 rounded-xl bg-white dark:bg-neutral-800 border border-neutral-200/60 dark:border-neutral-700/60 text-center"
-                        >
-                            <div className="w-10 h-10 rounded-lg bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center mx-auto mb-2">
-                                <Icon className="w-5 h-5 text-neutral-600 dark:text-neutral-400" />
-                            </div>
-                            <p className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
-                                {stat.value}
-                            </p>
-                            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                                {stat.label}
-                            </p>
+                {[
+                    { label: 'Notebooks', value: notebookCount, icon: BookOpen },
+                    { label: 'Published', value: blogCount - draftCount, icon: FileText },
+                    { label: 'Drafts', value: draftCount, icon: FilePen },
+                ].map(({ label, value, icon: Icon }) => (
+                    <div
+                        key={label}
+                        className="py-5 px-4 rounded-2xl bg-white dark:bg-stone-900 border border-stone-100 dark:border-stone-800 text-center"
+                    >
+                        <p className="font-serif text-3xl text-stone-900 dark:text-stone-100">
+                            {value}
+                        </p>
+                        <div className="flex items-center justify-center gap-1.5 mt-1.5">
+                            <Icon className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500" strokeWidth={1.5} />
+                            <p className="text-xs text-stone-400 dark:text-stone-500">{label}</p>
                         </div>
-                    );
-                })}
+                    </div>
+                ))}
             </div>
 
-            {/* Tabs */}
-            <div className="flex gap-1 border-b border-neutral-200 dark:border-neutral-700">
+            <div className="flex gap-0 border-b border-stone-200 dark:border-stone-800">
                 {tabs.map(tab => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`px-4 py-3 text-sm font-medium border-b-2 -mb-px transition-colors ${activeTab === tab.id
-                            ? 'border-neutral-900 dark:border-neutral-100 text-neutral-900 dark:text-neutral-100'
-                            : 'border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300'
-                            }`}
+                        className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 -mb-px transition-colors ${
+                            activeTab === tab.id
+                                ? 'border-stone-900 dark:border-stone-100 text-stone-900 dark:text-stone-100'
+                                : 'border-transparent text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300'
+                        }`}
                     >
                         {tab.label}
-                        <span className={`ml-2 px-1.5 py-0.5 text-xs rounded-md ${activeTab === tab.id
-                            ? 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900'
-                            : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400'
-                            }`}>
+                        <span className={`px-1.5 py-0.5 text-xs rounded-full ${
+                            activeTab === tab.id
+                                ? 'bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900'
+                                : 'bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400'
+                        }`}>
                             {tab.count}
                         </span>
                     </button>
                 ))}
             </div>
 
-            {/* Content */}
             {activeTab === 'notebooks' && (
                 <NotebooksGrid
                     notebooks={notebooks}
