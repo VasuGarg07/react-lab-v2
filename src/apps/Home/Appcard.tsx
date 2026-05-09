@@ -30,7 +30,7 @@ export const AppCard = ({ name, tag, path, image, description, techStack, icon: 
           className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:blur-sm"
         />
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/30 to-black/20 group-hover:from-black/60  group-hover:via-black/40 transition-all duration-300" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/30 via-black/20 to-black/10 group-hover:from-black/60  group-hover:via-black/40 transition-all duration-300" />
       </div>
 
       {/* Content Overlay */}

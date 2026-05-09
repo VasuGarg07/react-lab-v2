@@ -3,7 +3,7 @@ import BattleSim from '/cover/battle-sim2.webp';
 import Blogger from '/cover/blogger.webp';
 import Budget from '/cover/budget.webp';
 import Byte from '/cover/byte.webp';
-import Form from '/cover/formlyst.png';
+import Form from '/cover/formlyst.webp';
 import Json from '/cover/json.png';
 import Loan from '/cover/loan.webp';
 import Markdown from '/cover/markdown.png';
