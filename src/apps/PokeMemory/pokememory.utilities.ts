@@ -9,21 +9,21 @@ export interface CardType {
 }
 
 // Card images
-const CARD_BACK = '/images/pokemon_card_back.jpg';
+const CARD_BACK = '/images/pokemon_card_back.webp';
 
 const CARD_IMAGES = [
-    '/images/001.png',
-    '/images/002.png',
-    '/images/003.png',
-    '/images/004.png',
-    '/images/005.png',
-    '/images/006.png',
-    '/images/007.png',
-    '/images/008.png',
-    '/images/009.png',
-    '/images/0010.png',
-    '/images/0011.png',
-    '/images/0012.png',
+    '/images/001.webp',
+    '/images/002.webp',
+    '/images/003.webp',
+    '/images/004.webp',
+    '/images/005.webp',
+    '/images/006.webp',
+    '/images/007.webp',
+    '/images/008.webp',
+    '/images/009.webp',
+    '/images/010.webp',
+    '/images/011.webp',
+    '/images/012.webp',
 ];
 
 /**
