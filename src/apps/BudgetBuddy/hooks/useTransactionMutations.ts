@@ -11,12 +11,12 @@ export const useAddTransaction = () => {
 
     return useMutation({
         mutationFn: async (data: CreateTransactionData) => {
-            const response = await apiClient.post<Transaction>(API_ENDPOINTS.addTransaction, data);
+            const response = await apiClient.post<{message: string, transaction: Transaction}>(API_ENDPOINTS.addTransaction, data);
             return response.data;
         },
         onSuccess: (newTransaction) => {
             queryClient.setQueryData<Transaction[]>(QUERY_KEYS.transactions, (old) =>
-                old ? [newTransaction, ...old] : [newTransaction]
+                old ? [newTransaction.transaction, ...old] : [newTransaction.transaction]
             );
             toastService.success('Transaction added successfully');
         },
@@ -31,10 +31,11 @@ export const useUpdateTransaction = () => {
 
     return useMutation({
         mutationFn: async ({ id, data }: { id: string; data: UpdateTransactionData }) => {
-            const response = await apiClient.put<Transaction>(API_ENDPOINTS.updateTransaction(id), data);
+            const response = await apiClient.put<{message: string, transaction: Transaction}>(API_ENDPOINTS.updateTransaction(id), data);
             return response.data;
         },
-        onSuccess: (updatedTransaction) => {
+        onSuccess: (result) => {
+            const updatedTransaction = result.transaction
             queryClient.setQueryData<Transaction[]>(QUERY_KEYS.transactions, (old) =>
                 old ? old.map(t => t.id === updatedTransaction.id ? updatedTransaction : t) : [updatedTransaction]
             );

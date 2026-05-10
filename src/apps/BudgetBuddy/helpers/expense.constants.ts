@@ -9,8 +9,6 @@ export interface Transaction {
     description?: string;
     title?: string;
     userId?: string;
-    createdAt?: string | Date;
-    updatedAt?: string | Date;
 }
 
 export interface TransactionsResponse {

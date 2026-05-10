@@ -13,6 +13,7 @@ import Select from '../../../ui/Select';
 import LoadingButton from '../../../ui/LoadingButton';
 
 interface TransactionFormData {
+    title: string
     amount: string;
     category: string;
     type: TransactionType;
@@ -33,6 +34,7 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
 
     const { control, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm<TransactionFormData>({
         defaultValues: {
+            title: transaction?.title || '',
             amount: transaction?.amount.toString() || '',
             category: transaction?.category || '',
             type: transaction?.type || defaultType || 'expense',
@@ -54,10 +56,11 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
 
     const onSubmit = (data: TransactionFormData) => {
         const payload = {
+            title: data.title,
             amount: parseFloat(data.amount),
             category: data.category,
             type: data.type,
-            date: data.date,
+            date: Math.floor(new Date(data.date).getTime() / 1000),
             description: data.description,
         };
 
@@ -93,19 +96,33 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                                 type="button"
                                 onClick={() => setValue('type', type)}
                                 disabled={isPending}
-                                className={`py-2.5 px-4 rounded-full text-sm font-medium transition-all border ${
-                                    transactionType === type
+                                className={`py-2.5 px-4 rounded-full text-sm font-medium transition-all border ${transactionType === type
                                         ? type === 'income'
                                             ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-700'
                                             : 'bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-400 border-red-300 dark:border-red-700'
                                         : 'bg-white dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600'
-                                } disabled:opacity-50 capitalize`}
+                                    } disabled:opacity-50 capitalize`}
                             >
                                 {type}
                             </button>
                         ))}
                     </div>
                 </div>
+
+                <Controller
+                    name="title"
+                    control={control}
+                    rules={{ required: 'Title is required' }}
+                    render={({ field }) => (
+                        <TextInput
+                            {...field}
+                            label="Title"
+                            placeholder="Enter a title"
+                            error={errors.title?.message}
+                            disabled={isPending}
+                        />
+                    )}
+                />
 
                 <Controller
                     name="amount"

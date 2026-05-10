@@ -52,7 +52,7 @@ export default function Statistics() {
 
     // Build cumulative balance timeline, sorted by createdAt (fallback to date)
     const getTime = (tx: typeof transactions[number]) => {
-        const t = tx.createdAt ?? tx.date;
+        const t = tx.date;
         return t ? new Date(t).getTime() : 0;
     };
 
