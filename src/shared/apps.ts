@@ -2,11 +2,11 @@ import { BarChart2, Code2, Feather, FileJson, Grid, HandCoins, HelpCircle, Layou
 import BattleSim from '/cover/battle-sim2.webp';
 import Blogger from '/cover/blogger.webp';
 import Budget from '/cover/budget.webp';
-import Byte from '/cover/byte.webp';
+import Byte from '/cover/recipe.webp';
 import Form from '/cover/formlyst.webp';
-import Json from '/cover/json.png';
+import Json from '/cover/json.webp';
 import Loan from '/cover/loan.webp';
-import Markdown from '/cover/markdown.png';
+import Markdown from '/cover/markdown.webp';
 import Memory from '/cover/memory.webp';
 import Quiz from '/cover/quiz.webp';
 import Sudoku from '/cover/sudoku.webp';
