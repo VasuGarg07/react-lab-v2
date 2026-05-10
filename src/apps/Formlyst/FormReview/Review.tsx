@@ -18,7 +18,6 @@ export default function Review() {
     const submitMutation = useSubmitResponse(shareUrl!);
     const [viewState, setViewState] = useState<ViewState>('review');
 
-    // Redirect if no form loaded (user navigated directly)
     if (!formConfig) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900 px-4">
@@ -65,7 +64,6 @@ export default function Review() {
         navigate(`/formlyst/fill/${shareUrl}`);
     };
 
-    // Success State
     if (viewState === 'success') {
         return (
             <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900 px-4">
@@ -94,7 +92,6 @@ export default function Review() {
     return (
         <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 px-4 py-8">
             <div className="max-w-xl mx-auto">
-                {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-1">
                         Review Your Answers
@@ -104,17 +101,14 @@ export default function Review() {
                     </p>
                 </div>
 
-                {/* Steps & Sections */}
                 <div className="space-y-6">
                     {formConfig.steps.map((step, stepIndex) => (
                         <div key={step.key}>
-                            {/* Step Header */}
                             <h2 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-3 flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
                                 {step.title}
                             </h2>
 
-                            {/* Sections */}
                             <div className="space-y-3">
                                 {step.sections.map((section) => (
                                     <ReviewSection
@@ -129,7 +123,6 @@ export default function Review() {
                     ))}
                 </div>
 
-                {/* Navigation */}
                 <div className="flex items-center gap-3 pt-8">
                     <button
                         type="button"
@@ -152,7 +145,6 @@ export default function Review() {
                     </LoadingButton>
                 </div>
 
-                {/* Submit Error */}
                 {submitMutation.isError && (
                     <p className="mt-4 text-sm text-red-500 text-center">
                         Failed to submit. Please try again.

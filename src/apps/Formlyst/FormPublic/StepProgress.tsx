@@ -6,7 +6,6 @@ interface StepProgressProps {
 export default function StepProgress({ currentStep, totalSteps }: StepProgressProps) {
     return (
         <div className="flex flex-col items-center gap-2">
-            {/* Dots */}
             <div className="flex items-center gap-2">
                 {Array.from({ length: totalSteps }, (_, i) => {
                     const stepIndex = i;
@@ -30,7 +29,6 @@ export default function StepProgress({ currentStep, totalSteps }: StepProgressPr
                 })}
             </div>
 
-            {/* Label */}
             <p className="text-xs text-neutral-500 dark:text-neutral-400">
                 Step {currentStep + 1} of {totalSteps}
             </p>

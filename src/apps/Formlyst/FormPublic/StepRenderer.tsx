@@ -11,10 +11,8 @@ interface StepRendererProps {
 }
 
 export default function StepRenderer({ step, responses, errors, onChange }: StepRendererProps) {
-    // Track which sections are expanded
     const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
 
-    // Smart default: auto-expand first incomplete section
     useEffect(() => {
         const firstIncomplete = step.sections.find((section) => {
             const requiredFields = section.fields.filter((f) => f.required);
@@ -29,7 +27,6 @@ export default function StepRenderer({ step, responses, errors, onChange }: Step
         if (firstIncomplete) {
             setExpandedSections(new Set([firstIncomplete.key]));
         } else if (step.sections.length > 0) {
-            // All complete or no required fields - expand first section
             setExpandedSections(new Set([step.sections[0].key]));
         }
     }, [step.key]); // Re-run when step changes
@@ -59,7 +56,6 @@ export default function StepRenderer({ step, responses, errors, onChange }: Step
 
     return (
         <div>
-            {/* Step Header */}
             <div className="mb-4">
                 <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-1">
                     {step.title}
@@ -71,7 +67,6 @@ export default function StepRenderer({ step, responses, errors, onChange }: Step
                         </p>
                     )}
 
-                    {/* Expand/Collapse All - Show only if multiple sections */}
                     {step.sections.length > 1 && (
                         <div className="flex justify-end">
                             <button
@@ -87,7 +82,6 @@ export default function StepRenderer({ step, responses, errors, onChange }: Step
                 </div>
             </div>
 
-            {/* Sections */}
             <div className="space-y-3">
                 {step.sections.map((section) => (
                     <SectionRenderer

@@ -27,7 +27,6 @@ export default function TemplateDialog({ onCreate, isLoading }: TemplateDialogPr
                 Start with a template or build from scratch
             </p>
 
-            {/* Templates */}
             <div className="space-y-2 mb-5">
                 {TEMPLATES.map((template) => {
                     const isSelected = selected === template.id;
@@ -69,7 +68,6 @@ export default function TemplateDialog({ onCreate, isLoading }: TemplateDialogPr
                 })}
             </div>
 
-            {/* Actions */}
             <div className="flex gap-3">
                 <button
                     type="button"

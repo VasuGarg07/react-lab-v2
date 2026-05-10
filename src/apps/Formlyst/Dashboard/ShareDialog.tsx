@@ -32,7 +32,6 @@ export default function ShareDialog({ formTitle, shareUrl }: ShareDialogProps) {
                 Share "{formTitle}" with others using this link
             </p>
 
-            {/* URL Display */}
             <div className="flex items-center gap-2 p-3 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg mb-5">
                 <input
                     type="text"
@@ -55,7 +54,6 @@ export default function ShareDialog({ formTitle, shareUrl }: ShareDialogProps) {
                 </button>
             </div>
 
-            {/* Actions */}
             <div className="flex gap-3">
                 <button
                     onClick={close}

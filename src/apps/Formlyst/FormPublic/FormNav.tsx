@@ -15,7 +15,6 @@ export default function FormNav({
 
     return (
         <div className="flex items-center gap-3 pt-4">
-            {/* Back Button */}
             <button
                 type="button"
                 onClick={onBack}
@@ -34,7 +33,6 @@ export default function FormNav({
                 Back
             </button>
 
-            {/* Next Button */}
             <button
                 type="button"
                 onClick={onNext}

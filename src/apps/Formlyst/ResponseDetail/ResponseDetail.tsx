@@ -4,7 +4,7 @@ import { useModal } from '../../../components/ModalContext';
 import { useFormById, useResponseById } from '../hooks/useFormQueries';
 import { useDeleteResponse } from '../hooks/useFormMutations';
 import { formatDate } from '../helpers/utils';
-import type { FormField } from '../helpers/types';
+import AnswerRow from '../AnswerRow';
 import { openAlertDialog } from '../../../ui/AlertDialog';
 
 export default function ResponseDetail() {
@@ -18,7 +18,6 @@ export default function ResponseDetail() {
 
     const isLoading = formLoading || responseLoading;
 
-    // Format time from ISO string
     const formatTime = (dateStr: string) => {
         const date = new Date(dateStr);
         return date.toLocaleTimeString('en-US', {
@@ -28,7 +27,6 @@ export default function ResponseDetail() {
         });
     };
 
-    // Detect device from user agent
     const getDeviceInfo = () => {
         const ua = response?.userAgent?.toLowerCase() || '';
         if (ua.includes('mobile') || ua.includes('android') || ua.includes('iphone')) {
@@ -37,21 +35,6 @@ export default function ResponseDetail() {
         return { icon: Monitor, label: 'Desktop' };
     };
 
-    // Format field value for display
-    const formatValue = (field: FormField, value: unknown): string => {
-        if (value == null || value === '') return '—';
-
-        switch (field.type) {
-            case 'boolean':
-                return value ? 'Yes' : 'No';
-            case 'multi_select':
-                return Array.isArray(value) ? value.join(', ') : String(value);
-            case 'range':
-                return `${value} / ${field.max}`;
-            default:
-                return String(value);
-        }
-    };
 
     const handleDelete = () => {
         openAlertDialog(modal, {
@@ -213,38 +196,14 @@ export default function ResponseDetail() {
                                             </h3>
                                         </div>
 
-                                        {/* Fields */}
                                         <div className="divide-y divide-neutral-100 dark:divide-neutral-700/50">
-                                            {section.fields.map((field) => {
-                                                const value = response.responses[field.key];
-                                                const isEmpty = value == null || value === '';
-
-                                                return (
-                                                    <div
-                                                        key={field.key}
-                                                        className="px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4"
-                                                    >
-                                                        <div className="sm:w-1/3 shrink-0">
-                                                            <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                                                                {field.label}
-                                                                {field.required && (
-                                                                    <span className="text-red-500 ml-0.5">*</span>
-                                                                )}
-                                                            </span>
-                                                        </div>
-                                                        <div className="sm:flex-1">
-                                                            <span
-                                                                className={`text-sm ${isEmpty
-                                                                    ? 'text-neutral-400 dark:text-neutral-500 italic'
-                                                                    : 'text-neutral-900 dark:text-neutral-100'
-                                                                    }`}
-                                                            >
-                                                                {formatValue(field, value)}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })}
+                                            {section.fields.map((field) => (
+                                                <AnswerRow
+                                                    key={field.key}
+                                                    field={field}
+                                                    value={response.responses[field.key]}
+                                                />
+                                            ))}
                                         </div>
                                     </div>
                                 ))}

@@ -21,11 +21,6 @@ export default function FormEditor() {
     const [localTitle, setLocalTitle] = useState(formConfig.title);
     const [localDescription, setLocalDescription] = useState(formConfig.description || '');
 
-    // Sync local state when formConfig changes (e.g., on load)
-    if (formConfig.title !== localTitle && localTitle === '') {
-        setLocalTitle(formConfig.title);
-    }
-
     // DnD sensors
     const sensors = useSensors(
         useSensor(PointerSensor),

@@ -1,14 +1,5 @@
-// ============================================
-// PRIMITIVE TYPES
-// ============================================
-
 export type FieldType = 'text' | 'number' | 'select' | 'multi_select' | 'boolean' | 'range';
-
 export type EntityType = 'form' | 'step' | 'section' | 'field';
-
-// ============================================
-// FIELD DEFINITIONS
-// ============================================
 
 interface BaseField {
     key: string;
@@ -62,10 +53,6 @@ export type FormField =
     | BooleanField
     | RangeField;
 
-// ============================================
-// FORM STRUCTURE
-// ============================================
-
 export interface FormSection {
     key: string;
     title: string;
@@ -86,10 +73,6 @@ export interface FormConfig {
     steps: FormStep[];
 }
 
-// ============================================
-// API TYPES
-// ============================================
-
 export interface Form extends FormConfig {
     id: string;
     shareUrl: string;
@@ -109,20 +92,9 @@ export interface FormResponse {
     userAgent?: string;
 }
 
-// ============================================
-// NAVIGATION
-// ============================================
-
 export interface BreadcrumbItem {
     key: string;
     label: string;
     type: EntityType;
     path: string[];
-}
-
-export interface TreeNode {
-    key: string;
-    label: string;
-    type: EntityType;
-    children?: TreeNode[];
 }

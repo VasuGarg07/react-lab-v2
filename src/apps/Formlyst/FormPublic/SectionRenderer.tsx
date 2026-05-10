@@ -19,7 +19,6 @@ export default function SectionRenderer({
     isExpanded,
     onToggle,
 }: SectionRendererProps) {
-    // Calculate completion stats
     const totalFields = section.fields.length;
     const answeredFields = section.fields.filter((field) => {
         const value = responses[field.key];
@@ -33,14 +32,12 @@ export default function SectionRenderer({
 
     return (
         <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden">
-            {/* Header - Always visible, clickable */}
             <button
                 type="button"
                 onClick={onToggle}
                 className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-neutral-50 dark:hover:bg-neutral-700/50 transition-colors"
             >
                 <div className="flex items-center gap-3">
-                    {/* Completion indicator */}
                     <div
                         className={`
                             w-8 h-6 rounded-lg flex items-center justify-center text-xs font-medium
@@ -59,13 +56,11 @@ export default function SectionRenderer({
                         )}
                     </div>
 
-                    {/* Title */}
                     <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
                         {section.title}
                     </span>
                 </div>
 
-                {/* Chevron */}
                 {isExpanded ? (
                     <ChevronDown className="w-5 h-5 text-neutral-400 dark:text-neutral-500" />
                 ) : (
@@ -73,7 +68,6 @@ export default function SectionRenderer({
                 )}
             </button>
 
-            {/* Content - Collapsible */}
             {isExpanded && (
                 <div className="px-4 pb-4 pt-2 border-t border-neutral-100 dark:border-neutral-700/50">
                     {section.description && (

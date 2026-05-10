@@ -68,7 +68,6 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
@@ -91,7 +90,6 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* Content */}
       {forms && forms.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {forms.map((form) => (

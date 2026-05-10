@@ -1,10 +1,6 @@
 import * as yup from 'yup';
 import { LIMITS } from './constants';
 
-// ============================================
-// FIELD SCHEMAS
-// ============================================
-
 const textFieldSchema = yup.object({
     key: yup.string().required(),
     label: yup.string().required().max(200),
@@ -72,10 +68,6 @@ const fieldSchema = yup.lazy((value) => {
     }
 });
 
-// ============================================
-// STRUCTURE SCHEMAS
-// ============================================
-
 const sectionSchema = yup.object({
     key: yup.string().required(),
     title: yup.string().required().max(200),
@@ -95,10 +87,6 @@ export const formConfigSchema = yup.object({
     description: yup.string().max(500),
     steps: yup.array().of(stepSchema).min(1).max(LIMITS.MAX_STEPS).required(),
 });
-
-// ============================================
-// VALIDATION HELPERS
-// ============================================
 
 export async function validateFormConfig(config: unknown): Promise<{ valid: boolean; errors: string[] }> {
     try {

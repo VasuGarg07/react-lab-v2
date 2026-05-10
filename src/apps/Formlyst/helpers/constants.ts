@@ -1,9 +1,5 @@
 import type { FieldType, EntityType } from './types';
 
-// ============================================
-// FORM STRUCTURE LIMITS
-// ============================================
-
 export const LIMITS = {
     MAX_STEPS: 6,
     MAX_SECTIONS_PER_STEP: 5,
@@ -17,10 +13,6 @@ export const LIMITS = {
     RANGE_MAX: 100,
 } as const;
 
-// ============================================
-// FIELD TYPE OPTIONS (for dropdowns)
-// ============================================
-
 export const FIELD_TYPE_OPTIONS: { value: FieldType; label: string }[] = [
     { value: 'text', label: 'Text Field' },
     { value: 'number', label: 'Number Field' },
@@ -29,10 +21,6 @@ export const FIELD_TYPE_OPTIONS: { value: FieldType; label: string }[] = [
     { value: 'boolean', label: 'Yes/No Toggle' },
     { value: 'range', label: 'Range Slider' },
 ];
-
-// ============================================
-// ENTITY COLORS (for builder UI)
-// ============================================
 
 export const ENTITY_COLORS: Record<EntityType, { bg: string; text: string; border: string }> = {
     form: {
@@ -56,10 +44,6 @@ export const ENTITY_COLORS: Record<EntityType, { bg: string; text: string; borde
         border: 'border-amber-200 dark:border-amber-800',
     },
 };
-
-// ============================================
-// FORM QUERY KEYS
-// ============================================
 
 export const formQueryKeys = {
     forms: ['forms'] as const,

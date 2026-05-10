@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router';
 import { MoreVertical, Edit, Copy, Trash2, BarChart3, ToggleLeft, ToggleRight, Share2 } from 'lucide-react';
-import { useState } from 'react';
 import type { Form } from '../helpers/types';
 import { formatDate } from '../helpers/utils';
 import { useModal } from '../../../components/ModalContext';
 import ShareDialog from './ShareDialog';
+import Dropdown from '../../../ui/Dropdown';
 
 interface FormCardProps {
     form: Form;
@@ -16,7 +16,6 @@ interface FormCardProps {
 export default function FormCard({ form, onDuplicate, onDelete, onToggleStatus }: FormCardProps) {
     const navigate = useNavigate();
     const modal = useModal();
-    const [menuOpen, setMenuOpen] = useState(false);
 
     const stepCount = form.steps.length;
     const fieldCount = form.steps.reduce(
@@ -30,7 +29,6 @@ export default function FormCard({ form, onDuplicate, onDelete, onToggleStatus }
 
     return (
         <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
-            {/* Header */}
             <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex-1 min-w-0">
                     <h3 className="font-medium text-neutral-900 dark:text-neutral-100">
@@ -43,7 +41,6 @@ export default function FormCard({ form, onDuplicate, onDelete, onToggleStatus }
                     )}
                 </div>
 
-                {/* Status Badge */}
                 <span
                     className={`
                         shrink-0 px-2 py-0.5 text-xs font-medium rounded-full
@@ -57,7 +54,6 @@ export default function FormCard({ form, onDuplicate, onDelete, onToggleStatus }
                 </span>
             </div>
 
-            {/* Stats */}
             <div className="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
                 <span>{stepCount} {stepCount === 1 ? 'step' : 'steps'}</span>
                 <span className="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600" />
@@ -66,13 +62,11 @@ export default function FormCard({ form, onDuplicate, onDelete, onToggleStatus }
                 <span>{form.responseCount} {form.responseCount === 1 ? 'response' : 'responses'}</span>
             </div>
 
-            {/* Footer */}
             <div className="flex items-center justify-between pt-3 border-t border-neutral-100 dark:border-neutral-700">
                 <span className="text-xs text-neutral-400 dark:text-neutral-500">
                     Updated {formatDate(form.updatedAt)}
                 </span>
 
-                {/* Actions */}
                 <div className="flex items-center gap-1">
                     <button
                         onClick={() => navigate(`/formlyst/${form.id}/edit`)}
@@ -98,44 +92,31 @@ export default function FormCard({ form, onDuplicate, onDelete, onToggleStatus }
                         <BarChart3 className="w-4 h-4" />
                     </button>
 
-                    {/* More Menu */}
-                    <div className="relative">
-                        <button
-                            onClick={() => setMenuOpen(!menuOpen)}
-                            onBlur={() => setTimeout(() => setMenuOpen(false), 150)}
-                            className="p-2 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors"
-                        >
-                            <MoreVertical className="w-4 h-4" />
-                        </button>
-
-                        {menuOpen && (
-                            <div className="absolute right-0 top-full mt-1 w-40 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg py-1 z-10">
-                                <button
-                                    onClick={() => onToggleStatus(form.id)}
-                                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
-                                >
-                                    {form.isActive ? <ToggleLeft className="w-4 h-4" /> : <ToggleRight className="w-4 h-4" />}
-                                    {form.isActive ? 'Deactivate' : 'Activate'}
-                                </button>
-
-                                <button
-                                    onClick={() => onDuplicate(form.id)}
-                                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700"
-                                >
-                                    <Copy className="w-4 h-4" />
-                                    Duplicate
-                                </button>
-
-                                <button
-                                    onClick={() => onDelete(form.id)}
-                                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                    Delete
-                                </button>
-                            </div>
-                        )}
-                    </div>
+                    <Dropdown
+                        trigger={
+                            <button className="p-2 text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors">
+                                <MoreVertical className="w-4 h-4" />
+                            </button>
+                        }
+                        items={[
+                            {
+                                label: form.isActive ? 'Deactivate' : 'Activate',
+                                icon: form.isActive ? <ToggleLeft className="w-4 h-4" /> : <ToggleRight className="w-4 h-4" />,
+                                onClick: () => onToggleStatus(form.id),
+                            },
+                            {
+                                label: 'Duplicate',
+                                icon: <Copy className="w-4 h-4" />,
+                                onClick: () => onDuplicate(form.id),
+                            },
+                            {
+                                label: 'Delete',
+                                icon: <Trash2 className="w-4 h-4" />,
+                                onClick: () => onDelete(form.id),
+                                destructive: true,
+                            },
+                        ]}
+                    />
                 </div>
             </div>
         </div>

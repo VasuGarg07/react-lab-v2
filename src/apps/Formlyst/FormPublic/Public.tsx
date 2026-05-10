@@ -29,7 +29,6 @@ export default function Public() {
         }
     }, [form, dispatch]);
 
-    // Handle loading/error states
     useEffect(() => {
         if (isLoading) {
             setViewState('loading');
@@ -40,7 +39,6 @@ export default function Public() {
 
     const currentStep = formConfig?.steps[currentStepIndex];
 
-    // Validate current step
     const validateStep = (): boolean => {
         if (!currentStep) return false;
 
@@ -60,7 +58,6 @@ export default function Public() {
                     }
                 }
 
-                // Type-specific validation
                 if (field.type === 'text' && field.validation) {
                     const value = responses[field.key] as string;
                     if (value) {
@@ -99,7 +96,6 @@ export default function Public() {
 
     const handleFieldChange = (fieldKey: string, value: unknown) => {
         dispatch(setResponse({ key: fieldKey, value }));
-        // Clear error when user types
         if (errors[fieldKey]) {
             setErrors((prev) => {
                 const next = { ...prev };
@@ -113,7 +109,6 @@ export default function Public() {
         if (validateStep()) {
             const isLastStep = currentStepIndex === (formConfig?.steps.length ?? 1) - 1;
             if (isLastStep) {
-                // Navigate to review page
                 navigate(`/formlyst/fill/${shareUrl}/review`);
             } else {
                 dispatch(nextStep());
@@ -128,7 +123,6 @@ export default function Public() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Loading State
     if (viewState === 'loading') {
         return (
             <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
@@ -140,7 +134,6 @@ export default function Public() {
         );
     }
 
-    // Error State
     if (viewState === 'error') {
         return (
             <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900 px-4">
@@ -159,13 +152,11 @@ export default function Public() {
         );
     }
 
-    // Form State
     if (!formConfig || !currentStep) return null;
 
     return (
         <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 px-4 py-8">
             <div className="max-w-xl mx-auto">
-                {/* Form Title */}
                 <div className="text-center mb-4">
                     <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-1">
                         {formConfig.title}
@@ -177,7 +168,6 @@ export default function Public() {
                     )}
                 </div>
 
-                {/* Step Progress */}
                 {formConfig.steps.length > 1 && (
                     <div className="mb-4">
                         <StepProgress
@@ -187,7 +177,6 @@ export default function Public() {
                     </div>
                 )}
 
-                {/* Current Step */}
                 <StepRenderer
                     step={currentStep}
                     responses={responses}
@@ -195,7 +184,6 @@ export default function Public() {
                     onChange={handleFieldChange}
                 />
 
-                {/* Navigation */}
                 <FormNav
                     currentStep={currentStepIndex}
                     onBack={handleBack}

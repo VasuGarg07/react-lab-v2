@@ -1,18 +1,19 @@
 import { useParams, useNavigate } from 'react-router';
-import { ArrowLeft, Download, Trash2, FileText, Loader2, Inbox, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowLeft, Check, Copy, Download, Trash2, FileText, Loader2, Inbox, ChevronDown } from 'lucide-react';
 import { useModal } from '../../../components/ModalContext';
 import { useFormById, useResponses } from '../hooks/useFormQueries';
 import { useDeleteResponse, useDeleteAllResponses } from '../hooks/useFormMutations';
 import { downloadJson, downloadXml } from '../helpers/utils';
 import ResponseCard from './ResponseCard';
 import { openAlertDialog } from '../../../ui/AlertDialog';
+import Dropdown from '../../../ui/Dropdown';
+import { useState } from 'react';
 
 export default function Responses() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const modal = useModal();
-    const [exportMenuOpen, setExportMenuOpen] = useState(false);
+const [copied, setCopied] = useState(false);
 
     const { data: form, isLoading: formLoading } = useFormById(id);
     const { data: responses, isLoading: responsesLoading } = useResponses(id);
@@ -24,13 +25,11 @@ export default function Responses() {
     const handleExportJson = () => {
         if (!responses || !form) return;
         downloadJson(`${form.title}-responses`, responses);
-        setExportMenuOpen(false);
     };
 
     const handleExportXml = () => {
         if (!responses || !form) return;
         downloadXml(`${form.title}-responses`, responses, form);
-        setExportMenuOpen(false);
     };
 
     const handleDeleteResponse = (responseId: string) => {
@@ -51,7 +50,6 @@ export default function Responses() {
         });
     };
 
-    // Loading state
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
@@ -63,7 +61,6 @@ export default function Responses() {
         );
     }
 
-    // Error state
     if (!form) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
@@ -89,9 +86,7 @@ export default function Responses() {
     return (
         <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
             <div className="max-w-4xl mx-auto px-4 py-8">
-                {/* Header */}
                 <div className="mb-8">
-                    {/* Back button */}
                     <button
                         onClick={() => navigate('/formlyst')}
                         className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 mb-4 transition-colors"
@@ -110,45 +105,22 @@ export default function Responses() {
                             </p>
                         </div>
 
-                        {/* Actions */}
                         {responses && responses.length > 0 && (
                             <div className="flex items-center gap-2">
-                                {/* Export dropdown */}
-                                <div className="relative">
-                                    <button
-                                        onClick={() => setExportMenuOpen(!exportMenuOpen)}
-                                        className="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors"
-                                    >
-                                        <Download className="w-4 h-4" />
-                                        Export
-                                        <ChevronDown className="w-4 h-4" />
-                                    </button>
+                                <Dropdown
+                                    trigger={
+                                        <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors">
+                                            <Download className="w-4 h-4" />
+                                            Export
+                                            <ChevronDown className="w-4 h-4" />
+                                        </button>
+                                    }
+                                    items={[
+                                        { label: 'Export as JSON', onClick: handleExportJson },
+                                        { label: 'Export as XML', onClick: handleExportXml },
+                                    ]}
+                                />
 
-                                    {exportMenuOpen && (
-                                        <>
-                                            <div
-                                                className="fixed inset-0 z-10"
-                                                onClick={() => setExportMenuOpen(false)}
-                                            />
-                                            <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg py-1 z-20">
-                                                <button
-                                                    onClick={handleExportJson}
-                                                    className="w-full px-4 py-2 text-sm text-left text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700"
-                                                >
-                                                    Export as JSON
-                                                </button>
-                                                <button
-                                                    onClick={handleExportXml}
-                                                    className="w-full px-4 py-2 text-sm text-left text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700"
-                                                >
-                                                    Export as XML
-                                                </button>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-
-                                {/* Delete all */}
                                 <button
                                     onClick={handleDeleteAll}
                                     className="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border border-red-200 dark:border-red-900/50 bg-white dark:bg-neutral-800 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
@@ -188,13 +160,14 @@ export default function Responses() {
                         </p>
                         <button
                             onClick={() => {
-                                navigator.clipboard.writeText(
-                                    `${window.location.origin}/formlyst/fill/${form.shareUrl}`
-                                );
+                                navigator.clipboard.writeText(`${window.location.origin}/formlyst/fill/${form.shareUrl}`);
+                                setCopied(true);
+                                setTimeout(() => setCopied(false), 2000);
                             }}
                             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
                         >
-                            Copy Share Link
+                            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                            {copied ? 'Copied!' : 'Copy Share Link'}
                         </button>
                     </div>
                 )}

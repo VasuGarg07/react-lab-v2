@@ -3,10 +3,6 @@ import type { Form, FormConfig, FormResponse } from './types';
 
 const BASE = '/formlyst';
 
-// ============================================
-// FORM CRUD
-// ============================================
-
 export async function getForms(): Promise<Form[]> {
     const { data } = await apiClient.get<{ forms: Form[] }>(`${BASE}/forms`);
     return data.forms;
@@ -41,10 +37,6 @@ export async function toggleFormStatus(id: string): Promise<Form> {
     return data.form;
 }
 
-// ============================================
-// PUBLIC FORM
-// ============================================
-
 export async function getPublicForm(shareUrl: string): Promise<Form> {
     const { data } = await apiClient.get<{ form: Form }>(`${BASE}/public/${shareUrl}`);
     return data.form;
@@ -54,10 +46,6 @@ export async function submitResponse(shareUrl: string, responses: Record<string,
     const { data } = await apiClient.post<{ response: { id: string } }>(`${BASE}/public/${shareUrl}/submit`, { responses });
     return data.response.id;
 }
-
-// ============================================
-// RESPONSES
-// ============================================
 
 export async function getResponses(formId: string): Promise<FormResponse[]> {
     const { data } = await apiClient.get<{ responses: FormResponse[] }>(`${BASE}/forms/${formId}/responses`);

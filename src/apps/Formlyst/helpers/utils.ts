@@ -7,16 +7,10 @@ import type {
     FormSection,
     FormField,
     BreadcrumbItem,
-    TreeNode,
     FormResponse,
 } from './types';
 
-// ============================================
-// KEY GENERATION
-// ============================================
-
 export function generateKey(label: string, type: EntityType, existingKeys: string[]): string {
-    // Clean label or use fallback
     const clean = label
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '_')
@@ -24,10 +18,7 @@ export function generateKey(label: string, type: EntityType, existingKeys: strin
 
     const base = clean || type; // fallback to just "step", "field", etc.
 
-    // Check if base key exists, if not use it directly (shorter keys)
     if (!existingKeys.includes(base)) return base;
-
-    // Otherwise append counter
     let counter = 1;
     while (existingKeys.includes(`${base}_${counter}`)) {
         counter++;
@@ -53,10 +44,6 @@ export function getAllKeys(config: FormConfig, type: EntityType): string[] {
     }
     return keys;
 }
-
-// ============================================
-// FACTORY FUNCTIONS
-// ============================================
 
 export function createEmptyForm(): FormConfig {
     return { title: 'New Form', description: '', steps: [] };
@@ -103,10 +90,6 @@ export function createField(type: FieldType, label: string, existingKeys: string
     }
 }
 
-// ============================================
-// NAVIGATION
-// ============================================
-
 export function buildBreadcrumbs(config: FormConfig, path: string[]): BreadcrumbItem[] {
     const crumbs: BreadcrumbItem[] = [
         { key: 'form', label: config.title || 'New Form', type: 'form', path: [] },
@@ -137,35 +120,6 @@ export function buildBreadcrumbs(config: FormConfig, path: string[]): Breadcrumb
     return crumbs;
 }
 
-export function buildTree(config: FormConfig): TreeNode[] {
-    return [
-        {
-            key: 'form',
-            label: config.title || 'New Form',
-            type: 'form',
-            children: config.steps.map((step) => ({
-                key: step.key,
-                label: step.title,
-                type: 'step' as const,
-                children: step.sections.map((section) => ({
-                    key: section.key,
-                    label: section.title,
-                    type: 'section' as const,
-                    children: section.fields.map((field) => ({
-                        key: field.key,
-                        label: field.label,
-                        type: 'field' as const,
-                    })),
-                })),
-            })),
-        },
-    ];
-}
-
-// ============================================
-// EXPORT HELPERS
-// ============================================
-
 export function formatDate(date: string | Date): string {
     const d = typeof date === 'string' ? new Date(date) : date;
     return new Intl.DateTimeFormat('en-US', {
@@ -185,8 +139,6 @@ export function downloadJson(filename: string, data: unknown): void {
     a.click();
     URL.revokeObjectURL(url);
 }
-
-// Add this function to utils.ts (alongside existing downloadJson)
 
 export function downloadXml(filename: string, responses: FormResponse[], formConfig: FormConfig): void {
     const escapeXml = (val: unknown): string => {

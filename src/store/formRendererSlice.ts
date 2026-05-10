@@ -17,10 +17,6 @@ const initialState: FormResponseState = {
     currentStepIndex: 0,
 };
 
-// ============================================
-// SLICE
-// ================dont ============================
-
 const formResponseSlice = createSlice({
     name: 'formResponse',
     initialState,
