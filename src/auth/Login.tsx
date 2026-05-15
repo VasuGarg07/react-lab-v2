@@ -43,7 +43,7 @@ const Login = () => {
                     Welcome Back
                 </h1>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                    Sign in to continue to Code Garage
+                    Sign in to continue to React Lab
                 </p>
             </div>
 

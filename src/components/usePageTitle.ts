@@ -1,13 +1,13 @@
 import { useLocation } from 'react-router';
 import { Apps } from '../shared/apps';
 
-const APP_NAME = 'Code Garage';
+const APP_NAME = 'React Lab';
 
 export const usePageTitle = () => {
     const location = useLocation();
     const currentPath = location.pathname;
 
-    // If on homepage, return just "Code Garage"
+    // If on homepage, return just "React Lab"
     if (currentPath === '/') {
         return APP_NAME;
     }

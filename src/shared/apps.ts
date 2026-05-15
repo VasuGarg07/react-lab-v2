@@ -11,7 +11,7 @@ import Memory from '/cover/memory.webp';
 import Quiz from '/cover/quiz.webp';
 import Sudoku from '/cover/sudoku.webp';
 import TicTacToe from '/cover/tictactoe.webp';
-import Visualizer from '/cover/visualizer.webp';
+import Visualizer from '/cover/sorting.webp';
 
 export interface AppInfo {
   name: string;

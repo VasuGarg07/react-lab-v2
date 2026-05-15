@@ -1,4 +1,4 @@
-# Code Garage
+# React Lab
 
 A single React + TypeScript + Vite app that hosts thirteen independent mini-applications under one roof. Rather than scaffolding a fresh project for every experiment, everything lives in one codebase — with centralized auth, shared UI primitives, and a unified router — while each app stays cleanly isolated in its own folder.
 

@@ -62,7 +62,7 @@ const Register = () => {
                     Create Account
                 </h1>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                    Sign up to join Code Garage
+                    Sign up to join React Lab
                 </p>
             </div>
 

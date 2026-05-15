@@ -26,6 +26,7 @@ export default function Overview() {
     const hasActiveFilters = typeFilter !== 'all' || categoryFilter !== 'all' || dateFilter !== 'all' || sortOption !== 'date-desc';
 
     const handleClearAll = () => {
+        if (isClearing) return;
         openAlertDialog(modal, {
             title: 'Clear All Transactions?',
             message: (

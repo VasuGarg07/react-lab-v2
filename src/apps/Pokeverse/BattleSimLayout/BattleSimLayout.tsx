@@ -31,13 +31,13 @@ export default function BattleSimLayout() {
         if (isInitialBattleState(battleState)) return;
         if (battleState.phase === 'SETUP') return;
 
-        hasShownDialog.current = true;
+        hasShownDialog.current = true; // set before open to block any re-entry
         modal.open(
             <ContinueBattleDialog
                 onContinue={(path) => navigate(path)}
             />
         );
-    }, [battleState, modal, navigate]);
+    }, [battleState.phase, modal, navigate]);
 
     const path = location.pathname;
     const isBattleRoute = path.startsWith('/pokeverse/battle-sim/battle');

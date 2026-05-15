@@ -49,6 +49,7 @@ export default function BlogDetail() {
     const handleArchive = () => archiveMutation.mutate(blogId!);
 
     const handleMoveClick = () => {
+        setMoveTargetNotebook('');
         modal.open(
             <div className="py-2">
                 <h3 className="font-serif text-lg text-stone-900 dark:text-stone-100 mb-1">
@@ -80,7 +81,7 @@ export default function BlogDetail() {
                             if (moveTargetNotebook) {
                                 moveMutation.mutate(
                                     { blogId: blogId!, notebookId: moveTargetNotebook },
-                                    { onSuccess: () => { modal.close(); setMoveTargetNotebook(''); } }
+                                    { onSuccess: modal.close }
                                 );
                             }
                         }}

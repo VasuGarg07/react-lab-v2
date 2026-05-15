@@ -48,6 +48,7 @@ export default function BlogCard({ blog, variant = 'default', notebookCover }: B
     const handleArchive = () => archiveMutation.mutate(blog.id);
 
     const handleMoveClick = () => {
+        setMoveTargetNotebook('');
         modal.open(
             <div className="py-2">
                 <h3 className="font-serif text-lg text-stone-900 dark:text-stone-100 mb-1">
@@ -79,7 +80,7 @@ export default function BlogCard({ blog, variant = 'default', notebookCover }: B
                             if (moveTargetNotebook) {
                                 moveMutation.mutate(
                                     { blogId: blog.id, notebookId: moveTargetNotebook },
-                                    { onSuccess: () => { modal.close(); setMoveTargetNotebook(''); } }
+                                    { onSuccess: modal.close }
                                 );
                             }
                         }}

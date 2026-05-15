@@ -10,7 +10,7 @@ export default function Footer() {
             <div className="container mx-auto px-4 py-3">
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
                     <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                        © {new Date().getFullYear()} Code Garage • Vasu Garg
+                        © {new Date().getFullYear()} React Lab • Vasu Garg
                     </p>
                     <div className="flex items-center gap-2">
                         {SOCIALS.map(({ href, icon, label }) => (

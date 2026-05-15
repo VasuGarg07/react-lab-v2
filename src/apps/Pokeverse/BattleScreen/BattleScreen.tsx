@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
 import { endTurn, forfeit, resetToSetup, selectMove, switchPokemon } from '../../../store/battleSlice';
 import PokemonDisplay from './PokemonDisplay';
@@ -22,9 +22,11 @@ export default function BattleScreen() {
     const activePokemon = currentPlayer.team[currentPlayer.activePokemon];
     const opponentPokemon = opponent.team[opponent.activePokemon];
 
-    // Show dialog when battle ends
+    const hasShownEndDialog = useRef(false);
+
     useEffect(() => {
-        if (battle.phase === 'ENDED') {
+        if (battle.phase === 'ENDED' && !hasShownEndDialog.current) {
+            hasShownEndDialog.current = true;
             modal.open(
                 <BattleEndDialog
                     winner={battle.winner!}
@@ -34,6 +36,9 @@ export default function BattleScreen() {
                     }}
                 />
             );
+        }
+        if (battle.phase !== 'ENDED') {
+            hasShownEndDialog.current = false;
         }
     }, [battle.phase, battle.winner, dispatch, modal]);
 

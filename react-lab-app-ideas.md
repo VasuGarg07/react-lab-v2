@@ -1,4 +1,4 @@
-# Code Garage — New App Ideas
+# React Lab — New App Ideas
 
 A backlog of mini-apps to potentially add to the lab. Names are working titles. Each entry includes scope hints and which category it fills.
 

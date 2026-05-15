@@ -16,10 +16,9 @@ const AuthWrapper = () => (
         <div className="flex-1 flex items-center justify-center">
             <div className="w-full max-w-md">
                 <Link to="/" className="block text-center mb-6 group">
-                    <h1 className="text-3xl font-bold bg-linear-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
-                        CODE GARAGE
+                    <h1 className="text-3xl font-bold bg-linear-to-r text-blue-500 group-hover:opacity-80 transition-opacity">
+                        React Lab
                     </h1>
-                    <div className="h-1 w-32 mx-auto mt-2 bg-linear-to-r from-blue-600 to-violet-500 rounded-full" />
                 </Link>
 
                 <div className="bg-white dark:bg-neutral-800 rounded-xl shadow-md border border-neutral-200 dark:border-neutral-700 overflow-hidden">

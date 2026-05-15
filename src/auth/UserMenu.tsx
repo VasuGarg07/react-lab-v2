@@ -46,17 +46,15 @@ const UserMenu: React.FC = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [open]);
 
-    // ---------------- Unauthenticated: simple "Sign In" button ----------------
     if (!isLoggedIn) {
         return (
             <button
                 onClick={() => navigate("/auth/login")}
                 className={
                     "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium " +
-                    "border border-slate-300 dark:border-slate-600 " +
-                    "text-slate-700 dark:text-slate-300 " +
-                    "hover:bg-slate-100 dark:hover:bg-slate-800 " +
-                    "focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    "border border-neutral-300 dark:border-neutral-600 " +
+                    "text-neutral-700 dark:text-neutral-300 " +
+                    "hover:bg-neutral-100 dark:hover:bg-neutral-800 " 
                 }
             >
                 <LogIn size={16} />
@@ -65,17 +63,13 @@ const UserMenu: React.FC = () => {
         );
     }
 
-    // ---------------- Authenticated: avatar + dropdown menu ----------------
     return (
         <div ref={menuRef} className="relative">
             {/* Trigger */}
             <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
-                className={
-                    "inline-flex items-center justify-center rounded-full " +
-                    "focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                }
+                className="inline-flex items-center justify-center rounded-full"
             >
                 <div className="w-9 h-9 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-semibold">
                     {getUserInitial()}
@@ -86,22 +80,22 @@ const UserMenu: React.FC = () => {
             {open && (
                 <div
                     className={
-                        "absolute right-0 mt-2 w-72 rounded-lg border bg-white dark:bg-slate-800 " +
-                        "border-slate-200 dark:border-slate-700 shadow-lg z-20"
+                        "absolute right-0 mt-2 w-72 rounded-lg border bg-white dark:bg-neutral-800 " +
+                        "border-neutral-200 dark:border-neutral-700 shadow-lg z-20"
                     }
                 >
                     {/* User info header */}
-                    <div className="p-4 border-b border-slate-200 dark:border-slate-700">
+                    <div className="p-4 border-b border-neutral-200 dark:border-neutral-700">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-semibold">
                                 {getUserInitial()}
                             </div>
                             <div className="flex-1 min-w-0">
-                                <h3 className="font-semibold text-slate-900 dark:text-slate-100 truncate">
+                                <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 truncate">
                                     {user?.username}
                                 </h3>
                                 {user?.email && (
-                                    <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
+                                    <p className="text-sm text-neutral-500 dark:text-neutral-400 truncate">
                                         {user.email}
                                     </p>
                                 )}
@@ -116,19 +110,19 @@ const UserMenu: React.FC = () => {
                             onClick={() => handleNavigation("/settings")}
                             className={
                                 "mt-1 flex items-center justify-between w-full px-3 py-2 rounded-md text-sm " +
-                                "text-slate-700 dark:text-slate-300 " +
-                                "hover:bg-slate-100 dark:hover:bg-slate-700 " +
-                                "focus:outline-none focus:bg-slate-100 dark:focus:bg-slate-700"
+                                "text-neutral-700 dark:text-neutral-300 " +
+                                "hover:bg-neutral-100 dark:hover:bg-neutral-700 " +
+                                "focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-700"
                             }
                         >
                             <span className="flex items-center gap-3">
-                                <Settings size={16} className="text-slate-500 dark:text-slate-400" />
+                                <Settings size={16} className="text-neutral-500 dark:text-neutral-400" />
                                 <span className="font-medium">Settings</span>
                             </span>
                         </button>
 
                         {/* Divider */}
-                        <div className="my-2 border-t border-slate-200 dark:border-slate-700" />
+                        <div className="my-2 border-t border-neutral-200 dark:border-neutral-700" />
 
                         {/* Logout */}
                         <button
@@ -137,8 +131,7 @@ const UserMenu: React.FC = () => {
                             className={
                                 "flex items-center w-full px-3 py-2 rounded-md text-sm " +
                                 "text-red-600 dark:text-red-400 " +
-                                "hover:bg-red-50 dark:hover:bg-red-900/20 " +
-                                "focus:outline-none focus:bg-red-50 dark:focus:bg-red-900/20"
+                                "hover:bg-red-50 dark:hover:bg-red-900/20"
                             }
                         >
                             <span className="flex items-center gap-3">
