@@ -2,7 +2,7 @@ import { useState, type InputHTMLAttributes, type ReactNode } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
-    label: string;
+    label?: string;
     error?: string;
     icon?: ReactNode;
     showPasswordToggle?: boolean;
@@ -24,7 +24,7 @@ const TextInput = ({
 
     const isPassword = type === "password";
     const inputType = isPassword && showPassword ? "text" : type;
-    const inputId = id || name || label.toLowerCase().replace(/\s+/g, "-");
+    const inputId = id || name || label?.toLowerCase().replace(/\s+/g, "-");
 
     return (
         <div className="space-y-1.5">

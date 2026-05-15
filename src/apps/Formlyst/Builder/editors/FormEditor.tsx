@@ -58,7 +58,7 @@ export default function FormEditor() {
             title: 'Delete Step',
             message: `Are you sure you want to delete "${stepTitle}"? All sections and fields within this step will also be deleted.`,
             confirmText: 'Delete',
-            onConfirm: () => dispatch(removeStep(stepKey)),
+            onConfirm: () => { dispatch(removeStep(stepKey)); },
         });
     };
 

@@ -56,7 +56,7 @@ export default function Toolbar({ onSave, isSaving }: ToolbarProps) {
             title: 'Reset Form',
             message: 'This will clear all your changes and start fresh. This cannot be undone.',
             confirmText: 'Reset',
-            onConfirm: () => dispatch(resetForm()),
+            onConfirm: () => { dispatch(resetForm()); },
         });
     };
 

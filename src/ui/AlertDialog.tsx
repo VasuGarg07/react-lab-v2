@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { useModal } from '../components/ModalContext';
 
@@ -7,8 +7,7 @@ interface AlertDialogProps {
     message: string | ReactNode;
     cancelText?: string;
     confirmText?: string;
-    onConfirm: () => void;
-    isLoading?: boolean;
+    onConfirm: () => void | Promise<void>;
 }
 
 export default function AlertDialog({
@@ -17,13 +16,18 @@ export default function AlertDialog({
     cancelText = 'Cancel',
     confirmText = 'Confirm',
     onConfirm,
-    isLoading = false,
 }: AlertDialogProps) {
     const { close } = useModal();
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleConfirm = () => {
-        onConfirm();
-        close();
+    const handleConfirm = async () => {
+        setIsLoading(true);
+        try {
+            await onConfirm();
+            close();
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -68,15 +72,9 @@ export default function AlertDialog({
     );
 }
 
-
-// ==================== Helper function to open alert dialog ====================
-
-/**
- * Helper function to open confirmation dialog
- */
 export const openAlertDialog = (
     modal: ReturnType<typeof useModal>,
-    props: Omit<AlertDialogProps, 'isLoading'>
+    props: AlertDialogProps
 ) => {
     modal.open(<AlertDialog {...props} />);
 };

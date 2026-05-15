@@ -75,7 +75,7 @@ export default function StepEditor({ stepKey }: StepEditorProps) {
             title: 'Delete Section',
             message: `Are you sure you want to delete "${sectionTitle}"? All fields within this section will also be deleted.`,
             confirmText: 'Delete',
-            onConfirm: () => dispatch(removeSection({ stepKey, sectionKey })),
+            onConfirm: () => { dispatch(removeSection({ stepKey, sectionKey })); },
         });
     };
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Copy, Check, ExternalLink } from 'lucide-react';
 import { useModal } from '../../../components/ModalContext';
 
@@ -10,13 +10,19 @@ interface ShareDialogProps {
 export default function ShareDialog({ formTitle, shareUrl }: ShareDialogProps) {
     const { close } = useModal();
     const [copied, setCopied] = useState(false);
+    const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const fullUrl = `${window.location.origin}/formlyst/fill/${shareUrl}`;
+
+    useEffect(() => {
+        return () => { if (copyTimerRef.current) clearTimeout(copyTimerRef.current); };
+    }, []);
 
     const handleCopy = async () => {
         await navigator.clipboard.writeText(fullUrl);
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+        copyTimerRef.current = setTimeout(() => setCopied(false), 2000);
     };
 
     const handleOpen = () => {

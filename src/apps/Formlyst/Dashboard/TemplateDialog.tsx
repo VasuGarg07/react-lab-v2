@@ -15,7 +15,10 @@ export default function TemplateDialog({ onCreate, isLoading }: TemplateDialogPr
 
     const handleCreate = () => {
         const template = TEMPLATES.find(t => t.id === selected);
-        if (template) onCreate(template);
+        if (template) {
+            setSelected('blank');
+            onCreate(template);
+        }
     };
 
     return (

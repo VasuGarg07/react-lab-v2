@@ -2,7 +2,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import { GlobalModal } from "./GlobalModal";
 
 type ModalContextType = {
-    open: (content: ReactNode) => void;
+    open: (content: ReactNode, showClose?: boolean) => void;
     close: () => void;
 };
 
@@ -17,21 +17,23 @@ export const useModal = () => {
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
     const [content, setContent] = useState<ReactNode | null>(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [showClose, setShowClose] = useState(true);
 
-    const open = (c: ReactNode) => {
+    const open = (c: ReactNode, showClose: boolean = true) => {
+        setShowClose(showClose);
         setContent(c);
         setIsOpen(true);
     };
 
     const close = () => {
         setIsOpen(false);
-        setTimeout(() => setContent(null), 200); // let animation finish
+        setTimeout(() => setContent(null), 200);
     };
 
     return (
         <ModalContext.Provider value={{ open, close }}>
             {children}
-            <GlobalModal isOpen={isOpen} onClose={close}>
+            <GlobalModal isOpen={isOpen} onClose={close} showClose={showClose}>
                 {content}
             </GlobalModal>
         </ModalContext.Provider>

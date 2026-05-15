@@ -11,8 +11,11 @@ const StartGamePopup = ({ isOpen, onStart }: StartGamePopupProps) => {
     const { open, close } = useModal();
 
     useEffect(() => {
-        if (isOpen) {
-            open(
+        if (!isOpen) {
+            close();
+            return;
+        }
+        open(
                 <div className="space-y-4">
                     {/* Title */}
                     <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100">
@@ -48,9 +51,8 @@ const StartGamePopup = ({ isOpen, onStart }: StartGamePopupProps) => {
                         </button>
                     </div>
                 </div>
-            );
-        }
-    }, [isOpen, onStart, open, close]);
+            , false);
+    }, [isOpen, open, close]);
 
     return null;
 };

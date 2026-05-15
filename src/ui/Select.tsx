@@ -7,6 +7,8 @@ interface Option {
 
 interface SelectProps {
     label?: string;
+    id?: string;
+    name?: string;
     options: Option[];
     value?: string;
     onChange?: (value: string) => void;
@@ -21,6 +23,8 @@ interface SelectProps {
 
 export default function Select({
     label,
+    id,
+    name,
     options,
     value,
     onChange,
@@ -32,6 +36,8 @@ export default function Select({
     disabled,
     className = "",
 }: SelectProps) {
+    const selectId = id || name || label?.toLowerCase().replace(/\s+/g, "-");
+
     const handleChange = (val: string) => {
         onChange?.(val);
         onValueChange?.(val);
@@ -40,7 +46,10 @@ export default function Select({
     return (
         <div className="space-y-1.5">
             {label && (
-                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                <label
+                    htmlFor={selectId}
+                    className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+                >
                     {label}
                     {required && <span className="ml-1 text-red-500">*</span>}
                 </label>
@@ -54,6 +63,8 @@ export default function Select({
                 )}
 
                 <select
+                    id={selectId}
+                    name={name}
                     value={value || ""}
                     onChange={(e) => handleChange(e.target.value)}
                     disabled={disabled}

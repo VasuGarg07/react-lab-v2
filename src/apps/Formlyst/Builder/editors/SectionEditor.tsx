@@ -78,7 +78,7 @@ export default function SectionEditor({ stepKey, sectionKey }: SectionEditorProp
             title: 'Delete Field',
             message: `Are you sure you want to delete "${fieldLabel}"?`,
             confirmText: 'Delete',
-            onConfirm: () => dispatch(removeField({ stepKey, sectionKey, fieldKey })),
+            onConfirm: () => { dispatch(removeField({ stepKey, sectionKey, fieldKey })); },
         });
     };
 

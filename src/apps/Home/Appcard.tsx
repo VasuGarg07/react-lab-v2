@@ -34,7 +34,7 @@ export const AppCard = ({ name, tag, path, image, description, techStack, icon: 
       </div>
 
       {/* Content Overlay */}
-      <div className="relative z-10 p-4 sm:p-5 h-full flex flex-col justify-between min-h-[200px] sm:min-h-[220px]">
+      <div className="relative z-10 p-4 sm:p-5 h-full flex flex-col justify-between min-h-50 sm:min-h-55">
         {/* Header */}
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-2">
