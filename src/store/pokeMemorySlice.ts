@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { GameState } from "../shared/constants";
 import type { CardType } from "../apps/PokeMemory/pokememory.utilities";
+
+type GameState = "setup" | "playing" | "game_end";
 
 interface PokeMemoryState {
     name: string;

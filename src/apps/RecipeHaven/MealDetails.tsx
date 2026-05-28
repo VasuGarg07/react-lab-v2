@@ -1,6 +1,6 @@
 import { AlertCircle, ExternalLink, Loader2, Play } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
-import { toastService } from '../../shared/toastr';
+import { toastService } from '@react-lab/shared';
 import { useMealDetails } from './utils/useRecipeQueries';
 
 export default function MealDetails() {

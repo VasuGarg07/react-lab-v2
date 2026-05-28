@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS, API_ENDPOINTS, type Transaction } from '../helpers/expense.constants';
-import apiClient from '../../../shared/apiClient';
-import { toastService } from '../../../shared/toastr';
+import { apiClient, toastService } from '@react-lab/shared';
 
 type CreateTransactionData = Omit<Transaction, 'id' | 'userId' | 'createdAt' | 'updatedAt'>;
 type UpdateTransactionData = Partial<CreateTransactionData>;

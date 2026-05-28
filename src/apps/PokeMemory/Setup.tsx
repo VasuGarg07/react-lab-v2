@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Gamepad2, Zap, Puzzle, Skull, User } from 'lucide-react';
 import { setName, setDifficulty, setCards, setGameState } from '../../store/pokeMemorySlice';
 import { useAppDispatch } from '../../store/useRedux';
-import { toastService } from '../../shared/toastr';
+import { toastService } from '@react-lab/shared';
 import { getPairCountForDifficulty, loadCards } from './pokememory.utilities';
 import Pokemon from '/pokemon.png';
 

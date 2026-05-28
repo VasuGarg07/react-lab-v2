@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Copy, Download } from 'lucide-react';
 import { SAMPLE_INPUT } from './sample';
-import { toastService } from '../../shared/toastr';
-import { markdownToHtml } from '../../shared/utilities';
+import { toastService, markdownToHtml } from '@react-lab/shared';
 
 function MarkdownLive() {
     const [markdown, setMarkdown] = useState(SAMPLE_INPUT);

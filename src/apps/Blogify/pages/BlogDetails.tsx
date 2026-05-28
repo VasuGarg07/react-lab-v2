@@ -2,7 +2,7 @@ import { Archive, BookOpen, Calendar, ChevronLeft, Clock, Edit, FolderInput, Tra
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { useModal, openAlertDialog, Select } from '@react-lab/ui';
-import { formatDate, markdownToHtml } from '../../../shared/utilities';
+import { formatDate, markdownToHtml } from '@react-lab/shared';
 import { useAppSelector } from '../../../store/useRedux';
 import BlogCard from '../components/BlogCard';
 import OptionsMenu, { type MenuAction } from '../components/OptionsMenu';

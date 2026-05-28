@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Plus, X } from 'lucide-react';
 import { BLOG_CONSTANTS, type BlogRequest, type Notebook } from '../helpers/blog.constants';
 import { TextInput, Select, LoadingButton } from '@react-lab/ui';
-import RichTextEditor from '../../../components/RichTextEditor';
+import RichTextEditor from './RichTextEditor';
 
 interface BlogFormProps {
     notebooks: Notebook[];

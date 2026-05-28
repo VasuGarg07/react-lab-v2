@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
 import { ArrowRight } from 'lucide-react';
-import type { AppInfo } from '../../shared/apps';
+import type { AppInfo } from '../../components/apps';
 
 export const AppCard = ({ name, tag, path, image, description, techStack, icon: Icon }: AppInfo) => {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import { useState } from 'react';
 import { BLOGIFY_ROUTES, type Blog } from '../helpers/blog.constants';
 import { calculateReadTime, truncateContent } from '../helpers/blog.utils';
-import { formatRelativeTime } from '../../../shared/utilities';
+import { formatRelativeTime } from '@react-lab/shared';
 import { useAppSelector } from '../../../store/useRedux';
 import OptionsMenu, { type MenuAction } from './OptionsMenu';
 import { useModal, openAlertDialog, Select } from '@react-lab/ui';

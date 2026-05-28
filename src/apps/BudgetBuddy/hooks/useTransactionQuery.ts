@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import apiClient from '../../../shared/apiClient';
+import { apiClient } from '@react-lab/shared';
 import { API_ENDPOINTS, QUERY_KEYS, type TransactionsResponse } from '../helpers/expense.constants';
 
 export const useTransactions = () =>

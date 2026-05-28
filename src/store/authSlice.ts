@@ -7,8 +7,7 @@ import {
     register as registerService,
 } from "../auth/auth.service";
 import type { ChangePasswordData, LoginData, RegisterData, User } from "../auth/auth.types";
-import { clearAuth, saveAuthTokens } from "../shared/apiClient";
-import { toastService } from "../shared/toastr";
+import { clearAuth, saveAuthTokens, toastService } from "@react-lab/shared";
 
 interface AuthState {
     user: User | null;

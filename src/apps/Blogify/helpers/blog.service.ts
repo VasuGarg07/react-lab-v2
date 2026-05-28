@@ -1,4 +1,4 @@
-import apiClient from "../../../shared/apiClient";
+import { apiClient } from "@react-lab/shared";
 import type {
     Blog,
     BlogListResponse,

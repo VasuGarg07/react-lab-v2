@@ -1,4 +1,4 @@
-import { Apps } from "../../shared/apps";
+import { Apps } from "../../components/apps";
 import { AppCard } from "./Appcard";
 import Hero from "./Hero";
 

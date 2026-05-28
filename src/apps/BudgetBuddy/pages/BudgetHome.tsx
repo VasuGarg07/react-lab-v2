@@ -14,7 +14,7 @@ import {
     getCurrentMonthYear,
 } from '../helpers/expense.utils';
 import { useModal } from '@react-lab/ui';
-import { formatCurrency } from '../../../shared/utilities';
+import { formatCurrency } from '@react-lab/shared';
 
 export default function BudgetHome() {
     const modal = useModal();

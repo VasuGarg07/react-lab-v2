@@ -15,8 +15,6 @@ interface RefreshResponse {
     refreshToken: string;
 }
 
-// ---- Token storage helpers (defined first to avoid TDZ issues in interceptors) ----
-
 const ACCESS_TOKEN_KEY = "accessToken";
 const REFRESH_TOKEN_KEY = "refreshToken";
 
@@ -61,10 +59,6 @@ const performRefresh = async (): Promise<string> => {
     return data.accessToken;
 };
 
-/**
- * Get a fresh access token, deduplicating concurrent calls. The first caller
- * triggers the network request; subsequent callers await the same promise.
- */
 const refreshAccessToken = (): Promise<string> => {
     if (!refreshPromise) {
         refreshPromise = performRefresh().finally(() => {
@@ -74,7 +68,7 @@ const refreshAccessToken = (): Promise<string> => {
     return refreshPromise;
 };
 
-const apiClient = axios.create({
+export const apiClient = axios.create({
     baseURL: CONFIG.API_URL,
 });
 
@@ -106,5 +100,3 @@ apiClient.interceptors.response.use(
         }
     }
 );
-
-export default apiClient;

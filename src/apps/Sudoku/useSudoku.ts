@@ -8,7 +8,7 @@
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { toastService } from '../../shared/toastr';
+import { toastService } from '@react-lab/shared';
 import {
     BOX_SIZE,
     QUERY_CONFIG,

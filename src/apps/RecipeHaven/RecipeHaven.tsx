@@ -1,7 +1,7 @@
 import { Loader2, Search, Shuffle } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { toastService } from '../../shared/toastr';
+import { toastService } from '@react-lab/shared';
 import { ALPHABETS } from './utils/recipe.helpers';
 import { useAreas, useCategories, useRandomMeal } from './utils/useRecipeQueries';
 

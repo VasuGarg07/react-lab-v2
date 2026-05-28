@@ -7,7 +7,7 @@ import { useNotebook, useBlogsByNotebook } from '../hooks/useBlogQuery';
 import { useDeleteNotebook } from '../hooks/useBlogMutations';
 import { usePagination } from '../hooks/usePagination';
 import BlogGallery from '../components/BlogGallery';
-import { formatDate } from '../../../shared/utilities';
+import { formatDate } from '@react-lab/shared';
 import OptionsMenu, { type MenuAction } from '../components/OptionsMenu';
 import { useModal, openAlertDialog } from '@react-lab/ui';
 

@@ -4,7 +4,7 @@ import { openTransactionForm } from './TransactionForm';
 import { useDeleteTransaction } from '../hooks/useTransactionMutations';
 import type { Transaction } from '../helpers/expense.constants';
 import { useModal, openAlertDialog } from '@react-lab/ui';
-import { formatCurrency, formatDate } from '../../../shared/utilities';
+import { formatCurrency, formatDate } from '@react-lab/shared';
 
 interface TransactionListProps {
     transactions: Transaction[];

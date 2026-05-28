@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { redirect, type LoaderFunctionArgs } from "react-router";
-import { clearAuth } from "../shared/apiClient";
+import { clearAuth } from "@react-lab/shared";
 
 interface JwtPayload {
     exp: number;

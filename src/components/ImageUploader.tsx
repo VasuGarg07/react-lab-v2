@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X, ImageIcon, Loader2 } from 'lucide-react';
-import { CONFIG } from '../shared/config';
+
+const UPLOAD_KEY = import.meta.env.VITE_IMGBB_API_KEY;
 
 interface ImageUploaderProps {
     onUpload: (url: string) => void;
@@ -76,7 +77,7 @@ export default function ImageUploader({
 
         try {
             const response = await fetch(
-                `https://api.imgbb.com/1/upload?key=${CONFIG.IMGBB_API_KEY}`,
+                `https://api.imgbb.com/1/upload?key=${UPLOAD_KEY}`,
                 {
                     method: 'POST',
                     body: formData,

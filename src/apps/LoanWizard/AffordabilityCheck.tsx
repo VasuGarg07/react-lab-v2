@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { IndianRupee, CheckCircle, AlertTriangle } from 'lucide-react';
 import { checkAffordability } from './loan.utilities';
 import { TextInput } from '@react-lab/ui';
-import { formatCurrency } from '../../shared/utilities';
+import { formatCurrency } from '@react-lab/shared';
 
 interface AffordabilityCheckProps {
     monthlyEMI: number;

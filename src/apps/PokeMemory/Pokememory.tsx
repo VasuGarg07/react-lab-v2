@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
-import type { GameState } from "../../shared/constants";
 import { useAppSelector } from "../../store/useRedux";
 import GameBoard from "./Gameboard";
 import Result from "./GameResult";
 import Setup from "./Setup";
+
+type GameState = "setup" | "playing" | "game_end";
 
 const componentMap: Record<GameState, ReactNode> = {
     'setup': <Setup />,

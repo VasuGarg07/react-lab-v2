@@ -3,11 +3,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../../store/useRedux';
 import { QuizCategories } from './quiz.constants';
-import { toastService } from '../../shared/toastr';
+import { toastService } from '@react-lab/shared';
 import { setName, setQuizConfig } from '../../store/quizSlice';
 import { Select } from '@react-lab/ui';
-import { GameMode } from '../../shared/constants';
 import { useQuizQuestions } from './useQuizQuestions';
+
+const GameModes = ["easy", "medium", "difficult"];
 
 export default function QuizSetup() {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function QuizSetup() {
         enabled: false,
     });
 
-    const difficultyOptions = Object.values(GameMode).map(mode => ({
+    const difficultyOptions = GameModes.map(mode => ({
         value: mode,
         label: mode.charAt(0).toUpperCase() + mode.slice(1)
     }));

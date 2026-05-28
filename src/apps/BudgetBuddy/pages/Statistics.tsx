@@ -10,7 +10,7 @@ import {
     getCurrentMonthYear,
 } from '../helpers/expense.utils';
 import { CATEGORY_COLORS, TYPE_COLORS } from '../helpers/expense.constants';
-import { formatCurrency } from '../../../shared/utilities';
+import { formatCurrency } from '@react-lab/shared';
 
 const Tooltip_ = ({ active, payload, label }: any) => {
     if (!active || !payload?.length) return null;

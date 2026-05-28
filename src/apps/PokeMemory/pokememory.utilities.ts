@@ -1,4 +1,4 @@
-import { shuffleArray } from "../../shared/utilities";
+import { shuffleArray } from "@react-lab/shared";
 
 export interface CardType {
     id: string;

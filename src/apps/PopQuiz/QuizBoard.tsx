@@ -1,4 +1,4 @@
-import { shuffleArray } from "../../shared/utilities";
+import { shuffleArray } from "@react-lab/shared";
 import { useAppSelector } from "../../store/useRedux";
 import QuestionCard from "./QuestionCard";
 import { useState, useEffect } from "react";

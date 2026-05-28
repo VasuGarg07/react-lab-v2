@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router";
 import { NavMenu } from '@react-lab/ui';
-import { Apps } from "../shared/apps";
+import { Apps } from "./apps";
 import UserMenu from "../auth/UserMenu";
-import { usePageTitle } from "../shared/usePageTitle";
+import { usePageTitle } from "./usePageTitle";
 import { ThemeToggle } from "../styles/ThemeToggle";
 
 const Header = () => {

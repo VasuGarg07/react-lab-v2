@@ -1,4 +1,4 @@
-import { formatCurrency } from "../../shared/utilities";
+import { formatCurrency } from "@react-lab/shared";
 
 export interface LoanParams {
     loanAmount: number;

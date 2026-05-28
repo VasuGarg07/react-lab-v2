@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import type { Question } from './quiz.constants';
 import { incrementScore, nextQuestion, resetQuiz } from '../../store/quizSlice';
 import { useAppDispatch } from '../../store/useRedux';
-import { toastService } from '../../shared/toastr';
+import { toastService } from '@react-lab/shared';
 
 interface QuestionProps {
     question: Question;

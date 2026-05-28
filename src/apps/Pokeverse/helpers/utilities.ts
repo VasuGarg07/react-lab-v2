@@ -1,4 +1,4 @@
-import { shuffleArray } from '../../../shared/utilities';
+import { shuffleArray } from '@react-lab/shared';
 import { DAMAGE_MULTIPLIERS, REGIONS } from './constants';
 import type {
     Pokemon,

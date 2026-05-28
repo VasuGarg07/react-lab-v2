@@ -17,6 +17,9 @@ importers:
       '@dnd-kit/utilities':
         specifier: ^3.2.2
         version: 3.2.2(react@19.2.6)
+      '@react-lab/shared':
+        specifier: workspace:*
+        version: link:packages/shared
       '@react-lab/ui':
         specifier: workspace:*
         version: link:packages/ui
@@ -123,6 +126,30 @@ importers:
       vite:
         specifier: ^8.0.11
         version: 8.0.14(@types/node@25.9.1)(jiti@2.7.0)
+
+  packages/shared:
+    dependencies:
+      '@tanstack/react-query':
+        specifier: ^5.100.9
+        version: 5.100.14(react@19.2.6)
+      axios:
+        specifier: ^1.16.0
+        version: 1.16.1
+      jwt-decode:
+        specifier: ^4.0.0
+        version: 4.0.0
+      marked:
+        specifier: ^18.0.3
+        version: 18.0.4
+      react:
+        specifier: ^19.2.6
+        version: 19.2.6
+      react-dom:
+        specifier: ^19.2.6
+        version: 19.2.6(react@19.2.6)
+      react-toastify:
+        specifier: ^11.1.0
+        version: 11.1.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
 
   packages/ui:
     dependencies:

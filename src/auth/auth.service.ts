@@ -1,4 +1,4 @@
-import apiClient from "../shared/apiClient";
+import { apiClient } from "@react-lab/shared";
 import type { ChangePasswordData, LoginData, RegisterData } from "./auth.types";
 
 export const register = async (data: RegisterData): Promise<void> => {
