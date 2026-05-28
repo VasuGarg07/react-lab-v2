@@ -4,8 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { loginThunk } from "../store/authSlice";
 import { useAppDispatch } from "../store/useRedux";
-import LoadingButton from "../ui/LoadingButton";
-import TextInput from "../ui/TextInput";
+import { LoadingButton, TextInput } from '@react-lab/ui';
 import type { LoginData } from "./auth.types";
 
 const Login = () => {

@@ -6,7 +6,7 @@ interface SwitchProps {
     className?: string;
 }
 
-export default function Switch({
+export function Switch({
     label,
     checked,
     onChange,

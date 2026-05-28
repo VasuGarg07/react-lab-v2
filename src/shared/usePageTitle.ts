@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router';
-import { Apps } from '../shared/apps';
+import { Apps } from './apps';
 
 const APP_NAME = 'React Lab';
 

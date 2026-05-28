@@ -6,7 +6,7 @@ interface ProgressBarProps {
     className?: string;
 }
 
-export default function ProgressBar({
+export function ProgressBar({
     value,
     label,
     showValue = false,

@@ -9,7 +9,7 @@ import MovePanel from './MovePanel';
 import SwitchPanel from './SwitchPanel';
 import WaitingPanel from './WaitingPanel';
 import BattleEndDialog from './BattleEndDialog';
-import { useModal } from '../../../components/ModalContext';
+import { useModal } from '@react-lab/ui';
 
 export default function BattleScreen() {
     const dispatch = useAppDispatch();

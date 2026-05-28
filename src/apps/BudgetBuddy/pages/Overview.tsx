@@ -5,9 +5,7 @@ import { useTransactions } from '../hooks/useTransactionQuery';
 import { useTransactionFilters } from '../hooks/useTransactionFilters';
 import { useClearAllTransactions } from '../hooks/useTransactionMutations';
 import { ALL_CATEGORIES, DATE_FILTERS, SORT_OPTIONS } from '../helpers/expense.constants';
-import { useModal } from '../../../components/ModalContext';
-import { openAlertDialog } from '../../../ui/AlertDialog';
-import Select from '../../../ui/Select';
+import { useModal, openAlertDialog, Select } from '@react-lab/ui';
 
 export default function Overview() {
     const modal = useModal();

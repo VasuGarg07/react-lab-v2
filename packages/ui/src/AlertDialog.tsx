@@ -1,6 +1,6 @@
 import { type ReactNode, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
-import { useModal } from '../components/ModalContext';
+import { useModal } from './ModalContext';
 
 interface AlertDialogProps {
     title: string;
@@ -10,7 +10,7 @@ interface AlertDialogProps {
     onConfirm: () => void | Promise<void>;
 }
 
-export default function AlertDialog({
+export function AlertDialog({
     title,
     message,
     cancelText = 'Cancel',

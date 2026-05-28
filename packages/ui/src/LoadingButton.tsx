@@ -7,7 +7,7 @@ interface LoadingButtonProps
     fullWidth?: boolean;
 }
 
-const LoadingButton: React.FC<LoadingButtonProps> = ({
+export function LoadingButton ({
     children,
     isLoading = false,
     loadingText,
@@ -15,7 +15,7 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({
     disabled,
     className = "",
     ...props
-}) => {
+}: LoadingButtonProps) {
     return (
         <button
             disabled={disabled || isLoading}
@@ -56,5 +56,3 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({
         </button>
     );
 };
-
-export default LoadingButton;

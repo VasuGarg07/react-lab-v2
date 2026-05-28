@@ -13,7 +13,7 @@ interface NavMenuProps {
     className?: string;
 }
 
-const NavMenu = ({ links, className = '' }: NavMenuProps) => {
+export function NavMenu({ links, className = '' }: NavMenuProps) {
     const [open, setOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -60,5 +60,3 @@ const NavMenu = ({ links, className = '' }: NavMenuProps) => {
         </div>
     );
 };
-
-export default NavMenu;

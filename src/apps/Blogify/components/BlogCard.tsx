@@ -6,11 +6,9 @@ import { calculateReadTime, truncateContent } from '../helpers/blog.utils';
 import { formatRelativeTime } from '../../../shared/utilities';
 import { useAppSelector } from '../../../store/useRedux';
 import OptionsMenu, { type MenuAction } from './OptionsMenu';
-import { useModal } from '../../../components/ModalContext';
-import { openAlertDialog } from '../../../ui/AlertDialog';
+import { useModal, openAlertDialog, Select } from '@react-lab/ui';
 import { useDeleteBlog, useArchiveBlog, useMoveBlog } from '../hooks/useBlogMutations';
 import { useUserNotebooks } from '../hooks/useBlogQuery';
-import Select from '../../../ui/Select';
 
 interface BlogCardProps {
     blog: Blog;

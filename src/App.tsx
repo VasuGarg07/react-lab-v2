@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ModalProvider } from './components/ModalContext';
+import { ModalProvider } from '@react-lab/ui';
 import router from './Router';
 import { queryClient } from './shared/queryClient';
 import { forceLogout, initializeAuthThunk } from './store/authSlice';

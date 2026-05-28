@@ -1,6 +1,6 @@
 import { Calculator, Percent, Calendar } from 'lucide-react';
 import { formatIndianNumber, type LoanParams } from './loan.utilities';
-import Slider from '../../ui/Slider';
+import { Slider } from '@react-lab/ui';
 
 interface LoanInputsProps {
     loanParams: LoanParams;

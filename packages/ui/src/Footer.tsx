@@ -4,7 +4,7 @@ const SOCIALS = [
     { href: 'https://x.com/_vasugarg_', icon: '/icons/x.svg', label: 'X (Twitter)' },
 ];
 
-export default function Footer() {
+export function Footer() {
     return (
         <footer className="w-full border-t border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 shadow-sm">
             <div className="container mx-auto px-4 py-3">

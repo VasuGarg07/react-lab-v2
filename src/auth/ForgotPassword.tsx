@@ -4,8 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { changePasswordThunk } from "../store/authSlice";
 import { useAppDispatch } from "../store/useRedux";
-import LoadingButton from "../ui/LoadingButton";
-import TextInput from "../ui/TextInput";
+import { LoadingButton, TextInput } from '@react-lab/ui';
 import type { ChangePasswordData } from "./auth.types";
 
 const ForgotPassword = () => {

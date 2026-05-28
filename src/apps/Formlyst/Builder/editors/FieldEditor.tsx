@@ -4,10 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/useRedux';
 import { updateField } from '../../../../store/formBuilderSlice';
 import { ENTITY_COLORS, FIELD_TYPE_OPTIONS, LIMITS } from '../../helpers/constants';
 import type { FormField, FieldType } from '../../helpers/types';
-import TextInput from '../../../../ui/TextInput';
-import Select from '../../../../ui/Select';
-import Switch from '../../../../ui/Switch';
-import NumberInput from '../../../../ui/NumberInput';
+import { TextInput, Select, Switch, NumberInput } from '@react-lab/ui';
 
 interface FieldEditorProps {
     stepKey: string;

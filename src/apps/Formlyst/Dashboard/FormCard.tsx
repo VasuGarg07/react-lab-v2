@@ -3,7 +3,7 @@ import { MoreVertical, Edit, Copy, Trash2, BarChart3, ToggleLeft, ToggleRight, S
 import { useState } from 'react';
 import type { Form } from '../helpers/types';
 import { formatDate } from '../helpers/utils';
-import { useModal } from '../../../components/ModalContext';
+import { useModal } from '@react-lab/ui';
 import ShareDialog from './ShareDialog';
 
 interface FormCardProps {

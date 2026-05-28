@@ -10,8 +10,7 @@ import {
     setTeamSize
 } from '../../../store/battleSlice';
 import { useAppDispatch } from '../../../store/useRedux';
-import Slider from '../../../ui/Slider';
-import TextInput from '../../../ui/TextInput';
+import { Slider, TextInput } from '@react-lab/ui';
 import { DIFFICULTY_LEVELS, REGIONS } from '../helpers/constants';
 import type { DifficultyId } from '../helpers/types';
 

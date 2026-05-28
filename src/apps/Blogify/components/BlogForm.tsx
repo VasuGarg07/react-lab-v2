@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Plus, X } from 'lucide-react';
 import { BLOG_CONSTANTS, type BlogRequest, type Notebook } from '../helpers/blog.constants';
-import TextInput from '../../../ui/TextInput';
-import Select from '../../../ui/Select';
-import LoadingButton from '../../../ui/LoadingButton';
+import { TextInput, Select, LoadingButton } from '@react-lab/ui';
 import RichTextEditor from '../../../components/RichTextEditor';
 
 interface BlogFormProps {

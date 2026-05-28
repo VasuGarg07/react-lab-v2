@@ -1,9 +1,4 @@
-import Checkbox from '../../../ui/Checkbox';
-import NumberInput from '../../../ui/NumberInput';
-import RadioGroup from '../../../ui/RadioGroup';
-import Slider from '../../../ui/Slider';
-import Switch from '../../../ui/Switch';
-import TextInput from '../../../ui/TextInput';
+import { Checkbox, NumberInput, RadioGroup, Slider, Switch, TextInput } from '@react-lab/ui';
 import type { FormField } from '../helpers/types';
 
 interface FieldRendererProps {

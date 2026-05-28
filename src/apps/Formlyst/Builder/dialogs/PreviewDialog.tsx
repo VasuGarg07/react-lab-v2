@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
-import { useModal } from '../../../../components/ModalContext';
+import { useModal } from '@react-lab/ui';
 import { useAppSelector } from '../../../../store/useRedux';
 import StepProgress from '../../FormPublic/StepProgress';
 import StepRenderer from '../../FormPublic/StepRenderer';

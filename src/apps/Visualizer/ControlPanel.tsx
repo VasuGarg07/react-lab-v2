@@ -1,6 +1,5 @@
 import { Play, Pause, RefreshCw, RotateCcw } from 'lucide-react';
-import Select from '../../ui/Select';
-import Slider from '../../ui/Slider';
+import { Select, Slider } from '@react-lab/ui';
 
 const algorithmOptions = [
     { value: 'bubbleSort', label: 'Bubble Sort' },

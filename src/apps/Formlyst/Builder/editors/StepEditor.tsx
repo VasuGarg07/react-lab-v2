@@ -4,13 +4,10 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useAppDispatch, useAppSelector } from '../../../../store/useRedux';
 import { updateStep, addSection, removeSection, reorderSections, navigate } from '../../../../store/formBuilderSlice';
-import { useModal } from '../../../../components/ModalContext';
+import { useModal, openAlertDialog, TextInput, Textarea } from '@react-lab/ui';
 import SortableEntityCard from '../shared/SortableEntityCard';
 import AddEntityDialog from '../shared/AddEntityDialog';
 import { LIMITS, ENTITY_COLORS } from '../../helpers/constants';
-import { openAlertDialog } from '../../../../ui/AlertDialog';
-import TextInput from '../../../../ui/TextInput';
-import Textarea from '../../../../ui/Textarea';
 
 interface StepEditorProps {
     stepKey: string;

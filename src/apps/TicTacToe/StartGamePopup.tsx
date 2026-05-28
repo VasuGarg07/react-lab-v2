@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useModal } from '../../components/ModalContext';
+import { useModal } from '@react-lab/ui';
 import { Instructions } from './ttt.helpers';
 
 interface StartGamePopupProps {

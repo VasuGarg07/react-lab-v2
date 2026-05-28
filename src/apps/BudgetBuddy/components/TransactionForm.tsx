@@ -7,10 +7,7 @@ import {
 } from '../helpers/expense.constants';
 import { formatDateForInput } from '../helpers/expense.utils';
 import { useAddTransaction, useUpdateTransaction } from '../hooks/useTransactionMutations';
-import { useModal } from '../../../components/ModalContext';
-import TextInput from '../../../ui/TextInput';
-import Select from '../../../ui/Select';
-import LoadingButton from '../../../ui/LoadingButton';
+import { useModal, TextInput, Select, LoadingButton } from '@react-lab/ui';
 
 interface TransactionFormData {
     title: string

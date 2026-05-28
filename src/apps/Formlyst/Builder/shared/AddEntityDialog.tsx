@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useModal } from '../../../../components/ModalContext';
+import { useModal, TextInput, Select } from '@react-lab/ui';
 import { FIELD_TYPE_OPTIONS, ENTITY_COLORS } from '../../helpers/constants';
 import type { EntityType, FieldType } from '../../helpers/types';
-import TextInput from '../../../../ui/TextInput';
-import Select from '../../../../ui/Select';
 
 interface AddEntityDialogProps {
     entityType: Exclude<EntityType, 'form'>;

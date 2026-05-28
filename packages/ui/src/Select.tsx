@@ -21,7 +21,7 @@ interface SelectProps {
     className?: string;
 }
 
-export default function Select({
+export function Select({
     label,
     id,
     name,

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { IndianRupee, CheckCircle, AlertTriangle } from 'lucide-react';
 import { checkAffordability } from './loan.utilities';
-import TextInput from '../../ui/TextInput';
+import { TextInput } from '@react-lab/ui';
 import { formatCurrency } from '../../shared/utilities';
 
 interface AffordabilityCheckProps {

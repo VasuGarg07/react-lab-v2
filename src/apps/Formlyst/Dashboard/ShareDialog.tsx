@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Copy, Check, ExternalLink } from 'lucide-react';
-import { useModal } from '../../../components/ModalContext';
+import { useModal } from '@react-lab/ui';
 
 interface ShareDialogProps {
     formTitle: string;

@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import { BLOGIFY_ROUTES, type Notebook } from '../helpers/blog.constants';
 import { useAppSelector } from '../../../store/useRedux';
 import OptionsMenu, { type MenuAction } from './OptionsMenu';
-import { useModal } from '../../../components/ModalContext';
-import { openAlertDialog } from '../../../ui/AlertDialog';
+import { useModal, openAlertDialog } from '@react-lab/ui';
 import { useDeleteNotebook } from '../hooks/useBlogMutations';
 
 interface NotebookCardProps {

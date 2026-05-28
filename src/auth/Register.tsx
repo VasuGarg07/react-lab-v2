@@ -4,9 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { registerThunk } from "../store/authSlice";
 import { useAppDispatch } from "../store/useRedux";
-import LoadingButton from "../ui/LoadingButton";
-import Select from "../ui/Select";
-import TextInput from "../ui/TextInput";
+import { LoadingButton, Select, TextInput } from '@react-lab/ui';
 import type { RegisterData } from "./auth.types";
 
 const Register = () => {

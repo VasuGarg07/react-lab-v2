@@ -9,7 +9,7 @@ interface CheckboxProps {
     className?: string;
 }
 
-export default function Checkbox({
+export function Checkbox({
     label,
     checked,
     onChange,

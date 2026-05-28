@@ -1,6 +1,6 @@
 import { Home, LayoutList, PieChart, Wallet } from 'lucide-react';
 import { Outlet } from 'react-router';
-import FloatingNav from '../../../ui/FloatingNav';
+import { FloatingNav } from '@react-lab/ui';
 
 const navItems = [
     { to: '/budgetbuddy/home', icon: <Home className="w-4 h-4" />, label: 'Dashboard' },

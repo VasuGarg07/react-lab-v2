@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router';
 import { Plus, FileText, Loader2 } from 'lucide-react';
-import { useModal } from '../../../components/ModalContext';
+import { useModal, openAlertDialog } from '@react-lab/ui';
 import { useForms } from '../hooks/useFormQueries';
 import { useCreateForm, useDeleteForm, useDuplicateForm, useToggleFormStatus } from '../hooks/useFormMutations';
 import FormCard from './FormCard';
 import TemplateDialog from './TemplateDialog';
 import type { FormTemplate } from '../helpers/templates';
-import { openAlertDialog } from '../../../ui/AlertDialog';
 
 export default function Dashboard() {
   const navigate = useNavigate();

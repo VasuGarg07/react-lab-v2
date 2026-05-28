@@ -9,8 +9,7 @@ import { usePagination } from '../hooks/usePagination';
 import BlogGallery from '../components/BlogGallery';
 import { formatDate } from '../../../shared/utilities';
 import OptionsMenu, { type MenuAction } from '../components/OptionsMenu';
-import { useModal } from '../../../components/ModalContext';
-import { openAlertDialog } from '../../../ui/AlertDialog';
+import { useModal, openAlertDialog } from '@react-lab/ui';
 
 export default function NotebookDetail() {
     const { notebookId } = useParams<{ notebookId: string }>();
@@ -56,7 +55,7 @@ export default function NotebookDetail() {
 
     if (notebookLoading) {
         return (
-            <div className="flex justify-center items-center min-h-[400px]">
+            <div className="flex justify-center items-center min-h-100">
                 <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
             </div>
         );
@@ -64,7 +63,7 @@ export default function NotebookDetail() {
 
     if (!notebook) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
+            <div className="flex flex-col items-center justify-center min-h-100 text-center">
                 <p className="font-serif text-xl text-stone-800 dark:text-stone-200 mb-2">
                     Notebook not found
                 </p>

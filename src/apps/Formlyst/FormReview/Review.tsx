@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
 import { goToStep, resetForm } from '../../../store/formRendererSlice';
 import { useSubmitResponse } from '../hooks/useFormMutations';
 import ReviewSection from './ReviewSection';
-import LoadingButton from '../../../ui/LoadingButton';
+import { LoadingButton } from '@react-lab/ui';
 
 type ViewState = 'review' | 'success';
 

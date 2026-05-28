@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Upload, FileJson, AlertCircle } from 'lucide-react';
 import { useAppDispatch } from '../../../../store/useRedux';
 import { loadForm } from '../../../../store/formBuilderSlice';
-import { useModal } from '../../../../components/ModalContext';
+import { useModal } from '@react-lab/ui';
 import { validateFormConfig } from '../../helpers/schemas';
 import type { FormConfig } from '../../helpers/types';
 

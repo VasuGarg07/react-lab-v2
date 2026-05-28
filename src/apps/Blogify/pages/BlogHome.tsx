@@ -5,7 +5,7 @@ import { BLOGIFY_ROUTES } from '../helpers/blog.constants';
 import NotebookCard from '../components/NotebookCard';
 import BlogCard from '../components/BlogCard';
 import { useBlogs, useNotebooks } from '../hooks/useBlogQuery';
-import ScrollSection from '../../../ui/ScrollSection';
+import { ScrollSection } from '@react-lab/ui';
 
 const getGreeting = () => {
     const hour = new Date().getHours();
@@ -26,7 +26,7 @@ export default function BlogHome() {
 
     if (notebooksLoading || blogsLoading) {
         return (
-            <div className="flex justify-center items-center min-h-[400px]">
+            <div className="flex justify-center items-center min-h-100">
                 <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
             </div>
         );

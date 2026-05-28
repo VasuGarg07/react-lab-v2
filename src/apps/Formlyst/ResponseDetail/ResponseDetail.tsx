@@ -1,11 +1,10 @@
 import { useParams, useNavigate } from 'react-router';
 import { ArrowLeft, Trash2, FileText, Loader2, Globe, Monitor, Smartphone, Calendar, Clock } from 'lucide-react';
-import { useModal } from '../../../components/ModalContext';
+import { useModal, openAlertDialog } from '@react-lab/ui';
 import { useFormById, useResponseById } from '../hooks/useFormQueries';
 import { useDeleteResponse } from '../hooks/useFormMutations';
 import { formatDate } from '../helpers/utils';
 import type { FormField } from '../helpers/types';
-import { openAlertDialog } from '../../../ui/AlertDialog';
 
 export default function ResponseDetail() {
     const { id, responseId } = useParams<{ id: string; responseId: string }>();

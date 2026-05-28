@@ -13,7 +13,7 @@ interface NumberInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "
     showControls?: boolean;
 }
 
-export default function NumberInput({
+export function NumberInput({
     label,
     error,
     required,

@@ -9,8 +9,7 @@ import { useUserBlogs, useUserNotebooks } from '../hooks/useBlogQuery';
 import { useDeleteAllBlogs, useDeleteArchivedBlogs } from '../hooks/useBlogMutations';
 import { usePagination } from '../hooks/usePagination';
 import NotebooksGrid from '../components/NotebooksGrid';
-import { useModal } from '../../../components/ModalContext';
-import { openAlertDialog } from '../../../ui/AlertDialog';
+import { useModal, openAlertDialog } from '@react-lab/ui';
 
 type Tab = 'notebooks' | 'blogs';
 

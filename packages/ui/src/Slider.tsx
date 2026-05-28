@@ -11,7 +11,7 @@ interface SliderProps {
     className?: string;
 }
 
-export default function Slider({
+export function Slider({
     label,
     value,
     min,

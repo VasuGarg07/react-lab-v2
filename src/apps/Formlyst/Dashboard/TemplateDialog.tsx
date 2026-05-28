@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Check } from 'lucide-react';
-import { useModal } from '../../../components/ModalContext';
+import { useModal, LoadingButton } from '@react-lab/ui';
 import { TEMPLATES, type FormTemplate } from '../helpers/templates';
-import LoadingButton from '../../../ui/LoadingButton';
 
 interface TemplateDialogProps {
     onCreate: (template: FormTemplate) => void;

@@ -13,7 +13,7 @@ interface FloatingNavProps {
     navItems: NavItem[];
 }
 
-export default function FloatingNav({ appName, appIcon, navItems }: FloatingNavProps) {
+export function FloatingNav({ appName, appIcon, navItems }: FloatingNavProps) {
     return (
         <nav className="px-4 py-3">
             <div className="max-w-3xl mx-auto">

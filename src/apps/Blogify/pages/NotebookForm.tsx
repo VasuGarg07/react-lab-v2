@@ -6,10 +6,7 @@ import { BLOGIFY_ROUTES, BLOG_CONSTANTS, type NotebookRequest } from '../helpers
 import { isValidImageUrl } from '../helpers/blog.utils';
 import { useNotebook } from '../hooks/useBlogQuery';
 import { useCreateNotebook, useUpdateNotebook } from '../hooks/useBlogMutations';
-import TextInput from '../../../ui/TextInput';
-import Textarea from '../../../ui/Textarea';
-import Switch from '../../../ui/Switch';
-import LoadingButton from '../../../ui/LoadingButton';
+import { TextInput, Textarea, Switch, LoadingButton } from '@react-lab/ui';
 
 export default function NotebookForm() {
     const { notebookId } = useParams<{ notebookId: string }>();
@@ -49,7 +46,7 @@ export default function NotebookForm() {
 
     if (isEditMode && notebookLoading) {
         return (
-            <div className="flex justify-center items-center min-h-[400px]">
+            <div className="flex justify-center items-center min-h-100">
                 <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
             </div>
         );

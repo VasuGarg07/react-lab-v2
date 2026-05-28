@@ -15,7 +15,7 @@ interface RadioGroupProps {
     className?: string;
 }
 
-export default function RadioGroup({
+export function RadioGroup({
     label,
     options,
     value,

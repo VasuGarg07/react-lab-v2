@@ -1,12 +1,11 @@
 import { useParams, useNavigate } from 'react-router';
 import { ArrowLeft, Download, Trash2, FileText, Loader2, Inbox, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-import { useModal } from '../../../components/ModalContext';
+import { useModal, openAlertDialog } from '@react-lab/ui';
 import { useFormById, useResponses } from '../hooks/useFormQueries';
 import { useDeleteResponse, useDeleteAllResponses } from '../hooks/useFormMutations';
 import { downloadJson, downloadXml } from '../helpers/utils';
 import ResponseCard from './ResponseCard';
-import { openAlertDialog } from '../../../ui/AlertDialog';
 
 export default function Responses() {
     const { id } = useParams<{ id: string }>();

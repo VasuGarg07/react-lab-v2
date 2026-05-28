@@ -3,8 +3,7 @@ import CategoryIcon from './CategoryIcon';
 import { openTransactionForm } from './TransactionForm';
 import { useDeleteTransaction } from '../hooks/useTransactionMutations';
 import type { Transaction } from '../helpers/expense.constants';
-import { useModal } from '../../../components/ModalContext';
-import { openAlertDialog } from '../../../ui/AlertDialog';
+import { useModal, openAlertDialog } from '@react-lab/ui';
 import { formatCurrency, formatDate } from '../../../shared/utilities';
 
 interface TransactionListProps {

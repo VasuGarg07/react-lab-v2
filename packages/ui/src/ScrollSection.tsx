@@ -11,7 +11,7 @@ interface ScrollSectionProps {
     itemWidth?: string;
 }
 
-export default function ScrollSection({
+export function ScrollSection({
     title,
     subtitle,
     actionLabel,

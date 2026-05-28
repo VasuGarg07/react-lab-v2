@@ -13,7 +13,7 @@ import {
     sortByDate,
     getCurrentMonthYear,
 } from '../helpers/expense.utils';
-import { useModal } from '../../../components/ModalContext';
+import { useModal } from '@react-lab/ui';
 import { formatCurrency } from '../../../shared/utilities';
 
 export default function BudgetHome() {

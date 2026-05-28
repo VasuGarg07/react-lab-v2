@@ -5,7 +5,7 @@ import { formatJson, jsonToXml, downloadFile } from './json.utilities';
 import type { JsonValue } from './json.utilities';
 import UrlFetchDialog from './UrlFetchDialog';
 import { useAppDispatch, useAppSelector } from '../../store/useRedux';
-import { useModal } from '../../components/ModalContext';
+import { useModal } from '@react-lab/ui';
 import { setParsedJson } from '../../store/jsonViewerSlice';
 import JsonNode from './JsonNode';
 

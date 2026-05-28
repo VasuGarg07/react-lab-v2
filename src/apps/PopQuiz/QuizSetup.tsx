@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../store/useRedux';
 import { QuizCategories } from './quiz.constants';
 import { toastService } from '../../shared/toastr';
 import { setName, setQuizConfig } from '../../store/quizSlice';
-import Select from '../../ui/Select';
+import { Select } from '@react-lab/ui';
 import { GameMode } from '../../shared/constants';
 import { useQuizQuestions } from './useQuizQuestions';
 

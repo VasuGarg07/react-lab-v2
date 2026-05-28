@@ -6,7 +6,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
     required?: boolean;
 }
 
-export default function Textarea({
+export function Textarea({
     label,
     error,
     required,

@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 import { BLOGIFY_ROUTES, type Notebook } from '../helpers/blog.constants';
 import { Plus } from 'lucide-react';
 import NotebookCard from '../components/NotebookCard';
-import Pagination from '../../../ui/Pagination';
+import { Pagination } from '@react-lab/ui';
 
 interface NotebooksGridProps {
     notebooks: Notebook[];
@@ -15,7 +15,7 @@ interface NotebooksGridProps {
 export default function NotebooksGrid({ notebooks, currentPage, totalPages, onPageChange, isLoading }: NotebooksGridProps) {
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center min-h-[300px]">
+            <div className="flex justify-center items-center min-h-75">
                 <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
             </div>
         );

@@ -1,7 +1,7 @@
 import { FileText } from 'lucide-react';
 import type { Blog } from '../helpers/blog.constants';
 import BlogCard from './BlogCard';
-import Pagination from '../../../ui/Pagination';
+import { Pagination } from '@react-lab/ui';
 
 interface BlogGalleryProps {
     blogs: Blog[];
@@ -24,7 +24,7 @@ export default function BlogGallery({
 }: BlogGalleryProps) {
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center min-h-[300px]">
+            <div className="flex justify-center items-center min-h-75">
                 <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
             </div>
         );
@@ -32,7 +32,7 @@ export default function BlogGallery({
 
     if (blogs.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[300px] text-center px-4">
+            <div className="flex flex-col items-center justify-center min-h-75 text-center px-4">
                 <div className="w-12 h-12 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center mb-4">
                     <FileText className="w-5 h-5 text-stone-400 dark:text-stone-500" strokeWidth={1.5} />
                 </div>

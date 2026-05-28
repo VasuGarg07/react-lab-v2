@@ -1,11 +1,10 @@
 import { ArrowLeft, Check, Download, Eye, MoreVertical, RotateCcw, Save, Upload } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useModal } from '../../../components/ModalContext';
+import { useModal, openAlertDialog } from '@react-lab/ui';
 import { resetForm } from '../../../store/formBuilderSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
 import { downloadJson } from '../helpers/utils';
-import { openAlertDialog } from '../../../ui/AlertDialog';
 import PreviewDialog from './dialogs/PreviewDialog';
 import ImportDialog from './dialogs/ImportDialog';
 

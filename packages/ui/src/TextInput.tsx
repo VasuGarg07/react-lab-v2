@@ -8,7 +8,7 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
     showPasswordToggle?: boolean;
 }
 
-const TextInput = ({
+export function TextInput({
     label,
     type = "text",
     error,
@@ -19,7 +19,7 @@ const TextInput = ({
     name,
     disabled,
     ...rest
-}: TextInputProps) => {
+}: TextInputProps) {
     const [showPassword, setShowPassword] = useState(false);
 
     const isPassword = type === "password";
@@ -28,12 +28,14 @@ const TextInput = ({
 
     return (
         <div className="space-y-1.5">
-            <label
-                htmlFor={inputId}
-                className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
-            >
-                {label}
-            </label>
+            {label && (
+                <label
+                    htmlFor={inputId}
+                    className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+                >
+                    {label}
+                </label>
+            )}
 
             <div className="relative">
                 {icon && (
@@ -87,5 +89,3 @@ const TextInput = ({
         </div>
     );
 };
-
-export default TextInput;

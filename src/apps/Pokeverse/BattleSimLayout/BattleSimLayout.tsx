@@ -1,7 +1,7 @@
 import { Outlet, useLocation, useNavigate, Navigate } from 'react-router';
 import { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
-import { useModal } from '../../../components/ModalContext';
+import { useModal } from '@react-lab/ui';
 import ContinueBattleDialog from './ContinueBattleDialog';
 import { isInitialBattleState, loadBattleState } from '../../../store/battleSlice';
 

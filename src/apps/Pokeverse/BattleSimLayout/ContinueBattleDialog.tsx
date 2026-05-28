@@ -1,4 +1,4 @@
-import { useModal } from '../../../components/ModalContext';
+import { useModal } from '@react-lab/ui';
 import { resetBattle } from '../../../store/battleSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/useRedux';
 

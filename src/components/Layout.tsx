@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from 'react-router';
-import Footer from '../components/Footer';
+import { Footer } from '@react-lab/ui';
 import { useEffect } from 'react';
 import Header from '../components/Header';
 import { Suspense } from "react";
