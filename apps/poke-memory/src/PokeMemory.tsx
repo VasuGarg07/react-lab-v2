@@ -1,0 +1,23 @@
+import type { ReactNode } from 'react';
+import { useAppSelector } from './store/useRedux';
+import GameBoard from './Gameboard';
+import Result from './GameResult';
+import Setup from './Setup';
+
+type GameState = 'setup' | 'playing' | 'game_end';
+
+const componentMap: Record<GameState, ReactNode> = {
+    setup: <Setup />,
+    playing: <GameBoard />,
+    game_end: <Result />,
+};
+
+export default function PokeMemory() {
+    const gameState = useAppSelector((state) => state.pokeMemory.gameState);
+
+    return (
+        <div className="min-h-[calc(100vh-62px)] w-full bg-neutral-50 dark:bg-neutral-950 flex items-center justify-center p-4">
+            {componentMap[gameState]}
+        </div>
+    );
+}

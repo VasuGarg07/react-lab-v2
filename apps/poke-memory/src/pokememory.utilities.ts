@@ -1,4 +1,4 @@
-import { shuffleArray } from "@react-lab/shared";
+import { shuffleArray } from '@react-lab/shared';
 
 export interface CardType {
     id: string;
@@ -8,7 +8,6 @@ export interface CardType {
     matched: boolean;
 }
 
-// Card images
 const CARD_BACK = '/images/pokemon_card_back.webp';
 
 const CARD_IMAGES = [
@@ -26,16 +25,8 @@ const CARD_IMAGES = [
     '/images/012.webp',
 ];
 
-/**
- * Generates a shuffled deck of card pairs for the memory game
- * @param pairCount - Number of unique pairs to include (default: 6)
- * @returns Array of CardType objects ready for the game
- */
 export const loadCards = (pairCount: number = 6): CardType[] => {
-    // Select random cards
     const selectedCards = shuffleArray(CARD_IMAGES).slice(0, pairCount);
-
-    // Create pairs with matching IDs
     const gameCards = [...selectedCards, ...selectedCards].map((image, index) => ({
         id: `card-${index}`,
         frontImage: image,
@@ -45,23 +36,14 @@ export const loadCards = (pairCount: number = 6): CardType[] => {
             : `card-${index - pairCount}`,
         matched: false,
     }));
-
-    // Shuffle the pairs
     return shuffleArray(gameCards);
 };
 
-/**
- * Get number of pairs based on difficulty
- */
 export const getPairCountForDifficulty = (difficulty: string): number => {
     switch (difficulty) {
-        case 'easy':
-            return 6;
-        case 'medium':
-            return 8;
-        case 'hard':
-            return 12;
-        default:
-            return 6;
+        case 'easy': return 6;
+        case 'medium': return 8;
+        case 'hard': return 12;
+        default: return 6;
     }
 };

@@ -1,7 +1,7 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { CardType } from "../apps/PokeMemory/pokememory.utilities";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { CardType } from '../pokememory.utilities';
 
-type GameState = "setup" | "playing" | "game_end";
+type GameState = 'setup' | 'playing' | 'game_end';
 
 interface PokeMemoryState {
     name: string;
@@ -26,7 +26,7 @@ const initialState: PokeMemoryState = {
 };
 
 const pokeMemorySlice = createSlice({
-    name: "pokeMemory",
+    name: 'pokeMemory',
     initialState,
     reducers: {
         setName(state, action: PayloadAction<string>) {
@@ -57,7 +57,7 @@ const pokeMemorySlice = createSlice({
         markCardsAsMatched(state, action: PayloadAction<{ firstId: string; secondId: string }>) {
             const { firstId, secondId } = action.payload;
             state.cards = state.cards.map(card =>
-                (card.id === firstId || card.id === secondId)
+                card.id === firstId || card.id === secondId
                     ? { ...card, matched: true }
                     : card
             );
@@ -75,16 +75,9 @@ const pokeMemorySlice = createSlice({
 });
 
 export const {
-    setName,
-    setDifficulty,
-    setGameState,
-    setCards,
-    setFirstChoice,
-    setSecondChoice,
-    setInteraction,
-    markCardsAsMatched,
-    resetTurn,
-    resetGame,
+    setName, setDifficulty, setGameState, setCards,
+    setFirstChoice, setSecondChoice, setInteraction,
+    markCardsAsMatched, resetTurn, resetGame,
 } = pokeMemorySlice.actions;
 
 export default pokeMemorySlice.reducer;
