@@ -657,6 +657,42 @@ importers:
         specifier: ^8.0.11
         version: 8.0.14(@types/node@25.9.1)(jiti@2.7.0)
 
+  packages/auth:
+    dependencies:
+      '@react-lab/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@react-lab/ui':
+        specifier: workspace:*
+        version: link:../ui
+      '@reduxjs/toolkit':
+        specifier: ^2.11.2
+        version: 2.12.0(react-redux@9.3.0(@types/react@19.2.15)(react@19.2.6)(redux@5.0.1))(react@19.2.6)
+      jwt-decode:
+        specifier: ^4.0.0
+        version: 4.0.0
+      lucide-react:
+        specifier: ^1.14.0
+        version: 1.16.0(react@19.2.6)
+      react:
+        specifier: ^19.2.6
+        version: 19.2.6
+      react-dom:
+        specifier: ^19.2.6
+        version: 19.2.6(react@19.2.6)
+      react-hook-form:
+        specifier: ^7.75.0
+        version: 7.76.1(react@19.2.6)
+      react-redux:
+        specifier: ^9.2.0
+        version: 9.3.0(@types/react@19.2.15)(react@19.2.6)(redux@5.0.1)
+      react-router:
+        specifier: ^7.6.2
+        version: 7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      react-toastify:
+        specifier: ^11.1.0
+        version: 11.1.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+
   packages/shared:
     dependencies:
       '@tanstack/react-query':
