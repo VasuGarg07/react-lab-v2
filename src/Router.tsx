@@ -26,7 +26,6 @@ import ResponseDetail from "./apps/Formlyst/ResponseDetail/ResponseDetail";
 import Responses from "./apps/Formlyst/Responses/Responses";
 import Homepage from "./apps/Home/Homepage";
 import LoanWizard from "./apps/LoanWizard/LoanWizard";
-import MarkdownLive from "./apps/Markdown/MarkdownLive";
 import PokeMemory from "./apps/PokeMemory/Pokememory";
 import BattleScreen from "./apps/Pokeverse/BattleScreen/BattleScreen";
 import BattleSetup from "./apps/Pokeverse/BattleSetup/BattleSetup";
@@ -53,7 +52,6 @@ const router = createBrowserRouter([
         children: [
             // Public mini-apps
             { index: true, element: <Homepage /> },
-            { path: 'markdown', element: <MarkdownLive /> },
             { path: 'poke-memory', element: <PokeMemory /> },
             { path: 'loan-wizard', element: <LoanWizard /> },
             {

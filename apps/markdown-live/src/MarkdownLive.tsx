@@ -3,16 +3,16 @@ import { Copy, Download } from 'lucide-react';
 import { SAMPLE_INPUT } from './sample';
 import { toastService, markdownToHtml } from '@react-lab/shared';
 
-function MarkdownLive() {
+export default function MarkdownLive() {
     const [markdown, setMarkdown] = useState(SAMPLE_INPUT);
     const htmlContent = markdownToHtml(markdown);
 
     const copyToClipboard = async () => {
         try {
             await navigator.clipboard.writeText(markdown);
-            toastService.info("Content copied to clipboard!")
+            toastService.info('Content copied to clipboard!');
         } catch (err) {
-            toastService.error("Failed to Copy!")
+            toastService.error('Failed to Copy!');
             console.error('Failed to copy:', err);
         }
     };
@@ -28,7 +28,7 @@ function MarkdownLive() {
     };
 
     return (
-        <div className="relative w-full h-[calc(100vh-120px)]">
+        <div className="relative w-full h-[calc(100vh-62px)]">
             <div className="flex flex-col lg:flex-row h-full">
                 {/* Editor Pane */}
                 <div className="relative w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-neutral-200 dark:border-neutral-700 h-1/2 lg:h-full bg-white dark:bg-neutral-900">
@@ -71,7 +71,6 @@ function MarkdownLive() {
                             Preview
                         </span>
                     </div>
-
                     <div
                         className="markdown max-w-none p-4 pt-16 sm:p-6 sm:pt-16 h-full overflow-auto"
                         dangerouslySetInnerHTML={{ __html: htmlContent }}
@@ -81,5 +80,3 @@ function MarkdownLive() {
         </div>
     );
 }
-
-export default MarkdownLive;
