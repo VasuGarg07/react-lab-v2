@@ -1,10 +1,12 @@
 import { Outlet } from 'react-router';
+import { useScrollToTop } from '@react-lab/shared';
 import QuizImage from '/quiz.svg';
 
 export default function QuizWrapper() {
+    useScrollToTop();
+
     return (
         <div className="min-h-[calc(100vh-64px)] w-full flex items-center justify-center p-4 bg-neutral-50 dark:bg-neutral-950">
-            {/* Main content card */}
             <div className="bg-white dark:bg-neutral-900 rounded-xl p-3 md:p-4 w-full max-w-5xl shadow-lg border border-neutral-200 dark:border-neutral-700">
                 <h2 className="text-xl md:text-2xl text-center uppercase tracking-wider font-bold text-neutral-900 dark:text-neutral-100">
                     Quizzo
@@ -17,7 +19,7 @@ export default function QuizWrapper() {
                     </span>
                 </div>
 
-                <div className="flex flex-col sm:flex-row w-full min-h-[380px]">
+                <div className="flex flex-col sm:flex-row w-full min-h-100">
                     <div className="w-full sm:w-1/2 flex items-center justify-center">
                         <div className="w-full max-w-md">
                             <Outlet />

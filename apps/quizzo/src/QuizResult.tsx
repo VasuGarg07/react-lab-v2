@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from "../../store/useRedux";
-import { resetQuiz } from '../../store/quizSlice';
+import { useAppDispatch, useAppSelector } from "./store/useRedux";
+import { resetQuiz } from './store/quizSlice';
 
 export default function QuizResult() {
     const navigate = useNavigate();

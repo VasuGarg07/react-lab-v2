@@ -1,10 +1,10 @@
 import { Award, Dices, Grid3X3, User } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../../store/useRedux';
+import { useAppDispatch, useAppSelector } from './store/useRedux';
 import { QuizCategories } from './quiz.constants';
 import { toastService } from '@react-lab/shared';
-import { setName, setQuizConfig } from '../../store/quizSlice';
+import { setName, setQuizConfig } from './store/quizSlice';
 import { Select } from '@react-lab/ui';
 import { useQuizQuestions } from './useQuizQuestions';
 
@@ -70,7 +70,7 @@ export default function QuizSetup() {
             }));
 
             navigate('/quizzo/play');
-        } catch (error) {
+        } catch {
             toastService.error("Failed to fetch quiz questions. Please try again.");
         }
     };

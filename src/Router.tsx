@@ -33,10 +33,6 @@ import PokemonDetails from "./apps/Pokeverse/PokemonDetails/PokemonDetails";
 import Pokeverse from "./apps/Pokeverse/Pokeverse";
 import PrepareBattle from "./apps/Pokeverse/PrepareBattle/PrepareBattle";
 import TeamSelection from "./apps/Pokeverse/TeamSelection/TeamSelection";
-import QuizBoard from "./apps/PopQuiz/QuizBoard";
-import QuizResult from "./apps/PopQuiz/QuizResult";
-import QuizSetup from "./apps/PopQuiz/QuizSetup";
-import QuizWrapper from "./apps/PopQuiz/QuizWrapper";
 import MealDetails from "./apps/RecipeHaven/MealDetails";
 import MealGallery from "./apps/RecipeHaven/MealGallery";
 import MealWrapper from "./apps/RecipeHaven/MealWrapper";
@@ -50,16 +46,6 @@ const router = createBrowserRouter([
         children: [
             // Public mini-apps
             { index: true, element: <Homepage /> },
-            {
-                path: 'quizzo',
-                element: <QuizWrapper />,
-                children: [
-                    { index: true, element: <QuizSetup /> },
-                    { path: 'play', element: <QuizBoard /> },
-                    { path: 'result', element: <QuizResult /> },
-                    { path: '*', element: <Navigate to='/quizzo' replace /> },
-                ]
-            },
             {
                 path: 'recipe-haven',
                 element: <Outlet />,

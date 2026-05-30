@@ -3,3 +3,4 @@ export * from './queryClient';
 export * from './toastr';
 export * from './utilities';
 export * from './config';
+export * from './useScrollToTop';

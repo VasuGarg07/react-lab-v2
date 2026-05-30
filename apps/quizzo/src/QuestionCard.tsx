@@ -2,8 +2,8 @@ import { ChevronRight, X } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import type { Question } from './quiz.constants';
-import { incrementScore, nextQuestion, resetQuiz } from '../../store/quizSlice';
-import { useAppDispatch } from '../../store/useRedux';
+import { incrementScore, nextQuestion, resetQuiz } from './store/quizSlice';
+import { useAppDispatch } from './store/useRedux';
 import { toastService } from '@react-lab/shared';
 
 interface QuestionProps {
@@ -82,7 +82,7 @@ export default function QuestionCard({ question, options, questionNumber, totalQ
                             className={`
                 min-h-12 p-3 rounded-lg border font-medium text-sm transition-all duration-200
                 focus:outline-none focus:ring-2 focus:ring-offset-0
-                disabled:cursor-not-allowed 
+                disabled:cursor-not-allowed
                 ${selectionState === 'correct'
                                     ? 'bg-emerald-500 hover:bg-emerald-500 text-white border-emerald-500'
                                     : ''

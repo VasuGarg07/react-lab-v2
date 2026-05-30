@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { Question } from "../apps/PopQuiz/quiz.constants";
+import type { Question } from "../quiz.constants";
 
 interface QuizConfig {
     category: string;
