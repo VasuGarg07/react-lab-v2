@@ -19,8 +19,8 @@ const MiniBoard = ({ board, onPlay, boardIndex }: MiniBoardProps) => {
                             onClick={() => onPlay(boardIndex, rIndex, cIndex)}
                             disabled={!isEmpty}
                             className={`
-                                aspect-square flex items-center justify-center 
-                                text-lg sm:text-xl font-semibold select-none 
+                                aspect-square flex items-center justify-center
+                                text-lg sm:text-xl font-semibold select-none
                                 rounded-md transition-all duration-200
                                 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0
                                 ${isEmpty

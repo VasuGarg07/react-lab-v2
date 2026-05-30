@@ -3,7 +3,6 @@ import { NavMenu } from '@react-lab/ui';
 import { Apps } from "./apps";
 import UserMenu from "../auth/UserMenu";
 import { usePageTitle } from "./usePageTitle";
-import { ThemeToggle } from "../styles/ThemeToggle";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -24,7 +23,6 @@ const Header = () => {
 
             {/* Right side */}
             <div className="flex items-center gap-3">
-                <ThemeToggle />
                 <UserMenu />
             </div>
         </nav>

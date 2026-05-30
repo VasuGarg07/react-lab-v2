@@ -18,11 +18,10 @@ const SuperTicTacToe = () => {
     const [gameWinner, setGameWinner] = useState<string | null>(null);
     const [gameStarted, setGameStarted] = useState<boolean>(false);
     const [timer, setTimer] = useState<number>(TIMEOUT);
-    const timeoutRef = useRef<any | null>(null);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
-        if (!gameStarted) return;
-        if (gameWinner) return;
+        if (!gameStarted || gameWinner) return;
 
         if (timer === 0) {
             const move = makeRandomMove(boards, winners, nextBoard);
@@ -31,20 +30,16 @@ const SuperTicTacToe = () => {
                 handlePlay(bIndex, rIndex, cIndex);
             }
             setTimer(TIMEOUT);
+            return;
         }
 
         timeoutRef.current = setTimeout(() => setTimer(timer - 1), 1000);
-
         return () => {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
         };
     }, [timer, gameWinner, gameStarted, boards, winners, nextBoard]);
 
-    const handleStartGame = () => {
-        setGameStarted(true);
-    };
+    const handleStartGame = () => setGameStarted(true);
 
     const handleRestartGame = () => {
         setBoards(Array(3).fill(null).map(() => Array(3).fill(null).map(createEmptyBoard)));
@@ -64,9 +59,9 @@ const SuperTicTacToe = () => {
         const newBoards = boards.map((boardRow, i) =>
             boardRow.map((board, j) =>
                 i === bigRow && j === bigCol
-                    ? board.map((boardRow, row) =>
-                        boardRow.map((cell, col) =>
-                            row === rowIndex && col === colIndex && cell === ' ' ? currentPlayer : cell
+                    ? board.map((row, r) =>
+                        row.map((cell, c) =>
+                            r === rowIndex && c === colIndex && cell === ' ' ? currentPlayer : cell
                         )
                     )
                     : board
@@ -92,7 +87,6 @@ const SuperTicTacToe = () => {
     const renderBoard = (bigRow: number, bigCol: number) => {
         const cell = winners[bigRow][bigCol];
 
-        // Won board - show large X or O
         if (cell === 'X' || cell === 'O') {
             return (
                 <div key={`${bigRow}-${bigCol}`} className="aspect-square p-1">
@@ -114,14 +108,12 @@ const SuperTicTacToe = () => {
             );
         }
 
-        // Active/playable board
         const isPlayable = !gameWinner && (!nextBoard || nextBoard === `${bigRow}-${bigCol}`);
 
         return (
             <div key={`${bigRow}-${bigCol}`} className="aspect-square p-1">
                 <div className={`
-                    rounded-lg p-2 sm:p-3 h-full
-                    transition-all duration-200
+                    rounded-lg p-2 sm:p-3 h-full transition-all duration-200
                     ${isPlayable
                         ? 'bg-violet-50 dark:bg-neutral-900 border-2 border-violet-300 dark:border-violet-800 shadow-sm'
                         : 'bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700'
@@ -141,7 +133,6 @@ const SuperTicTacToe = () => {
         <>
             <StartGamePopup isOpen={!gameStarted} onStart={handleStartGame} />
 
-            {/* Small screen warning - hidden on sm and above */}
             <div className="block sm:hidden w-full p-4">
                 <div className="bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 text-center">
                     <p className="text-sm text-neutral-700 dark:text-neutral-300 font-medium">
@@ -150,11 +141,8 @@ const SuperTicTacToe = () => {
                 </div>
             </div>
 
-            {/* Main game - hidden below sm */}
             <div className="hidden sm:flex w-full max-w-7xl mx-auto p-4 lg:p-6">
                 <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 w-full">
-
-                    {/* Game Board */}
                     <div className="flex-1 flex items-center justify-center">
                         <div className="w-full max-w-2xl">
                             <div className="bg-white dark:bg-neutral-800 rounded-xl p-3 sm:p-4 shadow-md border border-neutral-200 dark:border-neutral-700">
@@ -167,7 +155,6 @@ const SuperTicTacToe = () => {
                         </div>
                     </div>
 
-                    {/* Sidebar */}
                     <div className="w-full lg:w-80 lg:shrink-0">
                         <GameInstructions
                             gameWinner={gameWinner}

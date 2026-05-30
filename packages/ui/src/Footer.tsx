@@ -1,7 +1,12 @@
+import { ThemeToggle } from "./ThemeToggle";
+import Github from "../icons/github.svg";
+import LinkedIn from "../icons/linkedin.svg";
+import X from "../icons/x.svg"
+
 const SOCIALS = [
-    { href: 'https://github.com/VasuGarg07', icon: '/icons/github.svg', label: 'GitHub' },
-    { href: 'https://linkedin.com/in/vasu-garg-07', icon: '/icons/linkedin.svg', label: 'LinkedIn' },
-    { href: 'https://x.com/_vasugarg_', icon: '/icons/x.svg', label: 'X (Twitter)' },
+    { href: 'https://github.com/VasuGarg07', icon: Github, label: 'GitHub' },
+    { href: 'https://linkedin.com/in/vasu-garg-07', icon: LinkedIn, label: 'LinkedIn' },
+    { href: 'https://x.com/_vasugarg_', icon: X, label: 'X (Twitter)' },
 ];
 
 export function Footer() {
@@ -29,6 +34,7 @@ export function Footer() {
                                 />
                             </a>
                         ))}
+                        <ThemeToggle />
                     </div>
                 </div>
             </div>
