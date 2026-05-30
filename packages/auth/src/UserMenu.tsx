@@ -4,7 +4,11 @@ import { useNavigate } from 'react-router';
 import { useAuthDispatch, useAuthSelector } from './useRedux';
 import { logoutThunk } from './authSlice';
 
-export function UserMenu() {
+interface UserMenuProps {
+    dropdownPosition?: 'up' | 'down';
+}
+
+export function UserMenu({ dropdownPosition = 'down' }: UserMenuProps) {
     const [open, setOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const navigate = useNavigate();
@@ -63,7 +67,7 @@ export function UserMenu() {
             </button>
 
             {open && (
-                <div className="absolute right-0 mt-2 w-72 rounded-lg border bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 shadow-lg z-20">
+                <div className={`absolute right-0 w-72 rounded-lg border bg-white dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 shadow-lg z-20 ${dropdownPosition === 'up' ? 'bottom-full mb-2' : 'top-full mt-2'}`}>
                     <div className="p-4 border-b border-neutral-200 dark:border-neutral-700">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-semibold">
