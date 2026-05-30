@@ -1,12 +1,10 @@
 import { Home, ChevronRight } from 'lucide-react';
-import type { ReactNode } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams, Outlet } from 'react-router';
+import { useScrollToTop } from '@react-lab/shared';
 
-interface WrapperProps {
-    children: ReactNode;
-}
+const MealWrapper = () => {
+    useScrollToTop();
 
-const MealWrapper = ({ children }: WrapperProps) => {
     const location = useLocation();
     const navigate = useNavigate();
     const params = useParams();
@@ -56,16 +54,13 @@ const MealWrapper = ({ children }: WrapperProps) => {
         return breadcrumbs;
     };
 
-    const capitalize = (str: string) => {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    };
+    const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
     const breadcrumbs = generateBreadcrumbs();
     const isLastItem = (index: number) => index === breadcrumbs.length - 1;
 
     return (
         <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-            {/* Breadcrumb Navigation */}
             <nav className="flex items-center gap-2 mb-6 text-sm">
                 {breadcrumbs.map((crumb, index) => (
                     <div key={index} className="flex items-center gap-2">
@@ -98,7 +93,7 @@ const MealWrapper = ({ children }: WrapperProps) => {
                 ))}
             </nav>
 
-            {children}
+            <Outlet />
         </div>
     );
 };

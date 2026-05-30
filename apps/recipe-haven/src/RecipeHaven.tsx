@@ -1,11 +1,13 @@
 import { Loader2, Search, Shuffle } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { toastService } from '@react-lab/shared';
+import { toastService, useScrollToTop } from '@react-lab/shared';
 import { ALPHABETS } from './utils/recipe.helpers';
 import { useAreas, useCategories, useRandomMeal } from './utils/useRecipeQueries';
 
 export default function RecipeHaven() {
+    useScrollToTop();
+
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [isGettingRandom, setIsGettingRandom] = useState(false);
@@ -37,7 +39,6 @@ export default function RecipeHaven() {
 
     return (
         <div className="min-h-screen bg-stone-50 dark:bg-neutral-950">
-            {/* Hero — serif, big, editorial */}
             <section className="border-b border-stone-200 dark:border-neutral-800">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
                     <div className="max-w-2xl">

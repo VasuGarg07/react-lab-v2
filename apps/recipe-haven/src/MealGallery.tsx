@@ -21,7 +21,7 @@ export default function MealGallery() {
     };
 
     const getTitle = () => {
-        if (searchTerm) return `“${searchTerm}”`;
+        if (searchTerm) return `"${searchTerm}"`;
         if (letter) return `Recipes starting with ${letter.toUpperCase()}`;
         if (categoryId) return capitalize(categoryId);
         if (areaId) return `${capitalize(areaId)} cuisine`;

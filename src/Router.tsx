@@ -33,10 +33,6 @@ import PokemonDetails from "./apps/Pokeverse/PokemonDetails/PokemonDetails";
 import Pokeverse from "./apps/Pokeverse/Pokeverse";
 import PrepareBattle from "./apps/Pokeverse/PrepareBattle/PrepareBattle";
 import TeamSelection from "./apps/Pokeverse/TeamSelection/TeamSelection";
-import MealDetails from "./apps/RecipeHaven/MealDetails";
-import MealGallery from "./apps/RecipeHaven/MealGallery";
-import MealWrapper from "./apps/RecipeHaven/MealWrapper";
-import RecipeHaven from "./apps/RecipeHaven/RecipeHaven";
 import Layout from "./components/Layout";
 
 const router = createBrowserRouter([
@@ -46,18 +42,6 @@ const router = createBrowserRouter([
         children: [
             // Public mini-apps
             { index: true, element: <Homepage /> },
-            {
-                path: 'recipe-haven',
-                element: <Outlet />,
-                children: [
-                    { index: true, element: <RecipeHaven /> },
-                    { path: 'search/:searchTerm', element: <MealWrapper><MealGallery /></MealWrapper> },
-                    { path: 'category/:categoryId', element: <MealWrapper><MealGallery /></MealWrapper> },
-                    { path: 'alphabet/:letter', element: <MealWrapper><MealGallery /></MealWrapper> },
-                    { path: 'area/:areaId', element: <MealWrapper><MealGallery /></MealWrapper> },
-                    { path: 'meal/:mealId', element: <MealWrapper><MealDetails /></MealWrapper> },
-                ]
-            },
             {
                 path: 'pokeverse',
                 element: <Outlet />,

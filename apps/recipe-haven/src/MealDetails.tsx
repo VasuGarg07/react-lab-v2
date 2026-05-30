@@ -113,7 +113,6 @@ export default function MealDetails() {
             )}
 
             <div className="grid gap-10 md:gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-                {/* Ingredients */}
                 <section>
                     <h2 className="font-serif text-2xl text-stone-900 dark:text-stone-100 mb-4 pb-3 border-b border-stone-200 dark:border-neutral-800">
                         Ingredients
@@ -131,7 +130,6 @@ export default function MealDetails() {
                     </ul>
                 </section>
 
-                {/* Instructions */}
                 <section>
                     <h2 className="font-serif text-2xl text-stone-900 dark:text-stone-100 mb-4 pb-3 border-b border-stone-200 dark:border-neutral-800">
                         Method

@@ -31,7 +31,7 @@ const getMeals = async (url: string): Promise<Meal[]> => {
 
     if (!data.meals) return [];
 
-    return data.meals.map((meal: any) => ({
+    return data.meals.map((meal: { idMeal: string; strMeal: string; strMealThumb: string }) => ({
         id: meal.idMeal,
         name: meal.strMeal,
         image: meal.strMealThumb,
