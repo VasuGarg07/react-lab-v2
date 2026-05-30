@@ -11,9 +11,10 @@ interface FloatingNavProps {
     appName: string;
     appIcon: ReactNode;
     navItems: NavItem[];
+    rightSlot?: ReactNode;
 }
 
-export function FloatingNav({ appName, appIcon, navItems }: FloatingNavProps) {
+export function FloatingNav({ appName, appIcon, navItems, rightSlot }: FloatingNavProps) {
     return (
         <nav className="px-4 py-3">
             <div className="max-w-3xl mx-auto">
@@ -27,7 +28,7 @@ export function FloatingNav({ appName, appIcon, navItems }: FloatingNavProps) {
                         </span>
                     </div>
 
-                    <div className="flex items-center gap-1 justify-center">
+                    <div className="flex items-center gap-1 justify-center flex-1">
                         {navItems.map((item) => (
                             <NavLink
                                 key={item.to}
@@ -45,6 +46,12 @@ export function FloatingNav({ appName, appIcon, navItems }: FloatingNavProps) {
                             </NavLink>
                         ))}
                     </div>
+
+                    {rightSlot && (
+                        <div className="flex items-center min-w-fit">
+                            {rightSlot}
+                        </div>
+                    )}
                 </div>
             </div>
         </nav>

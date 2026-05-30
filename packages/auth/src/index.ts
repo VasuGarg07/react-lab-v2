@@ -2,6 +2,7 @@ export * from './auth.types';
 export * from './auth.service';
 export * from './auth.guards';
 export * from './authSlice';
+export { default as authReducer } from './authSlice';
 export * from './useRedux';
 export * from './AuthProvider';
 export * from './AuthWrapper';

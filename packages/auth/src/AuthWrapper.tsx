@@ -3,14 +3,14 @@ import { Link, Outlet } from 'react-router';
 
 export function AuthWrapper() {
     return (
-        <div className="min-h-screen w-full bg-neutral-50 dark:bg-neutral-900 flex flex-col p-4">
+        <div className="min-h-[calc(100vh-64px)] w-full bg-neutral-50 dark:bg-neutral-900 flex flex-col p-4">
             <div className="w-full max-w-7xl mx-auto">
                 <Link
                     to="/"
                     className="inline-flex items-center gap-1.5 text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors duration-200"
                 >
                     <ArrowLeft size={16} />
-                    Back to apps
+                    Back
                 </Link>
             </div>
 
