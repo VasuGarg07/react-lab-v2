@@ -7,6 +7,7 @@
     "peerDependencies": {
         "react": "^19.2.6",
         "react-dom": "^19.2.6",
-        "lucide-react": "^1.14.0"
+        "lucide-react": "^1.14.0",
+        "react-router": "^7.6.2"
     }
 }

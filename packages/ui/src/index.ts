@@ -1,5 +1,6 @@
 export * from "./AlertDialog";
 export * from "./Checkbox";
+export * from "./ImageUploader";
 export * from "./FloatingNav";
 export * from "./Footer";
 export * from "./Layout";
