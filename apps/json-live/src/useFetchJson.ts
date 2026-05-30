@@ -22,10 +22,8 @@ export const useFetchJson = (): FetchJsonResult => {
 
         try {
             const response = await fetch(url, {
-                headers: {
-                    'Accept': 'application/json',
-                },
-                signal: AbortSignal.timeout(10000), // 10 second timeout
+                headers: { 'Accept': 'application/json' },
+                signal: AbortSignal.timeout(10000),
             });
 
             if (!response.ok) {
@@ -34,7 +32,6 @@ export const useFetchJson = (): FetchJsonResult => {
 
             const data = await response.text();
 
-            // Validate JSON
             try {
                 JSON.parse(data);
                 return data;
@@ -42,7 +39,6 @@ export const useFetchJson = (): FetchJsonResult => {
                 setError('Response is not valid JSON');
                 return null;
             }
-
         } catch (err) {
             if (err instanceof Error) {
                 if (err.name === 'TimeoutError') {
@@ -61,7 +57,5 @@ export const useFetchJson = (): FetchJsonResult => {
         }
     };
 
-    const clearError = () => setError(null);
-
-    return { isLoading, error, fetchJson, clearError };
+    return { isLoading, error, fetchJson, clearError: () => setError(null) };
 };

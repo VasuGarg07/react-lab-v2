@@ -25,7 +25,6 @@ import FormReview from "./apps/Formlyst/FormReview/Review";
 import ResponseDetail from "./apps/Formlyst/ResponseDetail/ResponseDetail";
 import Responses from "./apps/Formlyst/Responses/Responses";
 import Homepage from "./apps/Home/Homepage";
-import JsonLive from "./apps/JsonLive/JsonLive";
 import LoanWizard from "./apps/LoanWizard/LoanWizard";
 import MarkdownLive from "./apps/Markdown/MarkdownLive";
 import PokeMemory from "./apps/PokeMemory/Pokememory";
@@ -54,7 +53,6 @@ const router = createBrowserRouter([
         children: [
             // Public mini-apps
             { index: true, element: <Homepage /> },
-            { path: 'json', element: <JsonLive /> },
             { path: 'markdown', element: <MarkdownLive /> },
             { path: 'poke-memory', element: <PokeMemory /> },
             { path: 'loan-wizard', element: <LoanWizard /> },
