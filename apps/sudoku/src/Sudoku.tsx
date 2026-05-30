@@ -26,7 +26,7 @@ export default function Sudoku() {
     useKeyboardInput(sudoku);
 
     if (sudoku.error) {
-        return <ErrorScreen message={sudoku.error.message} onRetry={sudoku.newGame} />;
+        return <ErrorScreen message={(sudoku.error as Error).message} onRetry={sudoku.newGame} />;
     }
 
     if (sudoku.isLoading) {
@@ -158,26 +158,16 @@ function Header({ isSolving, onHint, onSolve, onNewGame, onCancelSolve, onSpeedC
     );
 }
 
-function ActionButtons({
-    onHint,
-    onSolve,
-    onNewGame,
-}: {
+function ActionButtons({ onHint, onSolve, onNewGame }: {
     onHint: () => void;
     onSolve: () => void;
     onNewGame: () => void;
 }) {
     return (
         <div className="flex items-center gap-2">
-            <ToolbarButton onClick={onHint} icon={<Lightbulb size={14} />}>
-                Hint
-            </ToolbarButton>
-            <ToolbarButton onClick={onSolve} icon={<Square size={14} />}>
-                Solve
-            </ToolbarButton>
-            <ToolbarButton onClick={onNewGame} icon={<RotateCcw size={14} />} primary>
-                New game
-            </ToolbarButton>
+            <ToolbarButton onClick={onHint} icon={<Lightbulb size={14} />}>Hint</ToolbarButton>
+            <ToolbarButton onClick={onSolve} icon={<Square size={14} />}>Solve</ToolbarButton>
+            <ToolbarButton onClick={onNewGame} icon={<RotateCcw size={14} />} primary>New game</ToolbarButton>
         </div>
     );
 }
@@ -196,9 +186,7 @@ function CancelSolveButton({ onCancel }: { onCancel: () => void }) {
 
 function SpeedSlider({ onChange }: { onChange: (speedMs: number) => void }) {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const sliderValue = Number(e.target.value);
-        const speedMs = SOLVE_STEP_MAX_MS - sliderValue;
-        onChange(speedMs);
+        onChange(SOLVE_STEP_MAX_MS - Number(e.target.value));
     };
 
     return (
@@ -235,12 +223,7 @@ function SudokuBoard({ sudoku }: { sudoku: ReturnType<typeof useSudoku> }) {
     );
 }
 
-interface BoxOfNineProps {
-    boxIndex: number;
-    sudoku: ReturnType<typeof useSudoku>;
-}
-
-function BoxOfNine({ boxIndex, sudoku }: BoxOfNineProps) {
+function BoxOfNine({ boxIndex, sudoku }: { boxIndex: number; sudoku: ReturnType<typeof useSudoku> }) {
     const boxRow = Math.floor(boxIndex / BOX_SIZE);
     const boxCol = boxIndex % BOX_SIZE;
     const cells = Array.from({ length: BOX_SIZE * BOX_SIZE }, (_, i) => i);
@@ -253,30 +236,19 @@ function BoxOfNine({ boxIndex, sudoku }: BoxOfNineProps) {
                 const row = boxRow * BOX_SIZE + localRow;
                 const col = boxCol * BOX_SIZE + localCol;
                 return (
-                    <CellWithBorder
-                        key={`${row},${col}`}
-                        row={row}
-                        col={col}
-                        sudoku={sudoku}
-                    />
+                    <CellWithBorder key={`${row},${col}`} row={row} col={col} sudoku={sudoku} />
                 );
             })}
         </div>
     );
 }
 
-interface CellWithBorderProps {
-    row: number;
-    col: number;
-    sudoku: ReturnType<typeof useSudoku>;
-}
-
-function CellWithBorder({ row, col, sudoku }: CellWithBorderProps) {
+function CellWithBorder({ row, col, sudoku }: { row: number; col: number; sudoku: ReturnType<typeof useSudoku> }) {
     const key = `${row},${col}`;
-    const isSelected =
-        sudoku.selectedCell?.row === row && sudoku.selectedCell?.col === col;
-
-    const solveStep = getSolveStep(sudoku.solvingState.currentStep, row, col);
+    const isSelected = sudoku.selectedCell?.row === row && sudoku.selectedCell?.col === col;
+    const solveStep = sudoku.solvingState.currentStep?.row === row && sudoku.solvingState.currentStep?.col === col
+        ? sudoku.solvingState.currentStep.kind
+        : null;
 
     return (
         <div className="border border-stone-200 dark:border-neutral-700">
@@ -294,16 +266,6 @@ function CellWithBorder({ row, col, sudoku }: CellWithBorderProps) {
             />
         </div>
     );
-}
-
-function getSolveStep(
-    currentStep: { row: number; col: number; kind: 'try' | 'backtrack' } | undefined,
-    row: number,
-    col: number,
-): 'try' | 'backtrack' | null {
-    if (!currentStep) return null;
-    if (currentStep.row !== row || currentStep.col !== col) return null;
-    return currentStep.kind;
 }
 
 // ---------------------------------------------------------------------------
@@ -334,25 +296,18 @@ function NumpadInput({ sudoku }: { sudoku: ReturnType<typeof useSudoku> }) {
         ? sudoku.isEditable(sudoku.selectedCell.row, sudoku.selectedCell.col)
         : false;
 
-    const isDisabled =
-        !sudoku.selectedCell ||
-        sudoku.solvingState.active ||
-        !isCellEditable;
-
-    const handleNumberSelect = (num: number) => {
-        if (!sudoku.selectedCell) return;
-        sudoku.updateCell(sudoku.selectedCell.row, sudoku.selectedCell.col, String(num));
-    };
-
-    const handleClear = () => {
-        if (!sudoku.selectedCell) return;
-        sudoku.updateCell(sudoku.selectedCell.row, sudoku.selectedCell.col, '');
-    };
+    const isDisabled = !sudoku.selectedCell || sudoku.solvingState.active || !isCellEditable;
 
     return (
         <VirtualNumpad
-            onNumberSelect={handleNumberSelect}
-            onClear={handleClear}
+            onNumberSelect={(num) => {
+                if (!sudoku.selectedCell) return;
+                sudoku.updateCell(sudoku.selectedCell.row, sudoku.selectedCell.col, String(num));
+            }}
+            onClear={() => {
+                if (!sudoku.selectedCell) return;
+                sudoku.updateCell(sudoku.selectedCell.row, sudoku.selectedCell.col, '');
+            }}
             disabled={isDisabled}
         />
     );
@@ -365,9 +320,7 @@ function ErrorScreen({ message, onRetry }: { message: string; onRetry: () => voi
                 <h2 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-2">
                     Couldn't load puzzle
                 </h2>
-                <p className="text-sm text-stone-600 dark:text-stone-400 mb-4">
-                    {message}
-                </p>
+                <p className="text-sm text-stone-600 dark:text-stone-400 mb-4">{message}</p>
                 <button
                     onClick={onRetry}
                     className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-500/30"
@@ -398,15 +351,13 @@ interface ToolbarButtonProps {
 }
 
 function ToolbarButton({ onClick, icon, children, primary }: ToolbarButtonProps) {
-    const baseClasses = 'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition focus:outline-none focus:ring-2 focus:ring-blue-500/30';
-
-    const primaryClasses = 'bg-blue-600 hover:bg-blue-700 text-white';
-    const secondaryClasses = 'bg-stone-100 dark:bg-neutral-800 hover:bg-stone-200 dark:hover:bg-neutral-700 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-neutral-700';
-
-    const variantClasses = primary ? primaryClasses : secondaryClasses;
+    const base = 'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition focus:outline-none focus:ring-2 focus:ring-blue-500/30';
+    const variant = primary
+        ? 'bg-blue-600 hover:bg-blue-700 text-white'
+        : 'bg-stone-100 dark:bg-neutral-800 hover:bg-stone-200 dark:hover:bg-neutral-700 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-neutral-700';
 
     return (
-        <button onClick={onClick} className={`${baseClasses} ${variantClasses}`}>
+        <button onClick={onClick} className={`${base} ${variant}`}>
             {icon}
             <span>{children}</span>
         </button>

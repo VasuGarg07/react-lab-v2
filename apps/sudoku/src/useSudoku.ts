@@ -1,11 +1,3 @@
-/**
- * Sudoku state. Composed of three smaller hooks:
- *   useSudokuBoard      — fetches the puzzle, holds the working board, derives conflicts and the solved board.
- *   useCellSelection    — what the user has selected, and the "peer" / "same number" cells driven by that selection.
- *   useSolveAnimation   — drives the animated backtracking solver.
- * useSudoku() wires them together for the component.
- */
-
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toastService } from '@react-lab/shared';
@@ -126,10 +118,7 @@ function useSudokuBoard() {
 // useCellSelection
 // ---------------------------------------------------------------------------
 
-const isInSameBox = (
-    a: CellPosition,
-    b: CellPosition,
-): boolean => {
+const isInSameBox = (a: CellPosition, b: CellPosition): boolean => {
     const sameBoxRow = Math.floor(a.row / BOX_SIZE) === Math.floor(b.row / BOX_SIZE);
     const sameBoxCol = Math.floor(a.col / BOX_SIZE) === Math.floor(b.col / BOX_SIZE);
     return sameBoxRow && sameBoxCol;
@@ -204,8 +193,6 @@ function useSolveAnimation(
         speedMs: SOLVE_STEP_DEFAULT_MS,
     });
 
-    // The animation loop reads these via ref so changes don't require
-    // re-creating the running setTimeout chain.
     const cancelRef = useRef(false);
     const speedRef = useRef(SOLVE_STEP_DEFAULT_MS);
 
@@ -277,10 +264,6 @@ export function useSudoku() {
             selection.clearSelection();
             animation.reset();
         }
-        // We only want to reset selection + animation when a NEW puzzle arrives,
-        // which is signalled by the board being replaced wholesale (not on
-        // every cell edit). Watching board.solvedBoard captures that without
-        // triggering on user edits.
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [board.solvedBoard]);
 

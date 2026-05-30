@@ -45,7 +45,6 @@ import MealDetails from "./apps/RecipeHaven/MealDetails";
 import MealGallery from "./apps/RecipeHaven/MealGallery";
 import MealWrapper from "./apps/RecipeHaven/MealWrapper";
 import RecipeHaven from "./apps/RecipeHaven/RecipeHaven";
-import Sudoku from "./apps/Sudoku/Sudoku";
 import Layout from "./components/Layout";
 
 const router = createBrowserRouter([
@@ -57,7 +56,6 @@ const router = createBrowserRouter([
             { index: true, element: <Homepage /> },
             { path: 'json', element: <JsonLive /> },
             { path: 'markdown', element: <MarkdownLive /> },
-            { path: 'sudoku', element: <Sudoku /> },
             { path: 'poke-memory', element: <PokeMemory /> },
             { path: 'loan-wizard', element: <LoanWizard /> },
             {

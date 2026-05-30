@@ -128,12 +128,6 @@ export const solveBoard = (problemBoard: number[][]): number[][] => {
     return board;
 };
 
-/**
- * Generator-based solver. Yields one mutation at a time so the UI can
- * animate the search at its own pace (the consumer pulls the next step
- * after a delay). A plain recursive solver finishes synchronously and
- * the UI never sees the intermediate states.
- */
 export type SolveStep =
     | { kind: 'try'; row: number; col: number; num: number }
     | { kind: 'commit'; row: number; col: number; num: number }
