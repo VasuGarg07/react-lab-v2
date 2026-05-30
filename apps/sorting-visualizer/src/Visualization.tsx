@@ -38,7 +38,7 @@ export default function Visualization({ array, sortingState }: VisualizationProp
                 ))}
             </div>
 
-            <div className="h-[280px] flex items-end justify-center gap-px p-3 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
+            <div className="h-70 flex items-end justify-center gap-px p-3 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
                 {array.map((value, index) => (
                     <div
                         key={index}
