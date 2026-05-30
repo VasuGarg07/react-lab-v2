@@ -25,7 +25,6 @@ import FormReview from "./apps/Formlyst/FormReview/Review";
 import ResponseDetail from "./apps/Formlyst/ResponseDetail/ResponseDetail";
 import Responses from "./apps/Formlyst/Responses/Responses";
 import Homepage from "./apps/Home/Homepage";
-import LoanWizard from "./apps/LoanWizard/LoanWizard";
 import PokeMemory from "./apps/PokeMemory/Pokememory";
 import BattleScreen from "./apps/Pokeverse/BattleScreen/BattleScreen";
 import BattleSetup from "./apps/Pokeverse/BattleSetup/BattleSetup";
@@ -53,7 +52,6 @@ const router = createBrowserRouter([
             // Public mini-apps
             { index: true, element: <Homepage /> },
             { path: 'poke-memory', element: <PokeMemory /> },
-            { path: 'loan-wizard', element: <LoanWizard /> },
             {
                 path: 'quizzo',
                 element: <QuizWrapper />,

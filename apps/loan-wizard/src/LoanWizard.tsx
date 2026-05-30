@@ -4,17 +4,16 @@ import LoanInputs from './LoanInputs';
 import LoanResults from './LoanResults';
 import { type LoanParams, calculateLoanResults } from './loan.utilities';
 
-const LoanWizard = () => {
-    const [loanParams, setLoanParams] = useState<LoanParams>({
-        loanAmount: 2500000, // 25 Lakhs
-        interestRate: 8.5,   // 8.5%
-        tenure: 20           // 20 years
-    });
+const DEFAULT_PARAMS: LoanParams = {
+    loanAmount: 2500000, // 25 Lakhs
+    interestRate: 8.5,   // 8.5%
+    tenure: 20,          // 20 years
+};
 
-    // Calculate results
-    const results = calculateLoanResults(loanParams);
+export default function LoanWizard() {
+    const [loanParams, setLoanParams] = useState<LoanParams>(DEFAULT_PARAMS);
+    const { monthlyEMI } = calculateLoanResults(loanParams);
 
-    // Handle parameter changes
     const handleParamsChange = (newParams: Partial<LoanParams>) => {
         setLoanParams(prev => ({ ...prev, ...newParams }));
     };
@@ -30,22 +29,15 @@ const LoanWizard = () => {
                 </p>
             </div>
 
-
             <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
                 <div className="w-full lg:w-1/2">
-                    <LoanInputs
-                        loanParams={loanParams}
-                        onParamsChange={handleParamsChange}
-                    />
-                    <AffordabilityCheck monthlyEMI={results.monthlyEMI} className='mt-4' />
+                    <LoanInputs loanParams={loanParams} onParamsChange={handleParamsChange} />
+                    <AffordabilityCheck monthlyEMI={monthlyEMI} className="mt-4" />
                 </div>
-
                 <div className="w-full lg:w-1/2">
                     <LoanResults loanParams={loanParams} />
                 </div>
             </div>
         </div>
     );
-};
-
-export default LoanWizard;
+}
