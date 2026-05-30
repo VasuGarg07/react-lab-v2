@@ -25,14 +25,6 @@ import FormReview from "./apps/Formlyst/FormReview/Review";
 import ResponseDetail from "./apps/Formlyst/ResponseDetail/ResponseDetail";
 import Responses from "./apps/Formlyst/Responses/Responses";
 import Homepage from "./apps/Home/Homepage";
-import BattleScreen from "./apps/Pokeverse/BattleScreen/BattleScreen";
-import BattleSetup from "./apps/Pokeverse/BattleSetup/BattleSetup";
-import BattleSimLayout from "./apps/Pokeverse/BattleSimLayout/BattleSimLayout";
-import Pokedex from "./apps/Pokeverse/Pokedex/Pokedex";
-import PokemonDetails from "./apps/Pokeverse/PokemonDetails/PokemonDetails";
-import Pokeverse from "./apps/Pokeverse/Pokeverse";
-import PrepareBattle from "./apps/Pokeverse/PrepareBattle/PrepareBattle";
-import TeamSelection from "./apps/Pokeverse/TeamSelection/TeamSelection";
 import Layout from "./components/Layout";
 
 const router = createBrowserRouter([
@@ -42,26 +34,6 @@ const router = createBrowserRouter([
         children: [
             // Public mini-apps
             { index: true, element: <Homepage /> },
-            {
-                path: 'pokeverse',
-                element: <Outlet />,
-                children: [
-                    { index: true, element: <Pokeverse /> },
-                    { path: 'pokedex', element: <Pokedex /> },
-                    { path: 'pokedex/:id', element: <PokemonDetails /> },
-                    {
-                        path: 'battle-sim',
-                        element: <BattleSimLayout />,
-                        children: [
-                            { index: true, element: <BattleSetup /> },
-                            { path: 'team-selection', element: <TeamSelection /> },
-                            { path: 'loading', element: <PrepareBattle /> },
-                            { path: 'battle', element: <BattleScreen /> },
-                        ]
-                    }
-                ]
-            },
-
             // Protected: Blogify
             {
                 path: '/blogify',
