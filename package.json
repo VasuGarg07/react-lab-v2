@@ -36,7 +36,22 @@
     "build:showcase": "pnpm --filter @react-lab/showcase build",
     "build:sorting-visualizer": "pnpm --filter @react-lab/sorting-visualizer build",
     "build:sudoku": "pnpm --filter @react-lab/sudoku build",
-    "build:super-tic-tac-toe": "pnpm --filter @react-lab/super-tic-tac-toe build"
+    "build:super-tic-tac-toe": "pnpm --filter @react-lab/super-tic-tac-toe build",
+    "deploy:showcase": "pnpm build:showcase && firebase deploy --only hosting:react-lab-v2",
+    "deploy:blogify": "pnpm build:blogify && firebase deploy --only hosting:react-lab-blogify",
+    "deploy:budget-buddy": "pnpm build:budget-buddy && firebase deploy --only hosting:react-lab-budget-buddy",
+    "deploy:formlyst": "pnpm build:formlyst && firebase deploy --only hosting:react-lab-formlyst",
+    "deploy:pokeverse": "pnpm build:pokeverse && firebase deploy --only hosting:react-lab-pokeverse",
+    "deploy:recipe-haven": "pnpm build:recipe-haven && firebase deploy --only hosting:react-lab-recipe-haven",
+    "deploy:quizzo": "pnpm build:quizzo && firebase deploy --only hosting:react-lab-quizzo",
+    "deploy:poke-memory": "pnpm build:poke-memory && firebase deploy --only hosting:react-lab-poke-memory",
+    "deploy:sudoku": "pnpm build:sudoku && firebase deploy --only hosting:react-lab-sudoku",
+    "deploy:super-tic-tac-toe": "pnpm build:super-tic-tac-toe && firebase deploy --only hosting:react-lab-super-tic-tac-toe",
+    "deploy:sorting-visualizer": "pnpm build:sorting-visualizer && firebase deploy --only hosting:react-lab-sorting-visualizer",
+    "deploy:json-live": "pnpm build:json-live && firebase deploy --only hosting:react-lab-json",
+    "deploy:markdown-live": "pnpm build:markdown-live && firebase deploy --only hosting:react-lab-markdown",
+    "deploy:loan-wizard": "pnpm build:loan-wizard && firebase deploy --only hosting:react-lab-loan-wizard",
+    "deploy:all": "turbo build && firebase deploy --only hosting"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
