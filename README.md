@@ -1,8 +1,6 @@
 # React Lab
 
-A single React + TypeScript + Vite app that hosts thirteen independent mini-applications under one roof. Rather than scaffolding a fresh project for every experiment, everything lives in one codebase — with centralized auth, shared UI primitives, and a unified router — while each app stays cleanly isolated in its own folder.
-
-The backend lives in a sibling repo: [`express-ts`](https://github.com/VasuGarg07/express-ts).
+A pnpm workspace monorepo of independent React mini-applications — each app builds and deploys on its own, while sharing a common UI, auth, and utility layer through local workspace packages.
 
 ---
 
@@ -14,11 +12,11 @@ The backend lives in a sibling repo: [`express-ts`](https://github.com/VasuGarg0
 
 - ❌⭕ **Super Tic-Tac-Toe** — Tic-tac-toe with a strategic twist. Play on a 3×3 grid of boards where your move dictates which board your opponent must play on next. Local two-player, with a guided start popup and live instructions.
 
-- ✍️ **Blogify** — A blogging platform with first-class **Notebooks** — curated collections of blogs published together as a unit. Rich text editing via Tiptap, image uploads, an author-discovery feed, a personal library, and shareable detail pages.
+- ✍️ **Blogify** — A blogging platform with first-class Notebooks — curated collections of blogs published together as a unit. Rich text editing via Tiptap, image uploads, an author-discovery feed, a personal library, and shareable detail pages.
 
-- 💸 **BudgetBuddy** — A personal expense tracker with a layout shell and three views: home for quick entry, overview for the running ledger, and statistics for charted breakdowns. Filters, categories, and Recharts visualizations.
+- 💸 **BudgetBuddy** — A personal expense tracker with three views: home for quick entry, overview for the running ledger, and statistics for charted breakdowns. Filters, categories, and Recharts visualizations.
 
-- 📊 **Sorting Visualizer** — Watch sorting algorithms run frame-by-frame. Pick an algorithm, scrub the speed, and read the algorithm-info panel for complexity and behavior. Live statistics track comparisons and swaps as the bars dance.
+- 📊 **Sorting Visualizer** — Watch sorting algorithms run frame-by-frame. Pick an algorithm, scrub the speed, and read the algorithm-info panel for complexity and behavior. Live statistics track comparisons and swaps as the bars animate.
 
 - 🃏 **Poke-Memory** — A Pokémon-themed memory matching game. Configure grid size and difficulty, flip cards, match pairs, and get a results screen at the end.
 
@@ -28,7 +26,7 @@ The backend lives in a sibling repo: [`express-ts`](https://github.com/VasuGarg0
 
 - 📝 **Markdown Live** — A two-pane Markdown editor with live preview, syntax highlighting, dark mode, and clipboard integration. GFM via `marked`, styled previews via Tailwind typography.
 
-- 🔢 **Sudoku** — Generated puzzles with conflict highlighting, peer-cell guides, keyboard navigation, and an animated backtracking solver. A custom hook drives the game state and a generator drives the solver animation.
+- 🔢 **Sudoku** — Generated puzzles with conflict highlighting, peer-cell guides, keyboard navigation, and an animated backtracking solver.
 
 - ❓ **Quizzo** — A quiz engine with a setup → play → result flow. Configure topic and length, answer timed questions, get a scored breakdown at the end.
 
@@ -41,7 +39,8 @@ The backend lives in a sibling repo: [`express-ts`](https://github.com/VasuGarg0
 | | |
 |---|---|
 | Framework | React 19 + TypeScript |
-| Build Tool | Vite 7 (with React Compiler enabled) |
+| Build Tool | Vite 8 |
+| Monorepo | pnpm workspaces + Turborepo |
 | Routing | React Router 7 |
 | Styling | Tailwind CSS 4 |
 | State | Redux Toolkit (global) + TanStack Query (server) |
@@ -51,54 +50,82 @@ The backend lives in a sibling repo: [`express-ts`](https://github.com/VasuGarg0
 | Charts | Recharts |
 | Auth | JWT (access + refresh) via `axios` interceptors |
 | Image Hosting | ImgBB |
-| Deployment | Firebase Hosting |
+| Deployment | Firebase Hosting (one site per app) |
 
 ---
 
-## Structure & Patterns
+## Structure
 
 ```
-src/
-├── apps/          # one folder per mini-app, fully isolated
-├── auth/          # login, register, forgot-password, JWT handling
-├── components/    # cross-app layout, modals, header/footer
-├── shared/        # apiClient, queryClient, app catalog, utilities
-├── store/         # Redux slices (one per app that needs global state)
-├── styles/        # theme provider + Tailwind globals
-├── ui/            # reusable primitives (inputs, dialogs, etc.)
-├── App.tsx        # providers stack
-└── Router.tsx     # nested route definitions for every app
+react-lab/
+├── apps/
+│   ├── showcase/          # hub/landing page — links to all apps
+│   ├── blogify/
+│   ├── budget-buddy/
+│   ├── formlyst/
+│   ├── json-live/
+│   ├── loan-wizard/
+│   ├── markdown-live/
+│   ├── poke-memory/
+│   ├── pokeverse/
+│   ├── quizzo/
+│   ├── recipe-haven/
+│   ├── sorting-visualizer/
+│   ├── sudoku/
+│   └── super-tic-tac-toe/
+├── packages/
+│   ├── ui/                # shared component primitives, ThemeProvider, Layout
+│   ├── shared/            # API client, query client, utilities
+│   └── auth/              # JWT auth flows, interceptors, auth components
+├── turbo.json
+├── pnpm-workspace.yaml
+└── package.json
 ```
 
-Each app under `src/apps/` is self-contained — its own components, hooks, helpers, and (where needed) Redux slice. Apps share infrastructure (auth, API client, query client, UI primitives) but otherwise don't reach into each other. Adding a new app means creating a folder, registering it in `shared/apps.ts`, and wiring its routes in `Router.tsx` — nothing else needs to change.
-
-State is split deliberately: server data goes through TanStack Query (caching, retries, mutations), while genuinely global UI state (auth, in-progress quiz, form-builder draft, battle state) lives in Redux Toolkit slices.
-
-Auth is centralized in an `axios` instance with interceptors that attach access tokens, transparently refresh on 401, and clear credentials on refresh failure — every app calls the same client and gets auth handling for free.
+Each app is a fully independent Vite + React project with its own `package.json`, `vite.config.ts`, and `tsconfig.json`. Apps consume shared packages directly from source via workspace references — no build step needed for packages. Adding a new app means scaffolding a new folder under `apps/` and registering it; nothing else in the monorepo needs to change.
 
 ---
 
 ## Getting Started
 
 ```bash
-# Install dependencies
-npm install
+# Install all dependencies
+pnpm install
 
-# Set up environment
-# Create a .env file with:
-#   VITE_API_URL=<your express-ts backend URL>
-#   VITE_IMGBB_API_KEY=<your ImgBB key>
+# Copy and fill in environment variables
+# .env — development values (localhost URLs, API keys)
+# apps/showcase/.env.development — per-app localhost dev URLs
+# apps/showcase/.env.production — per-app production URLs
 
-# Dev server with hot reload
-npm run dev
+# Start all apps in parallel
+pnpm dev
 
-# Production build
-npm run build
-npm run preview
+# Start a single app
+pnpm dev:showcase
+pnpm dev:blogify
+# etc.
 ```
-
-A Dockerfile is included for containerized dev — `docker build -t react-lab .` then run with port 5173 exposed.
 
 ---
 
-*This is a living playground — apps get rewritten, new ones get added, and the shared infrastructure evolves alongside them. Documentation will grow with it.*
+## Building & Deploying
+
+```bash
+# Build all apps (Turborepo, cached)
+pnpm build
+
+# Build a single app
+pnpm build:blogify
+
+# Deploy a single app (build + firebase deploy)
+pnpm deploy:blogify
+
+# Deploy everything
+pnpm deploy:all
+```
+
+Each app deploys to its own Firebase Hosting site. Targets are defined in `firebase.json` and `.firebaserc`.
+
+---
+
+*This is a living playground — apps get rewritten, new ones get added, and the shared infrastructure evolves alongside them.*
