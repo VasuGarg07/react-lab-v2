@@ -3,6 +3,7 @@ import { BarChart2, Code2, Feather, FileJson, Grid, HandCoins, HelpCircle, Layou
 export interface AppInfo {
     name: string;
     path: string;
+    url: string;
     tag: string;
     image: string;
     visible: boolean;
@@ -15,6 +16,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Formlyst',
         path: '/formlyst',
+        url: import.meta.env.VITE_URL_FORMLYST,
         tag: 'Drag-and-drop form builder',
         image: '/cover/formlyst.webp',
         visible: true,
@@ -25,6 +27,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Pokeverse',
         path: '/pokeverse',
+        url: import.meta.env.VITE_URL_POKEVERSE,
         tag: 'Pokédex meets battle simulator',
         image: '/cover/battle-sim2.webp',
         visible: true,
@@ -35,6 +38,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Super Tic-Tac-Toe',
         path: '/super-tic-tac-toe',
+        url: import.meta.env.VITE_URL_SUPER_TIC_TAC_TOE,
         tag: 'Tic-tac-toe with a twist',
         image: '/cover/tictactoe.webp',
         visible: true,
@@ -45,6 +49,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Blogify',
         path: '/blogify',
+        url: import.meta.env.VITE_URL_BLOGIFY,
         tag: 'Blogs and curated notebooks',
         image: '/cover/blogger.webp',
         visible: true,
@@ -55,6 +60,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'BudgetBuddy',
         path: '/budgetbuddy',
+        url: import.meta.env.VITE_URL_BUDGET_BUDDY,
         tag: 'Track spending, see the trends',
         image: '/cover/budget.webp',
         visible: true,
@@ -65,6 +71,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Sorting Visualizer',
         path: '/sorting-visualizer',
+        url: import.meta.env.VITE_URL_SORTING_VISUALIZER,
         tag: 'Algorithms, frame by frame',
         image: '/cover/sorting.webp',
         visible: true,
@@ -75,6 +82,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Poke-Memory',
         path: '/poke-memory',
+        url: import.meta.env.VITE_URL_POKE_MEMORY,
         tag: "Match the pairs, catch 'em all",
         image: '/cover/memory.webp',
         visible: true,
@@ -85,6 +93,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Loan Wizard',
         path: '/loan-wizard',
+        url: import.meta.env.VITE_URL_LOAN_WIZARD,
         tag: 'EMI calculator + affordability check',
         image: '/cover/loan.webp',
         visible: true,
@@ -95,6 +104,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'JSON Visualizer',
         path: '/json',
+        url: import.meta.env.VITE_URL_JSON,
         tag: 'Explore deeply nested JSON',
         image: '/cover/json.webp',
         visible: true,
@@ -105,6 +115,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Markdown Live',
         path: '/markdown',
+        url: import.meta.env.VITE_URL_MARKDOWN,
         tag: 'Two-pane Markdown editor',
         image: '/cover/markdown.webp',
         visible: true,
@@ -115,6 +126,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Sudoku',
         path: '/sudoku',
+        url: import.meta.env.VITE_URL_SUDOKU,
         tag: 'Generated puzzles with animated solver',
         image: '/cover/sudoku.webp',
         visible: true,
@@ -125,6 +137,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Quizzo',
         path: '/quizzo',
+        url: import.meta.env.VITE_URL_QUIZZO,
         tag: 'Timed trivia, scored results',
         image: '/cover/quiz.webp',
         visible: true,
@@ -135,6 +148,7 @@ export const Apps: AppInfo[] = [
     {
         name: 'Recipe Haven',
         path: '/recipe-haven',
+        url: import.meta.env.VITE_URL_RECIPE_HAVEN,
         tag: 'Browse and search recipes',
         image: '/cover/recipe.webp',
         visible: true,

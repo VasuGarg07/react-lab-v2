@@ -1,5 +1,6 @@
 packages:
   - 'apps/*'
+  - '!apps/_templates'
   - 'packages/*'
 allowBuilds:
   '@firebase/util': true

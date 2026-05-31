@@ -1,9 +1,9 @@
 import { ArrowRight } from 'lucide-react';
 import type { AppInfo } from './apps';
 
-export const AppCard = ({ name, tag, path, image, description, techStack, icon: Icon }: AppInfo) => {
+export const AppCard = ({ name, tag, url, image, description, techStack, icon: Icon }: AppInfo) => {
     const handleClick = () => {
-        window.location.href = path;
+        window.open(url, '_blank', 'noopener,noreferrer');
     };
 
     return (
