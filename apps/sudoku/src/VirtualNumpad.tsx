@@ -6,19 +6,23 @@ interface VirtualNumpadProps {
     disabled?: boolean;
 }
 
-const NUMPAD_DIGITS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 export default function VirtualNumpad({ onNumberSelect, onClear, disabled }: VirtualNumpadProps) {
     return (
-        <div className="md:hidden w-full bg-white dark:bg-neutral-900 border-t border-stone-200 dark:border-neutral-700 py-3 px-3">
+        <div
+            className="md:hidden w-full border-t py-3 px-4"
+            style={{ backgroundColor: '#F9F9ED', borderColor: '#D9DBF1' }}
+        >
             <div className="max-w-md mx-auto grid grid-cols-5 gap-2">
-                {NUMPAD_DIGITS.map((num) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
                     <button
                         key={num}
                         type="button"
                         onClick={() => onNumberSelect(num)}
                         disabled={disabled}
-                        className="h-12 flex items-center justify-center text-base font-semibold bg-stone-100 dark:bg-neutral-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 text-stone-900 dark:text-stone-100 rounded-md border border-stone-200 dark:border-neutral-700 transition active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                        className="h-12 flex items-center justify-center rounded-xl text-base transition active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
+                        style={{ backgroundColor: '#EEEEF8', border: '1px solid #D9DBF1', color: '#4a5080', fontWeight: 700 }}
+                        onMouseEnter={e => !disabled && (e.currentTarget.style.backgroundColor = '#D9DBF1')}
+                        onMouseLeave={e => !disabled && (e.currentTarget.style.backgroundColor = '#EEEEF8')}
                     >
                         {num}
                     </button>
@@ -27,9 +31,23 @@ export default function VirtualNumpad({ onNumberSelect, onClear, disabled }: Vir
                     type="button"
                     onClick={onClear}
                     disabled={disabled}
-                    className="h-12 flex items-center justify-center bg-stone-100 dark:bg-neutral-800 hover:bg-red-100 dark:hover:bg-red-900/40 text-stone-700 dark:text-stone-300 hover:text-red-600 dark:hover:text-red-400 rounded-md border border-stone-200 dark:border-neutral-700 transition active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     aria-label="Clear cell"
-                    title="Clear cell"
+                    className="h-12 flex items-center justify-center rounded-xl transition active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
+                    style={{ backgroundColor: '#EEEEF8', border: '1px solid #D9DBF1', color: '#7D84B2' }}
+                    onMouseEnter={e => {
+                        if (!disabled) {
+                            e.currentTarget.style.backgroundColor = '#f5d0e8';
+                            e.currentTarget.style.borderColor = '#e8b8d4';
+                            e.currentTarget.style.color = '#b5174a';
+                        }
+                    }}
+                    onMouseLeave={e => {
+                        if (!disabled) {
+                            e.currentTarget.style.backgroundColor = '#EEEEF8';
+                            e.currentTarget.style.borderColor = '#D9DBF1';
+                            e.currentTarget.style.color = '#7D84B2';
+                        }
+                    }}
                 >
                     <Eraser size={18} />
                 </button>

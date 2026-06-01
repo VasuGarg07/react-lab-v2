@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @source "../../../packages/ui/src/";
@@ -10,23 +10,28 @@
   --blur-2xs: 2px;
 }
 
-html {
-  font-family: 'Poppins', sans-serif;
+html, body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: #F9F9ED;
+  color: #4a5080;
+  min-height: 100dvh;
+}
+
+.cell-number {
+  font-family: 'DM Mono', monospace;
 }
 
 #root {
   isolation: isolate;
   transform-style: flat;
   backface-visibility: hidden;
+  min-height: 100dvh;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { height: 6px; width: 6px; }
+::-webkit-scrollbar { height: 5px; width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #d6d6d6, #9d9d9d);
-  border-radius: 9999px;
-  transition: background 0.3s ease;
-}
-::-webkit-scrollbar-thumb:hover { background: #9e9e9e; }
-* { scrollbar-width: thin; scrollbar-color: #e0e0e0; }
+::-webkit-scrollbar-thumb { background: #8E9DCC; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #7D84B2; }
+* { scrollbar-width: thin; scrollbar-color: #8E9DCC transparent; }
+
+.slider-lavender { accent-color: #7D84B2; }

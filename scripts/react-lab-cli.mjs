@@ -5,19 +5,19 @@ import chalk from 'chalk';
 
 const APPS = [
   { name: 'showcase',           pkg: '@react-lab/showcase',           firebase: 'react-lab-v2' },
-  { name: 'recipe-haven',       pkg: '@react-lab/recipe-haven',       firebase: 'react-lab-recipe-haven' },
-  { name: 'quizzo',             pkg: '@react-lab/quizzo',             firebase: 'react-lab-quizzo' },
-  { name: 'sudoku',             pkg: '@react-lab/sudoku',             firebase: 'react-lab-sudoku' },
-  { name: 'markdown-live',      pkg: '@react-lab/markdown-live',      firebase: 'react-lab-markdown' },
+  { name: 'blogify',            pkg: '@react-lab/blogify',            firebase: 'react-lab-blogify' },
+  { name: 'budget-buddy',       pkg: '@react-lab/budget-buddy',       firebase: 'react-lab-budget-buddy' },
+  { name: 'formlyst',           pkg: '@react-lab/formlyst',           firebase: 'react-lab-formlyst' },
   { name: 'json-live',          pkg: '@react-lab/json-live',          firebase: 'react-lab-json' },
   { name: 'loan-wizard',        pkg: '@react-lab/loan-wizard',        firebase: 'react-lab-loan-wizard' },
+  { name: 'markdown-live',      pkg: '@react-lab/markdown-live',      firebase: 'react-lab-markdown' },
   { name: 'poke-memory',        pkg: '@react-lab/poke-memory',        firebase: 'react-lab-poke-memory' },
-  { name: 'sorting-visualizer', pkg: '@react-lab/sorting-visualizer', firebase: 'react-lab-sorting-visualizer' },
-  { name: 'budget-buddy',       pkg: '@react-lab/budget-buddy',       firebase: 'react-lab-budget-buddy' },
-  { name: 'blogify',            pkg: '@react-lab/blogify',            firebase: 'react-lab-blogify' },
-  { name: 'super-tic-tac-toe',  pkg: '@react-lab/super-tic-tac-toe', firebase: 'react-lab-super-tic-tac-toe' },
   { name: 'pokeverse',          pkg: '@react-lab/pokeverse',          firebase: 'react-lab-pokeverse' },
-  { name: 'formlyst',           pkg: '@react-lab/formlyst',           firebase: 'react-lab-formlyst' },
+  { name: 'quizzo',             pkg: '@react-lab/quizzo',             firebase: 'react-lab-quizzo' },
+  { name: 'recipe-haven',       pkg: '@react-lab/recipe-haven',       firebase: 'react-lab-recipe-haven' },
+  { name: 'sorting-visualizer', pkg: '@react-lab/sorting-visualizer', firebase: 'react-lab-sorting-visualizer' },
+  { name: 'sudoku',             pkg: '@react-lab/sudoku',             firebase: 'react-lab-sudoku' },
+  { name: 'super-tic-tac-toe',  pkg: '@react-lab/super-tic-tac-toe', firebase: 'react-lab-super-tic-tac-toe' },
 ];
 
 const c = {
