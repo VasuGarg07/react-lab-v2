@@ -9,6 +9,7 @@ import {
 import MiniBoard from './Miniboard';
 import StartGamePopup from './StartGamePopup';
 import GameInstructions from './GameInstructions';
+import { Smartphone } from 'lucide-react';
 
 const SuperTicTacToe = () => {
     const [boards, setBoards] = useState<string[][][][]>(createSuperBoard());
@@ -84,78 +85,111 @@ const SuperTicTacToe = () => {
         setTimer(TIMEOUT);
     };
 
-    const renderBoard = (bigRow: number, bigCol: number) => {
-        const cell = winners[bigRow][bigCol];
+    const renderSuperBoard = () => {
+        const cells: React.ReactNode[] = [];
 
-        if (cell === 'X' || cell === 'O') {
-            return (
-                <div key={`${bigRow}-${bigCol}`} className="aspect-square p-1">
-                    <div className={`
-                        rounded-lg flex items-center justify-center w-full h-full
-                        ${cell === 'X'
-                            ? 'bg-red-100 dark:bg-red-950/50 border-2 border-red-300 dark:border-red-800'
-                            : 'bg-blue-100 dark:bg-blue-950/50 border-2 border-blue-300 dark:border-blue-800'
-                        }
-                    `}>
-                        <span className={`
-                            text-6xl sm:text-7xl md:text-8xl font-bold
-                            ${cell === 'X' ? 'text-red-500' : 'text-blue-500'}
-                        `}>
-                            {cell}
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                const winner = winners[i][j];
+                const isPlayable = !gameWinner && (!nextBoard || nextBoard === `${i}-${j}`) && !winner;
+                const pulseClass = isPlayable
+                    ? currentPlayer === 'X' ? 'pulse-active-x' : 'pulse-active-o'
+                    : '';
+
+                const cellNode = winner ? (
+                    <div key={`cell-${i}-${j}`} className="relative flex items-center justify-center">
+                        <span
+                            className={`symbol-in select-none font-bold leading-none
+                                ${winner === 'X'
+                                    ? 'text-[clamp(2.5rem,8vw,5rem)] text-amber-400 drop-shadow-[0_0_16px_rgba(245,158,11,0.7)]'
+                                    : 'text-[clamp(2.5rem,8vw,5rem)] text-violet-400 drop-shadow-[0_0_16px_rgba(139,92,246,0.7)]'
+                                }
+                            `}
+                        >
+                            {winner}
                         </span>
                     </div>
-                </div>
-            );
+                ) : (
+                    <div key={`cell-${i}-${j}`} className={`relative ${pulseClass}`}>
+                        <MiniBoard
+                            board={boards[i][j]}
+                            onPlay={handlePlay}
+                            boardIndex={`${i}-${j}`}
+                            isPlayable={isPlayable}
+                            currentPlayer={currentPlayer}
+                        />
+                    </div>
+                );
+
+                cells.push(cellNode);
+
+                // Vertical dividers (after col 0 and col 1)
+                if (j < 2) {
+                    cells.push(
+                        <div key={`v-${i}-${j}`} className="board-line-v" />
+                    );
+                }
+            }
+
+            // Horizontal dividers (after row 0 and row 1)
+            if (i < 2) {
+                for (let k = 0; k < 5; k++) {
+                    cells.push(
+                        <div key={`h-${i}-${k}`} className={k % 2 === 0 ? 'board-line-h' : ''} />
+                    );
+                }
+            }
         }
 
-        const isPlayable = !gameWinner && (!nextBoard || nextBoard === `${bigRow}-${bigCol}`);
-
-        return (
-            <div key={`${bigRow}-${bigCol}`} className="aspect-square p-1">
-                <div className={`
-                    rounded-lg p-2 sm:p-3 h-full transition-all duration-200
-                    ${isPlayable
-                        ? 'bg-violet-50 dark:bg-neutral-900 border-2 border-violet-300 dark:border-violet-800 shadow-sm'
-                        : 'bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700'
-                    }
-                `}>
-                    <MiniBoard
-                        board={boards[bigRow][bigCol]}
-                        onPlay={handlePlay}
-                        boardIndex={`${bigRow}-${bigCol}`}
-                    />
-                </div>
-            </div>
-        );
+        return cells;
     };
 
     return (
         <>
             <StartGamePopup isOpen={!gameStarted} onStart={handleStartGame} />
 
-            <div className="block sm:hidden w-full p-4">
-                <div className="bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 text-center">
-                    <p className="text-sm text-neutral-700 dark:text-neutral-300 font-medium">
-                        Please view on a larger screen (640px+) for the best experience.
-                    </p>
-                </div>
+            {/* Portrait / small screen gate */}
+            <div className="landscape-gate fixed inset-0 z-40 flex-col items-center justify-center gap-4 bg-slate-950 px-8 text-center">
+                <Smartphone size={40} className="text-slate-500" />
+                <p className="text-slate-300 text-sm font-medium leading-relaxed">
+                    Rotate your device to landscape<br />for the best experience.
+                </p>
             </div>
 
-            <div className="hidden sm:flex w-full max-w-7xl mx-auto p-4 lg:p-6">
-                <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 w-full">
-                    <div className="flex-1 flex items-center justify-center">
-                        <div className="w-full max-w-2xl">
-                            <div className="bg-white dark:bg-neutral-800 rounded-xl p-3 sm:p-4 shadow-md border border-neutral-200 dark:border-neutral-700">
-                                <div className="grid grid-cols-3 gap-2 w-full aspect-square">
-                                    {Array(3).fill(null).map((_, i) =>
-                                        Array(3).fill(null).map((_, j) => renderBoard(i, j))
-                                    )}
-                                </div>
-                            </div>
+            {/* Main game — landscape only */}
+            <div className="game-root fixed inset-0 items-stretch overflow-hidden">
+
+                {/* Header bar */}
+                <header className="absolute top-0 left-0 right-0 flex items-center px-4 sm:px-6 py-2 z-10">
+                    <div className="flex items-center gap-2">
+                        <span className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500">
+                            React Lab
+                        </span>
+                        <span className="text-slate-700">·</span>
+                        <span className="text-xs font-light tracking-widest uppercase text-slate-600">
+                            Super Tic‑Tac‑Toe
+                        </span>
+                    </div>
+                </header>
+
+                {/* Content: board left, panel right */}
+                <div className="flex h-full w-full items-center justify-center gap-12 px-6 sm:px-10 lg:px-16 pt-8 pb-4">
+
+                    {/* Super board */}
+                    <div className="shrink-0 flex items-center justify-center">
+                        <div
+                            className="board-grid"
+                            style={{
+                                width: 'min(76vh, 62vw)',
+                                height: 'min(76vh, 62vw)',
+                            }}
+                        >
+                            {renderSuperBoard()}
                         </div>
                     </div>
 
-                    <div className="w-full lg:w-80 lg:shrink-0">
+                    {/* Right panel */}
+                    <div className="shrink-0 w-56 sm:w-64 lg:w-72 h-full">
                         <GameInstructions
                             gameWinner={gameWinner}
                             currentPlayer={currentPlayer}
@@ -164,6 +198,7 @@ const SuperTicTacToe = () => {
                         />
                     </div>
                 </div>
+
             </div>
         </>
     );

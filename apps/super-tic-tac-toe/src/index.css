@@ -1,32 +1,161 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @source "../../../packages/ui/src/";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 @theme {
   --breakpoint-xs: 425px;
   --blur-2xs: 2px;
+
+  /* Brand palette */
+  --color-slate-950: #020617;
+  --color-slate-925: #080f1e;
+
+  /* Player colors */
+  --color-x-500: #f59e0b;
+  --color-x-400: #fbbf24;
+  --color-x-300: #fcd34d;
+  --color-x-glow: rgba(245, 158, 11, 0.35);
+
+  --color-o-500: #8b5cf6;
+  --color-o-400: #a78bfa;
+  --color-o-300: #c4b5fd;
+  --color-o-glow: rgba(139, 92, 246, 0.35);
 }
 
 html {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Space Grotesk', 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #080f1e;
+  color: #e2e8f0;
+  overflow: hidden;
 }
 
 #root {
   isolation: isolate;
   transform-style: flat;
   backface-visibility: hidden;
+  height: 100dvh;
+  width: 100dvw;
+  overflow: hidden;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { height: 6px; width: 6px; }
+/* ── Scrollbar ── */
+::-webkit-scrollbar { height: 4px; width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #d6d6d6, #9d9d9d);
+  background: #334155;
   border-radius: 9999px;
-  transition: background 0.3s ease;
 }
-::-webkit-scrollbar-thumb:hover { background: #9e9e9e; }
-* { scrollbar-width: thin; scrollbar-color: #e0e0e0; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+* { scrollbar-width: thin; scrollbar-color: #334155 transparent; }
+
+/* ── Board grid lines ── */
+.board-grid {
+  display: grid;
+  grid-template-columns: 1fr 3px 1fr 3px 1fr;
+  grid-template-rows: 1fr 3px 1fr 3px 1fr;
+}
+
+.board-line-v {
+  background: linear-gradient(180deg, transparent 0%, #334155 15%, #475569 50%, #334155 85%, transparent 100%);
+  border-radius: 9999px;
+}
+
+.board-line-h {
+  background: linear-gradient(90deg, transparent 0%, #334155 15%, #475569 50%, #334155 85%, transparent 100%);
+  border-radius: 9999px;
+}
+
+.mini-board-line-v {
+  background: linear-gradient(180deg, transparent 0%, #1e293b 10%, #334155 50%, #1e293b 90%, transparent 100%);
+  border-radius: 9999px;
+}
+
+.mini-board-line-h {
+  background: linear-gradient(90deg, transparent 0%, #1e293b 10%, #334155 50%, #1e293b 90%, transparent 100%);
+  border-radius: 9999px;
+}
+
+/* ── Player glow effects ── */
+.glow-x {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.25), 0 0 40px rgba(245, 158, 11, 0.1);
+}
+
+.glow-o {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.25), 0 0 40px rgba(139, 92, 246, 0.1);
+}
+
+.ring-x {
+  outline: 1.5px solid rgba(245, 158, 11, 0.5);
+  outline-offset: 2px;
+}
+
+.ring-o {
+  outline: 1.5px solid rgba(139, 92, 246, 0.5);
+  outline-offset: 2px;
+}
+
+/* ── Active board pulse ── */
+@keyframes board-pulse-x {
+  0%, 100% { box-shadow: 0 0 0 1.5px rgba(245, 158, 11, 0.5), 0 0 12px rgba(245, 158, 11, 0.15); }
+  50% { box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.8), 0 0 24px rgba(245, 158, 11, 0.3); }
+}
+
+@keyframes board-pulse-o {
+  0%, 100% { box-shadow: 0 0 0 1.5px rgba(139, 92, 246, 0.5), 0 0 12px rgba(139, 92, 246, 0.15); }
+  50% { box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.8), 0 0 24px rgba(139, 92, 246, 0.3); }
+}
+
+.pulse-active-x {
+  animation: board-pulse-x 1.8s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+.pulse-active-o {
+  animation: board-pulse-o 1.8s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+/* ── Timer arc ── */
+.timer-ring {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+/* ── Won board symbol ── */
+@keyframes symbol-in {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.symbol-in {
+  animation: symbol-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ── Landscape gate ── */
+.landscape-gate {
+  display: none;
+}
+
+@media (orientation: portrait) {
+  .game-root { display: none; }
+  .landscape-gate { display: flex; }
+}
+
+@media (orientation: landscape) {
+  .game-root { display: flex; }
+  .landscape-gate { display: none; }
+}
+
+/* ── Start screen overlay ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: fade-up 0.4s ease forwards;
+}

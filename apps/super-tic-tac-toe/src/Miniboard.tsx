@@ -2,40 +2,78 @@ interface MiniBoardProps {
     board: string[][];
     onPlay: (boardIndex: string, rowIndex: number, colIndex: number) => void;
     boardIndex: string;
+    isPlayable: boolean;
+    currentPlayer: 'X' | 'O';
 }
 
-const MiniBoard = ({ board, onPlay, boardIndex }: MiniBoardProps) => {
+const MiniBoard = ({ board, onPlay, boardIndex, isPlayable, currentPlayer }: MiniBoardProps) => {
     return (
-        <div className="grid grid-cols-3 gap-1 aspect-square w-full">
+        <div
+            className="mini-board-grid w-full h-full"
+            style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1px 1fr 1px 1fr',
+                gridTemplateRows: '1fr 1px 1fr 1px 1fr',
+            }}
+        >
             {board.map((row, rIndex) =>
                 row.map((cell, cIndex) => {
                     const isX = cell === 'X';
                     const isO = cell === 'O';
                     const isEmpty = cell === ' ';
 
-                    return (
+                    const cellNode = (
                         <button
                             key={`${rIndex}-${cIndex}`}
-                            onClick={() => onPlay(boardIndex, rIndex, cIndex)}
-                            disabled={!isEmpty}
+                            onClick={() => isPlayable && isEmpty && onPlay(boardIndex, rIndex, cIndex)}
+                            disabled={!isEmpty || !isPlayable}
                             className={`
-                                aspect-square flex items-center justify-center
-                                text-lg sm:text-xl font-semibold select-none
-                                rounded-md transition-all duration-200
-                                focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0
-                                ${isEmpty
-                                    ? 'bg-white dark:bg-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-700 cursor-pointer shadow-sm'
-                                    : 'cursor-not-allowed'
+                                w-full h-full flex items-center justify-center
+                                select-none transition-colors duration-150
+                                focus:outline-none
+                                ${isEmpty && isPlayable
+                                    ? currentPlayer === 'X'
+                                        ? 'hover:bg-amber-500/10 cursor-pointer'
+                                        : 'hover:bg-violet-500/10 cursor-pointer'
+                                    : 'cursor-default'
                                 }
-                                ${isX ? 'bg-red-50 dark:bg-red-950/30 text-red-500 dark:text-red-400' : ''}
-                                ${isO ? 'bg-blue-50 dark:bg-blue-950/30 text-blue-500 dark:text-blue-400' : ''}
                             `}
                         >
-                            {cell !== ' ' && cell}
+                            {isX && (
+                                <span className="text-[clamp(0.6rem,2.2vw,1.25rem)] font-bold text-amber-400 drop-shadow-[0_0_6px_rgba(245,158,11,0.6)] leading-none">
+                                    X
+                                </span>
+                            )}
+                            {isO && (
+                                <span className="text-[clamp(0.6rem,2.2vw,1.25rem)] font-bold text-violet-400 drop-shadow-[0_0_6px_rgba(139,92,246,0.6)] leading-none">
+                                    O
+                                </span>
+                            )}
                         </button>
                     );
+
+                    const nodes: React.ReactNode[] = [cellNode];
+
+                    // Vertical divider after col 0 and col 1
+                    if (cIndex < 2) {
+                        nodes.push(
+                            <div key={`v-${rIndex}-${cIndex}`} className="mini-board-line-v" />
+                        );
+                    }
+
+                    return nodes;
                 })
             )}
+            {/* Horizontal dividers after row 0 and row 1 */}
+            {[0, 1].map(rowIdx => (
+                Array.from({ length: 5 }, (_, k) => (
+                    <div
+                        key={`h-${rowIdx}-${k}`}
+                        className={k % 2 === 0 ? 'mini-board-line-h' : ''}
+                        style={{ gridRow: rowIdx === 0 ? 2 : 4 }}
+                    />
+                ))
+            ))}
         </div>
     );
 };

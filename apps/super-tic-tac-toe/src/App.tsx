@@ -1,13 +1,16 @@
-import { Layout, ModalProvider, ThemeProvider } from '@react-lab/ui'
+import { useEffect } from 'react'
+import { ModalProvider, ThemeProvider } from '@react-lab/ui'
 import SuperTicTacToe from './SuperTicTacToe'
 
 const App = () => {
+  useEffect(() => {
+    document.body.setAttribute('data-theme', 'dark')
+  }, [])
+
   return (
     <ThemeProvider>
       <ModalProvider>
-        <Layout>
-          <SuperTicTacToe />
-        </Layout>
+        <SuperTicTacToe />
       </ModalProvider>
     </ThemeProvider>
   )
