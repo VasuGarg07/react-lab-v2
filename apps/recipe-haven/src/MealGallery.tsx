@@ -5,12 +5,7 @@ import { useGalleryMeals } from './utils/useRecipeQueries';
 
 export default function MealGallery() {
     const { searchTerm, letter, categoryId, areaId } = useParams();
-    const { data: meals = [], isLoading, error } = useGalleryMeals({
-        searchTerm,
-        letter,
-        categoryId,
-        areaId,
-    });
+    const { data: meals = [], isLoading, error } = useGalleryMeals({ searchTerm, letter, categoryId, areaId });
 
     const getKicker = () => {
         if (searchTerm) return 'Search results';
@@ -31,8 +26,8 @@ export default function MealGallery() {
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center py-20">
-                <Loader2 size={32} className="animate-spin text-amber-600 dark:text-amber-500 mb-3" />
-                <p className="text-sm text-stone-600 dark:text-stone-400">Loading recipes…</p>
+                <Loader2 size={32} className="animate-spin text-pollen mb-3" />
+                <p className="text-sm text-iron/60 dark:text-ivory/50">Loading recipes…</p>
             </div>
         );
     }
@@ -40,7 +35,7 @@ export default function MealGallery() {
     if (error) {
         return (
             <EmptyState
-                icon={<AlertCircle size={36} className="text-red-600 dark:text-red-400" />}
+                icon={<AlertCircle size={36} className="text-red-500" />}
                 title="Couldn't load recipes"
                 blurb="Something went wrong on our end. Try again in a moment."
             />
@@ -50,7 +45,7 @@ export default function MealGallery() {
     if (meals.length === 0) {
         return (
             <EmptyState
-                icon={<AlertCircle size={36} className="text-stone-400 dark:text-stone-500" />}
+                icon={<AlertCircle size={36} className="text-iron/30 dark:text-ivory/25" />}
                 title="No recipes found"
                 blurb="Try a different search term or browse a category."
             />
@@ -60,14 +55,10 @@ export default function MealGallery() {
     return (
         <div className="space-y-8">
             <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-amber-700 dark:text-amber-500 font-medium">
-                    {getKicker()}
-                </p>
+                <p className="text-xs uppercase tracking-[0.2em] text-carrot font-medium">{getKicker()}</p>
                 <div className="mt-1 flex items-baseline justify-between gap-4">
-                    <h2 className="font-serif text-3xl sm:text-4xl text-stone-900 dark:text-stone-100">
-                        {getTitle()}
-                    </h2>
-                    <span className="shrink-0 text-sm text-stone-500 dark:text-stone-400">
+                    <h2 className="font-serif text-3xl sm:text-4xl text-iron dark:text-ivory">{getTitle()}</h2>
+                    <span className="shrink-0 text-sm text-iron/50 dark:text-ivory/40">
                         {meals.length} {meals.length === 1 ? 'recipe' : 'recipes'}
                     </span>
                 </div>
@@ -86,12 +77,8 @@ function EmptyState({ icon, title, blurb }: { icon: React.ReactNode; title: stri
     return (
         <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="mb-4">{icon}</div>
-            <h2 className="font-serif text-2xl text-stone-900 dark:text-stone-100 mb-1">
-                {title}
-            </h2>
-            <p className="text-sm text-stone-600 dark:text-stone-400 max-w-sm">
-                {blurb}
-            </p>
+            <h2 className="font-serif text-2xl text-iron dark:text-ivory mb-1">{title}</h2>
+            <p className="text-sm text-iron/60 dark:text-ivory/50 max-w-sm">{blurb}</p>
         </div>
     );
 }

@@ -8,25 +8,41 @@
 @theme {
   --breakpoint-xs: 425px;
   --blur-2xs: 2px;
+
+  /* Recipe Haven palette */
+  --color-ivory:  #F9F3E2;
+  --color-onyx:   #121110;
+  --color-iron:   #484A47;
+  --color-pollen: #e8b820;
+  --color-carrot: #d4781a;
 }
 
 html {
   font-family: 'Poppins', sans-serif;
 }
 
+body {
+  background-color: #F9F3E2;
+  min-height: 100dvh;
+}
+
+[data-theme="dark"] body {
+  background-color: #121110;
+}
+
 #root {
   isolation: isolate;
   transform-style: flat;
   backface-visibility: hidden;
+  min-height: 100dvh;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar { height: 6px; width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #d6d6d6, #9d9d9d);
+  background: #FDCA40;
   border-radius: 9999px;
-  transition: background 0.3s ease;
 }
-::-webkit-scrollbar-thumb:hover { background: #9e9e9e; }
-* { scrollbar-width: thin; scrollbar-color: #e0e0e0; }
+::-webkit-scrollbar-thumb:hover { background: #F79824; }
+* { scrollbar-width: thin; scrollbar-color: #FDCA40 transparent; }
