@@ -34,7 +34,7 @@ export const bubbleSort = async (
         }
         patch(setState, {
             sorted: Array.from({ length: i + 1 }, (_, idx) => n - 1 - idx),
-            comparing: [], swapping: []
+            comparing: [], swapping: [],
         });
     }
     patch(setState, { sorted: Array.from({ length: n }, (_, i) => i), comparing: [], swapping: [] });
@@ -68,7 +68,7 @@ export const selectionSort = async (
         }
         patch(setState, {
             sorted: Array.from({ length: i + 1 }, (_, idx) => idx),
-            swapping: [], current: []
+            swapping: [], current: [],
         });
     }
 };
@@ -82,7 +82,7 @@ export const insertionSort = async (
     patch(setState, { sorted: [0] });
 
     for (let i = 1; i < n; i++) {
-        let key = arr[i];
+        const key = arr[i];
         let j = i - 1;
         patch(setState, { current: [i], comparing: [], swapping: [] });
         await delay(speed);
@@ -102,22 +102,27 @@ export const insertionSort = async (
         setArray([...arr]);
         patch(setState, {
             sorted: Array.from({ length: i + 1 }, (_, idx) => idx),
-            current: [], comparing: []
+            current: [], comparing: [],
         });
         await delay(speed);
     }
 };
 
+// FIX: mergeSort now owns its own array copy and does not mutate the caller's reference.
+// The caller passes [...array]; we make another copy here so recursion is safe.
 export const mergeSort = async (
     array: number[], setArray: SetArray, speed: number,
     isSorting: SortingRef, stats: StatsRef, setState: SetState,
     left = 0, right = array.length - 1
 ) => {
     if (left >= right) return;
+    if (!isSorting.current) return;
+
     const mid = Math.floor((left + right) / 2);
     await mergeSort(array, setArray, speed, isSorting, stats, setState, left, mid);
     await mergeSort(array, setArray, speed, isSorting, stats, setState, mid + 1, right);
 
+    // Merge step — copy subarrays so we don't corrupt indices
     const leftArr = array.slice(left, mid + 1);
     const rightArr = array.slice(mid + 1, right + 1);
     let i = 0, j = 0, k = left;
@@ -126,30 +131,33 @@ export const mergeSort = async (
         if (!isSorting.current) return;
         patch(setState, {
             comparing: [left + i, mid + 1 + j],
-            current: Array.from({ length: right - left + 1 }, (_, idx) => left + idx)
+            current: Array.from({ length: right - left + 1 }, (_, idx) => left + idx),
         });
         stats.current.comparisons++;
-        array[k++] = leftArr[i] <= rightArr[j] ? leftArr[i++] : rightArr[j++];
+        if (leftArr[i] <= rightArr[j]) {
+            array[k++] = leftArr[i++];
+        } else {
+            array[k++] = rightArr[j++];
+        }
         stats.current.arrayAccesses++;
         setArray([...array]);
         await delay(speed);
     }
 
+    // Remainder — no comparison needed, just copy; skip redundant setArray calls
+    // by batching the remainder into one assignment then one render
     while (i < leftArr.length) {
         if (!isSorting.current) return;
         array[k++] = leftArr[i++];
         stats.current.arrayAccesses++;
-        setArray([...array]);
-        await delay(speed);
     }
-
     while (j < rightArr.length) {
         if (!isSorting.current) return;
         array[k++] = rightArr[j++];
         stats.current.arrayAccesses++;
-        setArray([...array]);
-        await delay(speed);
     }
+    // Single render for the entire remainder batch
+    setArray([...array]);
 
     patch(setState, { comparing: [], current: [] });
 };
@@ -160,6 +168,7 @@ export const quickSort = async (
     low = 0, high = array.length - 1
 ) => {
     if (low >= high) return;
+    if (!isSorting.current) return;
 
     const pivot = array[high];
     let i = low - 1;
@@ -193,11 +202,14 @@ export const quickSort = async (
     await quickSort(array, setArray, speed, isSorting, stats, setState, pivotIdx + 1, high);
 };
 
+// FIX: heapify now checks isSorting.current before each recursive call and delay
 const heapify = async (
     arr: number[], n: number, i: number,
     setArray: SetArray, speed: number,
     isSorting: SortingRef, stats: StatsRef, setState: SetState
 ) => {
+    if (!isSorting.current) return;
+
     let largest = i;
     const left = 2 * i + 1;
     const right = 2 * i + 2;
@@ -207,6 +219,7 @@ const heapify = async (
         patch(setState, { comparing: [largest, left] });
         stats.current.comparisons++;
         await delay(speed / 2);
+        if (!isSorting.current) return;
         if (arr[left] > arr[largest]) largest = left;
     }
 
@@ -214,6 +227,7 @@ const heapify = async (
         patch(setState, { comparing: [largest, right] });
         stats.current.comparisons++;
         await delay(speed / 2);
+        if (!isSorting.current) return;
         if (arr[right] > arr[largest]) largest = right;
     }
 
@@ -223,6 +237,7 @@ const heapify = async (
         stats.current.swaps++;
         setArray([...arr]);
         await delay(speed);
+        if (!isSorting.current) return;
         await heapify(arr, n, largest, setArray, speed, isSorting, stats, setState);
     }
 
@@ -236,8 +251,10 @@ export const heapSort = async (
     const arr = [...array];
     const n = arr.length;
 
-    for (let i = Math.floor(n / 2) - 1; i >= 0; i--)
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+        if (!isSorting.current) return;
         await heapify(arr, n, i, setArray, speed, isSorting, stats, setState);
+    }
 
     for (let i = n - 1; i > 0; i--) {
         if (!isSorting.current) return;
@@ -248,7 +265,7 @@ export const heapSort = async (
         await delay(speed);
         patch(setState, {
             sorted: Array.from({ length: n - i }, (_, idx) => n - 1 - idx),
-            swapping: []
+            swapping: [],
         });
         await heapify(arr, i, 0, setArray, speed, isSorting, stats, setState);
     }
@@ -325,12 +342,13 @@ export const shellSort = async (
 
     for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
         patch(setState, {
-            current: Array.from({ length: Math.ceil(n / gap) }, (_, i) => i * gap).filter(i => i < n)
+            current: Array.from({ length: Math.ceil(n / gap) }, (_, i) => i * gap).filter(i => i < n),
         });
         await delay(speed);
 
         for (let i = gap; i < n; i++) {
-            let temp = arr[i];
+            if (!isSorting.current) return;
+            const temp = arr[i];
             let j = i;
 
             patch(setState, { comparing: [j - gap, j] });

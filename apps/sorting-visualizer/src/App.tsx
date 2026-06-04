@@ -1,14 +1,10 @@
-import { Layout, ThemeProvider } from '@react-lab/ui'
+import { ThemeProvider } from '@react-lab/ui'
 import SortingVisualizer from './Visualizer'
 
-const App = () => {
+export default function App() {
   return (
     <ThemeProvider>
-      <Layout>
-        <SortingVisualizer />
-      </Layout>
+      <SortingVisualizer />
     </ThemeProvider>
   )
 }
-
-export default App

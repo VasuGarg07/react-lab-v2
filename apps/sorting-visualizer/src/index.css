@@ -26,8 +26,6 @@ html {
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #d6d6d6, #9d9d9d);
   border-radius: 9999px;
-  transition: background 0.3s ease;
 }
 ::-webkit-scrollbar-thumb:hover { background: #9e9e9e; }
-* { scrollbar-width: thin; scrollbar-color: #e0e0e0; }
-
+* { scrollbar-width: thin; scrollbar-color: #e0e0e0 transparent; }

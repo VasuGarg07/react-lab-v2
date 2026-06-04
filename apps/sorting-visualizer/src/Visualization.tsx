@@ -1,56 +1,83 @@
+import { useMemo } from 'react';
+import { useTheme } from '@react-lab/ui';
 import type { SortingState } from './algorithms.data';
 
-const LEGEND = [
-    { color: 'bg-blue-500 border-blue-600', label: 'Unsorted' },
-    { color: 'bg-amber-500 border-amber-600', label: 'Comparing' },
-    { color: 'bg-red-500 border-red-600', label: 'Swapping' },
-    { color: 'bg-purple-500 border-purple-600', label: 'Pivot' },
-    { color: 'bg-cyan-500 border-cyan-600', label: 'Current' },
-    { color: 'bg-emerald-500 border-emerald-600', label: 'Sorted' },
-];
-
-const barColor = (index: number, state: SortingState) => {
-    if (state.sorted.includes(index)) return 'bg-emerald-500 border-emerald-600';
-    if (state.pivot.includes(index)) return 'bg-purple-500 border-purple-600';
-    if (state.swapping.includes(index)) return 'bg-red-500 border-red-600';
-    if (state.comparing.includes(index)) return 'bg-amber-500 border-amber-600';
-    if (state.current.includes(index)) return 'bg-cyan-500 border-cyan-600';
-    return 'bg-blue-500 border-blue-600';
+const COLORS = {
+    sorted:    '#10b981',
+    pivot:     '#a855f7',
+    swapping:  '#ef4444',
+    comparing: '#f59e0b',
+    current:   '#06b6d4',
 };
+
+const LEGEND = [
+    { color: '#94a3b8',        label: 'Unsorted' },
+    { color: COLORS.comparing, label: 'Comparing' },
+    { color: COLORS.swapping,  label: 'Swapping' },
+    { color: COLORS.pivot,     label: 'Pivot' },
+    { color: COLORS.current,   label: 'Current' },
+    { color: COLORS.sorted,    label: 'Sorted' },
+] as const;
 
 interface VisualizationProps {
     array: number[];
     sortingState: SortingState;
+    description: string;
 }
 
-export default function Visualization({ array, sortingState }: VisualizationProps) {
-    const maxValue = Math.max(...array);
-    const minValue = Math.min(...array);
+export default function Visualization({ array, sortingState, description }: VisualizationProps) {
+    const { theme } = useTheme();
+    const isDark = theme === 'dark';
+    const defaultColor = isDark ? '#334155' : '#94a3b8';
+
+    // Convert arrays to Sets once per render — O(1) lookup vs O(n) .includes()
+    const sortedSet    = useMemo(() => new Set(sortingState.sorted),    [sortingState.sorted]);
+    const pivotSet     = useMemo(() => new Set(sortingState.pivot),     [sortingState.pivot]);
+    const swappingSet  = useMemo(() => new Set(sortingState.swapping),  [sortingState.swapping]);
+    const comparingSet = useMemo(() => new Set(sortingState.comparing), [sortingState.comparing]);
+    const currentSet   = useMemo(() => new Set(sortingState.current),   [sortingState.current]);
+
+    const getBarColor = (index: number): string => {
+        if (sortedSet.has(index))    return COLORS.sorted;
+        if (pivotSet.has(index))     return COLORS.pivot;
+        if (swappingSet.has(index))  return COLORS.swapping;
+        if (comparingSet.has(index)) return COLORS.comparing;
+        if (currentSet.has(index))   return COLORS.current;
+        return defaultColor;
+    };
+
+    const maxValue = Math.max(...array, 1);
 
     return (
-        <div className="p-3 mb-3 rounded-lg bg-white dark:bg-neutral-900 shadow-sm border border-neutral-200 dark:border-neutral-700">
-            <div className="mb-3 flex flex-wrap gap-2 text-xs">
+        <div className="rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm p-4 flex flex-col gap-3">
+
+            {/* Legend */}
+            <div className="flex flex-wrap gap-x-4 gap-y-1.5">
                 {LEGEND.map(({ color, label }) => (
                     <div key={label} className="flex items-center gap-1.5">
-                        <div className={`w-3 h-3 rounded border ${color}`} />
-                        <span className="text-neutral-700 dark:text-neutral-300">{label}</span>
+                        <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: color }} />
+                        <span className="text-xs text-neutral-600 dark:text-neutral-400">{label}</span>
                     </div>
                 ))}
             </div>
 
-            <div className="h-70 flex items-end justify-center gap-px p-3 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
+            {/* Bars */}
+            <div className="h-64 sm:h-80 flex items-end gap-px rounded-lg overflow-hidden bg-neutral-50 dark:bg-neutral-950 p-2">
                 {array.map((value, index) => (
                     <div
                         key={index}
-                        className={`flex-1 rounded-sm border transition-all duration-200 ${barColor(index, sortingState)}`}
-                        style={{ height: `${Math.max((value / maxValue) * 85, 5)}%`, minHeight: '4px' }}
+                        className="flex-1 rounded-t-sm"
+                        style={{
+                            height: `${Math.max((value / maxValue) * 100, 2)}%`,
+                            backgroundColor: getBarColor(index),
+                            minWidth: '1px',
+                            transition: 'background-color 120ms ease, height 120ms ease',
+                        }}
                     />
                 ))}
             </div>
 
-            <div className="mt-3 text-center text-xs text-neutral-600 dark:text-neutral-400">
-                {array.length} elements • Range: {minValue}–{maxValue}
-            </div>
+            <p className="text-center text-xs text-neutral-400 dark:text-neutral-500">{description}</p>
         </div>
     );
 }
