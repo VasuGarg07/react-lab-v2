@@ -2,8 +2,7 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { getMetadata } from './json.utilities';
 import type { JsonValue } from './json.utilities';
-import { useAppDispatch } from './store/useRedux';
-import { navigateToPath } from './store/jsonViewerSlice';
+import { useJson } from './JsonContext';
 
 interface JsonNodeProps {
     label: string;
@@ -13,25 +12,20 @@ interface JsonNodeProps {
 }
 
 const renderPrimitive = (val: JsonValue) => {
-    if (val === null) return <span className="text-red-600 dark:text-red-400">null</span>;
-
+    if (val === null) return <span style={{ color: '#cf222e' }}>null</span>;
     switch (typeof val) {
-        case 'string':
-            return <span className="text-emerald-600 dark:text-emerald-400">"{val}"</span>;
-        case 'number':
-            return <span className="text-cyan-600 dark:text-cyan-400">{val}</span>;
-        case 'boolean':
-            return <span className="text-amber-600 dark:text-amber-400">{String(val)}</span>;
-        default:
-            return null;
+        case 'string':  return <span style={{ color: '#0a3069' }}>"{val}"</span>;
+        case 'number':  return <span style={{ color: '#0550ae' }}>{val}</span>;
+        case 'boolean': return <span style={{ color: '#953800' }}>{String(val)}</span>;
+        default:        return null;
     }
 };
 
 export default function JsonNode({ label, value, depth, path }: JsonNodeProps) {
     const [isOpen, setIsOpen] = useState(depth < 2);
-    const dispatch = useAppDispatch();
+    const { dispatch } = useJson();
 
-    const indent = depth * 0.5;
+    const indent = depth * 0.75;
     const isExpandable = value !== null && typeof value === 'object';
     const isArray = Array.isArray(value);
     const isEmpty = isExpandable && Object.keys(value).length === 0;
@@ -40,33 +34,36 @@ export default function JsonNode({ label, value, depth, path }: JsonNodeProps) {
 
     if (isExpandable) {
         return (
-            <div className="font-mono text-sm">
-                <div className="flex items-start group py-0.5 rounded-lg">
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '13px' }}>
+                <div className="flex items-start group py-0.5 rounded">
                     <button
                         onClick={() => !isEmpty && setIsOpen(!isOpen)}
-                        className={`p-1 focus:outline-none text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0 rounded transition-all duration-200 ${isEmpty ? 'cursor-default opacity-50' : ''}`}
-                        style={{ marginLeft: `${indent}rem` }}
+                        className="shrink-0 p-0.5 focus:outline-none rounded transition-colors"
+                        style={{ marginLeft: `${indent}rem`, color: '#8c959f' }}
                         disabled={isEmpty}
-                        aria-label={isOpen ? 'Collapse' : 'Expand'}
                     >
-                        {isEmpty ? <div className="w-3.5 h-3.5" /> : isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                        {isEmpty ? <div className="w-3.5 h-3.5" /> : isOpen ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
                     </button>
 
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center flex-wrap gap-1">
                             <span
-                                className={`font-medium text-violet-600 dark:text-violet-400 transition-all duration-200 ${!isEmpty ? 'cursor-pointer hover:text-violet-800 dark:hover:text-violet-300' : ''}`}
-                                onClick={() => !isEmpty && dispatch(navigateToPath(newPath))}
+                                className={!isEmpty ? 'cursor-pointer' : ''}
+                                style={{ color: '#8250df', fontWeight: 500 }}
+                                onClick={() => !isEmpty && dispatch({ type: 'NAVIGATE_TO', payload: newPath })}
                             >
                                 {label}:
                             </span>
-                            <span className="text-neutral-500 dark:text-neutral-400">
+                            <span style={{ color: '#57606a' }}>
                                 {metadata} {isEmpty ? (isArray ? '[]' : '{}') : (isArray ? '[' : '{')}
                             </span>
                             {!isEmpty && (
                                 <button
-                                    onClick={() => dispatch(navigateToPath(newPath))}
-                                    className="text-xs text-blue-600 dark:text-blue-400 transition-all duration-200 opacity-0 group-hover:opacity-100 hover:text-blue-700 dark:hover:text-blue-300 focus:outline-none focus:opacity-100 px-1.5 py-0.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0"
+                                    onClick={() => dispatch({ type: 'NAVIGATE_TO', payload: newPath })}
+                                    className="text-xs opacity-0 group-hover:opacity-100 px-1.5 py-0.5 rounded transition-all focus:opacity-100"
+                                    style={{ color: '#0969da', backgroundColor: 'transparent' }}
+                                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#ddf4ff')}
+                                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                                 >
                                     Navigate →
                                 </button>
@@ -84,8 +81,8 @@ export default function JsonNode({ label, value, depth, path }: JsonNodeProps) {
                                         path={newPath}
                                     />
                                 ))}
-                                <div style={{ marginLeft: `${indent + 0.5}rem` }}>
-                                    <span className="text-neutral-500 dark:text-neutral-400">{isArray ? ']' : '}'}</span>
+                                <div style={{ marginLeft: `${indent + 0.75}rem` }}>
+                                    <span style={{ color: '#57606a' }}>{isArray ? ']' : '}'}</span>
                                 </div>
                             </div>
                         )}
@@ -96,11 +93,15 @@ export default function JsonNode({ label, value, depth, path }: JsonNodeProps) {
     }
 
     return (
-        <div className="flex items-center py-0.5 font-mono text-sm hover:bg-neutral-50 dark:hover:bg-neutral-800/50 rounded-lg transition-all duration-200">
-            <div style={{ marginLeft: `${indent + 0.75}rem` }} />
+        <div className="flex items-center py-0.5 rounded transition-colors group"
+            style={{ fontSize: '13px' }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f6f8fa')}
+            onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+        >
+            <div style={{ marginLeft: `${indent + 1.25}rem` }} />
             <div className="flex items-center min-w-0 flex-1">
-                <span className="font-medium text-violet-600 dark:text-violet-400 mr-2 shrink-0">{label}:</span>
-                <div className="min-w-0 flex-1 break-all">{renderPrimitive(value)}</div>
+                <span className="mr-2 shrink-0" style={{ color: '#8250df', fontWeight: 500, fontFamily: "'JetBrains Mono', monospace" }}>{label}:</span>
+                <div className="min-w-0 flex-1 break-all" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{renderPrimitive(value)}</div>
             </div>
         </div>
     );

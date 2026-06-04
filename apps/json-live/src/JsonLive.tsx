@@ -1,42 +1,113 @@
-import { Download, Link } from 'lucide-react';
-import { useState } from 'react';
+import { Download, Upload, Link, Wand2, X, Loader2 } from 'lucide-react';
+import { useRef, useState } from 'react';
 import Breadcrumb from './Breadcrumb';
 import { formatJson, downloadFile } from './json.utilities';
 import type { JsonValue } from './json.utilities';
-import JsonUpload from './JsonUpload';
-import UrlFetchDialog from './UrlFetchDialog';
-import { useAppDispatch, useAppSelector } from './store/useRedux';
-import { useModal } from '@react-lab/ui';
-import { setParsedJson } from './store/jsonViewerSlice';
+import { useFetchJson } from './useFetchJson';
+import { useJson } from './JsonContext';
 import JsonNode from './JsonNode';
+import GithubIcon from '../../../packages/ui/icons/github.svg';
+import LinkedinIcon from '../../../packages/ui/icons/linkedin.svg';
+import XIcon from '../../../packages/ui/icons/x.svg';
 
+const SOCIALS = [
+    { href: 'https://github.com/VasuGarg07', icon: GithubIcon, label: 'GitHub' },
+    { href: 'https://linkedin.com/in/vasu-garg-07', icon: LinkedinIcon, label: 'LinkedIn' },
+    { href: 'https://x.com/_vasugarg_', icon: XIcon, label: 'X (Twitter)' },
+];
+
+const iconFilter = 'invert(20%) sepia(0%) brightness(40%)';
+
+// ── Inline URL panel ──────────────────────────────────────────────────────────
+function UrlPanel({ onJsonLoaded, onClose }: { onJsonLoaded: (json: string) => void; onClose: () => void }) {
+    const [url, setUrl] = useState('');
+    const { isLoading, error, fetchJson, clearError } = useFetchJson();
+
+    const handleSubmit = async () => {
+        const data = await fetchJson(url);
+        if (data) { onJsonLoaded(data); onClose(); }
+    };
+
+    return (
+        <div className="shrink-0 border-b px-4 py-3 flex flex-col gap-2" style={{ backgroundColor: '#f6f8fa', borderColor: '#d0d7de' }}>
+            <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold" style={{ color: '#57606a' }}>Load from URL</span>
+                <button onClick={onClose} className="p-1 rounded transition-colors" style={{ color: '#57606a' }}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#eaeef2')}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+                >
+                    <X size={14} />
+                </button>
+            </div>
+            <div className="flex gap-2">
+                <input
+                    type="url"
+                    value={url}
+                    onChange={(e) => { setUrl(e.target.value); clearError(); }}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+                    placeholder="https://api.example.com/data"
+                    className="flex-1 px-3 py-1.5 text-sm rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500"
+                    style={{ borderColor: '#d0d7de', backgroundColor: '#ffffff', color: '#24292f' }}
+                    disabled={isLoading}
+                    autoFocus
+                />
+                <button
+                    onClick={() => { setUrl('https://jsonplaceholder.typicode.com/posts/1'); clearError(); }}
+                    className="text-xs px-2 py-1.5 rounded-md border transition-colors"
+                    style={{ borderColor: '#d0d7de', color: '#57606a', backgroundColor: '#ffffff' }}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f6f8fa')}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#ffffff')}
+                    disabled={isLoading}
+                >
+                    Sample
+                </button>
+                <button
+                    onClick={handleSubmit}
+                    disabled={!url.trim() || isLoading}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md text-white transition-colors disabled:opacity-50"
+                    style={{ backgroundColor: '#0969da' }}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#0860c4')}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#0969da')}
+                >
+                    {isLoading ? <Loader2 size={13} className="animate-spin" /> : null}
+                    Fetch
+                </button>
+            </div>
+            {error && <p className="text-xs" style={{ color: '#cf222e' }}>{error}</p>}
+        </div>
+    );
+}
+
+// ── Main ──────────────────────────────────────────────────────────────────────
 export default function JsonLive() {
-    const modal = useModal();
-    const dispatch = useAppDispatch();
-    const { parsedJson, currentPath } = useAppSelector((state) => state.jsonViewer);
+    const { state, dispatch } = useJson();
+    const { parsedJson, currentPath } = state;
 
     const [jsonString, setJsonString] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [showUrlPanel, setShowUrlPanel] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const parseJson = (input: string) => {
-        if (!input.trim()) {
-            dispatch(setParsedJson(null));
-            setError(null);
-            return;
-        }
-        try {
-            dispatch(setParsedJson(JSON.parse(input)));
-            setError(null);
-        } catch {
-            dispatch(setParsedJson(null));
-            setError('Invalid JSON format');
-        }
+        if (!input.trim()) { dispatch({ type: 'SET_JSON', payload: null }); setError(null); return; }
+        try { dispatch({ type: 'SET_JSON', payload: JSON.parse(input) }); setError(null); }
+        catch { dispatch({ type: 'SET_JSON', payload: null }); setError('Invalid JSON'); }
     };
 
-    const handleJsonStringChange = (value: string) => {
-        setJsonString(value);
-        parseJson(value);
+    const handleChange = (value: string) => { setJsonString(value); parseJson(value); };
+
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        e.target.value = '';
+        if (file.size > 2 * 1024 * 1024) { setError('File too large (max 2 MB)'); return; }
+        if (!file.name.endsWith('.json')) { setError('Please select a .json file'); return; }
+        setIsLoading(true);
+        const reader = new FileReader();
+        reader.onload = (ev) => { const c = ev.target?.result as string; if (c) { setJsonString(c); parseJson(c); } setIsLoading(false); };
+        reader.onerror = () => { setError('Failed to read file'); setIsLoading(false); };
+        reader.readAsText(file);
     };
 
     const getCurrentJson = (): JsonValue | null => {
@@ -44,106 +115,111 @@ export default function JsonLive() {
         let current: JsonValue = parsedJson;
         for (const segment of currentPath) {
             if (current !== null && typeof current === 'object') {
-                if (Array.isArray(current) && !isNaN(Number(segment))) {
-                    current = current[Number(segment)];
-                } else if (!Array.isArray(current) && segment in current) {
-                    current = (current as Record<string, JsonValue>)[segment];
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
+                if (Array.isArray(current) && !isNaN(Number(segment))) current = current[Number(segment)];
+                else if (!Array.isArray(current) && segment in current) current = (current as Record<string, JsonValue>)[segment];
+                else return null;
+            } else return null;
         }
         return current;
-    };
-
-    const handleJsonLoaded = (json: string) => {
-        setJsonString(json);
-        parseJson(json);
     };
 
     const currentJson = getCurrentJson();
     const isValidJson = parsedJson !== null;
 
+    const toolbarBtn = (label: string, icon: React.ReactNode, onClick: () => void, opts?: { color?: string; bg?: string; active?: boolean }) => (
+        <button
+            onClick={onClick}
+            className="flex items-center gap-1 px-2.5 py-1 rounded text-xs font-medium border transition-colors"
+            style={{
+                borderColor: opts?.active ? '#0969da' : '#d0d7de',
+                color: opts?.color ?? '#24292f',
+                backgroundColor: opts?.bg ?? '#ffffff',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f6f8fa')}
+            onMouseLeave={e => (e.currentTarget.style.backgroundColor = opts?.bg ?? '#ffffff')}
+        >
+            {icon} {label}
+        </button>
+    );
+
     return (
-        <div className="w-full h-[calc(100vh-120px)] flex flex-col">
+        <div className="h-dvh flex flex-col" style={{ backgroundColor: '#f6f8fa' }}>
+
+            {/* Header — branding left, actions right */}
+            <header className="shrink-0 border-b" style={{ backgroundColor: '#ffffff', borderColor: '#d0d7de' }}>
+                <div className="px-4 sm:px-6 h-13 flex items-center justify-between gap-3">
+                    <div className="flex items-baseline gap-2 shrink-0">
+                        <span className="text-[10px] font-semibold tracking-[0.2em] uppercase" style={{ color: '#8c959f' }}>React Lab</span>
+                        <span style={{ color: '#d0d7de' }}>·</span>
+                        <h1 className="text-sm font-bold" style={{ color: '#24292f' }}>JSON Live</h1>
+                    </div>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                        {toolbarBtn('Upload', <Upload size={12} />, () => fileInputRef.current?.click())}
+                        {toolbarBtn('URL', <Link size={12} />, () => setShowUrlPanel(v => !v), { active: showUrlPanel, color: showUrlPanel ? '#0969da' : '#24292f' })}
+                        {jsonString && toolbarBtn('Beautify', <Wand2 size={12} />, () => { const f = formatJson(jsonString); setJsonString(f); parseJson(f); })}
+                        {isValidJson && (
+                            <button
+                                onClick={() => downloadFile(JSON.stringify(parsedJson, null, 2), 'data.json', 'application/json')}
+                                className="flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold text-white transition-colors"
+                                style={{ backgroundColor: '#1a7f37' }}
+                                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#116329')}
+                                onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#1a7f37')}
+                            >
+                                <Download size={12} /> Download
+                            </button>
+                        )}
+                        <input ref={fileInputRef} type="file" accept=".json" onChange={handleFileUpload} className="hidden" />
+                    </div>
+                </div>
+            </header>
+
+            {/* Error banner */}
             {error && (
-                <div className="mx-4 mt-3 mb-0 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-700 dark:text-red-400 px-4 py-2 rounded-lg shrink-0">
+                <div className="shrink-0 px-4 py-2 text-xs font-medium flex items-center justify-between" style={{ backgroundColor: '#ffebe9', color: '#cf222e', borderBottom: '1px solid #ffcecb' }}>
                     {error}
+                    <button onClick={() => setError(null)}><X size={13} /></button>
                 </div>
             )}
 
+            {/* Split panes */}
             <div className="flex flex-col md:flex-row flex-1 min-h-0">
-                {/* Left Panel - JSON Input */}
-                <div className="relative w-full md:w-1/2 h-1/2 md:h-auto flex flex-col border-b md:border-b-0 md:border-r border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900">
-                    <div className="absolute top-4 left-4 right-8 z-10 flex items-center justify-between">
-                        <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm px-3 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-700">
-                            JSON Input
-                        </span>
-                        <div className="flex items-center gap-2">
-                            <JsonUpload
-                                compact
-                                onJsonLoaded={handleJsonLoaded}
-                                onError={(e) => setError(e)}
-                                onLoadingChange={setIsLoading}
-                            />
-                            <button
-                                onClick={() => modal.open(
-                                    <UrlFetchDialog
-                                        onJsonLoaded={(json) => { setJsonString(json); parseJson(json); }}
-                                        onClose={modal.close}
-                                    />
-                                )}
-                                className="flex items-center p-2 bg-blue-600/90 hover:bg-blue-600 text-white rounded-full transition-all duration-200 backdrop-blur-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0"
-                                title="Load from URL"
-                            >
-                                <Link className="w-3.5 h-3.5" />
-                            </button>
-                            {jsonString && (
-                                <button
-                                    onClick={() => { const f = formatJson(jsonString); setJsonString(f); }}
-                                    className="text-xs font-medium px-3 py-1.5 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-white/90 dark:bg-neutral-900/90 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-full transition-all duration-200 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0"
-                                >
-                                    Beautify
-                                </button>
-                            )}
-                            {isValidJson && (
-                                <button
-                                    onClick={() => downloadFile(JSON.stringify(parsedJson, null, 2), 'data.json', 'application/json')}
-                                    className="flex items-center p-2 bg-emerald-600/90 hover:bg-emerald-600 text-white rounded-full transition-all duration-200 backdrop-blur-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:ring-offset-0"
-                                    title="Download JSON"
-                                >
-                                    <Download className="w-3.5 h-3.5" />
-                                </button>
-                            )}
-                        </div>
+
+                {/* Left — editor */}
+                <div className="flex flex-col w-full md:w-1/2 h-1/2 md:h-full border-b md:border-b-0 md:border-r" style={{ borderColor: '#d0d7de', backgroundColor: '#ffffff' }}>
+                    <div className="shrink-0 flex items-center px-3 py-1.5 border-b" style={{ borderColor: '#eaeef2', backgroundColor: '#f6f8fa' }}>
+                        <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: '#8c959f' }}>JSON Input</span>
                     </div>
 
+                    {showUrlPanel && (
+                        <UrlPanel
+                            onJsonLoaded={(json) => { setJsonString(json); parseJson(json); setShowUrlPanel(false); }}
+                            onClose={() => setShowUrlPanel(false)}
+                        />
+                    )}
+
                     <textarea
-                        className="w-full h-full p-4 pt-16 bg-transparent text-neutral-900 dark:text-neutral-100 resize-none focus:outline-none font-mono text-sm leading-relaxed border-none overflow-y-auto"
+                        className="flex-1 w-full p-4 bg-transparent resize-none focus:outline-none text-sm leading-relaxed"
+                        style={{ fontFamily: "'JetBrains Mono', 'Fira Code', monospace", color: '#24292f', border: 'none', caretColor: '#0969da' }}
                         value={jsonString}
-                        onChange={(e) => handleJsonStringChange(e.target.value)}
-                        placeholder={`{\n  "name": "John Doe",\n  "age": 30,\n  "city": "New York"\n}`}
+                        onChange={(e) => handleChange(e.target.value)}
+                        placeholder={`{\n  "name": "John Doe",\n  "age": 30\n}`}
                         spellCheck={false}
                     />
                 </div>
 
-                {/* Right Panel - Tree View */}
-                <div className="w-full md:w-1/2 h-1/2 md:h-auto flex flex-col bg-white dark:bg-neutral-900">
+                {/* Right — tree */}
+                <div className="flex flex-col w-full md:w-1/2 h-1/2 md:h-full" style={{ backgroundColor: '#ffffff' }}>
                     {isValidJson && currentJson !== null ? (
                         <>
-                            <div className="shrink-0">
-                                <Breadcrumb />
-                            </div>
+                            <Breadcrumb />
                             <div className="flex-1 overflow-y-auto">
                                 {isLoading ? (
-                                    <div className="flex flex-col items-center justify-center h-full p-4">
-                                        <div className="animate-spin rounded-full h-10 w-10 border-2 border-blue-500 dark:border-blue-400 border-t-transparent mb-3" />
-                                        <p className="text-neutral-600 dark:text-neutral-400">Processing JSON...</p>
+                                    <div className="flex flex-col items-center justify-center h-full gap-2">
+                                        <Loader2 size={24} className="animate-spin" style={{ color: '#0969da' }} />
+                                        <p className="text-sm" style={{ color: '#57606a' }}>Processing…</p>
                                     </div>
                                 ) : (
-                                    <div className="p-4 font-mono">
+                                    <div className="p-4" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                                         {typeof currentJson === 'object' && currentJson !== null ? (
                                             Object.entries(currentJson).map(([key, value], index) => (
                                                 <JsonNode
@@ -155,11 +231,8 @@ export default function JsonLive() {
                                                 />
                                             ))
                                         ) : (
-                                            <div className="text-center text-neutral-500 dark:text-neutral-400 py-8">
-                                                <p>Current value is not an object or array</p>
-                                                <p className="text-sm mt-2">
-                                                    Value: <span className="font-mono">{JSON.stringify(currentJson)}</span>
-                                                </p>
+                                            <div className="text-center py-8 text-sm" style={{ color: '#57606a' }}>
+                                                <p>Value: <span style={{ fontFamily: 'monospace' }}>{JSON.stringify(currentJson)}</span></p>
                                             </div>
                                         )}
                                     </div>
@@ -168,21 +241,35 @@ export default function JsonLive() {
                         </>
                     ) : (
                         <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-                            <div className="max-w-md">
-                                <h3 className="text-lg font-medium text-neutral-800 dark:text-neutral-200 mb-2">
-                                    {error ? 'Invalid JSON' : 'No JSON to Display'}
-                                </h3>
-                                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
-                                    {error
-                                        ? 'Please fix the JSON syntax errors in the left panel.'
-                                        : 'Enter valid JSON in the left panel, upload a file, or load from a URL to visualize the tree structure.'
-                                    }
-                                </p>
-                            </div>
+                            <h3 className="text-base font-semibold mb-1.5" style={{ color: '#24292f' }}>
+                                {error ? 'Invalid JSON' : 'No JSON yet'}
+                            </h3>
+                            <p className="text-sm leading-relaxed" style={{ color: '#57606a' }}>
+                                {error ? 'Fix the syntax errors on the left.' : 'Paste JSON, upload a file, or load from a URL.'}
+                            </p>
                         </div>
                     )}
                 </div>
+
             </div>
+
+            {/* Footer — copyright left, socials right */}
+            <footer className="shrink-0 border-t px-4 sm:px-6 py-2.5 flex items-center justify-between" style={{ backgroundColor: '#f6f8fa', borderColor: '#d0d7de' }}>
+                <p className="text-xs" style={{ color: '#8c959f' }}>© {new Date().getFullYear()} Vasu Garg · React Lab</p>
+                <div className="flex items-center gap-0.5">
+                    {SOCIALS.map(({ href, icon, label }) => (
+                        <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+                            className="w-7 h-7 rounded-md flex items-center justify-center transition-all duration-150"
+                            style={{ opacity: 0.4 }}
+                            onMouseEnter={e => { e.currentTarget.style.opacity = '0.9'; e.currentTarget.style.backgroundColor = '#eaeef2'; }}
+                            onMouseLeave={e => { e.currentTarget.style.opacity = '0.4'; e.currentTarget.style.backgroundColor = 'transparent'; }}
+                        >
+                            <img src={icon} alt={label} className="w-3.5 h-3.5" style={{ filter: iconFilter }} />
+                        </a>
+                    ))}
+                </div>
+            </footer>
+
         </div>
     );
 }

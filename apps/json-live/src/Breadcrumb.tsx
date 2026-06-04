@@ -1,38 +1,40 @@
 import { ChevronRight, Home } from 'lucide-react';
 import { Fragment } from 'react';
-import { useAppDispatch, useAppSelector } from './store/useRedux';
-import { navigateToBreadcrumb } from './store/jsonViewerSlice';
+import { useJson } from './JsonContext';
 
 export default function Breadcrumb() {
-    const dispatch = useAppDispatch();
-    const currentPath = useAppSelector((state) => state.jsonViewer.currentPath);
+    const { state, dispatch } = useJson();
+    const { currentPath } = state;
 
     return (
-        <div className="flex items-center gap-1 p-2 border-b border-neutral-200 dark:border-neutral-700 overflow-x-auto">
+        <div className="flex items-center gap-1 px-3 py-2 border-b overflow-x-auto shrink-0" style={{ borderColor: '#eaeef2', backgroundColor: '#f6f8fa' }}>
             <button
-                onClick={() => dispatch(navigateToBreadcrumb(-1))}
-                className="p-1.5 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 text-neutral-600 dark:text-neutral-300 transition-all duration-200 shrink-0 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0"
+                onClick={() => dispatch({ type: 'BREADCRUMB', payload: -1 })}
+                className="p-1.5 rounded transition-colors shrink-0 focus:outline-none"
+                style={{ color: '#57606a' }}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#eaeef2')}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                 aria-label="Go to root"
             >
-                <Home size={18} />
+                <Home size={15} />
             </button>
-
-            {currentPath.length > 0 && (
-                <ChevronRight size={16} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
-            )}
 
             {currentPath.map((segment, index) => (
                 <Fragment key={index}>
+                    <ChevronRight size={14} className="shrink-0" style={{ color: '#8c959f' }} />
                     <button
-                        onClick={() => dispatch(navigateToBreadcrumb(index))}
-                        className="px-2 py-1 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 font-medium text-sm whitespace-nowrap shrink-0 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0"
-                        aria-label={`Navigate to ${segment}`}
+                        onClick={() => dispatch({ type: 'BREADCRUMB', payload: index })}
+                        className="px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap shrink-0 transition-colors focus:outline-none"
+                        style={{
+                            color: index === currentPath.length - 1 ? '#0969da' : '#57606a',
+                            backgroundColor: index === currentPath.length - 1 ? '#ddf4ff' : 'transparent',
+                            fontFamily: "'JetBrains Mono', monospace",
+                        }}
+                        onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#ddf4ff')}
+                        onMouseLeave={e => (e.currentTarget.style.backgroundColor = index === currentPath.length - 1 ? '#ddf4ff' : 'transparent')}
                     >
                         {segment}
                     </button>
-                    {index < currentPath.length - 1 && (
-                        <ChevronRight size={16} className="text-neutral-400 dark:text-neutral-500 shrink-0" />
-                    )}
                 </Fragment>
             ))}
         </div>
