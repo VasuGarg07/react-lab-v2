@@ -1,44 +1,67 @@
-import { Trophy, RotateCcw } from 'lucide-react';
-import { useAppDispatch, useAppSelector } from './store/useRedux';
-import { resetGame } from './store/pokeMemorySlice';
+import { Trophy, RotateCcw, Star } from 'lucide-react';
+import { usePoke } from './PokeContext';
 
 export default function Result() {
-    const dispatch = useAppDispatch();
-    const { name, turns } = useAppSelector((state) => state.pokeMemory);
+    const { state, dispatch } = usePoke();
+    const { name, turns } = state;
+
+    const getRating = () => {
+        if (turns <= 12) return { stars: 3, label: 'Perfect memory!' };
+        if (turns <= 20) return { stars: 2, label: 'Great job!' };
+        return { stars: 1, label: 'Keep practising!' };
+    };
+
+    const { stars, label } = getRating();
 
     return (
-        <div className="w-full max-w-2xl mx-auto">
-            <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden shadow-xl">
-                <div className="flex flex-col md:flex-row">
-                    <div className="md:w-1/2 p-6 flex justify-center items-center bg-neutral-50 dark:bg-neutral-800">
-                        <img src="/pikachu.png" alt="Victory" className="max-w-full h-auto" />
+        <div className="w-full max-w-sm mx-auto">
+            <div className="bg-card rounded-3xl border border-sun/30 shadow-2xl overflow-hidden">
+
+                {/* Victory banner */}
+                <div
+                    className="flex flex-col items-center justify-center py-8 gap-4"
+                    style={{ background: 'linear-gradient(135deg, #6B0504 0%, #A3320B 100%)' }}
+                >
+                    <img src="/pikachu.png" alt="Pikachu" className="h-32 object-contain drop-shadow-xl" />
+                    <div className="flex gap-1.5">
+                        {[1, 2, 3].map((s) => (
+                            <Star
+                                key={s}
+                                size={28}
+                                className={s <= stars ? 'text-sun fill-sun drop-shadow' : 'text-white/20'}
+                            />
+                        ))}
                     </div>
-                    <div className="md:w-1/2 p-6 flex flex-col justify-center items-center">
-                        <div className="mb-4">
-                            <Trophy size={48} className="text-amber-500 mx-auto" />
+                </div>
+
+                <div className="p-6 flex flex-col items-center gap-5">
+                    <div className="text-center">
+                        <div className="flex items-center justify-center gap-2 mb-1">
+                            <Trophy size={20} className="text-sun" />
+                            <h2 className="text-2xl font-black text-ink">You Won!</h2>
                         </div>
-                        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 text-center mb-4">
-                            Congratulations!
-                        </h2>
-                        <div className="text-center mb-4 space-y-2">
-                            <p className="text-neutral-700 dark:text-neutral-300">
-                                Amazing job, <span className="font-semibold text-blue-600 dark:text-blue-400">{name}</span>!
-                            </p>
-                            <p className="text-neutral-700 dark:text-neutral-300">
-                                You completed the game in <span className="font-bold text-blue-600 dark:text-blue-400">{turns}</span> turns.
-                            </p>
-                        </div>
-                        <p className="text-sm text-neutral-600 dark:text-neutral-400 text-center mb-6">
-                            Your memory skills are impressive. Can you beat your own record?
-                        </p>
-                        <button
-                            onClick={() => dispatch(resetGame())}
-                            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium rounded-lg shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0"
-                        >
-                            <RotateCcw size={20} />
-                            <span>Play Again</span>
-                        </button>
+                        <p className="text-sm font-bold text-muted">{label}</p>
                     </div>
+
+                    <div className="w-full grid grid-cols-2 gap-3">
+                        <div className="flex flex-col items-center py-3 rounded-2xl bg-sun/8 border border-sun/25">
+                            <span className="text-[10px] font-extrabold uppercase tracking-widest text-muted">Player</span>
+                            <span className="text-base font-black text-ink truncate max-w-full px-2">{name}</span>
+                        </div>
+                        <div className="flex flex-col items-center py-3 rounded-2xl bg-rust/8 border border-rust/25">
+                            <span className="text-[10px] font-extrabold uppercase tracking-widest text-muted">Turns</span>
+                            <span className="text-2xl font-black text-rust">{turns}</span>
+                        </div>
+                    </div>
+
+                    <button
+                        onClick={() => dispatch({ type: 'RESET_GAME' })}
+                        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-black text-white shadow-lg active:scale-95 transition-transform"
+                        style={{ background: 'linear-gradient(135deg, #6B0504 0%, #A3320B 100%)' }}
+                    >
+                        <RotateCcw size={16} />
+                        Play Again
+                    </button>
                 </div>
             </div>
         </div>

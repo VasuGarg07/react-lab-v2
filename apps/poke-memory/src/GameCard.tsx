@@ -10,25 +10,27 @@ interface CardProps {
 export default function Card({ card, flipped, disabled, onClick }: CardProps) {
     return (
         <div
-            className="relative w-full aspect-4/5 cursor-pointer"
-            style={{ perspective: '1000px' }}
+            className="relative w-full aspect-4/5 cursor-pointer select-none"
+            style={{ perspective: '900px' }}
             onClick={() => !disabled && !flipped && onClick(card)}
         >
-            <div
-                className={`relative w-full h-full transition-transform duration-500 ${flipped ? 'transform-[rotateY(180deg)]' : ''}`}
-                style={{ transformStyle: 'preserve-3d' }}
-            >
+            <div className={`card-inner relative w-full h-full ${flipped ? 'flipped' : ''}`}>
+                {/* Back face */}
                 <img
                     src={card.backImage}
                     alt="Card back"
-                    className="absolute w-full h-full rounded-lg shadow-lg border-2 border-neutral-300 dark:border-neutral-600"
-                    style={{ backfaceVisibility: 'hidden' }}
+                    className={`card-face absolute inset-0 w-full h-full object-cover rounded-xl shadow-sm border-2
+                        ${card.matched ? 'border-sun' : 'border-sun/30'}`}
                 />
+                {/* Front face */}
                 <img
                     src={card.frontImage}
                     alt="Card front"
-                    className="absolute w-full h-full rounded-lg shadow-lg border-2 border-neutral-300 dark:border-neutral-600"
-                    style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+                    className={`card-face card-front absolute inset-0 w-full h-full object-cover rounded-xl shadow-sm border-2
+                        ${card.matched
+                            ? 'border-sun shadow-[0_0_14px_rgba(230,175,46,0.55)]'
+                            : 'border-rust/40'
+                        }`}
                 />
             </div>
         </div>
