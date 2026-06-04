@@ -59,7 +59,7 @@ export default function RecipeHaven() {
                     <div className="flex items-center gap-1">
                         {SOCIALS.map(({ href, icon, label }) => (
                             <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                                className="w-8 h-8 rounded-lg flex items-center justify-center opacity-40 hover:opacity-100 hover:bg-iron/8 dark:hover:bg-ivory/8 transition-all duration-150"
+                                className="w-8 h-8 rounded-lg flex items-center justify-center opacity-40 hover:opacity-100 hover:bg-iron/8 dark:hover:bg-ivory/8"
                             >
                                 <img src={icon} alt={label} className="w-4 h-4 dark:invert" />
                             </a>

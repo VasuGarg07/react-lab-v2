@@ -90,7 +90,7 @@ export default function SortingVisualizer() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label={label}
-                                className="w-8 h-8 rounded-lg flex items-center justify-center opacity-40 hover:opacity-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-150"
+                                className="w-8 h-8 rounded-lg flex items-center justify-center opacity-40 hover:opacity-100 hover:bg-neutral-100 dark:hover:bg-neutral-800"
                             >
                                 <img src={icon} alt={label} className="w-4 h-4 dark:invert" />
                             </a>

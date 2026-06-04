@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @source "../../../packages/ui/src/";
@@ -8,25 +8,35 @@
 @theme {
   --breakpoint-xs: 425px;
   --blur-2xs: 2px;
+
+  /* accent stays the same in both themes */
+  --color-game-accent: #7c3aed;
+  --color-game-bright: #a78bfa;
 }
 
-html {
-  font-family: 'Poppins', sans-serif;
+html, body {
+  font-family: 'Outfit', sans-serif;
+  background-color: #f5f3ff;
+  color: #1e1b4b;
+  height: 100%;
+  overflow: hidden;
+}
+
+[data-theme="dark"] body {
+  background-color: #0f0e17;
+  color: #ede9fe;
 }
 
 #root {
   isolation: isolate;
-  transform-style: flat;
-  backface-visibility: hidden;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { height: 6px; width: 6px; }
+::-webkit-scrollbar { height: 4px; width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #d6d6d6, #9d9d9d);
-  border-radius: 9999px;
-  transition: background 0.3s ease;
-}
-::-webkit-scrollbar-thumb:hover { background: #9e9e9e; }
-* { scrollbar-width: thin; scrollbar-color: #e0e0e0; }
+::-webkit-scrollbar-thumb { background: #ddd6fe; border-radius: 9999px; }
+[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #2d2a3e; }
+::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
+* { scrollbar-width: thin; scrollbar-color: #ddd6fe transparent; }

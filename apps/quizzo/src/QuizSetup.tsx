@@ -1,143 +1,106 @@
-import { Award, Dices, Grid3X3, User } from 'lucide-react';
+import { Award, ChevronDown, Dices, Grid3X3, User } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from './store/useRedux';
+import { useQuiz } from './QuizContext';
 import { QuizCategories } from './quiz.constants';
 import { toastService } from '@react-lab/shared';
-import { setName, setQuizConfig } from './store/quizSlice';
-import { Select } from '@react-lab/ui';
 import { useQuizQuestions } from './useQuizQuestions';
 
-const GameModes = ["easy", "medium", "difficult"];
+const GameModes = ['easy', 'medium', 'hard'];
+
+const fieldClass =
+    'w-full pl-10 pr-4 py-2.5 rounded-lg text-sm appearance-none ' +
+    'bg-violet-50 dark:bg-[#0f0e17] ' +
+    'border border-violet-200 dark:border-[#2d2a3e] ' +
+    'text-indigo-950 dark:text-violet-100 ' +
+    'placeholder:text-violet-400 dark:placeholder:text-[#7c7a96] ' +
+    'focus:outline-none focus:ring-2 focus:ring-game-accent/30 focus:border-game-accent ' +
+    'transition-colors disabled:opacity-40 disabled:cursor-not-allowed';
 
 export default function QuizSetup() {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
-    const name = useAppSelector((state) => state.quiz.name);
+    const { state, dispatch } = useQuiz();
+    const name = state.name;
 
-    const [category, setCategory] = useState("");
-    const [difficulty, setDifficulty] = useState("");
+    const [category, setCategory] = useState('');
+    const [difficulty, setDifficulty] = useState('');
 
-    const { refetch, isLoading } = useQuizQuestions({
-        category,
-        difficulty,
-        enabled: false,
-    });
-
-    const difficultyOptions = GameModes.map(mode => ({
-        value: mode,
-        label: mode.charAt(0).toUpperCase() + mode.slice(1)
-    }));
-
-    const categoryOptions = QuizCategories.map(cat => ({
-        value: cat.value.toString(),
-        label: cat.category
-    }));
+    const { refetch, isLoading } = useQuizQuestions({ category, difficulty, enabled: false });
 
     const handleSubmit = async () => {
-        if (!name.trim()) {
-            toastService.error("Please enter your name");
-            return;
-        }
-
-        if (!difficulty) {
-            toastService.error("Please select a difficulty level");
-            return;
-        }
-
-        if (!category) {
-            toastService.error("Please select a category");
-            return;
-        }
-
+        if (!name.trim())  { toastService.error('Please enter your name'); return; }
+        if (!difficulty)   { toastService.error('Please select a difficulty level'); return; }
+        if (!category)     { toastService.error('Please select a category'); return; }
         try {
             const result = await refetch();
-
-            if (result.isError) {
-                toastService.error("Failed to fetch quiz questions. Please try again.");
+            if (result.isError || !result.data?.results?.length) {
+                toastService.error(result.isError ? 'Failed to fetch questions. Try again.' : 'No questions found.');
                 return;
             }
-
-            if (!result.data?.results?.length) {
-                toastService.error("No questions found for this configuration");
-                return;
-            }
-
-            dispatch(setQuizConfig({
-                category,
-                difficulty,
-                questions: result.data.results
-            }));
-
+            dispatch({ type: 'SET_CONFIG', payload: { category, difficulty, questions: result.data.results } });
             navigate('/quizzo/play');
         } catch {
-            toastService.error("Failed to fetch quiz questions. Please try again.");
+            toastService.error('Failed to fetch quiz questions. Please try again.');
         }
-    };
-
-    const handleNameChange = (value: string) => {
-        dispatch(setName(value));
     };
 
     return (
-        <div className="flex flex-col items-center justify-center h-full space-y-6">
-            <h2 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-4">
-                Quiz Settings
-            </h2>
+        <div className="flex flex-col gap-5">
+            <div>
+                <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-violet-400 dark:text-[#7c7a96] mb-1">
+                    Ready to play?
+                </p>
+                <h2 className="text-xl font-bold text-indigo-950 dark:text-violet-100">Quiz Setup</h2>
+            </div>
 
-            <div className="w-full max-w-sm space-y-4">
+            <div className="flex flex-col gap-3">
                 <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-neutral-500 dark:text-neutral-400">
-                        <User size={18} />
-                    </div>
+                    <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-violet-400 dark:text-[#7c7a96] pointer-events-none" />
                     <input
                         type="text"
-                        placeholder="Player Name"
+                        placeholder="Your name"
                         value={name}
-                        onChange={(e) => handleNameChange(e.target.value)}
+                        onChange={(e) => dispatch({ type: 'SET_NAME', payload: e.target.value })}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
                         disabled={isLoading}
-                        className="w-full pl-10 pr-4 py-2 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 border border-neutral-300 dark:border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0 focus:border-blue-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed placeholder-neutral-400 dark:placeholder-neutral-500"
+                        className={fieldClass}
                     />
                 </div>
 
-                <Select
-                    options={difficultyOptions}
-                    value={difficulty}
-                    onChange={setDifficulty}
-                    placeholder="Choose Difficulty Level"
-                    icon={<Award size={18} className="text-neutral-500 dark:text-neutral-400" />}
-                    disabled={isLoading}
-                    required
-                />
+                <div className="relative">
+                    <Award size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-violet-400 dark:text-[#7c7a96] pointer-events-none z-10" />
+                    <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} disabled={isLoading} className={`${fieldClass} pr-9`}>
+                        <option value="" disabled>Difficulty level</option>
+                        {GameModes.map(mode => (
+                            <option key={mode} value={mode}>{mode.charAt(0).toUpperCase() + mode.slice(1)}</option>
+                        ))}
+                    </select>
+                    <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-violet-400 dark:text-[#7c7a96] pointer-events-none" />
+                </div>
 
-                <Select
-                    options={categoryOptions}
-                    value={category}
-                    onChange={setCategory}
-                    placeholder="Select the Category"
-                    icon={<Grid3X3 size={18} className="text-neutral-500 dark:text-neutral-400" />}
-                    disabled={isLoading}
-                    required
-                />
-
-                <button
-                    onClick={handleSubmit}
-                    disabled={isLoading}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:ring-offset-0"
-                >
-                    {isLoading ? (
-                        <>
-                            <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                            <span>Loading...</span>
-                        </>
-                    ) : (
-                        <>
-                            <Dices size={18} />
-                            <span>Begin!</span>
-                        </>
-                    )}
-                </button>
+                <div className="relative">
+                    <Grid3X3 size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-violet-400 dark:text-[#7c7a96] pointer-events-none z-10" />
+                    <select value={category} onChange={(e) => setCategory(e.target.value)} disabled={isLoading} className={`${fieldClass} pr-9`}>
+                        <option value="" disabled>Select category</option>
+                        {QuizCategories.map(cat => (
+                            <option key={cat.value} value={cat.value.toString()}>{cat.category}</option>
+                        ))}
+                    </select>
+                    <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-violet-400 dark:text-[#7c7a96] pointer-events-none" />
+                </div>
             </div>
+
+            <button
+                onClick={handleSubmit}
+                disabled={isLoading}
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold bg-game-accent hover:bg-violet-600 text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+                {isLoading ? (
+                    <><div className="h-4 w-4 border-2 border-white/40 border-t-white rounded-full animate-spin" /> Loading questions…</>
+                ) : (
+                    <><Dices size={16} /> Start Quiz</>
+                )}
+            </button>
         </div>
     );
 }

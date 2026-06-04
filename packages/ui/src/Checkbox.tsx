@@ -37,7 +37,6 @@ export function Checkbox({
                         aria-hidden="true"
                         className={`
                 flex items-center justify-center w-5 h-5 rounded border
-                transition-all duration-200
                 peer-focus-visible:ring-2 peer-focus-visible:ring-blue-500/20 peer-focus-visible:ring-offset-0
                 ${checked
                                 ? "bg-blue-600 border-blue-600 dark:bg-blue-500 dark:border-blue-500"

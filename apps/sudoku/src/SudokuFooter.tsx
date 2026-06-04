@@ -29,7 +29,7 @@ export function SudokuFooter() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={label}
-                            className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-150"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center"
                             style={{ opacity: 0.5 }}
                             onMouseEnter={e => {
                                 e.currentTarget.style.opacity = '1';

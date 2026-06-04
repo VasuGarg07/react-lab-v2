@@ -88,7 +88,7 @@ export function NumberInput({
                     step={step}
                     disabled={disabled}
                     className={`
-            w-full py-2.5 text-sm rounded-lg border transition-all duration-200
+            w-full py-2.5 text-sm rounded-lg border
             bg-white dark:bg-neutral-900
             text-neutral-900 dark:text-neutral-100
             placeholder:text-neutral-400 dark:placeholder:text-neutral-500

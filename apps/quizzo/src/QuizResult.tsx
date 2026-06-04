@@ -1,73 +1,54 @@
+import { RotateCcw } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector } from "./store/useRedux";
-import { resetQuiz } from './store/quizSlice';
+import { useQuiz } from './QuizContext';
 
 export default function QuizResult() {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
-    const { name, score, quizConfig } = useAppSelector((state) => state.quiz);
+    const { state, dispatch } = useQuiz();
+    const { name, score, quizConfig } = state;
 
-    const totalQuestions = quizConfig?.questions?.length || 10;
-    const percentage = Math.round((score / totalQuestions) * 100);
+    const total = quizConfig?.questions?.length || 10;
+    const pct = Math.round((score / total) * 100);
 
-    const getScoreMessage = () => {
-        if (percentage >= 90) return "Outstanding! 🏆";
-        if (percentage >= 80) return "Excellent! 🌟";
-        if (percentage >= 70) return "Great job! 👏";
-        if (percentage >= 60) return "Good effort! 👍";
-        if (percentage >= 50) return "Not bad! 📚";
-        return "Keep trying! 💪";
+    const getMessage = () => {
+        if (pct >= 90) return 'Outstanding performance';
+        if (pct >= 80) return 'Excellent work';
+        if (pct >= 70) return 'Great job';
+        if (pct >= 60) return 'Good effort';
+        if (pct >= 50) return 'Not bad';
+        return 'Keep practising';
     };
 
-    const getScoreColor = () => {
-        if (percentage >= 80) return "bg-emerald-500 dark:bg-emerald-600";
-        if (percentage >= 60) return "bg-amber-500 dark:bg-amber-600";
-        return "bg-red-500 dark:bg-red-600";
+    const getAccent = () => {
+        if (pct >= 70) return { bar: 'bg-emerald-500', border: 'border-emerald-500', text: 'text-emerald-600 dark:text-emerald-400' };
+        if (pct >= 50) return { bar: 'bg-amber-500',   border: 'border-amber-500',   text: 'text-amber-600 dark:text-amber-400'   };
+        return         { bar: 'bg-red-500',             border: 'border-red-500',     text: 'text-red-600 dark:text-red-400'       };
     };
 
-    const handlePlayAgain = () => {
-        dispatch(resetQuiz());
-        navigate('/quizzo');
-    };
+    const accent = getAccent();
 
     return (
-        <div className="flex flex-col items-center justify-center h-full p-4 space-y-4">
-            <div className="text-center">
-                <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
-                    Quiz Complete!
-                </h2>
-
-                <div className="text-base text-neutral-600 dark:text-neutral-400 mb-4">
-                    {getScoreMessage()}
-                </div>
-
-                <div className={`inline-block ${getScoreColor()} rounded-xl px-6 py-3 shadow-md`}>
-                    <div className="flex flex-col items-center">
-                        <div className="text-2xl font-bold text-white mb-1">
-                            {score}/{totalQuestions}
-                        </div>
-                        <div className="text-xs text-white/90 mb-1">
-                            Final Score
-                        </div>
-                        <div className="text-lg font-semibold text-white">
-                            {percentage}%
-                        </div>
-                    </div>
-                </div>
+        <div className="flex flex-col items-center gap-5 py-2 w-full">
+            <div className={`w-28 h-28 rounded-full border-4 ${accent.border} flex flex-col items-center justify-center bg-violet-50 dark:bg-[#0f0e17]`}>
+                <span className={`text-3xl font-bold ${accent.text}`}>{pct}<span className="text-base">%</span></span>
+                <span className="text-[10px] text-violet-400 dark:text-[#7c7a96] uppercase tracking-wide">score</span>
             </div>
 
-            <div className="w-full max-w-xs bg-neutral-200 dark:bg-neutral-700 h-2 rounded-full overflow-hidden">
-                <div
-                    className={`h-full ${getScoreColor()} transition-all duration-1000 ease-out`}
-                    style={{ width: `${percentage}%` }}
-                ></div>
+            <div className="text-center">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-violet-400 dark:text-[#7c7a96] mb-1">{getMessage()}</p>
+                <p className="text-xl font-bold text-indigo-950 dark:text-violet-100">{score} / {total} correct</p>
+            </div>
+
+            <div className="w-full bg-violet-100 dark:bg-[#2d2a3e] h-1.5 rounded-full overflow-hidden">
+                <div className={`h-full ${accent.bar} rounded-full transition-all duration-1000 ease-out`} style={{ width: `${pct}%` }} />
             </div>
 
             <button
-                onClick={handlePlayAgain}
-                className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium rounded-lg shadow-sm transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:ring-offset-0"
+                onClick={() => { dispatch({ type: 'RESET' }); navigate('/quizzo'); }}
+                className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-game-accent hover:bg-violet-600 text-white transition-colors"
             >
-                {name ? `Try Again, ${name}` : 'Play Again'}
+                <RotateCcw size={15} />
+                {name ? `Play again, ${name}` : 'Play again'}
             </button>
         </div>
     );

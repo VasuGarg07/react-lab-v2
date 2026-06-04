@@ -15,11 +15,7 @@ const router = createBrowserRouter([
         element: <RecipeHaven />,
     },
     {
-        path: '/recipe-haven',
-        element: <RecipeHaven />,
-    },
-    {
-        path: '/recipe-haven',
+        path: '/',
         element: <MealWrapper />,
         children: [
             { path: 'search/:searchTerm', element: <MealGallery /> },

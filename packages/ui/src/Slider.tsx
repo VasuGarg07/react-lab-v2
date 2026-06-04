@@ -50,7 +50,7 @@ export function Slider({
                 <div className="relative h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full">
                     {/* Filled track */}
                     <div
-                        className="absolute h-2 bg-blue-500 dark:bg-blue-600 rounded-full transition-all duration-150"
+                        className="absolute h-2 bg-blue-500 dark:bg-blue-600 rounded-full"
                         style={{ width: `${percentage}%` }}
                     />
                 </div>

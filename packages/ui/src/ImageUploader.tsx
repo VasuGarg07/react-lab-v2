@@ -111,7 +111,7 @@ export function ImageUploader({
                             ${aspectRatioClasses[aspectRatio]} w-full
                             flex flex-col items-center justify-center gap-3
                             border-2 border-dashed rounded-lg
-                            cursor-pointer transition-all duration-200
+                            cursor-pointer
                             ${disabled
                                 ? 'border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 cursor-not-allowed opacity-60'
                                 : 'border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500 bg-white dark:bg-neutral-800'

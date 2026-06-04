@@ -65,7 +65,6 @@ export function RadioGroup({
                                     aria-hidden="true"
                                     className={`
                       flex items-center justify-center w-5 h-5 rounded-full border
-                      transition-all duration-200
                       peer-focus-visible:ring-2 peer-focus-visible:ring-blue-500/20 peer-focus-visible:ring-offset-0
                       bg-white dark:bg-neutral-900
                       ${isSelected

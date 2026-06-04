@@ -69,7 +69,7 @@ export function Select({
                     onChange={(e) => handleChange(e.target.value)}
                     disabled={disabled}
                     className={`
-                        w-full ${icon ? 'pl-10' : 'pl-3'} pr-10 py-2 text-sm rounded-lg border transition-all duration-200
+                        w-full ${icon ? 'pl-10' : 'pl-3'} pr-10 py-2 text-sm rounded-lg border
                         bg-white dark:bg-neutral-800 
                         text-neutral-900 dark:text-neutral-100
                         focus:outline-none focus:ring-2 focus:ring-offset-0

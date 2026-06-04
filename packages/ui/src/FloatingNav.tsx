@@ -34,7 +34,7 @@ export function FloatingNav({ appName, appIcon, navItems, rightSlot }: FloatingN
                                 key={item.to}
                                 to={item.to}
                                 className={({ isActive }) =>
-                                    `flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium tracking-tight transition-all duration-200 whitespace-nowrap ${
+                                    `flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium tracking-tight whitespace-nowrap ${
                                         isActive
                                             ? 'bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900'
                                             : 'text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100'
