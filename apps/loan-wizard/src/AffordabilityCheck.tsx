@@ -75,7 +75,6 @@ export default function AffordabilityCheck({ monthlyEMI, className = '' }: Affor
                             <StatusIcon size={20} className={config.iconColor} />
                             <h4 className={`text-sm font-semibold ${config.textColor}`}>{config.label}</h4>
                         </div>
-
                         <div className="mb-3">
                             <div className="flex justify-between items-center mb-2">
                                 <span className="text-sm text-neutral-700 dark:text-neutral-300">EMI to Income Ratio</span>
@@ -88,12 +87,9 @@ export default function AffordabilityCheck({ monthlyEMI, className = '' }: Affor
                                 />
                             </div>
                             <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                                <span>0%</span>
-                                <span>30% (Ideal)</span>
-                                <span>40% (Max)</span>
+                                <span>0%</span><span>30% (Ideal)</span><span>40% (Max)</span>
                             </div>
                         </div>
-
                         <p className={`text-sm ${config.textColor}`}>{config.message}</p>
                     </div>
 
@@ -101,15 +97,11 @@ export default function AffordabilityCheck({ monthlyEMI, className = '' }: Affor
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <div className="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Monthly EMI</div>
-                                <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
-                                    {formatCurrency(monthlyEMI)}
-                                </div>
+                                <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100">{formatCurrency(monthlyEMI)}</div>
                             </div>
                             <div>
                                 <div className="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Remaining Income</div>
-                                <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
-                                    {formatCurrency(incomeValue - monthlyEMI)}
-                                </div>
+                                <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100">{formatCurrency(incomeValue - monthlyEMI)}</div>
                             </div>
                         </div>
                     </div>

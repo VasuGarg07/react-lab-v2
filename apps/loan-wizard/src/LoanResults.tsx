@@ -47,7 +47,6 @@ export default function LoanResults({ loanParams, className = '' }: LoanResultsP
 
             <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 sm:p-5 border border-neutral-200 dark:border-neutral-700 shadow-sm">
                 <h4 className="text-sm font-medium text-neutral-900 dark:text-neutral-100 mb-4">Payment Breakdown</h4>
-
                 <div className="h-64 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
@@ -65,16 +64,13 @@ export default function LoanResults({ loanParams, className = '' }: LoanResultsP
                         </PieChart>
                     </ResponsiveContainer>
                 </div>
-
                 <div className="grid grid-cols-2 gap-4 pt-4 border-t border-neutral-200 dark:border-neutral-700">
                     <div className="text-center">
                         <div className="flex items-center justify-center gap-2 mb-1">
                             <div className="w-3 h-3 rounded-full bg-blue-500" />
                             <span className="text-xs text-neutral-600 dark:text-neutral-400">Principal</span>
                         </div>
-                        <p className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
-                            {formatCurrency(loanParams.loanAmount)}
-                        </p>
+                        <p className="text-base font-semibold text-neutral-900 dark:text-neutral-100">{formatCurrency(loanParams.loanAmount)}</p>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400">{principalPct}%</p>
                     </div>
                     <div className="text-center">
@@ -82,9 +78,7 @@ export default function LoanResults({ loanParams, className = '' }: LoanResultsP
                             <div className="w-3 h-3 rounded-full bg-red-500" />
                             <span className="text-xs text-neutral-600 dark:text-neutral-400">Interest</span>
                         </div>
-                        <p className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
-                            {formatCurrency(totalInterest)}
-                        </p>
+                        <p className="text-base font-semibold text-neutral-900 dark:text-neutral-100">{formatCurrency(totalInterest)}</p>
                         <p className="text-xs text-neutral-500 dark:text-neutral-400">{interestPct}%</p>
                     </div>
                 </div>
@@ -96,9 +90,7 @@ export default function LoanResults({ loanParams, className = '' }: LoanResultsP
                         <TrendingUp size={18} className="text-neutral-600 dark:text-neutral-400" />
                         <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Total Payment</span>
                     </div>
-                    <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">
-                        {formatCurrency(totalPayment)}
-                    </span>
+                    <span className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{formatCurrency(totalPayment)}</span>
                 </div>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-2">
                     Over {loanParams.tenure * 12} monthly payments
