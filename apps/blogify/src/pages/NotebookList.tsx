@@ -17,17 +17,17 @@ export default function NotebookList() {
 
     return (
         <div className="max-w-3xl mx-auto space-y-8">
-            <Link to={BLOGIFY_ROUTES.DISCOVER} className="inline-flex items-center gap-1 text-sm text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors">
+            <Link to={BLOGIFY_ROUTES.DISCOVER} className="inline-flex items-center gap-1 text-sm text-stone-400 hover:text-stone-700 transition-colors">
                 <ChevronLeft className="w-4 h-4" />Back to discover
             </Link>
 
-            <header className="flex items-center gap-4 pb-6 border-b border-stone-100 dark:border-stone-800">
-                <div className="w-14 h-14 rounded-full bg-stone-200 dark:bg-stone-700 overflow-hidden ring-2 ring-stone-100 dark:ring-stone-800 shrink-0">
+            <header className="flex items-center gap-4 pb-6 border-b border-stone-100">
+                <div className="w-14 h-14 rounded-full bg-stone-200 overflow-hidden ring-2 ring-stone-100 shrink-0">
                     <img src={generateAvatarUrl(author!)} alt={author} className="w-full h-full object-cover" />
                 </div>
                 <div>
-                    <h1 className="font-serif text-2xl text-stone-900 dark:text-stone-100">{author}</h1>
-                    <p className="text-sm text-stone-400 dark:text-stone-500 mt-0.5">{totalItems} {totalItems === 1 ? 'notebook' : 'notebooks'}</p>
+                    <h1 className="font-serif text-2xl text-stone-900">{author}</h1>
+                    <p className="text-sm text-stone-400 mt-0.5">{totalItems} {totalItems === 1 ? 'notebook' : 'notebooks'}</p>
                 </div>
             </header>
 

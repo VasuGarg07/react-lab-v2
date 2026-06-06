@@ -36,8 +36,8 @@ const RichTextEditor = ({ value, onChange, disabled = false }: RichTextEditorPro
             disabled={btnDisabled}
             title={title}
             className={`p-2 rounded-lg transition-colors ${active
-                ? 'bg-neutral-200 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100'
-                : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                ? 'bg-navy text-white'
+                : 'text-stone-500 hover:bg-stone-100 hover:text-stone-800'
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
         >
             {children}
@@ -45,8 +45,8 @@ const RichTextEditor = ({ value, onChange, disabled = false }: RichTextEditorPro
     );
 
     return (
-        <div className="border border-neutral-300 dark:border-neutral-700 rounded-lg overflow-hidden bg-white dark:bg-neutral-800">
-            <div className="flex flex-wrap items-center gap-1 p-2 border-b border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900">
+        <div className="border border-stone-300 rounded-lg overflow-hidden bg-white">
+            <div className="flex flex-wrap items-center gap-1 p-2 border-b border-stone-300 bg-stone-50">
                 <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} title="Bold">
                     <Bold className="w-4 h-4" />
                 </ToolbarButton>
@@ -60,7 +60,7 @@ const RichTextEditor = ({ value, onChange, disabled = false }: RichTextEditorPro
                     <Code className="w-4 h-4" />
                 </ToolbarButton>
 
-                <div className="w-px h-6 bg-neutral-300 dark:bg-neutral-700 mx-1" />
+                <div className="w-px h-6 bg-stone-300 mx-1" />
 
                 <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor.isActive('heading', { level: 1 })} title="Heading 1">
                     <Heading1 className="w-4 h-4" />
@@ -72,7 +72,7 @@ const RichTextEditor = ({ value, onChange, disabled = false }: RichTextEditorPro
                     <Heading3 className="w-4 h-4" />
                 </ToolbarButton>
 
-                <div className="w-px h-6 bg-neutral-300 dark:bg-neutral-700 mx-1" />
+                <div className="w-px h-6 bg-stone-300 mx-1" />
 
                 <ToolbarButton onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive('bulletList')} title="Bullet List">
                     <List className="w-4 h-4" />
@@ -84,7 +84,7 @@ const RichTextEditor = ({ value, onChange, disabled = false }: RichTextEditorPro
                     <Quote className="w-4 h-4" />
                 </ToolbarButton>
 
-                <div className="w-px h-6 bg-neutral-300 dark:bg-neutral-700 mx-1" />
+                <div className="w-px h-6 bg-stone-300 mx-1" />
 
                 <ToolbarButton onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} title="Undo">
                     <Undo className="w-4 h-4" />

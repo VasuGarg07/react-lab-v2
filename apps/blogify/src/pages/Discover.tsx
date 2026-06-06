@@ -45,7 +45,7 @@ export default function Discover() {
     return (
         <div className="max-w-4xl mx-auto space-y-6">
             <header className="space-y-4 pt-2">
-                <h1 className="font-serif text-3xl text-stone-900 dark:text-stone-100">Discover</h1>
+                <h1 className="font-serif text-3xl text-stone-900">Discover</h1>
                 <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
                     <input
@@ -53,18 +53,18 @@ export default function Discover() {
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
                         placeholder="Search by title or author..."
-                        className="w-full pl-11 pr-4 py-3 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 focus:border-stone-400 dark:focus:border-stone-600 focus:outline-none transition-colors text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-600 text-sm"
+                        className="w-full pl-11 pr-4 py-3 rounded-2xl bg-white border border-stone-200 focus:border-stone-400 focus:outline-none transition-colors text-stone-900 placeholder:text-stone-400 text-sm"
                     />
                 </div>
-                <div className="flex items-center gap-1 p-1 bg-stone-100 dark:bg-stone-800/60 rounded-xl w-fit">
+                <div className="flex items-center gap-1 p-1 bg-stone-100 rounded-xl w-fit">
                     {scopes.map(scope => (
                         <button
                             key={scope.id}
                             onClick={() => setSearchScope(scope.id)}
                             className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 ${
                                 searchScope === scope.id
-                                    ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-stone-100 shadow-sm'
-                                    : 'text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200'
+                                    ? 'bg-white text-stone-900 shadow-sm'
+                                    : 'text-stone-500 hover:text-stone-800 '
                             }`}
                         >
                             {scope.label}
@@ -73,22 +73,22 @@ export default function Discover() {
                 </div>
             </header>
 
-            <div className="flex gap-0 border-b border-stone-200 dark:border-stone-800">
+            <div className="flex gap-0 border-b border-stone-200">
                 {tabs.map(tab => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
                         className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 -mb-px transition-colors ${
                             activeTab === tab.id
-                                ? 'border-stone-900 dark:border-stone-100 text-stone-900 dark:text-stone-100'
-                                : 'border-transparent text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300'
+                                ? 'border-stone-900 text-stone-900 '
+                                : 'border-transparent text-stone-400 hover:text-stone-700 '
                         }`}
                     >
                         {tab.label}
                         <span className={`px-1.5 py-0.5 text-xs rounded-full ${
                             activeTab === tab.id
-                                ? 'bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900'
-                                : 'bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400'
+                                ? 'bg-stone-900 text-stone-50 '
+                                : 'bg-stone-100 text-stone-500 '
                         }`}>
                             {tab.count}
                         </span>

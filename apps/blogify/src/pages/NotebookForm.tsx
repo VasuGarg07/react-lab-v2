@@ -47,7 +47,7 @@ export default function NotebookForm() {
     if (isEditMode && notebookLoading) {
         return (
             <div className="flex justify-center items-center min-h-100">
-                <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
+                <div className="w-7 h-7 border-2 border-stone-200 border-t-stone-600 rounded-full animate-spin" />
             </div>
         );
     }
@@ -55,18 +55,18 @@ export default function NotebookForm() {
     return (
         <div className="max-w-xl mx-auto space-y-8">
             <header className="space-y-1 pt-2">
-                <Link to={BLOGIFY_ROUTES.LIBRARY} className="inline-flex items-center gap-1 text-sm text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors mb-3">
+                <Link to={BLOGIFY_ROUTES.LIBRARY} className="inline-flex items-center gap-1 text-sm text-stone-400 hover:text-stone-700 transition-colors mb-3">
                     <ChevronLeft className="w-4 h-4" />Back to library
                 </Link>
-                <h1 className="font-serif text-3xl text-stone-900 dark:text-stone-100">{isEditMode ? 'Edit notebook' : 'New notebook'}</h1>
-                <p className="text-sm text-stone-400 dark:text-stone-500">
+                <h1 className="font-serif text-3xl text-stone-900">{isEditMode ? 'Edit notebook' : 'New notebook'}</h1>
+                <p className="text-sm text-stone-400">
                     {isEditMode ? 'Update your notebook details' : 'Create a new collection for your blogs'}
                 </p>
             </header>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 {coverImageUrl && isValidImageUrl(coverImageUrl) && (
-                    <div className="aspect-21/9 w-full rounded-2xl overflow-hidden bg-stone-100 dark:bg-stone-800">
+                    <div className="aspect-21/9 w-full rounded-2xl overflow-hidden bg-stone-100">
                         <img src={coverImageUrl} alt="Cover preview" className="w-full h-full object-cover" />
                     </div>
                 )}
@@ -122,18 +122,18 @@ export default function NotebookForm() {
                     name="isPublic"
                     control={control}
                     render={({ field }) => (
-                        <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-700">
+                        <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-50 border border-stone-200">
                             <div>
-                                <p className="text-sm font-medium text-stone-800 dark:text-stone-200">Public notebook</p>
-                                <p className="text-xs text-stone-400 dark:text-stone-500 mt-0.5">Anyone can discover and read your blogs</p>
+                                <p className="text-sm font-medium text-stone-800">Public notebook</p>
+                                <p className="text-xs text-stone-400 mt-0.5">Anyone can discover and read your blogs</p>
                             </div>
                             <Switch checked={field.value ?? true} onChange={field.onChange} />
                         </div>
                     )}
                 />
 
-                <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-200 dark:border-stone-700">
-                    <Link to={BLOGIFY_ROUTES.LIBRARY} className="px-4 py-2.5 text-sm font-medium rounded-xl text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors">
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-200">
+                    <Link to={BLOGIFY_ROUTES.LIBRARY} className="px-4 py-2.5 text-sm font-medium rounded-xl text-stone-500 hover:text-stone-800 hover:bg-stone-100 transition-colors">
                         Cancel
                     </Link>
                     <LoadingButton type="submit" isLoading={isSaving} disabled={isSaving}>

@@ -37,7 +37,7 @@ export default function BlogCard({ blog, variant = 'default', notebookCover }: B
     const handleDelete = () => {
         openAlertDialog(modal, {
             title: 'Delete blog',
-            message: `Are you sure you want to delete "${blog.title}"? This action cannot be undone.`,
+            message: `Are you sure you want to delete"${blog.title}"? This action cannot be undone.`,
             confirmText: 'Delete',
             onConfirm: () => deleteMutation.mutate(blog.id),
         });
@@ -49,8 +49,8 @@ export default function BlogCard({ blog, variant = 'default', notebookCover }: B
         setMoveTargetNotebook('');
         modal.open(
             <div className="py-2">
-                <h3 className="font-serif text-lg text-stone-900 dark:text-stone-100 mb-1">Move blog</h3>
-                <p className="text-sm text-stone-500 dark:text-stone-400 mb-4">Select a notebook to move this blog to</p>
+                <h3 className="font-serif text-lg text-stone-900 mb-1">Move blog</h3>
+                <p className="text-sm text-stone-500 mb-4">Select a notebook to move this blog to</p>
                 <Select
                     label="Target Notebook"
                     options={notebooks.filter(n => n.id !== blog.notebookId).map(n => ({ label: n.title, value: n.id }))}
@@ -60,7 +60,7 @@ export default function BlogCard({ blog, variant = 'default', notebookCover }: B
                 />
                 <div className="flex gap-3 mt-6">
                     <button type="button" onClick={modal.close}
-                        className="flex-1 px-4 py-2.5 text-sm font-medium rounded-xl border border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors">
+                        className="flex-1 px-4 py-2.5 text-sm font-medium rounded-xl border border-stone-200 text-stone-600 hover:bg-stone-50 transition-colors">
                         Cancel
                     </button>
                     <button type="button"
@@ -70,7 +70,7 @@ export default function BlogCard({ blog, variant = 'default', notebookCover }: B
                             }
                         }}
                         disabled={!moveTargetNotebook}
-                        className="flex-1 px-4 py-2.5 text-sm font-medium rounded-xl bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                        className="flex-1 px-4 py-2.5 text-sm font-medium rounded-xl bg-stone-900 text-stone-50 hover:bg-stone-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
                         Move
                     </button>
                 </div>
@@ -88,8 +88,8 @@ export default function BlogCard({ blog, variant = 'default', notebookCover }: B
     const cover = coverImage ? (
         <img src={coverImage} alt="" className="w-full h-full object-cover" />
     ) : (
-        <div className="w-full h-full flex items-center justify-center bg-stone-100 dark:bg-stone-800">
-            <span className="font-serif text-2xl text-stone-300 dark:text-stone-600 select-none">
+        <div className="w-full h-full flex items-center justify-center bg-stone-100">
+            <span className="font-serif text-2xl text-stone-300 select-none">
                 {blog.title.charAt(0).toUpperCase()}
             </span>
         </div>
@@ -99,11 +99,11 @@ export default function BlogCard({ blog, variant = 'default', notebookCover }: B
         return (
             <div className="w-56 shrink-0 relative group">
                 <Link to={BLOGIFY_ROUTES.BLOG_DETAIL(blog.id)}>
-                    <div className="aspect-3/4 rounded-2xl overflow-hidden bg-stone-200 dark:bg-stone-800 relative">
+                    <div className="aspect-3/4 rounded-2xl overflow-hidden bg-stone-200 relative">
                         {coverImage
                             ? <img src={coverImage} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                            : <div className="w-full h-full flex items-center justify-center bg-stone-200 dark:bg-stone-800">
-                                <span className="font-serif text-5xl text-stone-400 dark:text-stone-500 select-none">
+                            : <div className="w-full h-full flex items-center justify-center bg-stone-200">
+                                <span className="font-serif text-5xl text-stone-400 select-none">
                                     {blog.title.charAt(0).toUpperCase()}
                                 </span>
                             </div>
@@ -135,32 +135,32 @@ export default function BlogCard({ blog, variant = 'default', notebookCover }: B
     }
 
     return (
-        <div className="flex gap-3 p-4 rounded-2xl bg-white dark:bg-stone-900 border border-stone-100 dark:border-stone-800 hover:border-stone-200 dark:hover:border-stone-700 transition-colors group relative">
+        <div className="flex gap-3 p-4 rounded-2xl bg-white border border-stone-100 hover:border-stone-200 transition-colors group relative">
             <Link to={BLOGIFY_ROUTES.BLOG_DETAIL(blog.id)} className="flex gap-3 flex-1 min-w-0">
                 <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 self-center">{cover}</div>
                 <div className="flex-1 min-w-0 py-0.5">
-                    <div className="flex items-center gap-1.5 text-xs text-stone-400 dark:text-stone-500 mb-1.5">
-                        <span className="font-medium text-stone-600 dark:text-stone-400">{blog.author}</span>
+                    <div className="flex items-center gap-1.5 text-xs text-stone-400 mb-1.5">
+                        <span className="font-medium text-stone-600">{blog.author}</span>
                         <span>·</span>
                         <span>{formatRelativeTime(blog.createdAt)}</span>
                     </div>
-                    <h3 className="font-serif font-semibold text-stone-900 dark:text-stone-100 line-clamp-2 leading-snug text-[15px] group-hover:text-stone-600 dark:group-hover:text-stone-300 transition-colors">
+                    <h3 className="font-serif font-semibold text-stone-900 line-clamp-2 leading-snug text-[15px] group-hover:text-stone-600 transition-colors">
                         {blog.title}
                     </h3>
-                    <p className="text-xs text-stone-400 dark:text-stone-500 line-clamp-1 mt-1 leading-relaxed">
+                    <p className="text-xs text-stone-400 line-clamp-1 mt-1 leading-relaxed">
                         {truncateContent(blog.blogContent, 80)}
                     </p>
                     <div className="flex items-center gap-2 mt-2">
-                        <span className="text-xs text-stone-400 dark:text-stone-500 flex items-center gap-1">
+                        <span className="text-xs text-stone-400 flex items-center gap-1">
                             <Clock className="w-3 h-3" />{readTime} min
                         </span>
                         {blog.tags[0] && (
-                            <span className="px-2 py-0.5 text-xs bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 rounded-full">
+                            <span className="px-2 py-0.5 text-xs bg-stone-100 text-stone-500 rounded-full">
                                 {blog.tags[0]}
                             </span>
                         )}
                         {blog.isArchived && (
-                            <span className="px-2 py-0.5 text-xs bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 rounded-full">
+                            <span className="px-2 py-0.5 text-xs bg-amber-50 text-amber-600 rounded-full">
                                 Archived
                             </span>
                         )}

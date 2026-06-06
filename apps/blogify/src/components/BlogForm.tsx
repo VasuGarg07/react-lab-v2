@@ -101,7 +101,7 @@ export default function BlogForm({
             />
 
             <div className="space-y-2">
-                <label className="block text-sm font-medium text-stone-600 dark:text-stone-400">Content</label>
+                <label className="block text-sm font-medium text-stone-600">Content</label>
                 <Controller
                     name="blogContent"
                     control={control}
@@ -118,14 +118,14 @@ export default function BlogForm({
 
             <div className="space-y-3">
                 <div className="flex items-baseline justify-between">
-                    <label className="text-sm font-medium text-stone-600 dark:text-stone-400">Tags</label>
-                    <span className="text-xs text-stone-400 dark:text-stone-500">{tags.length}/{BLOG_CONSTANTS.MAX_TAGS}</span>
+                    <label className="text-sm font-medium text-stone-600">Tags</label>
+                    <span className="text-xs text-stone-400">{tags.length}/{BLOG_CONSTANTS.MAX_TAGS}</span>
                 </div>
 
                 {tags.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                         {tags.map(tag => (
-                            <span key={tag} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">
+                            <span key={tag} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm bg-stone-100 text-stone-600">
                                 {tag}
                                 <button type="button" onClick={() => removeTag(tag)} className="hover:text-red-500 transition-colors">
                                     <X className="w-3 h-3" />
@@ -143,26 +143,26 @@ export default function BlogForm({
                         onKeyDown={handleTagKeyDown}
                         placeholder="Add a tag..."
                         disabled={tags.length >= BLOG_CONSTANTS.MAX_TAGS}
-                        className="flex-1 px-3 py-2 text-sm rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-600 focus:outline-none focus:border-stone-400 dark:focus:border-stone-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                        className="flex-1 px-3 py-2 text-sm rounded-xl border border-stone-200 bg-white text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-stone-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                     />
                     <button
                         type="button"
                         onClick={addTag}
                         disabled={tags.length >= BLOG_CONSTANTS.MAX_TAGS || !tagInput.trim()}
-                        className="px-3 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                        className="px-3 py-2 rounded-xl bg-stone-100 text-stone-600 hover:bg-stone-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                     >
                         <Plus className="w-4 h-4" />
                     </button>
                 </div>
-                <p className="text-xs text-stone-400 dark:text-stone-500">Press Enter or + to add</p>
+                <p className="text-xs text-stone-400">Press Enter or + to add</p>
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
                 <button
                     type="button"
                     onClick={handleDraftSubmit}
                     disabled={isLoading || !notebookId}
-                    className="px-4 py-2.5 text-sm font-medium rounded-xl text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    className="px-4 py-2.5 text-sm font-medium rounded-xl text-stone-500 hover:text-stone-800 hover:bg-stone-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
                     Save draft
                 </button>

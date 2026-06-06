@@ -34,8 +34,8 @@ export default function OptionsMenu({ actions, className = '' }: { actions: Menu
                 onClick={e => { e.preventDefault(); e.stopPropagation(); setOpen(p => !p); }}
                 className={`p-1.5 rounded-lg transition-colors ${
                     open
-                        ? 'bg-stone-200 dark:bg-stone-700 text-stone-700 dark:text-stone-200'
-                        : 'text-stone-400 dark:text-stone-500 hover:bg-stone-100 dark:hover:bg-stone-800 hover:text-stone-600 dark:hover:text-stone-300'
+                        ? 'bg-stone-200 text-stone-700 '
+                        : 'text-stone-400 hover:bg-stone-100 hover:text-stone-600 '
                 }`}
                 aria-haspopup="true"
                 aria-expanded={open}
@@ -45,13 +45,13 @@ export default function OptionsMenu({ actions, className = '' }: { actions: Menu
             </button>
 
             {open && (
-                <div className="absolute right-0 mt-1.5 min-w-44 bg-white dark:bg-stone-900 rounded-xl shadow-lg shadow-stone-900/10 dark:shadow-black/40 border border-stone-100 dark:border-stone-800 py-1.5 z-50">
+                <div className="absolute right-0 mt-1.5 min-w-44 bg-white rounded-xl shadow-lg shadow-stone-900/10 border border-stone-100 py-1.5 z-50">
                     {defaultActions.map((action, i) => (
                         <button
                             key={i}
                             onClick={e => { e.preventDefault(); e.stopPropagation(); action.onClick(); setOpen(false); }}
                             disabled={action.disabled}
-                            className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 hover:text-stone-900 dark:hover:text-stone-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                            className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-stone-600 hover:bg-stone-50 hover:text-stone-900 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                         >
                             <span className="w-4 h-4 shrink-0">{action.icon}</span>
                             {action.label}
@@ -61,14 +61,14 @@ export default function OptionsMenu({ actions, className = '' }: { actions: Menu
                     {dangerActions.length > 0 && (
                         <>
                             {defaultActions.length > 0 && (
-                                <div className="my-1 border-t border-stone-100 dark:border-stone-800" />
+                                <div className="my-1 border-t border-stone-100" />
                             )}
                             {dangerActions.map((action, i) => (
                                 <button
                                     key={i}
                                     onClick={e => { e.preventDefault(); e.stopPropagation(); action.onClick(); setOpen(false); }}
                                     disabled={action.disabled}
-                                    className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                                    className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500 hover:bg-red-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                                 >
                                     <span className="w-4 h-4 shrink-0">{action.icon}</span>
                                     {action.label}

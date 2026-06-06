@@ -16,7 +16,7 @@ export default function NotebooksGrid({ notebooks, currentPage, totalPages, onPa
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-75">
-                <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
+                <div className="w-7 h-7 border-2 border-stone-200 border-t-stone-600 rounded-full animate-spin" />
             </div>
         );
     }
@@ -26,9 +26,9 @@ export default function NotebooksGrid({ notebooks, currentPage, totalPages, onPa
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 <Link
                     to={BLOGIFY_ROUTES.NOTEBOOK_CREATE}
-                    className="aspect-3/4 rounded-2xl border border-dashed border-stone-200 dark:border-stone-700 flex flex-col items-center justify-center gap-2 text-stone-400 dark:text-stone-600 hover:border-stone-400 dark:hover:border-stone-500 hover:text-stone-600 dark:hover:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-900/50 transition-all group"
+                    className="aspect-3/4 rounded-2xl border border-dashed border-stone-200 flex flex-col items-center justify-center gap-2 text-stone-400 hover:border-stone-400 hover:text-stone-600 hover:bg-stone-50 transition-all group"
                 >
-                    <div className="w-10 h-10 rounded-full border border-dashed border-stone-300 dark:border-stone-600 flex items-center justify-center group-hover:border-stone-400 dark:group-hover:border-stone-500 transition-colors">
+                    <div className="w-10 h-10 rounded-full border border-dashed border-stone-300 flex items-center justify-center group-hover:border-stone-400 transition-colors">
                         <Plus className="w-4 h-4" />
                     </div>
                     <span className="text-xs font-medium">New notebook</span>
@@ -39,7 +39,7 @@ export default function NotebooksGrid({ notebooks, currentPage, totalPages, onPa
             </div>
 
             {notebooks.length === 0 && (
-                <p className="text-center text-sm text-stone-400 dark:text-stone-500 py-4">
+                <p className="text-center text-sm text-stone-400 py-4">
                     Create your first notebook to get started
                 </p>
             )}

@@ -22,7 +22,7 @@ export default function BlogGallery({
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-75">
-                <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
+                <div className="w-7 h-7 border-2 border-stone-200 border-t-stone-600 rounded-full animate-spin" />
             </div>
         );
     }
@@ -30,11 +30,11 @@ export default function BlogGallery({
     if (blogs.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center min-h-75 text-center px-4">
-                <div className="w-12 h-12 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center mb-4">
-                    <FileText className="w-5 h-5 text-stone-400 dark:text-stone-500" strokeWidth={1.5} />
+                <div className="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center mb-4">
+                    <FileText className="w-5 h-5 text-stone-400" strokeWidth={1.5} />
                 </div>
-                <p className="font-serif text-base text-stone-700 dark:text-stone-300 mb-1">{emptyMessage}</p>
-                <p className="text-sm text-stone-400 dark:text-stone-500">{emptyDescription}</p>
+                <p className="font-serif text-base text-stone-700 mb-1">{emptyMessage}</p>
+                <p className="text-sm text-stone-400">{emptyDescription}</p>
             </div>
         );
     }

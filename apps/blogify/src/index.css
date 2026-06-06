@@ -1,91 +1,131 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
 @import "tailwindcss";
 
 @source "../../../packages/ui/src/";
 @source "../../../packages/auth/src/";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+/* Light-only app: neutralize the built-in `dark:` variant so OS dark mode
+   never activates dark styles. App markup is now dark:-free, but the scanned
+   @react-lab/ui & /auth package sources still ship dark: utilities — this
+   keeps them inert. */
+@custom-variant dark (&:where(.__never-dark__));
 
 @theme {
   --breakpoint-xs: 425px;
-  --blur-2xs: 2px;
+
+  /* Brand palette — Medium Jungle / Azure Mist / Sandy Brown / Copper / Deep Walnut.
+     Token names kept (navy/beige/gold/coral/onyx) and repointed to the new
+     palette so existing markup reskins without renaming utilities.
+       navy  → Medium Jungle (primary brand / active / links)
+       beige → Azure Mist (page background)
+       coral → Sandy Brown (warm accent)
+       gold  → Copper (secondary warm accent)
+       onyx  → Deep Walnut (dark surfaces: footer, code, brand mark) */
+  --color-navy:    #28A326;
+  --color-beige:   #EDF7F6;
+  --color-magenta: #C2410C;
+  --color-gold:    #C47335;
+  --color-coral:   #F19953;
+  --color-onyx:    #56351E;
+
+  --color-navy-600: #239121;
+  --color-navy-800: #1B6E1A;
+
+  /* Override the `stone` ramp app-wide: cool paper → deep-walnut ink.
+     This reskins every existing stone-* utility without touching markup. */
+  --color-stone-50:  #F4FAF9;
+  --color-stone-100: #E7F1EF;
+  --color-stone-200: #D8E2DF;
+  --color-stone-300: #BBC3BF;
+  --color-stone-400: #8A8A80;
+  --color-stone-500: #6B5E4F;
+  --color-stone-600: #5A4632;
+  --color-stone-700: #56351E;
+  --color-stone-800: #432817;
+  --color-stone-900: #2F1C10;
+  --color-stone-950: #1C110A;
+
+  /* Override `amber` (the old accent) → copper/sandy, so accent utilities reskin too. */
+  --color-amber-50:  #FBF1E8;
+  --color-amber-100: #F6E1CC;
+  --color-amber-200: #F0CCA6;
+  --color-amber-300: #F19953;
+  --color-amber-400: #DC8540;
+  --color-amber-500: #C47335;
+  --color-amber-600: #A35C27;
+
+  /* Override `red` (danger) → a clear warm crimson, distinct from the warm accents. */
+  --color-red-50:  #FCEBE7;
+  --color-red-100: #F9D6CC;
+  --color-red-400: #E25A38;
+  --color-red-500: #D03B1B;
+  --color-red-600: #B22F12;
+
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+
+  --shadow-card: 0 1px 2px rgba(86, 53, 30, 0.06), 0 10px 30px -14px rgba(86, 53, 30, 0.20);
+  --shadow-lift: 0 2px 6px rgba(86, 53, 30, 0.08), 0 22px 48px -18px rgba(86, 53, 30, 0.30);
 }
 
 html {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: #EDF7F6;
+  color: #2F1C10;
 }
 
 #root {
   isolation: isolate;
-  transform-style: flat;
-  backface-visibility: hidden;
 }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 /* Scrollbar */
-::-webkit-scrollbar { height: 6px; width: 6px; }
+::-webkit-scrollbar { height: 7px; width: 7px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #d6d6d6, #9d9d9d);
-  border-radius: 9999px;
-  transition: background 0.3s ease;
+::-webkit-scrollbar-thumb { background: #BBC3BF; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #8A8A80; }
+* { scrollbar-width: thin; scrollbar-color: #BBC3BF transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, .fade-up { animation: none !important; }
 }
-::-webkit-scrollbar-thumb:hover { background: #9e9e9e; }
-* { scrollbar-width: thin; scrollbar-color: #e0e0e0; }
 
-/* Blog content rendering */
-
-/* Markdown renderer styles */
+/* ---- Markdown article styles (light-only, navy ink, Fraunces headings) ---- */
 .markdown {
-  @apply text-base leading-[1.8] text-stone-800 dark:text-stone-200 font-serif;
+  @apply text-base leading-[1.85] text-stone-800 font-sans;
 }
-.markdown h1 {
-  @apply text-3xl font-semibold mt-8 mb-4 text-stone-900 dark:text-stone-100 font-serif;
-}
-.markdown h2 {
-  @apply text-2xl font-semibold mt-8 mb-3 text-stone-900 dark:text-stone-100 font-serif;
-}
-.markdown h3 {
-  @apply text-xl font-semibold mt-6 mb-2 text-stone-900 dark:text-stone-100 font-serif;
-}
-.markdown p {
-  @apply mt-4 mb-4;
-}
-.markdown ul,
-.markdown ol {
-  @apply mt-3 mb-3 pl-6 list-disc;
-}
-.markdown ol {
-  @apply list-decimal;
-}
-.markdown li {
-  @apply mb-1.5;
-}
+.markdown h1 { @apply font-serif text-3xl font-semibold mt-10 mb-4 text-stone-900; }
+.markdown h2 { @apply font-serif text-2xl font-semibold mt-9 mb-3 text-stone-900; }
+.markdown h3 { @apply font-serif text-xl font-semibold mt-7 mb-2 text-stone-900; }
+.markdown p { @apply mt-4 mb-4; }
+.markdown ul, .markdown ol { @apply mt-3 mb-3 pl-6 list-disc; }
+.markdown ol { @apply list-decimal; }
+.markdown li { @apply mb-1.5; }
 .markdown blockquote {
-  @apply border-l-2 border-stone-300 dark:border-stone-600 pl-5 italic text-stone-500 dark:text-stone-400 my-6;
+  @apply border-l-3 border-gold pl-5 italic text-stone-600 my-6;
 }
 .markdown pre {
-  @apply bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-100 p-4 rounded-xl overflow-auto text-sm my-6 font-mono;
+  @apply bg-onyx text-stone-50 p-4 rounded-xl overflow-auto text-sm my-6 font-mono leading-relaxed;
 }
 .markdown code {
-  @apply bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-sm px-1.5 py-0.5 rounded-md font-mono;
+  @apply bg-stone-100 text-stone-800 text-sm px-1.5 py-0.5 rounded-md font-mono;
 }
+.markdown pre code { @apply bg-transparent text-stone-50 p-0; }
 .markdown a {
-  @apply text-stone-700 dark:text-stone-300 underline underline-offset-4 decoration-stone-300 dark:decoration-stone-600 hover:text-stone-900 dark:hover:text-stone-100 transition-colors;
+  @apply text-magenta underline underline-offset-4 decoration-magenta/30 hover:decoration-magenta transition-colors;
 }
-.markdown hr {
-  @apply my-8 border-stone-200 dark:border-stone-800;
-}
-.markdown img {
-  @apply rounded-2xl my-6 max-w-full;
-}
-.markdown table {
-  @apply w-full text-left border-collapse my-6 text-sm font-sans;
-}
-.markdown th,
-.markdown td {
-  @apply border border-stone-200 dark:border-stone-700 px-3 py-2;
-}
-.markdown th {
-  @apply bg-stone-50 dark:bg-stone-800 font-medium text-stone-700 dark:text-stone-300;
-}
-
+.markdown hr { @apply my-8 border-stone-200; }
+.markdown img { @apply rounded-2xl my-6 max-w-full; }
+.markdown table { @apply w-full text-left border-collapse my-6 text-sm; }
+.markdown th, .markdown td { @apply border border-stone-200 px-3 py-2; }
+.markdown th { @apply bg-stone-50 font-semibold text-stone-700; }

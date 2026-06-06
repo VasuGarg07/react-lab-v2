@@ -9,8 +9,8 @@ import { ScrollSection } from '@react-lab/ui';
 
 const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Good morning';
-    if (hour < 18) return 'Good afternoon';
+    if (hour >= 6 && hour < 12) return 'Good morning';
+    if (hour >= 12 && hour < 16) return 'Good afternoon';
     return 'Good evening';
 };
 
@@ -27,7 +27,7 @@ export default function BlogHome() {
     if (notebooksLoading || blogsLoading) {
         return (
             <div className="flex justify-center items-center min-h-100">
-                <div className="w-7 h-7 border-2 border-stone-200 dark:border-stone-700 border-t-stone-600 dark:border-t-stone-300 rounded-full animate-spin" />
+                <div className="w-7 h-7 border-2 border-stone-200 border-t-stone-600 rounded-full animate-spin" />
             </div>
         );
     }
@@ -36,12 +36,12 @@ export default function BlogHome() {
         return (
             <div className="max-w-4xl mx-auto">
                 <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-                    <Feather className="w-10 h-10 text-stone-300 dark:text-stone-600 mb-6" strokeWidth={1.5} />
-                    <h2 className="font-serif text-2xl text-stone-800 dark:text-stone-200 mb-2">Your journal awaits</h2>
-                    <p className="text-stone-400 dark:text-stone-500 mb-8 text-sm">Start by creating your first notebook</p>
+                    <Feather className="w-10 h-10 text-stone-300 mb-6" strokeWidth={1.5} />
+                    <h2 className="font-serif text-2xl text-stone-800 mb-2">Your journal awaits</h2>
+                    <p className="text-stone-400 mb-8 text-sm">Start by creating your first notebook</p>
                     <Link
                         to={BLOGIFY_ROUTES.NOTEBOOK_CREATE}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 rounded-xl text-sm font-medium hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-stone-900 text-stone-50 rounded-xl text-sm font-medium hover:bg-stone-800 transition-colors"
                     >
                         <Plus className="w-4 h-4" />
                         Create notebook
@@ -55,24 +55,24 @@ export default function BlogHome() {
         <div className="max-w-4xl mx-auto space-y-12">
             <header className="flex items-end justify-between pt-2">
                 <div>
-                    <p className="text-xs text-stone-400 dark:text-stone-500 mb-1 tracking-wide">{getGreeting()}</p>
-                    <h1 className="font-serif text-3xl text-stone-900 dark:text-stone-100 leading-tight">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-coral mb-1.5">{getGreeting()}</p>
+                    <h1 className="font-serif text-4xl font-semibold text-stone-900 leading-tight">
                         {user?.username ?? 'Welcome back'}
                     </h1>
                 </div>
                 <div className="flex items-center gap-2">
                     <Link
                         to={BLOGIFY_ROUTES.WRITE}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-stone-900 dark:bg-stone-100 text-stone-50 dark:text-stone-900 text-xs font-medium hover:bg-stone-700 dark:hover:bg-stone-300 transition-colors"
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-stone-900 text-stone-50 text-xs font-medium hover:bg-stone-700 transition-colors"
                     >
                         <PenLine className="w-3.5 h-3.5" />
                         Write
                     </Link>
                     <Link
                         to={BLOGIFY_ROUTES.DISCOVER}
-                        className="w-9 h-9 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors"
+                        className="w-9 h-9 rounded-xl bg-stone-100 flex items-center justify-center hover:bg-stone-200 transition-colors"
                     >
-                        <Search className="w-4 h-4 text-stone-500 dark:text-stone-400" />
+                        <Search className="w-4 h-4 text-stone-500" />
                     </Link>
                 </div>
             </header>
@@ -80,26 +80,26 @@ export default function BlogHome() {
             <div className="flex gap-3">
                 <Link
                     to={BLOGIFY_ROUTES.NOTEBOOK_CREATE}
-                    className="flex-1 flex items-center gap-3 px-4 py-3.5 rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 hover:border-stone-300 dark:hover:border-stone-700 hover:shadow-sm transition-all group"
+                    className="flex-1 flex items-center gap-3 px-4 py-3.5 rounded-2xl border border-navy/10 bg-white hover:border-navy/20 hover:shadow-card transition-all group"
                 >
-                    <div className="w-8 h-8 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center group-hover:bg-stone-200 dark:group-hover:bg-stone-700 transition-colors">
-                        <Plus className="w-4 h-4 text-stone-500 dark:text-stone-400" />
+                    <div className="w-8 h-8 rounded-lg bg-navy/10 flex items-center justify-center group-hover:bg-navy/15 transition-colors">
+                        <Plus className="w-4 h-4 text-navy" />
                     </div>
                     <div>
-                        <p className="text-sm font-medium text-stone-800 dark:text-stone-200">New notebook</p>
-                        <p className="text-xs text-stone-400 dark:text-stone-500">Create a collection</p>
+                        <p className="text-sm font-semibold text-stone-800">New notebook</p>
+                        <p className="text-xs text-stone-400">Create a collection</p>
                     </div>
                 </Link>
                 <Link
                     to={BLOGIFY_ROUTES.WRITE}
-                    className="flex-1 flex items-center gap-3 px-4 py-3.5 rounded-2xl border border-amber-200/60 dark:border-amber-900/40 bg-amber-50/50 dark:bg-amber-950/20 hover:border-amber-300/60 dark:hover:border-amber-800/60 hover:shadow-sm transition-all group"
+                    className="flex-1 flex items-center gap-3 px-4 py-3.5 rounded-2xl border border-coral/40 bg-coral/10 hover:border-coral/60 hover:shadow-card transition-all group"
                 >
-                    <div className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center group-hover:bg-amber-200 dark:group-hover:bg-amber-900/60 transition-colors">
-                        <PenLine className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                    <div className="w-8 h-8 rounded-lg bg-coral/20 flex items-center justify-center group-hover:bg-coral/30 transition-colors">
+                        <PenLine className="w-4 h-4 text-coral" />
                     </div>
                     <div>
-                        <p className="text-sm font-medium text-stone-800 dark:text-stone-200">Write something</p>
-                        <p className="text-xs text-stone-400 dark:text-stone-500">Start a new blog post</p>
+                        <p className="text-sm font-semibold text-stone-800">Write something</p>
+                        <p className="text-xs text-stone-400">Start a new blog post</p>
                     </div>
                 </Link>
             </div>
@@ -120,8 +120,8 @@ export default function BlogHome() {
                 <section className="space-y-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <Sparkles className="w-4 h-4 text-amber-400" strokeWidth={1.5} />
-                            <h2 className="font-serif text-lg text-stone-900 dark:text-stone-100">Recommended for you</h2>
+                            <Sparkles className="w-4 h-4 text-coral" strokeWidth={2} />
+                            <h2 className="font-serif text-xl font-semibold text-stone-900">Recommended for you</h2>
                         </div>
                     </div>
                     <div className="space-y-3">

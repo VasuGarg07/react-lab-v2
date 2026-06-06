@@ -62,19 +62,19 @@ export const BLOG_CONSTANTS = {
 } as const;
 
 export const BLOGIFY_ROUTES = {
-    HOME: '/blogify/home',
-    DISCOVER: '/blogify/discover',
-    LIBRARY: '/blogify/library',
-    WRITE: '/blogify/write',
+    HOME: '/home',
+    DISCOVER: '/discover',
+    LIBRARY: '/library',
+    WRITE: '/write',
 
-    NOTEBOOK_CREATE: '/blogify/notebooks/create',
-    NOTEBOOK_EDIT: (id: string) => `/blogify/notebooks/edit/${id}`,
-    NOTEBOOK_DETAIL: (id: string) => `/blogify/notebooks/${id}`,
-    NOTEBOOK_AUTHOR: (author: string) => `/blogify/notebooks/author/${author}`,
+    NOTEBOOK_CREATE: '/notebooks/create',
+    NOTEBOOK_EDIT: (id: string) => `/notebooks/edit/${id}`,
+    NOTEBOOK_DETAIL: (id: string) => `/notebooks/${id}`,
+    NOTEBOOK_AUTHOR: (author: string) => `/notebooks/author/${author}`,
 
-    BLOG_EDIT: (id: string) => `/blogify/blogs/edit/${id}`,
-    BLOG_DETAIL: (id: string) => `/blogify/blogs/${id}`,
-    BLOG_AUTHOR: (author: string) => `/blogify/blogs/author/${author}`,
+    BLOG_EDIT: (id: string) => `/blogs/edit/${id}`,
+    BLOG_DETAIL: (id: string) => `/blogs/${id}`,
+    BLOG_AUTHOR: (author: string) => `/blogs/author/${author}`,
 } as const;
 
 export const NOTEBOOK_QUERY_KEYS = {

@@ -40,7 +40,7 @@ const router = createBrowserRouter([
         ],
     },
     {
-        path: '/blogify',
+        path: '/',
         element: <BlogLayout />,
         loader: protectedLoader,
         children: [
@@ -64,7 +64,7 @@ const router = createBrowserRouter([
     },
     {
         path: '*',
-        element: <Navigate to="/blogify/home" replace />,
+        element: <Navigate to="/home" replace />,
     },
 ]);
 
