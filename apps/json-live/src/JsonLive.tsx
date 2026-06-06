@@ -16,7 +16,6 @@ const SOCIALS = [
 
 const iconFilter = 'brightness(0) saturate(100%) invert(98%) sepia(2%) saturate(200%) hue-rotate(200deg) brightness(120%)';
 
-// ── Inline URL panel ──────────────────────────────────────────────────────────
 function UrlPanel({ onJsonLoaded, onClose }: { onJsonLoaded: (json: string) => void; onClose: () => void }) {
     const [url, setUrl] = useState('');
     const { isLoading, error, fetchJson, clearError } = useFetchJson();
@@ -68,7 +67,6 @@ function UrlPanel({ onJsonLoaded, onClose }: { onJsonLoaded: (json: string) => v
     );
 }
 
-// ── Toolbar button ─────────────────────────────────────────────────────────────
 function ToolBtn({ label, icon, onClick, active }: { label: string; icon: React.ReactNode; onClick: () => void; active?: boolean }) {
     return (
         <button
@@ -86,7 +84,6 @@ function ToolBtn({ label, icon, onClick, active }: { label: string; icon: React.
     );
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
 export default function JsonLive() {
     const { state, dispatch } = useJson();
     const { parsedJson, currentPath } = state;

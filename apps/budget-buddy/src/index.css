@@ -1,33 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&display=swap');
 @import "tailwindcss";
 
 @source "../../../packages/ui/src/";
 @source "../../../packages/auth/src/";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 @theme {
   --breakpoint-xs: 425px;
-  --blur-2xs: 2px;
+
+  --color-lavender:   #F7F0F5;
+  --color-pitch:      #0F1108;
+  --color-emerald:    #63D471;
+  --color-scarlet:    #DE1A1A;
+  --color-paprika:    #E4572E;
+
+  --color-pitch-50:   #F2F2F0;
+  --color-pitch-100:  #E5E4DF;
+  --color-pitch-200:  #C9C8C1;
+  --color-pitch-300:  #A0A097;
+  --color-pitch-400:  #74746B;
+  --color-pitch-500:  #4D4D46;
+  --color-pitch-600:  #2E2E28;
+  --color-pitch-700:  #1F1F1A;
+  --color-pitch-800:  #161610;
+  --color-pitch-900:  #0F1108;
 }
 
 html {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: #F7F0F5;
+  color: #0F1108;
 }
 
 #root {
   isolation: isolate;
-  transform-style: flat;
-  backface-visibility: hidden;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { height: 6px; width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #d6d6d6, #9d9d9d);
-  border-radius: 9999px;
-  transition: background 0.3s ease;
+/* Single, quiet entrance — used once per view, never looping */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-::-webkit-scrollbar-thumb:hover { background: #9e9e9e; }
-* { scrollbar-width: thin; scrollbar-color: #e0e0e0; }
+.fade-up { animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Sparkline line draw (runs once) */
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* Scrollbar */
+::-webkit-scrollbar { height: 7px; width: 7px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #C9C8C1; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #A0A097; }
+* { scrollbar-width: thin; scrollbar-color: #C9C8C1 transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, .fade-up { animation: none !important; }
+}

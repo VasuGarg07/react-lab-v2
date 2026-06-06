@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         ],
     },
     {
-        path: '/budgetbuddy',
+        path: '/',
         element: <BudgetLayout />,
         loader: protectedLoader,
         children: [
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
     },
     {
         path: '*',
-        element: <Navigate to="/budgetbuddy/home" replace />,
+        element: <Navigate to="/home" replace />,
     },
 ]);
 

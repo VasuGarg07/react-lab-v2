@@ -19,6 +19,7 @@ interface SelectProps {
     required?: boolean;
     disabled?: boolean;
     className?: string;
+    labelClassName?: string;
 }
 
 export function Select({
@@ -35,6 +36,7 @@ export function Select({
     required,
     disabled,
     className = "",
+    labelClassName = "",
 }: SelectProps) {
     const selectId = id || name || label?.toLowerCase().replace(/\s+/g, "-");
 
@@ -48,7 +50,7 @@ export function Select({
             {label && (
                 <label
                     htmlFor={selectId}
-                    className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+                    className={`block text-sm font-medium text-neutral-700 dark:text-neutral-300 ${labelClassName}`}
                 >
                     {label}
                     {required && <span className="ml-1 text-red-500">*</span>}

@@ -37,16 +37,16 @@ interface CategoryIconProps {
 
 export default function CategoryIcon({ category, size = 'md' }: CategoryIconProps) {
     const Icon = CATEGORY_ICONS[category] || MoreHorizontal;
-    const color = CATEGORY_COLORS[category] || '#6b7280';
-    const dim = size === 'sm' ? 'w-7 h-7' : 'w-9 h-9';
-    const iconDim = size === 'sm' ? 'w-3.5 h-3.5' : 'w-4 h-4';
+    const color = CATEGORY_COLORS[category] || '#6E6E65';
+    const dim = size === 'sm' ? 'w-7 h-7' : 'w-10 h-10';
+    const iconDim = size === 'sm' ? 'w-3.5 h-3.5' : 'w-4.5 h-4.5';
 
     return (
         <div
-            className={`${dim} rounded-full flex items-center justify-center shrink-0`}
-            style={{ backgroundColor: `${color}1a` }}
+            className={`${dim} rounded-xl flex items-center justify-center shrink-0`}
+            style={{ backgroundColor: `${color}22` }}
         >
-            <Icon className={iconDim} style={{ color }} strokeWidth={1.75} />
+            <Icon className={iconDim} style={{ color }} strokeWidth={2} />
         </div>
     );
 }

@@ -1,31 +1,20 @@
-import { Home, LayoutList, PieChart, Wallet } from 'lucide-react';
 import { Outlet } from 'react-router';
-import { FloatingNav } from '@react-lab/ui';
 import { useScrollToTop } from '@react-lab/shared';
-import { UserMenu } from '@react-lab/auth';
-
-const navItems = [
-    { to: '/budgetbuddy/home', icon: <Home className="w-4 h-4" />, label: 'Dashboard' },
-    { to: '/budgetbuddy/overview', icon: <LayoutList className="w-4 h-4" />, label: 'Transactions' },
-    { to: '/budgetbuddy/statistics', icon: <PieChart className="w-4 h-4" />, label: 'Statistics' },
-];
+import BudgetHeader from './BudgetHeader';
+import BudgetFooter from './BudgetFooter';
 
 export default function BudgetLayout() {
     useScrollToTop();
 
     return (
-        <div className="min-h-[calc(100vh-64px)] bg-neutral-50 dark:bg-neutral-900">
-            <FloatingNav
-                appName="BudgetBuddy"
-                appIcon={<Wallet className="w-5 h-5" />}
-                navItems={navItems}
-                rightSlot={<UserMenu />}
-            />
-            <main className="p-4 sm:p-8">
-                <div className="max-w-6xl mx-auto">
+        <div className="min-h-screen flex flex-col bg-lavender">
+            <BudgetHeader />
+            <main className="flex-1 px-4 pb-20 pt-6 sm:px-8">
+                <div className="max-w-5xl mx-auto">
                     <Outlet />
                 </div>
             </main>
+            <BudgetFooter />
         </div>
     );
 }

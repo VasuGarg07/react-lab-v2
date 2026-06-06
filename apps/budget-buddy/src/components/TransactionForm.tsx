@@ -9,6 +9,10 @@ import { formatDateForInput } from '../helpers/expense.utils';
 import { useAddTransaction, useUpdateTransaction } from '../hooks/useTransactionMutations';
 import { useModal, TextInput, Select, LoadingButton } from '@react-lab/ui';
 
+// Steer the shared inputs (default neutral + blue focus ring) onto the BudgetBuddy palette.
+const INPUT_CLS = 'rounded-xl! border-pitch-200! focus:border-paprika! focus:ring-paprika/20!';
+const LABEL_CLS = 'text-xs! font-bold! text-pitch-500! uppercase tracking-widest';
+
 interface TransactionFormData {
     title: string;
     amount: string;
@@ -73,32 +77,32 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
     return (
         <div>
             <div className="mb-5">
-                <h2 className="text-lg font-medium tracking-tight text-neutral-900 dark:text-neutral-100">
+                <h2 className="text-xl font-black tracking-tight text-pitch leading-none">
                     {mode === 'edit' ? 'Edit Transaction' : 'Add Transaction'}
                 </h2>
-                <p className="text-sm text-neutral-400 dark:text-neutral-500 mt-0.5">
-                    {mode === 'edit' ? 'Update the details below' : 'Fill in the details to record a transaction'}
+                <p className="text-sm text-pitch-400 mt-1.5">
+                    {mode === 'edit' ? 'Update the details below.' : 'Record a new income or expense.'}
                 </p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
-                    <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-widest mb-2">
+                    <label className="block text-xs font-bold text-pitch-500 uppercase tracking-widest mb-2">
                         Type
                     </label>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-pitch-50 border border-pitch-100">
                         {(['income', 'expense'] as TransactionType[]).map(type => (
                             <button
                                 key={type}
                                 type="button"
                                 onClick={() => setValue('type', type)}
                                 disabled={isPending}
-                                className={`py-2.5 px-4 rounded-full text-sm font-medium transition-all border ${transactionType === type
+                                className={`py-2 px-4 rounded-lg text-sm font-bold transition-all capitalize ${transactionType === type
                                     ? type === 'income'
-                                        ? 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-700'
-                                        : 'bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-400 border-red-300 dark:border-red-700'
-                                    : 'bg-white dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600'
-                                    } disabled:opacity-50 capitalize`}
+                                        ? 'bg-white text-emerald shadow-sm'
+                                        : 'bg-white text-scarlet shadow-sm'
+                                    : 'text-pitch-400 hover:text-pitch'
+                                } disabled:opacity-50`}
                             >
                                 {type}
                             </button>
@@ -117,6 +121,8 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                             placeholder="Enter a title"
                             error={errors.title?.message}
                             disabled={isPending}
+                            labelClassName={LABEL_CLS}
+                            inputClassName={INPUT_CLS}
                         />
                     )}
                 />
@@ -141,6 +147,8 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                             error={errors.amount?.message}
                             icon={<DollarSign className="w-4 h-4" />}
                             disabled={isPending}
+                            labelClassName={LABEL_CLS}
+                            inputClassName={INPUT_CLS}
                         />
                     )}
                 />
@@ -158,6 +166,8 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                             placeholder="Select a category"
                             disabled={isPending}
                             required
+                            className={INPUT_CLS}
+                            labelClassName={LABEL_CLS}
                         />
                     )}
                 />
@@ -174,6 +184,8 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                             error={errors.date?.message}
                             icon={<Calendar className="w-4 h-4" />}
                             disabled={isPending}
+                            labelClassName={LABEL_CLS}
+                            inputClassName={INPUT_CLS}
                         />
                     )}
                 />
@@ -183,11 +195,11 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                     control={control}
                     render={({ field }) => (
                         <div className="space-y-1.5">
-                            <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">
-                                Description <span className="text-neutral-300 dark:text-neutral-600 normal-case">(optional)</span>
+                            <label className="block text-xs font-bold text-pitch-500 uppercase tracking-widest">
+                                Description <span className="text-pitch-300 normal-case font-medium">(optional)</span>
                             </label>
                             <div className="relative">
-                                <span className="absolute top-3 left-3 text-neutral-300 dark:text-neutral-600 pointer-events-none">
+                                <span className="absolute top-3 left-3 text-pitch-300 pointer-events-none">
                                     <FileText className="w-4 h-4" />
                                 </span>
                                 <textarea
@@ -195,7 +207,7 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                                     placeholder="Add a note..."
                                     rows={3}
                                     disabled={isPending}
-                                    className="w-full pl-10 pr-3 py-2.5 text-sm rounded-sm border bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-300 dark:placeholder:text-neutral-600 border-neutral-200 dark:border-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-900/10 dark:focus:ring-neutral-100/10 focus:border-neutral-400 dark:focus:border-neutral-500 disabled:opacity-50 resize-none transition-colors"
+                                    className="w-full pl-10 pr-3 py-2.5 text-sm rounded-xl border bg-white text-pitch placeholder:text-pitch-300 border-pitch-100 focus:outline-none focus:ring-2 focus:ring-paprika/20 focus:border-paprika/50 disabled:opacity-50 resize-none transition-colors"
                                 />
                             </div>
                         </div>
@@ -207,7 +219,7 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                         type="button"
                         onClick={() => { close(); reset(); }}
                         disabled={isPending}
-                        className="flex-1 px-4 py-2.5 text-sm font-medium rounded-full border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors disabled:opacity-50"
+                        className="flex-1 px-4 py-2.5 text-sm font-bold rounded-xl border border-pitch-200 text-pitch-500 hover:bg-pitch-50 transition-colors disabled:opacity-50"
                     >
                         Cancel
                     </button>
@@ -215,7 +227,7 @@ export default function TransactionForm({ transaction, mode, defaultType }: Tran
                         type="submit"
                         isLoading={isPending}
                         loadingText={mode === 'edit' ? 'Updating...' : 'Adding...'}
-                        className="flex-1"
+                        className="flex-1 rounded-xl! font-bold! bg-pitch! hover:bg-pitch-700! text-lavender! focus:ring-paprika/30!"
                         disabled={isPending}
                     >
                         {mode === 'edit' ? 'Update' : 'Add'} Transaction
