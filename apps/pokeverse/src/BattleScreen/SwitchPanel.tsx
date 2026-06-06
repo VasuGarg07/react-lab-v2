@@ -1,4 +1,4 @@
-import { MoveLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import type { BattlePokemon } from "../helpers/types";
 
 interface SwitchPanelProps {
@@ -10,46 +10,83 @@ interface SwitchPanelProps {
 
 export default function SwitchPanel({ team, activeIndex, onSwitch, onBack }: SwitchPanelProps) {
     return (
-        <div className="bg-white dark:bg-neutral-800 rounded-xl border-2 border-neutral-700 dark:border-neutral-600 p-4 shadow-lg">
-            <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-neutral-900 dark:text-white uppercase">Switch Pokémon</h3>
-                <button onClick={onBack} className="text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-medium">
-                    <MoveLeft />
+        <div
+            className="rounded-2xl shadow-xl overflow-hidden"
+            style={{
+                background: 'linear-gradient(160deg, #f8efdc 0%, #e8d9be 100%)',
+                border: '3px solid #a8926a',
+                boxShadow: '0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.5)',
+            }}
+        >
+            {/* Header */}
+            <div
+                className="flex items-center justify-between px-4 py-2 border-b-2"
+                style={{ borderColor: '#a8926a', background: 'linear-gradient(90deg, #c8a870, #b8986a)' }}
+            >
+                <span className="text-[11px] font-black uppercase tracking-widest" style={{ color: '#f8efdc' }}>Switch Pokémon</span>
+                <button
+                    onClick={onBack}
+                    className="flex items-center gap-0.5 text-[11px] font-black uppercase transition-opacity hover:opacity-70"
+                    style={{ color: '#f8efdc' }}
+                >
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                    Back
                 </button>
             </div>
-            <div className="space-y-2 max-h-72 overflow-y-auto">
+
+            {/* Pokémon list */}
+            <div className="p-3 space-y-1.5 max-h-56 overflow-y-auto">
                 {team.map((pokemon, index) => {
                     const isActive = index === activeIndex;
                     const isFainted = pokemon.currentHP <= 0;
-                    const hpPercentage = (pokemon.currentHP / pokemon.calculatedStats.hp) * 100;
-
+                    const hpPct = Math.max(0, (pokemon.currentHP / pokemon.calculatedStats.hp) * 100);
+                    const hpColor = hpPct > 50 ? '#2ea02e' : hpPct > 20 ? '#d08000' : '#c03020';
+                    const disabled = isActive || isFainted;
                     return (
                         <button
                             key={index}
-                            onClick={() => !isActive && !isFainted && onSwitch(index)}
-                            disabled={isActive || isFainted}
-                            className={`w-full text-left p-2 rounded-lg transition-all duration-200 border ${isActive
-                                ? 'bg-blue-100 dark:bg-blue-900/30 border-blue-500'
-                                : isFainted
-                                    ? 'bg-neutral-100 dark:bg-neutral-900 border-neutral-300 dark:border-neutral-700 opacity-50 cursor-not-allowed'
-                                    : 'bg-neutral-50 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600'
-                                }`}
+                            onClick={() => !disabled && onSwitch(index)}
+                            disabled={disabled}
+                            className="w-full text-left p-2 rounded-xl border-2 transition-all duration-100 flex items-center gap-2.5"
+                            style={{
+                                background: isActive
+                                    ? 'linear-gradient(135deg, #d0e8f8, #c0d8f0)'
+                                    : isFainted
+                                    ? '#d8cfc0'
+                                    : 'linear-gradient(135deg, #f0e8d8, #e0d0b8)',
+                                borderColor: isActive ? '#4a80c0' : isFainted ? '#a09080' : '#b8a08a',
+                                opacity: isFainted ? 0.5 : 1,
+                                cursor: disabled ? 'default' : 'pointer',
+                                boxShadow: !disabled ? '0 2px 0 rgba(0,0,0,0.15)' : 'none',
+                            }}
                         >
-                            <div className="flex items-center gap-2">
-                                <div className="w-12 h-12 bg-neutral-200 dark:bg-neutral-600 rounded-lg overflow-hidden shrink-0">
-                                    <img src={pokemon.frontSprite} alt={pokemon.name} className={`w-full h-full object-contain ${isFainted ? 'grayscale' : ''}`} />
+                            {/* Sprite */}
+                            <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0" style={{ background: '#d8d0b8' }}>
+                                <img
+                                    src={pokemon.frontSprite}
+                                    alt={pokemon.name}
+                                    className={`w-full h-full object-contain ${isFainted ? 'grayscale' : ''}`}
+                                    style={{ imageRendering: 'pixelated' }}
+                                />
+                            </div>
+                            {/* Info */}
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-1.5 mb-1">
+                                    <p className="text-xs font-black uppercase truncate" style={{ color: '#2a1a08' }}>{pokemon.name}</p>
+                                    {isActive && (
+                                        <span className="text-[9px] font-black px-1.5 rounded-full shrink-0" style={{ background: '#2860c0', color: '#d0e8ff' }}>ON</span>
+                                    )}
+                                    {isFainted && (
+                                        <span className="text-[9px] font-black px-1.5 rounded-full shrink-0" style={{ background: '#8a1a1a', color: '#ffd0d0' }}>KO</span>
+                                    )}
                                 </div>
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-bold text-neutral-900 dark:text-white truncate">{pokemon.name} {isActive && '★'}</p>
-                                    <div className="flex items-center gap-2 mt-1">
-                                        <div className="flex-1 h-1.5 bg-neutral-300 dark:bg-neutral-600 rounded-full overflow-hidden">
-                                            <div
-                                                className={`h-full transition-all duration-300 ${hpPercentage > 50 ? 'bg-green-500' : hpPercentage > 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                                                style={{ width: `${hpPercentage}%` }}
-                                            />
-                                        </div>
-                                        <span className="text-xs text-neutral-600 dark:text-neutral-400 whitespace-nowrap font-medium">{pokemon.currentHP}/{pokemon.calculatedStats.hp}</span>
+                                <div className="flex items-center gap-1.5">
+                                    <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: '#c8b08a', border: '1px solid #a08060' }}>
+                                        <div className="h-full rounded-full transition-all duration-300" style={{ width: `${hpPct}%`, backgroundColor: hpColor }} />
                                     </div>
+                                    <span className="text-[9px] tabular-nums shrink-0 font-bold" style={{ color: '#7a5a38' }}>
+                                        {pokemon.currentHP}/{pokemon.calculatedStats.hp}
+                                    </span>
                                 </div>
                             </div>
                         </button>

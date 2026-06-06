@@ -4,9 +4,9 @@ import type { Pokemon } from '../helpers/types';
 export default function EntriesSection({ pokemon }: { pokemon: Pokemon }) {
     if (!pokemon.flavorTexts || pokemon.flavorTexts.length === 0) {
         return (
-            <div className="p-6 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 text-center">
-                <BookOpen className="w-12 h-12 mx-auto mb-3 text-neutral-400 dark:text-neutral-600" />
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">No Pokédex entries available</p>
+            <div className="p-8 bg-white rounded-xl border border-silver/40 text-center">
+                <BookOpen className="w-10 h-10 mx-auto mb-3 text-silver" />
+                <p className="text-sm text-smoke">No Pokédex entries available</p>
             </div>
         );
     }
@@ -16,13 +16,13 @@ export default function EntriesSection({ pokemon }: { pokemon: Pokemon }) {
             {pokemon.flavorTexts.map((entry, index) => (
                 <div
                     key={index}
-                    className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 transition-all duration-200"
+                    className="p-4 bg-white rounded-xl border border-silver/40 hover:border-silver transition-all duration-200"
                 >
                     <div className="flex items-start gap-3">
-                        <div className="shrink-0 w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                            <span className="text-xs font-bold text-blue-600 dark:text-blue-400">{index + 1}</span>
+                        <div className="shrink-0 w-7 h-7 rounded-full bg-crimson/10 flex items-center justify-center">
+                            <span className="text-xs font-black text-crimson">{index + 1}</span>
                         </div>
-                        <p className="flex-1 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">{entry}</p>
+                        <p className="flex-1 text-sm leading-relaxed text-dusk">{entry}</p>
                     </div>
                 </div>
             ))}

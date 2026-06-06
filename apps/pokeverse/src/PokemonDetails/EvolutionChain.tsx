@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import { ArrowRight, GitBranch } from 'lucide-react';
 import type { Pokemon, EvolutionDetails } from '../helpers/types';
-import { formatString, formatPokemonId } from '../helpers/utilities';
+import { formatString } from '../helpers/utilities';
 import { getOfficialSprite } from '../helpers/constants';
 
 function EvolutionCard({
@@ -18,22 +18,21 @@ function EvolutionCard({
 
     return (
         <button
-            onClick={() => navigate(`/pokeverse/pokedex/${evolution.id}`)}
+            onClick={() => navigate(`/pokedex/${evolution.id}`)}
             className={`group relative rounded-xl border-2 transition-all duration-200 ${isCompact ? 'p-2' : 'p-3'} ${isCurrent
-                ? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                : 'border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-600'
+                ? 'border-crimson bg-crimson/5'
+                : 'border-silver/40 bg-white hover:border-silver hover:shadow-sm'
                 }`}
         >
-            <div className={`relative mx-auto mb-2 bg-neutral-50 dark:bg-neutral-700 rounded-lg overflow-hidden ${isCompact ? 'w-16 h-16' : 'w-20 h-20'}`}>
+            <div className={`relative mx-auto mb-2 rounded-lg overflow-hidden ${isCompact ? 'w-16 h-16' : 'w-20 h-20'}`}>
                 <img
                     src={getOfficialSprite(evolution.id)}
                     alt={evolution.name}
                     className="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform duration-300"
                 />
             </div>
-            <div className="space-y-1">
-                <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400">{formatPokemonId(evolution.id)}</p>
-                <p className={`font-semibold text-neutral-900 dark:text-neutral-100 capitalize truncate ${isCompact ? 'text-xs' : 'text-sm'}`}>
+            <div className="space-y-0.5">
+                <p className={`font-bold text-shadow capitalize truncate ${isCompact ? 'text-xs' : 'text-sm'}`}>
                     {formatString(evolution.name)}
                 </p>
             </div>
@@ -51,7 +50,7 @@ function renderHorizontalStage(evolution: EvolutionDetails, currentId: number, d
             </div>
             {evolution.evolvesTo.length > 0 && (
                 <>
-                    <ArrowRight className="shrink-0 w-6 h-6 text-neutral-400 dark:text-neutral-600" />
+                    <ArrowRight className="shrink-0 w-5 h-5 text-silver" />
                     {hasMultipleEvolutions ? (
                         <div className="flex flex-col gap-3">
                             {evolution.evolvesTo.map((nextEvo) => (
@@ -72,20 +71,20 @@ function renderHorizontalStage(evolution: EvolutionDetails, currentId: number, d
 export default function EvolutionChain({ pokemon }: { pokemon: Pokemon }) {
     if (!pokemon.evolutionChain) {
         return (
-            <div className="p-6 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 text-center">
-                <GitBranch className="w-12 h-12 mx-auto mb-3 text-neutral-400 dark:text-neutral-600" />
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">No evolution data available</p>
+            <div className="p-8 bg-white rounded-xl border border-silver/40 text-center">
+                <GitBranch className="w-10 h-10 mx-auto mb-3 text-silver" />
+                <p className="text-sm text-smoke">No evolution data available</p>
             </div>
         );
     }
 
     return (
-        <div className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
+        <div className="p-4 bg-white rounded-xl border border-silver/40">
             <div className="flex items-center gap-2 mb-4">
-                <GitBranch className="w-5 h-5 text-neutral-600 dark:text-neutral-400" />
-                <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Evolution Chain</h3>
+                <GitBranch className="w-4 h-4 text-smoke" />
+                <h3 className="text-xs font-black uppercase tracking-wider text-smoke">Evolution Chain</h3>
             </div>
-            <div className="overflow-x-auto pb-2 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-neutral-100 [&::-webkit-scrollbar-track]:dark:bg-neutral-700 [&::-webkit-scrollbar-thumb]:bg-neutral-300 [&::-webkit-scrollbar-thumb]:dark:bg-neutral-600 [&::-webkit-scrollbar-thumb]:rounded-full">
+            <div className="overflow-x-auto pb-2 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-chalk [&::-webkit-scrollbar-thumb]:bg-silver [&::-webkit-scrollbar-thumb]:rounded-full">
                 {renderHorizontalStage(pokemon.evolutionChain, pokemon.id)}
             </div>
         </div>

@@ -19,15 +19,15 @@ export default function InfoSection({ pokemon }: { pokemon: Pokemon }) {
                     return (
                         <div
                             key={item.label}
-                            className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 transition-all duration-200"
+                            className="p-4 bg-white rounded-xl border border-silver/40 hover:border-silver transition-all duration-200"
                         >
                             <div className="flex items-start gap-3">
-                                <div className="p-2 rounded-lg bg-neutral-100 dark:bg-neutral-700">
-                                    <Icon className="w-4 h-4 text-neutral-600 dark:text-neutral-400" />
+                                <div className="p-2 rounded-lg bg-chalk shrink-0">
+                                    <Icon className="w-4 h-4 text-smoke" />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-1">{item.label}</p>
-                                    <p className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 capitalize truncate">{item.value}</p>
+                                    <p className="text-xs text-silver mb-1">{item.label}</p>
+                                    <p className="text-sm font-bold text-shadow capitalize truncate">{item.value}</p>
                                 </div>
                             </div>
                         </div>
@@ -35,29 +35,29 @@ export default function InfoSection({ pokemon }: { pokemon: Pokemon }) {
                 })}
             </div>
 
-            <div className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-3">Abilities</h3>
+            <div className="p-4 bg-white rounded-xl border border-silver/40">
+                <h3 className="text-xs font-black uppercase tracking-wider text-smoke mb-3">Abilities</h3>
                 <div className="flex flex-wrap gap-2">
                     {pokemon.abilities.map((ability, index) => (
                         <div
                             key={index}
-                            className={`px-3 py-1.5 rounded-lg text-sm font-medium ${ability.isHidden
-                                ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-700'
-                                : 'bg-neutral-100 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300'
+                            className={`px-3 py-1.5 rounded-lg text-sm font-medium border ${ability.isHidden
+                                ? 'bg-chalk border-silver/60 text-smoke'
+                                : 'bg-chalk border-silver/40 text-shadow'
                                 }`}
                         >
                             <span className="capitalize">{ability.name}</span>
-                            {ability.isHidden && <span className="ml-1 text-xs opacity-75">(Hidden)</span>}
+                            {ability.isHidden && <span className="ml-1 text-xs text-silver">(Hidden)</span>}
                         </div>
                     ))}
                 </div>
             </div>
 
             {pokemon.generation && (
-                <div className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
+                <div className="p-4 bg-white rounded-xl border border-silver/40">
                     <div className="flex items-center justify-between">
-                        <span className="text-sm text-neutral-600 dark:text-neutral-400">Generation</span>
-                        <span className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Gen {pokemon.generation}</span>
+                        <span className="text-sm text-smoke">Generation</span>
+                        <span className="text-sm font-bold text-shadow">Gen {pokemon.generation}</span>
                     </div>
                 </div>
             )}

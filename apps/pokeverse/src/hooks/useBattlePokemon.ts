@@ -55,7 +55,7 @@ const fetchRandomMoves = async (pokemon: PokemonDetail): Promise<BattleMove[]> =
             id: moveDetail.id,
             name: moveDetail.name,
             type: moveDetail.type.name,
-            power: moveDetail.power || 0,
+            power: moveDetail.power || (Math.floor(Math.random() * 25) * 5 + 30),
             accuracy: moveDetail.accuracy || 100,
             category,
         } as BattleMove;

@@ -1,74 +1,71 @@
 import { Book, Swords } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useScrollToTop } from '@react-lab/shared';
-import PokeverseBG from '/pokeverse.png';
 
 export default function Pokeverse() {
     useScrollToTop();
     const navigate = useNavigate();
 
     return (
-        <div
-            className="relative w-full bg-cover bg-center flex items-center justify-center overflow-hidden"
-            style={{ backgroundImage: `url(${PokeverseBG})` }}
-        >
-            <div className="absolute inset-0 bg-black/20 dark:bg-black/40" />
+        <div className="flex-1 flex flex-col items-center justify-center px-6 py-8 gap-10 bg-chalk">
 
-            <div className="relative z-10 w-full max-w-7xl mx-auto px-4 py-8 flex flex-col items-center justify-center gap-12 md:gap-16">
-                <div className="text-center space-y-4">
-                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight">
-                        <span className="bg-linear-to-r from-red-500 via-pink-500 to-purple-600 bg-clip-text text-transparent drop-shadow-lg">Poké</span>
-                        <span className="bg-linear-to-r from-blue-500 via-cyan-500 to-teal-500 bg-clip-text text-transparent drop-shadow-lg">verse</span>
-                    </h1>
-                    <p className="text-lg sm:text-xl md:text-2xl font-medium text-white drop-shadow-md">
-                        Explore & Battle in the Pokémon Universe
-                    </p>
+            {/* Pokéball */}
+            <div className="relative w-44 h-44 shrink-0" aria-hidden="true">
+                <div className="absolute inset-0 rounded-full overflow-hidden border-[6px] border-shadow shadow-xl">
+                    <div className="absolute inset-x-0 top-0 h-1/2 bg-crimson" />
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-snow" />
                 </div>
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-1.5 bg-shadow z-2" />
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-3
+                                w-12 h-12 rounded-full bg-snow border-6 border-shadow" />
+            </div>
 
-                <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl">
-                    <button
-                        onClick={() => navigate('/pokeverse/pokedex')}
-                        className="group relative overflow-hidden rounded-2xl bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border-2 border-white/50 dark:border-neutral-700/50 p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/30 focus:outline-none focus:ring-4 focus:ring-blue-500/50"
-                    >
-                        <div className="absolute inset-0 bg-linear-to-br from-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <div className="relative mb-6 flex justify-center">
-                            <div className="w-20 h-20 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg group-hover:shadow-blue-500/50 transition-shadow duration-300">
-                                <Book className="w-10 h-10 text-white" />
-                            </div>
-                        </div>
-                        <div className="relative space-y-2">
-                            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-neutral-100">Pokédex</h2>
-                            <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400">
-                                Discover and explore detailed information about all Pokémon across all regions
-                            </p>
-                        </div>
-                    </button>
+            {/* Title */}
+            <div className="text-center">
+                <h1 className="font-black text-shadow leading-none tracking-tight"
+                    style={{ fontSize: 'clamp(2.8rem, 8vw, 5.5rem)' }}>
+                    <span className="text-crimson">Poké</span>verse
+                </h1>
+                <p className="text-smoke font-medium text-base mt-3">
+                    Explore &amp; Battle in the Pokémon Universe
+                </p>
+            </div>
 
-                    <button
-                        onClick={() => navigate('/pokeverse/battle-sim')}
-                        className="group relative overflow-hidden rounded-2xl bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border-2 border-white/50 dark:border-neutral-700/50 p-8 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-red-500/30 focus:outline-none focus:ring-4 focus:ring-red-500/50"
-                    >
-                        <div className="absolute inset-0 bg-linear-to-br from-red-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <div className="relative mb-6 flex justify-center">
-                            <div className="w-20 h-20 rounded-full bg-linear-to-br from-red-500 to-orange-500 flex items-center justify-center shadow-lg group-hover:shadow-red-500/50 transition-shadow duration-300">
-                                <Swords className="w-10 h-10 text-white" />
-                            </div>
-                        </div>
-                        <div className="relative space-y-2">
-                            <h2 className="text-2xl sm:text-3xl font-bold text-neutral-900 dark:text-neutral-100">Battle Simulator</h2>
-                            <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400">
-                                Challenge your friends in epic turn-based Pokémon battles with strategic gameplay
-                            </p>
-                        </div>
-                    </button>
-                </div>
-
-                <div className="text-center">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border border-white/50 dark:border-neutral-700/50 shadow-lg">
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                        <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">All Region's Pokémon Available</span>
+            {/* Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-lg">
+                <button
+                    onClick={() => navigate('/pokedex')}
+                    className="group flex flex-col gap-4 p-6 rounded-2xl bg-white border-2 border-silver/40 text-left
+                               hover:border-azure hover:shadow-lg hover:shadow-azure/10 hover:-translate-y-1
+                               transition-all duration-200 focus:outline-none"
+                >
+                    <div className="w-11 h-11 rounded-xl bg-azure flex items-center justify-center shrink-0">
+                        <Book className="w-5 h-5 text-white" />
                     </div>
-                </div>
+                    <div>
+                        <h2 className="font-black text-shadow text-lg">Pokédex</h2>
+                        <p className="text-smoke text-sm mt-1 leading-snug">
+                            All regions. Every Pokémon. Full stats &amp; evolutions.
+                        </p>
+                    </div>
+                </button>
+
+                <button
+                    onClick={() => navigate('/battle-sim')}
+                    className="group flex flex-col gap-4 p-6 rounded-2xl bg-white border-2 border-silver/40 text-left
+                               hover:border-crimson hover:shadow-lg hover:shadow-crimson/10 hover:-translate-y-1
+                               transition-all duration-200 focus:outline-none"
+                >
+                    <div className="w-11 h-11 rounded-xl bg-crimson flex items-center justify-center shrink-0">
+                        <Swords className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                        <h2 className="font-black text-shadow text-lg">Battle Sim</h2>
+                        <p className="text-smoke text-sm mt-1 leading-snug">
+                            Draft your team. Fight turn-by-turn. Claim victory.
+                        </p>
+                    </div>
+                </button>
             </div>
         </div>
     );

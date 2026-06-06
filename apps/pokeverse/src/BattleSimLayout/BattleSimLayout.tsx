@@ -37,21 +37,21 @@ export default function BattleSimLayout() {
     }, [battleState.phase, modal, navigate]);
 
     const path = location.pathname;
-    const isBattleRoute = path.startsWith('/pokeverse/battle-sim/battle');
+    const isBattleRoute = path.startsWith('/battle-sim/battle');
     const inBattlePhase = battleState.phase === 'BATTLE' || battleState.phase === 'ENDED';
     const teamsLoaded = battleState.players.every(p => p.team && p.team.length > 0);
 
     if (isBattleRoute && (!inBattlePhase || !teamsLoaded)) {
-        let redirect = '/pokeverse/battle-sim';
+        let redirect = '/battle-sim';
         try {
             const savedRaw = localStorage.getItem(BATTLE_STORAGE_KEY);
             if (savedRaw) {
                 const saved = JSON.parse(savedRaw);
                 switch (saved.phase) {
-                    case 'TEAM_SELECTION': redirect = '/pokeverse/battle-sim/team-selection'; break;
-                    case 'LOADING': redirect = '/pokeverse/battle-sim/loading'; break;
-                    case 'BATTLE': redirect = '/pokeverse/battle-sim/loading'; break;
-                    default: redirect = '/pokeverse/battle-sim';
+                    case 'TEAM_SELECTION': redirect = '/battle-sim/team-selection'; break;
+                    case 'LOADING': redirect = '/battle-sim/loading'; break;
+                    case 'BATTLE': redirect = '/battle-sim/loading'; break;
+                    default: redirect = '/battle-sim';
                 }
             }
         } catch (err) {

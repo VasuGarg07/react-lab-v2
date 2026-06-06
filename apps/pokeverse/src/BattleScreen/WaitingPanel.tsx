@@ -1,11 +1,30 @@
+import { Loader2 } from "lucide-react";
+
 export default function WaitingPanel({ playerName }: { playerName: string }) {
     return (
-        <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6 shadow-sm text-center">
-            <div className="w-12 h-12 mx-auto mb-3 bg-neutral-100 dark:bg-neutral-700 rounded-full flex items-center justify-center">
-                <div className="w-6 h-6 border-2 border-neutral-400 dark:border-neutral-500 border-t-blue-500 rounded-full animate-spin" />
+        <div
+            className="rounded-2xl shadow-xl overflow-hidden"
+            style={{
+                background: 'linear-gradient(160deg, #f8efdc 0%, #e8d9be 100%)',
+                border: '3px solid #a8926a',
+                boxShadow: '0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.5)',
+            }}
+        >
+            {/* Header */}
+            <div
+                className="px-4 py-2 border-b-2"
+                style={{ borderColor: '#a8926a', background: 'linear-gradient(90deg, #c8a870, #b8986a)' }}
+            >
+                <span className="text-[11px] font-black uppercase tracking-widest" style={{ color: '#f8efdc' }}>
+                    Waiting…
+                </span>
             </div>
-            <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Waiting for opponent...</p>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">{playerName} has acted</p>
+            {/* Body */}
+            <div className="flex flex-col items-center justify-center gap-2 py-6 px-4 text-center">
+                <Loader2 className="w-7 h-7 animate-spin" style={{ color: '#c8a870' }} />
+                <p className="text-sm font-black uppercase tracking-wide" style={{ color: '#2a1a08' }}>Opponent's Turn</p>
+                <p className="text-xs" style={{ color: '#8a7050' }}>{playerName} has acted — waiting…</p>
+            </div>
         </div>
     );
 }

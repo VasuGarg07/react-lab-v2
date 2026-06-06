@@ -1,6 +1,6 @@
 import type { BattlePokemon } from "../helpers/types";
 import { TYPE_COLORS } from "../helpers/constants";
-import { MoveLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 
 interface MovePanelProps {
     moves: BattlePokemon['selectedMoves'];
@@ -10,30 +10,62 @@ interface MovePanelProps {
 
 export default function MovePanel({ moves, onSelect, onBack }: MovePanelProps) {
     return (
-        <div className="bg-white dark:bg-neutral-800 rounded-xl border-2 border-neutral-700 dark:border-neutral-600 p-4 shadow-lg">
-            <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-neutral-900 dark:text-white uppercase">Choose Move</h3>
-                <button onClick={onBack} className="text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-medium">
-                    <MoveLeft />
+        <div
+            className="rounded-2xl shadow-xl overflow-hidden"
+            style={{
+                background: 'linear-gradient(160deg, #f8efdc 0%, #e8d9be 100%)',
+                border: '3px solid #a8926a',
+                boxShadow: '0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.5)',
+            }}
+        >
+            {/* Header */}
+            <div
+                className="flex items-center justify-between px-4 py-2 border-b-2"
+                style={{ borderColor: '#a8926a', background: 'linear-gradient(90deg, #c8a870, #b8986a)' }}
+            >
+                <span className="text-[11px] font-black uppercase tracking-widest" style={{ color: '#f8efdc' }}>Choose a Move</span>
+                <button
+                    onClick={onBack}
+                    className="flex items-center gap-0.5 text-[11px] font-black uppercase transition-opacity hover:opacity-70"
+                    style={{ color: '#f8efdc' }}
+                >
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                    Back
                 </button>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-                {moves.map((move, index) => (
-                    <button
-                        key={index}
-                        onClick={() => onSelect(index)}
-                        className="text-left p-3 rounded-lg transition-all duration-200 border-2 hover:scale-105"
-                        style={{ backgroundColor: `${TYPE_COLORS[move.type]}20`, borderColor: TYPE_COLORS[move.type] }}
-                    >
-                        <p className="text-sm font-bold text-neutral-900 dark:text-white mb-0.5 uppercase">{move.name}</p>
-                        <div className="flex items-center gap-2 text-xs">
-                            <span className="px-1.5 py-0.5 rounded text-white font-bold" style={{ backgroundColor: TYPE_COLORS[move.type] }}>
-                                {move.type}
-                            </span>
-                            <span className="text-neutral-600 dark:text-neutral-400 font-medium">{move.power}</span>
-                        </div>
-                    </button>
-                ))}
+
+            {/* Move grid */}
+            <div className="p-3 grid grid-cols-2 gap-2">
+                {moves.map((move, index) => {
+                    const color = TYPE_COLORS[move.type] || '#A8A878';
+                    return (
+                        <button
+                            key={index}
+                            onClick={() => onSelect(index)}
+                            className="text-left p-2.5 rounded-xl border-2 transition-all duration-100 hover:brightness-95 active:scale-95"
+                            style={{
+                                background: `${color}20`,
+                                borderColor: `${color}80`,
+                                boxShadow: `0 2px 0 ${color}40`,
+                            }}
+                        >
+                            <p className="text-xs font-black uppercase mb-1.5 truncate" style={{ color: '#2a1a08' }}>
+                                {move.name.replace(/-/g, ' ')}
+                            </p>
+                            <div className="flex items-center justify-between gap-1">
+                                <span
+                                    className="text-[9px] font-black px-1.5 py-0.5 rounded-lg text-white uppercase"
+                                    style={{ backgroundColor: color }}
+                                >
+                                    {move.type}
+                                </span>
+                                <span className="text-[10px] font-bold" style={{ color: '#7a5a38' }}>
+                                    {move.power} pw
+                                </span>
+                            </div>
+                        </button>
+                    );
+                })}
             </div>
         </div>
     );

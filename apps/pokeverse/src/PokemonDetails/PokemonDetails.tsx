@@ -32,10 +32,10 @@ export default function PokemonDetails() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 flex items-center justify-center">
+            <div className="flex-1 flex items-center justify-center bg-chalk py-20">
                 <div className="text-center space-y-4">
-                    <div className="w-16 h-16 border-4 border-neutral-300 dark:border-neutral-600 border-t-blue-500 rounded-full animate-spin mx-auto" />
-                    <p className="text-lg font-medium text-neutral-700 dark:text-neutral-300">Loading Pokémon...</p>
+                    <div className="w-14 h-14 border-4 border-silver border-t-crimson rounded-full animate-spin mx-auto" />
+                    <p className="text-sm font-medium text-smoke">Loading Pokémon...</p>
                 </div>
             </div>
         );
@@ -43,16 +43,16 @@ export default function PokemonDetails() {
 
     if (error || !pokemon) {
         return (
-            <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 flex items-center justify-center p-4">
-                <div className="text-center space-y-4 max-w-md">
-                    <div className="w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mx-auto">
-                        <span className="text-4xl">😞</span>
+            <div className="flex-1 flex items-center justify-center bg-chalk p-8">
+                <div className="text-center space-y-4 max-w-sm">
+                    <div className="w-16 h-16 rounded-full bg-crimson/10 flex items-center justify-center mx-auto">
+                        <span className="text-3xl">😞</span>
                     </div>
-                    <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Pokémon Not Found</h2>
-                    <p className="text-neutral-600 dark:text-neutral-400">Could not load Pokémon data. Please try again.</p>
+                    <h2 className="text-xl font-black text-shadow">Pokémon Not Found</h2>
+                    <p className="text-sm text-smoke">Could not load Pokémon data. Please try again.</p>
                     <button
-                        onClick={() => navigate('/pokeverse/pokedex')}
-                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200"
+                        onClick={() => navigate('/pokedex')}
+                        className="px-5 py-2.5 bg-crimson hover:bg-ruby text-white text-sm font-bold rounded-lg transition-all duration-200"
                     >
                         Back to Pokédex
                     </button>
@@ -62,12 +62,13 @@ export default function PokemonDetails() {
     }
 
     return (
-        <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
+        <div className="flex-1 flex flex-col bg-chalk">
             <HeroSection pokemon={pokemon} />
 
-            <div className="sticky top-0 z-10 bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700 shadow-sm">
+            {/* Tab bar — sticky below the app header (header is z-20, this is z-10) */}
+            <div className="sticky top-13 z-10 bg-white border-b border-silver/40 shadow-sm">
                 <div className="max-w-4xl mx-auto px-3">
-                    <div className="flex items-center gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
+                    <div className="flex items-center gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
                         {DETAIL_TABS.map((tab) => {
                             const Icon = tabIcons[tab.id];
                             const isActive = activeTab === tab.id;
@@ -75,9 +76,9 @@ export default function PokemonDetails() {
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex items-center gap-2 px-3 py-2.5 text-sm font-medium border-b-2 transition-all duration-200 whitespace-nowrap ${isActive
-                                        ? 'border-blue-600 text-blue-600 dark:text-blue-400'
-                                        : 'border-transparent text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200'
+                                    className={`flex items-center gap-1.5 px-3 py-3 text-sm font-semibold border-b-2 transition-all duration-200 whitespace-nowrap shrink-0 ${isActive
+                                        ? 'border-crimson text-crimson'
+                                        : 'border-transparent text-smoke hover:text-shadow hover:border-silver'
                                         }`}
                                 >
                                     <Icon className="w-4 h-4" />
@@ -90,63 +91,14 @@ export default function PokemonDetails() {
                 </div>
             </div>
 
-            <div className="max-w-4xl mx-auto p-4 sm:py-6 lg:py-8">
-                {activeTab === 'info' && (
-                    <div className="space-y-4">
-                        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Information</h2>
-                        <div className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
-                            <InfoSection pokemon={pokemon} />
-                        </div>
-                    </div>
-                )}
-                {activeTab === 'entries' && (
-                    <div className="space-y-4">
-                        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Pokédex Entries</h2>
-                        <div className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
-                            <EntriesSection pokemon={pokemon} />
-                        </div>
-                    </div>
-                )}
-                {activeTab === 'moves' && (
-                    <div className="space-y-4">
-                        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Moves</h2>
-                        <div className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
-                            <MovesGrid pokemon={pokemon} />
-                        </div>
-                    </div>
-                )}
-                {activeTab === 'stats' && (
-                    <div className="space-y-4">
-                        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Base Stats</h2>
-                        <div className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
-                            <StatsSection pokemon={pokemon} />
-                        </div>
-                    </div>
-                )}
-                {activeTab === 'evolution' && (
-                    <div className="space-y-4">
-                        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Evolution Chain</h2>
-                        <div className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
-                            <EvolutionChain pokemon={pokemon} />
-                        </div>
-                    </div>
-                )}
-                {activeTab === 'varieties' && (
-                    <div className="space-y-4">
-                        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Forms</h2>
-                        <div className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
-                            <VarietiesSection pokemon={pokemon} />
-                        </div>
-                    </div>
-                )}
-                {activeTab === 'gallery' && (
-                    <div className="space-y-4">
-                        <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Gallery</h2>
-                        <div className="p-4 bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700">
-                            <GallerySection pokemon={pokemon} />
-                        </div>
-                    </div>
-                )}
+            <div className="max-w-4xl mx-auto w-full px-4 py-6">
+                {activeTab === 'info' && <InfoSection pokemon={pokemon} />}
+                {activeTab === 'entries' && <EntriesSection pokemon={pokemon} />}
+                {activeTab === 'moves' && <MovesGrid pokemon={pokemon} />}
+                {activeTab === 'stats' && <StatsSection pokemon={pokemon} />}
+                {activeTab === 'evolution' && <EvolutionChain pokemon={pokemon} />}
+                {activeTab === 'varieties' && <VarietiesSection pokemon={pokemon} />}
+                {activeTab === 'gallery' && <GallerySection pokemon={pokemon} />}
             </div>
         </div>
     );

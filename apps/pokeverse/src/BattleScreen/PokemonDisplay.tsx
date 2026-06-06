@@ -1,56 +1,79 @@
 import type { BattlePokemon } from "../helpers/types";
-import { TYPE_COLORS } from "../helpers/constants";
 
 interface PokemonDisplayProps {
     pokemon: BattlePokemon;
-    playerName: string;
     isOpponent: boolean;
 }
 
-const getTypeGradient = (types: string[]) => {
-    const color1 = TYPE_COLORS[types[0]] || '#A8A878';
-    const color2 = types[1] ? TYPE_COLORS[types[1]] : color1;
-    return `linear-gradient(135deg, ${color1}50, ${color2}50)`;
-};
-
 export default function PokemonDisplay({ pokemon, isOpponent }: PokemonDisplayProps) {
-    const hpPercentage = (pokemon.currentHP / pokemon.calculatedStats.hp) * 100;
+    const hpPct = Math.max(0, (pokemon.currentHP / pokemon.calculatedStats.hp) * 100);
+    const hpColor = hpPct > 50 ? '#2ea02e' : hpPct > 20 ? '#d08000' : '#c03020';
+    const fainted = pokemon.currentHP <= 0;
 
     return (
-        <div className="rounded-xl border-2 border-neutral-700 dark:border-neutral-600 p-4 shadow-lg" style={{ background: getTypeGradient(pokemon.types) }}>
-            <div className={`flex items-center gap-4 ${isOpponent ? 'flex-row-reverse' : ''}`}>
-                <div className="shrink-0">
-                    <img
-                        src={isOpponent ? pokemon.frontSprite : pokemon.backSprite}
-                        alt={pokemon.name}
-                        className="w-32 h-32 object-contain drop-shadow-lg"
-                    />
+        <div className={`flex ${isOpponent ? 'flex-row-reverse' : 'flex-row'} items-end gap-1.5 sm:gap-2`}>
+            <div
+                className="rounded-2xl px-2.5 py-2 sm:px-3 sm:py-2.5 shadow-xl"
+                style={{
+                    background: 'linear-gradient(160deg, #f8efdc 0%, #e8d9be 100%)',
+                    border: '3px solid #a8926a',
+                    minWidth: 120,
+                    maxWidth: 175,
+                    boxShadow: '0 6px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.6)',
+                }}
+            >
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                    <p className="text-[11px] sm:text-xs font-black uppercase tracking-wide truncate" style={{ color: '#2a1a08' }}>
+                        {pokemon.name}
+                    </p>
+                    <span className="text-[9px] font-black px-1.5 py-0.5 rounded-lg shrink-0"
+                        style={{ background: '#2a1a08', color: '#f8efdc' }}>
+                        Lv{pokemon.level}
+                    </span>
                 </div>
-                <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-lg font-bold text-neutral-900 dark:text-white uppercase tracking-wide">{pokemon.name}</h3>
-                        <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300 bg-white/50 dark:bg-black/30 px-2 py-0.5 rounded-full">Lv.{pokemon.level}</span>
-                    </div>
-                    <div className="flex gap-1.5 mb-3">
-                        {pokemon.types.map((type) => (
-                            <span key={type} className="px-2.5 py-0.5 text-xs font-bold rounded-full text-white uppercase shadow-sm" style={{ backgroundColor: TYPE_COLORS[type] }}>
-                                {type}
-                            </span>
-                        ))}
-                    </div>
-                    <div className="bg-neutral-900/20 dark:bg-black/30 rounded-lg p-2 backdrop-blur-sm">
-                        <div className="flex items-center justify-between text-xs mb-1">
-                            <span className="font-medium text-neutral-900 dark:text-white">HP</span>
-                            <span className="font-bold text-neutral-900 dark:text-white">{pokemon.currentHP} / {pokemon.calculatedStats.hp}</span>
-                        </div>
-                        <div className="h-2.5 bg-neutral-300 dark:bg-neutral-700 rounded-full overflow-hidden border border-neutral-400 dark:border-neutral-600">
-                            <div
-                                className={`h-full transition-all duration-500 ${hpPercentage > 50 ? 'bg-green-500' : hpPercentage > 20 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                                style={{ width: `${hpPercentage}%` }}
-                            />
-                        </div>
+                <div className="flex items-center gap-1.5 mb-1">
+                    <span className="text-[9px] font-black tracking-wider shrink-0" style={{ color: '#7a5a38' }}>HP</span>
+                    <div className="flex-1 rounded-full overflow-hidden" style={{ height: 8, background: '#c8b08a', border: '2px solid #a08060' }}>
+                        <div
+                            className="h-full rounded-full transition-all duration-700"
+                            style={{ width: `${hpPct}%`, backgroundColor: hpColor, boxShadow: `0 1px 4px ${hpColor}90` }}
+                        />
                     </div>
                 </div>
+                <p className="text-right text-[10px] tabular-nums font-bold" style={{ color: '#5a4028' }}>
+                    <span style={{ color: fainted ? '#c03020' : '#2a1a08' }}>{fainted ? '0' : pokemon.currentHP}</span>
+                    <span style={{ color: '#9a8060' }}> / {pokemon.calculatedStats.hp}</span>
+                </p>
+            </div>
+
+            <div className="relative shrink-0 self-end">
+                <img
+                    src={isOpponent ? pokemon.frontSprite : (pokemon.backSprite ?? pokemon.frontSprite)}
+                    alt={pokemon.name}
+                    className="transition-all duration-300 drop-shadow-2xl"
+                    style={{
+                        width: isOpponent ? 90 : 110,
+                        height: isOpponent ? 90 : 110,
+                        imageRendering: 'pixelated',
+                        objectFit: 'contain',
+                        filter: fainted ? 'grayscale(1) opacity(0.3)' : undefined,
+                    }}
+                />
+                {fainted && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <span
+                            className="text-[11px] font-black uppercase px-2 py-0.5 rounded-lg"
+                            style={{
+                                background: '#7f1d1d',
+                                color: '#fca5a5',
+                                transform: 'rotate(-18deg)',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.6)',
+                            }}
+                        >
+                            Fainted
+                        </span>
+                    </div>
+                )}
             </div>
         </div>
     );

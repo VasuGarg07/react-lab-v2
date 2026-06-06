@@ -7,26 +7,32 @@ interface TeamPartyStatusProps {
 }
 
 export default function TeamPartyStatus({ team, playerName, isOpponent }: TeamPartyStatusProps) {
-    const aliveCount = team.filter(p => p.currentHP > 0).length;
-
     return (
-        <div className="bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-white/20 dark:border-white/10">
-            <div className="flex items-center justify-between mb-2">
-                <p className="text-xs font-bold text-neutral-900 dark:text-white uppercase">{playerName}</p>
-                <p className="text-xs text-neutral-700 dark:text-neutral-300 font-medium">{aliveCount}/{team.length}</p>
-            </div>
-            <div className={`flex flex-wrap gap-1.5 ${isOpponent ? 'justify-end' : 'justify-start'}`}>
+        <div
+            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl shadow-md ${isOpponent ? 'flex-row-reverse' : ''}`}
+            style={{
+                background: 'linear-gradient(135deg, #f8efdc, #e8d9be)',
+                border: '2px solid #a8926a',
+                boxShadow: '0 3px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.5)',
+            }}
+        >
+            <span className="text-[10px] font-black uppercase tracking-wide whitespace-nowrap" style={{ color: '#2a1a08' }}>
+                {playerName}
+            </span>
+            <div className={`flex gap-1 items-center ${isOpponent ? 'flex-row-reverse' : ''}`}>
                 {team.map((pokemon, idx) => (
                     <div
                         key={idx}
-                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 ${pokemon.currentHP > 0
-                            ? 'border-green-400 shadow-md shadow-green-400/20'
-                            : 'border-red-400 shadow-md shadow-red-400/20'
-                            } bg-white/50 dark:bg-black/30 hover:scale-110 transition-transform duration-200 cursor-pointer`}
-                        title={`${pokemon.name} - ${pokemon.currentHP}/${pokemon.calculatedStats.hp} HP`}
-                    >
-                        <img src={pokemon.frontSprite} alt={pokemon.name} className="w-full h-full object-contain scale-110" />
-                    </div>
+                        title={`${pokemon.name} — ${pokemon.currentHP}/${pokemon.calculatedStats.hp} HP`}
+                        className="rounded-full border-2 transition-all duration-300"
+                        style={{
+                            width: 10,
+                            height: 10,
+                            backgroundColor: pokemon.currentHP > 0 ? '#2ea02e' : '#c03020',
+                            borderColor: pokemon.currentHP > 0 ? '#1a7a1a' : '#8a1a1a',
+                            boxShadow: pokemon.currentHP > 0 ? '0 0 5px #2ea02e80' : '0 0 4px #c0302060',
+                        }}
+                    />
                 ))}
             </div>
         </div>

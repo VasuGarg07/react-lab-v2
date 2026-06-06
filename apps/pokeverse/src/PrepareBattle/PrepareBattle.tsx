@@ -23,23 +23,23 @@ export default function PrepareBattle() {
         dispatch(setPlayerTeam({ playerId: 0, team: player1Team.map(s => s.pokemon!) }));
         dispatch(setPlayerTeam({ playerId: 1, team: player2Team.map(s => s.pokemon!) }));
         dispatch(startBattle());
-        navigate('/pokeverse/battle-sim/battle');
+        navigate('/battle-sim/battle');
     };
 
     if (!teamSize || selectedRegions.length === 0) return null;
 
     if (isError) {
         return (
-            <div className="min-h-screen bg-linear-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 flex items-center justify-center p-4">
-                <div className="bg-white dark:bg-neutral-800 rounded-2xl p-8 max-w-md text-center shadow-xl">
-                    <div className="w-16 h-16 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-3xl">❌</span>
+            <div className="flex-1 bg-chalk flex items-center justify-center p-4">
+                <div className="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-sm border border-silver/40">
+                    <div className="w-14 h-14 bg-crimson/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl">⚠</span>
                     </div>
-                    <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">Loading Failed</h2>
-                    <p className="text-neutral-600 dark:text-neutral-400 mb-6">{error || 'Failed to load Pokemon data'}</p>
+                    <h2 className="text-xl font-black text-shadow mb-2">Loading Failed</h2>
+                    <p className="text-sm text-smoke mb-6">{error || 'Failed to load Pokémon data'}</p>
                     <button
-                        onClick={() => navigate('/pokeverse/battle-sim')}
-                        className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200"
+                        onClick={() => navigate('/battle-sim')}
+                        className="px-6 py-3 rounded-xl bg-linear-to-br from-crimson to-ruby text-white font-black text-sm shadow-sm shadow-crimson/20 hover:shadow-crimson/40 hover:-translate-y-0.5 transition-all duration-200"
                     >
                         Back to Setup
                     </button>
@@ -49,91 +49,95 @@ export default function PrepareBattle() {
     }
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-purple-50 via-blue-50 to-pink-50 dark:from-purple-950 dark:via-blue-950 dark:to-pink-950 py-8 px-4">
-            <div className="max-w-5xl mx-auto">
-                <div className="text-center mb-8">
-                    <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 shadow-lg transition-all duration-500 ${allReady ? 'bg-linear-to-br from-green-500 to-emerald-500' : 'bg-linear-to-br from-purple-500 to-pink-500'}`}>
-                        {allReady ? <CheckCircle2 className="w-8 h-8 text-white" /> : <Loader2 className="w-8 h-8 text-white animate-spin" />}
+        <div className="flex-1 bg-chalk py-10 px-4">
+            <div className="max-w-5xl mx-auto space-y-6">
+
+                {/* Header */}
+                <div className="flex items-center gap-4 pb-2">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shrink-0 transition-all duration-500 ${allReady ? 'bg-green-500 shadow-green-500/30' : 'bg-crimson shadow-crimson/30'}`}>
+                        {allReady
+                            ? <CheckCircle2 className="w-6 h-6 text-white" />
+                            : <Loader2 className="w-6 h-6 text-white animate-spin" />
+                        }
                     </div>
-                    <h1 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-linear-to-r from-purple-600 via-pink-600 to-red-600 dark:from-purple-400 dark:via-pink-400 dark:to-red-400 mb-2">
-                        {allReady ? 'TEAMS READY!' : 'PREPARING BATTLE'}
-                    </h1>
-                    <p className="text-neutral-600 dark:text-neutral-300 font-medium">
-                        {allReady ? 'All Pokemon are ready to battle!' : 'Loading your Pokemon teams...'}
-                    </p>
+                    <div>
+                        <h1 className="text-2xl font-black text-shadow tracking-tight leading-none">
+                            {allReady ? 'Teams Ready!' : 'Preparing Battle'}
+                        </h1>
+                        <p className="text-sm text-smoke mt-0.5">
+                            {allReady ? 'All Pokémon are loaded and ready' : 'Loading your Pokémon teams...'}
+                        </p>
+                    </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-8 mb-8">
+                {/* Player cards */}
+                <div className="grid sm:grid-cols-2 gap-5">
                     {[
-                        { player: players[0], team: player1Team, ids: player1Ids, ready: player1Ready, color: 'blue' },
-                        { player: players[1], team: player2Team, ids: player2Ids, ready: player2Ready, color: 'red' },
-                    ].map(({ player, team, ids, ready, color }) => (
-                        <div key={player.name} className="bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm rounded-2xl p-6 border border-neutral-200 dark:border-neutral-700 shadow-lg">
-                            <div className="flex items-center justify-between mb-6">
-                                <div className="flex items-center gap-3">
-                                    <div className={`w-10 h-10 rounded-full bg-${color}-500 flex items-center justify-center`}>
-                                        <span className="text-white font-bold">{player.name[0].toUpperCase()}</span>
-                                    </div>
-                                    <div>
-                                        <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{player.name}</h2>
-                                        <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                                            {team.filter(s => !s.isLoading).length} / {team.length} Ready
-                                        </p>
-                                    </div>
-                                </div>
-                                {ready && <CheckCircle2 className="w-6 h-6 text-green-500" />}
-                            </div>
-                            <div className="grid grid-cols-3 gap-4">
-                                {team.map((state, index) => {
-                                    const pokemonId = ids[index];
-                                    return (
-                                        <div
-                                            key={index}
-                                            className={`relative aspect-square rounded-xl border-2 transition-all duration-500 ${state.isLoading
-                                                ? 'border-neutral-300 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-900'
-                                                : `border-${color}-500 dark:border-${color}-400 bg-${color}-50 dark:bg-${color}-950/30`
-                                                }`}
-                                        >
-                                            <img
-                                                src={getOfficialSprite(pokemonId)}
-                                                alt={state.pokemon?.name || `Pokemon ${pokemonId}`}
-                                                className={`w-full h-full object-contain p-2 transition-all duration-500 ${state.isLoading ? 'grayscale brightness-75 opacity-50' : 'grayscale-0 opacity-100'}`}
-                                            />
-                                            {state.isLoading ? (
-                                                <div className="absolute top-1 right-1 w-5 h-5 bg-neutral-500 rounded-full flex items-center justify-center">
-                                                    <Loader2 className="w-3 h-3 text-white animate-spin" />
-                                                </div>
-                                            ) : (
-                                                <div className="absolute top-1 right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                                                    <span className="text-white text-xs">✓</span>
-                                                </div>
-                                            )}
+                        { player: players[0], team: player1Team, ids: player1Ids, ready: player1Ready, accent: 'crimson' as const },
+                        { player: players[1], team: player2Team, ids: player2Ids, ready: player2Ready, accent: 'azure' as const },
+                    ].map(({ player, team, ids, ready, accent }) => {
+                        const accentClasses = accent === 'crimson'
+                            ? { text: 'text-crimson', avatar: 'bg-crimson', border: 'border-crimson', bg: 'bg-crimson/5' }
+                            : { text: 'text-azure', avatar: 'bg-azure', border: 'border-azure', bg: 'bg-azure/5' };
+                        return (
+                            <div key={player.name} className="rounded-2xl bg-white border border-silver/40 p-5 shadow-sm">
+                                <div className="flex items-center justify-between border-b border-silver/30 pb-3 mb-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className={`w-9 h-9 rounded-xl ${accentClasses.avatar} flex items-center justify-center shadow-sm`}>
+                                            <span className="text-white font-black text-sm">{player.name[0].toUpperCase()}</span>
                                         </div>
-                                    );
-                                })}
+                                        <div>
+                                            <p className={`font-black text-sm ${accentClasses.text}`}>{player.name}</p>
+                                            <p className="text-[10px] text-smoke">{team.filter(s => !s.isLoading).length} / {team.length} ready</p>
+                                        </div>
+                                    </div>
+                                    {ready && <CheckCircle2 className="w-5 h-5 text-green-500" />}
+                                </div>
+                                <div className="grid grid-cols-3 gap-2.5">
+                                    {team.map((state, index) => {
+                                        const pokemonId = ids[index];
+                                        return (
+                                            <div
+                                                key={index}
+                                                className={`relative aspect-square rounded-xl border-2 transition-all duration-500 ${state.isLoading
+                                                    ? 'border-silver/30 bg-chalk'
+                                                    : `${accentClasses.border} ${accentClasses.bg}`
+                                                }`}
+                                            >
+                                                <img
+                                                    src={getOfficialSprite(pokemonId)}
+                                                    alt={state.pokemon?.name || `Pokemon ${pokemonId}`}
+                                                    className={`w-full h-full object-contain p-1.5 transition-all duration-500 ${state.isLoading ? 'grayscale opacity-30' : 'opacity-100'}`}
+                                                />
+                                                <div className={`absolute top-1 right-1 w-4 h-4 rounded-full flex items-center justify-center transition-all duration-300 ${state.isLoading ? 'bg-silver/40' : 'bg-green-500'}`}>
+                                                    {state.isLoading
+                                                        ? <Loader2 className="w-2.5 h-2.5 text-white animate-spin" />
+                                                        : <span className="text-white text-[9px] font-black">✓</span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
-                <div className="text-center">
-                    <button
-                        onClick={handleBeginBattle}
-                        disabled={!allReady}
-                        className={`px-8 py-4 rounded-xl text-lg font-black shadow-xl transition-all duration-300 ${allReady
-                            ? 'bg-linear-to-r from-purple-600 via-pink-600 to-red-600 text-white hover:shadow-2xl hover:scale-105 cursor-pointer'
-                            : 'bg-neutral-300 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400 cursor-not-allowed opacity-50'
-                            }`}
-                    >
-                        {allReady ? (
-                            <span className="flex items-center gap-2">
-                                <Swords className="w-6 h-6" />
-                                BEGIN BATTLE
-                                <Swords className="w-6 h-6" />
-                            </span>
-                        ) : 'LOADING...'}
-                    </button>
-                </div>
+                {/* CTA */}
+                <button
+                    onClick={handleBeginBattle}
+                    disabled={!allReady}
+                    className={`w-full py-4 rounded-2xl font-black text-base tracking-wide transition-all duration-300 flex items-center justify-center gap-3 ${allReady
+                        ? 'bg-linear-to-br from-crimson to-ruby text-white shadow-lg shadow-crimson/25 hover:shadow-crimson/40 hover:-translate-y-0.5 cursor-pointer'
+                        : 'bg-silver/20 text-silver cursor-not-allowed'
+                    }`}
+                >
+                    <Swords className="w-5 h-5" />
+                    {allReady ? 'Begin Battle' : 'Loading...'}
+                    <Swords className="w-5 h-5" />
+                </button>
+
             </div>
         </div>
     );
