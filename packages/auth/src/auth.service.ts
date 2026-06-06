@@ -1,11 +1,11 @@
 import { apiClient } from '@react-lab/shared';
-import type { ChangePasswordData, LoginData, RegisterData } from './auth.types';
+import type { AccessTokens, ChangePasswordData, LoginData, RegisterData } from './auth.types';
 
 export const register = async (data: RegisterData): Promise<void> => {
     await apiClient.post('/auth/register', data);
 };
 
-export const login = async (data: LoginData): Promise<{ accessToken: string; refreshToken: string }> => {
+export const login = async (data: LoginData): Promise<AccessTokens> => {
     const response = await apiClient.post('/auth/login', data);
     return response.data;
 };

@@ -7,7 +7,7 @@ import {
     logout as logoutService,
     register as registerService,
 } from './auth.service';
-import type { ChangePasswordData, LoginData, RegisterData, User } from './auth.types';
+import type { AccessTokens, ChangePasswordData, LoginData, RegisterData, User } from './auth.types';
 
 export interface AuthState {
     user: User | null;
@@ -24,6 +24,20 @@ const initialState: AuthState = {
 };
 
 type DecodedToken = User & { exp: number };
+
+export const oauthCallbackThunk = createAsyncThunk(
+    'auth/oauthCallback',
+    async (data: AccessTokens, { rejectWithValue }) => {
+        try {
+            const {accessToken, refreshToken} = data;
+            saveAuthTokens(accessToken, refreshToken);
+            const decoded = jwtDecode<DecodedToken>(accessToken);
+            return { user: decoded };
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data?.error || 'Invalid token received');
+        }
+    }
+);
 
 export const loginThunk = createAsyncThunk(
     'auth/login',
@@ -125,6 +139,17 @@ export const authSlice = createSlice({
                 toastService.success('Login successful');
             })
             .addCase(loginThunk.rejected, (state, action) => {
+                state.loading = false;
+                toastService.error(String(action.payload));
+            })
+
+            .addCase(oauthCallbackThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.isLoggedIn = true;
+                state.user = action.payload.user;
+                toastService.success('Login successful');
+            })
+            .addCase(oauthCallbackThunk.rejected, (state, action) => {
                 state.loading = false;
                 toastService.error(String(action.payload));
             })

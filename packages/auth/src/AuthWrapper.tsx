@@ -1,36 +1,38 @@
-import { ArrowLeft } from 'lucide-react';
-import { Link, Outlet } from 'react-router';
+import { Outlet, useOutletContext } from 'react-router';
 
-export function AuthWrapper() {
+interface AuthWrapperProps {
+    appName?: string;
+}
+
+export interface AuthContext {
+    appName: string;
+}
+
+export function AuthWrapper({ appName = 'React Lab' }: AuthWrapperProps) {
     return (
-        <div className="min-h-[calc(100vh-64px)] w-full bg-neutral-50 dark:bg-neutral-900 flex flex-col p-4">
-            <div className="w-full max-w-7xl mx-auto">
-                <Link
-                    to="/"
-                    className="inline-flex items-center gap-1.5 text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors duration-200"
-                >
-                    <ArrowLeft size={16} />
-                    Back
-                </Link>
-            </div>
-
-            <div className="flex-1 flex items-center justify-center">
-                <div className="w-full max-w-md">
-                    <Link to="/" className="block text-center mb-6 group">
-                        <h1 className="text-3xl font-bold text-blue-500 group-hover:opacity-80 transition-opacity">
-                            React Lab
-                        </h1>
-                    </Link>
-
-                    <div className="bg-white dark:bg-neutral-800 rounded-xl shadow-md border border-neutral-200 dark:border-neutral-700 overflow-hidden">
-                        <Outlet />
+        <div className="auth-root flex-1">
+            <div className="auth-stage">
+                <div className="auth-brand">
+                    <div className="auth-brand-mark" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fdfdfb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 3l9 5-9 5-9-5 9-5z" />
+                            <path d="M3 13l9 5 9-5" />
+                            <path d="M3 17l9 5 9-5" />
+                        </svg>
                     </div>
-
-                    <p className="mt-6 text-center text-xs text-neutral-500 dark:text-neutral-400">
-                        © {new Date().getFullYear()} • Vasu Garg
-                    </p>
+                    <span className="auth-brand-name">{appName}</span>
                 </div>
+
+                <main className="auth-card">
+                    <Outlet context={{ appName } satisfies AuthContext} />
+                </main>
+
+                <p className="auth-foot">© {new Date().getFullYear()} Vasu Garg</p>
             </div>
         </div>
     );
+}
+
+export function useAuthContext() {
+    return useOutletContext<AuthContext>();
 }
