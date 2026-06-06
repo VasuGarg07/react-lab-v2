@@ -5,20 +5,7 @@
   "targets": {
     "react-lab-v2": {
       "hosting": {
-        "react-lab-v2": ["react-lab-v2"],
-        "react-lab-blogify": ["react-lab-blogify"],
-        "react-lab-budget-buddy": ["react-lab-budget-buddy"],
-        "react-lab-formlyst": ["react-lab-formlyst"],
-        "react-lab-pokeverse": ["react-lab-pokeverse"],
-        "react-lab-recipe-haven": ["react-lab-recipe-haven"],
-        "react-lab-quizzo": ["react-lab-quizzo"],
-        "react-lab-poke-memory": ["react-lab-poke-memory"],
-        "react-lab-sudoku": ["react-lab-sudoku"],
-        "react-lab-super-tic-tac-toe": ["react-lab-super-tic-tac-toe"],
-        "react-lab-sorting-visualizer": ["react-lab-sorting-visualizer"],
-        "react-lab-json": ["react-lab-json"],
-        "react-lab-markdown": ["react-lab-markdown"],
-        "react-lab-loan-wizard": ["react-lab-loan-wizard"]
+        "react-lab-v2": ["react-lab-v2"]
       }
     }
   }

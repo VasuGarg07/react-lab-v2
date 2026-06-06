@@ -1,8 +1,6 @@
 import { RotateCcw } from 'lucide-react';
 import { Instructions } from './ttt.helpers';
-import GithubIcon from '../../../packages/ui/icons/github.svg';
-import LinkedinIcon from '../../../packages/ui/icons/linkedin.svg';
-import XIcon from '../../../packages/ui/icons/x.svg';
+import { GithubIcon, LinkedinIcon, XIcon } from '@react-lab/ui';
 
 interface SidebarProps {
     gameWinner: string | null;

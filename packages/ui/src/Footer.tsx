@@ -1,7 +1,5 @@
 import { ThemeToggle } from "./ThemeToggle";
-import Github from "../icons/github.svg";
-import LinkedIn from "../icons/linkedin.svg";
-import X from "../icons/x.svg"
+import { GithubIcon as Github, LinkedinIcon as LinkedIn, XIcon as X } from "./icons";
 
 const SOCIALS = [
     { href: 'https://github.com/VasuGarg07', icon: Github, label: 'GitHub' },

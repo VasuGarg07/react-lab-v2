@@ -1,6 +1,4 @@
-import GithubIcon from '../../../packages/ui/icons/github.svg';
-import LinkedinIcon from '../../../packages/ui/icons/linkedin.svg';
-import XIcon from '../../../packages/ui/icons/x.svg';
+import { GithubIcon, LinkedinIcon, XIcon } from '@react-lab/ui';
 
 const SOCIALS = [
     { href: 'https://github.com/VasuGarg07', icon: GithubIcon, label: 'GitHub' },

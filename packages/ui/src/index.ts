@@ -20,3 +20,4 @@ export * from "./TextInput";
 export * from "./ThemeToggle";
 export * from "./ThemeContext";
 export * from "./Tooltip";
+export * from "./icons";
