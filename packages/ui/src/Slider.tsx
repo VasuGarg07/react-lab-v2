@@ -9,6 +9,10 @@ interface SliderProps {
     onChange: (value: number) => void;
     disabled?: boolean;
     className?: string;
+    trackClassName?: string;
+    fillClassName?: string;
+    thumbClassName?: string;
+    labelClassName?: string;
 }
 
 export function Slider({
@@ -20,6 +24,10 @@ export function Slider({
     onChange,
     disabled = false,
     className = '',
+    trackClassName = '',
+    fillClassName = '',
+    thumbClassName = '',
+    labelClassName = '',
 }: SliderProps) {
     const [showTooltip, setShowTooltip] = useState(false);
     const percentage = ((value - min) / (max - min)) * 100;
@@ -32,10 +40,10 @@ export function Slider({
         <div className={`space-y-2 ${className}`}>
             {label && (
                 <div className="flex items-center justify-between">
-                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                    <label className={`block text-sm font-medium text-neutral-700 ${labelClassName}`}>
                         {label}
                     </label>
-                    <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                    <span className={`text-sm text-neutral-600 ${labelClassName}`}>
                         {value}
                     </span>
                 </div>
@@ -46,16 +54,16 @@ export function Slider({
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
             >
-                {/* Track background */}
-                <div className="relative h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full">
-                    {/* Filled track */}
+                {/* Track */}
+                <div className={`relative h-2 bg-neutral-200 rounded-full ${trackClassName}`}>
+                    {/* Fill */}
                     <div
-                        className="absolute h-2 bg-blue-500 dark:bg-blue-600 rounded-full"
+                        className={`absolute h-2 bg-blue-500 rounded-full ${fillClassName}`}
                         style={{ width: `${percentage}%` }}
                     />
                 </div>
 
-                {/* Slider input */}
+                {/* Hidden range input */}
                 <input
                     type="range"
                     min={min}
@@ -70,14 +78,14 @@ export function Slider({
 
                 {/* Thumb */}
                 <div
-                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-neutral-100 border-2 border-blue-500 dark:border-blue-600 rounded-full shadow-md pointer-events-none transition-transform duration-150"
+                    className={`absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-blue-500 rounded-full shadow-md pointer-events-none transition-transform duration-150 ${thumbClassName}`}
                     style={{ left: `calc(${percentage}% - 8px)` }}
                 />
 
                 {/* Tooltip */}
                 {showTooltip && (
                     <div
-                        className="absolute -top-8 px-2 py-1 bg-neutral-900 dark:bg-neutral-700 text-white text-xs font-medium rounded pointer-events-none whitespace-nowrap transform -translate-x-1/2"
+                        className="absolute -top-8 px-2 py-1 bg-neutral-900 text-white text-xs font-medium rounded pointer-events-none whitespace-nowrap transform -translate-x-1/2"
                         style={{ left: `${percentage}%` }}
                     >
                         {value}

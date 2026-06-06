@@ -26,8 +26,8 @@ export default function MealGallery() {
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center py-20">
-                <Loader2 size={32} className="animate-spin text-pollen mb-3" />
-                <p className="text-sm text-iron/60 dark:text-ivory/50">Loading recipes…</p>
+                <Loader2 size={32} className="animate-spin text-magenta mb-3" />
+                <p className="text-sm text-shadow/50">Loading recipes…</p>
             </div>
         );
     }
@@ -35,7 +35,7 @@ export default function MealGallery() {
     if (error) {
         return (
             <EmptyState
-                icon={<AlertCircle size={36} className="text-red-500" />}
+                icon={<AlertCircle size={36} className="text-blush" />}
                 title="Couldn't load recipes"
                 blurb="Something went wrong on our end. Try again in a moment."
             />
@@ -45,7 +45,7 @@ export default function MealGallery() {
     if (meals.length === 0) {
         return (
             <EmptyState
-                icon={<AlertCircle size={36} className="text-iron/30 dark:text-ivory/25" />}
+                icon={<AlertCircle size={36} className="text-shadow/30" />}
                 title="No recipes found"
                 blurb="Try a different search term or browse a category."
             />
@@ -55,16 +55,16 @@ export default function MealGallery() {
     return (
         <div className="space-y-8">
             <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-carrot font-medium">{getKicker()}</p>
+                <p className="text-xs uppercase tracking-[0.25em] text-plum font-medium">{getKicker()}</p>
                 <div className="mt-1 flex items-baseline justify-between gap-4">
-                    <h2 className="font-serif text-3xl sm:text-4xl text-iron dark:text-ivory">{getTitle()}</h2>
-                    <span className="shrink-0 text-sm text-iron/50 dark:text-ivory/40">
+                    <h2 className="font-serif text-3xl sm:text-4xl text-shadow">{getTitle()}</h2>
+                    <span className="shrink-0 text-sm text-shadow/40">
                         {meals.length} {meals.length === 1 ? 'recipe' : 'recipes'}
                     </span>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {meals.map((meal) => (
                     <MealCard key={meal.id} meal={meal} />
                 ))}
@@ -77,8 +77,8 @@ function EmptyState({ icon, title, blurb }: { icon: React.ReactNode; title: stri
     return (
         <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="mb-4">{icon}</div>
-            <h2 className="font-serif text-2xl text-iron dark:text-ivory mb-1">{title}</h2>
-            <p className="text-sm text-iron/60 dark:text-ivory/50 max-w-sm">{blurb}</p>
+            <h2 className="font-serif text-2xl text-shadow mb-1">{title}</h2>
+            <p className="text-sm text-shadow/50 max-w-sm">{blurb}</p>
         </div>
     );
 }

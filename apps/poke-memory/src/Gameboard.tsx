@@ -17,40 +17,42 @@ export default function GameBoard() {
     return (
         <div className="w-full max-w-7xl mx-auto flex flex-col gap-4">
 
-            {/* Game action strip — garnet bg, full-width */}
-            <div
-                className="rounded-2xl px-4 py-3 flex flex-wrap items-center gap-3 shadow-md"
-                style={{ background: 'linear-gradient(135deg, #6B0504 0%, #A3320B 100%)' }}
-            >
-                <img src={Logo} alt="Logo" className="h-10 object-contain drop-shadow" />
+            {/* Action strip */}
+            <div className="bg-indigo rounded-2xl px-4 py-3 flex items-center gap-3 shadow-lg">
 
-                {/* Player name */}
-                <div className="flex flex-col leading-tight">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">Playing as</span>
-                    <span className="text-base font-black text-white">{name}</span>
+                {/* Logo — hidden on xs to save space */}
+                <img src={Logo} alt="Logo" className="hidden xs:block h-9 object-contain shrink-0" />
+
+                {/* Player */}
+                <div className="flex flex-col leading-tight min-w-0">
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-lavgrey">Playing as</span>
+                    <span className="text-sm font-black text-white truncate">{name}</span>
                 </div>
 
                 {/* Turns badge */}
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 border border-white/20">
-                    <Hash size={14} className="text-sun" />
-                    <span className="text-xs font-bold text-white/60">Turns</span>
+                <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/8 border border-white/15 shrink-0">
+                    <Hash size={12} className="text-lavgrey" />
+                    <span className="text-[10px] font-bold text-lavgrey">Turns</span>
                     <span className="text-sm font-black text-white">{turns}</span>
                 </div>
 
-                <div className="ml-auto flex gap-2">
+                {/* Actions — push to right */}
+                <div className="ml-auto flex gap-2 shrink-0">
                     <button
                         onClick={handleRestart}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-white/15 text-white border border-white/20 hover:bg-white/25 transition-colors"
+                        title="Restart"
+                        className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-colors"
                     >
                         <RotateCcw size={13} />
-                        Restart
+                        <span className="hidden sm:inline">Restart</span>
                     </button>
                     <button
                         onClick={() => dispatch({ type: 'RESET_GAME' })}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-ink/30 text-white border border-ink/20 hover:bg-ink/50 transition-colors"
+                        title="Quit"
+                        className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-punch text-white border border-flagred hover:bg-flagred transition-colors"
                     >
                         <LogOut size={13} />
-                        Quit
+                        <span className="hidden sm:inline">Quit</span>
                     </button>
                 </div>
             </div>

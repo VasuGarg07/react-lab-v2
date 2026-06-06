@@ -12,11 +12,11 @@ interface JsonNodeProps {
 }
 
 const renderPrimitive = (val: JsonValue) => {
-    if (val === null) return <span style={{ color: '#cf222e' }}>null</span>;
+    if (val === null) return <span className="text-ash italic">null</span>;
     switch (typeof val) {
-        case 'string':  return <span style={{ color: '#0a3069' }}>"{val}"</span>;
-        case 'number':  return <span style={{ color: '#0550ae' }}>{val}</span>;
-        case 'boolean': return <span style={{ color: '#953800' }}>{String(val)}</span>;
+        case 'string':  return <span className="text-charcoal">"{val}"</span>;
+        case 'number':  return <span style={{ color: '#2a7a68' }}>{val}</span>;
+        case 'boolean': return <span className="text-charcoal italic">{String(val)}</span>;
         default:        return null;
     }
 };
@@ -38,8 +38,8 @@ export default function JsonNode({ label, value, depth, path }: JsonNodeProps) {
                 <div className="flex items-start group py-0.5 rounded">
                     <button
                         onClick={() => !isEmpty && setIsOpen(!isOpen)}
-                        className="shrink-0 p-0.5 focus:outline-none rounded transition-colors"
-                        style={{ marginLeft: `${indent}rem`, color: '#8c959f' }}
+                        className="shrink-0 p-0.5 focus:outline-none rounded transition-colors text-ash"
+                        style={{ marginLeft: `${indent}rem` }}
                         disabled={isEmpty}
                     >
                         {isEmpty ? <div className="w-3.5 h-3.5" /> : isOpen ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
@@ -48,22 +48,19 @@ export default function JsonNode({ label, value, depth, path }: JsonNodeProps) {
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center flex-wrap gap-1">
                             <span
-                                className={!isEmpty ? 'cursor-pointer' : ''}
-                                style={{ color: '#8250df', fontWeight: 500 }}
+                                className={`font-semibold text-aqua ${!isEmpty ? 'cursor-pointer' : ''}`}
+                                style={{ color: '#94D1BE' }}
                                 onClick={() => !isEmpty && dispatch({ type: 'NAVIGATE_TO', payload: newPath })}
                             >
                                 {label}:
                             </span>
-                            <span style={{ color: '#57606a' }}>
+                            <span className="text-ash">
                                 {metadata} {isEmpty ? (isArray ? '[]' : '{}') : (isArray ? '[' : '{')}
                             </span>
                             {!isEmpty && (
                                 <button
                                     onClick={() => dispatch({ type: 'NAVIGATE_TO', payload: newPath })}
-                                    className="text-xs opacity-0 group-hover:opacity-100 px-1.5 py-0.5 rounded transition-all focus:opacity-100"
-                                    style={{ color: '#0969da', backgroundColor: 'transparent' }}
-                                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#ddf4ff')}
-                                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+                                    className="text-xs opacity-0 group-hover:opacity-100 px-1.5 py-0.5 rounded transition-all focus:opacity-100 text-charcoal bg-transparent hover:bg-cyan"
                                 >
                                     Navigate →
                                 </button>
@@ -82,7 +79,7 @@ export default function JsonNode({ label, value, depth, path }: JsonNodeProps) {
                                     />
                                 ))}
                                 <div style={{ marginLeft: `${indent + 0.75}rem` }}>
-                                    <span style={{ color: '#57606a' }}>{isArray ? ']' : '}'}</span>
+                                    <span className="text-ash">{isArray ? ']' : '}'}</span>
                                 </div>
                             </div>
                         )}
@@ -93,14 +90,13 @@ export default function JsonNode({ label, value, depth, path }: JsonNodeProps) {
     }
 
     return (
-        <div className="flex items-center py-0.5 rounded transition-colors group"
+        <div
+            className="flex items-center py-0.5 rounded transition-colors group hover:bg-cyan/20"
             style={{ fontSize: '13px' }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#f6f8fa')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
         >
             <div style={{ marginLeft: `${indent + 1.25}rem` }} />
             <div className="flex items-center min-w-0 flex-1">
-                <span className="mr-2 shrink-0" style={{ color: '#8250df', fontWeight: 500, fontFamily: "'JetBrains Mono', monospace" }}>{label}:</span>
+                <span className="mr-2 shrink-0 font-semibold text-aqua" style={{ fontFamily: "'JetBrains Mono', monospace", color: '#94D1BE' }}>{label}:</span>
                 <div className="min-w-0 flex-1 break-all" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{renderPrimitive(value)}</div>
             </div>
         </div>

@@ -50,7 +50,7 @@ export default function CodePreview({ info }: { info: AlgoInfo }) {
 
     return (
         <div
-            className="rounded-xl overflow-hidden shadow-sm border border-neutral-200 dark:border-neutral-800"
+            className="rounded-xl overflow-hidden shadow-sm border border-border"
             style={{ backgroundColor: '#1e1e2e' }}
         >
             {/* Title bar */}
@@ -67,7 +67,7 @@ export default function CodePreview({ info }: { info: AlgoInfo }) {
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#28C840' }} />
                 </div>
                 <div className="flex-1 text-center">
-                    <span className="text-xs font-medium" style={{ color: '#585b70' }}>{filename}</span>
+                    <span className="text-xs font-medium text-mauve">{filename}</span>
                 </div>
                 <div className="w-13.5" />
             </div>

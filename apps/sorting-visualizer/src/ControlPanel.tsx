@@ -33,7 +33,7 @@ export default function ControlPanel({
     sorting, startSorting, stopSorting,
 }: ControlPanelProps) {
     return (
-        <div className="px-3 py-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm flex flex-col gap-2.5">
+        <div className="px-3 py-2.5 rounded-xl bg-surface border border-border flex flex-col gap-2.5">
 
             {/* Row 1: select + actions */}
             <div className="flex items-center justify-between gap-2">
@@ -44,16 +44,15 @@ export default function ControlPanel({
                         onChange={e => setAlgorithm(e.target.value)}
                         disabled={sorting}
                         className="w-full appearance-none text-xs font-semibold pl-2.5 pr-7 py-1.5 rounded-lg outline-none cursor-pointer
-                            bg-neutral-50 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100
-                            border border-neutral-200 dark:border-neutral-700
-                            focus:ring-2 focus:ring-blue-500/30
+                            bg-base border border-border text-text
+                            focus:ring-2 focus:ring-blue/30
                             disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {ALGORITHMS.map(a => (
                             <option key={a.value} value={a.value}>{a.label}</option>
                         ))}
                     </select>
-                    <ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-400" />
+                    <ChevronDown size={12} className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-muted" />
                 </div>
 
                 {/* Action buttons */}
@@ -66,13 +65,13 @@ export default function ControlPanel({
                     </IconBtn>
                     <button
                         onClick={sorting ? stopSorting : startSorting}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-opacity
                             ${sorting
-                                ? 'bg-red-600 hover:bg-red-700 text-white'
-                                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                                ? 'bg-red/20 text-red border border-red/30 hover:bg-red/30'
+                                : 'bg-blue/20 text-blue border border-blue/30 hover:bg-blue/30'
                             }`}
                     >
-                        {sorting ? <><Pause size={12} />Stop</> : <><Play size={12} />Start</>}
+                        {sorting ? <><Pause size={12} /><span className="hidden sm:inline">Stop</span></> : <><Play size={12} /><span className="hidden sm:inline">Start</span></>}
                     </button>
                 </div>
             </div>
@@ -101,7 +100,7 @@ function InlineSlider({ label, value, min, max, step, onChange, disabled }: {
 }) {
     return (
         <div className="flex items-center gap-2 flex-1 min-w-0">
-            <span className="text-[11px] font-semibold text-neutral-400 dark:text-neutral-500 shrink-0 uppercase tracking-wide w-9">
+            <span className="text-[11px] font-semibold text-subtext shrink-0 uppercase tracking-wide w-9">
                 {label}
             </span>
             <input
@@ -110,10 +109,10 @@ function InlineSlider({ label, value, min, max, step, onChange, disabled }: {
                 onChange={e => onChange(Number(e.target.value))}
                 disabled={disabled}
                 className="flex-1 h-1 rounded-full appearance-none cursor-pointer min-w-0
-                    bg-neutral-200 dark:bg-neutral-700 accent-blue-600
+                    bg-border accent-blue
                     disabled:opacity-50 disabled:cursor-not-allowed"
             />
-            <span className="text-[11px] font-semibold tabular-nums text-blue-600 dark:text-blue-400 shrink-0 w-8 text-right">
+            <span className="text-[11px] font-semibold tabular-nums text-blue shrink-0 w-8 text-right">
                 {value}
             </span>
         </div>
@@ -128,9 +127,7 @@ function IconBtn({ onClick, disabled, title, children }: {
             onClick={onClick}
             disabled={disabled}
             title={title}
-            className="p-1.5 rounded-lg text-neutral-500 dark:text-neutral-400
-                hover:bg-neutral-100 dark:hover:bg-neutral-800
-                hover:text-neutral-700 dark:hover:text-neutral-200
+            className="p-1.5 rounded-lg text-subtext hover:bg-white/8 hover:text-text
                 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
             {children}

@@ -3,31 +3,29 @@
 
 @source "../../../packages/ui/src/";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 @theme {
   --breakpoint-xs: 425px;
-  --blur-2xs: 2px;
 
-  --color-ink:    #001514;
-  --color-snow:   #FBFFFE;
-  --color-garnet: #6B0504;
-  --color-rust:   #A3320B;
-  --color-sun:    #E6AF2E;
-  --color-card:   #FBFFFE;
-  --color-muted:  #5a4a3a;
+  --color-platinum: #EDF2F4;
+  --color-lavgrey:  #8D99AE;
+  --color-indigo:   #2B2D42;
+  --color-punch:    #EF233C;
+  --color-flagred:  #D90429;
 }
 
 html, body {
   font-family: 'Nunito', sans-serif;
-  background-color: #FBFFFE;
-  color: #001514;
+  background-color: #EDF2F4;
+  color: #2B2D42;
   min-height: 100dvh;
 }
 
 #root {
   isolation: isolate;
   min-height: 100dvh;
+  /* Subtle dot-grid flare over platinum */
+  background-image: radial-gradient(circle, #8D99AE33 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 /* Card 3D flip */
@@ -45,6 +43,6 @@ html, body {
 /* Scrollbar */
 ::-webkit-scrollbar { height: 5px; width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #E6AF2E; border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: #A3320B; }
-* { scrollbar-width: thin; scrollbar-color: #E6AF2E transparent; }
+::-webkit-scrollbar-thumb { background: #8D99AE; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #2B2D42; }
+* { scrollbar-width: thin; scrollbar-color: #8D99AE transparent; }

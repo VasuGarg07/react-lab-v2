@@ -12,62 +12,57 @@ export default function LoanInputs({ loanParams, onParamsChange, className = '' 
     const { loanAmount, interestRate, tenure } = loanParams;
 
     return (
-        <div className={`space-y-4 ${className}`}>
-            <div className="mb-4">
-                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Loan Details</h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">Adjust parameters to calculate EMI</p>
+        <div className={`flex flex-col gap-4 ${className}`}>
+            <h3 className="text-sm font-semibold tracking-widest uppercase text-jet/40">Parameters</h3>
+
+            {/* Loan Amount */}
+            <div className="bg-white rounded-xl p-4 border-l-4 border-bell shadow-sm space-y-3">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <Calculator size={16} className="text-bell" />
+                        <span className="text-sm font-medium text-jet">Loan Amount</span>
+                    </div>
+                    <span className="text-sm font-bold text-bell">{formatIndianNumber(loanAmount)}</span>
+                </div>
+                <Slider value={loanAmount} min={100000} max={10000000} step={100000}
+                    onChange={(value) => onParamsChange({ loanAmount: value })}
+                    trackClassName="bg-bell/15" fillClassName="bg-bell" thumbClassName="border-bell" />
+                <div className="flex justify-between text-xs text-jet/40">
+                    <span>₹1L</span><span>₹1Cr</span>
+                </div>
             </div>
 
-            <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 sm:p-5 border border-neutral-200 dark:border-neutral-700 shadow-sm space-y-6">
-                <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <Calculator size={18} className="text-blue-500" />
-                            <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Loan Amount</span>
-                        </div>
-                        <span className="text-base font-semibold text-blue-600 dark:text-blue-400">
-                            {formatIndianNumber(loanAmount)}
-                        </span>
+            {/* Interest Rate */}
+            <div className="bg-white rounded-xl p-4 border-l-4 border-flame shadow-sm space-y-3">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <Percent size={16} className="text-flame" />
+                        <span className="text-sm font-medium text-jet">Interest Rate</span>
                     </div>
-                    <Slider value={loanAmount} min={100000} max={10000000} step={100000}
-                        onChange={(value) => onParamsChange({ loanAmount: value })} />
-                    <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400">
-                        <span>₹1L</span><span>₹10Cr</span>
-                    </div>
+                    <span className="text-sm font-bold text-flame">{interestRate.toFixed(2)}%</span>
                 </div>
-
-                <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <Percent size={18} className="text-red-500" />
-                            <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Interest Rate</span>
-                        </div>
-                        <span className="text-base font-semibold text-red-600 dark:text-red-400">
-                            {interestRate.toFixed(2)}%
-                        </span>
-                    </div>
-                    <Slider value={interestRate} min={1} max={20} step={0.25}
-                        onChange={(value) => onParamsChange({ interestRate: value })} />
-                    <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400">
-                        <span>1%</span><span>20%</span>
-                    </div>
+                <Slider value={interestRate} min={1} max={20} step={0.25}
+                    onChange={(value) => onParamsChange({ interestRate: value })}
+                    trackClassName="bg-flame/15" fillClassName="bg-flame" thumbClassName="border-flame" />
+                <div className="flex justify-between text-xs text-jet/40">
+                    <span>1%</span><span>20%</span>
                 </div>
+            </div>
 
-                <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <Calendar size={18} className="text-green-500" />
-                            <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Loan Tenure</span>
-                        </div>
-                        <span className="text-base font-semibold text-green-600 dark:text-green-400">
-                            {tenure} {tenure === 1 ? 'Year' : 'Years'}
-                        </span>
+            {/* Tenure */}
+            <div className="bg-white rounded-xl p-4 border-l-4 border-grape shadow-sm space-y-3">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <Calendar size={16} className="text-grape" />
+                        <span className="text-sm font-medium text-jet">Loan Tenure</span>
                     </div>
-                    <Slider value={tenure} min={1} max={30} step={1}
-                        onChange={(value) => onParamsChange({ tenure: value })} />
-                    <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400">
-                        <span>1Y</span><span>30Y</span>
-                    </div>
+                    <span className="text-sm font-bold text-grape">{tenure} {tenure === 1 ? 'yr' : 'yrs'}</span>
+                </div>
+                <Slider value={tenure} min={1} max={30} step={1}
+                    onChange={(value) => onParamsChange({ tenure: value })}
+                    trackClassName="bg-grape/15" fillClassName="bg-grape" thumbClassName="border-grape" />
+                <div className="flex justify-between text-xs text-jet/40">
+                    <span>1Y</span><span>30Y</span>
                 </div>
             </div>
         </div>

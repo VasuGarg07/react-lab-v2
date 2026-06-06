@@ -6,7 +6,7 @@ export default function App() {
     return (
         <>
             <MarkdownLive />
-            <ToastContainer stacked limit={5} position="bottom-right" theme="dark" />
+            <ToastContainer stacked limit={5} position="bottom-right" />
         </>
     );
 }

@@ -3,17 +3,21 @@
 
 @source "../../../packages/ui/src/";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 @theme {
   --breakpoint-xs: 425px;
   --blur-2xs: 2px;
+
+  --color-white:    #FFFFFF;
+  --color-charcoal: #3B413C;
+  --color-ash:      #9DB5B2;
+  --color-cyan:     #DAF0EE;
+  --color-aqua:     #94D1BE;
 }
 
 html, body {
   font-family: 'Inter', sans-serif;
-  background-color: #f6f8fa;
-  color: #24292f;
+  background-color: #FFFFFF;
+  color: #3B413C;
   height: 100%;
   overflow: hidden;
 }
@@ -27,6 +31,6 @@ html, body {
 /* Scrollbar */
 ::-webkit-scrollbar { height: 5px; width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #d0d7de; border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: #0969da; }
-* { scrollbar-width: thin; scrollbar-color: #d0d7de transparent; }
+::-webkit-scrollbar-thumb { background: #9DB5B2; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #3B413C; }
+* { scrollbar-width: thin; scrollbar-color: #9DB5B2 transparent; }

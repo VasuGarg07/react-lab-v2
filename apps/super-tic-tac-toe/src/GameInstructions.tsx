@@ -57,7 +57,6 @@ const GameInstructions = ({ gameWinner, currentPlayer, timer, handleRestartGame 
 
             {/* Brand */}
             <div>
-                <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-slate-500 mb-1">React Lab</p>
                 <h1 className="text-xl font-bold tracking-tight text-white leading-snug">
                     Super Tic‑Tac‑Toe
                 </h1>

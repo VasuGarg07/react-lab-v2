@@ -12,30 +12,30 @@ interface AffordabilityCheckProps {
 const STATUS_CONFIG = {
     good: {
         icon: CheckCircle,
-        iconColor: 'text-green-500',
-        bgColor: 'bg-green-50 dark:bg-green-950/30',
-        borderColor: 'border-green-300 dark:border-green-800',
-        textColor: 'text-green-700 dark:text-green-400',
-        progressColor: 'bg-green-500',
-        label: 'Good',
+        iconColor: 'text-shamrock',
+        bgColor: 'bg-shamrock/8',
+        borderColor: 'border-shamrock/30',
+        textColor: 'text-shamrock',
+        progressColor: 'bg-shamrock',
+        label: 'Affordable',
         message: 'This EMI is well within your budget.',
     },
     moderate: {
         icon: AlertTriangle,
-        iconColor: 'text-yellow-500',
-        bgColor: 'bg-yellow-50 dark:bg-yellow-950/30',
-        borderColor: 'border-yellow-300 dark:border-yellow-800',
-        textColor: 'text-yellow-700 dark:text-yellow-400',
-        progressColor: 'bg-yellow-500',
+        iconColor: 'text-flame',
+        bgColor: 'bg-flame/8',
+        borderColor: 'border-flame/30',
+        textColor: 'text-flame',
+        progressColor: 'bg-flame',
         label: 'Moderate',
         message: 'Manageable, but consider your other expenses.',
     },
     high: {
         icon: AlertTriangle,
-        iconColor: 'text-red-500',
-        bgColor: 'bg-red-50 dark:bg-red-950/30',
-        borderColor: 'border-red-300 dark:border-red-800',
-        textColor: 'text-red-700 dark:text-red-400',
+        iconColor: 'text-red-600',
+        bgColor: 'bg-red-50',
+        borderColor: 'border-red-200',
+        textColor: 'text-red-600',
         progressColor: 'bg-red-500',
         label: 'High Risk',
         message: 'This EMI may strain your budget significantly.',
@@ -51,61 +51,58 @@ export default function AffordabilityCheck({ monthlyEMI, className = '' }: Affor
     const StatusIcon = config?.icon;
 
     return (
-        <div className={`space-y-4 ${className}`}>
-            <div className="mb-4">
-                <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Affordability Check</h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">Check if this EMI fits your budget</p>
-            </div>
+        <div className={`flex flex-col gap-4 ${className}`}>
+            <h3 className="text-sm font-semibold tracking-widest uppercase text-jet/40">Affordability</h3>
 
-            <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 sm:p-5 border border-neutral-200 dark:border-neutral-700 shadow-sm">
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-jet/8">
                 <TextInput
                     label="Monthly Take-Home Income"
                     type="number"
                     value={monthlyIncome}
                     onChange={(e) => setMonthlyIncome(e.target.value)}
-                    placeholder="Enter your monthly income"
-                    icon={<IndianRupee size={18} />}
+                    placeholder="e.g. 80000"
+                    icon={<IndianRupee size={16} />}
+                    labelClassName="text-jet/70 font-medium"
+                    iconClassName="text-jet/30"
+                    inputClassName="border-jet/15 text-jet placeholder:text-jet/25 focus:ring-bell/20 focus:border-bell"
                 />
             </div>
 
-            {result && config && StatusIcon && (
+            {result && config && StatusIcon ? (
                 <>
-                    <div className={`rounded-lg p-4 border ${config.bgColor} ${config.borderColor}`}>
-                        <div className="flex items-center gap-3 mb-3">
-                            <StatusIcon size={20} className={config.iconColor} />
-                            <h4 className={`text-sm font-semibold ${config.textColor}`}>{config.label}</h4>
+                    <div className={`rounded-xl p-4 border ${config.bgColor} ${config.borderColor}`}>
+                        <div className="flex items-center gap-2 mb-3">
+                            <StatusIcon size={18} className={config.iconColor} />
+                            <span className={`text-sm font-semibold ${config.textColor}`}>{config.label}</span>
+                            <span className={`ml-auto text-sm font-bold ${config.textColor}`}>{result.ratio}%</span>
                         </div>
-                        <div className="mb-3">
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm text-neutral-700 dark:text-neutral-300">EMI to Income Ratio</span>
-                                <span className={`text-sm font-semibold ${config.textColor}`}>{result.ratio}%</span>
-                            </div>
-                            <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
-                                <div
-                                    className={`h-2 rounded-full ${config.progressColor} transition-all duration-300`}
-                                    style={{ width: `${Math.min(result.ratio, 100)}%` }}
-                                />
-                            </div>
-                            <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                                <span>0%</span><span>30% (Ideal)</span><span>40% (Max)</span>
-                            </div>
+                        <div className="w-full bg-jet/10 rounded-full h-1.5 mb-1">
+                            <div
+                                className={`h-1.5 rounded-full ${config.progressColor} transition-all duration-500`}
+                                style={{ width: `${Math.min(result.ratio, 100)}%` }}
+                            />
                         </div>
-                        <p className={`text-sm ${config.textColor}`}>{config.message}</p>
+                        <div className="flex justify-between text-[10px] text-jet/35 mt-1 mb-3">
+                            <span>0%</span><span>30% ideal</span><span>40% max</span>
+                        </div>
+                        <p className={`text-xs ${config.textColor}`}>{config.message}</p>
                     </div>
 
-                    <div className="bg-white dark:bg-neutral-800 rounded-lg p-4 border border-neutral-200 dark:border-neutral-700 shadow-sm">
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <div className="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Monthly EMI</div>
-                                <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100">{formatCurrency(monthlyEMI)}</div>
-                            </div>
-                            <div>
-                                <div className="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Remaining Income</div>
-                                <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100">{formatCurrency(incomeValue - monthlyEMI)}</div>
-                            </div>
+                    <div className="bg-white rounded-xl p-4 shadow-sm border border-jet/8 grid grid-cols-2 gap-4">
+                        <div>
+                            <p className="text-[10px] font-semibold uppercase tracking-wide text-jet/40 mb-1">EMI</p>
+                            <p className="text-base font-bold text-jet">{formatCurrency(monthlyEMI)}</p>
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-semibold uppercase tracking-wide text-jet/40 mb-1">Remaining</p>
+                            <p className="text-base font-bold text-jet">{formatCurrency(incomeValue - monthlyEMI)}</p>
                         </div>
                     </div>
                 </>
+            ) : (
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-jet/8 text-center">
+                    <p className="text-sm text-jet/35">Enter your income to check affordability</p>
+                </div>
             )}
         </div>
     );

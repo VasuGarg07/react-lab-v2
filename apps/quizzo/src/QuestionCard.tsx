@@ -12,6 +12,8 @@ interface QuestionProps {
     totalQuestions: number;
 }
 
+const OPTION_LABELS = ['A', 'B', 'C', 'D'];
+
 export default function QuestionCard({ question, options, questionNumber, totalQuestions }: QuestionProps) {
     const navigate = useNavigate();
     const { dispatch } = useQuiz();
@@ -33,7 +35,7 @@ export default function QuestionCard({ question, options, questionNumber, totalQ
     const handleNext = () => {
         if (!selected) { toastService.error('Please select an option first'); return; }
         if (questionNumber >= totalQuestions) {
-            navigate('/quizzo/result');
+            navigate('/result');
         } else {
             dispatch({ type: 'NEXT_QUESTION' });
             setSelected('');
@@ -42,30 +44,31 @@ export default function QuestionCard({ question, options, questionNumber, totalQ
 
     const handleQuit = () => {
         dispatch({ type: 'RESET' });
-        navigate('/quizzo');
+        navigate('/');
     };
 
-    const OPTION_LABELS = ['A', 'B', 'C', 'D'];
-
     const optionClass = (state: string) => {
-        const base = 'min-h-11 px-3 py-2 rounded-lg border text-sm font-medium text-left focus:outline-none disabled:cursor-not-allowed';
-        if (state === 'correct') return `${base} bg-emerald-50 dark:bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-400`;
-        if (state === 'wrong')   return `${base} bg-red-50 dark:bg-red-500/15 border-red-500 text-red-700 dark:text-red-400`;
-        if (state === 'dim')     return `${base} bg-violet-50 dark:bg-[#0f0e17] border-violet-100 dark:border-[#2d2a3e]/50 text-violet-300 dark:text-[#7c7a96] opacity-50`;
-        return `${base} bg-violet-50 dark:bg-[#0f0e17] border-violet-200 dark:border-[#2d2a3e] text-indigo-900 dark:text-violet-100 hover:border-game-accent hover:text-game-accent dark:hover:text-game-bright`;
+        const base = 'w-full px-4 py-2.5 rounded-lg border text-sm text-left focus:outline-none disabled:cursor-not-allowed transition-colors flex items-start gap-3';
+        if (state === 'correct') return `${base} bg-teal-50 border-teal-500 text-teal-800`;
+        if (state === 'wrong')   return `${base} bg-red-50 border-red-400 text-red-700`;
+        if (state === 'dim')     return `${base} border-frost/40 text-deep/25 bg-transparent`;
+        return `${base} border-frost bg-mist/30 text-deep hover:border-cerulean hover:bg-cerulean/5`;
     };
 
     return (
         <div className="flex flex-col gap-3 w-full">
+
+            {/* Question */}
             <div>
-                <span className="inline-block text-[11px] font-semibold uppercase tracking-widest text-violet-400 dark:text-[#7c7a96] mb-1.5">
+                <span className="inline-block text-[10px] font-semibold uppercase tracking-widest text-cerulean/60 mb-1.5">
                     {question.difficulty}
                 </span>
-                <p className="text-sm leading-relaxed text-indigo-900 dark:text-violet-100"
+                <p className="text-sm leading-relaxed text-deep"
                     dangerouslySetInnerHTML={{ __html: question.question }} />
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            {/* Options — stacked full-width */}
+            <div className="flex flex-col gap-1.5">
                 {options.map((option, index) => (
                     <button
                         key={`${option}-${index}`}
@@ -73,7 +76,7 @@ export default function QuestionCard({ question, options, questionNumber, totalQ
                         disabled={!!selected}
                         className={optionClass(getState(option))}
                     >
-                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60 mr-1.5">
+                        <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider opacity-50 mt-0.5 w-4">
                             {OPTION_LABELS[index]}
                         </span>
                         <span dangerouslySetInnerHTML={{ __html: option }} />
@@ -81,20 +84,22 @@ export default function QuestionCard({ question, options, questionNumber, totalQ
                 ))}
             </div>
 
-            <div className="flex gap-2">
+            {/* Actions */}
+            <div className="flex gap-2 pt-1">
                 <button
                     onClick={handleQuit}
-                    className="flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium border border-red-300 dark:border-red-400/40 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border border-deep/15 text-deep/50 hover:border-red-300 hover:text-red-500 transition-colors"
                 >
-                    <X size={15} /> Quit
+                    <X size={14} />
+                    Quit
                 </button>
                 <button
                     onClick={handleNext}
                     disabled={!selected}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-semibold bg-game-accent hover:bg-violet-600 text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-semibold bg-cerulean hover:bg-deep text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                     {questionNumber >= totalQuestions ? 'Finish' : 'Next'}
-                    <ChevronRight size={15} />
+                    <ChevronRight size={14} />
                 </button>
             </div>
         </div>

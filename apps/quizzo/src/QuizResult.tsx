@@ -11,44 +11,60 @@ export default function QuizResult() {
     const pct = Math.round((score / total) * 100);
 
     const getMessage = () => {
-        if (pct >= 90) return 'Outstanding performance';
-        if (pct >= 80) return 'Excellent work';
-        if (pct >= 70) return 'Great job';
+        if (pct >= 90) return 'Outstanding';
+        if (pct >= 80) return 'Excellent';
+        if (pct >= 70) return 'Well done';
         if (pct >= 60) return 'Good effort';
         if (pct >= 50) return 'Not bad';
         return 'Keep practising';
     };
 
-    const getAccent = () => {
-        if (pct >= 70) return { bar: 'bg-emerald-500', border: 'border-emerald-500', text: 'text-emerald-600 dark:text-emerald-400' };
-        if (pct >= 50) return { bar: 'bg-amber-500',   border: 'border-amber-500',   text: 'text-amber-600 dark:text-amber-400'   };
-        return         { bar: 'bg-red-500',             border: 'border-red-500',     text: 'text-red-600 dark:text-red-400'       };
-    };
-
-    const accent = getAccent();
+    const scoreColor = pct >= 70 ? 'text-cerulean' : pct >= 50 ? 'text-sky' : 'text-deep/40';
+    const barColor   = pct >= 70 ? 'bg-cerulean'   : pct >= 50 ? 'bg-sky'   : 'bg-frost';
 
     return (
-        <div className="flex flex-col items-center gap-5 py-2 w-full">
-            <div className={`w-28 h-28 rounded-full border-4 ${accent.border} flex flex-col items-center justify-center bg-violet-50 dark:bg-[#0f0e17]`}>
-                <span className={`text-3xl font-bold ${accent.text}`}>{pct}<span className="text-base">%</span></span>
-                <span className="text-[10px] text-violet-400 dark:text-[#7c7a96] uppercase tracking-wide">score</span>
+        <div className="flex flex-col gap-6 w-full">
+
+            {/* Score — typographic, not circular */}
+            <div>
+                <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-cerulean/60 mb-2">
+                    {name ? `${name}'s result` : 'Your result'}
+                </p>
+                <div className="flex items-baseline gap-3">
+                    <span className={`text-7xl font-bold tabular-nums leading-none ${scoreColor}`}>
+                        {pct}
+                    </span>
+                    <span className="text-2xl font-light text-deep/30">%</span>
+                </div>
+                <p className="text-base font-semibold text-deep mt-1">{getMessage()}</p>
             </div>
 
-            <div className="text-center">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-violet-400 dark:text-[#7c7a96] mb-1">{getMessage()}</p>
-                <p className="text-xl font-bold text-indigo-950 dark:text-violet-100">{score} / {total} correct</p>
+            {/* Progress bar */}
+            <div className="w-full bg-mist h-1 rounded-full overflow-hidden">
+                <div
+                    className={`h-full ${barColor} rounded-full transition-all duration-1000 ease-out`}
+                    style={{ width: `${pct}%` }}
+                />
             </div>
 
-            <div className="w-full bg-violet-100 dark:bg-[#2d2a3e] h-1.5 rounded-full overflow-hidden">
-                <div className={`h-full ${accent.bar} rounded-full transition-all duration-1000 ease-out`} style={{ width: `${pct}%` }} />
+            {/* Score breakdown */}
+            <div className="flex items-center justify-between border-t border-frost/40 pt-4">
+                <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-deep/40 mb-0.5">Correct</p>
+                    <p className="text-xl font-bold text-deep tabular-nums">{score} / {total}</p>
+                </div>
+                <div className="text-right">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-deep/40 mb-0.5">Difficulty</p>
+                    <p className="text-sm font-semibold text-deep capitalize">{quizConfig?.difficulty ?? '—'}</p>
+                </div>
             </div>
 
             <button
-                onClick={() => { dispatch({ type: 'RESET' }); navigate('/quizzo'); }}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-semibold bg-game-accent hover:bg-violet-600 text-white transition-colors"
+                onClick={() => { dispatch({ type: 'RESET' }); navigate('/'); }}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-semibold bg-cerulean hover:bg-deep text-white transition-colors"
             >
-                <RotateCcw size={15} />
-                {name ? `Play again, ${name}` : 'Play again'}
+                <RotateCcw size={14} />
+                Play again
             </button>
         </div>
     );

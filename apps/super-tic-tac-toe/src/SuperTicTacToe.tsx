@@ -161,15 +161,9 @@ const SuperTicTacToe = () => {
 
                 {/* Header bar */}
                 <header className="absolute top-0 left-0 right-0 flex items-center px-4 sm:px-6 py-2 z-10">
-                    <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500">
-                            React Lab
-                        </span>
-                        <span className="text-slate-700">·</span>
-                        <span className="text-xs font-light tracking-widest uppercase text-slate-600">
-                            Super Tic‑Tac‑Toe
-                        </span>
-                    </div>
+                    <span className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500">
+                        Super Tic-Tac-Toe
+                    </span>
                 </header>
 
                 {/* Content: board left, panel right */}

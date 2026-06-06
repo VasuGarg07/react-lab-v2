@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
-import { useTheme } from '@react-lab/ui';
 import type { SortingState } from './algorithms.data';
 
 const COLORS = {
-    sorted:    '#10b981',
+    sorted:    '#22c55e',
     pivot:     '#a855f7',
     swapping:  '#ef4444',
-    comparing: '#f59e0b',
+    comparing: '#eab308',
     current:   '#06b6d4',
+    default:   '#3f4257',
 };
 
 const LEGEND = [
-    { color: '#94a3b8',        label: 'Unsorted' },
+    { color: COLORS.default,   label: 'Unsorted' },
     { color: COLORS.comparing, label: 'Comparing' },
     { color: COLORS.swapping,  label: 'Swapping' },
     { color: COLORS.pivot,     label: 'Pivot' },
@@ -26,11 +26,6 @@ interface VisualizationProps {
 }
 
 export default function Visualization({ array, sortingState, description }: VisualizationProps) {
-    const { theme } = useTheme();
-    const isDark = theme === 'dark';
-    const defaultColor = isDark ? '#334155' : '#94a3b8';
-
-    // Convert arrays to Sets once per render — O(1) lookup vs O(n) .includes()
     const sortedSet    = useMemo(() => new Set(sortingState.sorted),    [sortingState.sorted]);
     const pivotSet     = useMemo(() => new Set(sortingState.pivot),     [sortingState.pivot]);
     const swappingSet  = useMemo(() => new Set(sortingState.swapping),  [sortingState.swapping]);
@@ -43,26 +38,39 @@ export default function Visualization({ array, sortingState, description }: Visu
         if (swappingSet.has(index))  return COLORS.swapping;
         if (comparingSet.has(index)) return COLORS.comparing;
         if (currentSet.has(index))   return COLORS.current;
-        return defaultColor;
+        return COLORS.default;
     };
 
     const maxValue = Math.max(...array, 1);
 
     return (
-        <div className="rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm p-4 flex flex-col gap-3">
+        <div className="rounded-xl bg-base overflow-hidden shadow-sm border border-border">
+
+            {/* Title bar */}
+            <div className="flex items-center px-4 py-2.5 bg-surface border-b border-white/6">
+                <div className="flex items-center gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
+                    <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
+                    <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+                </div>
+                <div className="flex-1 text-center">
+                    <span className="text-xs font-medium text-mauve">visualization</span>
+                </div>
+                <div className="w-13.5" />
+            </div>
 
             {/* Legend */}
-            <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+            <div className="flex flex-wrap gap-x-4 gap-y-1.5 px-4 pt-3">
                 {LEGEND.map(({ color, label }) => (
                     <div key={label} className="flex items-center gap-1.5">
                         <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: color }} />
-                        <span className="text-xs text-neutral-600 dark:text-neutral-400">{label}</span>
+                        <span className="text-xs text-text">{label}</span>
                     </div>
                 ))}
             </div>
 
             {/* Bars */}
-            <div className="h-64 sm:h-80 flex items-end gap-px rounded-lg overflow-hidden bg-neutral-50 dark:bg-neutral-950 p-2">
+            <div className="h-64 sm:h-80 flex items-end gap-px p-4 pt-3">
                 {array.map((value, index) => (
                     <div
                         key={index}
@@ -77,7 +85,10 @@ export default function Visualization({ array, sortingState, description }: Visu
                 ))}
             </div>
 
-            <p className="text-center text-xs text-neutral-400 dark:text-neutral-500">{description}</p>
+            {/* Status bar */}
+            <div className="px-4 py-2 bg-overlay border-t border-white/5">
+                <p className="text-center text-xs text-subtext font-mono">{description}</p>
+            </div>
         </div>
     );
 }

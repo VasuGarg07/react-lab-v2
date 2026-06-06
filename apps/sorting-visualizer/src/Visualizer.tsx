@@ -7,7 +7,6 @@ import {
 import CodePreview from './CodePreview';
 import ControlPanel from './ControlPanel';
 import Visualization from './Visualization';
-import { ThemeToggle } from '@react-lab/ui';
 import { GithubIcon, LinkedinIcon, XIcon } from '@react-lab/ui';
 
 const algorithmMap = {
@@ -22,6 +21,7 @@ const SOCIALS = [
     { href: 'https://linkedin.com/in/vasu-garg-07', icon: LinkedinIcon, label: 'LinkedIn' },
     { href: 'https://x.com/_vasugarg_', icon: XIcon, label: 'X (Twitter)' },
 ];
+
 
 export default function SortingVisualizer() {
     const [array, setArray] = useState<number[]>([]);
@@ -67,20 +67,15 @@ export default function SortingVisualizer() {
     };
 
     return (
-        <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
+        <div className="min-h-screen bg-base">
 
-            {/* Header */}
-            <header className="sticky top-0 z-20 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
+            {/* Header — macOS app toolbar */}
+            <header className="sticky top-0 z-20 border-b border-border backdrop-blur-xl bg-surface/80">
                 <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-                    <div>
-                        <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-neutral-400 dark:text-neutral-600 leading-none mb-0.5">
-                            React Lab
-                        </p>
-                        <h1 className="text-lg font-bold text-neutral-900 dark:text-neutral-100 leading-none">
-                            Sorting Visualizer
-                        </h1>
-                    </div>
-                    <div className="flex items-center gap-1">
+                    <h1 className="text-[1rem] font-semibold text-text tracking-tight">
+                        Sorting Visualizer
+                    </h1>
+                    <div className="flex items-center gap-0.5">
                         {SOCIALS.map(({ href, icon, label }) => (
                             <a
                                 key={label}
@@ -88,12 +83,12 @@ export default function SortingVisualizer() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label={label}
-                                className="w-8 h-8 rounded-lg flex items-center justify-center opacity-40 hover:opacity-100 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                                title={label}
+                                className="w-8 h-8 rounded-lg flex items-center justify-center opacity-70 hover:opacity-100 hover:bg-white/8 transition-all"
                             >
-                                <img src={icon} alt={label} className="w-4 h-4 dark:invert" />
+                                <img src={icon} alt={label} className="w-4 h-4 icon-subtext" />
                             </a>
                         ))}
-                        <ThemeToggle />
                     </div>
                 </div>
             </header>
@@ -122,8 +117,8 @@ export default function SortingVisualizer() {
 
                 <CodePreview info={Algorithms[algorithm]} />
 
-                <footer className="pb-4 text-center text-xs text-neutral-400 dark:text-neutral-600">
-                    © {new Date().getFullYear()} Vasu Garg · React Lab
+                <footer className="pb-4 text-center text-xs text-mauve">
+                    © {new Date().getFullYear()} Vasu Garg
                 </footer>
             </div>
 

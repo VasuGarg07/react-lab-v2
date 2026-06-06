@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ThemeProvider } from '@react-lab/ui';
 import { queryClient } from '@react-lab/shared';
 import RecipeHaven from './RecipeHaven';
 import MealWrapper from './MealWrapper';
@@ -34,10 +33,8 @@ const router = createBrowserRouter([
 export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            <ThemeProvider>
-                <RouterProvider router={router} />
-                <ToastContainer stacked limit={5} position="bottom-right" />
-            </ThemeProvider>
+            <RouterProvider router={router} />
+            <ToastContainer stacked limit={5} position="bottom-right" />
         </QueryClientProvider>
     );
 }

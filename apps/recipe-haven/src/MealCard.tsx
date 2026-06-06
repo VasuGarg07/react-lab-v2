@@ -9,22 +9,23 @@ const MealCard = ({ meal }: { meal: Meal }) => {
     return (
         <button
             type="button"
-            onClick={() => navigate(`/recipe-haven/meal/${meal.id}`)}
+            onClick={() => navigate(`/meal/${meal.id}`)}
             onMouseEnter={() => prefetchMeal(meal.id)}
-            className="group text-left bg-white/80 dark:bg-[#1e1c1a] rounded-lg overflow-hidden border border-iron/15 dark:border-ivory/8 hover:border-pollen transition focus:outline-none focus:ring-2 focus:ring-pollen/50"
+            className="group text-left rounded-xl overflow-hidden border border-shadow/15 hover:border-magenta/50 hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-magenta/40"
         >
-            <div className="relative aspect-4/3 overflow-hidden bg-iron/8 dark:bg-ivory/5">
+            <div className="relative aspect-4/3 overflow-hidden bg-shadow/10">
                 <img
                     src={meal.image}
                     alt={meal.name}
                     loading="lazy"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-            </div>
-            <div className="p-4">
-                <h3 className="font-serif text-lg leading-snug text-iron dark:text-ivory line-clamp-2 group-hover:text-carrot dark:group-hover:text-pollen transition-colors">
-                    {meal.name}
-                </h3>
+                <div className="absolute inset-0 bg-linear-to-t from-shadow/80 via-shadow/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-3">
+                    <h3 className="font-serif text-base leading-snug text-white line-clamp-2">
+                        {meal.name}
+                    </h3>
+                </div>
             </div>
         </button>
     );

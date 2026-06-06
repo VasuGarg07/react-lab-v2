@@ -10,26 +10,24 @@ const SOCIALS = [
     { href: 'https://x.com/_vasugarg_', icon: XIcon, label: 'X (Twitter)' },
 ];
 
+const iconFilter = 'brightness(0) saturate(100%) invert(98%) sepia(2%) saturate(200%) hue-rotate(200deg) brightness(120%)';
+
 export default function PokeMemory() {
     const { state } = usePoke();
 
     return (
-        <div className="min-h-dvh flex flex-col bg-snow">
+        <div className="min-h-dvh flex flex-col">
 
-            {/* Header — Garnet */}
-            <header className="shrink-0 bg-garnet shadow-lg">
+            {/* Header */}
+            <header className="shrink-0 bg-indigo">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 h-13 flex items-center justify-between">
-                    <div className="flex items-baseline gap-2">
-                        <span className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/50">React Lab</span>
-                        <span className="text-white/25">·</span>
-                        <h1 className="text-base font-black text-white">Poké Memory</h1>
-                    </div>
+                    <h1 className="text-sm font-black tracking-tight text-white">Poké Memory</h1>
                     <div className="flex items-center gap-0.5">
                         {SOCIALS.map(({ href, icon, label }) => (
                             <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
                                 className="w-7 h-7 rounded-lg flex items-center justify-center opacity-50 hover:opacity-100 hover:bg-white/15 transition-all duration-150"
                             >
-                                <img src={icon} alt={label} className="w-3.5 h-3.5 invert" />
+                                <img src={icon} alt={label} className="w-3.5 h-3.5" style={{ filter: iconFilter }} />
                             </a>
                         ))}
                     </div>
@@ -43,10 +41,10 @@ export default function PokeMemory() {
                 {state.gameState === 'game_end' && <Result />}
             </main>
 
-            {/* Footer — Ink */}
-            <footer className="shrink-0 bg-ink py-3 px-4 sm:px-6">
+            {/* Footer */}
+            <footer className="shrink-0 bg-indigo py-3 px-4 sm:px-6">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
-                    <p className="text-xs font-bold text-white/70">© {new Date().getFullYear()} Vasu Garg · React Lab</p>
+                    <p className="text-xs font-bold text-white/60">© {new Date().getFullYear()} Vasu Garg</p>
                     <p className="text-xs text-white/35">Pokémon © Nintendo</p>
                 </div>
             </footer>

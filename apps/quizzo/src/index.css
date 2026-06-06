@@ -1,30 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
 @source "../../../packages/ui/src/";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 @theme {
   --breakpoint-xs: 425px;
-  --blur-2xs: 2px;
 
-  /* accent stays the same in both themes */
-  --color-game-accent: #7c3aed;
-  --color-game-bright: #a78bfa;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+
+  --color-mist:     #CCDBDC;
+  --color-frost:    #9AD1D4;
+  --color-sky:      #80CED7;
+  --color-cerulean: #007EA7;
+  --color-deep:     #003249;
 }
 
 html, body {
-  font-family: 'Outfit', sans-serif;
-  background-color: #f5f3ff;
-  color: #1e1b4b;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background-color: #CCDBDC;
+  color: #003249;
   height: 100%;
   overflow: hidden;
-}
-
-[data-theme="dark"] body {
-  background-color: #0f0e17;
-  color: #ede9fe;
 }
 
 #root {
@@ -36,7 +32,6 @@ html, body {
 /* Scrollbar */
 ::-webkit-scrollbar { height: 4px; width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #ddd6fe; border-radius: 9999px; }
-[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #2d2a3e; }
-::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
-* { scrollbar-width: thin; scrollbar-color: #ddd6fe transparent; }
+::-webkit-scrollbar-thumb { background: #9AD1D4; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #007EA7; }
+* { scrollbar-width: thin; scrollbar-color: #9AD1D4 transparent; }

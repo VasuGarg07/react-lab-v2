@@ -6,6 +6,10 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
     error?: string;
     icon?: ReactNode;
     showPasswordToggle?: boolean;
+    labelClassName?: string;
+    inputClassName?: string;
+    iconClassName?: string;
+    wrapperClassName?: string;
 }
 
 export function TextInput({
@@ -15,6 +19,10 @@ export function TextInput({
     icon,
     showPasswordToggle,
     className = "",
+    labelClassName = "",
+    inputClassName = "",
+    iconClassName = "",
+    wrapperClassName = "",
     id,
     name,
     disabled,
@@ -27,11 +35,11 @@ export function TextInput({
     const inputId = id || name || label?.toLowerCase().replace(/\s+/g, "-");
 
     return (
-        <div className="space-y-1.5">
+        <div className={`space-y-1.5 ${wrapperClassName}`}>
             {label && (
                 <label
                     htmlFor={inputId}
-                    className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+                    className={`block text-sm font-medium text-neutral-700 ${labelClassName}`}
                 >
                     {label}
                 </label>
@@ -39,7 +47,7 @@ export function TextInput({
 
             <div className="relative">
                 {icon && (
-                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-neutral-400 dark:text-neutral-500 pointer-events-none">
+                    <span className={`absolute inset-y-0 left-0 flex items-center pl-3 text-neutral-400 pointer-events-none ${iconClassName}`}>
                         {icon}
                     </span>
                 )}
@@ -51,17 +59,17 @@ export function TextInput({
                     disabled={disabled}
                     className={`
                         w-full py-2.5 text-sm rounded-lg border
-                        bg-white dark:bg-neutral-900
-                        text-neutral-900 dark:text-neutral-100
-                        placeholder:text-neutral-400 dark:placeholder:text-neutral-500
+                        bg-white text-neutral-900
+                        placeholder:text-neutral-400
                         focus:outline-none focus:ring-2 focus:ring-offset-0
                         disabled:opacity-50 disabled:cursor-not-allowed
                         ${icon ? "pl-10" : "pl-3"}
                         ${isPassword && showPasswordToggle ? "pr-10" : "pr-3"}
                         ${error
                             ? "border-red-500 focus:ring-red-500/20 focus:border-red-500"
-                            : "border-neutral-300 dark:border-neutral-700 focus:ring-blue-500/20 focus:border-blue-500"
+                            : "border-neutral-300 focus:ring-blue-500/20 focus:border-blue-500"
                         }
+                        ${inputClassName}
                         ${className}
                     `}
                     {...rest}
@@ -72,7 +80,7 @@ export function TextInput({
                         type="button"
                         onClick={() => setShowPassword((prev) => !prev)}
                         disabled={disabled}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-300 transition-colors disabled:opacity-50"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-500 hover:text-neutral-700 transition-colors disabled:opacity-50"
                         aria-label={showPassword ? "Hide password" : "Show password"}
                         tabIndex={-1}
                     >

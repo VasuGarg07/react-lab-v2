@@ -54,9 +54,6 @@ export default function Sudoku() {
             <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
                 <div className="w-full" style={{ maxWidth: 'min(560px, calc(100vh - 160px))' }}>
                     <SudokuBoard sudoku={sudoku} />
-                    <p className="hidden md:block text-center text-xs font-medium mt-3" style={{ color: '#8E9DCC' }}>
-                        Click a cell · type a digit · arrow keys · Backspace to clear
-                    </p>
                 </div>
             </div>
 
