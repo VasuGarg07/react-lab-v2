@@ -1,33 +1,125 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
 @import "tailwindcss";
 
 @source "../../../packages/ui/src/";
 @source "../../../packages/auth/src/";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+/* Light-only flagship: neutralize the built-in `dark:` variant so OS dark mode
+   never activates dark styles. App markup is dark:-free after the redesign, but
+   the scanned @react-lab/ui & /auth package sources still ship dark: utilities. */
+@custom-variant dark (&:where(.__never-dark__));
 
 @theme {
   --breakpoint-xs: 425px;
-  --blur-2xs: 2px;
+
+  /* ---- Plum Noir brand palette ---- */
+  --color-plum:      #7C3AED;   /* primary */
+  --color-plum-600:  #6D28D9;   /* primary hover */
+  --color-plum-700:  #5B21B6;
+  --color-ink:       #1A1622;   /* near-black plum */
+  --color-canvas:    #F5F3F6;   /* app background */
+  --color-champagne: #C68A2E;   /* spark / field accent (text-safe) */
+  --color-champagne-soft: #F5E6C8;
+
+  /* ---- Override `blue` (the old primary, 30+ uses) → plum ---- */
+  --color-blue-50:   #F3EEFE;
+  --color-blue-100:  #E5DAFB;
+  --color-blue-200:  #CDB8F6;
+  --color-blue-300:  #B08FF0;
+  --color-blue-400:  #9466E9;
+  --color-blue-500:  #7C3AED;
+  --color-blue-600:  #6D28D9;
+  --color-blue-700:  #5B21B6;
+  --color-blue-800:  #4C1D95;
+  --color-blue-900:  #3B1675;
+
+  /* ---- Override `neutral` ramp → plum-tinted slate (paper → ink) ---- */
+  --color-neutral-50:  #FAF9FB;
+  --color-neutral-100: #F1EFF4;
+  --color-neutral-200: #E4E0EA;
+  --color-neutral-300: #CFC9D8;
+  --color-neutral-400: #9A93A8;
+  --color-neutral-500: #6E6780;
+  --color-neutral-600: #4D4760;
+  --color-neutral-700: #363046;
+  --color-neutral-800: #251F33;
+  --color-neutral-900: #1A1622;
+  --color-neutral-950: #110D17;
+
+  /* ---- Entity accent families (cohesive: plum → violet → berry → champagne) ---- */
+  /* step = violet */
+  --color-violet-50:  #F4EFFE;  --color-violet-100: #E7DBFB;
+  --color-violet-200: #D2BEF6;  --color-violet-300: #B594EE;
+  --color-violet-500: #8B5CF6;  --color-violet-700: #6D28D9;
+  --color-violet-800: #4C1D95;  --color-violet-900: #3B1675;
+  --color-violet-400: #9466E9;  --color-violet-600: #7C3AED;
+  /* section = berry/fuchsia */
+  --color-emerald-50:  #FCEAF4;  --color-emerald-100: #F9D2E8;
+  --color-emerald-200: #F2A9D2;  --color-emerald-300: #E879BC;
+  --color-emerald-400: #DB4D9F;  --color-emerald-500: #C2398A;
+  --color-emerald-600: #A82C76;  --color-emerald-700: #8A2461;
+  --color-emerald-800: #6E1C4E;  --color-emerald-900: #4F1438;
+  /* field = champagne/amber (keep amber as-is family but warmer gold) */
+  --color-amber-50:  #FBF3E2;  --color-amber-100: #F6E6C0;
+  --color-amber-200: #EFD08C;  --color-amber-300: #E3B458;
+  --color-amber-400: #D29A38;  --color-amber-500: #C68A2E;
+  --color-amber-600: #A87224;  --color-amber-700: #875A1D;
+  --color-amber-800: #6B471A;  --color-amber-900: #4E3413;
+
+  /* ---- Danger → crimson, distinct from the warm/plum families ---- */
+  --color-red-50:  #FCEAEC;  --color-red-100: #F8D2D7;
+  --color-red-400: #E8556A;  --color-red-500: #D32F4C;
+  --color-red-600: #B82440;  --color-red-700: #971C34;
+  --color-red-800: #7A1729;  --color-red-900: #5C111F;
+
+  /* ---- Success stays a clean emerald via a dedicated token ---- */
+  --color-success:     #0EA371;
+  --color-success-50:  #E7F7F0;
+  --color-success-100: #C7EEDD;
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --shadow-card: 0 1px 2px rgba(26, 22, 34, 0.04), 0 8px 24px -14px rgba(26, 22, 34, 0.16);
+  --shadow-lift: 0 2px 6px rgba(26, 22, 34, 0.06), 0 20px 44px -18px rgba(26, 22, 34, 0.26);
+  --shadow-pop:  0 16px 40px -10px rgba(124, 58, 237, 0.32);
 }
 
 html {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-#root {
-  isolation: isolate;
-  transform-style: flat;
-  backface-visibility: hidden;
+body {
+  background-color: #F5F3F6;
+  color: #1A1622;
 }
+
+#root { isolation: isolate; }
+
+/* Display font utility for headings */
+.font-display { font-family: var(--font-display); }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.scale-in { animation: scale-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 /* Scrollbar */
-::-webkit-scrollbar { height: 6px; width: 6px; }
+::-webkit-scrollbar { height: 8px; width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #d6d6d6, #9d9d9d);
-  border-radius: 9999px;
-  transition: background 0.3s ease;
+::-webkit-scrollbar-thumb { background: #CFC9D8; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #9A93A8; }
+* { scrollbar-width: thin; scrollbar-color: #CFC9D8 transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, .fade-up, .scale-in { animation: none !important; }
 }
-::-webkit-scrollbar-thumb:hover { background: #9e9e9e; }
-* { scrollbar-width: thin; scrollbar-color: #e0e0e0; }

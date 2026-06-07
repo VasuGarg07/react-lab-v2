@@ -19,8 +19,8 @@ export default function PreviewDialog() {
     if (formConfig.steps.length === 0) {
         return (
             <div className="text-center py-8">
-                <p className="text-neutral-500 dark:text-neutral-400 mb-4">Add some steps to preview your form.</p>
-                <button onClick={close} className="px-4 py-2 text-sm font-medium rounded-lg border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">Close</button>
+                <p className="text-neutral-500 mb-4">Add some steps to preview your form.</p>
+                <button onClick={close} className="px-4 py-2 text-sm font-medium rounded-lg border border-neutral-200 text-neutral-700 hover:bg-neutral-50 transition-colors">Close</button>
             </div>
         );
     }
@@ -28,8 +28,9 @@ export default function PreviewDialog() {
     return (
         <div className="flex flex-col overflow-auto">
             <div className="text-center mb-4">
-                <h4 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{formConfig.title}</h4>
-                {formConfig.description && <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">{formConfig.description}</p>}
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 mb-2 text-[11px] font-bold uppercase tracking-wider rounded-full bg-plum/10 text-plum">Preview</span>
+                <h4 className="font-display text-xl font-bold text-ink">{formConfig.title}</h4>
+                {formConfig.description && <p className="text-sm text-neutral-500 mt-1">{formConfig.description}</p>}
             </div>
 
             {formConfig.steps.length > 1 && (
@@ -42,8 +43,8 @@ export default function PreviewDialog() {
                 {step && <StepRenderer step={step} responses={responses} errors={{}} onChange={handleChange} />}
             </div>
 
-            <div className="flex items-center gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-700">
-                <button onClick={() => setCurrentStep((p) => p - 1)} disabled={currentStep === 0} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+            <div className="flex items-center gap-3 pt-4 border-t border-neutral-200">
+                <button onClick={() => setCurrentStep((p) => p - 1)} disabled={currentStep === 0} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg border border-neutral-200 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                     <ChevronLeft className="w-4 h-4" />Back
                 </button>
 

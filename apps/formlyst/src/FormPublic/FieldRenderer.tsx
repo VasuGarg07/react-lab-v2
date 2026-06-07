@@ -24,7 +24,7 @@ export default function FieldRenderer({ field, value, onChange, error }: FieldRe
         case 'multi_select':
             return (
                 <div className="space-y-2">
-                    <span className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">{label}</span>
+                    <span className="block text-sm font-medium text-neutral-700">{label}</span>
                     <div className="space-y-2">
                         {field.options.map((opt) => {
                             const selected = Array.isArray(value) ? value : [];
@@ -46,7 +46,7 @@ export default function FieldRenderer({ field, value, onChange, error }: FieldRe
         case 'boolean':
             return (
                 <div className="space-y-2">
-                    <span className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">{label}</span>
+                    <span className="block text-sm font-medium text-neutral-700">{label}</span>
                     <Switch label={value ? 'Yes' : 'No'} checked={Boolean(value)} onChange={onChange} />
                     {error && <p className="text-xs text-red-500 flex items-center gap-1"><span>⚠</span> {error}</p>}
                 </div>
@@ -56,6 +56,6 @@ export default function FieldRenderer({ field, value, onChange, error }: FieldRe
             return <Slider label={label} value={(value as number) ?? field.min} min={field.min} max={field.max} onChange={onChange} />;
 
         default:
-            return <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg text-sm text-red-600 dark:text-red-400">Unknown field type: {(field as FormField).type}</div>;
+            return <div className="p-3 bg-red-50 rounded-lg text-sm text-red-600">Unknown field type: {(field as FormField).type}</div>;
     }
 }

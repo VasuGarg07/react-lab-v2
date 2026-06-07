@@ -50,48 +50,50 @@ export default function ImportDialog() {
 
     return (
         <div>
-            <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-1">Import Form</h3>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-5">Import a form configuration from a JSON file</p>
+            <h3 className="font-display text-lg font-bold text-ink mb-1">Import Form</h3>
+            <p className="text-sm text-neutral-500 mb-5">Load a form configuration from a JSON file.</p>
 
             <div
                 onDrop={handleDrop}
                 onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
                 onDragLeave={() => setIsDragging(false)}
-                className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-colors mb-4 ${isDragging ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-neutral-300 dark:border-neutral-700'}`}
+                className={`relative border-2 border-dashed rounded-2xl p-8 text-center transition-colors mb-4 ${isDragging ? 'border-plum bg-plum/5' : 'border-neutral-300 hover:border-neutral-400'}`}
             >
                 <input type="file" accept=".json,application/json" onChange={handleFileChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-                <FileJson className="w-10 h-10 text-neutral-400 dark:text-neutral-500 mx-auto mb-3" />
-                <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-1">Drag & drop a JSON file here</p>
-                <p className="text-xs text-neutral-400 dark:text-neutral-500">or click to browse</p>
+                <div className="grid place-items-center w-12 h-12 rounded-xl bg-plum/10 text-plum mx-auto mb-3">
+                    <FileJson className="w-5 h-5" />
+                </div>
+                <p className="text-sm font-semibold text-ink mb-0.5">Drag & drop a JSON file</p>
+                <p className="text-xs text-neutral-400">or click to browse</p>
             </div>
 
             <div className="flex items-center gap-3 mb-4">
-                <hr className="flex-1 border-neutral-200 dark:border-neutral-700" />
-                <span className="text-xs text-neutral-400 dark:text-neutral-500">OR</span>
-                <hr className="flex-1 border-neutral-200 dark:border-neutral-700" />
+                <hr className="flex-1 border-neutral-200" />
+                <span className="text-xs text-neutral-400">OR</span>
+                <hr className="flex-1 border-neutral-200" />
             </div>
 
             <div className="mb-4">
-                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Paste JSON</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-2">Paste JSON</label>
                 <textarea
                     value={jsonText}
                     onChange={(e) => setJsonText(e.target.value)}
                     placeholder='{"title": "My Form", "steps": [...]}'
                     rows={5}
-                    className="w-full px-3 py-2.5 text-sm rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 font-mono resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    className="w-full px-3 py-2.5 text-sm rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 font-mono resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                 />
             </div>
 
             {error && (
-                <div className="flex items-center gap-2 p-3 mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                <div className="flex items-center gap-2 p-3 mb-4 bg-red-50 border border-red-200 rounded-lg">
                     <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
-                    <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                    <p className="text-sm text-red-600">{error}</p>
                 </div>
             )}
 
             <div className="flex gap-3">
-                <button onClick={close} className="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">Cancel</button>
-                <button onClick={handlePaste} disabled={!jsonText.trim()} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                <button onClick={close} className="flex-1 px-4 py-2.5 text-sm font-semibold rounded-xl border border-neutral-200 text-neutral-600 hover:bg-neutral-50 transition-colors">Cancel</button>
+                <button onClick={handlePaste} disabled={!jsonText.trim()} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold rounded-xl bg-plum hover:bg-plum-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
                     <Upload className="w-4 h-4" />Import
                 </button>
             </div>

@@ -36,7 +36,7 @@ const router = createBrowserRouter([
         ],
     },
     {
-        path: '/formlyst',
+        path: '/',
         loader: protectedLoader,
         children: [
             { index: true, element: <Dashboard /> },
@@ -47,11 +47,11 @@ const router = createBrowserRouter([
         ],
     },
     // Public routes — no auth required
-    { path: '/formlyst/fill/:shareUrl', element: <Public /> },
-    { path: '/formlyst/fill/:shareUrl/review', element: <Review /> },
+    { path: '/fill/:shareUrl', element: <Public /> },
+    { path: '/fill/:shareUrl/review', element: <Review /> },
     {
         path: '*',
-        element: <Navigate to="/formlyst" replace />,
+        element: <Navigate to="/" replace />,
     },
 ]);
 

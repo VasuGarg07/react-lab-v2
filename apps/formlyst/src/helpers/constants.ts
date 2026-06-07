@@ -22,26 +22,36 @@ export const FIELD_TYPE_OPTIONS: { value: FieldType; label: string }[] = [
     { value: 'range', label: 'Range Slider' },
 ];
 
-export const ENTITY_COLORS: Record<EntityType, { bg: string; text: string; border: string }> = {
+// Entity accent families — cohesive plum → violet → berry → champagne.
+// (blue/violet/emerald/amber utility names are remapped to these hues in index.css)
+export const ENTITY_COLORS: Record<EntityType, { bg: string; text: string; border: string; solid: string; ring: string }> = {
     form: {
-        bg: 'bg-blue-50 dark:bg-blue-900/20',
-        text: 'text-blue-700 dark:text-blue-300',
-        border: 'border-blue-200 dark:border-blue-800',
+        bg: 'bg-blue-50',
+        text: 'text-blue-700',
+        border: 'border-blue-200',
+        solid: 'bg-blue-600',
+        ring: 'ring-blue-500/20',
     },
     step: {
-        bg: 'bg-violet-50 dark:bg-violet-900/20',
-        text: 'text-violet-700 dark:text-violet-300',
-        border: 'border-violet-200 dark:border-violet-800',
+        bg: 'bg-violet-50',
+        text: 'text-violet-700',
+        border: 'border-violet-200',
+        solid: 'bg-violet-600',
+        ring: 'ring-violet-500/20',
     },
     section: {
-        bg: 'bg-emerald-50 dark:bg-emerald-900/20',
-        text: 'text-emerald-700 dark:text-emerald-300',
-        border: 'border-emerald-200 dark:border-emerald-800',
+        bg: 'bg-emerald-50',
+        text: 'text-emerald-700',
+        border: 'border-emerald-200',
+        solid: 'bg-emerald-600',
+        ring: 'ring-emerald-500/20',
     },
     field: {
-        bg: 'bg-amber-50 dark:bg-amber-900/20',
-        text: 'text-amber-700 dark:text-amber-300',
-        border: 'border-amber-200 dark:border-amber-800',
+        bg: 'bg-amber-50',
+        text: 'text-amber-700',
+        border: 'border-amber-200',
+        solid: 'bg-amber-500',
+        ring: 'ring-amber-500/20',
     },
 };
 

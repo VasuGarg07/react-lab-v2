@@ -43,20 +43,20 @@ export default function TreeView() {
         return (
             <button
                 onClick={() => dispatch(navigate(nodePath))}
-                className={`w-full flex items-center gap-2 py-1.5 px-2 rounded-md text-left text-sm transition-all duration-150 ${active ? `${colors.bg} ${colors.text} font-medium` : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}
+                className={`w-full flex items-center gap-2 py-1.5 px-2 rounded-md text-left text-sm transition-all duration-150 ${active ? `${colors.bg} ${colors.text} font-medium` : 'text-neutral-700 hover:bg-neutral-100 '}`}
                 style={{ paddingLeft: `${depth * 12 + 8}px` }}
             >
                 {hasChildren ? (
-                    <span onClick={(e) => expandKey && toggleExpand(expandKey, e)} className="shrink-0 p-0.5 -ml-1 rounded hover:bg-neutral-200 dark:hover:bg-neutral-700">
+                    <span onClick={(e) => expandKey && toggleExpand(expandKey, e)} className="shrink-0 p-0.5 -ml-1 rounded hover:bg-neutral-200">
                         {isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
                     </span>
                 ) : (
                     <span className="w-4.5 shrink-0" />
                 )}
-                <Icon className={`w-4 h-4 shrink-0 ${active ? '' : 'text-neutral-400 dark:text-neutral-500'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${active ? '' : 'text-neutral-400 '}`} />
                 <span className="flex-1 truncate">{label || 'Untitled'}</span>
                 {childCount !== undefined && childCount > 0 && (
-                    <span className="shrink-0 text-xs text-neutral-400 dark:text-neutral-500">{childCount}</span>
+                    <span className="shrink-0 text-xs text-neutral-400">{childCount}</span>
                 )}
             </button>
         );
@@ -81,7 +81,7 @@ export default function TreeView() {
                 </div>
             ))}
             {formConfig.steps.length === 0 && (
-                <p className="px-4 py-3 text-xs text-neutral-400 dark:text-neutral-500 text-center">
+                <p className="px-4 py-3 text-xs text-neutral-400 text-center">
                     No steps yet. Start by adding a step.
                 </p>
             )}

@@ -7,7 +7,8 @@ import { updateStep, addSection, removeSection, reorderSections, navigate } from
 import { useModal, openAlertDialog, TextInput, Textarea } from '@react-lab/ui';
 import SortableEntityCard from '../shared/SortableEntityCard';
 import AddEntityDialog from '../shared/AddEntityDialog';
-import { LIMITS, ENTITY_COLORS } from '../../helpers/constants';
+import EditorHeader from '../shared/EditorHeader';
+import { LIMITS } from '../../helpers/constants';
 
 interface StepEditorProps { stepKey: string; }
 
@@ -26,7 +27,7 @@ export default function StepEditor({ stepKey }: StepEditorProps) {
 
     const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
 
-    if (!step) return <div className="p-8 text-center text-neutral-500 dark:text-neutral-400">Step not found</div>;
+    if (!step) return <div className="p-8 text-center text-neutral-500">Step not found</div>;
 
     const handleTitleBlur = () => {
         if (localTitle.trim() !== step.title) dispatch(updateStep({ key: stepKey, title: localTitle.trim() || 'Untitled Step' }));
@@ -40,7 +41,7 @@ export default function StepEditor({ stepKey }: StepEditorProps) {
     const handleDeleteSection = (sectionKey: string, sectionTitle: string) => {
         openAlertDialog(modal, {
             title: 'Delete Section',
-            message: `Are you sure you want to delete "${sectionTitle}"? All fields within this section will also be deleted.`,
+            message: `Are you sure you want to delete"${sectionTitle}"? All fields within this section will also be deleted.`,
             confirmText: 'Delete',
             onConfirm: () => { dispatch(removeSection({ stepKey, sectionKey })); },
         });
@@ -55,27 +56,23 @@ export default function StepEditor({ stepKey }: StepEditorProps) {
         }
     };
 
-    const colors = ENTITY_COLORS.step;
     const canAddSection = step.sections.length < LIMITS.MAX_SECTIONS_PER_STEP;
 
     return (
-        <div className="space-y-6">
-            <div className={`flex items-center gap-3 p-4 rounded-lg ${colors.bg}`}>
-                <div className={`w-2 h-2 rounded-full bg-current ${colors.text}`} />
-                <span className={`text-sm font-medium ${colors.text}`}>Step Settings</span>
-            </div>
+        <div className="space-y-7">
+            <EditorHeader type="step" title={step.title} />
 
             <div className="space-y-4">
                 <TextInput label="Step Title" value={localTitle} onChange={(e) => setLocalTitle(e.target.value)} onBlur={handleTitleBlur} placeholder="Enter step title" />
                 <Textarea label="Description" value={localDescription} onChange={(e) => setLocalDescription(e.target.value)} onBlur={handleDescriptionBlur} placeholder="Describe this step (optional)" rows={3} />
             </div>
 
-            <div>
-                <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
-                        Sections <span className="ml-2 text-xs font-normal text-neutral-500 dark:text-neutral-400">({step.sections.length}/{LIMITS.MAX_SECTIONS_PER_STEP})</span>
+            <div className="pt-2 border-t border-neutral-200">
+                <div className="flex items-center justify-between mb-3 mt-5">
+                    <h3 className="text-sm font-bold text-ink">
+                        Sections <span className="ml-1.5 text-xs font-semibold text-neutral-400 tabular-nums">{step.sections.length}/{LIMITS.MAX_SECTIONS_PER_STEP}</span>
                     </h3>
-                    <button onClick={handleAddSection} disabled={!canAddSection} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                    <button onClick={handleAddSection} disabled={!canAddSection} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-emerald-100 text-emerald-700 hover:bg-emerald-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                         <Plus className="w-3.5 h-3.5" />Add Section
                     </button>
                 </div>
@@ -96,9 +93,9 @@ export default function StepEditor({ stepKey }: StepEditorProps) {
                         </SortableContext>
                     </DndContext>
                 ) : (
-                    <div className="p-8 border-2 border-dashed border-neutral-200 dark:border-neutral-700 rounded-lg text-center">
-                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-3">No sections yet. Add your first section to organize fields.</p>
-                        <button onClick={handleAddSection} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors">
+                    <div className="p-8 border-2 border-dashed border-neutral-200 rounded-2xl text-center bg-white/50">
+                        <p className="text-sm text-neutral-500 mb-3">No sections yet. Add your first section to organize fields.</p>
+                        <button onClick={handleAddSection} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-xl bg-plum hover:bg-plum-600 text-white transition-colors">
                             <Plus className="w-4 h-4" />Add First Section
                         </button>
                     </div>

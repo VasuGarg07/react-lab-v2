@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Layers, Grid3X3, ToggleLeft } from 'lucide-react';
 import { useModal, TextInput, Select } from '@react-lab/ui';
 import { FIELD_TYPE_OPTIONS, ENTITY_COLORS } from '../../helpers/constants';
 import type { EntityType, FieldType } from '../../helpers/types';
@@ -8,10 +9,10 @@ interface AddEntityDialogProps {
     onAdd: (title: string, fieldType?: FieldType) => void;
 }
 
-const ENTITY_LABELS: Record<Exclude<EntityType, 'form'>, { singular: string; placeholder: string }> = {
-    step: { singular: 'Step', placeholder: 'e.g., Personal Information' },
-    section: { singular: 'Section', placeholder: 'e.g., Contact Details' },
-    field: { singular: 'Field', placeholder: 'e.g., Email Address' },
+const ENTITY_LABELS: Record<Exclude<EntityType, 'form'>, { singular: string; placeholder: string; icon: typeof Layers }> = {
+    step: { singular: 'Step', placeholder: 'e.g., Personal Information', icon: Layers },
+    section: { singular: 'Section', placeholder: 'e.g., Contact Details', icon: Grid3X3 },
+    field: { singular: 'Field', placeholder: 'e.g., Email Address', icon: ToggleLeft },
 };
 
 export default function AddEntityDialog({ entityType, onAdd }: AddEntityDialogProps) {
@@ -21,6 +22,7 @@ export default function AddEntityDialog({ entityType, onAdd }: AddEntityDialogPr
 
     const labels = ENTITY_LABELS[entityType];
     const colors = ENTITY_COLORS[entityType];
+    const Icon = labels.icon;
     const isField = entityType === 'field';
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -32,8 +34,15 @@ export default function AddEntityDialog({ entityType, onAdd }: AddEntityDialogPr
 
     return (
         <form onSubmit={handleSubmit}>
-            <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-1">Add {labels.singular}</h3>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-5">Create a new {labels.singular.toLowerCase()} for your form</p>
+            <div className="flex items-center gap-3 mb-5">
+                <div className={`grid place-items-center w-10 h-10 rounded-xl ${colors.bg} ${colors.text} shrink-0`}>
+                    <Icon className="w-4.5 h-4.5" strokeWidth={2} />
+                </div>
+                <div>
+                    <h3 className="font-display text-lg font-bold text-ink leading-tight">Add {labels.singular}</h3>
+                    <p className="text-sm text-neutral-500">Create a new {labels.singular.toLowerCase()} for your form.</p>
+                </div>
+            </div>
 
             <div className="space-y-4 mb-6">
                 <TextInput
@@ -53,16 +62,11 @@ export default function AddEntityDialog({ entityType, onAdd }: AddEntityDialogPr
                 )}
             </div>
 
-            <div className={`flex items-center gap-2 p-3 rounded-lg mb-6 ${colors.bg}`}>
-                <div className={`w-2 h-2 rounded-full ${colors.text} bg-current`} />
-                <span className={`text-xs font-medium ${colors.text}`}>{labels.singular}</span>
-            </div>
-
             <div className="flex gap-3">
-                <button type="button" onClick={close} className="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
+                <button type="button" onClick={close} className="flex-1 px-4 py-2.5 text-sm font-semibold rounded-xl border border-neutral-200 text-neutral-600 hover:bg-neutral-50 transition-colors">
                     Cancel
                 </button>
-                <button type="submit" disabled={!title.trim()} className="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                <button type="submit" disabled={!title.trim()} className="flex-1 px-4 py-2.5 text-sm font-bold rounded-xl bg-plum hover:bg-plum-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
                     Add {labels.singular}
                 </button>
             </div>

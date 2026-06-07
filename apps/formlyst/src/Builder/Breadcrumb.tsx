@@ -17,11 +17,11 @@ export default function Breadcrumb() {
 
                 return (
                     <div key={crumb.key} className="flex items-center gap-1 shrink-0">
-                        {index > 0 && <ChevronRight className="w-4 h-4 text-neutral-300 dark:text-neutral-600 shrink-0" />}
+                        {index > 0 && <ChevronRight className="w-4 h-4 text-neutral-300 shrink-0" />}
                         <button
                             onClick={() => dispatch(navigate(crumb.path))}
                             disabled={isLast}
-                            className={`flex items-center gap-1.5 px-2 py-1 rounded-md text-sm transition-all duration-200 ${isLast ? `${colors.bg} ${colors.text} font-medium cursor-default` : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}
+                            className={`flex items-center gap-1.5 px-2 py-1 rounded-md text-sm transition-all duration-200 ${isLast ? `${colors.bg} ${colors.text} font-medium cursor-default` : 'text-neutral-600 hover:bg-neutral-100 '}`}
                         >
                             {isLast && <span className="w-1.5 h-1.5 rounded-full bg-current" />}
                             <span className="max-w-32 truncate">{crumb.label}</span>

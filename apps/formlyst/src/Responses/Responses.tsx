@@ -5,6 +5,7 @@ import { useModal, openAlertDialog } from '@react-lab/ui';
 import { useFormById, useResponses } from '../hooks/useFormQueries';
 import { useDeleteResponse, useDeleteAllResponses } from '../hooks/useFormMutations';
 import { downloadJson, downloadXml } from '../helpers/utils';
+import AppHeader from '../components/AppHeader';
 import ResponseCard from './ResponseCard';
 
 export default function Responses() {
@@ -43,10 +44,10 @@ export default function Responses() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
-                <div className="flex flex-col items-center gap-3">
-                    <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400">Loading responses...</p>
+            <div className="min-h-screen bg-canvas">
+                <AppHeader />
+                <div className="flex items-center justify-center min-h-[60vh]">
+                    <Loader2 className="w-8 h-8 text-plum animate-spin" />
                 </div>
             </div>
         );
@@ -54,75 +55,80 @@ export default function Responses() {
 
     if (!form) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
-                <div className="text-center">
-                    <FileText className="w-12 h-12 text-neutral-300 dark:text-neutral-600 mx-auto mb-4" />
-                    <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Form not found</h2>
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">The form you're looking for doesn't exist or has been deleted.</p>
-                    <button onClick={() => navigate('/formlyst')} className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">← Back to Dashboard</button>
+            <div className="min-h-screen bg-canvas">
+                <AppHeader />
+                <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+                    <FileText className="w-12 h-12 text-neutral-300 mx-auto mb-4" />
+                    <h2 className="font-display text-lg font-bold text-ink mb-2">Form not found</h2>
+                    <p className="text-sm text-neutral-500 mb-4">The form you're looking for doesn't exist or has been deleted.</p>
+                    <button onClick={() => navigate('/')} className="text-sm font-semibold text-plum hover:underline">← Back to Dashboard</button>
                 </div>
             </div>
         );
     }
 
+    const count = responses?.length ?? 0;
+
     return (
-        <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
-            <div className="max-w-4xl mx-auto px-4 py-8">
-                <div className="mb-8">
-                    <button onClick={() => navigate('/formlyst')} className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 mb-4 transition-colors">
-                        <ArrowLeft className="w-4 h-4" />Back to Dashboard
-                    </button>
+        <div className="min-h-screen bg-canvas">
+            <AppHeader />
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 fade-up">
+                <button onClick={() => navigate('/')} className="inline-flex items-center gap-1.5 text-sm font-semibold text-neutral-500 hover:text-ink mb-5 transition-colors">
+                    <ArrowLeft className="w-4 h-4" />Dashboard
+                </button>
 
-                    <div className="flex items-start justify-between gap-4">
-                        <div>
-                            <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-1">{form.title}</h1>
-                            <p className="text-sm text-neutral-500 dark:text-neutral-400">{responses?.length || 0} {responses?.length === 1 ? 'response' : 'responses'} collected</p>
-                        </div>
-
-                        {responses && responses.length > 0 && (
-                            <div className="flex items-center gap-2">
-                                <div className="relative">
-                                    <button onClick={() => setExportMenuOpen(!exportMenuOpen)} className="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors">
-                                        <Download className="w-4 h-4" />Export<ChevronDown className="w-4 h-4" />
-                                    </button>
-                                    {exportMenuOpen && (
-                                        <>
-                                            <div className="fixed inset-0 z-10" onClick={() => setExportMenuOpen(false)} />
-                                            <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg py-1 z-20">
-                                                <button onClick={handleExportJson} className="w-full px-4 py-2 text-sm text-left text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700">Export as JSON</button>
-                                                <button onClick={handleExportXml} className="w-full px-4 py-2 text-sm text-left text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-700">Export as XML</button>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                                <button onClick={handleDeleteAll} className="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border border-red-200 dark:border-red-900/50 bg-white dark:bg-neutral-800 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                                    <Trash2 className="w-4 h-4" />Delete All
-                                </button>
-                            </div>
-                        )}
+                <div className="flex items-start justify-between gap-4 mb-7">
+                    <div className="min-w-0">
+                        <p className="text-xs font-bold uppercase tracking-wider text-plum mb-1">Responses</p>
+                        <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink truncate">{form.title}</h1>
+                        <p className="text-sm text-neutral-500 mt-1">
+                            <span className="font-bold text-ink tabular-nums">{count}</span> {count === 1 ? 'response' : 'responses'} collected
+                        </p>
                     </div>
+
+                    {count > 0 && (
+                        <div className="flex items-center gap-2 shrink-0">
+                            <div className="relative">
+                                <button onClick={() => setExportMenuOpen(!exportMenuOpen)} className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-xl border border-neutral-200 bg-white text-neutral-600 hover:text-ink hover:border-neutral-300 transition-colors">
+                                    <Download className="w-4 h-4" /><span className="hidden sm:inline">Export</span><ChevronDown className="w-4 h-4" />
+                                </button>
+                                {exportMenuOpen && (
+                                    <>
+                                        <div className="fixed inset-0 z-10" onClick={() => setExportMenuOpen(false)} />
+                                        <div className="absolute right-0 mt-2 w-44 bg-white border border-neutral-200 rounded-xl shadow-lift py-1.5 z-20 scale-in origin-top-right">
+                                            <button onClick={handleExportJson} className="w-full px-3 py-2 text-sm text-left text-neutral-600 hover:bg-neutral-50 hover:text-ink transition-colors">Export as JSON</button>
+                                            <button onClick={handleExportXml} className="w-full px-3 py-2 text-sm text-left text-neutral-600 hover:bg-neutral-50 hover:text-ink transition-colors">Export as XML</button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                            <button onClick={handleDeleteAll} className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-xl border border-red-200 bg-white text-red-500 hover:bg-red-50 transition-colors">
+                                <Trash2 className="w-4 h-4" /><span className="hidden sm:inline">Delete All</span>
+                            </button>
+                        </div>
+                    )}
                 </div>
 
-                {responses && responses.length > 0 ? (
+                {count > 0 ? (
                     <div className="space-y-3">
-                        {responses.map((response, index) => (
+                        {responses!.map((response, index) => (
                             <ResponseCard
                                 key={response.id}
                                 response={response}
                                 formConfig={form}
-                                index={responses.length - index}
+                                index={responses!.length - index}
                                 onDelete={handleDeleteResponse}
                             />
                         ))}
                     </div>
                 ) : (
-                    <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl p-12 text-center">
-                        <div className="w-16 h-16 rounded-full bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center mx-auto mb-4">
-                            <Inbox className="w-8 h-8 text-neutral-400 dark:text-neutral-500" />
+                    <div className="bg-white border border-neutral-200 rounded-2xl p-12 text-center shadow-card">
+                        <div className="w-16 h-16 rounded-2xl bg-plum/10 grid place-items-center mx-auto mb-4">
+                            <Inbox className="w-7 h-7 text-plum" strokeWidth={1.75} />
                         </div>
-                        <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-2">No responses yet</h3>
-                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-6 max-w-sm mx-auto">Share your form to start collecting responses.</p>
-                        <button onClick={() => navigator.clipboard.writeText(`${window.location.origin}/formlyst/fill/${form.shareUrl}`)} className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+                        <h3 className="font-display text-lg font-bold text-ink mb-1.5">No responses yet</h3>
+                        <p className="text-sm text-neutral-500 mb-6 max-w-sm mx-auto">Share your form to start collecting responses.</p>
+                        <button onClick={() => navigator.clipboard.writeText(`${window.location.origin}/fill/${form.shareUrl}`)} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold rounded-xl bg-plum text-white hover:bg-plum-600 transition-colors">
                             Copy Share Link
                         </button>
                     </div>

@@ -19,12 +19,12 @@ export default function Canvas() {
     };
 
     return (
-        <div className="flex-1 flex flex-col min-h-0 bg-neutral-50 dark:bg-neutral-900">
-            <div className="shrink-0 px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
+        <div className="flex-1 flex flex-col min-h-0 bg-canvas">
+            <div className="shrink-0 px-5 h-12 flex items-center border-b border-neutral-200 bg-canvas/80 backdrop-blur-sm">
                 <Breadcrumb />
             </div>
-            <div className="flex-1 overflow-y-auto p-6">
-                <div className="max-w-2xl mx-auto">
+            <div className="flex-1 overflow-y-auto px-6 py-8">
+                <div key={path.join('/') || 'form'} className="max-w-2xl mx-auto fade-up">
                     {renderEditor()}
                 </div>
             </div>

@@ -41,15 +41,15 @@ export default function StepRenderer({ step, responses, errors, onChange }: Step
     return (
         <div>
             <div className="mb-4">
-                <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-1">{step.title}</h2>
+                <h2 className="text-xl font-semibold text-neutral-900 mb-1">{step.title}</h2>
                 <div className="flex items-center justify-between">
-                    {step.description && <p className="text-sm text-neutral-500 dark:text-neutral-400">{step.description}</p>}
+                    {step.description && <p className="text-sm text-neutral-500">{step.description}</p>}
                     {step.sections.length > 1 && (
                         <div className="flex justify-end">
                             <button
                                 type="button"
                                 onClick={() => setExpandedSections(allExpanded ? new Set() : new Set(step.sections.map((s) => s.key)))}
-                                className="flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors"
+                                className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-neutral-700 transition-colors"
                             >
                                 <ChevronsUpDown className="w-3.5 h-3.5" />
                                 {allExpanded ? 'Collapse all' : 'Expand all'}

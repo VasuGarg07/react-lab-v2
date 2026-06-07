@@ -7,7 +7,8 @@ import { updateForm, addStep, removeStep, reorderSteps, navigate } from '../../s
 import { useModal, openAlertDialog, TextInput, Textarea } from '@react-lab/ui';
 import SortableEntityCard from '../shared/SortableEntityCard';
 import AddEntityDialog from '../shared/AddEntityDialog';
-import { LIMITS, ENTITY_COLORS } from '../../helpers/constants';
+import EditorHeader from '../shared/EditorHeader';
+import { LIMITS } from '../../helpers/constants';
 
 export default function FormEditor() {
     const dispatch = useAppDispatch();
@@ -38,7 +39,7 @@ export default function FormEditor() {
     const handleDeleteStep = (stepKey: string, stepTitle: string) => {
         openAlertDialog(modal, {
             title: 'Delete Step',
-            message: `Are you sure you want to delete "${stepTitle}"? All sections and fields within this step will also be deleted.`,
+            message: `Are you sure you want to delete"${stepTitle}"? All sections and fields within this step will also be deleted.`,
             confirmText: 'Delete',
             onConfirm: () => { dispatch(removeStep(stepKey)); },
         });
@@ -53,27 +54,23 @@ export default function FormEditor() {
         }
     };
 
-    const colors = ENTITY_COLORS.form;
     const canAddStep = formConfig.steps.length < LIMITS.MAX_STEPS;
 
     return (
-        <div className="space-y-6">
-            <div className={`flex items-center gap-3 p-4 rounded-lg ${colors.bg}`}>
-                <div className={`w-2 h-2 rounded-full bg-current ${colors.text}`} />
-                <span className={`text-sm font-medium ${colors.text}`}>Form Settings</span>
-            </div>
+        <div className="space-y-7">
+            <EditorHeader type="form" title={formConfig.title} />
 
             <div className="space-y-4">
                 <TextInput label="Form Title" value={localTitle} onChange={(e) => setLocalTitle(e.target.value)} onBlur={handleTitleBlur} placeholder="Enter form title" />
                 <Textarea label="Description" value={localDescription} onChange={(e) => setLocalDescription(e.target.value)} onBlur={handleDescriptionBlur} placeholder="Describe what this form is for (optional)" rows={3} />
             </div>
 
-            <div>
-                <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
-                        Steps <span className="ml-2 text-xs font-normal text-neutral-500 dark:text-neutral-400">({formConfig.steps.length}/{LIMITS.MAX_STEPS})</span>
+            <div className="pt-2 border-t border-neutral-200">
+                <div className="flex items-center justify-between mb-3 mt-5">
+                    <h3 className="text-sm font-bold text-ink">
+                        Steps <span className="ml-1.5 text-xs font-semibold text-neutral-400 tabular-nums">{formConfig.steps.length}/{LIMITS.MAX_STEPS}</span>
                     </h3>
-                    <button onClick={handleAddStep} disabled={!canAddStep} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 hover:bg-violet-200 dark:hover:bg-violet-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                    <button onClick={handleAddStep} disabled={!canAddStep} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-violet-100 text-violet-700 hover:bg-violet-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                         <Plus className="w-3.5 h-3.5" />Add Step
                     </button>
                 </div>
@@ -94,9 +91,9 @@ export default function FormEditor() {
                         </SortableContext>
                     </DndContext>
                 ) : (
-                    <div className="p-8 border-2 border-dashed border-neutral-200 dark:border-neutral-700 rounded-lg text-center">
-                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-3">No steps yet. Add your first step to get started.</p>
-                        <button onClick={handleAddStep} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors">
+                    <div className="p-8 border-2 border-dashed border-neutral-200 rounded-2xl text-center bg-white/50">
+                        <p className="text-sm text-neutral-500 mb-3">No steps yet. Add your first step to get started.</p>
+                        <button onClick={handleAddStep} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-xl bg-plum hover:bg-plum-600 text-white transition-colors">
                             <Plus className="w-4 h-4" />Add First Step
                         </button>
                     </div>

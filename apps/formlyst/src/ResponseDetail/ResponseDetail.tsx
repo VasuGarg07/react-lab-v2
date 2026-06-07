@@ -4,6 +4,7 @@ import { useModal, openAlertDialog } from '@react-lab/ui';
 import { useFormById, useResponseById } from '../hooks/useFormQueries';
 import { useDeleteResponse } from '../hooks/useFormMutations';
 import { formatDate } from '../helpers/utils';
+import AppHeader from '../components/AppHeader';
 import type { FormField } from '../helpers/types';
 
 export default function ResponseDetail() {
@@ -33,7 +34,7 @@ export default function ResponseDetail() {
         switch (field.type) {
             case 'boolean': return value ? 'Yes' : 'No';
             case 'multi_select': return Array.isArray(value) ? value.join(', ') : String(value);
-            case 'range': return `${value} / ${field.max}`;
+            case 'range': return`${value} / ${field.max}`;
             default: return String(value);
         }
     };
@@ -44,17 +45,17 @@ export default function ResponseDetail() {
             message: 'This will permanently delete this response. This action cannot be undone.',
             confirmText: 'Delete',
             onConfirm: () => {
-                deleteResponse.mutate(responseId!, { onSuccess: () => navigate(`/formlyst/${id}/responses`) });
+                deleteResponse.mutate(responseId!, { onSuccess: () => navigate(`/${id}/responses`) });
             },
         });
     };
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
-                <div className="flex flex-col items-center gap-3">
-                    <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400">Loading response...</p>
+            <div className="min-h-screen bg-canvas">
+                <AppHeader />
+                <div className="flex items-center justify-center min-h-[60vh]">
+                    <Loader2 className="w-8 h-8 text-plum animate-spin" />
                 </div>
             </div>
         );
@@ -62,12 +63,13 @@ export default function ResponseDetail() {
 
     if (!form || !response) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
-                <div className="text-center">
-                    <FileText className="w-12 h-12 text-neutral-300 dark:text-neutral-600 mx-auto mb-4" />
-                    <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Response not found</h2>
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">This response doesn't exist or has been deleted.</p>
-                    <button onClick={() => navigate(`/formlyst/${id}/responses`)} className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">← Back to Responses</button>
+            <div className="min-h-screen bg-canvas">
+                <AppHeader />
+                <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+                    <FileText className="w-12 h-12 text-neutral-300 mx-auto mb-4" />
+                    <h2 className="font-display text-lg font-bold text-ink mb-2">Response not found</h2>
+                    <p className="text-sm text-neutral-500 mb-4">This response doesn't exist or has been deleted.</p>
+                    <button onClick={() => navigate(`/${id}/responses`)} className="text-sm font-semibold text-plum hover:underline">← Back to Responses</button>
                 </div>
             </div>
         );
@@ -76,24 +78,23 @@ export default function ResponseDetail() {
     const DeviceIcon = getDeviceInfo().icon;
 
     return (
-        <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
-            <div className="max-w-3xl mx-auto px-4 py-8">
-                <div className="mb-6">
-                    <button onClick={() => navigate(`/formlyst/${id}/responses`)} className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 mb-4 transition-colors">
-                        <ArrowLeft className="w-4 h-4" />Back to Responses
-                    </button>
-                    <div className="flex items-start justify-between gap-4">
-                        <div>
-                            <h1 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-1">{form.title}</h1>
-                            <p className="text-sm text-neutral-500 dark:text-neutral-400">Response Details</p>
-                        </div>
-                        <button onClick={handleDelete} className="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg border border-red-200 dark:border-red-900/50 bg-white dark:bg-neutral-800 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                            <Trash2 className="w-4 h-4" />Delete
-                        </button>
+        <div className="min-h-screen bg-canvas">
+            <AppHeader />
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 fade-up">
+                <button onClick={() => navigate(`/${id}/responses`)} className="inline-flex items-center gap-1.5 text-sm font-semibold text-neutral-500 hover:text-ink mb-5 transition-colors">
+                    <ArrowLeft className="w-4 h-4" />Responses
+                </button>
+                <div className="flex items-start justify-between gap-4 mb-6">
+                    <div className="min-w-0">
+                        <p className="text-xs font-bold uppercase tracking-wider text-plum mb-1">Response detail</p>
+                        <h1 className="font-display text-2xl font-bold text-ink truncate">{form.title}</h1>
                     </div>
+                    <button onClick={handleDelete} className="flex items-center gap-2 px-3 py-2 text-sm font-semibold rounded-xl border border-red-200 bg-white text-red-500 hover:bg-red-50 transition-colors shrink-0">
+                        <Trash2 className="w-4 h-4" /><span className="hidden sm:inline">Delete</span>
+                    </button>
                 </div>
 
-                <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl p-4 mb-6">
+                <div className="bg-white border border-neutral-200 rounded-2xl p-4 mb-6 shadow-card">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {[
                             { icon: Calendar, label: 'Date', value: formatDate(response.submittedAt) },
@@ -102,12 +103,12 @@ export default function ResponseDetail() {
                             { icon: Globe, label: 'IP Address', value: response.ipAddress || 'Unknown' },
                         ].map(({ icon: Icon, label, value }) => (
                             <div key={label} className="flex items-center gap-3">
-                                <div className="w-9 h-9 rounded-lg bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center">
-                                    <Icon className="w-4 h-4 text-neutral-500 dark:text-neutral-400" />
+                                <div className="w-9 h-9 rounded-xl bg-plum/10 flex items-center justify-center shrink-0">
+                                    <Icon className="w-4 h-4 text-plum" />
                                 </div>
-                                <div>
-                                    <p className="text-xs text-neutral-500 dark:text-neutral-400">{label}</p>
-                                    <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">{value}</p>
+                                <div className="min-w-0">
+                                    <p className="text-xs text-neutral-500">{label}</p>
+                                    <p className="text-sm font-bold text-ink truncate">{value}</p>
                                 </div>
                             </div>
                         ))}
@@ -117,28 +118,28 @@ export default function ResponseDetail() {
                 <div className="space-y-6">
                     {form.steps.map((step) => (
                         <div key={step.key}>
-                            <h2 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-3 flex items-center gap-2">
+                            <h2 className="text-sm font-semibold text-neutral-900 mb-3 flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />{step.title}
                             </h2>
                             <div className="space-y-4">
                                 {step.sections.map((section) => (
-                                    <div key={section.key} className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden">
-                                        <div className="px-4 py-3 bg-neutral-50 dark:bg-neutral-800/50 border-b border-neutral-200 dark:border-neutral-700">
-                                            <h3 className="text-sm font-medium text-neutral-700 dark:text-neutral-300">{section.title}</h3>
+                                    <div key={section.key} className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
+                                        <div className="px-4 py-3 bg-neutral-50 border-b border-neutral-200">
+                                            <h3 className="text-sm font-medium text-neutral-700">{section.title}</h3>
                                         </div>
-                                        <div className="divide-y divide-neutral-100 dark:divide-neutral-700/50">
+                                        <div className="divide-y divide-neutral-100">
                                             {section.fields.map((field) => {
                                                 const value = response.responses[field.key];
                                                 const isEmpty = value == null || value === '';
                                                 return (
                                                     <div key={field.key} className="px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
                                                         <div className="sm:w-1/3 shrink-0">
-                                                            <span className="text-sm text-neutral-500 dark:text-neutral-400">
+                                                            <span className="text-sm text-neutral-500">
                                                                 {field.label}{field.required && <span className="text-red-500 ml-0.5">*</span>}
                                                             </span>
                                                         </div>
                                                         <div className="sm:flex-1">
-                                                            <span className={`text-sm ${isEmpty ? 'text-neutral-400 dark:text-neutral-500 italic' : 'text-neutral-900 dark:text-neutral-100'}`}>
+                                                            <span className={`text-sm ${isEmpty ? 'text-neutral-400 italic' : 'text-neutral-900 '}`}>
                                                                 {formatValue(field, value)}
                                                             </span>
                                                         </div>

@@ -47,7 +47,7 @@ export default function Builder() {
             createForm.mutate(formConfig, {
                 onSuccess: (form) => {
                     dispatch(markClean());
-                    navigate(`/formlyst/${form.id}/edit`, { replace: true });
+                    navigate(`/${form.id}/edit`, { replace: true });
                 },
             });
         }
@@ -57,10 +57,10 @@ export default function Builder() {
 
     if (isEditMode && isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
+            <div className="min-h-screen flex items-center justify-center bg-canvas">
                 <div className="flex flex-col items-center gap-3">
-                    <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400">Loading form...</p>
+                    <Loader2 className="w-8 h-8 text-plum animate-spin" />
+                    <p className="text-sm text-neutral-500">Loading form…</p>
                 </div>
             </div>
         );
@@ -68,11 +68,11 @@ export default function Builder() {
 
     if (isEditMode && !isLoading && !existingForm) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
+            <div className="min-h-screen flex items-center justify-center bg-canvas px-4">
                 <div className="text-center">
-                    <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Form not found</h2>
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">This form doesn't exist or has been deleted.</p>
-                    <button onClick={() => navigate('/formlyst')} className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400">
+                    <h2 className="font-display text-lg font-bold text-ink mb-2">Form not found</h2>
+                    <p className="text-sm text-neutral-500 mb-4">This form doesn't exist or has been deleted.</p>
+                    <button onClick={() => navigate('/')} className="text-sm font-semibold text-plum hover:underline">
                         ← Back to Dashboard
                     </button>
                 </div>
@@ -85,7 +85,7 @@ export default function Builder() {
             <div className="md:hidden">
                 <MobileBlocker />
             </div>
-            <div className="hidden md:flex h-screen flex-col bg-neutral-100 dark:bg-neutral-950">
+            <div className="hidden md:flex h-screen flex-col bg-canvas">
                 <Toolbar onSave={handleSave} isSaving={isSaving} />
                 <div className="flex-1 flex min-h-0">
                     <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />

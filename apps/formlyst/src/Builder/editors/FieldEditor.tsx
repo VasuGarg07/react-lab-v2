@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../store/useRedux';
 import { updateField } from '../../store/formBuilderSlice';
-import { ENTITY_COLORS, FIELD_TYPE_OPTIONS, LIMITS } from '../../helpers/constants';
+import { FIELD_TYPE_OPTIONS, LIMITS } from '../../helpers/constants';
 import type { FormField, FieldType } from '../../helpers/types';
 import { TextInput, Select, Switch, NumberInput } from '@react-lab/ui';
+import EditorHeader from '../shared/EditorHeader';
 
 interface FieldEditorProps { stepKey: string; sectionKey: string; fieldKey: string; }
 
@@ -22,7 +23,7 @@ export default function FieldEditor({ stepKey, sectionKey, fieldKey }: FieldEdit
         if (field) { setLocalLabel(field.label); setLocalRequired(field.required); }
     }, [field?.key]);
 
-    if (!step || !section || !field) return <div className="p-8 text-center text-neutral-500 dark:text-neutral-400">Field not found</div>;
+    if (!step || !section || !field) return <div className="p-8 text-center text-neutral-500">Field not found</div>;
 
     const handleUpdate = (updates: Partial<FormField>) => dispatch(updateField({ stepKey, sectionKey, fieldKey, updates }));
 
@@ -40,14 +41,9 @@ export default function FieldEditor({ stepKey, sectionKey, fieldKey }: FieldEdit
         handleUpdate(baseUpdate);
     };
 
-    const colors = ENTITY_COLORS.field;
-
     return (
-        <div className="space-y-6">
-            <div className={`flex items-center gap-3 p-4 rounded-lg ${colors.bg}`}>
-                <div className={`w-2 h-2 rounded-full bg-current ${colors.text}`} />
-                <span className={`text-sm font-medium ${colors.text}`}>Field Settings</span>
-            </div>
+        <div className="space-y-7">
+            <EditorHeader type="field" title={field.label} />
 
             <div className="space-y-4">
                 <TextInput label="Field Label" value={localLabel} onChange={(e) => setLocalLabel(e.target.value)} onBlur={handleLabelBlur} placeholder="Enter field label" />
@@ -55,15 +51,15 @@ export default function FieldEditor({ stepKey, sectionKey, fieldKey }: FieldEdit
                 <Switch label="Required field" checked={localRequired} onChange={handleRequiredChange} />
             </div>
 
-            <div className="pt-4 border-t border-neutral-200 dark:border-neutral-700">
-                <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100 mb-4">Type Settings</h3>
+            <div className="pt-5 border-t border-neutral-200">
+                <h3 className="text-sm font-bold text-ink mb-4">Type Settings</h3>
 
                 {field.type === 'text' && <TextFieldSettings field={field} onUpdate={handleUpdate} />}
                 {field.type === 'number' && <NumberFieldSettings field={field} onUpdate={handleUpdate} />}
                 {field.type === 'select' && <SelectFieldSettings field={field} onUpdate={handleUpdate} maxOptions={LIMITS.MAX_SELECT_OPTIONS} />}
                 {field.type === 'multi_select' && <SelectFieldSettings field={field} onUpdate={handleUpdate} maxOptions={LIMITS.MAX_MULTI_SELECT_OPTIONS} />}
                 {field.type === 'range' && <RangeFieldSettings field={field} onUpdate={handleUpdate} />}
-                {field.type === 'boolean' && <p className="text-sm text-neutral-500 dark:text-neutral-400">No additional settings for Yes/No fields.</p>}
+                {field.type === 'boolean' && <p className="text-sm text-neutral-500">No additional settings for Yes/No fields.</p>}
             </div>
         </div>
     );
@@ -105,12 +101,12 @@ function SelectFieldSettings({ field, onUpdate, maxOptions }: { field: FormField
     return (
         <div className="space-y-4">
             <div>
-                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Options ({options.length}/{maxOptions})</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-2">Options ({options.length}/{maxOptions})</label>
                 {options.length > 0 && (
                     <div className="space-y-2 mb-3">
                         {options.map((option, index) => (
-                            <div key={index} className="flex items-center gap-2 p-2 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
-                                <span className="flex-1 text-sm text-neutral-700 dark:text-neutral-300">{option}</span>
+                            <div key={index} className="flex items-center gap-2 p-2 bg-neutral-50 rounded-lg">
+                                <span className="flex-1 text-sm text-neutral-700">{option}</span>
                                 <button onClick={() => handleRemoveOption(index)} className="p-1 text-neutral-400 hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
                             </div>
                         ))}
@@ -118,7 +114,7 @@ function SelectFieldSettings({ field, onUpdate, maxOptions }: { field: FormField
                 )}
                 {options.length < maxOptions && (
                     <div className="flex items-center gap-2">
-                        <input type="text" value={newOption} onChange={(e) => setNewOption(e.target.value)} onKeyDown={handleKeyDown} placeholder="Type option and press Enter" className="flex-1 px-3 py-2 text-sm rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
+                        <input type="text" value={newOption} onChange={(e) => setNewOption(e.target.value)} onKeyDown={handleKeyDown} placeholder="Type option and press Enter" className="flex-1 px-3 py-2 text-sm rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" />
                         <button onClick={handleAddOption} disabled={!newOption.trim()} className="p-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"><Plus className="w-4 h-4" /></button>
                     </div>
                 )}
