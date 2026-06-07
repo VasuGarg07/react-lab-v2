@@ -58,20 +58,25 @@ In the root `package.json`, add to the `scripts` block:
 
 ## 5. Create the Firebase Hosting site
 
+Naming convention: showcase uses `vasugarg-labs`; every other app uses `vgl-<word>`
+(short, readable, one word — e.g. `vgl-formlyst`, `vgl-jsonviewer`). Then:
+
 ```
-firebase hosting:sites:create react-lab-<app>
+firebase hosting:sites:create vgl-<app>
+firebase target:apply hosting <app> vgl-<app>
 ```
 
+`target:apply` links the site to a hosting **target** named after the app dir.
 This only needs to be done once. The site ID must be globally unique across all Firebase projects.
 
 ---
 
 ## 6. Add to `.firebaserc`
 
-Under `targets.react-lab-v2.hosting`, add:
+Under `targets.react-lab-v2.hosting`, add (target name = app dir name, value = site ID):
 
 ```json
-"react-lab-<app>": ["react-lab-<app>"]
+"<app>": ["vgl-<app>"]
 ```
 
 ---
@@ -82,7 +87,7 @@ Add a new entry to the `hosting` array:
 
 ```json
 {
-  "target": "react-lab-<app>",
+  "target": "<app>",
   "public": "apps/<app>/dist",
   "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
   "rewrites": [{ "source": "**", "destination": "/index.html" }]
@@ -100,7 +105,7 @@ VITE_URL_<APP_UPPER>=http://localhost:<PORT>
 
 **`apps/showcase/.env.production`** — add the production URL:
 ```
-VITE_URL_<APP_UPPER>=https://react-lab-<app>.web.app
+VITE_URL_<APP_UPPER>=https://vgl-<app>.web.app
 ```
 
 **`apps/showcase/src/apps.ts`** — add to the `AppInfo` interface if needed, then add an entry to the `Apps` array:
@@ -128,7 +133,7 @@ Add the cover image to `apps/showcase/public/cover/<app>.webp`.
 Add an entry to the `APPS` array:
 
 ```js
-{ name: '<app>', pkg: '@react-lab/<app>', firebase: 'react-lab-<app>' },
+{ name: '<app>', pkg: '@react-lab/<app>', firebase: '<app>' },
 ```
 
 ---
@@ -146,7 +151,7 @@ Add an entry to the `APPS` array:
 - [ ] `apps/<app>/` scaffolded from `_templates`, package name and port set
 - [ ] `pnpm install` run
 - [ ] `dev:<app>`, `build:<app>`, `deploy:<app>` added to root `package.json`
-- [ ] `firebase hosting:sites:create react-lab-<app>` run
+- [ ] `firebase hosting:sites:create vgl-<app>` + `firebase target:apply hosting <app> vgl-<app>` run
 - [ ] `.firebaserc` updated
 - [ ] `firebase.json` updated
 - [ ] `showcase/.env.development` updated

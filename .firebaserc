@@ -5,8 +5,50 @@
   "targets": {
     "react-lab-v2": {
       "hosting": {
-        "react-lab-v2": ["react-lab-v2"]
+        "showcase": [
+          "vasugarg-labs"
+        ],
+        "blogify": [
+          "vgl-blogify"
+        ],
+        "budget-buddy": [
+          "vgl-budgetbuddy"
+        ],
+        "formlyst": [
+          "vgl-formlyst"
+        ],
+        "json-live": [
+          "vgl-jsonviewer"
+        ],
+        "loan-wizard": [
+          "vgl-loanwizard"
+        ],
+        "markdown-live": [
+          "vgl-markdown"
+        ],
+        "poke-memory": [
+          "vgl-pokememory"
+        ],
+        "pokeverse": [
+          "vgl-pokeverse"
+        ],
+        "quizzo": [
+          "vgl-quizzo"
+        ],
+        "recipe-haven": [
+          "vgl-recipes"
+        ],
+        "sorting-visualizer": [
+          "vgl-visualizer"
+        ],
+        "sudoku": [
+          "vgl-sudoku"
+        ],
+        "super-tic-tac-toe": [
+          "vgl-tictactoe"
+        ]
       }
     }
-  }
+  },
+  "etags": {}
 }

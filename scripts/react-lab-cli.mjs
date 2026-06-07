@@ -4,20 +4,20 @@ import { spawnSync } from 'child_process';
 import chalk from 'chalk';
 
 const APPS = [
-  { name: 'showcase',           pkg: '@react-lab/showcase',           firebase: 'react-lab-v2' },
-  { name: 'blogify',            pkg: '@react-lab/blogify',            firebase: 'react-lab-blogify' },
-  { name: 'budget-buddy',       pkg: '@react-lab/budget-buddy',       firebase: 'react-lab-budget-buddy' },
-  { name: 'formlyst',           pkg: '@react-lab/formlyst',           firebase: 'react-lab-formlyst' },
-  { name: 'json-live',          pkg: '@react-lab/json-live',          firebase: 'react-lab-json' },
-  { name: 'loan-wizard',        pkg: '@react-lab/loan-wizard',        firebase: 'react-lab-loan-wizard' },
-  { name: 'markdown-live',      pkg: '@react-lab/markdown-live',      firebase: 'react-lab-markdown' },
-  { name: 'poke-memory',        pkg: '@react-lab/poke-memory',        firebase: 'react-lab-poke-memory' },
-  { name: 'pokeverse',          pkg: '@react-lab/pokeverse',          firebase: 'react-lab-pokeverse' },
-  { name: 'quizzo',             pkg: '@react-lab/quizzo',             firebase: 'react-lab-quizzo' },
-  { name: 'recipe-haven',       pkg: '@react-lab/recipe-haven',       firebase: 'react-lab-recipe-haven' },
-  { name: 'sorting-visualizer', pkg: '@react-lab/sorting-visualizer', firebase: 'react-lab-sorting-visualizer' },
-  { name: 'sudoku',             pkg: '@react-lab/sudoku',             firebase: 'react-lab-sudoku' },
-  { name: 'super-tic-tac-toe',  pkg: '@react-lab/super-tic-tac-toe', firebase: 'react-lab-super-tic-tac-toe' },
+  { name: 'showcase',           pkg: '@react-lab/showcase',           firebase: 'showcase' },
+  { name: 'blogify',            pkg: '@react-lab/blogify',            firebase: 'blogify' },
+  { name: 'budget-buddy',       pkg: '@react-lab/budget-buddy',       firebase: 'budget-buddy' },
+  { name: 'formlyst',           pkg: '@react-lab/formlyst',           firebase: 'formlyst' },
+  { name: 'json-live',          pkg: '@react-lab/json-live',          firebase: 'json-live' },
+  { name: 'loan-wizard',        pkg: '@react-lab/loan-wizard',        firebase: 'loan-wizard' },
+  { name: 'markdown-live',      pkg: '@react-lab/markdown-live',      firebase: 'markdown-live' },
+  { name: 'poke-memory',        pkg: '@react-lab/poke-memory',        firebase: 'poke-memory' },
+  { name: 'pokeverse',          pkg: '@react-lab/pokeverse',          firebase: 'pokeverse' },
+  { name: 'quizzo',             pkg: '@react-lab/quizzo',             firebase: 'quizzo' },
+  { name: 'recipe-haven',       pkg: '@react-lab/recipe-haven',       firebase: 'recipe-haven' },
+  { name: 'sorting-visualizer', pkg: '@react-lab/sorting-visualizer', firebase: 'sorting-visualizer' },
+  { name: 'sudoku',             pkg: '@react-lab/sudoku',             firebase: 'sudoku' },
+  { name: 'super-tic-tac-toe',  pkg: '@react-lab/super-tic-tac-toe', firebase: 'super-tic-tac-toe' },
 ];
 
 const c = {
