@@ -129,17 +129,17 @@ export default function MyLibrary() {
                 </div>
             )}
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-px bg-stone-200 rounded-2xl overflow-hidden border border-stone-200">
                 {[
                     { label: 'Notebooks', value: notebookCount, icon: BookOpen },
                     { label: 'Published', value: blogCount - draftCount, icon: FileText },
                     { label: 'Drafts', value: draftCount, icon: FilePen },
                 ].map(({ label, value, icon: Icon }) => (
-                    <div key={label} className="py-5 px-4 rounded-2xl bg-white border border-stone-100 text-center">
-                        <p className="font-serif text-3xl text-stone-900">{value}</p>
+                    <div key={label} className="py-5 px-4 bg-white text-center">
+                        <p className="font-serif text-3xl font-semibold text-stone-900 tabular-nums">{value}</p>
                         <div className="flex items-center justify-center gap-1.5 mt-1.5">
-                            <Icon className="w-3.5 h-3.5 text-stone-400" strokeWidth={1.5} />
-                            <p className="text-xs text-stone-400">{label}</p>
+                            <Icon className="w-3.5 h-3.5 text-navy" strokeWidth={2} />
+                            <p className="text-xs font-semibold text-stone-500">{label}</p>
                         </div>
                     </div>
                 ))}
@@ -150,17 +150,17 @@ export default function MyLibrary() {
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 -mb-px transition-colors ${
+                        className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 -mb-px transition-colors ${
                             activeTab === tab.id
-                                ? 'border-stone-900 text-stone-900 '
-                                : 'border-transparent text-stone-400 hover:text-stone-700 '
+                                ? 'border-navy text-stone-900'
+                                : 'border-transparent text-stone-400 hover:text-stone-700'
                         }`}
                     >
                         {tab.label}
                         <span className={`px-1.5 py-0.5 text-xs rounded-full ${
                             activeTab === tab.id
-                                ? 'bg-stone-900 text-stone-50 '
-                                : 'bg-stone-100 text-stone-500 '
+                                ? 'bg-navy text-white'
+                                : 'bg-stone-100 text-stone-500'
                         }`}>
                             {tab.count}
                         </span>

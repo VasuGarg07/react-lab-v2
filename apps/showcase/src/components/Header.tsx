@@ -41,7 +41,7 @@ export default function Header({ count }: HeaderProps) {
                         <span className="tabular-nums text-ink">{count}</span> projects
                     </span>
                     <a
-                        href="https://github.com/VasuGarg07"
+                        href="https://github.com/VasuGarg07/react-lab"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="GitHub"

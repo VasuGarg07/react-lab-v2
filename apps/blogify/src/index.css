@@ -1,71 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
 @import "tailwindcss";
 
 @source "../../../packages/ui/src/";
 @source "../../../packages/auth/src/";
 
-/* Light-only app: neutralize the built-in `dark:` variant so OS dark mode
-   never activates dark styles. App markup is now dark:-free, but the scanned
-   @react-lab/ui & /auth package sources still ship dark: utilities — this
-   keeps them inert. */
 @custom-variant dark (&:where(.__never-dark__));
 
 @theme {
   --breakpoint-xs: 425px;
 
-  /* Brand palette — Medium Jungle / Azure Mist / Sandy Brown / Copper / Deep Walnut.
-     Token names kept (navy/beige/gold/coral/onyx) and repointed to the new
-     palette so existing markup reskins without renaming utilities.
-       navy  → Medium Jungle (primary brand / active / links)
-       beige → Azure Mist (page background)
-       coral → Sandy Brown (warm accent)
-       gold  → Copper (secondary warm accent)
-       onyx  → Deep Walnut (dark surfaces: footer, code, brand mark) */
-  --color-navy:    #28A326;
-  --color-beige:   #EDF7F6;
-  --color-magenta: #C2410C;
-  --color-gold:    #C47335;
-  --color-coral:   #F19953;
-  --color-onyx:    #56351E;
+  --color-navy:    #0E9E8A;
+  --color-beige:   #FBFBF9;
+  --color-coral:   #0E9E8A;
+  --color-gold:    #0B7D6E;
+  --color-onyx:    #232524;
+  --color-magenta: #0B7D6E;
 
-  --color-navy-600: #239121;
-  --color-navy-800: #1B6E1A;
+  --color-navy-600: #0B8576;
+  --color-navy-800: #0A6457;
 
-  /* Override the `stone` ramp app-wide: cool paper → deep-walnut ink.
-     This reskins every existing stone-* utility without touching markup. */
-  --color-stone-50:  #F4FAF9;
-  --color-stone-100: #E7F1EF;
-  --color-stone-200: #D8E2DF;
-  --color-stone-300: #BBC3BF;
-  --color-stone-400: #8A8A80;
-  --color-stone-500: #6B5E4F;
-  --color-stone-600: #5A4632;
-  --color-stone-700: #56351E;
-  --color-stone-800: #432817;
-  --color-stone-900: #2F1C10;
-  --color-stone-950: #1C110A;
+  --color-stone-50:  #FBFBF9;
+  --color-stone-100: #F0F0EC;
+  --color-stone-200: #E0E0DA;
+  --color-stone-300: #C7C8C1;
+  --color-stone-400: #9A9C95;
+  --color-stone-500: #71736D;
+  --color-stone-600: #51534E;
+  --color-stone-700: #3C3E3A;
+  --color-stone-800: #2E302D;
+  --color-stone-900: #232524;
+  --color-stone-950: #191A19;
 
-  /* Override `amber` (the old accent) → copper/sandy, so accent utilities reskin too. */
-  --color-amber-50:  #FBF1E8;
-  --color-amber-100: #F6E1CC;
-  --color-amber-200: #F0CCA6;
-  --color-amber-300: #F19953;
-  --color-amber-400: #DC8540;
-  --color-amber-500: #C47335;
-  --color-amber-600: #A35C27;
+  --color-blue-50:   #E6F6F3;
+  --color-blue-100:  #C4EAE3;
+  --color-blue-500:  #0E9E8A;
+  --color-blue-600:  #0E9E8A;
+  --color-blue-700:  #0B7D6E;
 
-  /* Override `red` (danger) → a clear warm crimson, distinct from the warm accents. */
-  --color-red-50:  #FCEBE7;
-  --color-red-100: #F9D6CC;
-  --color-red-400: #E25A38;
-  --color-red-500: #D03B1B;
-  --color-red-600: #B22F12;
+  --color-amber-50:  #E6F6F3;
+  --color-amber-100: #C4EAE3;
+  --color-amber-200: #9BDBCF;
+  --color-amber-300: #5FC6B4;
+  --color-amber-400: #2DB09B;
+  --color-amber-500: #0E9E8A;
+  --color-amber-600: #0B7D6E;
+  --color-amber-700: #095F54;
+
+  --color-red-50:  #FCEAEA;
+  --color-red-100: #F8D2D2;
+  --color-red-400: #E25555;
+  --color-red-500: #CE3636;
+  --color-red-600: #AE2727;
 
   --font-serif: 'Fraunces', Georgia, serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
 
-  --shadow-card: 0 1px 2px rgba(86, 53, 30, 0.06), 0 10px 30px -14px rgba(86, 53, 30, 0.20);
-  --shadow-lift: 0 2px 6px rgba(86, 53, 30, 0.08), 0 22px 48px -18px rgba(86, 53, 30, 0.30);
+  --shadow-card: 0 1px 2px rgba(35, 37, 36, 0.05), 0 10px 30px -14px rgba(35, 37, 36, 0.20);
+  --shadow-lift: 0 2px 6px rgba(35, 37, 36, 0.08), 0 22px 48px -18px rgba(35, 37, 36, 0.32);
+  --shadow-book: 0 1px 1px rgba(35,37,36,0.10), 0 8px 18px -6px rgba(35,37,36,0.30), 0 22px 40px -16px rgba(35,37,36,0.28);
 }
 
 html {
@@ -75,34 +67,47 @@ html {
 }
 
 body {
-  background-color: #EDF7F6;
-  color: #2F1C10;
+  background-color: #FBFBF9;
+  color: #232524;
 }
 
-#root {
-  isolation: isolate;
+#root { isolation: isolate; }
+
+.book-pages {
+  background-image: repeating-linear-gradient(
+    to right,
+    #ECECE6 0px, #ECECE6 1px,
+    #DFDFD8 1px, #DFDFD8 2px
+  );
 }
+
+.shelf-rule {
+  height: 10px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #2e302d 0%, #232524 45%, #191a19 100%);
+  box-shadow: 0 6px 14px -6px rgba(35, 37, 36, 0.45);
+}
+
+.book-shadow { box-shadow: var(--shadow-book); }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.fade-up { animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.fade-up { animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
-/* Scrollbar */
-::-webkit-scrollbar { height: 7px; width: 7px; }
+::-webkit-scrollbar { height: 8px; width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #BBC3BF; border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: #8A8A80; }
-* { scrollbar-width: thin; scrollbar-color: #BBC3BF transparent; }
+::-webkit-scrollbar-thumb { background: #C7C8C1; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #9A9C95; }
+* { scrollbar-width: thin; scrollbar-color: #C7C8C1 transparent; }
 
 @media (prefers-reduced-motion: reduce) {
   *, .fade-up { animation: none !important; }
 }
 
-/* ---- Markdown article styles (light-only, navy ink, Fraunces headings) ---- */
 .markdown {
-  @apply text-base leading-[1.85] text-stone-800 font-sans;
+  @apply text-[1.0625rem] leading-[1.85] text-stone-700 font-sans;
 }
 .markdown h1 { @apply font-serif text-3xl font-semibold mt-10 mb-4 text-stone-900; }
 .markdown h2 { @apply font-serif text-2xl font-semibold mt-9 mb-3 text-stone-900; }
@@ -112,7 +117,7 @@ body {
 .markdown ol { @apply list-decimal; }
 .markdown li { @apply mb-1.5; }
 .markdown blockquote {
-  @apply border-l-3 border-gold pl-5 italic text-stone-600 my-6;
+  @apply border-l-3 border-navy pl-5 italic text-stone-600 my-6;
 }
 .markdown pre {
   @apply bg-onyx text-stone-50 p-4 rounded-xl overflow-auto text-sm my-6 font-mono leading-relaxed;
@@ -122,7 +127,7 @@ body {
 }
 .markdown pre code { @apply bg-transparent text-stone-50 p-0; }
 .markdown a {
-  @apply text-magenta underline underline-offset-4 decoration-magenta/30 hover:decoration-magenta transition-colors;
+  @apply text-navy underline underline-offset-4 decoration-navy/30 hover:decoration-navy transition-colors;
 }
 .markdown hr { @apply my-8 border-stone-200; }
 .markdown img { @apply rounded-2xl my-6 max-w-full; }

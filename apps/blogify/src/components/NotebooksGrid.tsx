@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { BLOGIFY_ROUTES, type Notebook } from '../helpers/blog.constants';
 import { Plus } from 'lucide-react';
-import NotebookCard from './NotebookCard';
+import NotebookVolume from './NotebookVolume';
 import { Pagination } from '@react-lab/ui';
 
 interface NotebooksGridProps {
@@ -22,19 +22,19 @@ export default function NotebooksGrid({ notebooks, currentPage, totalPages, onPa
     }
 
     return (
-        <div className="space-y-6">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="space-y-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-7">
                 <Link
                     to={BLOGIFY_ROUTES.NOTEBOOK_CREATE}
-                    className="aspect-3/4 rounded-2xl border border-dashed border-stone-200 flex flex-col items-center justify-center gap-2 text-stone-400 hover:border-stone-400 hover:text-stone-600 hover:bg-stone-50 transition-all group"
+                    className="aspect-4/5 rounded-r-lg rounded-l-sm border-2 border-dashed border-stone-300 flex flex-col items-center justify-center gap-2.5 text-stone-400 hover:border-navy hover:text-navy hover:bg-navy/5 transition-all group"
                 >
-                    <div className="w-10 h-10 rounded-full border border-dashed border-stone-300 flex items-center justify-center group-hover:border-stone-400 transition-colors">
-                        <Plus className="w-4 h-4" />
+                    <div className="w-11 h-11 rounded-full border-2 border-dashed border-current flex items-center justify-center">
+                        <Plus className="w-5 h-5" />
                     </div>
-                    <span className="text-xs font-medium">New notebook</span>
+                    <span className="text-xs font-bold">New notebook</span>
                 </Link>
                 {notebooks.map(notebook => (
-                    <NotebookCard key={notebook.id} notebook={notebook} showAuthor={false} />
+                    <NotebookVolume key={notebook.id} notebook={notebook} showAuthor={false} />
                 ))}
             </div>
 

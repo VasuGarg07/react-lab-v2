@@ -66,7 +66,7 @@ export default function TransactionList({
                 return (
                     <div
                         key={transaction.id}
-                        className="flex items-center gap-3 px-4 sm:px-5 py-3.5 hover:bg-pitch-50/60 transition-colors group"
+                        className="flex items-center gap-2.5 sm:gap-3 px-3 sm:px-5 py-3.5 hover:bg-pitch-50/60 transition-colors group"
                     >
                         <CategoryIcon category={transaction.category} />
 
@@ -83,26 +83,27 @@ export default function TransactionList({
                             </p>
                         </div>
 
-                        <span className={`text-sm font-black tracking-tight tabular-nums shrink-0 ${amountClass(transaction.type)}`}>
+                        <span className={`text-sm font-black tracking-tight tabular-nums shrink-0 ml-auto ${amountClass(transaction.type)}`}>
                             {transaction.type === 'income' ? '+' : '−'}{formatCurrency(transaction.amount)}
                         </span>
 
-                        <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity shrink-0">
+                        {/* Actions: always visible on touch (no hover); reveal-on-hover only on sm+ pointer devices */}
+                        <div className="flex items-center gap-0.5 shrink-0 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100 transition-opacity">
                             <button
                                 onClick={() => openTransactionForm(modal, 'edit', transaction)}
                                 disabled={isDeleting}
                                 aria-label="Edit transaction"
-                                className="p-1.5 rounded-lg text-pitch-400 hover:text-pitch hover:bg-pitch-100 transition-colors disabled:opacity-50"
+                                className="p-2 sm:p-1.5 rounded-lg text-pitch-400 hover:text-pitch hover:bg-pitch-100 transition-colors disabled:opacity-50"
                             >
-                                <Edit2 className="w-3.5 h-3.5" />
+                                <Edit2 className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
                             </button>
                             <button
                                 onClick={() => handleDelete(transaction)}
                                 disabled={isDeleting}
                                 aria-label="Delete transaction"
-                                className="p-1.5 rounded-lg text-pitch-400 hover:text-scarlet hover:bg-scarlet/10 transition-colors disabled:opacity-50"
+                                className="p-2 sm:p-1.5 rounded-lg text-pitch-400 hover:text-scarlet hover:bg-scarlet/10 transition-colors disabled:opacity-50"
                             >
-                                <Trash2 className="w-3.5 h-3.5" />
+                                <Trash2 className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
                             </button>
                         </div>
                     </div>

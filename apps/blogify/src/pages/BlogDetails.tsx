@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router';
 import { useModal, openAlertDialog, Select } from '@react-lab/ui';
 import { formatDate, markdownToHtml } from '@react-lab/shared';
 import { useAuthSelector } from '@react-lab/auth';
-import BlogCard from '../components/BlogCard';
+import PieceRow from '../components/PieceRow';
 import OptionsMenu, { type MenuAction } from '../components/OptionsMenu';
 import { BLOGIFY_ROUTES } from '../helpers/blog.constants';
 import { calculateReadTime, generateAvatarUrl } from '../helpers/blog.utils';
@@ -105,77 +105,72 @@ export default function BlogDetails() {
     }
 
     return (
-        <div className="max-w-2xl mx-auto space-y-10">
+        <div className="max-w-2xl mx-auto space-y-10 fade-up">
             <Link
                 to={notebook ? BLOGIFY_ROUTES.NOTEBOOK_DETAIL(notebook.id) : BLOGIFY_ROUTES.DISCOVER}
-                className="inline-flex items-center gap-1 text-sm text-stone-400 hover:text-stone-700 transition-colors"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-stone-500 hover:text-stone-800 transition-colors"
             >
                 <ChevronLeft className="w-4 h-4" />
-                {notebook ? `Back to ${notebook.title}` : 'Back'}
+                {notebook ? notebook.title : 'Discover'}
             </Link>
 
-            <header className="space-y-6">
-                <div className="space-y-4">
-                    {blog.isArchived && (
-                        <span className="inline-flex px-2.5 py-1 text-xs font-medium bg-amber-50 text-amber-600 rounded-full">
-                            Archived
-                        </span>
-                    )}
-                    <h1 className="font-serif text-4xl text-stone-900 leading-tight tracking-tight">{blog.title}</h1>
-                    {blog.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                            {blog.tags.map(tag => (
-                                <span key={tag} className="px-3 py-1 text-xs bg-stone-100 text-stone-500 rounded-full">
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-                </div>
-
-                <div className="flex items-center justify-between gap-4 py-4 border-y border-stone-100">
-                    <Link to={BLOGIFY_ROUTES.BLOG_AUTHOR(blog.author)} className="flex items-center gap-3 hover:opacity-75 transition-opacity">
-                        <div className="w-10 h-10 rounded-full bg-stone-200 overflow-hidden">
-                            <img src={generateAvatarUrl(blog.author)} alt={blog.author} className="w-full h-full object-cover" />
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-stone-900">{blog.author}</p>
-                            <div className="flex items-center gap-3 text-xs text-stone-400 mt-0.5">
-                                <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{formatDate(blog.createdAt)}</span>
-                                <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{readTime} min read</span>
-                            </div>
-                        </div>
-                    </Link>
-                    {isOwner && <OptionsMenu actions={actions} />}
-                </div>
-
+            <header className="text-center">
+                {/* Kicker — the notebook this piece belongs to */}
                 {notebook && (
                     <Link
                         to={BLOGIFY_ROUTES.NOTEBOOK_DETAIL(notebook.id)}
-                        className="flex items-center gap-3 p-3 rounded-2xl bg-stone-50 border border-stone-100 hover:border-stone-200 transition-colors group"
+                        className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-navy hover:gap-2.5 transition-all mb-4"
                     >
-                        <div className="w-10 h-10 rounded-xl bg-stone-200 overflow-hidden shrink-0">
-                            <img src={notebook.coverImageUrl} alt={notebook.title} className="w-full h-full object-cover" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-xs text-stone-400">From notebook</p>
-                            <p className="text-sm font-medium text-stone-800 truncate mt-0.5">{notebook.title}</p>
-                        </div>
-                        <BookOpen className="w-4 h-4 text-stone-300 group-hover:text-stone-500 transition-colors" />
+                        <BookOpen className="w-3.5 h-3.5" /> {notebook.title}
                     </Link>
+                )}
+
+                {blog.isArchived && (
+                    <div className="mb-3">
+                        <span className="inline-flex px-2.5 py-1 text-xs font-bold bg-stone-100 text-stone-500 rounded-full">Draft</span>
+                    </div>
+                )}
+
+                <h1 className="font-serif text-4xl sm:text-5xl font-semibold text-stone-900 leading-[1.08] tracking-tight text-balance">
+                    {blog.title}
+                </h1>
+
+                {/* Byline */}
+                <div className="mt-6 flex items-center justify-center gap-3">
+                    <Link to={BLOGIFY_ROUTES.BLOG_AUTHOR(blog.author)} className="inline-flex items-center gap-2.5 hover:opacity-75 transition-opacity">
+                        <div className="w-9 h-9 rounded-full bg-stone-200 overflow-hidden">
+                            <img src={generateAvatarUrl(blog.author)} alt={blog.author} className="w-full h-full object-cover" />
+                        </div>
+                        <span className="text-sm font-semibold text-stone-800">{blog.author}</span>
+                    </Link>
+                    <span className="text-stone-300">·</span>
+                    <span className="inline-flex items-center gap-1 text-sm text-stone-400"><Calendar className="w-3.5 h-3.5" />{formatDate(blog.createdAt)}</span>
+                    <span className="text-stone-300">·</span>
+                    <span className="inline-flex items-center gap-1 text-sm text-stone-400"><Clock className="w-3.5 h-3.5" />{readTime} min</span>
+                    {isOwner && <OptionsMenu actions={actions} />}
+                </div>
+
+                {blog.tags.length > 0 && (
+                    <div className="flex flex-wrap justify-center gap-2 mt-5">
+                        {blog.tags.map(tag => (
+                            <span key={tag} className="px-3 py-1 text-xs font-medium bg-stone-100 text-stone-600 rounded-full">#{tag}</span>
+                        ))}
+                    </div>
                 )}
             </header>
 
+            <hr className="border-stone-200" />
+
             <article
-                className="markdown prose-stone"
+                className="markdown"
                 dangerouslySetInnerHTML={{ __html: markdownToHtml(blog.blogContent) as string }}
             />
 
             {relatedBlogs && relatedBlogs.length > 0 && (
-                <section className="space-y-4 pt-8 border-t border-stone-100">
-                    <h2 className="font-serif text-xl text-stone-900">More from this notebook</h2>
-                    <div className="space-y-3">
-                        {relatedBlogs.map(relatedBlog => <BlogCard key={relatedBlog.id} blog={relatedBlog} />)}
+                <section className="pt-8 border-t border-stone-200">
+                    <h2 className="font-serif text-2xl font-semibold text-stone-900 mb-2">More from this notebook</h2>
+                    <div>
+                        {relatedBlogs.map((relatedBlog, i) => <PieceRow key={relatedBlog.id} blog={relatedBlog} index={i + 1} showExcerpt={false} />)}
                     </div>
                 </section>
             )}

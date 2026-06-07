@@ -45,7 +45,10 @@ export default function Discover() {
     return (
         <div className="max-w-4xl mx-auto space-y-6">
             <header className="space-y-4 pt-2">
-                <h1 className="font-serif text-3xl text-stone-900">Discover</h1>
+                <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-navy mb-1.5">The library</p>
+                    <h1 className="font-serif text-4xl font-semibold text-stone-900 leading-none">Discover</h1>
+                </div>
                 <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
                     <input
@@ -53,7 +56,7 @@ export default function Discover() {
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
                         placeholder="Search by title or author..."
-                        className="w-full pl-11 pr-4 py-3 rounded-2xl bg-white border border-stone-200 focus:border-stone-400 focus:outline-none transition-colors text-stone-900 placeholder:text-stone-400 text-sm"
+                        className="w-full pl-11 pr-4 py-3 rounded-2xl bg-white border border-stone-200 focus:border-navy focus:ring-2 focus:ring-navy/15 focus:outline-none transition-colors text-stone-900 placeholder:text-stone-400 text-sm"
                     />
                 </div>
                 <div className="flex items-center gap-1 p-1 bg-stone-100 rounded-xl w-fit">
@@ -78,17 +81,17 @@ export default function Discover() {
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 -mb-px transition-colors ${
+                        className={`flex items-center gap-2 px-4 py-3 text-sm font-bold border-b-2 -mb-px transition-colors ${
                             activeTab === tab.id
-                                ? 'border-stone-900 text-stone-900 '
-                                : 'border-transparent text-stone-400 hover:text-stone-700 '
+                                ? 'border-navy text-stone-900'
+                                : 'border-transparent text-stone-400 hover:text-stone-700'
                         }`}
                     >
                         {tab.label}
                         <span className={`px-1.5 py-0.5 text-xs rounded-full ${
                             activeTab === tab.id
-                                ? 'bg-stone-900 text-stone-50 '
-                                : 'bg-stone-100 text-stone-500 '
+                                ? 'bg-navy text-white'
+                                : 'bg-stone-100 text-stone-500'
                         }`}>
                             {tab.count}
                         </span>

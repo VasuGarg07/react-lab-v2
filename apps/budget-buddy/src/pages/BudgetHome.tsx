@@ -53,22 +53,13 @@ export default function BudgetHome() {
                     </h1>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0">
-                    <button
-                        onClick={() => openTransactionForm(modal, 'add', null, 'income')}
-                        className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold text-pitch border border-pitch-200 bg-white hover:border-emerald hover:text-emerald transition-colors"
-                    >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">Income</span>
-                    </button>
-                    <button
-                        onClick={() => openTransactionForm(modal, 'add', null, 'expense')}
-                        className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-pitch text-lavender hover:bg-pitch-700 transition-colors"
-                    >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">Expense</span>
-                    </button>
-                </div>
+                <button
+                    onClick={() => openTransactionForm(modal, 'add', null, 'expense')}
+                    className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-pitch text-lavender hover:bg-pitch-700 transition-colors"
+                >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Expense</span>
+                </button>
             </div>
 
             <section className="rounded-3xl bg-pitch text-lavender p-6 sm:p-8">
@@ -141,7 +132,7 @@ export default function BudgetHome() {
                             <div className="flex items-center gap-4">
                                 <div className="relative w-20 h-20 shrink-0">
                                     <svg width="76" height="76" viewBox="0 0 76 76" className="-rotate-90">
-                                        <circle cx="38" cy="38" r="30" fill="none" stroke="#E5E4DF" strokeWidth="7" />
+                                        <circle cx="38" cy="38" r="30" fill="none" stroke="#EAE7E6" strokeWidth="7" />
                                         <circle
                                             cx="38" cy="38" r="30" fill="none"
                                             stroke="#63D471" strokeWidth="7" strokeLinecap="round"

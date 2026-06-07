@@ -1,6 +1,6 @@
 import { FileText } from 'lucide-react';
 import type { Blog } from '../helpers/blog.constants';
-import BlogCard from './BlogCard';
+import PieceRow from './PieceRow';
 import { Pagination } from '@react-lab/ui';
 
 interface BlogGalleryProps {
@@ -30,18 +30,20 @@ export default function BlogGallery({
     if (blogs.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center min-h-75 text-center px-4">
-                <div className="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-2xl bg-stone-100 flex items-center justify-center mb-4">
                     <FileText className="w-5 h-5 text-stone-400" strokeWidth={1.5} />
                 </div>
-                <p className="font-serif text-base text-stone-700 mb-1">{emptyMessage}</p>
+                <p className="font-serif text-lg text-stone-700 mb-1">{emptyMessage}</p>
                 <p className="text-sm text-stone-400">{emptyDescription}</p>
             </div>
         );
     }
 
     return (
-        <div className="space-y-3">
-            {blogs.map(blog => <BlogCard key={blog.id} blog={blog} />)}
+        <div className="space-y-6">
+            <div>
+                {blogs.map((blog, i) => <PieceRow key={blog.id} blog={blog} index={i + 1} />)}
+            </div>
             {totalPages > 1 && (
                 <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
             )}

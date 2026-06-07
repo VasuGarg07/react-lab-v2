@@ -17,7 +17,7 @@ export default function BlogLayout() {
 
     return (
         <div className="min-h-screen flex flex-col bg-beige">
-            <BlogNav navItems={NAV_ITEMS} rightSlot={<UserMenu accentColor="#28A326" accentFg="#FFFFFF" />} />
+            <BlogNav navItems={NAV_ITEMS} rightSlot={<UserMenu accentColor="#0E9E8A" accentFg="#FFFFFF" />} />
             <main className="flex-1 px-4 py-10">
                 <Outlet />
             </main>

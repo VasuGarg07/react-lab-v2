@@ -57,7 +57,7 @@ export default function BudgetHeader() {
 
                     {/* User */}
                     <div className="flex items-center min-w-fit pr-0.5">
-                        <UserMenu accentColor="#0F1108" accentFg="#F7F0F5" />
+                        <UserMenu accentColor="#131210" accentFg="#F9F6F6" />
                     </div>
                 </div>
             </div>

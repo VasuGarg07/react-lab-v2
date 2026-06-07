@@ -6,9 +6,8 @@ const SOCIALS = [
     { href: 'https://x.com/_vasugarg_', icon: XIcon, label: 'X (Twitter)' },
 ];
 
-// Recolor the black source SVGs to lavender (#F7F0F5) for the dark footer.
 const iconFilter =
-    'brightness(0) saturate(100%) invert(96%) sepia(8%) saturate(360%) hue-rotate(280deg) brightness(102%)';
+    'brightness(0) saturate(100%) invert(99%) sepia(8%) saturate(420%) hue-rotate(318deg) brightness(104%)';
 
 export default function BudgetFooter() {
     return (

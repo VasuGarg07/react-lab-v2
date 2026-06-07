@@ -17,7 +17,7 @@ const Hero = ({ count }: HeroProps) => {
             </h1>
 
             <p className="mt-6 max-w-xl text-base sm:text-lg text-neutral-600 leading-relaxed">
-                {count} self-contained React projects — games, tools, and experiments.
+                {count} self-contained Web Projects — games, tools, and experiments.
                 Each one is its own little product, designed and built end to end.
             </p>
 

@@ -62,11 +62,11 @@ export default function Statistics() {
     });
 
     const incomeCategoryData = Object.entries(groupByCategory(filterByType(transactions, 'income')))
-        .map(([name, value]) => ({ name, value, color: CATEGORY_COLORS[name] || '#74746B' }))
+        .map(([name, value]) => ({ name, value, color: CATEGORY_COLORS[name] || '#7C7775' }))
         .sort((a, b) => b.value - a.value);
 
     const expenseCategoryData = Object.entries(groupByCategory(filterByType(transactions, 'expense')))
-        .map(([name, value]) => ({ name, value, color: CATEGORY_COLORS[name] || '#74746B' }))
+        .map(([name, value]) => ({ name, value, color: CATEGORY_COLORS[name] || '#7C7775' }))
         .sort((a, b) => b.value - a.value);
 
     const Heading = (
@@ -101,14 +101,13 @@ export default function Statistics() {
         <div className="space-y-8 fade-up">
             {Heading}
 
-            {/* Summary strip */}
-            <div className="grid grid-cols-3 gap-px bg-pitch-100 rounded-2xl overflow-hidden border border-pitch-100">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-px bg-pitch-100 rounded-2xl overflow-hidden border border-pitch-100">
                 {[
                     { label: 'Income',       value: formatCurrency(totalIncome),  cls: 'text-emerald' },
                     { label: 'Expenses',     value: formatCurrency(totalExpense), cls: 'text-scarlet' },
                     { label: 'Savings Rate', value: `${savingsRate.toFixed(1)}%`, cls: 'text-pitch' },
-                ].map(({ label, value, cls }) => (
-                    <div key={label} className="bg-white p-4 sm:p-5">
+                ].map(({ label, value, cls }, i) => (
+                    <div key={label} className={`bg-white p-4 sm:p-5 ${i === 2 ? 'col-span-2 sm:col-span-1' : ''}`}>
                         <p className="text-[11px] font-bold text-pitch-400 uppercase tracking-widest mb-2">{label}</p>
                         <p className={`text-lg sm:text-2xl font-black tracking-tight tabular-nums leading-none ${cls}`}>{value}</p>
                     </div>
@@ -121,19 +120,19 @@ export default function Statistics() {
                     <div className="bg-white rounded-2xl border border-pitch-100 p-5">
                         <ResponsiveContainer width="100%" height={240}>
                             <LineChart data={timelineData} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#E5E4DF" vertical={false} />
+                                <CartesianGrid strokeDasharray="3 3" stroke="#EAE7E6" vertical={false} />
                                 <XAxis
                                     dataKey="time" type="number" domain={['dataMin', 'dataMax']} scale="time"
-                                    tick={{ fontSize: 11, fill: '#74746B', fontWeight: 600 }}
+                                    tick={{ fontSize: 11, fill: '#7C7775', fontWeight: 600 }}
                                     axisLine={false} tickLine={false}
                                     tickFormatter={(v) => new Date(v).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                                     minTickGap={40}
                                 />
                                 <YAxis
-                                    tick={{ fontSize: 11, fill: '#74746B', fontWeight: 600 }}
+                                    tick={{ fontSize: 11, fill: '#7C7775', fontWeight: 600 }}
                                     axisLine={false} tickLine={false} tickFormatter={(v) => formatCurrency(v)} width={80}
                                 />
-                                <Tooltip content={<ChartTooltip />} cursor={{ stroke: '#C9C8C1' }} />
+                                <Tooltip content={<ChartTooltip />} cursor={{ stroke: '#D6D2D1' }} />
                                 <Line
                                     type="monotone" dataKey="Balance" stroke={TYPE_COLORS.income} strokeWidth={2.5}
                                     dot={timelineData.length < 30 ? { r: 3, fill: TYPE_COLORS.income, strokeWidth: 0 } : false}

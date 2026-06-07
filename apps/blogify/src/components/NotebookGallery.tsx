@@ -1,6 +1,6 @@
 import { BookOpen } from 'lucide-react';
 import type { Notebook } from '../helpers/blog.constants';
-import NotebookCard from './NotebookCard';
+import NotebookVolume from './NotebookVolume';
 import { Pagination } from '@react-lab/ui';
 
 interface NotebookGalleryProps {
@@ -30,19 +30,19 @@ export default function NotebookGallery({
     if (notebooks.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center min-h-75 text-center px-4">
-                <div className="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-2xl bg-stone-100 flex items-center justify-center mb-4">
                     <BookOpen className="w-5 h-5 text-stone-400" strokeWidth={1.5} />
                 </div>
-                <p className="font-serif text-base text-stone-700 mb-1">{emptyMessage}</p>
+                <p className="font-serif text-lg text-stone-700 mb-1">{emptyMessage}</p>
                 <p className="text-sm text-stone-400">{emptyDescription}</p>
             </div>
         );
     }
 
     return (
-        <div className="space-y-6">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {notebooks.map(notebook => <NotebookCard key={notebook.id} notebook={notebook} />)}
+        <div className="space-y-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-7">
+                {notebooks.map(notebook => <NotebookVolume key={notebook.id} notebook={notebook} />)}
             </div>
             {totalPages > 1 && (
                 <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />

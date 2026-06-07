@@ -21,7 +21,7 @@ export default function AppHeader({ children }: AppHeaderProps) {
                 </Link>
                 {children && <div className="flex items-center gap-2 min-w-0">{children}</div>}
                 <div className="flex items-center shrink-0">
-                    <UserMenu accentColor="#7C3AED" accentFg="#FFFFFF" />
+                    <UserMenu accentColor="#1768AC" accentFg="#FFFFFF" />
                 </div>
             </div>
         </header>
