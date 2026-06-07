@@ -99,11 +99,8 @@ const SuperTicTacToe = () => {
                 const cellNode = winner ? (
                     <div key={`cell-${i}-${j}`} className="relative flex items-center justify-center">
                         <span
-                            className={`symbol-in select-none font-bold leading-none
-                                ${winner === 'X'
-                                    ? 'text-[clamp(2.5rem,8vw,5rem)] text-amber-400 drop-shadow-[0_0_16px_rgba(245,158,11,0.7)]'
-                                    : 'text-[clamp(2.5rem,8vw,5rem)] text-violet-400 drop-shadow-[0_0_16px_rgba(139,92,246,0.7)]'
-                                }
+                            className={`symbol-in select-none font-bold leading-none text-[clamp(2.5rem,8vw,5rem)]
+                                ${winner === 'X' ? 'text-x-500' : 'text-o-500'}
                             `}
                         >
                             {winner}
@@ -149,9 +146,9 @@ const SuperTicTacToe = () => {
             <StartGamePopup isOpen={!gameStarted} onStart={handleStartGame} />
 
             {/* Portrait / small screen gate */}
-            <div className="landscape-gate fixed inset-0 z-40 flex-col items-center justify-center gap-4 bg-slate-950 px-8 text-center">
-                <Smartphone size={40} className="text-slate-500" />
-                <p className="text-slate-300 text-sm font-medium leading-relaxed">
+            <div className="landscape-gate fixed inset-0 z-40 flex-col items-center justify-center gap-4 bg-[#F4F4F7] px-8 text-center">
+                <Smartphone size={40} className="text-slate-400" />
+                <p className="text-slate-600 text-sm font-medium leading-relaxed">
                     Rotate your device to landscape<br />for the best experience.
                 </p>
             </div>
@@ -161,7 +158,7 @@ const SuperTicTacToe = () => {
 
                 {/* Header bar */}
                 <header className="absolute top-0 left-0 right-0 flex items-center px-4 sm:px-6 py-2 z-10">
-                    <span className="text-xs font-semibold tracking-[0.2em] uppercase text-slate-500">
+                    <span className="text-xs font-bold tracking-[0.2em] uppercase text-slate-500">
                         Super Tic-Tac-Toe
                     </span>
                 </header>

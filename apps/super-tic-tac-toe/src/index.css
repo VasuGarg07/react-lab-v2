@@ -7,20 +7,20 @@
   --breakpoint-xs: 425px;
   --blur-2xs: 2px;
 
-  /* Brand palette */
-  --color-slate-950: #020617;
-  --color-slate-925: #080f1e;
+  /* Palette — Carbon Black / Azure Mist / Carrot Orange / Indigo Ink / Bright Fern */
+  --color-mist:     #EFFEFF;   /* background */
+  --color-ink:      #1F1F1F;   /* primary ink / text / board lines */
+  --color-fern:     #5FAD41;   /* success / win accent */
 
-  /* Player colors */
-  --color-x-500: #f59e0b;
-  --color-x-400: #fbbf24;
-  --color-x-300: #fcd34d;
-  --color-x-glow: rgba(245, 158, 11, 0.35);
+  /* Player X — Carrot Orange */
+  --color-x-500: #E07E12;
+  --color-x-400: #F49D37;
+  --color-x-300: #F7B468;
 
-  --color-o-500: #8b5cf6;
-  --color-o-400: #a78bfa;
-  --color-o-300: #c4b5fd;
-  --color-o-glow: rgba(139, 92, 246, 0.35);
+  /* Player O — Indigo Ink */
+  --color-o-500: #312180;
+  --color-o-400: #4632A6;
+  --color-o-300: #6A57C4;
 }
 
 html {
@@ -28,8 +28,8 @@ html {
 }
 
 body {
-  background-color: #080f1e;
-  color: #e2e8f0;
+  background-color: #EFFEFF;
+  color: #1F1F1F;
   overflow: hidden;
 }
 
@@ -46,11 +46,11 @@ body {
 ::-webkit-scrollbar { height: 4px; width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #C9CBD8;
   border-radius: 9999px;
 }
-::-webkit-scrollbar-thumb:hover { background: #475569; }
-* { scrollbar-width: thin; scrollbar-color: #334155 transparent; }
+::-webkit-scrollbar-thumb:hover { background: #8E90A6; }
+* { scrollbar-width: thin; scrollbar-color: #C9CBD8 transparent; }
 
 /* ── Board grid lines ── */
 .board-grid {
@@ -60,63 +60,67 @@ body {
 }
 
 .board-line-v {
-  background: linear-gradient(180deg, transparent 0%, #334155 15%, #475569 50%, #334155 85%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, #6E6E6E 12%, #1F1F1F 50%, #6E6E6E 88%, transparent 100%);
   border-radius: 9999px;
 }
 
 .board-line-h {
-  background: linear-gradient(90deg, transparent 0%, #334155 15%, #475569 50%, #334155 85%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #6E6E6E 12%, #1F1F1F 50%, #6E6E6E 88%, transparent 100%);
   border-radius: 9999px;
 }
 
 .mini-board-line-v {
-  background: linear-gradient(180deg, transparent 0%, #1e293b 10%, #334155 50%, #1e293b 90%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, #CBD3D3 8%, #9AA2A2 50%, #CBD3D3 92%, transparent 100%);
   border-radius: 9999px;
 }
 
 .mini-board-line-h {
-  background: linear-gradient(90deg, transparent 0%, #1e293b 10%, #334155 50%, #1e293b 90%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #CBD3D3 8%, #9AA2A2 50%, #CBD3D3 92%, transparent 100%);
   border-radius: 9999px;
 }
 
-/* ── Player glow effects ── */
-.glow-x {
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.25), 0 0 40px rgba(245, 158, 11, 0.1);
-}
-
-.glow-o {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.25), 0 0 40px rgba(139, 92, 246, 0.1);
-}
-
+/* ── Player ring accents ── */
 .ring-x {
-  outline: 1.5px solid rgba(245, 158, 11, 0.5);
+  outline: 1.5px solid rgba(244, 157, 55, 0.6);
   outline-offset: 2px;
 }
 
 .ring-o {
-  outline: 1.5px solid rgba(139, 92, 246, 0.5);
+  outline: 1.5px solid rgba(49, 33, 128, 0.5);
   outline-offset: 2px;
 }
 
-/* ── Active board pulse ── */
+/* ── Active board highlight — solid ring + tinted fill + glow, clearly visible ── */
 @keyframes board-pulse-x {
-  0%, 100% { box-shadow: 0 0 0 1.5px rgba(245, 158, 11, 0.5), 0 0 12px rgba(245, 158, 11, 0.15); }
-  50% { box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.8), 0 0 24px rgba(245, 158, 11, 0.3); }
+  0%, 100% {
+    background-color: rgba(244, 157, 55, 0.12);
+    box-shadow: 0 0 0 2.5px #F49D37, 0 0 16px rgba(244, 157, 55, 0.35);
+  }
+  50% {
+    background-color: rgba(244, 157, 55, 0.22);
+    box-shadow: 0 0 0 3px #E07E12, 0 0 26px rgba(224, 126, 18, 0.55);
+  }
 }
 
 @keyframes board-pulse-o {
-  0%, 100% { box-shadow: 0 0 0 1.5px rgba(139, 92, 246, 0.5), 0 0 12px rgba(139, 92, 246, 0.15); }
-  50% { box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.8), 0 0 24px rgba(139, 92, 246, 0.3); }
+  0%, 100% {
+    background-color: rgba(49, 33, 128, 0.10);
+    box-shadow: 0 0 0 2.5px #312180, 0 0 16px rgba(49, 33, 128, 0.32);
+  }
+  50% {
+    background-color: rgba(49, 33, 128, 0.20);
+    box-shadow: 0 0 0 3px #312180, 0 0 26px rgba(49, 33, 128, 0.5);
+  }
 }
 
 .pulse-active-x {
-  animation: board-pulse-x 1.8s ease-in-out infinite;
-  border-radius: 6px;
+  animation: board-pulse-x 1.6s ease-in-out infinite;
+  border-radius: 8px;
 }
 
 .pulse-active-o {
-  animation: board-pulse-o 1.8s ease-in-out infinite;
-  border-radius: 6px;
+  animation: board-pulse-o 1.6s ease-in-out infinite;
+  border-radius: 8px;
 }
 
 /* ── Timer arc ── */

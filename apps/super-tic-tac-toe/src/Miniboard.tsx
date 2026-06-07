@@ -33,19 +33,19 @@ const MiniBoard = ({ board, onPlay, boardIndex, isPlayable, currentPlayer }: Min
                                 focus:outline-none
                                 ${isEmpty && isPlayable
                                     ? currentPlayer === 'X'
-                                        ? 'hover:bg-amber-500/10 cursor-pointer'
-                                        : 'hover:bg-violet-500/10 cursor-pointer'
+                                        ? 'hover:bg-x-400/15 cursor-pointer'
+                                        : 'hover:bg-o-500/12 cursor-pointer'
                                     : 'cursor-default'
                                 }
                             `}
                         >
                             {isX && (
-                                <span className="text-[clamp(0.6rem,2.2vw,1.25rem)] font-bold text-amber-400 drop-shadow-[0_0_6px_rgba(245,158,11,0.6)] leading-none">
+                                <span className="text-[clamp(0.6rem,2.2vw,1.25rem)] font-bold text-x-500 leading-none">
                                     X
                                 </span>
                             )}
                             {isO && (
-                                <span className="text-[clamp(0.6rem,2.2vw,1.25rem)] font-bold text-violet-400 drop-shadow-[0_0_6px_rgba(139,92,246,0.6)] leading-none">
+                                <span className="text-[clamp(0.6rem,2.2vw,1.25rem)] font-bold text-o-500 leading-none">
                                     O
                                 </span>
                             )}
