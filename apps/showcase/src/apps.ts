@@ -1,4 +1,4 @@
-import { BarChart2, Code2, Feather, FileJson, Grid, HandCoins, HelpCircle, LayoutGrid, MemoryStick, StickyNote, Swords, UtensilsCrossed, Wallet2, type LucideIcon } from 'lucide-react';
+import { BarChart2, Code2, Feather, FileJson, Grid, HandCoins, HelpCircle, LayoutGrid, MemoryStick, ReceiptText, StickyNote, Swords, UtensilsCrossed, Wallet2, type LucideIcon } from 'lucide-react';
 
 export interface AppInfo {
     name: string;
@@ -23,6 +23,17 @@ export const Apps: AppInfo[] = [
         description: 'Build multi-step forms with nested sections, drag fields into place, and publish a shareable link. Responses come back to a per-form dashboard.',
         techStack: ['dnd-kit', 'React Hook Form', 'Yup', 'TanStack Query'],
         icon: StickyNote,
+    },
+    {
+        name: 'Invoice Studio',
+        path: '/invoice',
+        url: import.meta.env.VITE_URL_INVOICE,
+        tag: 'Build invoices, export PDF',
+        image: '/cover/invoice.webp',
+        visible: true,
+        description: 'Fill in billing details and line items, watch a live preview update as you type, then download a print-ready PDF rendered by a Python serverless function.',
+        techStack: ['FastAPI', 'ReportLab', 'Vercel Serverless', 'React 19'],
+        icon: ReceiptText,
     },
     {
         name: 'Pokeverse',

@@ -25,6 +25,12 @@
       "rewrites": [{ "source": "**", "destination": "/index.html" }]
     },
     {
+      "target": "invoice-gen",
+      "public": "apps/invoice-gen/dist",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [{ "source": "**", "destination": "/index.html" }]
+    },
+    {
       "target": "json-live",
       "public": "apps/json-live/dist",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],

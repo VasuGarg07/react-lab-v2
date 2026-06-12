@@ -1,27 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
   --breakpoint-xs: 425px;
 
-  --color-paper:   #FAF7F1;
+  --color-paper:   #F6F8FB;
   --color-card:    #FFFFFF;
-  --color-ink:     #211C16;
-  --color-muted:   #6B6256;
-  --color-faint:   #9C9285;
-  --color-hairline:#E7E1D6;
-  --color-panel:   #F3EEE4;
-  --color-bronze:        #9A6A2F;
-  --color-bronze-hover:  #7F561F;
-  --color-bronze-soft:   #F0E6D6;
-  --color-success: #2F7D5B;
-  --color-danger:  #B23A48;
+  --color-ink:     #0F1B2D;
+  --color-muted:   #5A6473;
+  --color-faint:   #97A1B0;
+  --color-hairline:#E3E8EF;
+  --color-panel:   #EEF2F7;
+  --color-accent:        #185FA5;
+  --color-accent-hover:  #134E89;
+  --color-accent-soft:   #E7F0F9;
+  --color-success: #0E7C5A;
+  --color-danger:  #C0392B;
 
-  --font-display: 'Fraunces', serif;
+  --font-display: 'Inter', sans-serif;
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --shadow-lift: 0 12px 32px -12px rgba(33, 28, 22, 0.18);
+  --shadow-lift: 0 12px 32px -12px rgba(15, 27, 45, 0.16);
+  --shadow-card: 0 1px 2px rgba(15, 27, 45, 0.05), 0 1px 3px rgba(15, 27, 45, 0.04);
 }
 
 @layer base {
@@ -29,10 +30,12 @@
     font-family: var(--font-sans);
     background-color: var(--color-paper);
     color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
   }
-  .font-display { font-family: var(--font-display); }
+  .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
 }
 
+/* single entrance fade — nothing loops */
 @keyframes fade-rise {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -45,6 +48,6 @@
 /* Scrollbar */
 ::-webkit-scrollbar { height: 6px; width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #D8CFC0; border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: #9A6A2F; }
-* { scrollbar-width: thin; scrollbar-color: #D8CFC0 transparent; }
+::-webkit-scrollbar-thumb { background: #C7D0DC; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #185FA5; }
+* { scrollbar-width: thin; scrollbar-color: #C7D0DC transparent; }

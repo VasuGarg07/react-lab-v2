@@ -17,6 +17,9 @@
         "formlyst": [
           "vgl-formlyst"
         ],
+        "invoice-gen": [
+          "vgl-invoice"
+        ],
         "json-live": [
           "vgl-jsonviewer"
         ],

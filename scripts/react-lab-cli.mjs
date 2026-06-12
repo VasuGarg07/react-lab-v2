@@ -8,6 +8,7 @@ const APPS = [
   { name: 'blogify',            pkg: '@react-lab/blogify',            firebase: 'blogify' },
   { name: 'budget-buddy',       pkg: '@react-lab/budget-buddy',       firebase: 'budget-buddy' },
   { name: 'formlyst',           pkg: '@react-lab/formlyst',           firebase: 'formlyst' },
+  { name: 'invoice-gen',        pkg: '@react-lab/invoice-gen',        firebase: 'invoice-gen' },
   { name: 'json-live',          pkg: '@react-lab/json-live',          firebase: 'json-live' },
   { name: 'loan-wizard',        pkg: '@react-lab/loan-wizard',        firebase: 'loan-wizard' },
   { name: 'markdown-live',      pkg: '@react-lab/markdown-live',      firebase: 'markdown-live' },

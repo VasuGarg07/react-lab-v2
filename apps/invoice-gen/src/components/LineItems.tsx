@@ -82,7 +82,7 @@ export const LineItems = ({ items, symbol, onChange, onAdd, onRemove }: Props) =
         <button
             type="button"
             onClick={onAdd}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-bronze/40 py-2.5 text-sm font-semibold text-bronze transition-colors hover:bg-bronze-soft"
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-accent/40 py-2.5 text-sm font-semibold text-accent transition-colors hover:bg-accent-soft"
         >
             <Plus size={16} /> Add line item
         </button>

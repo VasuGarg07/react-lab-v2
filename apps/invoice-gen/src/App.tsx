@@ -1,11 +1,13 @@
-import { useMemo, useState } from 'react';
-import { AlertCircle, Download, Eye, Loader2 } from 'lucide-react';
+import { useCallback, useMemo, useState } from 'react';
+import { AlertCircle, ArrowLeft, ArrowRight, Download, Eye, Loader2 } from 'lucide-react';
 import type { InvoiceState } from './types';
-import { computeTotals, money, uid, validateInvoice } from './helpers';
+import { computeTotals, money, uid, validateStep } from './helpers';
 import { generateInvoicePdf } from './api';
+import { useUnloadGuard } from './useUnloadGuard';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import { FormPane } from './components/FormPane';
+import { FormPane, STEPS } from './components/FormPane';
+import { Stepper } from './components/Stepper';
 import { PreviewPane } from './components/PreviewPane';
 
 const today = new Date();
@@ -43,21 +45,54 @@ const initialInvoice: InvoiceState = {
     notes: 'Payment due within 14 days via bank transfer. Thank you!',
 };
 
+const STEP_TITLES = [
+    'Invoice details',
+    'Who it is from & to',
+    'Line items',
+    'Totals & notes',
+];
+
 export default function App() {
-    const [invoice, setInvoice] = useState<InvoiceState>(initialInvoice);
+    const [invoice, setInvoiceRaw] = useState<InvoiceState>(initialInvoice);
+    const [step, setStep] = useState(0);
     const [busy, setBusy] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
+    const [dirty, setDirty] = useState(false);
+
+    useUnloadGuard(dirty);
+
+    const setInvoice = useCallback<React.Dispatch<React.SetStateAction<InvoiceState>>>((action) => {
+        setDirty(true);
+        setInvoiceRaw(action);
+    }, []);
 
     const totals = useMemo(() => computeTotals(invoice), [invoice]);
+    const isLast = step === STEPS.length - 1;
+
+    const goToStep = (index: number) => {
+        setErrors([]);
+        setStep(index);
+    };
+
+    const goNext = () => {
+        const problems = validateStep(STEPS[step].key, invoice);
+        setErrors(problems);
+        if (problems.length === 0) setStep((s) => Math.min(STEPS.length - 1, s + 1));
+    };
 
     const handleGenerate = async () => {
-        const problems = validateInvoice(invoice);
-        setErrors(problems);
-        if (problems.length) return;
+        const firstBad = STEPS.findIndex((s) => validateStep(s.key, invoice).length > 0);
+        if (firstBad !== -1) {
+            setStep(firstBad);
+            setErrors(validateStep(STEPS[firstBad].key, invoice));
+            return;
+        }
+        setErrors([]);
 
         setBusy(true);
         try {
             await generateInvoicePdf(invoice);
+            setDirty(false);
         } catch (e) {
             setErrors([e instanceof Error ? e.message : 'Failed to generate invoice.']);
         } finally {
@@ -66,74 +101,91 @@ export default function App() {
     };
 
     return (
-        <div className="flex min-h-dvh flex-col bg-paper">
+        <div className="flex h-dvh flex-col overflow-hidden bg-paper">
             <Header />
 
-            <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
-                {/* Intro */}
-                <div className="mb-6 fade-rise">
-                    <h1 className="font-display text-2xl font-700 tracking-tight text-ink sm:text-3xl">
-                        Build a print-ready invoice
-                    </h1>
-                    <p className="mt-1 max-w-xl text-sm text-muted">
-                        Fill in the details, watch the live preview, and download a polished PDF —
-                        rendered server-side, no account needed.
-                    </p>
-                </div>
+            <main className="mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 gap-6 overflow-hidden px-4 py-5 sm:px-6 lg:grid-cols-[minmax(0,520px)_1fr]">
+                <div className="flex min-h-0 flex-col">
+                    <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-hairline bg-card shadow-card">
+                        <div className="border-b border-hairline px-5 py-4">
+                            <Stepper
+                                steps={STEPS}
+                                current={step}
+                                onSelect={(i) => (i <= step ? goToStep(i) : goNext())}
+                            />
+                        </div>
 
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,520px)_1fr]">
-                    {/* Form */}
-                    <div className="fade-rise">
-                        <FormPane invoice={invoice} setInvoice={setInvoice} />
+                        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
+                            <h2 className="mb-4 font-display text-lg font-semibold text-ink">
+                                {STEP_TITLES[step]}
+                            </h2>
 
-                        {errors.length > 0 && (
-                            <div className="mt-4 rounded-xl border border-danger/30 bg-danger/5 p-4">
-                                <div className="flex items-center gap-2 text-sm font-600 text-danger">
-                                    <AlertCircle size={16} /> Please fix the following:
+                            <FormPane invoice={invoice} setInvoice={setInvoice} step={step} />
+
+                            {errors.length > 0 && (
+                                <div className="mt-4 rounded-xl border border-danger/30 bg-danger/5 p-4">
+                                    <div className="flex items-center gap-2 text-sm font-semibold text-danger">
+                                        <AlertCircle size={16} /> Please fix the following:
+                                    </div>
+                                    <ul className="mt-2 list-disc space-y-0.5 pl-7 text-xs text-danger/90">
+                                        {errors.map((e, i) => (
+                                            <li key={i}>{e}</li>
+                                        ))}
+                                    </ul>
                                 </div>
-                                <ul className="mt-2 list-disc space-y-0.5 pl-7 text-xs text-danger/90">
-                                    {errors.map((e, i) => (
-                                        <li key={i}>{e}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
+                            )}
+                        </div>
 
-                        <div className="mt-5 flex items-center justify-between gap-4 rounded-2xl border border-hairline bg-card p-4 shadow-sm">
-                            <div>
-                                <p className="text-[11px] font-semibold uppercase tracking-wider text-faint">
-                                    Total due
-                                </p>
-                                <p className="font-display text-2xl font-700 tabular-nums text-ink">
-                                    {money(invoice.currency_symbol, totals.grand)}
-                                </p>
-                            </div>
+                        <div className="flex items-center justify-between gap-4 border-t border-hairline px-5 py-4">
                             <button
                                 type="button"
-                                onClick={handleGenerate}
-                                disabled={busy}
-                                className="inline-flex items-center gap-2 rounded-xl bg-bronze px-5 py-3 text-sm font-600 text-card transition-colors hover:bg-bronze-hover disabled:cursor-not-allowed disabled:opacity-60"
+                                onClick={() => goToStep(Math.max(0, step - 1))}
+                                disabled={step === 0}
+                                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-panel disabled:invisible"
                             >
-                                {busy ? (
-                                    <Loader2 size={16} className="spin" />
-                                ) : (
-                                    <Download size={16} />
-                                )}
-                                {busy ? 'Generating…' : 'Download PDF'}
+                                <ArrowLeft size={16} /> Back
                             </button>
+
+                            <div className="flex items-center gap-4">
+                                <div className="text-right">
+                                    <p className="text-[10px] font-semibold uppercase tracking-wider text-faint">
+                                        Total due
+                                    </p>
+                                    <p className="font-display text-lg font-bold tabular-nums text-ink">
+                                        {money(invoice.currency_symbol, totals.grand)}
+                                    </p>
+                                </div>
+
+                                {isLast ? (
+                                    <button
+                                        type="button"
+                                        onClick={handleGenerate}
+                                        disabled={busy}
+                                        className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-card transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
+                                    >
+                                        {busy ? <Loader2 size={16} className="spin" /> : <Download size={16} />}
+                                        {busy ? 'Generating…' : 'Download PDF'}
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick={goNext}
+                                        className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-card transition-colors hover:bg-accent-hover"
+                                    >
+                                        Next <ArrowRight size={16} />
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    {/* Preview */}
-                    <div className="hidden lg:block">
-                        <div className="sticky top-6">
-                            <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-faint">
-                                <Eye size={14} /> Live preview
-                            </div>
-                            <div className="rounded-2xl bg-panel p-4 sm:p-6">
-                                <PreviewPane invoice={invoice} />
-                            </div>
-                        </div>
+                <div className="hidden min-h-0 lg:flex lg:flex-col">
+                    <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-faint">
+                        <Eye size={14} /> Live preview
+                    </div>
+                    <div className="min-h-0 flex-1 overflow-y-auto rounded-2xl bg-panel p-4 sm:p-6">
+                        <PreviewPane invoice={invoice} />
                     </div>
                 </div>
             </main>
