@@ -20,6 +20,9 @@
         "invoice-gen": [
           "vgl-invoice"
         ],
+        "jobscape": [
+          "vgl-jobscape"
+        ],
         "json-live": [
           "vgl-jsonviewer"
         ],

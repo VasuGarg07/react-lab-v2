@@ -1,4 +1,4 @@
-import { BarChart2, Code2, Feather, FileJson, Grid, HandCoins, HelpCircle, LayoutGrid, MemoryStick, ReceiptText, StickyNote, Swords, UtensilsCrossed, Wallet2, type LucideIcon } from 'lucide-react';
+import { BarChart2, Briefcase, Code2, Feather, FileJson, Grid, HandCoins, HelpCircle, LayoutGrid, MemoryStick, ReceiptText, StickyNote, Swords, UtensilsCrossed, Wallet2, type LucideIcon } from 'lucide-react';
 
 export interface AppInfo {
     name: string;
@@ -23,6 +23,17 @@ export const Apps: AppInfo[] = [
         description: 'Build multi-step forms with nested sections, drag fields into place, and publish a shareable link. Responses come back to a per-form dashboard.',
         techStack: ['dnd-kit', 'React Hook Form', 'Yup', 'TanStack Query'],
         icon: StickyNote,
+    },
+    {
+        name: 'Jobscape',
+        path: '/jobscape',
+        url: import.meta.env.VITE_URL_JOBSCAPE,
+        tag: 'A two-sided job board',
+        image: '/cover/jobscape.webp',
+        visible: true,
+        description: 'Register as an applicant or employer. Applicants browse roles and companies, apply with a cover letter, and track applications; employers post jobs and review applicants.',
+        techStack: ['TanStack Query', 'React Hook Form', 'Zod', 'JWT Auth'],
+        icon: Briefcase,
     },
     {
         name: 'Invoice Studio',

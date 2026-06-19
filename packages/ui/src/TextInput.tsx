@@ -26,6 +26,7 @@ export function TextInput({
     id,
     name,
     disabled,
+    required,
     ...rest
 }: TextInputProps) {
     const [showPassword, setShowPassword] = useState(false);
@@ -42,6 +43,7 @@ export function TextInput({
                     className={`block text-sm font-medium text-neutral-700 ${labelClassName}`}
                 >
                     {label}
+                    {required && <span className="ml-1 text-red-500">*</span>}
                 </label>
             )}
 
@@ -57,6 +59,7 @@ export function TextInput({
                     name={name}
                     type={inputType}
                     disabled={disabled}
+                    required={required}
                     className={`
                         w-full py-2.5 text-sm rounded-lg border
                         bg-white text-neutral-900

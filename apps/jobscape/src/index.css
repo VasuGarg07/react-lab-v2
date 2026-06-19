@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+@import "tailwindcss";
+
+@source "../../../packages/ui/src/";
+@source "../../../packages/auth/src/";
+
+@custom-variant dark (&:where(.__never-dark__));
+
+@theme {
+  --breakpoint-xs: 425px;
+
+  /* Jobscape identity — evergreen primary, warm sand canvas, coral accent. */
+  --color-spruce:      #136F63;
+  --color-spruce-600:  #0F5C52;
+  --color-spruce-700:  #0B463E;
+  --color-ink:         #102420;
+  --color-canvas:      #FBFAF6;
+  --color-sand:        #F2EFE6;
+  --color-coral:       #F26C4F;
+  --color-coral-soft:  #FBE4DC;
+
+  --color-spruce-50:   #E7F2F0;
+  --color-spruce-100:  #C6E2DD;
+  --color-spruce-200:  #97CBC2;
+  --color-spruce-300:  #5FAEA1;
+  --color-spruce-400:  #2E9182;
+  --color-spruce-500:  #136F63;
+  --color-spruce-600:  #0F5C52;
+  --color-spruce-700:  #0B463E;
+  --color-spruce-800:  #08332D;
+  --color-spruce-900:  #102420;
+
+  /* tailwind palette names remapped to the jobscape hues so shared UI stays on-brand */
+  --color-blue-50:   #E7F2F0;  --color-blue-100:  #C6E2DD;
+  --color-blue-200:  #97CBC2;  --color-blue-300:  #5FAEA1;
+  --color-blue-400:  #2E9182;  --color-blue-500:  #136F63;
+  --color-blue-600:  #0F5C52;  --color-blue-700:  #0B463E;
+  --color-blue-800:  #08332D;  --color-blue-900:  #102420;
+
+  --color-neutral-50:  #F8F7F2;
+  --color-neutral-100: #EFEDE4;
+  --color-neutral-200: #E0DDD0;
+  --color-neutral-300: #C7C2B0;
+  --color-neutral-400: #98927E;
+  --color-neutral-500: #6B6657;
+  --color-neutral-600: #4C483D;
+  --color-neutral-700: #34312A;
+  --color-neutral-800: #201E19;
+  --color-neutral-900: #102420;
+  --color-neutral-950: #0A1310;
+
+  --color-amber-50:  #FBF1E0;  --color-amber-100: #F6E1BD;
+  --color-amber-400: #E0A23C;  --color-amber-500: #C9892A;
+  --color-amber-600: #A86F20;  --color-amber-700: #855719;
+
+  --color-red-50:  #FCEBE6;  --color-red-100: #F8D6CC;
+  --color-red-400: #F08566;  --color-red-500: #E2543A;
+  --color-red-600: #C53E26;  --color-red-700: #9F3220;
+
+  --color-success:     #1E9E76;
+  --color-success-50:  #E6F6EF;
+  --color-success-100: #C6EBDA;
+
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --shadow-card: 0 1px 2px rgba(16, 36, 32, 0.04), 0 10px 26px -16px rgba(16, 36, 32, 0.18);
+  --shadow-lift: 0 2px 8px rgba(16, 36, 32, 0.06), 0 24px 48px -20px rgba(16, 36, 32, 0.26);
+  --shadow-pop:  0 14px 34px -10px rgba(19, 111, 99, 0.4);
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: #FBFAF6;
+  color: #102420;
+}
+
+#root { isolation: isolate; }
+
+.font-display { font-family: var(--font-display); }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.scale-in { animation: scale-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* shared animations used by @react-lab/ui */
+@keyframes scale-fade {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-scale-fade { animation: scale-fade 0.15s ease-out forwards; }
+
+::-webkit-scrollbar { height: 8px; width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #C7C2B0; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #98927E; }
+* { scrollbar-width: thin; scrollbar-color: #C7C2B0 transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, .fade-up, .scale-in { animation: none !important; }
+}

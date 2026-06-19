@@ -13,6 +13,7 @@
     "dev:blogify": "pnpm --filter @react-lab/blogify dev",
     "dev:budget-buddy": "pnpm --filter @react-lab/budget-buddy dev",
     "dev:formlyst": "pnpm --filter @react-lab/formlyst dev",
+    "dev:jobscape": "pnpm --filter @react-lab/jobscape dev",
     "dev:invoice-gen": "pnpm --filter @react-lab/invoice-gen dev",
     "dev:json-live": "pnpm --filter @react-lab/json-live dev",
     "dev:loan-wizard": "pnpm --filter @react-lab/loan-wizard dev",
@@ -28,6 +29,7 @@
     "build:blogify": "pnpm --filter @react-lab/blogify build",
     "build:budget-buddy": "pnpm --filter @react-lab/budget-buddy build",
     "build:formlyst": "pnpm --filter @react-lab/formlyst build",
+    "build:jobscape": "pnpm --filter @react-lab/jobscape build",
     "build:invoice-gen": "pnpm --filter @react-lab/invoice-gen build",
     "build:json-live": "pnpm --filter @react-lab/json-live build",
     "build:loan-wizard": "pnpm --filter @react-lab/loan-wizard build",
@@ -55,6 +57,7 @@
     "deploy:json-live": "pnpm build:json-live && firebase deploy --only hosting:json-live",
     "deploy:markdown-live": "pnpm build:markdown-live && firebase deploy --only hosting:markdown-live",
     "deploy:loan-wizard": "pnpm build:loan-wizard && firebase deploy --only hosting:loan-wizard",
+    "deploy:jobscape": "pnpm build:jobscape && firebase deploy --only hosting:jobscape",
     "deploy:all": "turbo build && firebase deploy --only hosting"
   },
   "devDependencies": {

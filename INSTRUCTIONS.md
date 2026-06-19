@@ -22,7 +22,7 @@ Then make these replacements inside the copied files:
 | `index.html` | `<title><App></title>` |
 | `vite.config.ts` | Add `server: { port: <PORT>, strictPort: true }` |
 
-Pick the next available port in sequence (current last port is **5186** for formlyst).
+Pick the next available port in sequence (current last port is **5188**).
 
 ---
 
